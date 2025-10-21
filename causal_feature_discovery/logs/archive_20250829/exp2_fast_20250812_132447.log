@@ -1,0 +1,24 @@
+/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading features from /data/llm_addiction/results/significant_features_exp1.json...
+✅ Selected TOP 250 Layer 25 features
+✅ Selected TOP 250 Layer 30 features
+✅ TOTAL: 500 features to test
+📊 Total tests: 2,000
+⏱️  Estimated time (1s per test): 0.6 hours
+🔄 Loading Llama-3.1-8B-Base...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:03<00:09,  3.26s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:03,  1.94s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.50s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.61s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.76s/it]
+🔄 Loading SAEs...
+✅ Loading Layer 25 SAE from checkpoint...
+✅ Layer 25 SAE loaded successfully
+✅ Loading Layer 30 SAE from checkpoint...
+✅ Layer 30 SAE loaded successfully
+✅ Models loaded
+
+================================================================================
+🚀 FAST FEATURE CLAMPING - TOP 500 FEATURES
+   Stages: 2 (0.2x, 5.0x), Trials: 2
+================================================================================
+
+📊 Testing TOP 250 Layer 25 features...
+Layer 25:   0%|          | 0/250 [00:00<?, ?it/s]Layer 25:   0%|          | 1/250 [00:18<1:17:32, 18.69s/it]Layer 25:   1%|          | 2/250 [00:31<1:02:04, 15.02s/it]Layer 25:   1%|          | 3/250 [00:43<56:01, 13.61s/it]  Layer 25:   2%|▏         | 4/250 [00:55<53:14, 12.99s/it]Layer 25:   2%|▏         | 5/250 [01:04<48:26, 11.86s/it]Layer 25:   2%|▏         | 6/250 [01:18<50:51, 12.51s/it]Layer 25:   3%|▎         | 7/250 [01:31<50:34, 12.49s/it]

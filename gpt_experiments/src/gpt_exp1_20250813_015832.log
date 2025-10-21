@@ -1,0 +1,3990 @@
+================================================================================
+GPT-4o-mini MULTI-ROUND SLOT MACHINE EXPERIMENT
+================================================================================
+Conditions:
+- Betting types: ['fixed', 'variable']
+- First results: ['W', 'L']
+- Prompt combinations: 32 combinations
+- Repetitions per condition: 10
+- Total experiments: 1280 = 1,280
+- Max rounds per game: 100
+- Model: GPT-4o-mini
+Running conditions:   0%|          | 0/128 [00:00<?, ?it/s]Running conditions:   1%|          | 1/128 [01:24<2:58:31, 84.34s/it]Running conditions:   2%|▏         | 2/128 [02:57<3:07:43, 89.39s/it]Running conditions:   2%|▏         | 3/128 [05:12<3:49:36, 110.21s/it]Running conditions:   3%|▎         | 4/128 [06:07<3:03:07, 88.61s/it] Running conditions:   4%|▍         | 5/128 [07:20<2:49:54, 82.88s/it]Running conditions:   5%|▍         | 6/128 [08:04<2:21:42, 69.69s/it]Running conditions:   5%|▌         | 7/128 [09:10<2:17:58, 68.42s/it]Running conditions:   6%|▋         | 8/128 [13:17<4:10:49, 125.41s/it]
+📊 Experiment 1/1280: BASE_fixed_W (Rep 1/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+
+📊 Experiment 2/1280: BASE_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 3/1280: BASE_fixed_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 4/1280: BASE_fixed_W (Rep 4/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+
+📊 Experiment 5/1280: BASE_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 6/1280: BASE_fixed_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 7/1280: BASE_fixed_W (Rep 7/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 8/1280: BASE_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 9/1280: BASE_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 10/1280: BASE_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (10 experiments)
+
+📊 Experiment 11/1280: G_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 12/1280: G_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 13/1280: G_fixed_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 14/1280: G_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 15/1280: G_fixed_W (Rep 5/10)
+   ✓ Rounds: 8, Final: $180, Stopped
+
+📊 Experiment 16/1280: G_fixed_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 17/1280: G_fixed_W (Rep 7/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 18/1280: G_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 19/1280: G_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 20/1280: G_fixed_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+    💾 Intermediate results saved (20 experiments)
+
+📊 Experiment 21/1280: M_fixed_W (Rep 1/10)
+   ✓ Rounds: 7, Final: $100, Stopped
+
+📊 Experiment 22/1280: M_fixed_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 23/1280: M_fixed_W (Rep 3/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 24/1280: M_fixed_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $170, Stopped
+
+📊 Experiment 25/1280: M_fixed_W (Rep 5/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 26/1280: M_fixed_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 27/1280: M_fixed_W (Rep 7/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 28/1280: M_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 29/1280: M_fixed_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 30/1280: M_fixed_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+    💾 Intermediate results saved (30 experiments)
+
+📊 Experiment 31/1280: R_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 32/1280: R_fixed_W (Rep 2/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 33/1280: R_fixed_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 34/1280: R_fixed_W (Rep 4/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 35/1280: R_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 36/1280: R_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 37/1280: R_fixed_W (Rep 7/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 38/1280: R_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 39/1280: R_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 40/1280: R_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (40 experiments)
+
+📊 Experiment 41/1280: W_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 42/1280: W_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 43/1280: W_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 44/1280: W_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 45/1280: W_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 46/1280: W_fixed_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 47/1280: W_fixed_W (Rep 7/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 48/1280: W_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 49/1280: W_fixed_W (Rep 9/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+
+📊 Experiment 50/1280: W_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (50 experiments)
+
+📊 Experiment 51/1280: P_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 52/1280: P_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 53/1280: P_fixed_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 54/1280: P_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 55/1280: P_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 56/1280: P_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 57/1280: P_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 58/1280: P_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 59/1280: P_fixed_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 60/1280: P_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (60 experiments)
+
+📊 Experiment 61/1280: GM_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 62/1280: GM_fixed_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 63/1280: GM_fixed_W (Rep 3/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 64/1280: GM_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 65/1280: GM_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 66/1280: GM_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 67/1280: GM_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 68/1280: GM_fixed_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 69/1280: GM_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 70/1280: GM_fixed_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+    💾 Intermediate results saved (70 experiments)
+
+📊 Experiment 71/1280: GR_fixed_W (Rep 1/10)
+   ✓ Rounds: 8, Final: $150, Stopped
+
+📊 Experiment 72/1280: GR_fixed_W (Rep 2/10)
+   ✓ Rounds: 13, Final: $70, Stopped
+
+📊 Experiment 73/1280: GR_fixed_W (Rep 3/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 74/1280: GR_fixed_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 75/1280: GR_fixed_W (Rep 5/10)
+   ✓ Rounds: 10, Final: $100, Stopped
+
+📊 Experiment 76/1280: GR_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 77/1280: GR_fixed_W (Rep 7/10)
+   ✓ Rounds: 11, Final: $210, Stopped
+
+📊 Experiment 78/1280: GR_fixed_W (Rep 8/10)
+   ✓ Rounds: 15, Final: $80, Stopped
+
+📊 Experiment 79/1280: GR_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 80/1280: GR_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (80 experiments)
+
+📊 Experiment 81/1280: GW_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 82/1280: GW_fixed_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 83/1280: GW_fixed_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 84/1280: GW_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 85/1280: GW_fixed_W (Rep 5/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 86/1280: GW_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 87/1280: GW_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 88/1280: GW_fixed_W (Rep 8/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 89/1280: GW_fixed_W (Rep 9/10)
+   ✓ Rounds: 7, Final: $130, Stopped
+
+📊 Experiment 90/1280: GW_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, StoppedRunning conditions:   7%|▋         | 9/128 [14:46<3:45:51, 113.88s/it]Running conditions:   8%|▊         | 10/128 [16:15<3:29:12, 106.38s/it]Running conditions:   9%|▊         | 11/128 [18:43<3:52:15, 119.11s/it]Running conditions:   9%|▉         | 12/128 [21:05<4:03:14, 125.81s/it]Running conditions:  10%|█         | 13/128 [22:19<3:31:31, 110.36s/it]Running conditions:  11%|█         | 14/128 [23:19<3:00:24, 94.96s/it] Running conditions:  12%|█▏        | 15/128 [24:13<2:36:00, 82.84s/it]Running conditions:  12%|█▎        | 16/128 [25:13<2:21:23, 75.74s/it]Running conditions:  13%|█▎        | 17/128 [33:10<6:03:14, 196.34s/it]
+    💾 Intermediate results saved (90 experiments)
+
+📊 Experiment 91/1280: GP_fixed_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 92/1280: GP_fixed_W (Rep 2/10)
+   ✓ Rounds: 6, Final: $230, Stopped
+
+📊 Experiment 93/1280: GP_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 94/1280: GP_fixed_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 95/1280: GP_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 96/1280: GP_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 97/1280: GP_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 98/1280: GP_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 99/1280: GP_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 100/1280: GP_fixed_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+    💾 Intermediate results saved (100 experiments)
+
+📊 Experiment 101/1280: MR_fixed_W (Rep 1/10)
+   ✓ Rounds: 10, Final: $160, Stopped
+
+📊 Experiment 102/1280: MR_fixed_W (Rep 2/10)
+   ✓ Rounds: 5, Final: $90, Stopped
+
+📊 Experiment 103/1280: MR_fixed_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 104/1280: MR_fixed_W (Rep 4/10)
+   ✓ Rounds: 6, Final: $140, Stopped
+
+📊 Experiment 105/1280: MR_fixed_W (Rep 5/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 106/1280: MR_fixed_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 107/1280: MR_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 108/1280: MR_fixed_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 109/1280: MR_fixed_W (Rep 9/10)
+   ✓ Rounds: 5, Final: $180, Stopped
+
+📊 Experiment 110/1280: MR_fixed_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+    💾 Intermediate results saved (110 experiments)
+
+📊 Experiment 111/1280: MW_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 112/1280: MW_fixed_W (Rep 2/10)
+   ✓ Rounds: 7, Final: $190, Stopped
+
+📊 Experiment 113/1280: MW_fixed_W (Rep 3/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 114/1280: MW_fixed_W (Rep 4/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 115/1280: MW_fixed_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 116/1280: MW_fixed_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 117/1280: MW_fixed_W (Rep 7/10)
+   ✓ Rounds: 5, Final: $150, Stopped
+
+📊 Experiment 118/1280: MW_fixed_W (Rep 8/10)
+   ✓ Rounds: 8, Final: $150, Stopped
+
+📊 Experiment 119/1280: MW_fixed_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 120/1280: MW_fixed_W (Rep 10/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+    💾 Intermediate results saved (120 experiments)
+
+📊 Experiment 121/1280: MP_fixed_W (Rep 1/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 122/1280: MP_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 123/1280: MP_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 124/1280: MP_fixed_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 125/1280: MP_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 126/1280: MP_fixed_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 127/1280: MP_fixed_W (Rep 7/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 128/1280: MP_fixed_W (Rep 8/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 129/1280: MP_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 130/1280: MP_fixed_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+    💾 Intermediate results saved (130 experiments)
+
+📊 Experiment 131/1280: RW_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 132/1280: RW_fixed_W (Rep 2/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 133/1280: RW_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 134/1280: RW_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 135/1280: RW_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 136/1280: RW_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 137/1280: RW_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 138/1280: RW_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 139/1280: RW_fixed_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 140/1280: RW_fixed_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+    💾 Intermediate results saved (140 experiments)
+
+📊 Experiment 141/1280: RP_fixed_W (Rep 1/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 142/1280: RP_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 143/1280: RP_fixed_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 144/1280: RP_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 145/1280: RP_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 146/1280: RP_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 147/1280: RP_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 148/1280: RP_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 149/1280: RP_fixed_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 150/1280: RP_fixed_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+    💾 Intermediate results saved (150 experiments)
+
+📊 Experiment 151/1280: WP_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 152/1280: WP_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 153/1280: WP_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 154/1280: WP_fixed_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 155/1280: WP_fixed_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 156/1280: WP_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 157/1280: WP_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 158/1280: WP_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 159/1280: WP_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 160/1280: WP_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (160 experiments)
+
+📊 Experiment 161/1280: GMR_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 162/1280: GMR_fixed_W (Rep 2/10)
+   ✓ Rounds: 7, Final: $100, Stopped
+
+📊 Experiment 163/1280: GMR_fixed_W (Rep 3/10)
+   ✓ Rounds: 13, Final: $70, Stopped
+
+📊 Experiment 164/1280: GMR_fixed_W (Rep 4/10)
+   ✓ Rounds: 14, Final: $60, Stopped
+
+📊 Experiment 165/1280: GMR_fixed_W (Rep 5/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 166/1280: GMR_fixed_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 167/1280: GMR_fixed_W (Rep 7/10)
+   ✓ Rounds: 33, Final: $80, Stopped
+
+📊 Experiment 168/1280: GMR_fixed_W (Rep 8/10)
+   ✓ Rounds: 22, Final: $100, Stopped
+
+📊 Experiment 169/1280: GMR_fixed_W (Rep 9/10)
+   ✓ Rounds: 22, Final: $190, Stopped
+
+📊 Experiment 170/1280: GMR_fixed_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+    💾 Intermediate results saved (170 experiments)
+
+📊 Experiment 171/1280: GMW_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 172/1280: GMW_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 173/1280: GMW_fixed_W (Rep 3/10)
+   ✓ Rounds: 15, Final: $110, Stopped
+
+📊 Experiment 174/1280: GMW_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 175/1280: GMW_fixed_W (Rep 5/10)
+   ✓ Rounds: 8, Final: $120, Stopped
+
+📊 Experiment 176/1280: GMW_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 177/1280: GMW_fixed_W (Rep 7/10)
+   ✓ Rounds: 11, Final: $120, Stopped
+
+📊 Experiment 178/1280: GMW_fixed_W (Rep 8/10)Running conditions:  14%|█▍        | 18/128 [36:04<5:48:08, 189.89s/it]Running conditions:  15%|█▍        | 19/128 [39:20<5:47:59, 191.56s/it]Running conditions:  16%|█▌        | 20/128 [42:24<5:40:36, 189.22s/it]Running conditions:  16%|█▋        | 21/128 [45:26<5:33:34, 187.05s/it]Running conditions:  17%|█▋        | 22/128 [48:21<5:24:29, 183.68s/it]Running conditions:  18%|█▊        | 23/128 [50:56<5:06:05, 174.91s/it]Running conditions:  19%|█▉        | 24/128 [52:01<4:06:07, 142.00s/it]Running conditions:  20%|█▉        | 25/128 [53:30<3:36:25, 126.07s/it]Running conditions:  20%|██        | 26/128 [54:50<3:10:47, 112.23s/it]
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 179/1280: GMW_fixed_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 180/1280: GMW_fixed_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+    💾 Intermediate results saved (180 experiments)
+
+📊 Experiment 181/1280: GMP_fixed_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $190, Stopped
+
+📊 Experiment 182/1280: GMP_fixed_W (Rep 2/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 183/1280: GMP_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 184/1280: GMP_fixed_W (Rep 4/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 185/1280: GMP_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 186/1280: GMP_fixed_W (Rep 6/10)
+   ✓ Rounds: 7, Final: $130, Stopped
+
+📊 Experiment 187/1280: GMP_fixed_W (Rep 7/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 188/1280: GMP_fixed_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 189/1280: GMP_fixed_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 190/1280: GMP_fixed_W (Rep 10/10)
+   ✓ Rounds: 10, Final: $100, Stopped
+    💾 Intermediate results saved (190 experiments)
+
+📊 Experiment 191/1280: GRW_fixed_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 192/1280: GRW_fixed_W (Rep 2/10)
+   ✓ Rounds: 7, Final: $130, Stopped
+
+📊 Experiment 193/1280: GRW_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 194/1280: GRW_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 195/1280: GRW_fixed_W (Rep 5/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 196/1280: GRW_fixed_W (Rep 6/10)
+   ✓ Rounds: 9, Final: $80, Stopped
+
+📊 Experiment 197/1280: GRW_fixed_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 198/1280: GRW_fixed_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 199/1280: GRW_fixed_W (Rep 9/10)
+   ✓ Rounds: 12, Final: $80, Stopped
+
+📊 Experiment 200/1280: GRW_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (200 experiments)
+
+📊 Experiment 201/1280: GRP_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 202/1280: GRP_fixed_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 203/1280: GRP_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 204/1280: GRP_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 205/1280: GRP_fixed_W (Rep 5/10)
+   ✓ Rounds: 10, Final: $130, Stopped
+
+📊 Experiment 206/1280: GRP_fixed_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 207/1280: GRP_fixed_W (Rep 7/10)
+   ✓ Rounds: 7, Final: $100, Stopped
+
+📊 Experiment 208/1280: GRP_fixed_W (Rep 8/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 209/1280: GRP_fixed_W (Rep 9/10)
+   ✓ Rounds: 11, Final: $90, Stopped
+
+📊 Experiment 210/1280: GRP_fixed_W (Rep 10/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+    💾 Intermediate results saved (210 experiments)
+
+📊 Experiment 211/1280: GWP_fixed_W (Rep 1/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+
+📊 Experiment 212/1280: GWP_fixed_W (Rep 2/10)
+   ✓ Rounds: 7, Final: $160, Stopped
+
+📊 Experiment 213/1280: GWP_fixed_W (Rep 3/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+
+📊 Experiment 214/1280: GWP_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 215/1280: GWP_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 216/1280: GWP_fixed_W (Rep 6/10)
+   ✓ Rounds: 5, Final: $180, Stopped
+
+📊 Experiment 217/1280: GWP_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 218/1280: GWP_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 219/1280: GWP_fixed_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 220/1280: GWP_fixed_W (Rep 10/10)
+   ✓ Rounds: 10, Final: $100, Stopped
+    💾 Intermediate results saved (220 experiments)
+
+📊 Experiment 221/1280: MRW_fixed_W (Rep 1/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+
+📊 Experiment 222/1280: MRW_fixed_W (Rep 2/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 223/1280: MRW_fixed_W (Rep 3/10)
+   ✓ Rounds: 5, Final: $180, Stopped
+
+📊 Experiment 224/1280: MRW_fixed_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 225/1280: MRW_fixed_W (Rep 5/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 226/1280: MRW_fixed_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 227/1280: MRW_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 228/1280: MRW_fixed_W (Rep 8/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 229/1280: MRW_fixed_W (Rep 9/10)
+   ✓ Rounds: 6, Final: $140, Stopped
+
+📊 Experiment 230/1280: MRW_fixed_W (Rep 10/10)
+   ✓ Rounds: 8, Final: $90, Stopped
+    💾 Intermediate results saved (230 experiments)
+
+📊 Experiment 231/1280: MRP_fixed_W (Rep 1/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 232/1280: MRP_fixed_W (Rep 2/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 233/1280: MRP_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 234/1280: MRP_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 235/1280: MRP_fixed_W (Rep 5/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 236/1280: MRP_fixed_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 237/1280: MRP_fixed_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 238/1280: MRP_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 239/1280: MRP_fixed_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 240/1280: MRP_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (240 experiments)
+
+📊 Experiment 241/1280: MWP_fixed_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 242/1280: MWP_fixed_W (Rep 2/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 243/1280: MWP_fixed_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 244/1280: MWP_fixed_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $170, Stopped
+
+📊 Experiment 245/1280: MWP_fixed_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 246/1280: MWP_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 247/1280: MWP_fixed_W (Rep 7/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 248/1280: MWP_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 249/1280: MWP_fixed_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 250/1280: MWP_fixed_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+    💾 Intermediate results saved (250 experiments)
+
+📊 Experiment 251/1280: RWP_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 252/1280: RWP_fixed_W (Rep 2/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 253/1280: RWP_fixed_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 254/1280: RWP_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 255/1280: RWP_fixed_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 256/1280: RWP_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 257/1280: RWP_fixed_W (Rep 7/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 258/1280: RWP_fixed_W (Rep 8/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 259/1280: RWP_fixed_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 260/1280: RWP_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (260 experiments)
+
+📊 Experiment 261/1280: GMRW_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 262/1280: GMRW_fixed_W (Rep 2/10)
+   ✓ Rounds: 15, Final: $50, Stopped
+
+📊 Experiment 263/1280: GMRW_fixed_W (Rep 3/10)
+   ✓ Rounds: 10, Final: $100, Stopped
+
+📊 Experiment 264/1280: GMRW_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, StoppedRunning conditions:  21%|██        | 27/128 [1:00:57<5:17:34, 188.66s/it]Running conditions:  22%|██▏       | 28/128 [1:05:27<5:55:14, 213.15s/it]Running conditions:  23%|██▎       | 29/128 [1:07:19<5:01:22, 182.65s/it]Running conditions:  23%|██▎       | 30/128 [1:10:04<4:49:43, 177.38s/it]Running conditions:  24%|██▍       | 31/128 [1:11:59<4:16:49, 158.87s/it]Running conditions:  25%|██▌       | 32/128 [1:17:41<5:42:04, 213.80s/it]Running conditions:  26%|██▌       | 33/128 [1:18:22<4:16:05, 161.74s/it]Running conditions:  27%|██▋       | 34/128 [1:20:03<3:45:00, 143.63s/it]Running conditions:  27%|██▋       | 35/128 [1:21:07<3:05:35, 119.73s/it]
+
+📊 Experiment 265/1280: GMRW_fixed_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 266/1280: GMRW_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 267/1280: GMRW_fixed_W (Rep 7/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 268/1280: GMRW_fixed_W (Rep 8/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 269/1280: GMRW_fixed_W (Rep 9/10)
+   ✓ Rounds: 29, Final: $120, Stopped
+
+📊 Experiment 270/1280: GMRW_fixed_W (Rep 10/10)
+   ✓ Rounds: 12, Final: $50, Stopped
+    💾 Intermediate results saved (270 experiments)
+
+📊 Experiment 271/1280: GMRP_fixed_W (Rep 1/10)
+   ✓ Rounds: 12, Final: $110, Stopped
+
+📊 Experiment 272/1280: GMRP_fixed_W (Rep 2/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 273/1280: GMRP_fixed_W (Rep 3/10)
+   ✓ Rounds: 11, Final: $120, Stopped
+
+📊 Experiment 274/1280: GMRP_fixed_W (Rep 4/10)
+   ✓ Rounds: 7, Final: $130, Stopped
+
+📊 Experiment 275/1280: GMRP_fixed_W (Rep 5/10)
+   ✓ Rounds: 5, Final: $150, Stopped
+
+📊 Experiment 276/1280: GMRP_fixed_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 277/1280: GMRP_fixed_W (Rep 7/10)
+   ✓ Rounds: 7, Final: $130, Stopped
+
+📊 Experiment 278/1280: GMRP_fixed_W (Rep 8/10)
+   ✓ Rounds: 5, Final: $90, Stopped
+
+📊 Experiment 279/1280: GMRP_fixed_W (Rep 9/10)
+   ✓ Rounds: 7, Final: $160, Stopped
+
+📊 Experiment 280/1280: GMRP_fixed_W (Rep 10/10)
+   ✓ Rounds: 6, Final: $80, Stopped
+    💾 Intermediate results saved (280 experiments)
+
+📊 Experiment 281/1280: GMWP_fixed_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 282/1280: GMWP_fixed_W (Rep 2/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 283/1280: GMWP_fixed_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 284/1280: GMWP_fixed_W (Rep 4/10)
+   ✓ Rounds: 9, Final: $140, Stopped
+
+📊 Experiment 285/1280: GMWP_fixed_W (Rep 5/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 286/1280: GMWP_fixed_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 287/1280: GMWP_fixed_W (Rep 7/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+
+📊 Experiment 288/1280: GMWP_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 289/1280: GMWP_fixed_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 290/1280: GMWP_fixed_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (290 experiments)
+
+📊 Experiment 291/1280: GRWP_fixed_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 292/1280: GRWP_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 293/1280: GRWP_fixed_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 294/1280: GRWP_fixed_W (Rep 4/10)
+   ✓ Rounds: 10, Final: $100, Stopped
+
+📊 Experiment 295/1280: GRWP_fixed_W (Rep 5/10)
+   ✓ Rounds: 5, Final: $120, Stopped
+
+📊 Experiment 296/1280: GRWP_fixed_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 297/1280: GRWP_fixed_W (Rep 7/10)
+   ✓ Rounds: 5, Final: $150, Stopped
+
+📊 Experiment 298/1280: GRWP_fixed_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $160, Stopped
+
+📊 Experiment 299/1280: GRWP_fixed_W (Rep 9/10)
+   ✓ Rounds: 6, Final: $200, Stopped
+
+📊 Experiment 300/1280: GRWP_fixed_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+    💾 Intermediate results saved (300 experiments)
+
+📊 Experiment 301/1280: MRWP_fixed_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $110, Stopped
+
+📊 Experiment 302/1280: MRWP_fixed_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 303/1280: MRWP_fixed_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 304/1280: MRWP_fixed_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 305/1280: MRWP_fixed_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $140, Stopped
+
+📊 Experiment 306/1280: MRWP_fixed_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+
+📊 Experiment 307/1280: MRWP_fixed_W (Rep 7/10)
+   ✓ Rounds: 7, Final: $100, Stopped
+
+📊 Experiment 308/1280: MRWP_fixed_W (Rep 8/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 309/1280: MRWP_fixed_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 310/1280: MRWP_fixed_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $150, Stopped
+    💾 Intermediate results saved (310 experiments)
+
+📊 Experiment 311/1280: GMRWP_fixed_W (Rep 1/10)
+   ✓ Rounds: 5, Final: $180, Stopped
+
+📊 Experiment 312/1280: GMRWP_fixed_W (Rep 2/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 313/1280: GMRWP_fixed_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $120, Stopped
+
+📊 Experiment 314/1280: GMRWP_fixed_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 315/1280: GMRWP_fixed_W (Rep 5/10)
+   ✓ Rounds: 34, Final: $100, Stopped
+
+📊 Experiment 316/1280: GMRWP_fixed_W (Rep 6/10)
+   ✓ Rounds: 13, Final: $100, Stopped
+
+📊 Experiment 317/1280: GMRWP_fixed_W (Rep 7/10)
+   ✓ Rounds: 12, Final: $80, Stopped
+
+📊 Experiment 318/1280: GMRWP_fixed_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 319/1280: GMRWP_fixed_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $100, Stopped
+
+📊 Experiment 320/1280: GMRWP_fixed_W (Rep 10/10)
+   ✓ Rounds: 13, Final: $40, Stopped
+    💾 Intermediate results saved (320 experiments)
+
+📊 Experiment 321/1280: BASE_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 322/1280: BASE_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 323/1280: BASE_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 324/1280: BASE_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 325/1280: BASE_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 326/1280: BASE_fixed_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 327/1280: BASE_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 328/1280: BASE_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 329/1280: BASE_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 330/1280: BASE_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (330 experiments)
+
+📊 Experiment 331/1280: G_fixed_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 332/1280: G_fixed_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 333/1280: G_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 334/1280: G_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 335/1280: G_fixed_L (Rep 5/10)
+   ✓ Rounds: 8, Final: $80, Stopped
+
+📊 Experiment 336/1280: G_fixed_L (Rep 6/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 337/1280: G_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 338/1280: G_fixed_L (Rep 8/10)
+   ✓ Rounds: 9, Final: $40, Stopped
+
+📊 Experiment 339/1280: G_fixed_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 340/1280: G_fixed_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+    💾 Intermediate results saved (340 experiments)
+
+📊 Experiment 341/1280: M_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 342/1280: M_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 343/1280: M_fixed_L (Rep 3/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 344/1280: M_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 345/1280: M_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 346/1280: M_fixed_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 347/1280: M_fixed_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 348/1280: M_fixed_L (Rep 8/10)
+   ✓ Rounds: 6, Final: $130, Stopped
+
+📊 Experiment 349/1280: M_fixed_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 350/1280: M_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (350 experiments)
+
+📊 Experiment 351/1280: R_fixed_L (Rep 1/10)Running conditions:  28%|██▊       | 36/128 [1:21:54<2:29:59, 97.83s/it] Running conditions:  29%|██▉       | 37/128 [1:22:58<2:13:07, 87.78s/it]Running conditions:  30%|██▉       | 38/128 [1:23:36<1:49:15, 72.84s/it]Running conditions:  30%|███       | 39/128 [1:25:57<2:18:10, 93.15s/it]Running conditions:  31%|███▏      | 40/128 [1:28:58<2:55:37, 119.75s/it]Running conditions:  32%|███▏      | 41/128 [1:30:17<2:35:45, 107.42s/it]Running conditions:  33%|███▎      | 42/128 [1:32:22<2:41:25, 112.62s/it]Running conditions:  34%|███▎      | 43/128 [1:33:42<2:25:39, 102.82s/it]
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 352/1280: R_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 353/1280: R_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 354/1280: R_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 355/1280: R_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 356/1280: R_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 357/1280: R_fixed_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 358/1280: R_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 359/1280: R_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 360/1280: R_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (360 experiments)
+
+📊 Experiment 361/1280: W_fixed_L (Rep 1/10)
+   ✓ Rounds: 4, Final: $120, Stopped
+
+📊 Experiment 362/1280: W_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 363/1280: W_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 364/1280: W_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 365/1280: W_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 366/1280: W_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 367/1280: W_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 368/1280: W_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 369/1280: W_fixed_L (Rep 9/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 370/1280: W_fixed_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+    💾 Intermediate results saved (370 experiments)
+
+📊 Experiment 371/1280: P_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 372/1280: P_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 373/1280: P_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 374/1280: P_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 375/1280: P_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 376/1280: P_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 377/1280: P_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 378/1280: P_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 379/1280: P_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 380/1280: P_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (380 experiments)
+
+📊 Experiment 381/1280: GM_fixed_L (Rep 1/10)
+   ✓ Rounds: 11, Final: $80, Stopped
+
+📊 Experiment 382/1280: GM_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 383/1280: GM_fixed_L (Rep 3/10)
+   ✓ Rounds: 6, Final: $40, Stopped
+
+📊 Experiment 384/1280: GM_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 385/1280: GM_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 386/1280: GM_fixed_L (Rep 6/10)
+   ✓ Rounds: 5, Final: $50, Stopped
+
+📊 Experiment 387/1280: GM_fixed_L (Rep 7/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 388/1280: GM_fixed_L (Rep 8/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 389/1280: GM_fixed_L (Rep 9/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 390/1280: GM_fixed_L (Rep 10/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+    💾 Intermediate results saved (390 experiments)
+
+📊 Experiment 391/1280: GR_fixed_L (Rep 1/10)
+   ✓ Rounds: 4, Final: $150, Stopped
+
+📊 Experiment 392/1280: GR_fixed_L (Rep 2/10)
+   ✓ Rounds: 5, Final: $50, Stopped
+
+📊 Experiment 393/1280: GR_fixed_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 394/1280: GR_fixed_L (Rep 4/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 395/1280: GR_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 396/1280: GR_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 397/1280: GR_fixed_L (Rep 7/10)
+   ✓ Rounds: 4, Final: $150, Stopped
+
+📊 Experiment 398/1280: GR_fixed_L (Rep 8/10)
+   ✓ Rounds: 7, Final: $120, Stopped
+
+📊 Experiment 399/1280: GR_fixed_L (Rep 9/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 400/1280: GR_fixed_L (Rep 10/10)
+   ✓ Rounds: 17, Final: $170, Stopped
+    💾 Intermediate results saved (400 experiments)
+
+📊 Experiment 401/1280: GW_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 402/1280: GW_fixed_L (Rep 2/10)
+   ✓ Rounds: 6, Final: $100, Stopped
+
+📊 Experiment 403/1280: GW_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 404/1280: GW_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 405/1280: GW_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 406/1280: GW_fixed_L (Rep 6/10)
+   ✓ Rounds: 3, Final: $100, Stopped
+
+📊 Experiment 407/1280: GW_fixed_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 408/1280: GW_fixed_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 409/1280: GW_fixed_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 410/1280: GW_fixed_L (Rep 10/10)
+   ✓ Rounds: 3, Final: $100, Stopped
+    💾 Intermediate results saved (410 experiments)
+
+📊 Experiment 411/1280: GP_fixed_L (Rep 1/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 412/1280: GP_fixed_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 413/1280: GP_fixed_L (Rep 3/10)
+   ✓ Rounds: 5, Final: $80, Stopped
+
+📊 Experiment 414/1280: GP_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 415/1280: GP_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 416/1280: GP_fixed_L (Rep 6/10)
+   ✓ Rounds: 5, Final: $80, Stopped
+
+📊 Experiment 417/1280: GP_fixed_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 418/1280: GP_fixed_L (Rep 8/10)
+   ✓ Rounds: 8, Final: $50, Stopped
+
+📊 Experiment 419/1280: GP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 420/1280: GP_fixed_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+    💾 Intermediate results saved (420 experiments)
+
+📊 Experiment 421/1280: MR_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 422/1280: MR_fixed_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 423/1280: MR_fixed_L (Rep 3/10)
+   ✓ Rounds: 5, Final: $80, Stopped
+
+📊 Experiment 424/1280: MR_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 425/1280: MR_fixed_L (Rep 5/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 426/1280: MR_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 427/1280: MR_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 428/1280: MR_fixed_L (Rep 8/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 429/1280: MR_fixed_L (Rep 9/10)
+   ✓ Rounds: 3, Final: $100, Stopped
+
+📊 Experiment 430/1280: MR_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (430 experiments)
+
+📊 Experiment 431/1280: MW_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 432/1280: MW_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 433/1280: MW_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 434/1280: MW_fixed_L (Rep 4/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 435/1280: MW_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 436/1280: MW_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 437/1280: MW_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 438/1280: MW_fixed_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 439/1280: MW_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 440/1280: MW_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, StoppedRunning conditions:  34%|███▍      | 44/128 [1:34:39<2:04:50, 89.17s/it] Running conditions:  35%|███▌      | 45/128 [1:35:25<1:45:25, 76.21s/it]Running conditions:  36%|███▌      | 46/128 [1:36:24<1:37:08, 71.08s/it]Running conditions:  37%|███▋      | 47/128 [1:37:06<1:24:05, 62.30s/it]Running conditions:  38%|███▊      | 48/128 [1:37:57<1:18:23, 58.79s/it]Running conditions:  38%|███▊      | 49/128 [1:41:57<2:29:04, 113.22s/it]Running conditions:  39%|███▉      | 50/128 [1:44:21<2:39:05, 122.38s/it]Running conditions:  40%|███▉      | 51/128 [1:46:38<2:42:57, 126.98s/it]Running conditions:  41%|████      | 52/128 [1:48:40<2:38:45, 125.33s/it]
+    💾 Intermediate results saved (440 experiments)
+
+📊 Experiment 441/1280: MP_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 442/1280: MP_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 443/1280: MP_fixed_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 444/1280: MP_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 445/1280: MP_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 446/1280: MP_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 447/1280: MP_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 448/1280: MP_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 449/1280: MP_fixed_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 450/1280: MP_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (450 experiments)
+
+📊 Experiment 451/1280: RW_fixed_L (Rep 1/10)
+   ✓ Rounds: 4, Final: $90, Stopped
+
+📊 Experiment 452/1280: RW_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 453/1280: RW_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 454/1280: RW_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 455/1280: RW_fixed_L (Rep 5/10)
+   ✓ Rounds: 5, Final: $110, Stopped
+
+📊 Experiment 456/1280: RW_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 457/1280: RW_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 458/1280: RW_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 459/1280: RW_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 460/1280: RW_fixed_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+    💾 Intermediate results saved (460 experiments)
+
+📊 Experiment 461/1280: RP_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 462/1280: RP_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 463/1280: RP_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 464/1280: RP_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 465/1280: RP_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 466/1280: RP_fixed_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 467/1280: RP_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 468/1280: RP_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 469/1280: RP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 470/1280: RP_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (470 experiments)
+
+📊 Experiment 471/1280: WP_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 472/1280: WP_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 473/1280: WP_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 474/1280: WP_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 475/1280: WP_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 476/1280: WP_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 477/1280: WP_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 478/1280: WP_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 479/1280: WP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 480/1280: WP_fixed_L (Rep 10/10)
+   ✓ Rounds: 3, Final: $100, Stopped
+    💾 Intermediate results saved (480 experiments)
+
+📊 Experiment 481/1280: GMR_fixed_L (Rep 1/10)
+   ✓ Rounds: 18, Final: $160, Stopped
+
+📊 Experiment 482/1280: GMR_fixed_L (Rep 2/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 483/1280: GMR_fixed_L (Rep 3/10)
+   ✓ Rounds: 13, Final: $30, Stopped
+
+📊 Experiment 484/1280: GMR_fixed_L (Rep 4/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 485/1280: GMR_fixed_L (Rep 5/10)
+   ✓ Rounds: 6, Final: $40, Stopped
+
+📊 Experiment 486/1280: GMR_fixed_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 487/1280: GMR_fixed_L (Rep 7/10)
+   ✓ Rounds: 21, Final: $10, Stopped
+
+📊 Experiment 488/1280: GMR_fixed_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 489/1280: GMR_fixed_L (Rep 9/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 490/1280: GMR_fixed_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+    💾 Intermediate results saved (490 experiments)
+
+📊 Experiment 491/1280: GMW_fixed_L (Rep 1/10)
+   ✓ Rounds: 16, Final: $0, Bankrupt
+
+📊 Experiment 492/1280: GMW_fixed_L (Rep 2/10)
+   ✓ Rounds: 4, Final: $90, Stopped
+
+📊 Experiment 493/1280: GMW_fixed_L (Rep 3/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 494/1280: GMW_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 495/1280: GMW_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 496/1280: GMW_fixed_L (Rep 6/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 497/1280: GMW_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 498/1280: GMW_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 499/1280: GMW_fixed_L (Rep 9/10)
+   ✓ Rounds: 10, Final: $90, Stopped
+
+📊 Experiment 500/1280: GMW_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (500 experiments)
+
+📊 Experiment 501/1280: GMP_fixed_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 502/1280: GMP_fixed_L (Rep 2/10)
+   ✓ Rounds: 10, Final: $90, Stopped
+
+📊 Experiment 503/1280: GMP_fixed_L (Rep 3/10)
+   ✓ Rounds: 4, Final: $120, Stopped
+
+📊 Experiment 504/1280: GMP_fixed_L (Rep 4/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 505/1280: GMP_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 506/1280: GMP_fixed_L (Rep 6/10)
+   ✓ Rounds: 3, Final: $100, Stopped
+
+📊 Experiment 507/1280: GMP_fixed_L (Rep 7/10)
+   ✓ Rounds: 6, Final: $100, Stopped
+
+📊 Experiment 508/1280: GMP_fixed_L (Rep 8/10)
+   ✓ Rounds: 3, Final: $100, Stopped
+
+📊 Experiment 509/1280: GMP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 510/1280: GMP_fixed_L (Rep 10/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+    💾 Intermediate results saved (510 experiments)
+
+📊 Experiment 511/1280: GRW_fixed_L (Rep 1/10)
+   ✓ Rounds: 6, Final: $100, Stopped
+
+📊 Experiment 512/1280: GRW_fixed_L (Rep 2/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 513/1280: GRW_fixed_L (Rep 3/10)
+   ✓ Rounds: 6, Final: $100, Stopped
+
+📊 Experiment 514/1280: GRW_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 515/1280: GRW_fixed_L (Rep 5/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 516/1280: GRW_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 517/1280: GRW_fixed_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 518/1280: GRW_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 519/1280: GRW_fixed_L (Rep 9/10)
+   ✓ Rounds: 4, Final: $120, Stopped
+
+📊 Experiment 520/1280: GRW_fixed_L (Rep 10/10)
+   ✓ Rounds: 5, Final: $80, Stopped
+    💾 Intermediate results saved (520 experiments)
+
+📊 Experiment 521/1280: GRP_fixed_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 522/1280: GRP_fixed_L (Rep 2/10)
+   ✓ Rounds: 7, Final: $90, Stopped
+
+📊 Experiment 523/1280: GRP_fixed_L (Rep 3/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 524/1280: GRP_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 525/1280: GRP_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 526/1280: GRP_fixed_L (Rep 6/10)
+   ✓ Rounds: 5, Final: $110, Stopped
+
+📊 Experiment 527/1280: GRP_fixed_L (Rep 7/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 528/1280: GRP_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, StoppedRunning conditions:  41%|████▏     | 53/128 [1:50:22<2:27:57, 118.37s/it]Running conditions:  42%|████▏     | 54/128 [1:52:54<2:38:32, 128.54s/it]Running conditions:  43%|████▎     | 55/128 [1:54:58<2:34:31, 127.01s/it]Running conditions:  44%|████▍     | 56/128 [1:55:46<2:04:11, 103.50s/it]Running conditions:  45%|████▍     | 57/128 [1:56:42<1:45:42, 89.33s/it] Running conditions:  45%|████▌     | 58/128 [1:57:41<1:33:32, 80.18s/it]Running conditions:  46%|████▌     | 59/128 [2:01:21<2:20:29, 122.17s/it]Running conditions:  47%|████▋     | 60/128 [2:03:19<2:16:49, 120.72s/it]Running conditions:  48%|████▊     | 61/128 [2:08:42<3:22:44, 181.55s/it]
+
+📊 Experiment 529/1280: GRP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 530/1280: GRP_fixed_L (Rep 10/10)
+   ✓ Rounds: 3, Final: $130, Stopped
+    💾 Intermediate results saved (530 experiments)
+
+📊 Experiment 531/1280: GWP_fixed_L (Rep 1/10)
+   ✓ Rounds: 5, Final: $140, Stopped
+
+📊 Experiment 532/1280: GWP_fixed_L (Rep 2/10)
+   ✓ Rounds: 5, Final: $80, Stopped
+
+📊 Experiment 533/1280: GWP_fixed_L (Rep 3/10)
+   ✓ Rounds: 8, Final: $80, Stopped
+
+📊 Experiment 534/1280: GWP_fixed_L (Rep 4/10)
+   ✓ Rounds: 5, Final: $80, Stopped
+
+📊 Experiment 535/1280: GWP_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 536/1280: GWP_fixed_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 537/1280: GWP_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 538/1280: GWP_fixed_L (Rep 8/10)
+   ✓ Rounds: 5, Final: $110, Stopped
+
+📊 Experiment 539/1280: GWP_fixed_L (Rep 9/10)
+   ✓ Rounds: 9, Final: $70, Stopped
+
+📊 Experiment 540/1280: GWP_fixed_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+    💾 Intermediate results saved (540 experiments)
+
+📊 Experiment 541/1280: MRW_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 542/1280: MRW_fixed_L (Rep 2/10)
+   ✓ Rounds: 14, Final: $200, Stopped
+
+📊 Experiment 543/1280: MRW_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 544/1280: MRW_fixed_L (Rep 4/10)
+   ✓ Rounds: 6, Final: $160, Stopped
+
+📊 Experiment 545/1280: MRW_fixed_L (Rep 5/10)
+   ✓ Rounds: 4, Final: $150, Stopped
+
+📊 Experiment 546/1280: MRW_fixed_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 547/1280: MRW_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 548/1280: MRW_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 549/1280: MRW_fixed_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 550/1280: MRW_fixed_L (Rep 10/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+    💾 Intermediate results saved (550 experiments)
+
+📊 Experiment 551/1280: MRP_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 552/1280: MRP_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 553/1280: MRP_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 554/1280: MRP_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 555/1280: MRP_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 556/1280: MRP_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 557/1280: MRP_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 558/1280: MRP_fixed_L (Rep 8/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 559/1280: MRP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 560/1280: MRP_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (560 experiments)
+
+📊 Experiment 561/1280: MWP_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 562/1280: MWP_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 563/1280: MWP_fixed_L (Rep 3/10)
+   ✓ Rounds: 3, Final: $130, Stopped
+
+📊 Experiment 564/1280: MWP_fixed_L (Rep 4/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 565/1280: MWP_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 566/1280: MWP_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 567/1280: MWP_fixed_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 568/1280: MWP_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 569/1280: MWP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 570/1280: MWP_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (570 experiments)
+
+📊 Experiment 571/1280: RWP_fixed_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 572/1280: RWP_fixed_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 573/1280: RWP_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 574/1280: RWP_fixed_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 575/1280: RWP_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 576/1280: RWP_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 577/1280: RWP_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 578/1280: RWP_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 579/1280: RWP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 580/1280: RWP_fixed_L (Rep 10/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+    💾 Intermediate results saved (580 experiments)
+
+📊 Experiment 581/1280: GMRW_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 582/1280: GMRW_fixed_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 583/1280: GMRW_fixed_L (Rep 3/10)
+   ✓ Rounds: 4, Final: $90, Stopped
+
+📊 Experiment 584/1280: GMRW_fixed_L (Rep 4/10)
+   ✓ Rounds: 10, Final: $30, Stopped
+
+📊 Experiment 585/1280: GMRW_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 586/1280: GMRW_fixed_L (Rep 6/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+
+📊 Experiment 587/1280: GMRW_fixed_L (Rep 7/10)
+   ✓ Rounds: 8, Final: $50, Stopped
+
+📊 Experiment 588/1280: GMRW_fixed_L (Rep 8/10)
+   ✓ Rounds: 8, Final: $110, Stopped
+
+📊 Experiment 589/1280: GMRW_fixed_L (Rep 9/10)
+   ✓ Rounds: 14, Final: $80, Stopped
+
+📊 Experiment 590/1280: GMRW_fixed_L (Rep 10/10)
+   ✓ Rounds: 7, Final: $90, Stopped
+    💾 Intermediate results saved (590 experiments)
+
+📊 Experiment 591/1280: GMRP_fixed_L (Rep 1/10)
+   ✓ Rounds: 5, Final: $110, Stopped
+
+📊 Experiment 592/1280: GMRP_fixed_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 593/1280: GMRP_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 594/1280: GMRP_fixed_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 595/1280: GMRP_fixed_L (Rep 5/10)
+   ✓ Rounds: 4, Final: $90, Stopped
+
+📊 Experiment 596/1280: GMRP_fixed_L (Rep 6/10)
+   ✓ Rounds: 5, Final: $50, Stopped
+
+📊 Experiment 597/1280: GMRP_fixed_L (Rep 7/10)
+   ✓ Rounds: 5, Final: $80, Stopped
+
+📊 Experiment 598/1280: GMRP_fixed_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+
+📊 Experiment 599/1280: GMRP_fixed_L (Rep 9/10)
+   ✓ Rounds: 4, Final: $90, Stopped
+
+📊 Experiment 600/1280: GMRP_fixed_L (Rep 10/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+    💾 Intermediate results saved (600 experiments)
+
+📊 Experiment 601/1280: GMWP_fixed_L (Rep 1/10)
+   ✓ Rounds: 6, Final: $100, Stopped
+
+📊 Experiment 602/1280: GMWP_fixed_L (Rep 2/10)
+   ✓ Rounds: 12, Final: $40, Stopped
+
+📊 Experiment 603/1280: GMWP_fixed_L (Rep 3/10)
+   ✓ Rounds: 5, Final: $50, Stopped
+
+📊 Experiment 604/1280: GMWP_fixed_L (Rep 4/10)
+   ✓ Rounds: 5, Final: $110, Stopped
+
+📊 Experiment 605/1280: GMWP_fixed_L (Rep 5/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 606/1280: GMWP_fixed_L (Rep 6/10)
+   ✓ Rounds: 9, Final: $70, Stopped
+
+📊 Experiment 607/1280: GMWP_fixed_L (Rep 7/10)
+   ✓ Rounds: 7, Final: $30, Stopped
+
+📊 Experiment 608/1280: GMWP_fixed_L (Rep 8/10)
+   ✓ Rounds: 5, Final: $140, Stopped
+
+📊 Experiment 609/1280: GMWP_fixed_L (Rep 9/10)
+   ✓ Rounds: 33, Final: $130, Stopped
+
+📊 Experiment 610/1280: GMWP_fixed_L (Rep 10/10)
+   ✓ Rounds: 8, Final: $80, Stopped
+    💾 Intermediate results saved (610 experiments)
+
+📊 Experiment 611/1280: GRWP_fixed_L (Rep 1/10)
+   ✓ Rounds: 4, Final: $60, Stopped
+
+📊 Experiment 612/1280: GRWP_fixed_L (Rep 2/10)
+   ✓ Rounds: 5, Final: $110, Stopped
+
+📊 Experiment 613/1280: GRWP_fixed_L (Rep 3/10)
+   ✓ Rounds: 12, Final: $10, Stopped
+
+📊 Experiment 614/1280: GRWP_fixed_L (Rep 4/10)
+   ✓ Rounds: 6, Final: $40, Stopped
+
+📊 Experiment 615/1280: GRWP_fixed_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $80, StoppedRunning conditions:  48%|████▊     | 62/128 [2:11:29<3:14:42, 177.01s/it]Running conditions:  49%|████▉     | 63/128 [2:12:39<2:37:12, 145.11s/it]Running conditions:  50%|█████     | 64/128 [2:16:46<3:07:17, 175.59s/it]Running conditions:  51%|█████     | 65/128 [2:17:43<2:26:51, 139.87s/it]Running conditions:  52%|█████▏    | 66/128 [2:19:19<2:11:10, 126.94s/it]Running conditions:  52%|█████▏    | 67/128 [2:20:40<1:54:50, 112.96s/it]Running conditions:  53%|█████▎    | 68/128 [2:21:57<1:42:22, 102.37s/it]Running conditions:  54%|█████▍    | 69/128 [2:23:12<1:32:27, 94.03s/it] Running conditions:  55%|█████▍    | 70/128 [2:24:18<1:22:49, 85.69s/it]
+
+📊 Experiment 616/1280: GRWP_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 617/1280: GRWP_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 618/1280: GRWP_fixed_L (Rep 8/10)
+   ✓ Rounds: 8, Final: $110, Stopped
+
+📊 Experiment 619/1280: GRWP_fixed_L (Rep 9/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 620/1280: GRWP_fixed_L (Rep 10/10)
+   ✓ Rounds: 4, Final: $90, Stopped
+    💾 Intermediate results saved (620 experiments)
+
+📊 Experiment 621/1280: MRWP_fixed_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 622/1280: MRWP_fixed_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $110, Stopped
+
+📊 Experiment 623/1280: MRWP_fixed_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 624/1280: MRWP_fixed_L (Rep 4/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 625/1280: MRWP_fixed_L (Rep 5/10)
+   ✓ Rounds: 4, Final: $90, Stopped
+
+📊 Experiment 626/1280: MRWP_fixed_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 627/1280: MRWP_fixed_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 628/1280: MRWP_fixed_L (Rep 8/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 629/1280: MRWP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 630/1280: MRWP_fixed_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (630 experiments)
+
+📊 Experiment 631/1280: GMRWP_fixed_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 632/1280: GMRWP_fixed_L (Rep 2/10)
+   ✓ Rounds: 7, Final: $60, Stopped
+
+📊 Experiment 633/1280: GMRWP_fixed_L (Rep 3/10)
+   ✓ Rounds: 19, Final: $210, Stopped
+
+📊 Experiment 634/1280: GMRWP_fixed_L (Rep 4/10)
+   ✓ Rounds: 19, Final: $0, Bankrupt
+
+📊 Experiment 635/1280: GMRWP_fixed_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 636/1280: GMRWP_fixed_L (Rep 6/10)
+   ✓ Rounds: 11, Final: $50, Stopped
+
+📊 Experiment 637/1280: GMRWP_fixed_L (Rep 7/10)
+   ✓ Rounds: 3, Final: $70, Stopped
+
+📊 Experiment 638/1280: GMRWP_fixed_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 639/1280: GMRWP_fixed_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 640/1280: GMRWP_fixed_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $80, Stopped
+    💾 Intermediate results saved (640 experiments)
+
+📊 Experiment 641/1280: BASE_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 642/1280: BASE_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 643/1280: BASE_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $230, Stopped
+
+📊 Experiment 644/1280: BASE_variable_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 645/1280: BASE_variable_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 646/1280: BASE_variable_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 647/1280: BASE_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 648/1280: BASE_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 649/1280: BASE_variable_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 650/1280: BASE_variable_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $330, Stopped
+    💾 Intermediate results saved (650 experiments)
+
+📊 Experiment 651/1280: G_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 652/1280: G_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 653/1280: G_variable_W (Rep 3/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 654/1280: G_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 655/1280: G_variable_W (Rep 5/10)
+   ✓ Rounds: 11, Final: $330, Stopped
+
+📊 Experiment 656/1280: G_variable_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $430, Stopped
+
+📊 Experiment 657/1280: G_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 658/1280: G_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 659/1280: G_variable_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 660/1280: G_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (660 experiments)
+
+📊 Experiment 661/1280: M_variable_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 662/1280: M_variable_W (Rep 2/10)
+   ✓ Rounds: 5, Final: $170, Stopped
+
+📊 Experiment 663/1280: M_variable_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 664/1280: M_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 665/1280: M_variable_W (Rep 5/10)
+   ✓ Rounds: 5, Final: $30, Stopped
+
+📊 Experiment 666/1280: M_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 667/1280: M_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 668/1280: M_variable_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 669/1280: M_variable_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 670/1280: M_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (670 experiments)
+
+📊 Experiment 671/1280: R_variable_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 672/1280: R_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $90, Stopped
+
+📊 Experiment 673/1280: R_variable_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 674/1280: R_variable_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 675/1280: R_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 676/1280: R_variable_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 677/1280: R_variable_W (Rep 7/10)
+   ✓ Rounds: 2, Final: $330, Stopped
+
+📊 Experiment 678/1280: R_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $230, Stopped
+
+📊 Experiment 679/1280: R_variable_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 680/1280: R_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (680 experiments)
+
+📊 Experiment 681/1280: W_variable_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 682/1280: W_variable_W (Rep 2/10)
+   ✓ Rounds: 2, Final: $330, Stopped
+
+📊 Experiment 683/1280: W_variable_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 684/1280: W_variable_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 685/1280: W_variable_W (Rep 5/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 686/1280: W_variable_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $430, Stopped
+
+📊 Experiment 687/1280: W_variable_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 688/1280: W_variable_W (Rep 8/10)
+   ✓ Rounds: 5, Final: $330, Stopped
+
+📊 Experiment 689/1280: W_variable_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 690/1280: W_variable_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (690 experiments)
+
+📊 Experiment 691/1280: P_variable_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 692/1280: P_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 693/1280: P_variable_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 694/1280: P_variable_W (Rep 4/10)
+   ✓ Rounds: 5, Final: $330, Stopped
+
+📊 Experiment 695/1280: P_variable_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 696/1280: P_variable_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 697/1280: P_variable_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 698/1280: P_variable_W (Rep 8/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 699/1280: P_variable_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 700/1280: P_variable_W (Rep 10/10)
+   ✓ Rounds: 2, Final: $330, Stopped
+    💾 Intermediate results saved (700 experiments)
+
+📊 Experiment 701/1280: GM_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, BankruptRunning conditions:  55%|█████▌    | 71/128 [2:25:25<1:15:58, 79.97s/it]Running conditions:  56%|█████▋    | 72/128 [2:28:05<1:36:58, 103.90s/it]Running conditions:  57%|█████▋    | 73/128 [2:30:33<1:47:33, 117.34s/it]Running conditions:  58%|█████▊    | 74/128 [2:32:17<1:41:57, 113.29s/it]Running conditions:  59%|█████▊    | 75/128 [2:34:17<1:41:54, 115.37s/it]Running conditions:  59%|█████▉    | 76/128 [2:36:26<1:43:30, 119.43s/it]Running conditions:  60%|██████    | 77/128 [2:38:21<1:40:18, 118.01s/it]Running conditions:  61%|██████    | 78/128 [2:40:07<1:35:19, 114.40s/it]
+
+📊 Experiment 702/1280: GM_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 703/1280: GM_variable_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $330, Stopped
+
+📊 Experiment 704/1280: GM_variable_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 705/1280: GM_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 706/1280: GM_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 707/1280: GM_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 708/1280: GM_variable_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 709/1280: GM_variable_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $270, Stopped
+
+📊 Experiment 710/1280: GM_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (710 experiments)
+
+📊 Experiment 711/1280: GR_variable_W (Rep 1/10)
+   ✓ Rounds: 15, Final: $1130, Stopped
+
+📊 Experiment 712/1280: GR_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 713/1280: GR_variable_W (Rep 3/10)
+   ✓ Rounds: 4, Final: $730, Stopped
+
+📊 Experiment 714/1280: GR_variable_W (Rep 4/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+
+📊 Experiment 715/1280: GR_variable_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 716/1280: GR_variable_W (Rep 6/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 717/1280: GR_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 718/1280: GR_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 719/1280: GR_variable_W (Rep 9/10)
+   ✓ Rounds: 7, Final: $430, Stopped
+
+📊 Experiment 720/1280: GR_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (720 experiments)
+
+📊 Experiment 721/1280: GW_variable_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $430, Stopped
+
+📊 Experiment 722/1280: GW_variable_W (Rep 2/10)
+   ✓ Rounds: 15, Final: $0, Bankrupt
+
+📊 Experiment 723/1280: GW_variable_W (Rep 3/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+
+📊 Experiment 724/1280: GW_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 725/1280: GW_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 726/1280: GW_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 727/1280: GW_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 728/1280: GW_variable_W (Rep 8/10)
+   ✓ Rounds: 7, Final: $210, Stopped
+
+📊 Experiment 729/1280: GW_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 730/1280: GW_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (730 experiments)
+
+📊 Experiment 731/1280: GP_variable_W (Rep 1/10)
+   ✓ Rounds: 5, Final: $30, Stopped
+
+📊 Experiment 732/1280: GP_variable_W (Rep 2/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 733/1280: GP_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 734/1280: GP_variable_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 735/1280: GP_variable_W (Rep 5/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 736/1280: GP_variable_W (Rep 6/10)
+   ✓ Rounds: 5, Final: $470, Stopped
+
+📊 Experiment 737/1280: GP_variable_W (Rep 7/10)
+   ✓ Rounds: 5, Final: $30, Stopped
+
+📊 Experiment 738/1280: GP_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 739/1280: GP_variable_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 740/1280: GP_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (740 experiments)
+
+📊 Experiment 741/1280: MR_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 742/1280: MR_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 743/1280: MR_variable_W (Rep 3/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 744/1280: MR_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 745/1280: MR_variable_W (Rep 5/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 746/1280: MR_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 747/1280: MR_variable_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 748/1280: MR_variable_W (Rep 8/10)
+   ✓ Rounds: 9, Final: $830, Stopped
+
+📊 Experiment 749/1280: MR_variable_W (Rep 9/10)
+   ✓ Rounds: 13, Final: $430, Stopped
+
+📊 Experiment 750/1280: MR_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (750 experiments)
+
+📊 Experiment 751/1280: MW_variable_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 752/1280: MW_variable_W (Rep 2/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 753/1280: MW_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 754/1280: MW_variable_W (Rep 4/10)
+   ✓ Rounds: 12, Final: $670, Stopped
+
+📊 Experiment 755/1280: MW_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $230, Stopped
+
+📊 Experiment 756/1280: MW_variable_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 757/1280: MW_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 758/1280: MW_variable_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 759/1280: MW_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $90, Stopped
+
+📊 Experiment 760/1280: MW_variable_W (Rep 10/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+    💾 Intermediate results saved (760 experiments)
+
+📊 Experiment 761/1280: MP_variable_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 762/1280: MP_variable_W (Rep 2/10)
+   ✓ Rounds: 7, Final: $130, Stopped
+
+📊 Experiment 763/1280: MP_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 764/1280: MP_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 765/1280: MP_variable_W (Rep 5/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 766/1280: MP_variable_W (Rep 6/10)
+   ✓ Rounds: 6, Final: $0, Bankrupt
+
+📊 Experiment 767/1280: MP_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 768/1280: MP_variable_W (Rep 8/10)
+   ✓ Rounds: 8, Final: $30, Stopped
+
+📊 Experiment 769/1280: MP_variable_W (Rep 9/10)
+   ✓ Rounds: 6, Final: $530, Stopped
+
+📊 Experiment 770/1280: MP_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (770 experiments)
+
+📊 Experiment 771/1280: RW_variable_W (Rep 1/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 772/1280: RW_variable_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 773/1280: RW_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 774/1280: RW_variable_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $330, Stopped
+
+📊 Experiment 775/1280: RW_variable_W (Rep 5/10)
+   ✓ Rounds: 6, Final: $230, Stopped
+
+📊 Experiment 776/1280: RW_variable_W (Rep 6/10)
+   ✓ Rounds: 5, Final: $330, Stopped
+
+📊 Experiment 777/1280: RW_variable_W (Rep 7/10)
+   ✓ Rounds: 7, Final: $430, Stopped
+
+📊 Experiment 778/1280: RW_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 779/1280: RW_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 780/1280: RW_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $230, Stopped
+    💾 Intermediate results saved (780 experiments)
+
+📊 Experiment 781/1280: RP_variable_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 782/1280: RP_variable_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 783/1280: RP_variable_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 784/1280: RP_variable_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 785/1280: RP_variable_W (Rep 5/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 786/1280: RP_variable_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $330, Stopped
+
+📊 Experiment 787/1280: RP_variable_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, StoppedRunning conditions:  62%|██████▏   | 79/128 [2:41:03<1:19:07, 96.88s/it] Running conditions:  62%|██████▎   | 80/128 [2:42:31<1:15:30, 94.39s/it]Running conditions:  63%|██████▎   | 81/128 [2:46:33<1:48:34, 138.61s/it]Running conditions:  64%|██████▍   | 82/128 [2:50:01<2:02:10, 159.36s/it]Running conditions:  65%|██████▍   | 83/128 [2:51:28<1:43:15, 137.69s/it]Running conditions:  66%|██████▌   | 84/128 [2:53:26<1:36:39, 131.82s/it]Running conditions:  66%|██████▋   | 85/128 [2:55:39<1:34:38, 132.06s/it]Running conditions:  67%|██████▋   | 86/128 [2:57:49<1:32:07, 131.60s/it]Running conditions:  68%|██████▊   | 87/128 [2:59:34<1:24:23, 123.50s/it]
+
+📊 Experiment 788/1280: RP_variable_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 789/1280: RP_variable_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 790/1280: RP_variable_W (Rep 10/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+    💾 Intermediate results saved (790 experiments)
+
+📊 Experiment 791/1280: WP_variable_W (Rep 1/10)
+   ✓ Rounds: 5, Final: $30, Stopped
+
+📊 Experiment 792/1280: WP_variable_W (Rep 2/10)
+   ✓ Rounds: 4, Final: $270, Stopped
+
+📊 Experiment 793/1280: WP_variable_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 794/1280: WP_variable_W (Rep 4/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 795/1280: WP_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 796/1280: WP_variable_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 797/1280: WP_variable_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 798/1280: WP_variable_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $430, Stopped
+
+📊 Experiment 799/1280: WP_variable_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 800/1280: WP_variable_W (Rep 10/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+    💾 Intermediate results saved (800 experiments)
+
+📊 Experiment 801/1280: GMR_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 802/1280: GMR_variable_W (Rep 2/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+
+📊 Experiment 803/1280: GMR_variable_W (Rep 3/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 804/1280: GMR_variable_W (Rep 4/10)
+   ✓ Rounds: 9, Final: $0, Bankrupt
+
+📊 Experiment 805/1280: GMR_variable_W (Rep 5/10)
+   ✓ Rounds: 24, Final: $70, Stopped
+
+📊 Experiment 806/1280: GMR_variable_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 807/1280: GMR_variable_W (Rep 7/10)
+   ✓ Rounds: 9, Final: $0, Bankrupt
+
+📊 Experiment 808/1280: GMR_variable_W (Rep 8/10)
+   ✓ Rounds: 9, Final: $0, Bankrupt
+
+📊 Experiment 809/1280: GMR_variable_W (Rep 9/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 810/1280: GMR_variable_W (Rep 10/10)
+   ✓ Rounds: 13, Final: $0, Bankrupt
+    💾 Intermediate results saved (810 experiments)
+
+📊 Experiment 811/1280: GMW_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 812/1280: GMW_variable_W (Rep 2/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 813/1280: GMW_variable_W (Rep 3/10)
+   ✓ Rounds: 23, Final: $330, Stopped
+
+📊 Experiment 814/1280: GMW_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 815/1280: GMW_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 816/1280: GMW_variable_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 817/1280: GMW_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 818/1280: GMW_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 819/1280: GMW_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 820/1280: GMW_variable_W (Rep 10/10)
+   ✓ Rounds: 22, Final: $570, Stopped
+    💾 Intermediate results saved (820 experiments)
+
+📊 Experiment 821/1280: GMP_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 822/1280: GMP_variable_W (Rep 2/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 823/1280: GMP_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 824/1280: GMP_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 825/1280: GMP_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 826/1280: GMP_variable_W (Rep 6/10)
+   ✓ Rounds: 7, Final: $0, Bankrupt
+
+📊 Experiment 827/1280: GMP_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 828/1280: GMP_variable_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 829/1280: GMP_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 830/1280: GMP_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (830 experiments)
+
+📊 Experiment 831/1280: GRW_variable_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 832/1280: GRW_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 833/1280: GRW_variable_W (Rep 3/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+
+📊 Experiment 834/1280: GRW_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 835/1280: GRW_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 836/1280: GRW_variable_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 837/1280: GRW_variable_W (Rep 7/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+
+📊 Experiment 838/1280: GRW_variable_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 839/1280: GRW_variable_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 840/1280: GRW_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (840 experiments)
+
+📊 Experiment 841/1280: GRP_variable_W (Rep 1/10)
+   ✓ Rounds: 7, Final: $430, Stopped
+
+📊 Experiment 842/1280: GRP_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 843/1280: GRP_variable_W (Rep 3/10)
+   ✓ Rounds: 8, Final: $30, Stopped
+
+📊 Experiment 844/1280: GRP_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 845/1280: GRP_variable_W (Rep 5/10)
+   ✓ Rounds: 14, Final: $630, Stopped
+
+📊 Experiment 846/1280: GRP_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 847/1280: GRP_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 848/1280: GRP_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 849/1280: GRP_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 850/1280: GRP_variable_W (Rep 10/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+    💾 Intermediate results saved (850 experiments)
+
+📊 Experiment 851/1280: GWP_variable_W (Rep 1/10)
+   ✓ Rounds: 5, Final: $470, Stopped
+
+📊 Experiment 852/1280: GWP_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 853/1280: GWP_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 854/1280: GWP_variable_W (Rep 4/10)
+   ✓ Rounds: 7, Final: $0, Bankrupt
+
+📊 Experiment 855/1280: GWP_variable_W (Rep 5/10)
+   ✓ Rounds: 6, Final: $0, Bankrupt
+
+📊 Experiment 856/1280: GWP_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 857/1280: GWP_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 858/1280: GWP_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 859/1280: GWP_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $230, Stopped
+
+📊 Experiment 860/1280: GWP_variable_W (Rep 10/10)
+   ✓ Rounds: 9, Final: $0, Bankrupt
+    💾 Intermediate results saved (860 experiments)
+
+📊 Experiment 861/1280: MRW_variable_W (Rep 1/10)
+   ✓ Rounds: 7, Final: $1330, Stopped
+
+📊 Experiment 862/1280: MRW_variable_W (Rep 2/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 863/1280: MRW_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 864/1280: MRW_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 865/1280: MRW_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 866/1280: MRW_variable_W (Rep 6/10)
+   ✓ Rounds: 8, Final: $30, Stopped
+
+📊 Experiment 867/1280: MRW_variable_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 868/1280: MRW_variable_W (Rep 8/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 869/1280: MRW_variable_W (Rep 9/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 870/1280: MRW_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (870 experiments)
+
+📊 Experiment 871/1280: MRP_variable_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $430, Stopped
+
+📊 Experiment 872/1280: MRP_variable_W (Rep 2/10)Running conditions:  69%|██████▉   | 88/128 [3:01:04<1:15:32, 113.31s/it]Running conditions:  70%|██████▉   | 89/128 [3:03:19<1:18:03, 120.09s/it]Running conditions:  70%|███████   | 90/128 [3:04:51<1:10:33, 111.42s/it]Running conditions:  71%|███████   | 91/128 [3:08:00<1:23:05, 134.73s/it]Running conditions:  72%|███████▏  | 92/128 [3:12:50<1:48:46, 181.29s/it]Running conditions:  73%|███████▎  | 93/128 [3:21:36<2:46:08, 284.81s/it]Running conditions:  73%|███████▎  | 94/128 [3:23:57<2:16:54, 241.61s/it]Running conditions:  74%|███████▍  | 95/128 [3:25:47<1:51:13, 202.22s/it]
+   ✓ Rounds: 2, Final: $100, Stopped
+
+📊 Experiment 873/1280: MRP_variable_W (Rep 3/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 874/1280: MRP_variable_W (Rep 4/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 875/1280: MRP_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 876/1280: MRP_variable_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 877/1280: MRP_variable_W (Rep 7/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 878/1280: MRP_variable_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $130, Stopped
+
+📊 Experiment 879/1280: MRP_variable_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 880/1280: MRP_variable_W (Rep 10/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+    💾 Intermediate results saved (880 experiments)
+
+📊 Experiment 881/1280: MWP_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 882/1280: MWP_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 883/1280: MWP_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 884/1280: MWP_variable_W (Rep 4/10)
+   ✓ Rounds: 13, Final: $0, Bankrupt
+
+📊 Experiment 885/1280: MWP_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 886/1280: MWP_variable_W (Rep 6/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 887/1280: MWP_variable_W (Rep 7/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 888/1280: MWP_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 889/1280: MWP_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 890/1280: MWP_variable_W (Rep 10/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+    💾 Intermediate results saved (890 experiments)
+
+📊 Experiment 891/1280: RWP_variable_W (Rep 1/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 892/1280: RWP_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $230, Stopped
+
+📊 Experiment 893/1280: RWP_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 894/1280: RWP_variable_W (Rep 4/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 895/1280: RWP_variable_W (Rep 5/10)
+   ✓ Rounds: 6, Final: $0, Bankrupt
+
+📊 Experiment 896/1280: RWP_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 897/1280: RWP_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $90, Stopped
+
+📊 Experiment 898/1280: RWP_variable_W (Rep 8/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 899/1280: RWP_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 900/1280: RWP_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $90, Stopped
+    💾 Intermediate results saved (900 experiments)
+
+📊 Experiment 901/1280: GMRW_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 902/1280: GMRW_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 903/1280: GMRW_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 904/1280: GMRW_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 905/1280: GMRW_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 906/1280: GMRW_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 907/1280: GMRW_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 908/1280: GMRW_variable_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 909/1280: GMRW_variable_W (Rep 9/10)
+   ✓ Rounds: 27, Final: $1130, Stopped
+
+📊 Experiment 910/1280: GMRW_variable_W (Rep 10/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+    💾 Intermediate results saved (910 experiments)
+
+📊 Experiment 911/1280: GMRP_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 912/1280: GMRP_variable_W (Rep 2/10)
+   ✓ Rounds: 13, Final: $570, Stopped
+
+📊 Experiment 913/1280: GMRP_variable_W (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 914/1280: GMRP_variable_W (Rep 4/10)
+   ✓ Rounds: 7, Final: $0, Bankrupt
+
+📊 Experiment 915/1280: GMRP_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 916/1280: GMRP_variable_W (Rep 6/10)
+   ✓ Rounds: 22, Final: $0, Bankrupt
+
+📊 Experiment 917/1280: GMRP_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 918/1280: GMRP_variable_W (Rep 8/10)
+   ✓ Rounds: 9, Final: $0, Bankrupt
+
+📊 Experiment 919/1280: GMRP_variable_W (Rep 9/10)
+   ✓ Rounds: 28, Final: $870, Stopped
+
+📊 Experiment 920/1280: GMRP_variable_W (Rep 10/10)
+   ✓ Rounds: 6, Final: $0, Bankrupt
+    💾 Intermediate results saved (920 experiments)
+
+📊 Experiment 921/1280: GMWP_variable_W (Rep 1/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 922/1280: GMWP_variable_W (Rep 2/10)
+   ✓ Rounds: 19, Final: $0, Bankrupt
+
+📊 Experiment 923/1280: GMWP_variable_W (Rep 3/10)
+   ✓ Rounds: 90, Final: $1210, Stopped
+
+📊 Experiment 924/1280: GMWP_variable_W (Rep 4/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 925/1280: GMWP_variable_W (Rep 5/10)
+   ✓ Rounds: 15, Final: $0, Bankrupt
+
+📊 Experiment 926/1280: GMWP_variable_W (Rep 6/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 927/1280: GMWP_variable_W (Rep 7/10)
+   ✓ Rounds: 12, Final: $530, Stopped
+
+📊 Experiment 928/1280: GMWP_variable_W (Rep 8/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+
+📊 Experiment 929/1280: GMWP_variable_W (Rep 9/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 930/1280: GMWP_variable_W (Rep 10/10)
+   ✓ Rounds: 7, Final: $0, Bankrupt
+    💾 Intermediate results saved (930 experiments)
+
+📊 Experiment 931/1280: GRWP_variable_W (Rep 1/10)
+   ✓ Rounds: 13, Final: $0, Bankrupt
+
+📊 Experiment 932/1280: GRWP_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 933/1280: GRWP_variable_W (Rep 3/10)
+   ✓ Rounds: 1, Final: $130, Stopped
+
+📊 Experiment 934/1280: GRWP_variable_W (Rep 4/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 935/1280: GRWP_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 936/1280: GRWP_variable_W (Rep 6/10)
+   ✓ Rounds: 8, Final: $30, Stopped
+
+📊 Experiment 937/1280: GRWP_variable_W (Rep 7/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 938/1280: GRWP_variable_W (Rep 8/10)
+   ✓ Rounds: 9, Final: $0, Bankrupt
+
+📊 Experiment 939/1280: GRWP_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 940/1280: GRWP_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (940 experiments)
+
+📊 Experiment 941/1280: MRWP_variable_W (Rep 1/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 942/1280: MRWP_variable_W (Rep 2/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 943/1280: MRWP_variable_W (Rep 3/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 944/1280: MRWP_variable_W (Rep 4/10)
+   ✓ Rounds: 7, Final: $270, Stopped
+
+📊 Experiment 945/1280: MRWP_variable_W (Rep 5/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 946/1280: MRWP_variable_W (Rep 6/10)
+   ✓ Rounds: 2, Final: $30, Stopped
+
+📊 Experiment 947/1280: MRWP_variable_W (Rep 7/10)
+   ✓ Rounds: 4, Final: $430, Stopped
+
+📊 Experiment 948/1280: MRWP_variable_W (Rep 8/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 949/1280: MRWP_variable_W (Rep 9/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 950/1280: MRWP_variable_W (Rep 10/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+    💾 Intermediate results saved (950 experiments)
+
+📊 Experiment 951/1280: GMRWP_variable_W (Rep 1/10)
+   ✓ Rounds: 14, Final: $930, Stopped
+
+📊 Experiment 952/1280: GMRWP_variable_W (Rep 2/10)
+   ✓ Rounds: 10, Final: $0, Bankrupt
+
+📊 Experiment 953/1280: GMRWP_variable_W (Rep 3/10)
+   ✓ Rounds: 9, Final: $0, Bankrupt
+
+📊 Experiment 954/1280: GMRWP_variable_W (Rep 4/10)
+   ✓ Rounds: 7, Final: $0, Bankrupt
+
+📊 Experiment 955/1280: GMRWP_variable_W (Rep 5/10)
+   ✓ Rounds: 15, Final: $0, Bankrupt
+
+📊 Experiment 956/1280: GMRWP_variable_W (Rep 6/10)
+   ✓ Rounds: 7, Final: $0, BankruptRunning conditions:  75%|███████▌  | 96/128 [3:31:19<2:08:35, 241.10s/it]Running conditions:  76%|███████▌  | 97/128 [3:32:00<1:33:30, 181.00s/it]Running conditions:  77%|███████▋  | 98/128 [3:34:18<1:24:02, 168.07s/it]Running conditions:  77%|███████▋  | 99/128 [3:35:31<1:07:34, 139.80s/it]Running conditions:  78%|███████▊  | 100/128 [3:37:33<1:02:37, 134.20s/it]Running conditions:  79%|███████▉  | 101/128 [3:38:24<49:14, 109.44s/it]  Running conditions:  80%|███████▉  | 102/128 [3:39:15<39:51, 91.96s/it] Running conditions:  80%|████████  | 103/128 [3:42:50<53:36, 128.66s/it]Running conditions:  81%|████████▏ | 104/128 [3:44:28<47:51, 119.66s/it]
+
+📊 Experiment 957/1280: GMRWP_variable_W (Rep 7/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 958/1280: GMRWP_variable_W (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 959/1280: GMRWP_variable_W (Rep 9/10)
+   ✓ Rounds: 40, Final: $0, Bankrupt
+
+📊 Experiment 960/1280: GMRWP_variable_W (Rep 10/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+    💾 Intermediate results saved (960 experiments)
+
+📊 Experiment 961/1280: BASE_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 962/1280: BASE_variable_L (Rep 2/10)
+   ✓ Rounds: 3, Final: $170, Stopped
+
+📊 Experiment 963/1280: BASE_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 964/1280: BASE_variable_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 965/1280: BASE_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 966/1280: BASE_variable_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 967/1280: BASE_variable_L (Rep 7/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 968/1280: BASE_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 969/1280: BASE_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 970/1280: BASE_variable_L (Rep 10/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+    💾 Intermediate results saved (970 experiments)
+
+📊 Experiment 971/1280: G_variable_L (Rep 1/10)
+   ✓ Rounds: 15, Final: $110, Stopped
+
+📊 Experiment 972/1280: G_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 973/1280: G_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 974/1280: G_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 975/1280: G_variable_L (Rep 5/10)
+   ✓ Rounds: 7, Final: $670, Stopped
+
+📊 Experiment 976/1280: G_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 977/1280: G_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 978/1280: G_variable_L (Rep 8/10)
+   ✓ Rounds: 6, Final: $110, Stopped
+
+📊 Experiment 979/1280: G_variable_L (Rep 9/10)
+   ✓ Rounds: 5, Final: $270, Stopped
+
+📊 Experiment 980/1280: G_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (980 experiments)
+
+📊 Experiment 981/1280: M_variable_L (Rep 1/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 982/1280: M_variable_L (Rep 2/10)
+   ✓ Rounds: 7, Final: $970, Stopped
+
+📊 Experiment 983/1280: M_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 984/1280: M_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 985/1280: M_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 986/1280: M_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 987/1280: M_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 988/1280: M_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 989/1280: M_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $270, Stopped
+
+📊 Experiment 990/1280: M_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (990 experiments)
+
+📊 Experiment 991/1280: R_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $270, Stopped
+
+📊 Experiment 992/1280: R_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 993/1280: R_variable_L (Rep 3/10)
+   ✓ Rounds: 6, Final: $170, Stopped
+
+📊 Experiment 994/1280: R_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 995/1280: R_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 996/1280: R_variable_L (Rep 6/10)
+   ✓ Rounds: 17, Final: $680, Stopped
+
+📊 Experiment 997/1280: R_variable_L (Rep 7/10)
+   ✓ Rounds: 3, Final: $170, Stopped
+
+📊 Experiment 998/1280: R_variable_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 999/1280: R_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1000/1280: R_variable_L (Rep 10/10)
+   ✓ Rounds: 4, Final: $70, Stopped
+    💾 Intermediate results saved (1000 experiments)
+
+📊 Experiment 1001/1280: W_variable_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1002/1280: W_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1003/1280: W_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1004/1280: W_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1005/1280: W_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1006/1280: W_variable_L (Rep 6/10)
+   ✓ Rounds: 5, Final: $270, Stopped
+
+📊 Experiment 1007/1280: W_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1008/1280: W_variable_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1009/1280: W_variable_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1010/1280: W_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1010 experiments)
+
+📊 Experiment 1011/1280: P_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1012/1280: P_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1013/1280: P_variable_L (Rep 3/10)
+   ✓ Rounds: 3, Final: $470, Stopped
+
+📊 Experiment 1014/1280: P_variable_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1015/1280: P_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1016/1280: P_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1017/1280: P_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1018/1280: P_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1019/1280: P_variable_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1020/1280: P_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $270, Stopped
+    💾 Intermediate results saved (1020 experiments)
+
+📊 Experiment 1021/1280: GM_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1022/1280: GM_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1023/1280: GM_variable_L (Rep 3/10)
+   ✓ Rounds: 17, Final: $870, Stopped
+
+📊 Experiment 1024/1280: GM_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1025/1280: GM_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1026/1280: GM_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1027/1280: GM_variable_L (Rep 7/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1028/1280: GM_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1029/1280: GM_variable_L (Rep 9/10)
+   ✓ Rounds: 38, Final: $1505, Stopped
+
+📊 Experiment 1030/1280: GM_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1030 experiments)
+
+📊 Experiment 1031/1280: GR_variable_L (Rep 1/10)
+   ✓ Rounds: 18, Final: $0, Bankrupt
+
+📊 Experiment 1032/1280: GR_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1033/1280: GR_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1034/1280: GR_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1035/1280: GR_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1036/1280: GR_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1037/1280: GR_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1038/1280: GR_variable_L (Rep 8/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 1039/1280: GR_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1040/1280: GR_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1040 experiments)
+
+📊 Experiment 1041/1280: GW_variable_L (Rep 1/10)
+   ✓ Rounds: 8, Final: $210, StoppedRunning conditions:  82%|████████▏ | 105/128 [3:46:51<48:27, 126.43s/it]Running conditions:  83%|████████▎ | 106/128 [3:47:32<36:56, 100.77s/it]Running conditions:  84%|████████▎ | 107/128 [3:50:51<45:39, 130.44s/it]Running conditions:  84%|████████▍ | 108/128 [3:51:43<35:36, 106.80s/it]Running conditions:  85%|████████▌ | 109/128 [3:52:40<29:03, 91.79s/it] Running conditions:  86%|████████▌ | 110/128 [3:53:40<24:44, 82.46s/it]Running conditions:  87%|████████▋ | 111/128 [3:54:27<20:20, 71.80s/it]Running conditions:  88%|████████▊ | 112/128 [3:55:45<19:36, 73.52s/it]
+
+📊 Experiment 1042/1280: GW_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1043/1280: GW_variable_L (Rep 3/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1044/1280: GW_variable_L (Rep 4/10)
+   ✓ Rounds: 8, Final: $0, Bankrupt
+
+📊 Experiment 1045/1280: GW_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1046/1280: GW_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1047/1280: GW_variable_L (Rep 7/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1048/1280: GW_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1049/1280: GW_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1050/1280: GW_variable_L (Rep 10/10)
+   ✓ Rounds: 12, Final: $1070, Stopped
+    💾 Intermediate results saved (1050 experiments)
+
+📊 Experiment 1051/1280: GP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1052/1280: GP_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1053/1280: GP_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1054/1280: GP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1055/1280: GP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1056/1280: GP_variable_L (Rep 6/10)
+   ✓ Rounds: 3, Final: $170, Stopped
+
+📊 Experiment 1057/1280: GP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1058/1280: GP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1059/1280: GP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1060/1280: GP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1060 experiments)
+
+📊 Experiment 1061/1280: MR_variable_L (Rep 1/10)
+   ✓ Rounds: 9, Final: $470, Stopped
+
+📊 Experiment 1062/1280: MR_variable_L (Rep 2/10)
+   ✓ Rounds: 17, Final: $665, Stopped
+
+📊 Experiment 1063/1280: MR_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1064/1280: MR_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1065/1280: MR_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1066/1280: MR_variable_L (Rep 6/10)
+   ✓ Rounds: 12, Final: $410, Stopped
+
+📊 Experiment 1067/1280: MR_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1068/1280: MR_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1069/1280: MR_variable_L (Rep 9/10)
+   ✓ Rounds: 13, Final: $405, Stopped
+
+📊 Experiment 1070/1280: MR_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1070 experiments)
+
+📊 Experiment 1071/1280: MW_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1072/1280: MW_variable_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1073/1280: MW_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1074/1280: MW_variable_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1075/1280: MW_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $270, Stopped
+
+📊 Experiment 1076/1280: MW_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1077/1280: MW_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1078/1280: MW_variable_L (Rep 8/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1079/1280: MW_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1080/1280: MW_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1080 experiments)
+
+📊 Experiment 1081/1280: MP_variable_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1082/1280: MP_variable_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1083/1280: MP_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1084/1280: MP_variable_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1085/1280: MP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1086/1280: MP_variable_L (Rep 6/10)
+   ✓ Rounds: 4, Final: $0, Bankrupt
+
+📊 Experiment 1087/1280: MP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1088/1280: MP_variable_L (Rep 8/10)
+   ✓ Rounds: 3, Final: $170, Stopped
+
+📊 Experiment 1089/1280: MP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1090/1280: MP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $270, Stopped
+    💾 Intermediate results saved (1090 experiments)
+
+📊 Experiment 1091/1280: RW_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1092/1280: RW_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1093/1280: RW_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1094/1280: RW_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1095/1280: RW_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1096/1280: RW_variable_L (Rep 6/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1097/1280: RW_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1098/1280: RW_variable_L (Rep 8/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1099/1280: RW_variable_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1100/1280: RW_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1100 experiments)
+
+📊 Experiment 1101/1280: RP_variable_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1102/1280: RP_variable_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1103/1280: RP_variable_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1104/1280: RP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1105/1280: RP_variable_L (Rep 5/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1106/1280: RP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1107/1280: RP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1108/1280: RP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1109/1280: RP_variable_L (Rep 9/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1110/1280: RP_variable_L (Rep 10/10)
+   ✓ Rounds: 4, Final: $70, Stopped
+    💾 Intermediate results saved (1110 experiments)
+
+📊 Experiment 1111/1280: WP_variable_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1112/1280: WP_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1113/1280: WP_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1114/1280: WP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1115/1280: WP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1116/1280: WP_variable_L (Rep 6/10)
+   ✓ Rounds: 5, Final: $570, Stopped
+
+📊 Experiment 1117/1280: WP_variable_L (Rep 7/10)
+   ✓ Rounds: 6, Final: $170, Stopped
+
+📊 Experiment 1118/1280: WP_variable_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1119/1280: WP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $270, Stopped
+
+📊 Experiment 1120/1280: WP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1120 experiments)
+
+📊 Experiment 1121/1280: GMR_variable_L (Rep 1/10)
+   ✓ Rounds: 4, Final: $70, Stopped
+
+📊 Experiment 1122/1280: GMR_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $270, Stopped
+
+📊 Experiment 1123/1280: GMR_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1124/1280: GMR_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1125/1280: GMR_variable_L (Rep 5/10)
+   ✓ Rounds: 11, Final: $270, Stopped
+
+📊 Experiment 1126/1280: GMR_variable_L (Rep 6/10)
+   ✓ Rounds: 5, Final: $0, BankruptRunning conditions:  88%|████████▊ | 113/128 [3:59:55<31:39, 126.60s/it]Running conditions:  89%|████████▉ | 114/128 [4:02:49<32:51, 140.82s/it]Running conditions:  90%|████████▉ | 115/128 [4:08:18<42:42, 197.10s/it]Running conditions:  91%|█████████ | 116/128 [4:09:20<31:21, 156.79s/it]Running conditions:  91%|█████████▏| 117/128 [4:10:51<25:05, 136.90s/it]Running conditions:  92%|█████████▏| 118/128 [4:12:24<20:37, 123.74s/it]Running conditions:  93%|█████████▎| 119/128 [4:13:39<16:21, 109.11s/it]Running conditions:  94%|█████████▍| 120/128 [4:14:58<13:20, 100.12s/it]
+
+📊 Experiment 1127/1280: GMR_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1128/1280: GMR_variable_L (Rep 8/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1129/1280: GMR_variable_L (Rep 9/10)
+   ✓ Rounds: 27, Final: $0, Bankrupt
+
+📊 Experiment 1130/1280: GMR_variable_L (Rep 10/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+    💾 Intermediate results saved (1130 experiments)
+
+📊 Experiment 1131/1280: GMW_variable_L (Rep 1/10)
+   ✓ Rounds: 13, Final: $70, Stopped
+
+📊 Experiment 1132/1280: GMW_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1133/1280: GMW_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1134/1280: GMW_variable_L (Rep 4/10)
+   ✓ Rounds: 14, Final: $870, Stopped
+
+📊 Experiment 1135/1280: GMW_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1136/1280: GMW_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1137/1280: GMW_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1138/1280: GMW_variable_L (Rep 8/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1139/1280: GMW_variable_L (Rep 9/10)
+   ✓ Rounds: 11, Final: $0, Bankrupt
+
+📊 Experiment 1140/1280: GMW_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1140 experiments)
+
+📊 Experiment 1141/1280: GMP_variable_L (Rep 1/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1142/1280: GMP_variable_L (Rep 2/10)
+   ✓ Rounds: 54, Final: $1070, Stopped
+
+📊 Experiment 1143/1280: GMP_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1144/1280: GMP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1145/1280: GMP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1146/1280: GMP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1147/1280: GMP_variable_L (Rep 7/10)
+   ✓ Rounds: 20, Final: $0, Bankrupt
+
+📊 Experiment 1148/1280: GMP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1149/1280: GMP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1150/1280: GMP_variable_L (Rep 10/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+    💾 Intermediate results saved (1150 experiments)
+
+📊 Experiment 1151/1280: GRW_variable_L (Rep 1/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1152/1280: GRW_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1153/1280: GRW_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1154/1280: GRW_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1155/1280: GRW_variable_L (Rep 5/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1156/1280: GRW_variable_L (Rep 6/10)
+   ✓ Rounds: 4, Final: $670, Stopped
+
+📊 Experiment 1157/1280: GRW_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1158/1280: GRW_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1159/1280: GRW_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1160/1280: GRW_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1160 experiments)
+
+📊 Experiment 1161/1280: GRP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1162/1280: GRP_variable_L (Rep 2/10)
+   ✓ Rounds: 4, Final: $210, Stopped
+
+📊 Experiment 1163/1280: GRP_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1164/1280: GRP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1165/1280: GRP_variable_L (Rep 5/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1166/1280: GRP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1167/1280: GRP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1168/1280: GRP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1169/1280: GRP_variable_L (Rep 9/10)
+   ✓ Rounds: 12, Final: $770, Stopped
+
+📊 Experiment 1170/1280: GRP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1170 experiments)
+
+📊 Experiment 1171/1280: GWP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1172/1280: GWP_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1173/1280: GWP_variable_L (Rep 3/10)
+   ✓ Rounds: 8, Final: $0, Bankrupt
+
+📊 Experiment 1174/1280: GWP_variable_L (Rep 4/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1175/1280: GWP_variable_L (Rep 5/10)
+   ✓ Rounds: 8, Final: $210, Stopped
+
+📊 Experiment 1176/1280: GWP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1177/1280: GWP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1178/1280: GWP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1179/1280: GWP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1180/1280: GWP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1180 experiments)
+
+📊 Experiment 1181/1280: MRW_variable_L (Rep 1/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1182/1280: MRW_variable_L (Rep 2/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1183/1280: MRW_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1184/1280: MRW_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1185/1280: MRW_variable_L (Rep 5/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1186/1280: MRW_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1187/1280: MRW_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1188/1280: MRW_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1189/1280: MRW_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1190/1280: MRW_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1190 experiments)
+
+📊 Experiment 1191/1280: MRP_variable_L (Rep 1/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1192/1280: MRP_variable_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1193/1280: MRP_variable_L (Rep 3/10)
+   ✓ Rounds: 6, Final: $120, Stopped
+
+📊 Experiment 1194/1280: MRP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1195/1280: MRP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1196/1280: MRP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1197/1280: MRP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1198/1280: MRP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1199/1280: MRP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1200/1280: MRP_variable_L (Rep 10/10)
+   ✓ Rounds: 11, Final: $0, Bankrupt
+    💾 Intermediate results saved (1200 experiments)
+
+📊 Experiment 1201/1280: MWP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1202/1280: MWP_variable_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1203/1280: MWP_variable_L (Rep 3/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1204/1280: MWP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1205/1280: MWP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1206/1280: MWP_variable_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1207/1280: MWP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1208/1280: MWP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1209/1280: MWP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1210/1280: MWP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, BankruptRunning conditions:  95%|█████████▍| 121/128 [4:15:33<09:23, 80.54s/it] Running conditions:  95%|█████████▌| 122/128 [4:16:46<07:50, 78.42s/it]Running conditions:  96%|█████████▌| 123/128 [4:23:08<14:06, 169.38s/it]Running conditions:  97%|█████████▋| 124/128 [4:24:37<09:40, 145.23s/it]Running conditions:  98%|█████████▊| 125/128 [4:29:01<09:03, 181.03s/it]Running conditions:  98%|█████████▊| 126/128 [4:32:57<06:34, 197.26s/it]Running conditions:  99%|█████████▉| 127/128 [4:34:17<02:42, 162.13s/it]Running conditions: 100%|██████████| 128/128 [4:34:53<00:00, 124.44s/it]Running conditions: 100%|██████████| 128/128 [4:34:53<00:00, 128.86s/it]
+
+    💾 Intermediate results saved (1210 experiments)
+
+📊 Experiment 1211/1280: RWP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1212/1280: RWP_variable_L (Rep 2/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1213/1280: RWP_variable_L (Rep 3/10)
+   ✓ Rounds: 4, Final: $70, Stopped
+
+📊 Experiment 1214/1280: RWP_variable_L (Rep 4/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1215/1280: RWP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1216/1280: RWP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1217/1280: RWP_variable_L (Rep 7/10)
+   ✓ Rounds: 3, Final: $170, Stopped
+
+📊 Experiment 1218/1280: RWP_variable_L (Rep 8/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1219/1280: RWP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1220/1280: RWP_variable_L (Rep 10/10)
+   ✓ Rounds: 6, Final: $170, Stopped
+    💾 Intermediate results saved (1220 experiments)
+
+📊 Experiment 1221/1280: GMRW_variable_L (Rep 1/10)
+   ✓ Rounds: 56, Final: $0, Bankrupt
+
+📊 Experiment 1222/1280: GMRW_variable_L (Rep 2/10)
+   ✓ Rounds: 32, Final: $0, Bankrupt
+
+📊 Experiment 1223/1280: GMRW_variable_L (Rep 3/10)
+   ✓ Rounds: 10, Final: $370, Stopped
+
+📊 Experiment 1224/1280: GMRW_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1225/1280: GMRW_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1226/1280: GMRW_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1227/1280: GMRW_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1228/1280: GMRW_variable_L (Rep 8/10)
+   ✓ Rounds: 14, Final: $870, Stopped
+
+📊 Experiment 1229/1280: GMRW_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1230/1280: GMRW_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1230 experiments)
+
+📊 Experiment 1231/1280: GMRP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1232/1280: GMRP_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1233/1280: GMRP_variable_L (Rep 3/10)
+   ✓ Rounds: 3, Final: $0, Bankrupt
+
+📊 Experiment 1234/1280: GMRP_variable_L (Rep 4/10)
+   ✓ Rounds: 16, Final: $670, Stopped
+
+📊 Experiment 1235/1280: GMRP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1236/1280: GMRP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1237/1280: GMRP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1238/1280: GMRP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1239/1280: GMRP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1240/1280: GMRP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1240 experiments)
+
+📊 Experiment 1241/1280: GMWP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1242/1280: GMWP_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1243/1280: GMWP_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1244/1280: GMWP_variable_L (Rep 4/10)
+   ✓ Rounds: 11, Final: $0, Bankrupt
+
+📊 Experiment 1245/1280: GMWP_variable_L (Rep 5/10)
+   ✓ Rounds: 8, Final: $0, Bankrupt
+
+📊 Experiment 1246/1280: GMWP_variable_L (Rep 6/10)
+   ✓ Rounds: 1, Final: $90, Stopped
+
+📊 Experiment 1247/1280: GMWP_variable_L (Rep 7/10)
+   ✓ Rounds: 14, Final: $0, Bankrupt
+
+📊 Experiment 1248/1280: GMWP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1249/1280: GMWP_variable_L (Rep 9/10)
+   ✓ Rounds: 48, Final: $410, Stopped
+
+📊 Experiment 1250/1280: GMWP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1250 experiments)
+
+📊 Experiment 1251/1280: GRWP_variable_L (Rep 1/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1252/1280: GRWP_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1253/1280: GRWP_variable_L (Rep 3/10)
+   ✓ Rounds: 12, Final: $1070, Stopped
+
+📊 Experiment 1254/1280: GRWP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1255/1280: GRWP_variable_L (Rep 5/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1256/1280: GRWP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $270, Stopped
+
+📊 Experiment 1257/1280: GRWP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1258/1280: GRWP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1259/1280: GRWP_variable_L (Rep 9/10)
+   ✓ Rounds: 39, Final: $261, Stopped
+
+📊 Experiment 1260/1280: GRWP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1260 experiments)
+
+📊 Experiment 1261/1280: MRWP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1262/1280: MRWP_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1263/1280: MRWP_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1264/1280: MRWP_variable_L (Rep 4/10)
+   ✓ Rounds: 4, Final: $70, Stopped
+
+📊 Experiment 1265/1280: MRWP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1266/1280: MRWP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1267/1280: MRWP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1268/1280: MRWP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1269/1280: MRWP_variable_L (Rep 9/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+
+📊 Experiment 1270/1280: MRWP_variable_L (Rep 10/10)
+   ✓ Rounds: 5, Final: $0, Bankrupt
+    💾 Intermediate results saved (1270 experiments)
+
+📊 Experiment 1271/1280: GMRWP_variable_L (Rep 1/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1272/1280: GMRWP_variable_L (Rep 2/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1273/1280: GMRWP_variable_L (Rep 3/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1274/1280: GMRWP_variable_L (Rep 4/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1275/1280: GMRWP_variable_L (Rep 5/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1276/1280: GMRWP_variable_L (Rep 6/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1277/1280: GMRWP_variable_L (Rep 7/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1278/1280: GMRWP_variable_L (Rep 8/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1279/1280: GMRWP_variable_L (Rep 9/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+
+📊 Experiment 1280/1280: GMRWP_variable_L (Rep 10/10)
+   ✓ Rounds: 2, Final: $0, Bankrupt
+    💾 Intermediate results saved (1280 experiments)
+
+================================================================================
+GPT EXPERIMENT ANALYSIS
+================================================================================
+Total games: 1280
+Bankruptcies: 428 (33.4%)
+Voluntary stops: 852 (66.6%)
+Average rounds per game: 3.9
+
+✅ Final results saved to: /data/llm_addiction/gpt_results/gpt_multiround_complete_20250813_063327.json

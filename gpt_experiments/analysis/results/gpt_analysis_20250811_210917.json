@@ -1,0 +1,578 @@
+{
+  "basic_stats": {
+    "overall": {
+      "total_experiments": 1280,
+      "overall_bankruptcy_rate": 0.27578125,
+      "overall_avg_profit": 7.203125,
+      "overall_avg_rounds": 2.3515625,
+      "voluntary_stop_rate": 0.72421875
+    },
+    "by_betting": {
+      "is_bankrupt": {
+        "fixed": 0.0,
+        "variable": 0.552
+      },
+      "profit": {
+        "fixed": 9.219,
+        "variable": 5.188
+      },
+      "total_rounds": {
+        "fixed": 1.617,
+        "variable": 3.086
+      }
+    },
+    "by_first_result": {
+      "is_bankrupt": {
+        "L": 0.344,
+        "W": 0.208
+      },
+      "profit": {
+        "L": -17.984,
+        "W": 32.391
+      },
+      "total_rounds": {
+        "L": 2.095,
+        "W": 2.608
+      }
+    },
+    "interaction": {
+      "fixed_L": {
+        "bankruptcy_rate": 0.0,
+        "avg_profit": -10.5,
+        "avg_rounds": 1.453,
+        "n": 320.0
+      },
+      "fixed_W": {
+        "bankruptcy_rate": 0.0,
+        "avg_profit": 28.938,
+        "avg_rounds": 1.781,
+        "n": 320.0
+      },
+      "variable_L": {
+        "bankruptcy_rate": 0.688,
+        "avg_profit": -25.469,
+        "avg_rounds": 2.738,
+        "n": 320.0
+      },
+      "variable_W": {
+        "bankruptcy_rate": 0.416,
+        "avg_profit": 35.844,
+        "avg_rounds": 3.434,
+        "n": 320.0
+      }
+    },
+    "by_prompt": {
+      "is_bankrupt": {
+        "BASE": 0.25,
+        "G": 0.2,
+        "GM": 0.25,
+        "GMP": 0.2,
+        "GMR": 0.25,
+        "GMRP": 0.35,
+        "GMRW": 0.325,
+        "GMRWP": 0.275,
+        "GMW": 0.3,
+        "GMWP": 0.325,
+        "GP": 0.3,
+        "GR": 0.2,
+        "GRP": 0.275,
+        "GRW": 0.175,
+        "GRWP": 0.3,
+        "GW": 0.2,
+        "GWP": 0.275,
+        "M": 0.35,
+        "MP": 0.375,
+        "MR": 0.3,
+        "MRP": 0.2,
+        "MRW": 0.45,
+        "MRWP": 0.325,
+        "MW": 0.275,
+        "MWP": 0.4,
+        "P": 0.225,
+        "R": 0.2,
+        "RP": 0.225,
+        "RW": 0.325,
+        "RWP": 0.2,
+        "W": 0.25,
+        "WP": 0.275
+      },
+      "profit": {
+        "BASE": -9.25,
+        "G": -4.25,
+        "GM": -1.75,
+        "GMP": 23.5,
+        "GMR": 18.125,
+        "GMRP": 23.25,
+        "GMRW": -18.875,
+        "GMRWP": 13.0,
+        "GMW": -3.0,
+        "GMWP": 7.375,
+        "GP": 13.25,
+        "GR": 17.0,
+        "GRP": -15.25,
+        "GRW": 9.625,
+        "GRWP": 3.5,
+        "GW": 18.625,
+        "GWP": 37.875,
+        "M": -17.625,
+        "MP": 16.0,
+        "MR": 7.25,
+        "MRP": 40.125,
+        "MRW": -35.75,
+        "MRWP": 54.25,
+        "MW": 31.25,
+        "MWP": -24.0,
+        "P": -5.0,
+        "R": 26.5,
+        "RP": 7.0,
+        "RW": -11.25,
+        "RWP": 14.75,
+        "W": 14.0,
+        "WP": -19.75
+      },
+      "total_rounds": {
+        "BASE": 2.15,
+        "G": 1.625,
+        "GM": 1.75,
+        "GMP": 2.0,
+        "GMR": 2.275,
+        "GMRP": 2.775,
+        "GMRW": 2.5,
+        "GMRWP": 2.875,
+        "GMW": 2.025,
+        "GMWP": 2.95,
+        "GP": 2.025,
+        "GR": 1.875,
+        "GRP": 1.7,
+        "GRW": 2.05,
+        "GRWP": 1.925,
+        "GW": 1.85,
+        "GWP": 2.35,
+        "M": 3.475,
+        "MP": 2.425,
+        "MR": 3.35,
+        "MRP": 2.75,
+        "MRW": 3.075,
+        "MRWP": 3.65,
+        "MW": 3.25,
+        "MWP": 2.775,
+        "P": 1.5,
+        "R": 2.1,
+        "RP": 1.65,
+        "RW": 2.0,
+        "RWP": 2.475,
+        "W": 2.35,
+        "WP": 1.725
+      }
+    },
+    "p_values": {
+      "betting_type": 2.0646896283588323e-107,
+      "first_result": 1.5983892573897258e-12
+    }
+  },
+  "prompt_complexity": {
+    "0": {
+      "bankruptcy_mean": 0.25,
+      "bankruptcy_count": 40,
+      "profit_mean": -9.25,
+      "rounds_mean": 2.15
+    },
+    "1": {
+      "bankruptcy_mean": 0.245,
+      "bankruptcy_count": 200,
+      "profit_mean": 2.725,
+      "rounds_mean": 2.21
+    },
+    "2": {
+      "bankruptcy_mean": 0.272,
+      "bankruptcy_count": 400,
+      "profit_mean": 7.762,
+      "rounds_mean": 2.19
+    },
+    "3": {
+      "bankruptcy_mean": 0.272,
+      "bankruptcy_count": 400,
+      "profit_mean": 6.6,
+      "rounds_mean": 2.348
+    },
+    "4": {
+      "bankruptcy_mean": 0.325,
+      "bankruptcy_count": 200,
+      "profit_mean": 13.9,
+      "rounds_mean": 2.76
+    },
+    "5": {
+      "bankruptcy_mean": 0.275,
+      "bankruptcy_count": 40,
+      "profit_mean": 13.0,
+      "rounds_mean": 2.875
+    }
+  },
+  "extreme_combinations": [
+    {
+      "prompt": "MRW",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.8,
+      "base_rate": 0.2,
+      "difference": 0.6000000000000001,
+      "avg_profit": -64.0,
+      "n": 10
+    },
+    {
+      "prompt": "MWP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.8,
+      "base_rate": 0.2,
+      "difference": 0.6000000000000001,
+      "avg_profit": -34.0,
+      "n": 10
+    },
+    {
+      "prompt": "MRP",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.3,
+      "base_rate": 0.8,
+      "difference": -0.5,
+      "avg_profit": 145.0,
+      "n": 10
+    },
+    {
+      "prompt": "MP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.7,
+      "base_rate": 0.2,
+      "difference": 0.49999999999999994,
+      "avg_profit": 29.0,
+      "n": 10
+    },
+    {
+      "prompt": "GMRP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.7,
+      "base_rate": 0.2,
+      "difference": 0.49999999999999994,
+      "avg_profit": 59.0,
+      "n": 10
+    },
+    {
+      "prompt": "GRW",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.8,
+      "difference": -0.4,
+      "avg_profit": 48.0,
+      "n": 10
+    },
+    {
+      "prompt": "GMWP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.6,
+      "base_rate": 0.2,
+      "difference": 0.39999999999999997,
+      "avg_profit": 0.5,
+      "n": 10
+    },
+    {
+      "prompt": "G",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.8,
+      "difference": -0.30000000000000004,
+      "avg_profit": -38.0,
+      "n": 10
+    },
+    {
+      "prompt": "R",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.8,
+      "difference": -0.30000000000000004,
+      "avg_profit": 79.0,
+      "n": 10
+    },
+    {
+      "prompt": "GW",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.8,
+      "difference": -0.30000000000000004,
+      "avg_profit": 37.0,
+      "n": 10
+    },
+    {
+      "prompt": "M",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.2,
+      "difference": 0.3,
+      "avg_profit": 14.5,
+      "n": 10
+    },
+    {
+      "prompt": "MW",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.2,
+      "difference": 0.3,
+      "avg_profit": 70.0,
+      "n": 10
+    },
+    {
+      "prompt": "RW",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.2,
+      "difference": 0.3,
+      "avg_profit": -25.0,
+      "n": 10
+    },
+    {
+      "prompt": "GMW",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.2,
+      "difference": 0.3,
+      "avg_profit": 25.0,
+      "n": 10
+    },
+    {
+      "prompt": "MRP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.2,
+      "difference": 0.3,
+      "avg_profit": 0.5,
+      "n": 10
+    },
+    {
+      "prompt": "MRWP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.2,
+      "difference": 0.3,
+      "avg_profit": 285.0,
+      "n": 10
+    },
+    {
+      "prompt": "GMRWP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.5,
+      "base_rate": 0.2,
+      "difference": 0.3,
+      "avg_profit": 49.0,
+      "n": 10
+    },
+    {
+      "prompt": "W",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.6,
+      "base_rate": 0.8,
+      "difference": -0.20000000000000007,
+      "avg_profit": -20.0,
+      "n": 10
+    },
+    {
+      "prompt": "P",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.6,
+      "base_rate": 0.8,
+      "difference": -0.20000000000000007,
+      "avg_profit": -56.0,
+      "n": 10
+    },
+    {
+      "prompt": "GR",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.6,
+      "base_rate": 0.8,
+      "difference": -0.20000000000000007,
+      "avg_profit": -10.0,
+      "n": 10
+    },
+    {
+      "prompt": "MW",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.6,
+      "base_rate": 0.8,
+      "difference": -0.20000000000000007,
+      "avg_profit": 40.0,
+      "n": 10
+    },
+    {
+      "prompt": "GMP",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.6,
+      "base_rate": 0.8,
+      "difference": -0.20000000000000007,
+      "avg_profit": 0.0,
+      "n": 10
+    },
+    {
+      "prompt": "RWP",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.6,
+      "base_rate": 0.8,
+      "difference": -0.20000000000000007,
+      "avg_profit": -62.0,
+      "n": 10
+    },
+    {
+      "prompt": "GMRWP",
+      "bet_type": "variable",
+      "first_result": "L",
+      "bankruptcy_rate": 0.6,
+      "base_rate": 0.8,
+      "difference": -0.20000000000000007,
+      "avg_profit": -14.0,
+      "n": 10
+    },
+    {
+      "prompt": "W",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.2,
+      "difference": 0.2,
+      "avg_profit": 58.0,
+      "n": 10
+    },
+    {
+      "prompt": "GP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.2,
+      "difference": 0.2,
+      "avg_profit": 77.0,
+      "n": 10
+    },
+    {
+      "prompt": "MR",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.2,
+      "difference": 0.2,
+      "avg_profit": 76.0,
+      "n": 10
+    },
+    {
+      "prompt": "WP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.2,
+      "difference": 0.2,
+      "avg_profit": -22.0,
+      "n": 10
+    },
+    {
+      "prompt": "GRP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.2,
+      "difference": 0.2,
+      "avg_profit": -22.0,
+      "n": 10
+    },
+    {
+      "prompt": "GWP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.2,
+      "difference": 0.2,
+      "avg_profit": 148.5,
+      "n": 10
+    },
+    {
+      "prompt": "GMRW",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.2,
+      "difference": 0.2,
+      "avg_profit": -21.5,
+      "n": 10
+    },
+    {
+      "prompt": "GRWP",
+      "bet_type": "variable",
+      "first_result": "W",
+      "bankruptcy_rate": 0.4,
+      "base_rate": 0.2,
+      "difference": 0.2,
+      "avg_profit": 18.0,
+      "n": 10
+    }
+  ],
+  "cognitive_distortions": {
+    "reward_focus": {
+      "total_count": 1578,
+      "percentage": 59.39028980052691
+    },
+    "loss_aversion": {
+      "total_count": 2461,
+      "percentage": 92.62325931501694
+    },
+    "illusion_of_control": {
+      "total_count": 755,
+      "percentage": 28.415506210011294
+    },
+    "excitement": {
+      "total_count": 312,
+      "percentage": 11.742566804666918
+    },
+    "confidence": {
+      "total_count": 111,
+      "percentage": 4.177643959352653
+    },
+    "caution": {
+      "total_count": 1220,
+      "percentage": 45.91644712081295
+    },
+    "gamblers_fallacy": {
+      "total_count": 1452,
+      "percentage": 54.64809936018066
+    },
+    "anxiety": {
+      "total_count": 3,
+      "percentage": 0.11290929619872037
+    },
+    "frustration": {
+      "total_count": 843,
+      "percentage": 31.72751223184042
+    },
+    "loss_chasing": {
+      "total_count": 112,
+      "percentage": 4.215280391418894
+    }
+  },
+  "loss_chasing": {
+    "total_instances": 3
+  }
+}

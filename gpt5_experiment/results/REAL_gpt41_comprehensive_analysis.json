@@ -1,0 +1,280 @@
+{
+  "timestamp": "2025-09-14",
+  "total_experiments": 3200,
+  "bet_type_stats": {
+    "fixed": {
+      "N": 1600,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 26.125,
+      "avg_rounds": 2.55625,
+      "avg_bet": 25.5625,
+      "avg_net_profit": -1.6
+    },
+    "variable": {
+      "N": 1600,
+      "bankruptcy_rate": 6.3125,
+      "immediate_stop_rate": 11.875,
+      "avg_rounds": 7.604375,
+      "avg_bet": 82.295625,
+      "avg_net_profit": -7.41
+    }
+  },
+  "prompt_results": {
+    "BASE": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 43.0,
+      "avg_rounds": 0.72,
+      "avg_bet": 5.35,
+      "avg_net_profit": -1.15
+    },
+    "G": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 0.0,
+      "avg_rounds": 5.14,
+      "avg_bet": 37.9,
+      "avg_net_profit": -3.25
+    },
+    "M": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 40.0,
+      "avg_rounds": 1.48,
+      "avg_bet": 13.95,
+      "avg_net_profit": -2.4
+    },
+    "R": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 25.0,
+      "avg_rounds": 1.29,
+      "avg_bet": 9.1,
+      "avg_net_profit": 0.2
+    },
+    "W": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 66.0,
+      "avg_rounds": 0.6,
+      "avg_bet": 4.4,
+      "avg_net_profit": 0.55
+    },
+    "P": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 86.0,
+      "avg_rounds": 0.19,
+      "avg_bet": 1.05,
+      "avg_net_profit": -0.15
+    },
+    "GM": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 1.0,
+      "avg_rounds": 9.08,
+      "avg_bet": 78.25,
+      "avg_net_profit": -7.24
+    },
+    "GR": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 1.0,
+      "avg_rounds": 5.97,
+      "avg_bet": 43.3,
+      "avg_net_profit": -4.15
+    },
+    "GW": {
+      "N": 100,
+      "bankruptcy_rate": 3.0,
+      "immediate_stop_rate": 0.0,
+      "avg_rounds": 10.75,
+      "avg_bet": 94.54,
+      "avg_net_profit": -2.35
+    },
+    "GP": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 4.0,
+      "avg_rounds": 4.32,
+      "avg_bet": 31.48,
+      "avg_net_profit": -2.08
+    },
+    "MR": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 4.0,
+      "avg_rounds": 2.48,
+      "avg_bet": 23.4,
+      "avg_net_profit": -0.6
+    },
+    "MW": {
+      "N": 100,
+      "bankruptcy_rate": 1.0,
+      "immediate_stop_rate": 37.0,
+      "avg_rounds": 2.22,
+      "avg_bet": 34.9,
+      "avg_net_profit": -2.2
+    },
+    "MP": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 60.0,
+      "avg_rounds": 0.58,
+      "avg_bet": 5.1,
+      "avg_net_profit": 1.65
+    },
+    "RW": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 32.0,
+      "avg_rounds": 1.41,
+      "avg_bet": 10.0,
+      "avg_net_profit": -0.7
+    },
+    "PR": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 44.0,
+      "avg_rounds": 1.12,
+      "avg_bet": 7.2,
+      "avg_net_profit": -0.6
+    },
+    "PW": {
+      "N": 100,
+      "bankruptcy_rate": 9.0,
+      "immediate_stop_rate": 21.0,
+      "avg_rounds": 2.78,
+      "avg_bet": 43.68,
+      "avg_net_profit": -9.63
+    },
+    "GMR": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 0.0,
+      "avg_rounds": 8.11,
+      "avg_bet": 66.61,
+      "avg_net_profit": -12.1
+    },
+    "GMW": {
+      "N": 100,
+      "bankruptcy_rate": 12.0,
+      "immediate_stop_rate": 0.0,
+      "avg_rounds": 16.14,
+      "avg_bet": 201.29,
+      "avg_net_profit": -11.66
+    },
+    "GMP": {
+      "N": 100,
+      "bankruptcy_rate": 2.0,
+      "immediate_stop_rate": 6.0,
+      "avg_rounds": 6.26,
+      "avg_bet": 53.55,
+      "avg_net_profit": -5.46
+    },
+    "GRW": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 0.0,
+      "avg_rounds": 9.51,
+      "avg_bet": 79.07,
+      "avg_net_profit": -2.87
+    },
+    "GPR": {
+      "N": 100,
+      "bankruptcy_rate": 1.0,
+      "immediate_stop_rate": 1.0,
+      "avg_rounds": 4.95,
+      "avg_bet": 34.8,
+      "avg_net_profit": -2.85
+    },
+    "GPW": {
+      "N": 100,
+      "bankruptcy_rate": 1.0,
+      "immediate_stop_rate": 12.0,
+      "avg_rounds": 4.68,
+      "avg_bet": 47.17,
+      "avg_net_profit": -2.02
+    },
+    "MRW": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 2.0,
+      "avg_rounds": 4.77,
+      "avg_bet": 54.05,
+      "avg_net_profit": -4.1
+    },
+    "MPR": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 31.0,
+      "avg_rounds": 1.66,
+      "avg_bet": 14.4,
+      "avg_net_profit": 2.25
+    },
+    "MPW": {
+      "N": 100,
+      "bankruptcy_rate": 32.0,
+      "immediate_stop_rate": 30.0,
+      "avg_rounds": 2.03,
+      "avg_bet": 113.0,
+      "avg_net_profit": -13.7
+    },
+    "PRW": {
+      "N": 100,
+      "bankruptcy_rate": 1.0,
+      "immediate_stop_rate": 19.0,
+      "avg_rounds": 2.44,
+      "avg_bet": 31.05,
+      "avg_net_profit": -4.05
+    },
+    "GMRW": {
+      "N": 100,
+      "bankruptcy_rate": 7.000000000000001,
+      "immediate_stop_rate": 0.0,
+      "avg_rounds": 17.63,
+      "avg_bet": 189.69,
+      "avg_net_profit": -21.69
+    },
+    "GMPR": {
+      "N": 100,
+      "bankruptcy_rate": 0.0,
+      "immediate_stop_rate": 2.0,
+      "avg_rounds": 7.92,
+      "avg_bet": 62.56,
+      "avg_net_profit": -9.25
+    },
+    "GMPW": {
+      "N": 100,
+      "bankruptcy_rate": 5.0,
+      "immediate_stop_rate": 8.0,
+      "avg_rounds": 6.99,
+      "avg_bet": 92.79,
+      "avg_net_profit": -7.95
+    },
+    "GPRW": {
+      "N": 100,
+      "bankruptcy_rate": 2.0,
+      "immediate_stop_rate": 6.0,
+      "avg_rounds": 7.43,
+      "avg_bet": 61.66,
+      "avg_net_profit": -2.92
+    },
+    "MPRW": {
+      "N": 100,
+      "bankruptcy_rate": 12.0,
+      "immediate_stop_rate": 22.0,
+      "avg_rounds": 2.56,
+      "avg_bet": 65.81,
+      "avg_net_profit": 1.99
+    },
+    "GMPRW": {
+      "N": 100,
+      "bankruptcy_rate": 13.0,
+      "immediate_stop_rate": 5.0,
+      "avg_rounds": 9.36,
+      "avg_bet": 114.63,
+      "avg_net_profit": -13.68
+    }
+  }
+}

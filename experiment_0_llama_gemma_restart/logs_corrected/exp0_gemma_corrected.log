@@ -1,0 +1,93 @@
+/data/miniforge3/lib/python3.10/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+================================================================================
+🚀 EXPERIMENT 0 CORRECTED: GEMMA
+   GPU: 1
+   Total games: 3,200 (64 conditions × 50 reps)
+   Matches Gemini experiment structure
+   English prompts, NO first_result variable
+================================================================================
+🚀 Loading GEMMA model on GPU 1
+The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.36s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.34s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.35s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.21s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.26s/it]
+✅ GEMMA loaded successfully
+
+📊 Total conditions: 64
+   Repetitions per condition: 50
+   Total games: 3200
+
+Conditions:   0%|          | 0/64 [00:00<?, ?it/s]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_50_20251003_172008.json
+Conditions:   2%|▏         | 1/64 [05:53<6:10:46, 353.11s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_100_20251003_173753.json
+Conditions:   3%|▎         | 2/64 [23:38<13:17:44, 772.01s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_150_20251003_174626.json
+Conditions:   5%|▍         | 3/64 [32:11<11:04:42, 653.81s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_200_20251003_175330.json
+Conditions:   6%|▋         | 4/64 [39:15<9:23:12, 563.20s/it] 💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_250_20251003_180335.json
+Conditions:   8%|▊         | 5/64 [49:20<9:28:42, 578.34s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_300_20251003_182039.json
+Conditions:   9%|▉         | 6/64 [1:06:24<11:45:19, 729.65s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_350_20251003_183842.json
+Conditions:  11%|█         | 7/64 [1:24:27<13:23:00, 845.28s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_400_20251003_185827.json
+Conditions:  12%|█▎        | 8/64 [1:44:13<14:49:57, 953.53s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_450_20251003_192055.json
+Conditions:  14%|█▍        | 9/64 [2:06:40<16:27:04, 1076.80s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_500_20251003_194246.json
+Conditions:  16%|█▌        | 10/64 [2:28:31<17:14:07, 1149.02s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_550_20251003_195058.json
+Conditions:  17%|█▋        | 11/64 [2:36:43<13:57:27, 948.06s/it] 💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_600_20251003_200432.json
+Conditions:  19%|█▉        | 12/64 [2:50:17<13:06:07, 907.07s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_650_20251003_202833.json
+Conditions:  20%|██        | 13/64 [3:14:18<15:08:37, 1068.96s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_700_20251003_203912.json
+Conditions:  22%|██▏       | 14/64 [3:24:58<13:02:38, 939.17s/it] 💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_750_20251003_210220.json
+Conditions:  23%|██▎       | 15/64 [3:48:05<14:37:15, 1074.20s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_800_20251003_212525.json
+Conditions:  25%|██▌       | 16/64 [4:11:10<15:34:14, 1167.81s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_850_20251003_214821.json
+Conditions:  27%|██▋       | 17/64 [4:34:06<16:03:51, 1230.47s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_900_20251003_220942.json
+Conditions:  28%|██▊       | 18/64 [4:55:27<15:55:01, 1245.68s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_950_20251003_223322.json
+Conditions:  30%|██▉       | 19/64 [5:19:07<16:13:32, 1298.05s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1000_20251003_225642.json
+Conditions:  31%|███▏      | 20/64 [5:42:27<16:14:17, 1328.59s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1050_20251003_232254.json
+Conditions:  33%|███▎      | 21/64 [6:08:39<16:44:35, 1401.74s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1100_20251003_234505.json
+Conditions:  34%|███▍      | 22/64 [6:30:50<16:06:15, 1380.36s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1150_20251003_235720.json
+Conditions:  36%|███▌      | 23/64 [6:43:05<13:30:57, 1186.76s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1200_20251004_002250.json
+Conditions:  38%|███▊      | 24/64 [7:08:35<14:19:51, 1289.80s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1250_20251004_005814.json
+Conditions:  39%|███▉      | 25/64 [7:43:59<16:41:05, 1540.14s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1300_20251004_012613.json
+Conditions:  41%|████      | 26/64 [8:11:58<16:41:43, 1581.68s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1350_20251004_015212.json
+Conditions:  42%|████▏     | 27/64 [8:37:58<16:11:19, 1575.11s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1400_20251004_022410.json
+Conditions:  44%|████▍     | 28/64 [9:09:55<16:46:37, 1677.72s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1450_20251004_025534.json
+Conditions:  45%|████▌     | 29/64 [9:41:19<16:54:47, 1739.64s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1500_20251004_032825.json
+Conditions:  47%|████▋     | 30/64 [10:14:10<17:05:08, 1809.08s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1550_20251004_040301.json
+Conditions:  48%|████▊     | 31/64 [10:48:46<17:19:02, 1889.16s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1600_20251004_043536.json
+Conditions:  50%|█████     | 32/64 [11:21:21<16:58:09, 1909.04s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1650_20251004_044139.json
+Conditions:  52%|█████▏    | 33/64 [11:27:24<12:26:36, 1445.04s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1700_20251004_050627.json
+Conditions:  53%|█████▎    | 34/64 [11:52:12<12:09:03, 1458.10s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1750_20251004_051548.json
+Conditions:  55%|█████▍    | 35/64 [12:01:34<9:34:42, 1189.05s/it] 💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1800_20251004_052502.json
+Conditions:  56%|█████▋    | 36/64 [12:10:47<7:45:51, 998.28s/it] 💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1850_20251004_053319.json
+Conditions:  58%|█████▊    | 37/64 [12:19:04<6:21:36, 848.04s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1900_20251004_055108.json
+Conditions:  59%|█████▉    | 38/64 [12:36:54<6:36:14, 914.41s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_1950_20251004_062027.json
+Conditions:  61%|██████    | 39/64 [13:06:12<8:06:34, 1167.77s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2000_20251004_064634.json
+Conditions:  62%|██████▎   | 40/64 [13:32:19<8:34:57, 1287.42s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2050_20251004_071516.json
+Conditions:  64%|██████▍   | 41/64 [14:01:01<9:03:31, 1417.87s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2100_20251004_074610.json
+Conditions:  66%|██████▌   | 42/64 [14:31:55<9:27:51, 1548.70s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2150_20251004_075745.json
+Conditions:  67%|██████▋   | 43/64 [14:43:30<7:32:21, 1292.47s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2200_20251004_081231.json
+Conditions:  69%|██████▉   | 44/64 [14:58:16<6:30:13, 1170.66s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2250_20251004_083140.json
+Conditions:  70%|███████   | 45/64 [15:17:25<6:08:38, 1164.15s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2300_20251004_084322.json
+Conditions:  72%|███████▏  | 46/64 [15:29:08<5:07:41, 1025.61s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2350_20251004_090538.json
+Conditions:  73%|███████▎  | 47/64 [15:51:23<5:16:55, 1118.56s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2400_20251004_092230.json
+Conditions:  75%|███████▌  | 48/64 [16:08:15<4:49:45, 1086.62s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2450_20251004_100024.json
+Conditions:  77%|███████▋  | 49/64 [16:46:09<6:00:40, 1442.71s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2500_20251004_104429.json
+Conditions:  78%|███████▊  | 50/64 [17:30:14<7:00:48, 1803.47s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2550_20251004_111456.json
+Conditions:  80%|███████▉  | 51/64 [18:00:42<6:32:18, 1810.68s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2600_20251004_114531.json
+Conditions:  81%|████████▏ | 52/64 [18:31:17<6:03:36, 1818.03s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2650_20251004_121634.json
+Conditions:  83%|████████▎ | 53/64 [19:02:19<5:35:45, 1831.38s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2700_20251004_124849.json
+Conditions:  84%|████████▍ | 54/64 [19:34:34<5:10:24, 1862.44s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2750_20251004_130400.json
+Conditions:  86%|████████▌ | 55/64 [19:49:45<3:56:32, 1576.96s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2800_20251004_133134.json
+Conditions:  88%|████████▊ | 56/64 [20:17:19<3:33:20, 1600.03s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2850_20251004_135139.json
+Conditions:  89%|████████▉ | 57/64 [20:37:24<2:52:51, 1481.58s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2900_20251004_141020.json
+Conditions:  91%|█████████ | 58/64 [20:56:06<2:17:21, 1373.62s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_2950_20251004_144400.json
+Conditions:  92%|█████████▏| 59/64 [21:29:45<2:10:37, 1567.41s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_3000_20251004_151840.json
+Conditions:  94%|█████████▍| 60/64 [22:04:25<1:54:44, 1721.15s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_3050_20251004_155430.json
+Conditions:  95%|█████████▌| 61/64 [22:40:16<1:32:29, 1849.94s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_3100_20251004_162744.json
+Conditions:  97%|█████████▋| 62/64 [23:13:30<1:03:06, 1893.16s/it]💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_3150_20251004_165422.json
+Conditions:  98%|█████████▊| 63/64 [23:40:08<30:04, 1804.58s/it]  💾 Checkpoint saved: /data/llm_addiction/experiment_0_gemma_corrected/checkpoint_3200_20251004_172426.json
+Conditions: 100%|██████████| 64/64 [24:10:11<00:00, 1804.30s/it]Conditions: 100%|██████████| 64/64 [24:10:11<00:00, 1359.56s/it]
+💾 Final results saved: /data/llm_addiction/experiment_0_gemma_corrected/final_gemma_20251004_172426.json
+
+================================================================================
+📊 FINAL SUMMARY
+================================================================================
+Total games: 3200
+Bankruptcies: 670 (20.9%)
+Voluntary stops: 2530 (79.1%)
+================================================================================

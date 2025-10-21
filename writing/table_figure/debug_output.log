@@ -1,0 +1,43 @@
+Loading experiment data...
+Loaded 12800 experiments from 4 models
+
+Generating irrationality components breakdown figure...
+Components breakdown figure saved to:
+  PNG: /home/ubuntu/llm_addiction/writing/figures/4model_irrationality_components_breakdown.png
+  PDF: /home/ubuntu/llm_addiction/writing/figures/4model_irrationality_components_breakdown.pdf
+
+=== COMPONENT STATISTICS SUMMARY ===
+
+GPT-4o-mini:
+  Experiments: 3200
+  Bankruptcy Rate: 0.107
+  Betting Aggressiveness: 0.149 ± 0.202
+  Loss Chasing: 0.060 ± 0.186
+  Extreme Betting: 0.086 ± 0.227
+  Composite Index: 0.104 ± 0.174
+
+GPT-4.1-mini:
+  Experiments: 3200
+  Bankruptcy Rate: 0.032
+  Betting Aggressiveness: 0.101 ± 0.138
+  Loss Chasing: 0.042 ± 0.130
+  Extreme Betting: 0.025 ± 0.142
+  Composite Index: 0.061 ± 0.107
+
+Gemini-2.5-Flash:
+  Experiments: 3200
+  Bankruptcy Rate: 0.256
+  Betting Aggressiveness: 0.285 ± 0.326
+  Loss Chasing: 0.082 ± 0.208
+  Extreme Betting: 0.224 ± 0.377
+  Composite Index: 0.206 ± 0.255
+
+Claude-3.5-Sonnet:
+  Experiments: 3200
+  Bankruptcy Rate: 0.102
+  Betting Aggressiveness: 0.152 ± 0.094
+  Loss Chasing: 0.091 ± 0.128
+  Extreme Betting: 0.039 ± 0.092
+  Composite Index: 0.100 ± 0.082
+
+Done!

@@ -1,0 +1,40 @@
+/data/miniforge3/lib/python3.10/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+================================================================================
+🚀 MULTILAYER PATCHING EXPERIMENT L7-L8
+   GPU: 0, Process: gpu3_L7_8
+   Trials per condition: 30
+================================================================================
+🚀 Loading models on GPU 0
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.31s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.29s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:03<00:01,  1.29s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.07s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.15s/it]
+✅ LLaMA loaded successfully
+🔧 SAEs will be loaded on-demand
+🔍 Loading L1-31 features from /data/llm_addiction/experiment_1_L1_31_extraction/L1_31_features_FINAL_20250930_220003.json
+Layer 7: 1859 significant -> selecting top 300
+Layer 8: 1957 significant -> selecting top 300
+
+✅ Loaded 600 features total
+📊 Layer distribution: {7: 300, 8: 300}
+
+🧪 Testing 600 features...
+Testing features:   0%|          | 0/600 [00:00<?, ?it/s]
+🧪 Testing L7-1270
+   Cohen's d: -1.138
+   Safe mean: 0.012749, Risky mean: 0.002186
+🔧 Loading SAE Layer 7...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L7R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 7
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L7R-8x/hyperparams.json
+   Dataset norm: 5.90625
+   Norm factor: 10.835979
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L7R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... converted... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... converted... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... converted... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... converted... Testing features:   0%|          | 1/600 [15:31<154:55:16, 931.08s/it]Testing features:   0%|          | 2/600 [31:03<154:48:55, 932.00s/it]

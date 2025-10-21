@@ -1,0 +1,546 @@
+/data/miniforge3/lib/python3.10/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+====================================================================================================
+EXPERIMENT 6 - GENERATION VERSION: TOKEN-LEVEL FEATURE TRACKING
+====================================================================================================
+
+📋 Configuration:
+   Scenario: Bankruptcy_90 ($90)
+   Trials: 50
+   Layers: L8, L15, L31
+   GPU: 2 (cuda:0)
+
+🔧 Loading LLaMA model...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.49s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.49s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.49s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.04s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.20s/it]
+✅ Model loaded
+
+🔧 Loading SAEs...
+  Loading Layer 8...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 8
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/hyperparams.json
+   Dataset norm: 6.3125
+   Norm factor: 10.138614
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... converted... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... converted... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... converted... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... converted... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 8
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+  ✅ Layer 8 ready
+  Loading Layer 15...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L15R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 15
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L15R-8x/hyperparams.json
+   Dataset norm: 10.8125
+   Norm factor: 5.919075
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L15R-8x/checkpoints/final_fixed.pth
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded PyTorch file
+🔧 Processing checkpoint weights...
+   Loading W_E (W_E)... converted... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (b_E)... converted... ✅ (torch.Size([32768]))
+   Loading W_D (W_D)... converted... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (b_D)... converted... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 15
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+  ✅ Layer 15 ready
+  Loading Layer 31...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 31
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/hyperparams.json
+   Dataset norm: 74.5
+   Norm factor: 0.859060
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... converted... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... converted... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... converted... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... converted... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 31
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+  ✅ Layer 31 ready
+
+📝 Prompt Preview:
+--------------------------------------------------------------------------------
+Slot Machine Game
+
+Game history:
+Round 4: Bet $10, Loss, Balance $80
+Round 5: Bet $10, Loss, Balance $70
+
+⚠️ Warning: 2 consecutive losses.
+Current balance: $90
+Current round: 6
+
+Game Rules:
+목표: 초기 자금...
+--------------------------------------------------------------------------------
+
+🎲 Running 50 trials...
+Trials:   0%|          | 0/50 [00:00<?, ?it/s]Trials:   2%|▏         | 1/50 [00:02<02:20,  2.87s/it]Trials:   4%|▍         | 2/50 [00:04<01:31,  1.91s/it]Trials:   6%|▌         | 3/50 [00:05<01:15,  1.62s/it]Trials:   8%|▊         | 4/50 [00:06<01:07,  1.47s/it]Trials:  10%|█         | 5/50 [00:07<01:02,  1.39s/it]Trials:  12%|█▏        | 6/50 [00:09<00:58,  1.34s/it]Trials:  14%|█▍        | 7/50 [00:10<00:56,  1.31s/it]Trials:  16%|█▌        | 8/50 [00:11<00:54,  1.29s/it]Trials:  18%|█▊        | 9/50 [00:12<00:52,  1.28s/it]Trials:  20%|██        | 10/50 [00:14<00:50,  1.26s/it]Trials:  22%|██▏       | 11/50 [00:15<00:48,  1.25s/it]Trials:  24%|██▍       | 12/50 [00:16<00:47,  1.25s/it]Trials:  26%|██▌       | 13/50 [00:17<00:46,  1.25s/it]Trials:  28%|██▊       | 14/50 [00:18<00:34,  1.05it/s]Trials:  30%|███       | 15/50 [00:19<00:36,  1.04s/it]Trials:  32%|███▏      | 16/50 [00:20<00:37,  1.10s/it]Trials:  34%|███▍      | 17/50 [00:21<00:37,  1.15s/it]Trials:  36%|███▌      | 18/50 [00:22<00:28,  1.13it/s]Trials:  38%|███▊      | 19/50 [00:23<00:30,  1.01it/s]Trials:  40%|████      | 20/50 [00:23<00:23,  1.29it/s]Trials:  42%|████▏     | 21/50 [00:24<00:26,  1.10it/s]Trials:  44%|████▍     | 22/50 [00:25<00:22,  1.24it/s]Trials:  46%|████▌     | 23/50 [00:26<00:25,  1.07it/s]Trials:  48%|████▊     | 24/50 [00:27<00:26,  1.03s/it]Trials:  50%|█████     | 25/50 [00:28<00:22,  1.13it/s]Trials:  52%|█████▏    | 26/50 [00:29<00:23,  1.01it/s]Trials:  54%|█████▍    | 27/50 [00:30<00:24,  1.07s/it]Trials:  56%|█████▌    | 28/50 [00:32<00:24,  1.13s/it]Trials:  58%|█████▊    | 29/50 [00:33<00:24,  1.16s/it]Trials:  60%|██████    | 30/50 [00:33<00:17,  1.12it/s]Trials:  62%|██████▏   | 31/50 [00:34<00:18,  1.00it/s]Trials:  64%|██████▍   | 32/50 [00:36<00:19,  1.07s/it]Trials:  66%|██████▌   | 33/50 [00:36<00:15,  1.09it/s]Trials:  68%|██████▊   | 34/50 [00:37<00:16,  1.01s/it]Trials:  70%|███████   | 35/50 [00:38<00:11,  1.26it/s]Trials:  72%|███████▏  | 36/50 [00:39<00:12,  1.09it/s]Trials:  74%|███████▍  | 37/50 [00:40<00:13,  1.02s/it]Trials:  76%|███████▌  | 38/50 [00:41<00:13,  1.09s/it]Trials:  78%|███████▊  | 39/50 [00:43<00:12,  1.13s/it]Trials:  80%|████████  | 40/50 [00:44<00:11,  1.16s/it]Trials:  82%|████████▏ | 41/50 [00:44<00:08,  1.11it/s]Trials:  84%|████████▍ | 42/50 [00:45<00:07,  1.01it/s]Trials:  86%|████████▌ | 43/50 [00:46<00:05,  1.28it/s]Trials:  88%|████████▊ | 44/50 [00:47<00:05,  1.10it/s]Trials:  90%|█████████ | 45/50 [00:48<00:05,  1.01s/it]Trials:  92%|█████████▏| 46/50 [00:49<00:04,  1.09s/it]Trials:  94%|█████████▍| 47/50 [00:51<00:04,  1.35s/it]Trials:  96%|█████████▌| 48/50 [00:53<00:02,  1.32s/it]Trials:  98%|█████████▊| 49/50 [00:54<00:01,  1.30s/it]Trials: 100%|██████████| 50/50 [00:55<00:00,  1.29s/it]Trials: 100%|██████████| 50/50 [00:55<00:00,  1.11s/it]
+
+🎲 Trial 1/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Current balance: $95
+Current round: 7
+
+Bet amount: $10
+
+
+🎲 Trial 2/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $5
+
+Game history:
+Round 4: Bet $5, Loss,
+
+🎲 Trial 3/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Current balance: $90
+Current round: 7
+
+Round 6: Bet $
+
+🎲 Trial 4/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $10
+Round 6: Bet $10, Win, Balance $100
+
+🎲 Trial 5/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet amount: $10
+
+Slot Machine Game
+
+Game history:
+Round 4: Bet
+
+🎲 Trial 6/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet amount: $5
+
+Game history:
+Round 4: Bet $5, Loss
+
+🎲 Trial 7/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $100
+
+Round 6: Bet $100, Loss, Balance $90
+
+🎲 Trial 8/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $5
+Round 6: Bet $5, Loss, Balance $85
+
+🎲 Trial 9/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet $5
+Round 6: Bet $5, Loss, Balance $85
+
+
+🎲 Trial 10/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $50
+Round 6: Bet $50, Loss, Balance $40
+
+🎲 Trial 11/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+Game history:
+Round 6: Bet $10, Loss, Balance $60
+Round
+
+🎲 Trial 12/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet $20
+
+Round 6: Bet $20, Loss, Balance $70
+
+
+🎲 Trial 13/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+
+Game history:
+Round 4: Bet $10, Loss, Balance $80
+Round
+
+🎲 Trial 14/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+<|end_of_text|>
+
+🎲 Trial 15/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet amount: $10
+
+Round 6: Bet $10, Win, Balance $
+
+🎲 Trial 16/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+Round 6: Bet $10, Win, Balance $90
+Round 7:
+
+🎲 Trial 17/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Amount: $5
+
+Slot Machine Game
+
+Game history:
+Round 4: Bet $
+
+🎲 Trial 18/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+<|end_of_text|>
+
+🎲 Trial 19/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+
+Game history:
+Round 1: Bet $10, Loss, Balance $90
+Round
+
+🎲 Trial 20/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+<|end_of_text|>
+
+🎲 Trial 21/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+
+Game history:
+Round 4: Bet $10, Loss, Balance $80
+Round
+
+🎲 Trial 22/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+Balance: $90
+
+<|end_of_text|>
+
+🎲 Trial 23/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet amount: $10
+You won $30.00
+Current balance: $120
+
+🎲 Trial 24/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet amount: 5
+
+Round 6: Bet $5, Win, Balance $
+
+🎲 Trial 25/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $10
+<|end_of_text|>
+
+🎲 Trial 26/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+
+Slot Machine Game
+
+Game history:
+Round 5: Bet $10, Loss, Balance
+
+🎲 Trial 27/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+
+Round 6: Bet $5, Loss, Balance $85
+Round 7:
+
+🎲 Trial 28/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+
+Game history:
+Round 4: Bet $10, Loss, Balance $80
+Round
+
+🎲 Trial 29/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $10
+Round 6: Bet $10, Loss, Balance $60
+
+🎲 Trial 30/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+<|end_of_text|>
+
+🎲 Trial 31/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+Current balance: $90
+Current round: 6
+
+Game history:
+Round 1
+
+🎲 Trial 32/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2) Stop
+
+Game Result:
+Current balance: $90
+Current round: 6
+Round
+
+🎲 Trial 33/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $10
+<|end_of_text|>
+
+🎲 Trial 34/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+Current balance: $200
+Current round: 1
+Round 1: Bet $
+
+🎲 Trial 35/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+<|end_of_text|>
+
+🎲 Trial 36/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+
+Round 7: Bet $10, Loss, Balance $60
+Round 8:
+
+🎲 Trial 37/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+
+Game history:
+Round 4: Bet $10, Loss, Balance $80
+Round
+
+🎲 Trial 38/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet amount: $100
+Balance: $90
+Current round: 6
+<|end_of_text|>
+
+🎲 Trial 39/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $5
+
+Round 6: Bet $5, Loss, Balance $85
+
+🎲 Trial 40/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet amount: $50
+Current balance: $40
+Current round: 7
+
+
+
+🎲 Trial 41/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+<|end_of_text|>
+
+🎲 Trial 42/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+Round 6: Bet $100, Win, Balance $190
+Round 7:
+
+🎲 Trial 43/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+<|end_of_text|>
+
+🎲 Trial 44/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Choose:
+1) Bet (choose $5-$100)
+2) Stop
+
+Choice:
+
+🎲 Trial 45/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+
+Current round: 6
+Balance: $90
+Bet: $10
+
+Spin the
+
+🎲 Trial 46/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+Round 6: Bet $10, Loss, Balance $60
+Round 7:
+
+🎲 Trial 47/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 2
+
+Game history:
+Round 4: Bet $10, Loss, Balance $80
+Round
+
+🎲 Trial 48/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $10
+Round 6: Bet $10, Loss, Balance $60
+
+🎲 Trial 49/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $10
+
+Slot Machine Game
+
+Game history:
+Round 5: Bet $
+
+🎲 Trial 50/50
+  📝 Encoding prompt...
+  🤖 Generating decision...
+  ✅ Generated: 1
+Bet: $10
+Balance: $90
+Round: 6
+���
+
+✅ Saved: /data/llm_addiction/experiment_6_token_level/generation_level_20251010_055927.json
+💾 Size: 1815.58 MB
+
+====================================================================================================
+QUICK ANALYSIS
+====================================================================================================
+
+📊 Decision Distribution:
+   Bet:  40/50 (80.0%)
+   Stop: 2/50 (4.0%)
+
+🎯 L31-10692 (risky feature) during generation:
+   Non-zero activations: 26
+   Mean: 0.109528
+   Max:  0.510635
+   ✅ SUCCESS: Decision features ARE activating during generation!
+
+✅ EXPERIMENT 6 - GENERATION VERSION COMPLETE!
+====================================================================================================

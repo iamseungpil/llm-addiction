@@ -1,0 +1,182 @@
+[
+  {
+    "layer": 30,
+    "feature_id": 24167,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.4232068517975436,
+    "p_value": 9.561677104649363e-45,
+    "safe_mean": 0.8765887047182469,
+    "risky_mean": 1.4165090460526315
+  },
+  {
+    "layer": 30,
+    "feature_id": 29192,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.3702893402648222,
+    "p_value": 1.2514919892276062e-44,
+    "safe_mean": 0.4845413126118068,
+    "risky_mean": 0.6911389802631579
+  },
+  {
+    "layer": 30,
+    "feature_id": 29480,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.3511585432991646,
+    "p_value": 7.2515862756058e-44,
+    "safe_mean": 1.356459637745975,
+    "risky_mean": 1.5890625
+  },
+  {
+    "layer": 30,
+    "feature_id": 18100,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.3429970811135492,
+    "p_value": 3.539539667888657e-42,
+    "safe_mean": 1.3608948736583184,
+    "risky_mean": 2.0382401315789473
+  },
+  {
+    "layer": 30,
+    "feature_id": 20307,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.3391933966665777,
+    "p_value": 1.822965832361441e-37,
+    "safe_mean": 0.5493567615161001,
+    "risky_mean": 0.8934210526315789
+  },
+  {
+    "layer": 30,
+    "feature_id": 22280,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.3316341938969374,
+    "p_value": 4.805090732824182e-35,
+    "safe_mean": 0.3348796155243739,
+    "risky_mean": 0.4920487253289474
+  },
+  {
+    "layer": 30,
+    "feature_id": 18349,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.3231517545448215,
+    "p_value": 4.5364266053008946e-49,
+    "safe_mean": 0.15506507303762523,
+    "risky_mean": 0.2799367804276316
+  },
+  {
+    "layer": 30,
+    "feature_id": 1656,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.3148256080832539,
+    "p_value": 1.5381981576910078e-42,
+    "safe_mean": 1.2486953544275492,
+    "risky_mean": 1.6376850328947368
+  },
+  {
+    "layer": 30,
+    "feature_id": 1765,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.309773258926469,
+    "p_value": 5.872269544031787e-33,
+    "safe_mean": 0.6439600809310019,
+    "risky_mean": 1.215076326069079
+  },
+  {
+    "layer": 30,
+    "feature_id": 11848,
+    "effect_type": "increases_risk",
+    "cohens_d": 1.3074864842441107,
+    "p_value": 1.8607294951711472e-44,
+    "safe_mean": 1.1261243571109123,
+    "risky_mean": 1.3230057565789475
+  },
+  {
+    "layer": 25,
+    "feature_id": 17084,
+    "effect_type": "decreases_risk",
+    "cohens_d": -2.2607527910565834,
+    "p_value": 9.267382553104904e-20,
+    "safe_mean": 0.2697490790234036,
+    "risky_mean": 0.06412134415064102
+  },
+  {
+    "layer": 30,
+    "feature_id": 152,
+    "effect_type": "decreases_risk",
+    "cohens_d": -2.128267696239305,
+    "p_value": 4.699362010189998e-19,
+    "safe_mean": 0.17020854895610754,
+    "risky_mean": 0.054205322265625
+  },
+  {
+    "layer": 25,
+    "feature_id": 17077,
+    "effect_type": "decreases_risk",
+    "cohens_d": -2.087967364769005,
+    "p_value": 3.780321979601544e-18,
+    "safe_mean": 0.4402376451032134,
+    "risky_mean": 0.08205067027698863
+  },
+  {
+    "layer": 30,
+    "feature_id": 6497,
+    "effect_type": "decreases_risk",
+    "cohens_d": -1.919484650553354,
+    "p_value": 2.0548790956500195e-19,
+    "safe_mean": 0.1192535598299692,
+    "risky_mean": 0.025678168402777778
+  },
+  {
+    "layer": 30,
+    "feature_id": 22493,
+    "effect_type": "decreases_risk",
+    "cohens_d": -1.917889810832082,
+    "p_value": 1.0726803177177265e-27,
+    "safe_mean": 0.6553860347725319,
+    "risky_mean": 0.15109800681089744
+  },
+  {
+    "layer": 30,
+    "feature_id": 14031,
+    "effect_type": "decreases_risk",
+    "cohens_d": -1.8678258615692973,
+    "p_value": 4.86387974799493e-36,
+    "safe_mean": 0.3932026373944159,
+    "risky_mean": 0.08270906147203948
+  },
+  {
+    "layer": 25,
+    "feature_id": 3144,
+    "effect_type": "decreases_risk",
+    "cohens_d": -1.8341446179755418,
+    "p_value": 1.648181505980371e-40,
+    "safe_mean": 0.3887933432747916,
+    "risky_mean": 0.1301759813652664
+  },
+  {
+    "layer": 30,
+    "feature_id": 24330,
+    "effect_type": "decreases_risk",
+    "cohens_d": -1.8252535734172926,
+    "p_value": 2.057442717928024e-18,
+    "safe_mean": 0.4599423725090871,
+    "risky_mean": 0.07639936967329546
+  },
+  {
+    "layer": 30,
+    "feature_id": 16880,
+    "effect_type": "decreases_risk",
+    "cohens_d": -1.8204819808332806,
+    "p_value": 1.8959376895647236e-20,
+    "safe_mean": 0.31492833977382906,
+    "risky_mean": 0.06189676920572917
+  },
+  {
+    "layer": 30,
+    "feature_id": 8554,
+    "effect_type": "decreases_risk",
+    "cohens_d": -1.8100401297049258,
+    "p_value": 2.4077002319974828e-36,
+    "safe_mean": 0.4556643905725084,
+    "risky_mean": 0.12861540421195652
+  }
+]

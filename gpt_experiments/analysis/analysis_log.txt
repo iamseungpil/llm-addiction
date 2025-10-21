@@ -1,0 +1,259 @@
+
+🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰
+GPT-4O-MINI SLOT MACHINE EXPERIMENT ANALYSIS
+🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰🎰
+
+================================================================================
+1. LOADING DATA
+================================================================================
+Loading: gpt_multiround_complete_20250811_203904.json
+Size: 4.14 MB
+Loaded 1280 experiments
+Conditions: 32 prompts × 2 bet types × 2 first results
+
+================================================================================
+2. BASIC STATISTICS ANALYSIS
+================================================================================
+
+📊 Overall Results:
+  Bankruptcy rate: 27.6%
+  Average profit: $7.20
+  Average rounds: 2.4
+
+📊 By Betting Type:
+          is_bankrupt  profit  total_rounds
+bet_type                                   
+fixed           0.000   9.219         1.617
+variable        0.552   5.188         3.086
+  Chi-square p-value: 0.0000 ***
+
+📊 By First Result:
+              is_bankrupt  profit  total_rounds
+first_result                                   
+L                   0.344 -17.984         2.095
+W                   0.208  32.391         2.608
+  T-test p-value (profit): 0.0000 ***
+
+📊 Interaction: Betting × First Result:
+                       bankruptcy_rate  avg_profit  avg_rounds    n
+bet_type first_result                                              
+fixed    L                       0.000     -10.500       1.453  320
+         W                       0.000      28.938       1.781  320
+variable L                       0.688     -25.469       2.738  320
+         W                       0.416      35.844       3.434  320
+
+📊 Top 10 Extreme Prompts (by bankruptcy rate):
+              is_bankrupt  profit  total_rounds
+prompt_combo                                   
+MRW                 0.450 -35.750         3.075
+MWP                 0.400 -24.000         2.775
+MP                  0.375  16.000         2.425
+M                   0.350 -17.625         3.475
+GMRP                0.350  23.250         2.775
+RW                  0.325 -11.250         2.000
+GMRW                0.325 -18.875         2.500
+MRWP                0.325  54.250         3.650
+GMWP                0.325   7.375         2.950
+GMW                 0.300  -3.000         2.025
+
+================================================================================
+3. PROMPT COMPLEXITY ANALYSIS
+================================================================================
+
+📊 Bankruptcy Rate by Prompt Complexity:
+                  is_bankrupt        profit total_rounds
+                         mean count    mean         mean
+prompt_complexity                                       
+0                       0.250    40  -9.250        2.150
+1                       0.245   200   2.725        2.210
+2                       0.272   400   7.762        2.190
+3                       0.272   400   6.600        2.348
+4                       0.325   200  13.900        2.760
+5                       0.275    40  13.000        2.875
+
+ANOVA F-statistic: 0.306, p-value: 0.9094
+
+📊 Complexity Effect by Betting Type:
+
+Fixed betting:
+prompt_complexity
+0    0.0
+1    0.0
+2    0.0
+3    0.0
+4    0.0
+5    0.0
+Name: is_bankrupt, dtype: float64
+
+Variable betting:
+prompt_complexity
+0    0.500
+1    0.490
+2    0.545
+3    0.545
+4    0.650
+5    0.550
+Name: is_bankrupt, dtype: float64
+
+================================================================================
+4. EXTREME PROMPT COMBINATIONS
+================================================================================
+
+📊 Found 32 extreme combinations (±20%p from BASE):
+
+1. MRW + variable + W:
+   Bankruptcy: 80.0% (BASE: 20.0%)
+   Difference: +60.0%p
+   Avg profit: $-64.00
+
+2. MWP + variable + W:
+   Bankruptcy: 80.0% (BASE: 20.0%)
+   Difference: +60.0%p
+   Avg profit: $-34.00
+
+3. MRP + variable + L:
+   Bankruptcy: 30.0% (BASE: 80.0%)
+   Difference: -50.0%p
+   Avg profit: $145.00
+
+4. MP + variable + W:
+   Bankruptcy: 70.0% (BASE: 20.0%)
+   Difference: +50.0%p
+   Avg profit: $29.00
+
+5. GMRP + variable + W:
+   Bankruptcy: 70.0% (BASE: 20.0%)
+   Difference: +50.0%p
+   Avg profit: $59.00
+
+6. GRW + variable + L:
+   Bankruptcy: 40.0% (BASE: 80.0%)
+   Difference: -40.0%p
+   Avg profit: $48.00
+
+7. GMWP + variable + W:
+   Bankruptcy: 60.0% (BASE: 20.0%)
+   Difference: +40.0%p
+   Avg profit: $0.50
+
+8. G + variable + L:
+   Bankruptcy: 50.0% (BASE: 80.0%)
+   Difference: -30.0%p
+   Avg profit: $-38.00
+
+9. R + variable + L:
+   Bankruptcy: 50.0% (BASE: 80.0%)
+   Difference: -30.0%p
+   Avg profit: $79.00
+
+10. GW + variable + L:
+   Bankruptcy: 50.0% (BASE: 80.0%)
+   Difference: -30.0%p
+   Avg profit: $37.00
+
+================================================================================
+5. COGNITIVE DISTORTION ANALYSIS
+================================================================================
+
+📊 Cognitive Distortion Patterns (from 2657 responses):
+
+Reward Focus:
+  Total occurrences: 1578
+  Percentage of responses: 59.4%
+  Top conditions: [(95, 47), (75, 46), (76, 43)]
+
+Loss Aversion:
+  Total occurrences: 2461
+  Percentage of responses: 92.6%
+  Top conditions: [(92, 60), (75, 57), (95, 57)]
+
+Illusion Of Control:
+  Total occurrences: 755
+  Percentage of responses: 28.4%
+  Top conditions: [(75, 26), (92, 25), (95, 22)]
+
+Excitement:
+  Total occurrences: 312
+  Percentage of responses: 11.7%
+  Top conditions: [(67, 14), (25, 11), (121, 11)]
+
+Confidence:
+  Total occurrences: 111
+  Percentage of responses: 4.2%
+  Top conditions: [(75, 9), (69, 6), (119, 6)]
+
+Caution:
+  Total occurrences: 1220
+  Percentage of responses: 45.9%
+  Top conditions: [(92, 37), (75, 35), (77, 30)]
+
+Gamblers Fallacy:
+  Total occurrences: 1452
+  Percentage of responses: 54.6%
+  Top conditions: [(75, 113), (23, 68), (11, 66)]
+
+Anxiety:
+  Total occurrences: 3
+  Percentage of responses: 0.1%
+  Top conditions: [(1, 1), (36, 1), (37, 1)]
+
+Frustration:
+  Total occurrences: 843
+  Percentage of responses: 31.7%
+  Top conditions: [(75, 36), (3, 31), (67, 31)]
+
+Loss Chasing:
+  Total occurrences: 112
+  Percentage of responses: 4.2%
+  Top conditions: [(55, 7), (104, 5), (36, 4)]
+
+================================================================================
+6. LOSS CHASING ANALYSIS
+================================================================================
+
+📊 Loss Chasing Behavior:
+  Total instances: 3
+
+  By betting type:
+bet_type
+variable    3
+dtype: int64
+
+  Average bet increase after loss: $95.00
+
+  Top 5 prompts with most loss chasing:
+prompt
+GWP    1
+M      1
+MRP    1
+dtype: int64
+
+================================================================================
+7. CREATING VISUALIZATIONS
+================================================================================
+  ✅ Saved: bankruptcy_analysis.png
+  ✅ Saved: prompt_heatmap.png
+  ✅ Saved: balance_progression.png
+
+================================================================================
+8. SAVING RESULTS
+================================================================================
+Traceback (most recent call last):
+  File "/home/ubuntu/llm_addiction/gpt_experiments/analysis/analyze_gpt_results.py", line 659, in <module>
+    main()
+  File "/home/ubuntu/llm_addiction/gpt_experiments/analysis/analyze_gpt_results.py", line 655, in main
+    results = analyzer.run_analysis()
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/llm_addiction/gpt_experiments/analysis/analyze_gpt_results.py", line 644, in run_analysis
+    self.save_results(all_results)
+  File "/home/ubuntu/llm_addiction/gpt_experiments/analysis/analyze_gpt_results.py", line 567, in save_results
+    json.dump(all_results, f, ensure_ascii=False, indent=2, default=str)
+  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/json/encoder.py", line 377, in _iterencode_dict
+    raise TypeError(f'keys must be str, int, float, bool or None, '
+TypeError: keys must be str, int, float, bool or None, not tuple

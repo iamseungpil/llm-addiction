@@ -1,0 +1,58 @@
+/home/ubuntu/llm_addiction/experiment_6_token_level_tracking/compare_all_scenarios.py:323: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  plt.tight_layout()
+====================================================================================================
+LOADING ALL SCENARIO DATA
+====================================================================================================
+Loading: /data/llm_addiction/experiment_6_token_level/generation_VeryRisky_25_20251010_061354.json
+  ✅ 50 trials
+Loading: /data/llm_addiction/experiment_6_token_level/generation_level_20251010_055927.json
+  ✅ 50 trials
+Loading: /data/llm_addiction/experiment_6_token_level/generation_Safe_130_20251010_061551.json
+  ✅ 50 trials
+
+====================================================================================================
+COMPREHENSIVE SCENARIO COMPARISON
+====================================================================================================
+
+📊 VeryRisky_25:
+   Bet:  42/50 (84.0%)
+   Stop: 8/50 (16.0%)
+   L31-10692 activations: 72
+   L31-10692 mean: 0.463907
+   L31-10692 max:  0.975161
+   L8-2059 activations: 2
+   L8-2059 mean: 0.305228
+   L8-2059 max:  0.572216
+   L8-12478 activations: 339
+   L8-12478 mean: 0.332288
+   L8-12478 max:  1.062005
+
+📊 Bankruptcy_90:
+   Bet:  32/50 (64.0%)
+   Stop: 18/50 (36.0%)
+   L31-10692 activations: 26
+   L31-10692 mean: 0.109528
+   L31-10692 max:  0.510635
+   L8-2059 activations: 0
+   L8-12478 activations: 142
+   L8-12478 mean: 0.273984
+   L8-12478 max:  1.024690
+
+📊 Safe_130:
+   Bet:  37/50 (74.0%)
+   Stop: 13/50 (26.0%)
+   L31-10692 activations: 307
+   L31-10692 mean: 0.313136
+   L31-10692 max:  1.242019
+   L8-2059 activations: 18
+   L8-2059 mean: 0.090971
+   L8-2059 max:  0.290720
+   L8-12478 activations: 352
+   L8-12478 mean: 0.339832
+   L8-12478 max:  1.150562
+
+✅ Saved: multi_scenario_comparison.png
+
+====================================================================================================
+✅ COMPREHENSIVE COMPARISON COMPLETE!
+====================================================================================================

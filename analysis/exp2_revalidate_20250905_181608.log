@@ -1,0 +1,35 @@
+/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+================================================================================
+Loading Models on GPU 5 (appears as cuda:0 to PyTorch)
+================================================================================
+Loading LLaMA-3.1-8B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:05,  1.90s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:02,  1.49s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.32s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.52s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.51s/it]
+Loading SAEs...
+✅ Loading WORKING SAE for Layer 25
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
+   Dataset norm: 31.625
+   Norm factor: 2.023715
+   Using ReLU instead of JumpReLU (threshold=0.0)
+   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final_fixed.pth
+✅ Working SAE loaded successfully!
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+✅ Loading WORKING SAE for Layer 30
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
+   Dataset norm: 53.25
+   Norm factor: 1.201878
+   Using ReLU instead of JumpReLU (threshold=0.0)
+   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/checkpoints/final_fixed.pth
+✅ Working SAE loaded successfully!
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+✅ Models loaded successfully
+
+Loading 356 features...
+✅ Loaded 356 features (L25: 53, L30: 303)
+
+Revalidation complete.
+- Summary: analysis/exp2_revalidation_summary.csv
+- Suspects: analysis/exp2_revalidation_suspects.csv
+- Trials:   analysis/exp2_revalidation_trials.jsonl

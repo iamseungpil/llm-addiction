@@ -1,0 +1,70 @@
+/home/ubuntu/llm_addiction/experiment_6_token_level_tracking/analyze_generation_results.py:309: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  plt.tight_layout()
+Loading: /data/llm_addiction/experiment_6_token_level/generation_level_20251010_055927.json
+✅ Loaded 50 trials
+
+====================================================================================================
+ANALYSIS 1: DECISION FEATURES DURING GENERATION
+====================================================================================================
+
+📊 Decision Distribution:
+   Bet:     32/50 (64.0%)
+   Stop:    18/50 (36.0%)
+   Unknown: 0/50 (0.0%)
+
+🎯 Feature Activations (First Generated Token):
+
+   L8-2059 (risky feature from Exp 1):
+      Non-zero: 0/50 (0.0%)
+
+   L8-12478 (safe feature from Exp 1):
+      Non-zero: 0/50 (0.0%)
+
+   L31-10692 (risky feature from Exp 2):
+      Non-zero: 0/50 (0.0%)
+
+====================================================================================================
+ANALYSIS 2: FEATURE EVOLUTION ACROSS GENERATION STEPS
+====================================================================================================
+
+📈 Feature Evolution (first 10 steps):
+
+Step   L8-2059         L31-10692       # Samples   
+------------------------------------------------------------
+0      0.000000        0.000000        50          
+1      0.000000        0.000000        50          
+2      0.000000        0.000000        50          
+3      0.000000        0.000000        43          
+4      0.000000        0.002383        43          
+5      0.000000        0.000000        43          
+6      0.000000        0.000000        43          
+7      0.000000        0.000945        43          
+8      0.000000        0.000000        40          
+9      0.000000        0.000000        40          
+
+====================================================================================================
+ANALYSIS 3: PROMPT ENCODING vs GENERATION FEATURES
+====================================================================================================
+
+🔍 PROMPT ENCODING (balance token '$90'):
+   L8-2083 (numerical encoding):
+      Mean: 19.209257
+      Std:  0.000000
+      Range: [19.209257, 19.209257]
+
+🤖 GENERATION (first decision token):
+   L8-2059 (risky decision feature):
+      No activations
+
+   L31-10692 (risky output feature):
+
+💡 KEY INSIGHT:
+   ✅ L8-2083 activates during PROMPT encoding (numerical input)
+   ✅ L8-2059, L31-10692 activate during GENERATION (decision output)
+   → Different features for different processing stages CONFIRMED!
+
+✅ Saved: generation_analysis.png
+
+====================================================================================================
+🎉 EXPERIMENT 6 GENERATION ANALYSIS COMPLETE!
+====================================================================================================

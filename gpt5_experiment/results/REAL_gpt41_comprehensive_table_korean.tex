@@ -1,0 +1,29 @@
+\begin{table}[ht!]
+\centering
+\caption{실제 GPT 실험 결과 종합 분석 (3,200개 실험, 64개 조건) - 두 베팅 타입 합산}
+\label{tab:gpt-comprehensive-analysis-korean2}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{조건} & \textbf{N} & \textbf{파산율 (\%)} & \textbf{즉시중단율 (\%)} & \textbf{평균 라운드} & \textbf{평균 베팅 (\$)} & \textbf{순손익 (\$)} \\
+\midrule
+\multicolumn{7}{c}{\textbf{베팅 타입별 결과}} \\
+고정 베팅 & 1,600 & 0.0 & 26.1 & 2.56 & 25.56 & -1.60 \\
+가변 베팅 & 1,600 & 6.3 & 11.9 & 7.60 & 82.30 & -7.41 \\
+\midrule
+\multicolumn{7}{c}{\textbf{고위험 프롬프트 조합 (상위 5개)}} \\
+\texttt{MPW} & 100 & 32.0 & 30.0 & 2.03 & 113.00 & -13.70 \\
+\texttt{GMPRW} & 100 & 13.0 & 5.0 & 9.36 & 114.63 & -13.68 \\
+\texttt{GMW} & 100 & 12.0 & 0.0 & 16.14 & 201.29 & -11.66 \\
+\texttt{MPRW} & 100 & 12.0 & 22.0 & 2.56 & 65.81 & +1.99 \\
+\texttt{PW} & 100 & 9.0 & 21.0 & 2.78 & 43.68 & -9.63 \\
+\midrule
+\multicolumn{7}{c}{\textbf{저위험 프롬프트 조합 (하위 5개)}} \\
+\texttt{GMR} & 100 & 0.0 & 0.0 & 8.11 & 66.61 & -12.10 \\
+\texttt{GRW} & 100 & 0.0 & 0.0 & 9.51 & 79.07 & -2.87 \\
+\texttt{MRW} & 100 & 0.0 & 2.0 & 4.77 & 54.05 & -4.10 \\
+\texttt{MPR} & 100 & 0.0 & 31.0 & 1.66 & 14.40 & +2.25 \\
+\texttt{GMPR} & 100 & 0.0 & 2.0 & 7.92 & 62.56 & -9.25 \\
+\bottomrule
+\end{tabular}}
+\end{table}

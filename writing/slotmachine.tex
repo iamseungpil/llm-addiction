@@ -1,0 +1,102 @@
+\section{Slot-Machine Experiment}
+\subsection{Method}
+\lsp{실험 가설, 프롬프트, 실험 조건 등 설명}
+
+\subsubsection{실험 설계}
+본 실험은 LLM의 도박 중독 경향을 관찰하기 위해 슬롯머신 시뮬레이션을 설계하였다. 
+게임은 30\%의 승률과 3배의 배당률을 가지며, 기댓값은 -10\%로 설정되었다. 
+각 AI 에이전트는 \$100의 초기 자금으로 시작하며, 최대 획득 가능 금액은 \$1,000으로 제한하였다.
+
+\subsubsection{실험 조건}
+실험은 다음과 같은 요인들을 조합하여 총 128개의 실험 조건을 구성하였다:
+\begin{itemize}
+    \item \textbf{베팅 타입}: 고정 베팅(매 라운드 \$10) vs. 가변 베팅(\$5-\$100 범위)
+    \item \textbf{첫 게임 결과}: 승리(W) vs. 패배(L)로 조작
+    \item \textbf{프롬프트 구성 요소}: BASE + 5개 요소(G: 목표 설정, M: 보상 최대화, R: 후회 강조, W: 승리 감정, P: 확률 정보)의 32가지 조합
+\end{itemize}
+
+\subsubsection{실험 절차}
+각 조건은 10회 반복되어 총 1,280개의 독립적인 실험이 수행되었다. 
+GPT-4o-mini 모델을 사용하였으며(temperature=0.7), 각 실험마다 새로운 세션을 시작하여 이전 기억의 영향을 차단하였다. 
+매 라운드마다 게임 히스토리를 누적하여 AI에게 제공하고, AI가 ``계속'' 또는 ``그만'' 결정을 내리도록 하였다.
+
+\subsection{Result}
+\lsp{결과 분석 : 프롬프트에 따른 결과, 실험 조건에 따른 결과, 모델 사이즈에 따른 결과, Big model 간 결과 별도 분석 필요}
+
+\subsubsection{전체 실험 결과}
+1,280개 실험의 전체 결과는 Table~\ref{tab:betting-type-comparison}에 요약되어 있다. 
+평균 파산율은 33.7\%였으며, 평균 손익은 -\$24.2로 나타났다. 
+이는 게임의 기댓값(-10\%)보다 더 큰 손실을 보여, LLM이 합리적인 중단 시점을 놓치고 과도하게 게임을 지속하는 경향을 시사한다.
+
+\begin{table}[ht!]
+\centering
+\caption{베팅 타입별 실험 결과 비교. 가변 베팅이 고정 베팅보다 현저히 높은 파산율과 손실을 보임}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lcccc}
+\toprule
+\textbf{베팅 타입} & \textbf{실험 수} & \textbf{파산율 (\%)} & \textbf{평균 손익 (\$)} & \textbf{평균 라운드} \\
+\midrule
+고정 베팅 & 640 & 5.0 & -14.8 & 20.9 \\
+가변 베팅 & 640 & 62.3 & -33.6 & 15.8 \\
+\midrule
+차이 & - & 57.3*** & -18.8* & -5.1*** \\
+\bottomrule
+\end{tabular}}
+\label{tab:betting-type-comparison}
+\end{table}
+\vspace{-2mm}
+{\footnotesize *p < 0.05, ***p < 0.001}
+
+\subsubsection{베팅 타입의 영향}
+베팅 타입은 가장 강력한 예측 변수로 나타났다(Table~\ref{tab:betting-type-comparison}). 
+가변 베팅 조건에서 파산율은 62.3\%로, 고정 베팅의 5.0\%보다 12배 이상 높았다($p < 0.001$). 
+이는 베팅 금액 선택의 자유도가 주어질 때 LLM이 더 위험한 행동을 보인다는 것을 시사한다.
+
+\begin{table}[ht!]
+\centering
+\caption{프롬프트 구성 요소별 효과 분석. 각 요소의 포함/미포함에 따른 파산율, 손익, 게임 지속 라운드 비교}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{프롬프트 요소} & \multicolumn{2}{c}{\textbf{파산율 (\%)}} & \multicolumn{2}{c}{\textbf{평균 손익 (\$)}} & \multicolumn{2}{c}{\textbf{평균 라운드}} \\
+& 포함 & 미포함 & 포함 & 미포함 & 포함 & 미포함 \\
+\midrule
+목표 설정 (G) & 33.9 & 33.4 & -28.9 & -19.6 & 19.7** & 17.1 \\
+보상 최대화 (M) & 34.4 & 33.0 & -24.7 & -23.7 & 17.2** & 19.5 \\
+후회 강조 (R) & 31.4 & 35.9 & -24.8 & -23.6 & 18.3 & 18.4 \\
+승리 감정 (W) & 32.7 & 34.7 & -22.3 & -26.1 & 19.1 & 17.7 \\
+확률 정보 (P) & 33.0 & 34.4 & -28.8 & -19.6 & 18.8 & 17.9 \\
+\bottomrule
+\end{tabular}}
+\label{tab:prompt-components-effect}
+\end{table}
+\vspace{-2mm}
+{\footnotesize **p < 0.01}
+
+\subsubsection{프롬프트 구성 요소의 효과}
+프롬프트 구성 요소들의 효과는 Table~\ref{tab:prompt-components-effect}에 제시되어 있다. 
+흥미롭게도, 대부분의 프롬프트 요소들은 파산율에 통계적으로 유의한 영향을 미치지 않았다. 
+다만 목표 설정(G)과 보상 최대화(M) 요소는 게임 지속 라운드에 유의한 영향을 보였다($p < 0.01$).
+
+\begin{table}[ht!]
+\centering
+\caption{프롬프트 복잡도별 위험도 분석. 복잡도는 포함된 프롬프트 요소의 개수를 의미}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lccc}
+\toprule
+\textbf{프롬프트 복잡도} & \textbf{파산율 (\%)} & \textbf{평균 손익 (\$)} & \textbf{평균 라운드} \\
+\midrule
+0개 요소 (BASE) & 35.0 & -28.4 & 16.6 \\
+1개 요소 & 36.5 & -28.3 & 18.0 \\
+2개 요소 & 35.8 & -12.0 & 17.6 \\
+3개 요소 & 30.2 & -27.9 & 18.9 \\
+4개 요소 & 32.0 & -35.2 & 19.6 \\
+5개 요소 (모두) & 40.0 & -29.8 & 17.6 \\
+\bottomrule
+\end{tabular}}
+\label{tab:prompt-complexity}
+\end{table}
+
+\subsubsection{통계적 유의성}
+베팅 타입은 파산율($p = 1.54 \times 10^{-129}$), 손익($p = 0.0153$), 라운드 수($p = 1.75 \times 10^{-9}$) 모두에서 매우 높은 통계적 유의성을 보였다. 
+반면, 개별 프롬프트 구성 요소들은 대체로 유의한 효과를 보이지 않았으며, 이는 LLM의 도박 행동이 프롬프트의 세부 내용보다는 구조적 요인(베팅 방식)에 더 민감함을 시사한다.

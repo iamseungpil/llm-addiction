@@ -1,0 +1,18 @@
+[23:57:07] ================================================================================
+[23:57:07] GPT-4O-MINI FIXED BET SIZE VARIATION EXPERIMENT
+[23:57:07] Model: gpt-4o-mini
+[23:57:07] Bet sizes: [30, 40, 70]
+[23:57:07] ================================================================================
+[23:57:07] Total conditions: 96 (3 bet sizes × 32 prompts)
+[23:57:07] Repetitions per condition: 50
+[23:57:07] Total experiments: 4800
+[23:57:07] Experiments randomized and ready to start
+[23:57:23] Exp 2: R1 - Bet $30, L, Balance $70
+[23:57:43] Exp 4: R1 - Bet $70, L, Balance $30
+[23:57:43] Exp 4: Balance $30 < Bet $70, game ends
+[23:58:06] Exp 7: R1 - Bet $30, L, Balance $70
+[23:58:20] Exp 8: R1 - Bet $40, L, Balance $60
+[23:58:31] Exp 9: R1 - Bet $40, L, Balance $60
+[23:58:52] Exp 11: R1 - Bet $30, W, Balance $160
+[23:58:59] Exp 11: R2 - Bet $30, W, Balance $220
+[23:59:19] Exp 14: R1 - Bet $70, W, Balance $240

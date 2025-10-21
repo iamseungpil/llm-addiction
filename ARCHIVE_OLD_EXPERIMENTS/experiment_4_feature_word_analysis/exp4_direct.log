@@ -1,0 +1,666 @@
+🚀 Experiment 4: Feature Word Analysis
+================================================================================
+Loading causal features...
+Loaded 441 causal features from CSV
+Loaded 441 unique causal features
+  Safe features: 361
+  Risky features: 80
+Loading response logs...
+Found 202 response log files
+Loaded 645702 total responses
+Loading LLaMA and SAEs...
+Loading SAE for layer 25...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 25
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
+   Dataset norm: 31.625
+   Norm factor: 2.023715
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 25
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 26...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L26R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 26
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L26R-8x/hyperparams.json
+   Dataset norm: 35.25
+   Norm factor: 1.815603
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L26R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 26
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 27...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L27R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 27
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L27R-8x/hyperparams.json
+   Dataset norm: 38.25
+   Norm factor: 1.673203
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L27R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 27
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 28...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L28R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 28
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L28R-8x/hyperparams.json
+   Dataset norm: 42.5
+   Norm factor: 1.505882
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L28R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 28
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 29...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L29R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 29
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L29R-8x/hyperparams.json
+   Dataset norm: 46.5
+   Norm factor: 1.376344
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L29R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 29
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 30...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 30
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
+   Dataset norm: 53.25
+   Norm factor: 1.201878
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/checkpoints/final_fixed.pth
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded PyTorch file
+🔧 Processing checkpoint weights...
+   Loading W_E (W_E)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (b_E)... ✅ (torch.Size([32768]))
+   Loading W_D (W_D)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (b_D)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 30
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 31...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 31
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/hyperparams.json
+   Dataset norm: 74.5
+   Norm factor: 0.859060
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 31
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+✅ Models loaded
+
+✅ Experiment 4 complete!
+Results saved: /data/llm_addiction/experiment_4_feature_word_analysis/feature_word_analysis_20251001_000025.json
+Total features analyzed: 441
+/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+Loading response logs:   0%|          | 0/202 [00:00<?, ?it/s]
+Loading response logs:   1%|▏         | 3/202 [00:00<00:08, 22.81it/s]
+Loading response logs:   5%|▍         | 10/202 [00:00<00:08, 23.87it/s]
+Loading response logs:  12%|█▏        | 25/202 [00:00<00:03, 53.20it/s]
+Loading response logs:  17%|█▋        | 34/202 [00:00<00:02, 59.15it/s]
+Loading response logs:  20%|██        | 41/202 [00:01<00:04, 37.88it/s]
+Loading response logs:  29%|██▊       | 58/202 [00:01<00:02, 61.45it/s]
+Loading response logs:  34%|███▎      | 68/202 [00:01<00:02, 66.24it/s]
+Loading response logs:  38%|███▊      | 77/202 [00:01<00:01, 62.53it/s]
+Loading response logs:  42%|████▏     | 85/202 [00:01<00:03, 33.29it/s]
+Loading response logs:  47%|████▋     | 95/202 [00:02<00:02, 41.41it/s]
+Loading response logs:  52%|█████▏    | 105/202 [00:02<00:02, 47.40it/s]
+Loading response logs:  57%|█████▋    | 115/202 [00:02<00:01, 54.05it/s]
+Loading response logs:  62%|██████▏   | 126/202 [00:02<00:01, 64.77it/s]
+Loading response logs:  67%|██████▋   | 135/202 [00:03<00:02, 28.77it/s]
+Loading response logs:  74%|███████▍  | 149/202 [00:03<00:01, 41.21it/s]
+Loading response logs:  84%|████████▎ | 169/202 [00:03<00:00, 62.92it/s]
+Loading response logs:  96%|█████████▌| 193/202 [00:03<00:00, 85.14it/s]
+Loading response logs: 100%|██████████| 202/202 [00:03<00:00, 54.36it/s]
+
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]
+Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.45s/it]
+Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.46s/it]
+Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.46s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.02s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.18s/it]
+
+Analyzing features:   0%|          | 0/441 [00:00<?, ?it/s]
+Analyzing features:   0%|          | 1/441 [00:04<35:50,  4.89s/it]
+Analyzing features:   0%|          | 2/441 [00:09<35:19,  4.83s/it]
+Analyzing features:   1%|          | 3/441 [00:14<35:12,  4.82s/it]
+Analyzing features:   1%|          | 4/441 [00:19<34:59,  4.80s/it]
+Analyzing features:   1%|          | 5/441 [00:24<34:52,  4.80s/it]
+Analyzing features:   1%|▏         | 6/441 [00:28<34:42,  4.79s/it]
+Analyzing features:   2%|▏         | 7/441 [00:33<34:39,  4.79s/it]
+Analyzing features:   2%|▏         | 8/441 [00:38<34:35,  4.79s/it]
+Analyzing features:   2%|▏         | 9/441 [00:43<34:25,  4.78s/it]
+Analyzing features:   2%|▏         | 10/441 [00:47<34:23,  4.79s/it]
+Analyzing features:   2%|▏         | 11/441 [00:52<34:43,  4.85s/it]
+Analyzing features:   3%|▎         | 12/441 [00:57<34:49,  4.87s/it]
+Analyzing features:   3%|▎         | 13/441 [01:02<34:56,  4.90s/it]
+Analyzing features:   3%|▎         | 14/441 [01:07<35:00,  4.92s/it]
+Analyzing features:   3%|▎         | 15/441 [01:12<34:57,  4.92s/it]
+Analyzing features:   4%|▎         | 16/441 [01:17<34:48,  4.91s/it]
+Analyzing features:   4%|▍         | 17/441 [01:22<34:49,  4.93s/it]
+Analyzing features:   4%|▍         | 18/441 [01:27<34:39,  4.92s/it]
+Analyzing features:   4%|▍         | 19/441 [01:32<34:27,  4.90s/it]
+Analyzing features:   5%|▍         | 20/441 [01:37<34:14,  4.88s/it]
+Analyzing features:   5%|▍         | 21/441 [01:41<34:01,  4.86s/it]
+Analyzing features:   5%|▍         | 22/441 [01:46<33:51,  4.85s/it]
+Analyzing features:   5%|▌         | 23/441 [01:51<33:38,  4.83s/it]
+Analyzing features:   5%|▌         | 24/441 [01:56<33:26,  4.81s/it]
+Analyzing features:   6%|▌         | 25/441 [02:01<33:21,  4.81s/it]
+Analyzing features:   6%|▌         | 26/441 [02:06<33:19,  4.82s/it]
+Analyzing features:   6%|▌         | 27/441 [02:10<33:13,  4.82s/it]
+Analyzing features:   6%|▋         | 28/441 [02:15<33:04,  4.81s/it]
+Analyzing features:   7%|▋         | 29/441 [02:20<32:58,  4.80s/it]
+Analyzing features:   7%|▋         | 30/441 [02:25<32:53,  4.80s/it]
+Analyzing features:   7%|▋         | 31/441 [02:29<32:43,  4.79s/it]
+Analyzing features:   7%|▋         | 32/441 [02:34<32:37,  4.79s/it]
+Analyzing features:   7%|▋         | 33/441 [02:39<32:33,  4.79s/it]
+Analyzing features:   8%|▊         | 34/441 [02:44<32:29,  4.79s/it]
+Analyzing features:   8%|▊         | 35/441 [02:49<32:26,  4.79s/it]
+Analyzing features:   8%|▊         | 36/441 [02:53<32:22,  4.80s/it]
+Analyzing features:   8%|▊         | 37/441 [02:58<32:16,  4.79s/it]
+Analyzing features:   9%|▊         | 38/441 [03:03<32:16,  4.81s/it]
+Analyzing features:   9%|▉         | 39/441 [03:08<32:25,  4.84s/it]
+Analyzing features:   9%|▉         | 40/441 [03:13<32:26,  4.85s/it]
+Analyzing features:   9%|▉         | 41/441 [03:18<32:27,  4.87s/it]
+Analyzing features:  10%|▉         | 42/441 [03:23<32:26,  4.88s/it]
+Analyzing features:  10%|▉         | 43/441 [03:28<32:49,  4.95s/it]
+Analyzing features:  10%|▉         | 44/441 [03:34<34:22,  5.20s/it]
+Analyzing features:  10%|█         | 45/441 [03:39<33:50,  5.13s/it]
+Analyzing features:  10%|█         | 46/441 [03:44<34:54,  5.30s/it]
+Analyzing features:  11%|█         | 47/441 [03:50<35:38,  5.43s/it]
+Analyzing features:  11%|█         | 48/441 [03:55<34:44,  5.30s/it]
+Analyzing features:  11%|█         | 49/441 [04:00<33:54,  5.19s/it]
+Analyzing features:  11%|█▏        | 50/441 [04:05<33:21,  5.12s/it]
+Analyzing features:  12%|█▏        | 51/441 [04:11<34:25,  5.30s/it]
+Analyzing features:  12%|█▏        | 52/441 [04:16<35:19,  5.45s/it]
+Analyzing features:  12%|█▏        | 53/441 [04:21<34:10,  5.29s/it]
+Analyzing features:  12%|█▏        | 54/441 [04:26<33:20,  5.17s/it]
+Analyzing features:  12%|█▏        | 55/441 [04:32<33:41,  5.24s/it]
+Analyzing features:  13%|█▎        | 56/441 [04:36<32:50,  5.12s/it]
+Analyzing features:  13%|█▎        | 57/441 [04:41<32:11,  5.03s/it]
+Analyzing features:  13%|█▎        | 58/441 [04:46<31:41,  4.96s/it]
+Analyzing features:  13%|█▎        | 59/441 [04:51<31:57,  5.02s/it]
+Analyzing features:  14%|█▎        | 60/441 [04:56<31:28,  4.96s/it]
+Analyzing features:  14%|█▍        | 61/441 [05:01<31:09,  4.92s/it]
+Analyzing features:  14%|█▍        | 62/441 [05:06<30:58,  4.90s/it]
+Analyzing features:  14%|█▍        | 63/441 [05:11<30:51,  4.90s/it]
+Analyzing features:  15%|█▍        | 64/441 [05:15<30:39,  4.88s/it]
+Analyzing features:  15%|█▍        | 65/441 [05:20<30:32,  4.87s/it]
+Analyzing features:  15%|█▍        | 66/441 [05:25<30:25,  4.87s/it]
+Analyzing features:  15%|█▌        | 67/441 [05:30<30:19,  4.87s/it]
+Analyzing features:  15%|█▌        | 68/441 [05:35<30:13,  4.86s/it]
+Analyzing features:  16%|█▌        | 69/441 [05:40<30:07,  4.86s/it]
+Analyzing features:  16%|█▌        | 70/441 [05:45<29:58,  4.85s/it]
+Analyzing features:  16%|█▌        | 71/441 [05:49<29:53,  4.85s/it]
+Analyzing features:  16%|█▋        | 72/441 [05:54<29:50,  4.85s/it]
+Analyzing features:  17%|█▋        | 73/441 [05:59<29:47,  4.86s/it]
+Analyzing features:  17%|█▋        | 74/441 [06:04<29:43,  4.86s/it]
+Analyzing features:  17%|█▋        | 75/441 [06:09<29:39,  4.86s/it]
+Analyzing features:  17%|█▋        | 76/441 [06:14<29:36,  4.87s/it]
+Analyzing features:  17%|█▋        | 77/441 [06:19<29:37,  4.88s/it]
+Analyzing features:  18%|█▊        | 78/441 [06:24<29:34,  4.89s/it]
+Analyzing features:  18%|█▊        | 79/441 [06:28<29:32,  4.90s/it]
+Analyzing features:  18%|█▊        | 80/441 [06:33<29:25,  4.89s/it]
+Analyzing features:  18%|█▊        | 81/441 [06:39<30:49,  5.14s/it]
+Analyzing features:  19%|█▊        | 82/441 [06:44<30:14,  5.06s/it]
+Analyzing features:  19%|█▉        | 83/441 [06:49<29:51,  5.00s/it]
+Analyzing features:  19%|█▉        | 84/441 [06:54<29:35,  4.97s/it]
+Analyzing features:  19%|█▉        | 85/441 [06:59<29:21,  4.95s/it]
+Analyzing features:  20%|█▉        | 86/441 [07:03<29:12,  4.94s/it]
+Analyzing features:  20%|█▉        | 87/441 [07:08<29:04,  4.93s/it]
+Analyzing features:  20%|█▉        | 88/441 [07:13<28:56,  4.92s/it]
+Analyzing features:  20%|██        | 89/441 [07:18<28:48,  4.91s/it]
+Analyzing features:  20%|██        | 90/441 [07:23<28:40,  4.90s/it]
+Analyzing features:  21%|██        | 91/441 [07:28<28:32,  4.89s/it]
+Analyzing features:  21%|██        | 92/441 [07:33<28:24,  4.88s/it]
+Analyzing features:  21%|██        | 93/441 [07:38<28:21,  4.89s/it]
+Analyzing features:  21%|██▏       | 94/441 [07:43<28:19,  4.90s/it]
+Analyzing features:  22%|██▏       | 95/441 [07:47<28:14,  4.90s/it]
+Analyzing features:  22%|██▏       | 96/441 [07:52<28:10,  4.90s/it]
+Analyzing features:  22%|██▏       | 97/441 [07:57<28:06,  4.90s/it]
+Analyzing features:  22%|██▏       | 98/441 [08:02<28:00,  4.90s/it]
+Analyzing features:  22%|██▏       | 99/441 [08:07<27:57,  4.90s/it]
+Analyzing features:  23%|██▎       | 100/441 [08:12<27:50,  4.90s/it]
+Analyzing features:  23%|██▎       | 101/441 [08:17<27:47,  4.90s/it]
+Analyzing features:  23%|██▎       | 102/441 [08:22<27:43,  4.91s/it]
+Analyzing features:  23%|██▎       | 103/441 [08:27<27:35,  4.90s/it]
+Analyzing features:  24%|██▎       | 104/441 [08:32<27:22,  4.87s/it]
+Analyzing features:  24%|██▍       | 105/441 [08:36<27:18,  4.88s/it]
+Analyzing features:  24%|██▍       | 106/441 [08:41<27:14,  4.88s/it]
+Analyzing features:  24%|██▍       | 107/441 [08:47<27:49,  5.00s/it]
+Analyzing features:  24%|██▍       | 108/441 [08:52<28:56,  5.21s/it]
+Analyzing features:  25%|██▍       | 109/441 [08:58<29:48,  5.39s/it]
+Analyzing features:  25%|██▍       | 110/441 [09:04<30:26,  5.52s/it]
+Analyzing features:  25%|██▌       | 111/441 [09:10<30:47,  5.60s/it]
+Analyzing features:  25%|██▌       | 112/441 [09:15<30:59,  5.65s/it]
+Analyzing features:  26%|██▌       | 113/441 [09:21<31:04,  5.68s/it]
+Analyzing features:  26%|██▌       | 114/441 [09:27<30:59,  5.69s/it]
+Analyzing features:  26%|██▌       | 115/441 [09:33<31:00,  5.71s/it]
+Analyzing features:  26%|██▋       | 116/441 [09:38<31:00,  5.72s/it]
+Analyzing features:  27%|██▋       | 117/441 [09:44<30:58,  5.74s/it]
+Analyzing features:  27%|██▋       | 118/441 [09:50<30:55,  5.75s/it]
+Analyzing features:  27%|██▋       | 119/441 [09:56<30:54,  5.76s/it]
+Analyzing features:  27%|██▋       | 120/441 [10:01<30:45,  5.75s/it]
+Analyzing features:  27%|██▋       | 121/441 [10:07<30:38,  5.75s/it]
+Analyzing features:  28%|██▊       | 122/441 [10:13<30:35,  5.75s/it]
+Analyzing features:  28%|██▊       | 123/441 [10:19<30:35,  5.77s/it]
+Analyzing features:  28%|██▊       | 124/441 [10:25<30:30,  5.78s/it]
+Analyzing features:  28%|██▊       | 125/441 [10:30<30:24,  5.78s/it]
+Analyzing features:  29%|██▊       | 126/441 [10:36<30:19,  5.78s/it]
+Analyzing features:  29%|██▉       | 127/441 [10:42<30:09,  5.76s/it]
+Analyzing features:  29%|██▉       | 128/441 [10:48<30:06,  5.77s/it]
+Analyzing features:  29%|██▉       | 129/441 [10:53<29:56,  5.76s/it]
+Analyzing features:  29%|██▉       | 130/441 [10:59<29:48,  5.75s/it]
+Analyzing features:  30%|██▉       | 131/441 [11:05<29:43,  5.75s/it]
+Analyzing features:  30%|██▉       | 132/441 [11:11<29:41,  5.77s/it]
+Analyzing features:  30%|███       | 133/441 [11:16<29:35,  5.76s/it]
+Analyzing features:  30%|███       | 134/441 [11:22<29:24,  5.75s/it]
+Analyzing features:  31%|███       | 135/441 [11:28<29:19,  5.75s/it]
+Analyzing features:  31%|███       | 136/441 [11:34<29:21,  5.78s/it]
+Analyzing features:  31%|███       | 137/441 [11:40<29:15,  5.78s/it]
+Analyzing features:  31%|███▏      | 138/441 [11:45<29:08,  5.77s/it]
+Analyzing features:  32%|███▏      | 139/441 [11:50<28:07,  5.59s/it]
+Analyzing features:  32%|███▏      | 140/441 [11:56<28:12,  5.62s/it]
+Analyzing features:  32%|███▏      | 141/441 [12:01<26:59,  5.40s/it]
+Analyzing features:  32%|███▏      | 142/441 [12:06<26:02,  5.22s/it]
+Analyzing features:  32%|███▏      | 143/441 [12:11<25:23,  5.11s/it]
+Analyzing features:  33%|███▎      | 144/441 [12:16<24:51,  5.02s/it]
+Analyzing features:  33%|███▎      | 145/441 [12:21<25:42,  5.21s/it]
+Analyzing features:  33%|███▎      | 146/441 [12:27<26:17,  5.35s/it]
+Analyzing features:  33%|███▎      | 147/441 [12:32<26:39,  5.44s/it]
+Analyzing features:  34%|███▎      | 148/441 [12:38<26:11,  5.36s/it]
+Analyzing features:  34%|███▍      | 149/441 [12:43<25:27,  5.23s/it]
+Analyzing features:  34%|███▍      | 150/441 [12:48<24:55,  5.14s/it]
+Analyzing features:  34%|███▍      | 151/441 [12:52<24:26,  5.06s/it]
+Analyzing features:  34%|███▍      | 152/441 [12:58<25:16,  5.25s/it]
+Analyzing features:  35%|███▍      | 153/441 [13:04<25:51,  5.39s/it]
+Analyzing features:  35%|███▍      | 154/441 [13:09<25:06,  5.25s/it]
+Analyzing features:  35%|███▌      | 155/441 [13:14<25:39,  5.38s/it]
+Analyzing features:  35%|███▌      | 156/441 [13:19<24:54,  5.24s/it]
+Analyzing features:  36%|███▌      | 157/441 [13:24<24:23,  5.15s/it]
+Analyzing features:  36%|███▌      | 158/441 [13:29<23:51,  5.06s/it]
+Analyzing features:  36%|███▌      | 159/441 [13:34<23:29,  5.00s/it]
+Analyzing features:  36%|███▋      | 160/441 [13:39<23:12,  4.96s/it]
+Analyzing features:  37%|███▋      | 161/441 [13:44<22:57,  4.92s/it]
+Analyzing features:  37%|███▋      | 162/441 [13:49<22:45,  4.90s/it]
+Analyzing features:  37%|███▋      | 163/441 [13:53<22:36,  4.88s/it]
+Analyzing features:  37%|███▋      | 164/441 [13:58<22:29,  4.87s/it]
+Analyzing features:  37%|███▋      | 165/441 [14:03<22:21,  4.86s/it]
+Analyzing features:  38%|███▊      | 166/441 [14:08<22:15,  4.86s/it]
+Analyzing features:  38%|███▊      | 167/441 [14:13<23:09,  5.07s/it]
+Analyzing features:  38%|███▊      | 168/441 [14:19<24:04,  5.29s/it]
+Analyzing features:  38%|███▊      | 169/441 [14:24<23:24,  5.16s/it]
+Analyzing features:  39%|███▊      | 170/441 [14:29<22:57,  5.08s/it]
+Analyzing features:  39%|███▉      | 171/441 [14:34<22:38,  5.03s/it]
+Analyzing features:  39%|███▉      | 172/441 [14:39<22:23,  5.00s/it]
+Analyzing features:  39%|███▉      | 173/441 [14:44<22:10,  4.96s/it]
+Analyzing features:  39%|███▉      | 174/441 [14:49<21:59,  4.94s/it]
+Analyzing features:  40%|███▉      | 175/441 [14:54<21:51,  4.93s/it]
+Analyzing features:  40%|███▉      | 176/441 [14:58<21:43,  4.92s/it]
+Analyzing features:  40%|████      | 177/441 [15:03<21:35,  4.91s/it]
+Analyzing features:  40%|████      | 178/441 [15:08<21:31,  4.91s/it]
+Analyzing features:  41%|████      | 179/441 [15:13<21:16,  4.87s/it]
+Analyzing features:  41%|████      | 180/441 [15:18<21:03,  4.84s/it]
+Analyzing features:  41%|████      | 181/441 [15:23<20:52,  4.82s/it]
+Analyzing features:  41%|████▏     | 182/441 [15:27<20:41,  4.79s/it]
+Analyzing features:  41%|████▏     | 183/441 [15:32<20:35,  4.79s/it]
+Analyzing features:  42%|████▏     | 184/441 [15:37<20:30,  4.79s/it]
+Analyzing features:  42%|████▏     | 185/441 [15:42<20:24,  4.78s/it]
+Analyzing features:  42%|████▏     | 186/441 [15:46<20:19,  4.78s/it]
+Analyzing features:  42%|████▏     | 187/441 [15:52<21:35,  5.10s/it]
+Analyzing features:  43%|████▎     | 188/441 [15:58<22:28,  5.33s/it]
+Analyzing features:  43%|████▎     | 189/441 [16:04<23:00,  5.48s/it]
+Analyzing features:  43%|████▎     | 190/441 [16:10<23:21,  5.58s/it]
+Analyzing features:  43%|████▎     | 191/441 [16:16<23:30,  5.64s/it]
+Analyzing features:  44%|████▎     | 192/441 [16:21<23:31,  5.67s/it]
+Analyzing features:  44%|████▍     | 193/441 [16:27<23:36,  5.71s/it]
+Analyzing features:  44%|████▍     | 194/441 [16:33<23:38,  5.74s/it]
+Analyzing features:  44%|████▍     | 195/441 [16:39<23:39,  5.77s/it]
+Analyzing features:  44%|████▍     | 196/441 [16:45<23:37,  5.79s/it]
+Analyzing features:  45%|████▍     | 197/441 [16:50<23:32,  5.79s/it]
+Analyzing features:  45%|████▍     | 198/441 [16:56<23:31,  5.81s/it]
+Analyzing features:  45%|████▌     | 199/441 [17:02<23:31,  5.83s/it]
+Analyzing features:  45%|████▌     | 200/441 [17:08<23:22,  5.82s/it]
+Analyzing features:  46%|████▌     | 201/441 [17:14<23:16,  5.82s/it]
+Analyzing features:  46%|████▌     | 202/441 [17:20<23:11,  5.82s/it]
+Analyzing features:  46%|████▌     | 203/441 [17:24<22:03,  5.56s/it]
+Analyzing features:  46%|████▋     | 204/441 [17:29<21:05,  5.34s/it]
+Analyzing features:  46%|████▋     | 205/441 [17:34<20:24,  5.19s/it]
+Analyzing features:  47%|████▋     | 206/441 [17:40<20:36,  5.26s/it]
+Analyzing features:  47%|████▋     | 207/441 [17:45<20:10,  5.17s/it]
+Analyzing features:  47%|████▋     | 208/441 [17:49<19:46,  5.09s/it]
+Analyzing features:  47%|████▋     | 209/441 [17:54<19:25,  5.02s/it]
+Analyzing features:  48%|████▊     | 210/441 [18:00<20:06,  5.22s/it]
+Analyzing features:  48%|████▊     | 211/441 [18:06<20:36,  5.38s/it]
+Analyzing features:  48%|████▊     | 212/441 [18:11<19:54,  5.22s/it]
+Analyzing features:  48%|████▊     | 213/441 [18:15<19:23,  5.10s/it]
+Analyzing features:  49%|████▊     | 214/441 [18:20<18:59,  5.02s/it]
+Analyzing features:  49%|████▉     | 215/441 [18:25<18:51,  5.01s/it]
+Analyzing features:  49%|████▉     | 216/441 [18:30<18:39,  4.98s/it]
+Analyzing features:  49%|████▉     | 217/441 [18:35<18:26,  4.94s/it]
+Analyzing features:  49%|████▉     | 218/441 [18:40<18:19,  4.93s/it]
+Analyzing features:  50%|████▉     | 219/441 [18:45<18:12,  4.92s/it]
+Analyzing features:  50%|████▉     | 220/441 [18:50<18:05,  4.91s/it]
+Analyzing features:  50%|█████     | 221/441 [18:55<17:58,  4.90s/it]
+Analyzing features:  50%|█████     | 222/441 [18:59<17:53,  4.90s/it]
+Analyzing features:  51%|█████     | 223/441 [19:04<17:51,  4.91s/it]
+Analyzing features:  51%|█████     | 224/441 [19:09<17:49,  4.93s/it]
+Analyzing features:  51%|█████     | 225/441 [19:14<17:45,  4.93s/it]
+Analyzing features:  51%|█████     | 226/441 [19:19<17:40,  4.93s/it]
+Analyzing features:  51%|█████▏    | 227/441 [19:24<17:39,  4.95s/it]
+Analyzing features:  52%|█████▏    | 228/441 [19:29<17:34,  4.95s/it]
+Analyzing features:  52%|█████▏    | 229/441 [19:34<17:32,  4.96s/it]
+Analyzing features:  52%|█████▏    | 230/441 [19:40<18:16,  5.20s/it]
+Analyzing features:  52%|█████▏    | 231/441 [19:45<17:47,  5.08s/it]
+Analyzing features:  53%|█████▎    | 232/441 [19:50<17:25,  5.00s/it]
+Analyzing features:  53%|█████▎    | 233/441 [19:54<17:09,  4.95s/it]
+Analyzing features:  53%|█████▎    | 234/441 [19:59<16:58,  4.92s/it]
+Analyzing features:  53%|█████▎    | 235/441 [20:04<16:47,  4.89s/it]
+Analyzing features:  54%|█████▎    | 236/441 [20:09<16:37,  4.87s/it]
+Analyzing features:  54%|█████▎    | 237/441 [20:15<17:24,  5.12s/it]
+Analyzing features:  54%|█████▍    | 238/441 [20:20<17:53,  5.29s/it]
+Analyzing features:  54%|█████▍    | 239/441 [20:26<18:10,  5.40s/it]
+Analyzing features:  54%|█████▍    | 240/441 [20:32<18:20,  5.48s/it]
+Analyzing features:  55%|█████▍    | 241/441 [20:37<18:26,  5.53s/it]
+Analyzing features:  55%|█████▍    | 242/441 [20:43<18:28,  5.57s/it]
+Analyzing features:  55%|█████▌    | 243/441 [20:49<18:28,  5.60s/it]
+Analyzing features:  55%|█████▌    | 244/441 [20:54<18:10,  5.53s/it]
+Analyzing features:  56%|█████▌    | 245/441 [20:59<17:30,  5.36s/it]
+Analyzing features:  56%|█████▌    | 246/441 [21:04<17:01,  5.24s/it]
+Analyzing features:  56%|█████▌    | 247/441 [21:09<16:31,  5.11s/it]
+Analyzing features:  56%|█████▌    | 248/441 [21:14<16:32,  5.14s/it]
+Analyzing features:  56%|█████▋    | 249/441 [21:19<16:17,  5.09s/it]
+Analyzing features:  57%|█████▋    | 250/441 [21:24<16:02,  5.04s/it]
+Analyzing features:  57%|█████▋    | 251/441 [21:29<15:52,  5.01s/it]
+Analyzing features:  57%|█████▋    | 252/441 [21:34<15:42,  4.99s/it]
+Analyzing features:  57%|█████▋    | 253/441 [21:39<15:33,  4.97s/it]
+Analyzing features:  58%|█████▊    | 254/441 [21:43<15:27,  4.96s/it]
+Analyzing features:  58%|█████▊    | 255/441 [21:48<15:22,  4.96s/it]
+Analyzing features:  58%|█████▊    | 256/441 [21:54<16:01,  5.20s/it]
+Analyzing features:  58%|█████▊    | 257/441 [21:59<15:44,  5.13s/it]
+Analyzing features:  59%|█████▊    | 258/441 [22:04<15:30,  5.09s/it]
+Analyzing features:  59%|█████▊    | 259/441 [22:10<16:05,  5.30s/it]
+Analyzing features:  59%|█████▉    | 260/441 [22:15<15:41,  5.20s/it]
+Analyzing features:  59%|█████▉    | 261/441 [22:20<15:21,  5.12s/it]
+Analyzing features:  59%|█████▉    | 262/441 [22:26<15:48,  5.30s/it]
+Analyzing features:  60%|█████▉    | 263/441 [22:30<15:21,  5.17s/it]
+Analyzing features:  60%|█████▉    | 264/441 [22:36<15:45,  5.34s/it]
+Analyzing features:  60%|██████    | 265/441 [22:41<15:13,  5.19s/it]
+Analyzing features:  60%|██████    | 266/441 [22:46<14:50,  5.09s/it]
+Analyzing features:  61%|██████    | 267/441 [22:51<14:37,  5.04s/it]
+Analyzing features:  61%|██████    | 268/441 [22:56<15:03,  5.22s/it]
+Analyzing features:  61%|██████    | 269/441 [23:02<15:20,  5.35s/it]
+Analyzing features:  61%|██████    | 270/441 [23:08<15:30,  5.44s/it]
+Analyzing features:  61%|██████▏   | 271/441 [23:13<15:35,  5.50s/it]
+Analyzing features:  62%|██████▏   | 272/441 [23:19<15:39,  5.56s/it]
+Analyzing features:  62%|██████▏   | 273/441 [23:24<15:11,  5.43s/it]
+Analyzing features:  62%|██████▏   | 274/441 [23:30<15:17,  5.50s/it]
+Analyzing features:  62%|██████▏   | 275/441 [23:35<14:45,  5.34s/it]
+Analyzing features:  63%|██████▎   | 276/441 [23:40<14:19,  5.21s/it]
+Analyzing features:  63%|██████▎   | 277/441 [23:45<13:59,  5.12s/it]
+Analyzing features:  63%|██████▎   | 278/441 [23:50<13:44,  5.06s/it]
+Analyzing features:  63%|██████▎   | 279/441 [23:54<13:31,  5.01s/it]
+Analyzing features:  63%|██████▎   | 280/441 [23:59<13:21,  4.98s/it]
+Analyzing features:  64%|██████▎   | 281/441 [24:04<13:14,  4.96s/it]
+Analyzing features:  64%|██████▍   | 282/441 [24:09<13:07,  4.95s/it]
+Analyzing features:  64%|██████▍   | 283/441 [24:14<13:01,  4.95s/it]
+Analyzing features:  64%|██████▍   | 284/441 [24:19<12:54,  4.94s/it]
+Analyzing features:  65%|██████▍   | 285/441 [24:24<12:49,  4.93s/it]
+Analyzing features:  65%|██████▍   | 286/441 [24:29<12:42,  4.92s/it]
+Analyzing features:  65%|██████▌   | 287/441 [24:34<12:37,  4.92s/it]
+Analyzing features:  65%|██████▌   | 288/441 [24:39<12:29,  4.90s/it]
+Analyzing features:  66%|██████▌   | 289/441 [24:44<12:26,  4.91s/it]
+Analyzing features:  66%|██████▌   | 290/441 [24:48<12:17,  4.88s/it]
+Analyzing features:  66%|██████▌   | 291/441 [24:53<12:08,  4.86s/it]
+Analyzing features:  66%|██████▌   | 292/441 [24:58<12:00,  4.83s/it]
+Analyzing features:  66%|██████▋   | 293/441 [25:03<11:54,  4.82s/it]
+Analyzing features:  67%|██████▋   | 294/441 [25:08<11:47,  4.82s/it]
+Analyzing features:  67%|██████▋   | 295/441 [25:12<11:42,  4.81s/it]
+Analyzing features:  67%|██████▋   | 296/441 [25:17<11:37,  4.81s/it]
+Analyzing features:  67%|██████▋   | 297/441 [25:22<11:32,  4.81s/it]
+Analyzing features:  68%|██████▊   | 298/441 [25:27<11:27,  4.81s/it]
+Analyzing features:  68%|██████▊   | 299/441 [25:32<11:22,  4.81s/it]
+Analyzing features:  68%|██████▊   | 300/441 [25:36<11:16,  4.80s/it]
+Analyzing features:  68%|██████▊   | 301/441 [25:41<11:12,  4.80s/it]
+Analyzing features:  68%|██████▊   | 302/441 [25:46<11:06,  4.80s/it]
+Analyzing features:  69%|██████▊   | 303/441 [25:51<11:01,  4.79s/it]
+Analyzing features:  69%|██████▉   | 304/441 [25:56<10:55,  4.79s/it]
+Analyzing features:  69%|██████▉   | 305/441 [26:00<10:51,  4.79s/it]
+Analyzing features:  69%|██████▉   | 306/441 [26:05<10:47,  4.79s/it]
+Analyzing features:  70%|██████▉   | 307/441 [26:10<10:42,  4.80s/it]
+Analyzing features:  70%|██████▉   | 308/441 [26:15<10:41,  4.82s/it]
+Analyzing features:  70%|███████   | 309/441 [26:20<10:40,  4.85s/it]
+Analyzing features:  70%|███████   | 310/441 [26:25<10:36,  4.86s/it]
+Analyzing features:  71%|███████   | 311/441 [26:29<10:31,  4.86s/it]
+Analyzing features:  71%|███████   | 312/441 [26:34<10:27,  4.87s/it]
+Analyzing features:  71%|███████   | 313/441 [26:39<10:26,  4.90s/it]
+Analyzing features:  71%|███████   | 314/441 [26:44<10:23,  4.91s/it]
+Analyzing features:  71%|███████▏  | 315/441 [26:49<10:19,  4.92s/it]
+Analyzing features:  72%|███████▏  | 316/441 [26:54<10:14,  4.91s/it]
+Analyzing features:  72%|███████▏  | 317/441 [26:59<10:11,  4.93s/it]
+Analyzing features:  72%|███████▏  | 318/441 [27:04<10:05,  4.92s/it]
+Analyzing features:  72%|███████▏  | 319/441 [27:09<09:59,  4.92s/it]
+Analyzing features:  73%|███████▎  | 320/441 [27:14<09:53,  4.91s/it]
+Analyzing features:  73%|███████▎  | 321/441 [27:19<09:47,  4.90s/it]
+Analyzing features:  73%|███████▎  | 322/441 [27:24<09:41,  4.89s/it]
+Analyzing features:  73%|███████▎  | 323/441 [27:28<09:36,  4.88s/it]
+Analyzing features:  73%|███████▎  | 324/441 [27:33<09:30,  4.88s/it]
+Analyzing features:  74%|███████▎  | 325/441 [27:38<09:26,  4.88s/it]
+Analyzing features:  74%|███████▍  | 326/441 [27:43<09:21,  4.88s/it]
+Analyzing features:  74%|███████▍  | 327/441 [27:48<09:29,  4.99s/it]
+Analyzing features:  74%|███████▍  | 328/441 [27:53<09:21,  4.97s/it]
+Analyzing features:  75%|███████▍  | 329/441 [27:58<09:13,  4.95s/it]
+Analyzing features:  75%|███████▍  | 330/441 [28:03<09:04,  4.91s/it]
+Analyzing features:  75%|███████▌  | 331/441 [28:08<08:57,  4.89s/it]
+Analyzing features:  75%|███████▌  | 332/441 [28:13<08:51,  4.88s/it]
+Analyzing features:  76%|███████▌  | 333/441 [28:17<08:45,  4.86s/it]
+Analyzing features:  76%|███████▌  | 334/441 [28:22<08:38,  4.85s/it]
+Analyzing features:  76%|███████▌  | 335/441 [28:27<08:31,  4.82s/it]
+Analyzing features:  76%|███████▌  | 336/441 [28:32<08:28,  4.84s/it]
+Analyzing features:  76%|███████▋  | 337/441 [28:37<08:22,  4.83s/it]
+Analyzing features:  77%|███████▋  | 338/441 [28:42<08:16,  4.82s/it]
+Analyzing features:  77%|███████▋  | 339/441 [28:46<08:11,  4.82s/it]
+Analyzing features:  77%|███████▋  | 340/441 [28:51<08:05,  4.81s/it]
+Analyzing features:  77%|███████▋  | 341/441 [28:56<07:59,  4.80s/it]
+Analyzing features:  78%|███████▊  | 342/441 [29:01<07:54,  4.79s/it]
+Analyzing features:  78%|███████▊  | 343/441 [29:05<07:49,  4.79s/it]
+Analyzing features:  78%|███████▊  | 344/441 [29:10<07:44,  4.79s/it]
+Analyzing features:  78%|███████▊  | 345/441 [29:15<07:39,  4.79s/it]
+Analyzing features:  78%|███████▊  | 346/441 [29:20<07:34,  4.79s/it]
+Analyzing features:  79%|███████▊  | 347/441 [29:25<07:30,  4.79s/it]
+Analyzing features:  79%|███████▉  | 348/441 [29:29<07:25,  4.79s/it]
+Analyzing features:  79%|███████▉  | 349/441 [29:34<07:21,  4.79s/it]
+Analyzing features:  79%|███████▉  | 350/441 [29:39<07:16,  4.79s/it]
+Analyzing features:  80%|███████▉  | 351/441 [29:44<07:11,  4.79s/it]
+Analyzing features:  80%|███████▉  | 352/441 [29:49<07:06,  4.79s/it]
+Analyzing features:  80%|████████  | 353/441 [29:53<07:01,  4.79s/it]
+Analyzing features:  80%|████████  | 354/441 [29:58<06:56,  4.79s/it]
+Analyzing features:  80%|████████  | 355/441 [30:03<06:53,  4.81s/it]
+Analyzing features:  81%|████████  | 356/441 [30:08<06:49,  4.82s/it]
+Analyzing features:  81%|████████  | 357/441 [30:13<06:45,  4.83s/it]
+Analyzing features:  81%|████████  | 358/441 [30:18<06:41,  4.83s/it]
+Analyzing features:  81%|████████▏ | 359/441 [30:22<06:37,  4.84s/it]
+Analyzing features:  82%|████████▏ | 360/441 [30:27<06:31,  4.84s/it]
+Analyzing features:  82%|████████▏ | 361/441 [30:32<06:26,  4.84s/it]
+Analyzing features:  82%|████████▏ | 362/441 [30:37<06:23,  4.86s/it]
+Analyzing features:  82%|████████▏ | 363/441 [30:42<06:19,  4.87s/it]
+Analyzing features:  83%|████████▎ | 364/441 [30:47<06:15,  4.88s/it]
+Analyzing features:  83%|████████▎ | 365/441 [30:52<06:10,  4.87s/it]
+Analyzing features:  83%|████████▎ | 366/441 [30:57<06:06,  4.89s/it]
+Analyzing features:  83%|████████▎ | 367/441 [31:01<06:02,  4.90s/it]
+Analyzing features:  83%|████████▎ | 368/441 [31:06<05:58,  4.91s/it]
+Analyzing features:  84%|████████▎ | 369/441 [31:11<05:53,  4.91s/it]
+Analyzing features:  84%|████████▍ | 370/441 [31:16<05:49,  4.92s/it]
+Analyzing features:  84%|████████▍ | 371/441 [31:21<05:44,  4.93s/it]
+Analyzing features:  84%|████████▍ | 372/441 [31:26<05:39,  4.92s/it]
+Analyzing features:  85%|████████▍ | 373/441 [31:31<05:34,  4.93s/it]
+Analyzing features:  85%|████████▍ | 374/441 [31:36<05:30,  4.93s/it]
+Analyzing features:  85%|████████▌ | 375/441 [31:41<05:25,  4.93s/it]
+Analyzing features:  85%|████████▌ | 376/441 [31:46<05:19,  4.92s/it]
+Analyzing features:  85%|████████▌ | 377/441 [31:51<05:15,  4.92s/it]
+Analyzing features:  86%|████████▌ | 378/441 [31:56<05:09,  4.92s/it]
+Analyzing features:  86%|████████▌ | 379/441 [32:01<05:05,  4.92s/it]
+Analyzing features:  86%|████████▌ | 380/441 [32:06<05:00,  4.93s/it]
+Analyzing features:  86%|████████▋ | 381/441 [32:10<04:55,  4.93s/it]
+Analyzing features:  87%|████████▋ | 382/441 [32:15<04:51,  4.94s/it]
+Analyzing features:  87%|████████▋ | 383/441 [32:20<04:46,  4.94s/it]
+Analyzing features:  87%|████████▋ | 384/441 [32:25<04:41,  4.94s/it]
+Analyzing features:  87%|████████▋ | 385/441 [32:30<04:36,  4.94s/it]
+Analyzing features:  88%|████████▊ | 386/441 [32:35<04:31,  4.94s/it]
+Analyzing features:  88%|████████▊ | 387/441 [32:40<04:26,  4.94s/it]
+Analyzing features:  88%|████████▊ | 388/441 [32:45<04:21,  4.94s/it]
+Analyzing features:  88%|████████▊ | 389/441 [32:50<04:16,  4.94s/it]
+Analyzing features:  88%|████████▊ | 390/441 [32:56<04:24,  5.19s/it]
+Analyzing features:  89%|████████▊ | 391/441 [33:01<04:21,  5.22s/it]
+Analyzing features:  89%|████████▉ | 392/441 [33:06<04:11,  5.13s/it]
+Analyzing features:  89%|████████▉ | 393/441 [33:11<04:02,  5.06s/it]
+Analyzing features:  89%|████████▉ | 394/441 [33:16<03:55,  5.02s/it]
+Analyzing features:  90%|████████▉ | 395/441 [33:21<03:49,  4.99s/it]
+Analyzing features:  90%|████████▉ | 396/441 [33:26<03:43,  4.96s/it]
+Analyzing features:  90%|█████████ | 397/441 [33:31<03:37,  4.95s/it]
+Analyzing features:  90%|█████████ | 398/441 [33:35<03:32,  4.94s/it]
+Analyzing features:  90%|█████████ | 399/441 [33:40<03:27,  4.93s/it]
+Analyzing features:  91%|█████████ | 400/441 [33:45<03:21,  4.91s/it]
+Analyzing features:  91%|█████████ | 401/441 [33:50<03:15,  4.90s/it]
+Analyzing features:  91%|█████████ | 402/441 [33:55<03:10,  4.89s/it]
+Analyzing features:  91%|█████████▏| 403/441 [34:00<03:05,  4.88s/it]
+Analyzing features:  92%|█████████▏| 404/441 [34:05<03:00,  4.87s/it]
+Analyzing features:  92%|█████████▏| 405/441 [34:10<02:55,  4.87s/it]
+Analyzing features:  92%|█████████▏| 406/441 [34:14<02:50,  4.86s/it]
+Analyzing features:  92%|█████████▏| 407/441 [34:19<02:45,  4.86s/it]
+Analyzing features:  93%|█████████▎| 408/441 [34:24<02:40,  4.86s/it]
+Analyzing features:  93%|█████████▎| 409/441 [34:29<02:35,  4.85s/it]
+Analyzing features:  93%|█████████▎| 410/441 [34:34<02:30,  4.85s/it]
+Analyzing features:  93%|█████████▎| 411/441 [34:39<02:25,  4.86s/it]
+Analyzing features:  93%|█████████▎| 412/441 [34:44<02:20,  4.86s/it]
+Analyzing features:  94%|█████████▎| 413/441 [34:48<02:16,  4.86s/it]
+Analyzing features:  94%|█████████▍| 414/441 [34:54<02:13,  4.95s/it]
+Analyzing features:  94%|█████████▍| 415/441 [34:58<02:07,  4.92s/it]
+Analyzing features:  94%|█████████▍| 416/441 [35:03<02:02,  4.91s/it]
+Analyzing features:  95%|█████████▍| 417/441 [35:08<01:58,  4.93s/it]
+Analyzing features:  95%|█████████▍| 418/441 [35:13<01:53,  4.93s/it]
+Analyzing features:  95%|█████████▌| 419/441 [35:18<01:50,  5.04s/it]
+Analyzing features:  95%|█████████▌| 420/441 [35:24<01:48,  5.18s/it]
+Analyzing features:  95%|█████████▌| 421/441 [35:29<01:41,  5.08s/it]
+Analyzing features:  96%|█████████▌| 422/441 [35:34<01:35,  5.01s/it]
+Analyzing features:  96%|█████████▌| 423/441 [35:39<01:29,  5.00s/it]
+Analyzing features:  96%|█████████▌| 424/441 [35:44<01:28,  5.19s/it]
+Analyzing features:  96%|█████████▋| 425/441 [35:50<01:25,  5.35s/it]
+Analyzing features:  97%|█████████▋| 426/441 [35:56<01:21,  5.46s/it]
+Analyzing features:  97%|█████████▋| 427/441 [36:01<01:16,  5.46s/it]
+Analyzing features:  97%|█████████▋| 428/441 [36:06<01:09,  5.31s/it]
+Analyzing features:  97%|█████████▋| 429/441 [36:12<01:04,  5.38s/it]
+Analyzing features:  98%|█████████▊| 430/441 [36:17<01:00,  5.47s/it]
+Analyzing features:  98%|█████████▊| 431/441 [36:22<00:53,  5.32s/it]
+Analyzing features:  98%|█████████▊| 432/441 [36:27<00:46,  5.17s/it]
+Analyzing features:  98%|█████████▊| 433/441 [36:32<00:40,  5.08s/it]
+Analyzing features:  98%|█████████▊| 434/441 [36:38<00:36,  5.27s/it]
+Analyzing features:  99%|█████████▊| 435/441 [36:43<00:31,  5.17s/it]
+Analyzing features:  99%|█████████▉| 436/441 [36:48<00:25,  5.10s/it]
+Analyzing features:  99%|█████████▉| 437/441 [36:53<00:20,  5.05s/it]
+Analyzing features:  99%|█████████▉| 438/441 [36:57<00:15,  5.01s/it]
+Analyzing features: 100%|█████████▉| 439/441 [37:03<00:10,  5.20s/it]
+Analyzing features: 100%|█████████▉| 440/441 [37:08<00:05,  5.24s/it]
+Analyzing features: 100%|██████████| 441/441 [37:14<00:00,  5.34s/it]
+Analyzing features: 100%|██████████| 441/441 [37:14<00:00,  5.07s/it]
+
+

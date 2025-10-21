@@ -1,0 +1,26 @@
+/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading features from /data/llm_addiction/results/significant_features_exp1.json...
+✅ Found 17028 Layer 25 features
+✅ Found 16021 Layer 30 features
+✅ TOTAL: 33,049 features to test
+📊 Total feature-stage-trial combinations: 297,441
+📊 Parallel batches needed: 2,975
+⏱️  Estimated time (2s per batch): 1.7 hours
+🔄 Loading Llama-3.1-8B-Base...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:03<00:09,  3.24s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:03,  1.93s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.49s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.21s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.50s/it]
+🔄 Loading SAEs...
+✅ Loading Layer 25 SAE from checkpoint...
+✅ Layer 25 SAE loaded successfully
+✅ Loading Layer 30 SAE from checkpoint...
+✅ Layer 30 SAE loaded successfully
+✅ Models loaded
+
+================================================================================
+🚀 TRUE PARALLEL BATCH PROCESSING - ALL 33,049 FEATURES
+   Batch size: 100, Stages: 3, Trials: 3
+================================================================================
+
+📊 Testing 17,028 Layer 25 features...
+  📊 Total tests for Layer 25: 153,252
+Layer 25 parallel batches:   0%|          | 0/1533 [00:00<?, ?it/s]Layer 25 parallel batches:   0%|          | 1/1533 [03:11<81:23:39, 191.27s/it]Layer 25 parallel batches:   0%|          | 2/1533 [06:12<78:53:34, 185.51s/it]Layer 25 parallel batches:   0%|          | 3/1533 [09:15<78:19:10, 184.28s/it]Layer 25 parallel batches:   0%|          | 4/1533 [12:20<78:21:27, 184.49s/it]

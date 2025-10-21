@@ -1,0 +1,896 @@
+🚀 Experiment 4: Feature Word Analysis
+================================================================================
+Loading causal features...
+Loaded 441 causal features from CSV
+Loaded 441 unique causal features
+  Safe features: 361
+  Risky features: 80
+Loading response logs...
+Found 202 response log files
+Loaded 645702 total responses
+Loading LLaMA and SAEs...
+Loading SAE for layer 25...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 25
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
+   Dataset norm: 31.625
+   Norm factor: 2.023715
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 25
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 26...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L26R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 26
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L26R-8x/hyperparams.json
+   Dataset norm: 35.25
+   Norm factor: 1.815603
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L26R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 26
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 27...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L27R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 27
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L27R-8x/hyperparams.json
+   Dataset norm: 38.25
+   Norm factor: 1.673203
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L27R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 27
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 28...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L28R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 28
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L28R-8x/hyperparams.json
+   Dataset norm: 42.5
+   Norm factor: 1.505882
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L28R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 28
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 29...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L29R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 29
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L29R-8x/hyperparams.json
+   Dataset norm: 46.5
+   Norm factor: 1.376344
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L29R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 29
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 30...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 30
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
+   Dataset norm: 53.25
+   Norm factor: 1.201878
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/checkpoints/final_fixed.pth
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded PyTorch file
+🔧 Processing checkpoint weights...
+   Loading W_E (W_E)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (b_E)... ✅ (torch.Size([32768]))
+   Loading W_D (W_D)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (b_D)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 30
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+Loading SAE for layer 31...
+🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/hyperparams.json
+✅ Loading WORKING SAE for Layer 31
+   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/hyperparams.json
+   Dataset norm: 74.5
+   Norm factor: 0.859060
+   Using ReLU instead of JumpReLU (threshold=0.0)
+🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/checkpoints/final.safetensors
+   File size: 512.1 MB
+🔧 Initializing SAE model...
+🔧 Loading checkpoint weights (CPU)...
+✅ Loaded safetensors file
+🔧 Processing checkpoint weights...
+   Loading W_E (encoder.weight)... ✅ (torch.Size([4096, 32768]))
+   Loading b_E (encoder.bias)... ✅ (torch.Size([32768]))
+   Loading W_D (decoder.weight)... ✅ (torch.Size([32768, 4096]))
+   Loading b_D (decoder.bias)... ✅ (torch.Size([4096]))
+🔧 Clearing checkpoint from memory...
+🔧 Loading state dict to model...
+🔧 Moving model to cuda:0...
+✅ OPTIMIZED SAE loaded successfully!
+   Layer: 31
+   Expected reconstruction error: ~47%
+   Feature clamping: VERIFIED WORKING
+   Memory optimizations: ENABLED
+✅ Models loaded
+Error in decoder analysis for L25-1026: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-10427: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-1130: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-11551: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-11588: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-1173: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-12115: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-12172: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-12242: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-13322: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-13464: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-13693: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-13839: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-14511: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-15214: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-15408: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-17077: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-17105: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-17160: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-17446: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-17626: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-17896: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-18438: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-1844: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-18825: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-18884: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-18920: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-19198: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-2021: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-20276: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-20658: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-2106: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-21320: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-23386: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-23397: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-23960: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-24013: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-24392: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-2498: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-25487: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-25949: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-27469: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-2782: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-27879: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-27969: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-28235: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-30388: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-30948: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-31622: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-31905: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-31936: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-32159: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-32318: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-4160: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-4612: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-5112: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-5245: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-5792: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-6706: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-7304: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-7307: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-8527: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-8583: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-8847: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-8948: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-9276: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-9316: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-9594: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L25-9764: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-10751: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-11008: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-1132: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-12715: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-13353: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-13771: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-13822: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-1453: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-1488: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-15167: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-15328: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-17129: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-17175: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-17535: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-19030: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-19643: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-2010: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-20131: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-20512: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-20752: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-21198: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-21721: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-22073: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-22096: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-22345: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-22708: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-23375: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-23454: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-23634: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-23764: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-23893: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-25841: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-26141: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-26324: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-26452: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-29004: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-29914: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-30049: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-30400: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-31199: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-31955: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-32072: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-3836: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-4490: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-4552: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-4733: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-5283: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-5425: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-5614: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-6090: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-7032: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-8276: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-8366: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-879: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-8846: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-9466: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-9689: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L26-9719: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-11759: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-12104: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-1387: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-16474: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-24741: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-28481: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-28498: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-29237: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-29583: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-31114: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-32304: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L27-32312: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-10954: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-11282: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-11402: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-13318: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-1338: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-13750: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-14093: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-14543: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-15265: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-15680: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-17160: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-18107: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-18857: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-18880: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-20721: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-21019: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-21750: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-22024: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-22377: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-22597: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-22604: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-22933: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-23866: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-2412: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-24474: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-24738: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-24847: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-26045: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-26060: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-26325: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-26792: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-28009: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-28237: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-29030: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-29851: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-30332: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-30751: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-3145: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-32096: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-32640: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-3341: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-3661: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-3681: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-3820: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-4558: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-498: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-522: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-5266: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-5942: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-640: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-6525: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-6777: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-6902: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-7675: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-8609: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-8916: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L28-9890: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-10029: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-10238: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-10626: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-10943: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-11143: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-11237: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-11424: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-11474: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-11956: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-124: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-1280: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-13187: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-13425: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-13502: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-13805: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-13909: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-13931: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-14045: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-14699: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-1593: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-1624: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-16368: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-16384: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-1639: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-16616: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-16672: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-16698: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-16708: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-16944: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-17293: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-17381: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-17585: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-1762: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-18606: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-1878: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-18880: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-19405: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-19647: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-20218: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-20662: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-2077: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-2086: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-21091: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-21492: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-21853: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-22775: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-23056: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-23088: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-23201: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-23432: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-23656: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-23824: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-24053: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-24272: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-24397: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-24617: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-24682: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-25629: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-26493: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-26685: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-26821: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-27313: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-28288: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-28453: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-28929: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-29097: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-29205: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-2934: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-29375: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-29928: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-3014: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-30868: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-30930: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-30993: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-31081: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-31191: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-32379: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-3454: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-3494: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-3615: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-4774: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-5006: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-5040: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-5113: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-5488: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-5703: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-5927: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-8164: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-8170: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-8197: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-8276: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-8624: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-8801: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-8839: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-9208: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-951: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-9694: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-9703: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-9762: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L29-9875: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-10744: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-10876: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-12795: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-13225: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-13566: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-14727: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-15144: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-15218: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-15442: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-15544: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-15613: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-15947: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-15997: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-16403: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-16555: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-16777: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-16827: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-16845: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-17033: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-17352: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-17384: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-17522: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-17924: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-18100: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-18141: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-18542: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-18786: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-18829: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-19197: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-19433: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-19747: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-20172: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-20587: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-20617: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-21705: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-22299: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-22493: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-22695: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-22903: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-22924: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-23605: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-23955: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-24798: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-2537: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-26079: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-2634: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-26388: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-26681: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-27100: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-27112: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-27141: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-28729: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-29044: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-29157: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-2948: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-3069: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-31063: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-31162: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-31204: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-32421: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-3269: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-4305: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-4335: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-461: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-512: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-5237: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-5516: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-5800: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-6387: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-6497: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-671: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-6710: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-7183: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-7254: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-7255: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-7680: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-7758: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-8068: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-8350: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-8697: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-8999: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-9151: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L30-9988: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-10036: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-10725: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-11256: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-11548: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-11974: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-12810: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-1287: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-14016: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-14374: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-14838: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-14913: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-15533: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-16189: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-16586: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-16925: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-1757: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-17787: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-18015: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-19311: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-19690: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-20205: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-20466: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-2073: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-21028: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-21390: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-21440: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-21462: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-21983: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-22745: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-22798: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-23263: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-25773: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-2690: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-270: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-27057: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-27073: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-27330: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-27388: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-27416: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-27441: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-27952: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-28105: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-28707: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-30032: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-32063: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-32310: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-32576: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-3781: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-4059: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-4378: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-4420: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-4828: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-5311: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-571: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-5891: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-6396: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-7707: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-7824: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-792: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-8369: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-9275: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+Error in decoder analysis for L31-9826: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+
+✅ Experiment 4 complete!
+Results saved: /data/llm_addiction/experiment_4_feature_word_analysis/feature_word_analysis_20250930_221444.json
+Total features analyzed: 441
+/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+Loading response logs:   0%|          | 0/202 [00:00<?, ?it/s]
+Loading response logs:   1%|▏         | 3/202 [00:00<00:08, 22.30it/s]
+Loading response logs:   5%|▍         | 10/202 [00:00<00:09, 20.57it/s]
+Loading response logs:  11%|█         | 22/202 [00:00<00:04, 44.57it/s]
+Loading response logs:  14%|█▍        | 29/202 [00:00<00:04, 42.97it/s]
+Loading response logs:  18%|█▊        | 37/202 [00:00<00:03, 48.52it/s]
+Loading response logs:  21%|██▏       | 43/202 [00:01<00:04, 33.87it/s]
+Loading response logs:  29%|██▊       | 58/202 [00:01<00:02, 54.81it/s]
+Loading response logs:  34%|███▎      | 68/202 [00:01<00:02, 61.03it/s]
+Loading response logs:  38%|███▊      | 76/202 [00:01<00:02, 57.34it/s]
+Loading response logs:  41%|████      | 83/202 [00:01<00:03, 36.89it/s]
+Loading response logs:  47%|████▋     | 95/202 [00:02<00:02, 48.29it/s]
+Loading response logs:  52%|█████▏    | 105/202 [00:02<00:01, 53.28it/s]
+Loading response logs:  56%|█████▌    | 113/202 [00:02<00:01, 57.34it/s]
+Loading response logs:  59%|█████▉    | 120/202 [00:02<00:01, 58.49it/s]
+Loading response logs:  63%|██████▎   | 127/202 [00:02<00:02, 34.31it/s]
+Loading response logs:  66%|██████▌   | 133/202 [00:03<00:01, 36.31it/s]
+Loading response logs:  73%|███████▎  | 147/202 [00:03<00:01, 49.81it/s]
+Loading response logs:  81%|████████  | 163/202 [00:03<00:00, 69.88it/s]
+Loading response logs:  91%|█████████ | 183/202 [00:03<00:00, 96.56it/s]
+Loading response logs:  97%|█████████▋| 196/202 [00:03<00:00, 97.94it/s]
+Loading response logs: 100%|██████████| 202/202 [00:03<00:00, 55.76it/s]
+
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]
+Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.45s/it]
+Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.45s/it]
+Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.46s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.03s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.18s/it]
+
+Analyzing features:   0%|          | 0/441 [00:00<?, ?it/s]
+Analyzing features:   0%|          | 1/441 [00:00<00:48,  9.10it/s]
+Analyzing features:   1%|          | 3/441 [00:00<00:38, 11.39it/s]
+Analyzing features:   1%|          | 5/441 [00:00<00:36, 12.01it/s]
+Analyzing features:   2%|▏         | 7/441 [00:00<00:35, 12.29it/s]
+Analyzing features:   2%|▏         | 9/441 [00:00<00:35, 12.17it/s]
+Analyzing features:   2%|▏         | 11/441 [00:00<00:37, 11.41it/s]
+Analyzing features:   3%|▎         | 13/441 [00:01<00:37, 11.41it/s]
+Analyzing features:   3%|▎         | 15/441 [00:01<00:36, 11.80it/s]
+Analyzing features:   4%|▍         | 17/441 [00:01<00:35, 12.08it/s]
+Analyzing features:   4%|▍         | 19/441 [00:01<00:34, 12.26it/s]
+Analyzing features:   5%|▍         | 21/441 [00:01<00:33, 12.38it/s]
+Analyzing features:   5%|▌         | 23/441 [00:01<00:33, 12.51it/s]
+Analyzing features:   6%|▌         | 25/441 [00:02<00:33, 12.54it/s]
+Analyzing features:   6%|▌         | 27/441 [00:02<00:32, 12.63it/s]
+Analyzing features:   7%|▋         | 29/441 [00:02<00:32, 12.70it/s]
+Analyzing features:   7%|▋         | 31/441 [00:02<00:32, 12.73it/s]
+Analyzing features:   7%|▋         | 33/441 [00:02<00:31, 12.81it/s]
+Analyzing features:   8%|▊         | 35/441 [00:02<00:31, 12.84it/s]
+Analyzing features:   8%|▊         | 37/441 [00:03<00:31, 12.84it/s]
+Analyzing features:   9%|▉         | 39/441 [00:03<00:31, 12.88it/s]
+Analyzing features:   9%|▉         | 41/441 [00:03<00:31, 12.81it/s]
+Analyzing features:  10%|▉         | 43/441 [00:03<00:31, 12.84it/s]
+Analyzing features:  10%|█         | 45/441 [00:03<00:31, 12.54it/s]
+Analyzing features:  11%|█         | 47/441 [00:03<00:33, 11.84it/s]
+Analyzing features:  11%|█         | 49/441 [00:03<00:32, 11.92it/s]
+Analyzing features:  12%|█▏        | 51/441 [00:04<00:32, 12.14it/s]
+Analyzing features:  12%|█▏        | 53/441 [00:04<00:31, 12.33it/s]
+Analyzing features:  12%|█▏        | 55/441 [00:04<00:30, 12.50it/s]
+Analyzing features:  13%|█▎        | 57/441 [00:04<00:30, 12.56it/s]
+Analyzing features:  13%|█▎        | 59/441 [00:04<00:31, 12.26it/s]
+Analyzing features:  14%|█▍        | 61/441 [00:04<00:32, 11.69it/s]
+Analyzing features:  14%|█▍        | 63/441 [00:05<00:31, 12.04it/s]
+Analyzing features:  15%|█▍        | 65/441 [00:05<00:30, 12.32it/s]
+Analyzing features:  15%|█▌        | 67/441 [00:05<00:29, 12.53it/s]
+Analyzing features:  16%|█▌        | 69/441 [00:05<00:29, 12.56it/s]
+Analyzing features:  16%|█▌        | 71/441 [00:05<00:29, 12.61it/s]
+Analyzing features:  17%|█▋        | 73/441 [00:05<00:28, 12.73it/s]
+Analyzing features:  17%|█▋        | 75/441 [00:06<00:28, 12.78it/s]
+Analyzing features:  17%|█▋        | 77/441 [00:06<00:28, 12.80it/s]
+Analyzing features:  18%|█▊        | 79/441 [00:06<00:28, 12.83it/s]
+Analyzing features:  18%|█▊        | 81/441 [00:06<00:27, 12.86it/s]
+Analyzing features:  19%|█▉        | 83/441 [00:06<00:27, 12.86it/s]
+Analyzing features:  19%|█▉        | 85/441 [00:06<00:27, 12.85it/s]
+Analyzing features:  20%|█▉        | 87/441 [00:06<00:27, 12.81it/s]
+Analyzing features:  20%|██        | 89/441 [00:07<00:27, 12.85it/s]
+Analyzing features:  21%|██        | 91/441 [00:07<00:27, 12.85it/s]
+Analyzing features:  21%|██        | 93/441 [00:07<00:27, 12.53it/s]
+Analyzing features:  22%|██▏       | 95/441 [00:07<00:28, 12.10it/s]
+Analyzing features:  22%|██▏       | 97/441 [00:07<00:28, 12.25it/s]
+Analyzing features:  22%|██▏       | 99/441 [00:07<00:27, 12.41it/s]
+Analyzing features:  23%|██▎       | 101/441 [00:08<00:27, 12.26it/s]
+Analyzing features:  23%|██▎       | 103/441 [00:08<00:27, 12.24it/s]
+Analyzing features:  24%|██▍       | 105/441 [00:08<00:27, 12.37it/s]
+Analyzing features:  24%|██▍       | 107/441 [00:08<00:26, 12.48it/s]
+Analyzing features:  25%|██▍       | 109/441 [00:08<00:26, 12.55it/s]
+Analyzing features:  25%|██▌       | 111/441 [00:08<00:26, 12.65it/s]
+Analyzing features:  26%|██▌       | 113/441 [00:09<00:25, 12.72it/s]
+Analyzing features:  26%|██▌       | 115/441 [00:09<00:25, 12.77it/s]
+Analyzing features:  27%|██▋       | 117/441 [00:09<00:25, 12.84it/s]
+Analyzing features:  27%|██▋       | 119/441 [00:09<00:24, 12.93it/s]
+Analyzing features:  27%|██▋       | 121/441 [00:09<00:24, 12.97it/s]
+Analyzing features:  28%|██▊       | 123/441 [00:09<00:24, 13.00it/s]
+Analyzing features:  28%|██▊       | 125/441 [00:10<00:24, 12.96it/s]
+Analyzing features:  29%|██▉       | 127/441 [00:10<00:25, 12.19it/s]
+Analyzing features:  29%|██▉       | 129/441 [00:10<00:25, 12.08it/s]
+Analyzing features:  30%|██▉       | 131/441 [00:10<00:26, 11.70it/s]
+Analyzing features:  30%|███       | 133/441 [00:10<00:29, 10.46it/s]
+Analyzing features:  31%|███       | 135/441 [00:11<00:30, 10.06it/s]
+Analyzing features:  31%|███       | 137/441 [00:11<00:30,  9.86it/s]
+Analyzing features:  32%|███▏      | 139/441 [00:11<00:30,  9.83it/s]
+Analyzing features:  32%|███▏      | 140/441 [00:11<00:30,  9.79it/s]
+Analyzing features:  32%|███▏      | 141/441 [00:11<00:30,  9.76it/s]
+Analyzing features:  32%|███▏      | 142/441 [00:11<00:30,  9.73it/s]
+Analyzing features:  32%|███▏      | 143/441 [00:11<00:30,  9.73it/s]
+Analyzing features:  33%|███▎      | 144/441 [00:11<00:30,  9.70it/s]
+Analyzing features:  33%|███▎      | 145/441 [00:12<00:30,  9.63it/s]
+Analyzing features:  33%|███▎      | 146/441 [00:12<00:30,  9.70it/s]
+Analyzing features:  34%|███▎      | 148/441 [00:12<00:29,  9.95it/s]
+Analyzing features:  34%|███▍      | 150/441 [00:12<00:28, 10.06it/s]
+Analyzing features:  34%|███▍      | 152/441 [00:12<00:28, 10.26it/s]
+Analyzing features:  35%|███▍      | 154/441 [00:12<00:26, 10.63it/s]
+Analyzing features:  35%|███▌      | 156/441 [00:13<00:25, 11.07it/s]
+Analyzing features:  36%|███▌      | 158/441 [00:13<00:24, 11.54it/s]
+Analyzing features:  36%|███▋      | 160/441 [00:13<00:23, 11.88it/s]
+Analyzing features:  37%|███▋      | 162/441 [00:13<00:23, 11.99it/s]
+Analyzing features:  37%|███▋      | 164/441 [00:13<00:22, 12.08it/s]
+Analyzing features:  38%|███▊      | 166/441 [00:13<00:22, 12.24it/s]
+Analyzing features:  38%|███▊      | 168/441 [00:14<00:22, 12.39it/s]
+Analyzing features:  39%|███▊      | 170/441 [00:14<00:21, 12.47it/s]
+Analyzing features:  39%|███▉      | 172/441 [00:14<00:21, 12.59it/s]
+Analyzing features:  39%|███▉      | 174/441 [00:14<00:21, 12.56it/s]
+Analyzing features:  40%|███▉      | 176/441 [00:14<00:20, 12.67it/s]
+Analyzing features:  40%|████      | 178/441 [00:14<00:20, 12.78it/s]
+Analyzing features:  41%|████      | 180/441 [00:14<00:20, 12.87it/s]
+Analyzing features:  41%|████▏     | 182/441 [00:15<00:20, 12.92it/s]
+Analyzing features:  42%|████▏     | 184/441 [00:15<00:19, 12.94it/s]
+Analyzing features:  42%|████▏     | 186/441 [00:15<00:21, 12.11it/s]
+Analyzing features:  43%|████▎     | 188/441 [00:15<00:22, 11.07it/s]
+Analyzing features:  43%|████▎     | 190/441 [00:15<00:23, 10.53it/s]
+Analyzing features:  44%|████▎     | 192/441 [00:16<00:24, 10.24it/s]
+Analyzing features:  44%|████▍     | 194/441 [00:16<00:24, 10.07it/s]
+Analyzing features:  44%|████▍     | 196/441 [00:16<00:24, 10.00it/s]
+Analyzing features:  45%|████▍     | 198/441 [00:16<00:24,  9.90it/s]
+Analyzing features:  45%|████▌     | 199/441 [00:16<00:24,  9.87it/s]
+Analyzing features:  45%|████▌     | 200/441 [00:16<00:24,  9.87it/s]
+Analyzing features:  46%|████▌     | 201/441 [00:17<00:24,  9.84it/s]
+Analyzing features:  46%|████▌     | 203/441 [00:17<00:24,  9.90it/s]
+Analyzing features:  46%|████▋     | 204/441 [00:17<00:23,  9.91it/s]
+Analyzing features:  46%|████▋     | 205/441 [00:17<00:23,  9.93it/s]
+Analyzing features:  47%|████▋     | 207/441 [00:17<00:23, 10.06it/s]
+Analyzing features:  47%|████▋     | 209/441 [00:17<00:22, 10.11it/s]
+Analyzing features:  48%|████▊     | 211/441 [00:17<00:22, 10.13it/s]
+Analyzing features:  48%|████▊     | 213/441 [00:18<00:22, 10.19it/s]
+Analyzing features:  49%|████▉     | 215/441 [00:18<00:22, 10.22it/s]
+Analyzing features:  49%|████▉     | 217/441 [00:18<00:21, 10.31it/s]
+Analyzing features:  50%|████▉     | 219/441 [00:18<00:21, 10.37it/s]
+Analyzing features:  50%|█████     | 221/441 [00:18<00:21, 10.47it/s]
+Analyzing features:  51%|█████     | 223/441 [00:19<00:20, 10.58it/s]
+Analyzing features:  51%|█████     | 225/441 [00:19<00:20, 10.66it/s]
+Analyzing features:  51%|█████▏    | 227/441 [00:19<00:19, 10.76it/s]
+Analyzing features:  52%|█████▏    | 229/441 [00:19<00:19, 10.95it/s]
+Analyzing features:  52%|█████▏    | 231/441 [00:19<00:19, 10.99it/s]
+Analyzing features:  53%|█████▎    | 233/441 [00:20<00:18, 11.09it/s]
+Analyzing features:  53%|█████▎    | 235/441 [00:20<00:18, 11.17it/s]
+Analyzing features:  54%|█████▎    | 237/441 [00:20<00:18, 11.16it/s]
+Analyzing features:  54%|█████▍    | 239/441 [00:20<00:18, 11.14it/s]
+Analyzing features:  55%|█████▍    | 241/441 [00:20<00:17, 11.15it/s]
+Analyzing features:  55%|█████▌    | 243/441 [00:20<00:17, 11.45it/s]
+Analyzing features:  56%|█████▌    | 245/441 [00:21<00:16, 11.86it/s]
+Analyzing features:  56%|█████▌    | 247/441 [00:21<00:15, 12.20it/s]
+Analyzing features:  56%|█████▋    | 249/441 [00:21<00:15, 12.47it/s]
+Analyzing features:  57%|█████▋    | 251/441 [00:21<00:15, 12.63it/s]
+Analyzing features:  57%|█████▋    | 253/441 [00:21<00:14, 12.80it/s]
+Analyzing features:  58%|█████▊    | 255/441 [00:21<00:14, 12.93it/s]
+Analyzing features:  58%|█████▊    | 257/441 [00:21<00:14, 12.98it/s]
+Analyzing features:  59%|█████▊    | 259/441 [00:22<00:13, 13.06it/s]
+Analyzing features:  59%|█████▉    | 261/441 [00:22<00:13, 13.12it/s]
+Analyzing features:  60%|█████▉    | 263/441 [00:22<00:13, 13.16it/s]
+Analyzing features:  60%|██████    | 265/441 [00:22<00:13, 13.23it/s]
+Analyzing features:  61%|██████    | 267/441 [00:22<00:13, 13.26it/s]
+Analyzing features:  61%|██████    | 269/441 [00:22<00:12, 13.28it/s]
+Analyzing features:  61%|██████▏   | 271/441 [00:23<00:12, 13.29it/s]
+Analyzing features:  62%|██████▏   | 273/441 [00:23<00:12, 13.20it/s]
+Analyzing features:  62%|██████▏   | 275/441 [00:23<00:12, 13.30it/s]
+Analyzing features:  63%|██████▎   | 277/441 [00:23<00:12, 13.36it/s]
+Analyzing features:  63%|██████▎   | 279/441 [00:23<00:12, 13.42it/s]
+Analyzing features:  64%|██████▎   | 281/441 [00:23<00:12, 13.21it/s]
+Analyzing features:  64%|██████▍   | 283/441 [00:23<00:12, 13.09it/s]
+Analyzing features:  65%|██████▍   | 285/441 [00:24<00:11, 13.09it/s]
+Analyzing features:  65%|██████▌   | 287/441 [00:24<00:11, 13.04it/s]
+Analyzing features:  66%|██████▌   | 289/441 [00:24<00:11, 13.06it/s]
+Analyzing features:  66%|██████▌   | 291/441 [00:24<00:11, 13.11it/s]
+Analyzing features:  66%|██████▋   | 293/441 [00:24<00:11, 13.12it/s]
+Analyzing features:  67%|██████▋   | 295/441 [00:24<00:11, 13.07it/s]
+Analyzing features:  67%|██████▋   | 297/441 [00:25<00:11, 13.08it/s]
+Analyzing features:  68%|██████▊   | 299/441 [00:25<00:10, 13.03it/s]
+Analyzing features:  68%|██████▊   | 301/441 [00:25<00:10, 13.02it/s]
+Analyzing features:  69%|██████▊   | 303/441 [00:25<00:10, 12.90it/s]
+Analyzing features:  69%|██████▉   | 305/441 [00:25<00:10, 12.77it/s]
+Analyzing features:  70%|██████▉   | 307/441 [00:25<00:11, 11.52it/s]
+Analyzing features:  70%|███████   | 309/441 [00:26<00:12, 10.76it/s]
+Analyzing features:  71%|███████   | 311/441 [00:26<00:12, 10.38it/s]
+Analyzing features:  71%|███████   | 313/441 [00:26<00:12, 10.47it/s]
+Analyzing features:  71%|███████▏  | 315/441 [00:26<00:11, 10.64it/s]
+Analyzing features:  72%|███████▏  | 317/441 [00:26<00:11, 10.81it/s]
+Analyzing features:  72%|███████▏  | 319/441 [00:27<00:11, 10.95it/s]
+Analyzing features:  73%|███████▎  | 321/441 [00:27<00:10, 11.11it/s]
+Analyzing features:  73%|███████▎  | 323/441 [00:27<00:10, 11.30it/s]
+Analyzing features:  74%|███████▎  | 325/441 [00:27<00:10, 11.43it/s]
+Analyzing features:  74%|███████▍  | 327/441 [00:27<00:09, 11.55it/s]
+Analyzing features:  75%|███████▍  | 329/441 [00:27<00:09, 11.57it/s]
+Analyzing features:  75%|███████▌  | 331/441 [00:28<00:09, 11.60it/s]
+Analyzing features:  76%|███████▌  | 333/441 [00:28<00:09, 11.68it/s]
+Analyzing features:  76%|███████▌  | 335/441 [00:28<00:09, 11.76it/s]
+Analyzing features:  76%|███████▋  | 337/441 [00:28<00:08, 11.90it/s]
+Analyzing features:  77%|███████▋  | 339/441 [00:28<00:08, 12.07it/s]
+Analyzing features:  77%|███████▋  | 341/441 [00:28<00:08, 12.25it/s]
+Analyzing features:  78%|███████▊  | 343/441 [00:29<00:07, 12.40it/s]
+Analyzing features:  78%|███████▊  | 345/441 [00:29<00:07, 12.49it/s]
+Analyzing features:  79%|███████▊  | 347/441 [00:29<00:07, 12.46it/s]
+Analyzing features:  79%|███████▉  | 349/441 [00:29<00:07, 12.54it/s]
+Analyzing features:  80%|███████▉  | 351/441 [00:29<00:07, 12.63it/s]
+Analyzing features:  80%|████████  | 353/441 [00:29<00:06, 12.65it/s]
+Analyzing features:  80%|████████  | 355/441 [00:29<00:06, 12.60it/s]
+Analyzing features:  81%|████████  | 357/441 [00:30<00:06, 12.68it/s]
+Analyzing features:  81%|████████▏ | 359/441 [00:30<00:06, 12.71it/s]
+Analyzing features:  82%|████████▏ | 361/441 [00:30<00:06, 12.85it/s]
+Analyzing features:  82%|████████▏ | 363/441 [00:30<00:06, 12.91it/s]
+Analyzing features:  83%|████████▎ | 365/441 [00:30<00:05, 12.95it/s]
+Analyzing features:  83%|████████▎ | 367/441 [00:30<00:05, 13.01it/s]
+Analyzing features:  84%|████████▎ | 369/441 [00:31<00:05, 13.05it/s]
+Analyzing features:  84%|████████▍ | 371/441 [00:31<00:05, 13.07it/s]
+Analyzing features:  85%|████████▍ | 373/441 [00:31<00:05, 12.61it/s]
+Analyzing features:  85%|████████▌ | 375/441 [00:31<00:05, 12.55it/s]
+Analyzing features:  85%|████████▌ | 377/441 [00:31<00:05, 12.41it/s]
+Analyzing features:  86%|████████▌ | 379/441 [00:31<00:04, 12.41it/s]
+Analyzing features:  86%|████████▋ | 381/441 [00:32<00:04, 12.41it/s]
+Analyzing features:  87%|████████▋ | 383/441 [00:32<00:04, 12.41it/s]
+Analyzing features:  87%|████████▋ | 385/441 [00:32<00:04, 12.41it/s]
+Analyzing features:  88%|████████▊ | 387/441 [00:32<00:04, 12.46it/s]
+Analyzing features:  88%|████████▊ | 389/441 [00:32<00:04, 12.46it/s]
+Analyzing features:  89%|████████▊ | 391/441 [00:32<00:04, 12.45it/s]
+Analyzing features:  89%|████████▉ | 393/441 [00:32<00:03, 12.45it/s]
+Analyzing features:  90%|████████▉ | 395/441 [00:33<00:03, 12.50it/s]
+Analyzing features:  90%|█████████ | 397/441 [00:33<00:03, 12.50it/s]
+Analyzing features:  90%|█████████ | 399/441 [00:33<00:03, 12.50it/s]
+Analyzing features:  91%|█████████ | 401/441 [00:33<00:03, 12.51it/s]
+Analyzing features:  91%|█████████▏| 403/441 [00:33<00:03, 12.56it/s]
+Analyzing features:  92%|█████████▏| 405/441 [00:33<00:02, 12.54it/s]
+Analyzing features:  92%|█████████▏| 407/441 [00:34<00:02, 12.55it/s]
+Analyzing features:  93%|█████████▎| 409/441 [00:34<00:02, 12.55it/s]
+Analyzing features:  93%|█████████▎| 411/441 [00:34<00:02, 12.53it/s]
+Analyzing features:  94%|█████████▎| 413/441 [00:34<00:02, 12.64it/s]
+Analyzing features:  94%|█████████▍| 415/441 [00:34<00:02, 12.58it/s]
+Analyzing features:  95%|█████████▍| 417/441 [00:34<00:01, 12.54it/s]
+Analyzing features:  95%|█████████▌| 419/441 [00:35<00:01, 12.50it/s]
+Analyzing features:  95%|█████████▌| 421/441 [00:35<00:01, 12.15it/s]
+Analyzing features:  96%|█████████▌| 423/441 [00:35<00:01, 12.11it/s]
+Analyzing features:  96%|█████████▋| 425/441 [00:35<00:01, 12.10it/s]
+Analyzing features:  97%|█████████▋| 427/441 [00:35<00:01, 12.13it/s]
+Analyzing features:  97%|█████████▋| 429/441 [00:35<00:00, 12.21it/s]
+Analyzing features:  98%|█████████▊| 431/441 [00:36<00:00, 12.29it/s]
+Analyzing features:  98%|█████████▊| 433/441 [00:36<00:00, 12.38it/s]
+Analyzing features:  99%|█████████▊| 435/441 [00:36<00:00, 11.28it/s]
+Analyzing features:  99%|█████████▉| 437/441 [00:36<00:00, 10.45it/s]
+Analyzing features: 100%|█████████▉| 439/441 [00:36<00:00, 10.11it/s]
+Analyzing features: 100%|██████████| 441/441 [00:37<00:00,  9.95it/s]
+Analyzing features: 100%|██████████| 441/441 [00:37<00:00, 11.90it/s]
+
+

@@ -1,0 +1,154 @@
+{
+  "gemini25flash": [
+    {
+      "streak": "2-win",
+      "occurrences": 1115,
+      "continuation_rate": 0.8663677130044843,
+      "bet_increase_rate": 0.16771300448430493
+    },
+    {
+      "streak": "2-loss",
+      "occurrences": 6472,
+      "continuation_rate": 0.8278739184177998,
+      "bet_increase_rate": 0.11063040791100123
+    },
+    {
+      "streak": "3-win",
+      "occurrences": 281,
+      "continuation_rate": 0.8327402135231317,
+      "bet_increase_rate": 0.14590747330960854
+    },
+    {
+      "streak": "3-loss",
+      "occurrences": 3777,
+      "continuation_rate": 0.8040773100344188,
+      "bet_increase_rate": 0.09902038655017209
+    },
+    {
+      "streak": "4-win",
+      "occurrences": 69,
+      "continuation_rate": 0.8695652173913043,
+      "bet_increase_rate": 0.15942028985507245
+    },
+    {
+      "streak": "4-loss",
+      "occurrences": 2149,
+      "continuation_rate": 0.7798976268031642,
+      "bet_increase_rate": 0.07352256863657515
+    }
+  ],
+  "gpt41mini": [
+    {
+      "streak": "2-win",
+      "occurrences": 1342,
+      "continuation_rate": 0.8845007451564829,
+      "bet_increase_rate": 0.21758569299552907
+    },
+    {
+      "streak": "2-loss",
+      "occurrences": 6546,
+      "continuation_rate": 0.803391384051329,
+      "bet_increase_rate": 0.10418576229758632
+    },
+    {
+      "streak": "3-win",
+      "occurrences": 354,
+      "continuation_rate": 0.8700564971751412,
+      "bet_increase_rate": 0.23728813559322035
+    },
+    {
+      "streak": "3-loss",
+      "occurrences": 3702,
+      "continuation_rate": 0.7852512155591572,
+      "bet_increase_rate": 0.11210156672069152
+    },
+    {
+      "streak": "4-win",
+      "occurrences": 102,
+      "continuation_rate": 0.9019607843137255,
+      "bet_increase_rate": 0.23529411764705882
+    },
+    {
+      "streak": "4-loss",
+      "occurrences": 2064,
+      "continuation_rate": 0.7727713178294574,
+      "bet_increase_rate": 0.14098837209302326
+    }
+  ],
+  "gpt4mini": [
+    {
+      "streak": "2-win",
+      "occurrences": 118,
+      "continuation_rate": 0.5932203389830508,
+      "bet_increase_rate": 0.2542372881355932
+    },
+    {
+      "streak": "2-loss",
+      "occurrences": 534,
+      "continuation_rate": 0.5898876404494382,
+      "bet_increase_rate": 0.08052434456928839
+    },
+    {
+      "streak": "3-win",
+      "occurrences": 30,
+      "continuation_rate": 0.7333333333333333,
+      "bet_increase_rate": 0.26666666666666666
+    },
+    {
+      "streak": "3-loss",
+      "occurrences": 224,
+      "continuation_rate": 0.5223214285714286,
+      "bet_increase_rate": 0.06696428571428571
+    },
+    {
+      "streak": "4-win",
+      "occurrences": 9,
+      "continuation_rate": 0.5555555555555556,
+      "bet_increase_rate": 0.4444444444444444
+    },
+    {
+      "streak": "4-loss",
+      "occurrences": 81,
+      "continuation_rate": 0.4691358024691358,
+      "bet_increase_rate": 0.07407407407407407
+    }
+  ],
+  "llama": [
+    {
+      "streak": "2-win",
+      "occurrences": 84,
+      "continuation_rate": 0.5595238095238095,
+      "bet_increase_rate": 0.05952380952380952
+    },
+    {
+      "streak": "2-loss",
+      "occurrences": 313,
+      "continuation_rate": 0.6261980830670927,
+      "bet_increase_rate": 0.06389776357827476
+    },
+    {
+      "streak": "3-win",
+      "occurrences": 9,
+      "continuation_rate": 0.6666666666666666,
+      "bet_increase_rate": 0.0
+    },
+    {
+      "streak": "3-loss",
+      "occurrences": 128,
+      "continuation_rate": 0.6875,
+      "bet_increase_rate": 0.0234375
+    },
+    {
+      "streak": "4-win",
+      "occurrences": 1,
+      "continuation_rate": 1.0,
+      "bet_increase_rate": 0.0
+    },
+    {
+      "streak": "4-loss",
+      "occurrences": 61,
+      "continuation_rate": 0.7213114754098361,
+      "bet_increase_rate": 0.01639344262295082
+    }
+  ]
+}

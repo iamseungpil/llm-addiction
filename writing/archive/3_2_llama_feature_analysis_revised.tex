@@ -1,0 +1,121 @@
+\subsection{Is the result expandible - in depth analysis}
+
+\subsubsection{Feature 실험 설계}
+
+앞서 관찰된 LLM의 중독적 행동이 단순한 프롬프트 설계의 부산물이 아닌, 모델 내부의 일반적이고 확장 가능한 현상인지 확인하기 위해 Sparse Autoencoder(SAE) Feature 분석 실험을 설계하였다. 이 실험의 핵심 목적은 프롬프트나 특정 실험 조건에 제한되지 않은, 모델의 근본적인 신경 활성화 패턴을 통해 중독적 행동의 신경학적 기반을 탐구하는 것이다.
+
+Feature 분석 실험은 네 단계로 구성된다. 첫째, 동일한 128개 조건에서 총 1,280개의 실험을 수행하여 파산과 자발적 중단을 구분하는 핵심 Features를 발견한다. 둘째, 교차 도메인 검증을 통해 특정 Feature가 다양한 맥락에서 일관되게 활성화되는지 확인한다. 셋째, Feature 활성화와 의사결정 및 감정 어휘 사용 간의 상관관계를 정량적으로 분석한다. 넷째, Feature patching 기법을 통해 특정 Feature를 조작했을 때 행동 변화를 관찰함으로써 인과관계를 검증한다.
+
+\subsubsection{LLaMA-3.1-8B 128개 조건 실험 분석}
+
+GPT-4o-mini 실험에서 확인된 중독적 행동 패턴의 신경학적 기반을 검증하기 위해, LLaMA-3.1-8B-Instruct 모델을 대상으로 동일한 128개 조건에서 총 1,280개의 실험을 수행하였다. 모든 실험 조건은 GPT 실험과 완전히 동일하게 설정되었으며, 특히 게임 이력을 매 라운드마다 전달하여 모델이 과거 결과를 참고하여 의사결정을 내릴 수 있도록 하였다.
+
+\begin{table}[ht!]
+\centering
+\caption{LLaMA-3.1-8B 실험 결과 및 주요 행동 패턴}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lccccc}
+\toprule
+\textbf{조건} & \textbf{실험 수} & \textbf{파산율 (\%)} & \textbf{평균 라운드} & \textbf{최종 잔액} & \textbf{평균 베팅} \\
+\midrule
+\multicolumn{6}{l}{\textit{전체 결과}} \\
+전체 & 1,280 & 18.4 & 22.3 & \$68.4 & \$25.8 \\
+\midrule
+\multicolumn{6}{l}{\textit{베팅 타입별}} \\
+고정 베팅 & 640 & 0.0 & 11.6 & \$97.2 & \$10.0 \\
+가변 베팅 & 640 & 36.7 & 32.9 & \$39.6 & \$41.5 \\
+\midrule
+\multicolumn{6}{l}{\textit{파산 여부별}} \\
+파산 & 235 & 100.0 & 54.7 & \$0.0 & \$96.9 \\
+비파산 & 1,045 & 0.0 & 15.0 & \$83.7 & \$79.9 \\
+\bottomrule
+\end{tabular}}
+\label{tab:llama-behavior-analysis}
+\end{table}
+
+분석 결과, Table \ref{tab:llama-behavior-analysis}에 제시된 바와 같이 고정 베팅 조건에서는 단 한 건의 파산도 발생하지 않은 반면, 가변 베팅 조건에서는 36.7\%의 파산율을 보였다. 이는 베팅 금액 선택의 자유도가 중독적 행동 발현의 핵심 요인임을 시사한다.
+
+\textbf{SAE Feature 분석 결과}: Llama-Scope의 Layer 25와 30 SAE를 활용하여 각 Layer별 32,768개의 Features를 분석한 결과, 초기 분석에서 사용된 'Feature 7976'은 실제로는 hidden state dimension 3880 (7976 \% 4096)이었음이 밝혀졌다. 올바른 SAE를 사용한 재분석을 통해 파산과 자발적 중단을 구분하는 실제 중요 Features를 발견하였다.
+
+\begin{table}[ht!]
+\centering
+\caption{파산/자발적 중단 구분 상위 Features (1,280개 실험)}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Feature ID} & \textbf{Layer} & \textbf{파산 시 평균} & \textbf{중단 시 평균} & \textbf{Cohen's d} & \textbf{p-value} \\
+\midrule
+14826 & 25 & 0.394 & 0.018 & 0.556 & 2.86e-24 \\
+32709 & 25 & 0.342 & 0.047 & 0.431 & 7.49e-16 \\
+1981 & 25 & 0.424 & 0.721 & -0.426 & 4.26e-15 \\
+26205 & 30 & 0.573 & 0.180 & 0.447 & 2.66e-18 \\
+10746 & 30 & 0.458 & 0.105 & 0.416 & 3.09e-17 \\
+\bottomrule
+\end{tabular}}
+\label{tab:feature-discovery}
+\end{table}
+\vspace{-2mm}
+{\footnotesize Layer 25와 30의 32,768개 Features 중 통계적으로 가장 유의미한 상위 5개. Feature 14826은 위험 추구, Feature 1981은 안전 선호와 연관 (2025.08.05 분석)}
+
+Table \ref{tab:feature-discovery}에서 확인할 수 있듯이, Feature 14826 (Layer 25)이 가장 강력한 위험 지표로 나타났으며 (Cohen's d=0.556, p<0.001), 파산 시 평균 활성화가 0.394로 자발적 중단 시의 0.018보다 21.5배 높았다. 반대로 Feature 1981은 안전 선호 지표로, 자발적 중단 시 더 높은 활성화를 보였다.
+
+\begin{figure}[ht!]
+\centering
+\resizebox{\columnwidth}{!}{\includegraphics{images/feature_distribution_bankrupt_vs_safe.png}}
+\caption{주요 Features의 활성화 분포: 파산 vs 자발적 중단. Feature 14826은 파산 경우에, Feature 1981은 자발적 중단 경우에 높은 활성화를 보임}
+\label{fig:feature-distribution}
+\end{figure}
+
+\subsubsection{교차 도메인 검증 실험}
+
+발견된 주요 Features의 범용성을 검증하기 위해 도박 외 다른 위험 상황에서도 동일한 신경 회로가 활성화되는지 확인하는 교차 도메인 실험을 수행하였다. LLaMA-3.1-8B 모델을 대상으로 투자, 진로, 게임, 복권, 음식점 등 5개 서로 다른 도메인에서 각각 안전 조건과 위험 조건을 설정하여 Feature 활성화 패턴을 비교 분석했다.
+
+\textbf{도메인별 프롬프트 구성}: 각 도메인마다 위험도가 다른 두 가지 선택지를 제시하였다:
+\begin{itemize}
+\item \textbf{투자}: "안전한 정기예금 (연 3\% 수익)" vs "고위험 주식투자 (연 15\% 수익 가능, 손실 위험 높음)"
+\item \textbf{진로}: "안정적인 대기업 취업" vs "고위험 스타트업 창업"
+\item \textbf{게임}: "보장된 소액 상금" vs "확률적 고액 상금"
+\item \textbf{복권}: "즉시 현금 \$10" vs "50\% 확률로 \$30"
+\item \textbf{음식점}: "검증된 인기 메뉴" vs "실험적인 신메뉴"
+\end{itemize}
+
+각 도메인에서 모델은 선택과 그 이유를 제시하도록 요청받았으며, 응답 과정에서 Layer 25의 상위 Features (14826, 32709, 1981, 24482, 17902)와 Layer 30의 상위 Features (26205, 10746, 13029, 3682, 9704)의 활성화 수준을 측정하였다.
+
+\begin{table}[ht!]
+\centering
+\caption{교차 도메인 주요 Features 활성화 분석}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Feature} & \textbf{투자} & \textbf{게임} & \textbf{복권} & \textbf{진로} & \textbf{음식점} \\
+\midrule
+\multicolumn{6}{l}{\textit{Layer 25}} \\
+14826 (위험) & 0.000 & 0.000 & \textbf{0.494} & 0.000 & 0.000 \\
+1981 (안전) & -0.211*** & -0.344*** & +0.105 & -0.586*** & -0.262** \\
+32709 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+\midrule
+\multicolumn{6}{l}{\textit{Layer 30}} \\
+26205 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+9704 & -0.291** & 0.000 & 0.000 & 0.000 & 0.000 \\
+\bottomrule
+\end{tabular}}
+\label{tab:cross-domain-validation}
+\end{table}
+\vspace{-2mm}
+{\footnotesize 안전 조건 대비 위험 조건에서의 Feature 활성화 차이. Feature 1981은 모든 도메인에서 안전 선택 시 더 높은 활성화를 보임. **p<0.01, ***p<0.001 (2025.08.05 실험)}
+
+실험 결과, Table \ref{tab:cross-domain-validation}에 나타난 바와 같이:
+\begin{itemize}
+\item \textbf{Feature 1981}이 모든 도메인에서 일관되게 활성화되며 안전한 선택 시 평균 0.259 더 높은 활성화를 보였다 (p<0.001)
+\item \textbf{Feature 14826}은 복권 도메인에서만 0.494의 활성화를 보여 도메인 특이적 특성을 나타냈다
+\item 대부분의 features는 sparse activation을 보여, 특정 맥락에서만 활성화됨을 확인
+\end{itemize}
+
+\begin{figure}[ht!]
+\centering
+\resizebox{\columnwidth}{!}{\includegraphics{images/cross_domain_feature_heatmap.png}}
+\caption{교차 도메인 Feature 활성화 히트맵: Feature 1981은 모든 도메인에서 일관된 패턴을 보이며, Feature 14826은 복권 도메인에서만 특이적으로 활성화}
+\label{fig:cross-domain-heatmap}
+\end{figure}
+
+\textbf{GPT-4o-mini와의 비교}: LLaMA와 GPT 모델 간의 중독적 행동 패턴 비교에서 주목할 만한 차이점이 발견되었다. 전체 파산율은 LLaMA 18.4\% vs GPT 31.0\%로 LLaMA가 더 보수적인 의사결정을 보였으며, 가변 베팅 조건에서도 LLaMA 36.7\% vs GPT 62.0\%의 파산율 차이를 보였다. 이러한 차이는 LLaMA의 Feature 1981 (안전 선호)이 더 활발하게 작동하여 위험 회피적 행동을 유도하는 것으로 해석된다. 특히 Feature 14826의 활성화가 파산과 강한 상관관계(Cohen's d=0.556)를 보임으로써, 모델의 중독적 행동이 특정 neural circuits의 활성화 패턴과 직접적으로 연결되어 있음을 확인하였다.

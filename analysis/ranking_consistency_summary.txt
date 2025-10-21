@@ -1,0 +1,9 @@
+GPT vs LLaMA Ranking Consistency Analysis
+=========================================
+
+Spearman correlation: 0.905 (p = 0.002)
+Average rank difference: 0.50 positions
+Consistency level: High
+
+High-risk prompts maintain similar ordering between models,
+suggesting consistent cognitive bias patterns across architectures.

@@ -1,0 +1,24 @@
+al_correct.py", line 678, in main
+    results, causal_features = experiment.run_experiment(args.start_idx, args.en
+d_idx)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^
+  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_2_fin
+al_correct.py", line 594, in run_experiment
+    feature_result = self.test_single_feature(feature)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_2_fin
+al_correct.py", line 354, in test_single_feature
+    response = self.generate_with_patching(prompt, layer, feature_id, patch_valu
+e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^
+  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_2_fin
+al_correct.py", line 214, in generate_with_patching
+    torch.cuda.empty_cache()
+  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/c
+uda/memory.py", line 222, in empty_cache
+    torch._C._cuda_emptyCache()
+KeyboardInterrupt
+
+(llama_sae_env) ubuntu@gpu-1:~/llm_addiction/causal_feature_discovery/src$

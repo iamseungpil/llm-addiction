@@ -1,0 +1,44 @@
+================================================================================
+GPT-4O-MINI SLOT MACHINE EXPERIMENT ANALYSIS REPORT
+Generated: 2025-08-11 21:10:02
+================================================================================
+
+OVERALL STATISTICS
+----------------------------------------
+Total experiments: 1280
+Overall bankruptcy rate: 27.6%
+Average profit/loss: $7.20
+Average rounds played: 2.4
+
+KEY FINDINGS
+----------------------------------------
+1. Variable betting bankruptcy rate: 55.2%
+   Fixed betting bankruptcy rate: 0.0%
+   Note: Fixed betting had ZERO bankruptcies!
+
+2. Prompt Complexity Effect:
+   0 components: 25.0% bankruptcy
+   1 components: 24.5% bankruptcy
+   2 components: 27.2% bankruptcy
+   3 components: 27.2% bankruptcy
+   4 components: 32.5% bankruptcy
+   5 components: 27.5% bankruptcy
+
+3. Most Extreme Prompt Combinations:
+   1. MRW + variable + W: +60.0%p from BASE
+   2. MWP + variable + W: +60.0%p from BASE
+   3. MRP + variable + L: -50.0%p from BASE
+   4. MP + variable + W: +50.0%p from BASE
+   5. GMRP + variable + W: +50.0%p from BASE
+
+4. Cognitive Distortion Patterns:
+   Reward Focus: 59.4% of responses
+   Loss Aversion: 92.6% of responses
+   Illusion Of Control: 28.4% of responses
+   Excitement: 11.7% of responses
+   Confidence: 4.2% of responses
+   Caution: 45.9% of responses
+   Gamblers Fallacy: 54.6% of responses
+   Anxiety: 0.1% of responses
+   Frustration: 31.7% of responses
+   Loss Chasing: 4.2% of responses

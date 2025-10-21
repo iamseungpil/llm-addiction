@@ -1,0 +1,112 @@
+{
+  "table2_data": {
+    "fixed": {
+      "n": 640,
+      "bankruptcy_rate": 0.0,
+      "bankruptcy_se": 0.0,
+      "immediate_stop_rate": 94.53125,
+      "immediate_stop_se": 0.8987558878784014,
+      "avg_net_profit": 0.015625,
+      "net_profit_se": 0.13887666436544852,
+      "avg_bet_amount": 0.546875,
+      "avg_bet_se": 0.08987558878784015
+    },
+    "variable": {
+      "n": 640,
+      "bankruptcy_rate": 9.21875,
+      "bankruptcy_se": 1.1435209117823748,
+      "immediate_stop_rate": 39.375,
+      "immediate_stop_se": 1.9312841319799372,
+      "avg_net_profit": -0.0796875,
+      "net_profit_se": 7.575057197329676,
+      "avg_bet_amount": 22.25519014405733,
+      "avg_bet_se": 1.5373010185136795
+    }
+  },
+  "table3_data": {
+    "\ubaa9\ud45c \uc9d1\ucc29": {
+      "count": 29,
+      "total": 59,
+      "rate": 49.152542372881356,
+      "se": 6.5085104853936135,
+      "description": "Goal fixation - setting specific targets"
+    },
+    "\ud655\ub960 \uc624\ud574\uc11d": {
+      "count": 47,
+      "total": 59,
+      "rate": 79.66101694915254,
+      "se": 5.2403649658482365,
+      "description": "Probability misframing - overestimating win rates"
+    },
+    "\uc704\ud5d8 \uc99d\uac00": {
+      "count": 31,
+      "total": 59,
+      "rate": 52.54237288135594,
+      "se": 6.5010251344576355,
+      "description": "Risk escalation - progressive betting increases"
+    }
+  },
+  "table4_data": {
+    "2\uc5f0\uc2b9": {
+      "frequency": 86,
+      "continue_rate": 81.4,
+      "continue_se": 4.195845120958323,
+      "bet_increase_rate": 42.9,
+      "bet_increase_se": 5.3370033399992165,
+      "avg_change": 105.0,
+      "avg_change_se": 34.999603941474795
+    },
+    "2\uc5f0\ud328": {
+      "frequency": 382,
+      "continue_rate": 82.2,
+      "continue_se": 1.9571054596277406,
+      "bet_increase_rate": 13.7,
+      "bet_increase_se": 1.7592760886287695,
+      "avg_change": 41.4,
+      "avg_change_se": 11.61461512289793
+    },
+    "3\uc5f0\uc2b9": {
+      "frequency": 23,
+      "continue_rate": 78.3,
+      "continue_se": 8.595018779856561,
+      "bet_increase_rate": 38.5,
+      "bet_increase_se": 10.146213686588364,
+      "avg_change": 65.5,
+      "avg_change_se": 42.752837931175534
+    },
+    "3\uc5f0\ud328": {
+      "frequency": 224,
+      "continue_rate": 52.2,
+      "continue_se": 3.337530096172489,
+      "bet_increase_rate": 12.8,
+      "bet_increase_se": 2.2322314268142414,
+      "avg_change": 35.6,
+      "avg_change_se": 18.018917028325532
+    },
+    "5\uc5f0\ud328": {
+      "frequency": 29,
+      "continue_rate": 55.2,
+      "continue_se": 9.234418376845435,
+      "bet_increase_rate": 25.0,
+      "bet_increase_se": 8.040844011283461,
+      "avg_change": 28.3,
+      "avg_change_se": 40.8375570222462
+    }
+  },
+  "latex_table2": [
+    "\uace0\uc815 \ubca0\ud305 & 640 & 0.0 \u00b1 0.0 & 94.5 \u00b1 0.9 & 0.02 \u00b1 0.14 & 0.55 \u00b1 0.09 \\\\\\\\",
+    "\uac00\ubcc0 \ubca0\ud305 & 640 & 9.2 \u00b1 1.1 & 39.4 \u00b1 1.9 & -0.08 \u00b1 7.58 & 22.26 \u00b1 1.54 \\\\\\\\"
+  ],
+  "latex_table3": [
+    "\ubaa9\ud45c \uc9d1\ucc29 & 29/59 & 49.2 \u00b1 6.5 & Goal fixation - setting specific targets \\\\\\\\",
+    "\ud655\ub960 \uc624\ud574\uc11d & 47/59 & 79.7 \u00b1 5.2 & Probability misframing - overestimating win rates \\\\\\\\",
+    "\uc704\ud5d8 \uc99d\uac00 & 31/59 & 52.5 \u00b1 6.5 & Risk escalation - progressive betting increases \\\\\\\\"
+  ],
+  "latex_table4": [
+    "2\uc5f0\uc2b9 & 86 & 81.4 \u00b1 4.2 & 42.9 \u00b1 5.3 & +105.0 \u00b1 35.0 & \\multirow{2}{*}{0.033*} \\\\\\\\",
+    "2\uc5f0\ud328 & 382 & 82.2 \u00b1 2.0 & 13.7 \u00b1 1.8 & +41.4 \u00b1 11.6 &  \\\\\\\\",
+    "3\uc5f0\uc2b9 & 23 & 78.3 \u00b1 8.6 & 38.5 \u00b1 10.1 & +65.5 \u00b1 42.8 & \\multirow{2}{*}{0.071} \\\\\\\\",
+    "3\uc5f0\ud328 & 224 & 52.2 \u00b1 3.3 & 12.8 \u00b1 2.2 & +35.6 \u00b1 18.0 &  \\\\\\\\",
+    "5\uc5f0\ud328 & 29 & 55.2 \u00b1 9.2 & 25.0 \u00b1 8.0 & +28.3 \u00b1 40.8 & - \\\\\\\\"
+  ]
+}

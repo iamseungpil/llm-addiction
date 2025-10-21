@@ -1,0 +1,36 @@
+/data/miniforge3/lib/python3.10/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+================================================================================
+REWARD CHOICE EXPERIMENT
+================================================================================
+================================================================================
+Loading Models for Reward Choice Experiment
+================================================================================
+Loading Llama-3.1-8B-Base model...
+Traceback (most recent call last):
+  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_3_reward_choice.py", line 388, in <module>
+    main()
+  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_3_reward_choice.py", line 383, in main
+    results = experiment.run_experiment()
+  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_3_reward_choice.py", line 274, in run_experiment
+    self.load_models()
+  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_3_reward_choice.py", line 55, in load_models
+    self.model = AutoModelForCausalLM.from_pretrained(
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 600, in from_pretrained
+    return model_class.from_pretrained(
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/modeling_utils.py", line 316, in _wrapper
+    return func(*args, **kwargs)
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5061, in from_pretrained
+    ) = cls._load_pretrained_model(
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5482, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, hf_quantizer)
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/modeling_utils.py", line 6101, in caching_allocator_warmup
+    device_memory = torch_accelerator_module.mem_get_info(index)[0]
+  File "/data/miniforge3/lib/python3.10/site-packages/torch/cuda/memory.py", line 836, in mem_get_info
+    return torch.cuda.cudart().cudaMemGetInfo(device)
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

@@ -1,0 +1,32 @@
+GPT vs LLaMA Comprehensive Ranking Consistency Analysis
+======================================================
+
+Individual Metric Results:
+  bankruptcy_rate: ρ = 0.905 (p = 0.002)
+  avg_bet: ρ = 0.905 (p = 0.002)
+  avg_loss: ρ = 0.929 (p = 0.001)
+  avg_rounds: ρ = 0.524 (p = 0.183)
+
+Overall Results:
+  Average correlation: 0.815
+  Average rank difference: 0.81 positions
+  Consistency level: Very High
+
+LaTeX Table Data:
+\begin{table}[ht!]
+\centering
+\caption{GPT vs LLaMA Ranking Consistency Analysis}
+\begin{tabular}{lcccc}
+\toprule
+Metric & Spearman ρ & p-value & Avg Rank Diff & Significance \\
+\midrule
+Bankruptcy Rate & 0.905 & 0.002 & 0.50 & ** \\
+Avg Bet & 0.905 & 0.002 & 0.75 & ** \\
+Avg Loss & 0.929 & 0.001 & 0.50 & *** \\
+Avg Rounds & 0.524 & 0.183 & 1.50 &  \\
+\midrule
+Average & 0.815 & - & 0.81 & Very High \\
+\bottomrule
+\end{tabular}
+\label{tab:ranking-consistency}
+\end{table}

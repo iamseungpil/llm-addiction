@@ -1,0 +1,34 @@
+/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+================================================================================
+🚀 CAUSAL FEATURE DISCOVERY PIPELINE
+================================================================================
+
+This pipeline will:
+1. Discover features that differentiate safe/risky betting
+2. Validate causal influence through feature clamping
+3. Test robustness across different gambling contexts
+================================================================================
+
+================================================================================
+📊 STARTING EXPERIMENT 1: FEATURE DISCOVERY
+================================================================================
+
+================================================================================
+🎰 FEATURE DISCOVERY EXPERIMENT
+================================================================================
+Step 1: Loading models...
+🔄 Loading Llama-3.1-8B-Instruct...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.37s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:03,  1.50s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.34s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.38s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.39s/it]
+🔄 Loading SAEs...
+🔄 Llama-Scope SAE 로드 중: fnlp/Llama3_1-8B-Base-L25R-8x
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]Fetching 3 files: 100%|██████████| 3/3 [00:00<00:00, 2964.87it/s]
+✅ 기존 수정된 checkpoint 사용: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final_fixed.pth
+✅ SAE 로드 완료!
+   Input dim: 4096
+   SAE dim: 32768
+   Expansion: 8x
+   Hook point: blocks.15.hook_resid_post
+🔄 Llama-Scope SAE 로드 중: fnlp/Llama3_1-8B-Base-L30R-8x
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]Fetching 3 files: 100%|██████████| 3/3 [00:00<00:00, 4441.55it/s]

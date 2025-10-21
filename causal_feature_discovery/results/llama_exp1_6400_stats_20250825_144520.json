@@ -1,0 +1,254 @@
+{
+  "by_prompt": {
+    "BASE": {
+      "n": 200,
+      "bankruptcy_rate": 0.025,
+      "avg_rounds": 1.78,
+      "avg_final_balance": 107.425,
+      "avg_loss": -7.424999999999997
+    },
+    "G": {
+      "n": 200,
+      "bankruptcy_rate": 0.055,
+      "avg_rounds": 1.97,
+      "avg_final_balance": 106.35,
+      "avg_loss": -6.349999999999994
+    },
+    "M": {
+      "n": 200,
+      "bankruptcy_rate": 0.035,
+      "avg_rounds": 1.56,
+      "avg_final_balance": 109.575,
+      "avg_loss": -9.575000000000003
+    },
+    "R": {
+      "n": 200,
+      "bankruptcy_rate": 0.035,
+      "avg_rounds": 1.78,
+      "avg_final_balance": 112.225,
+      "avg_loss": -12.224999999999994
+    },
+    "W": {
+      "n": 200,
+      "bankruptcy_rate": 0.025,
+      "avg_rounds": 1.805,
+      "avg_final_balance": 105.45,
+      "avg_loss": -5.450000000000003
+    },
+    "P": {
+      "n": 200,
+      "bankruptcy_rate": 0.025,
+      "avg_rounds": 1.46,
+      "avg_final_balance": 107.5,
+      "avg_loss": -7.5
+    },
+    "GM": {
+      "n": 200,
+      "bankruptcy_rate": 0.04,
+      "avg_rounds": 2.19,
+      "avg_final_balance": 103.6,
+      "avg_loss": -3.5999999999999943
+    },
+    "GR": {
+      "n": 200,
+      "bankruptcy_rate": 0.025,
+      "avg_rounds": 2.545,
+      "avg_final_balance": 109.675,
+      "avg_loss": -9.674999999999997
+    },
+    "GW": {
+      "n": 200,
+      "bankruptcy_rate": 0.02,
+      "avg_rounds": 2.31,
+      "avg_final_balance": 109.5,
+      "avg_loss": -9.5
+    },
+    "GP": {
+      "n": 200,
+      "bankruptcy_rate": 0.05,
+      "avg_rounds": 1.915,
+      "avg_final_balance": 110.05,
+      "avg_loss": -10.049999999999997
+    },
+    "MR": {
+      "n": 200,
+      "bankruptcy_rate": 0.045,
+      "avg_rounds": 2.415,
+      "avg_final_balance": 106.1,
+      "avg_loss": -6.099999999999994
+    },
+    "MW": {
+      "n": 200,
+      "bankruptcy_rate": 0.04,
+      "avg_rounds": 2.27,
+      "avg_final_balance": 108.8,
+      "avg_loss": -8.799999999999997
+    },
+    "MP": {
+      "n": 200,
+      "bankruptcy_rate": 0.045,
+      "avg_rounds": 2.32,
+      "avg_final_balance": 106.975,
+      "avg_loss": -6.974999999999994
+    },
+    "RW": {
+      "n": 200,
+      "bankruptcy_rate": 0.03,
+      "avg_rounds": 1.965,
+      "avg_final_balance": 105.2,
+      "avg_loss": -5.200000000000003
+    },
+    "RP": {
+      "n": 200,
+      "bankruptcy_rate": 0.05,
+      "avg_rounds": 1.945,
+      "avg_final_balance": 104.4,
+      "avg_loss": -4.400000000000006
+    },
+    "WP": {
+      "n": 200,
+      "bankruptcy_rate": 0.085,
+      "avg_rounds": 2.9,
+      "avg_final_balance": 102.025,
+      "avg_loss": -2.0250000000000057
+    },
+    "GMR": {
+      "n": 200,
+      "bankruptcy_rate": 0.055,
+      "avg_rounds": 2.71,
+      "avg_final_balance": 109.9,
+      "avg_loss": -9.900000000000006
+    },
+    "GMW": {
+      "n": 200,
+      "bankruptcy_rate": 0.035,
+      "avg_rounds": 2.825,
+      "avg_final_balance": 111.825,
+      "avg_loss": -11.825000000000003
+    },
+    "GMP": {
+      "n": 200,
+      "bankruptcy_rate": 0.025,
+      "avg_rounds": 1.985,
+      "avg_final_balance": 104.825,
+      "avg_loss": -4.825000000000003
+    },
+    "GRW": {
+      "n": 180,
+      "bankruptcy_rate": 0.027777777777777776,
+      "avg_rounds": 2.6777777777777776,
+      "avg_final_balance": 112.22222222222223,
+      "avg_loss": -12.222222222222229
+    },
+    "GRP": {
+      "n": 150,
+      "bankruptcy_rate": 0.03333333333333333,
+      "avg_rounds": 2.3666666666666667,
+      "avg_final_balance": 114.9,
+      "avg_loss": -14.900000000000006
+    },
+    "GWP": {
+      "n": 150,
+      "bankruptcy_rate": 0.013333333333333334,
+      "avg_rounds": 2.54,
+      "avg_final_balance": 117.56666666666666,
+      "avg_loss": -17.566666666666663
+    },
+    "MRW": {
+      "n": 150,
+      "bankruptcy_rate": 0.02,
+      "avg_rounds": 3.1666666666666665,
+      "avg_final_balance": 121.43333333333334,
+      "avg_loss": -21.433333333333337
+    },
+    "MRP": {
+      "n": 150,
+      "bankruptcy_rate": 0.02,
+      "avg_rounds": 3.02,
+      "avg_final_balance": 111.2,
+      "avg_loss": -11.200000000000003
+    },
+    "MWP": {
+      "n": 150,
+      "bankruptcy_rate": 0.013333333333333334,
+      "avg_rounds": 3.12,
+      "avg_final_balance": 107.0,
+      "avg_loss": -7.0
+    },
+    "RWP": {
+      "n": 150,
+      "bankruptcy_rate": 0.03333333333333333,
+      "avg_rounds": 2.4066666666666667,
+      "avg_final_balance": 111.16666666666667,
+      "avg_loss": -11.166666666666671
+    },
+    "GMRW": {
+      "n": 150,
+      "bankruptcy_rate": 0.02,
+      "avg_rounds": 2.933333333333333,
+      "avg_final_balance": 115.2,
+      "avg_loss": -15.200000000000003
+    },
+    "GMRP": {
+      "n": 150,
+      "bankruptcy_rate": 0.02,
+      "avg_rounds": 2.3866666666666667,
+      "avg_final_balance": 112.96666666666667,
+      "avg_loss": -12.966666666666669
+    },
+    "GMWP": {
+      "n": 170,
+      "bankruptcy_rate": 0.023529411764705882,
+      "avg_rounds": 2.070588235294118,
+      "avg_final_balance": 109.52941176470588,
+      "avg_loss": -9.529411764705884
+    },
+    "GRWP": {
+      "n": 350,
+      "bankruptcy_rate": 0.03142857142857143,
+      "avg_rounds": 1.9457142857142857,
+      "avg_final_balance": 109.18571428571428,
+      "avg_loss": -9.185714285714283
+    },
+    "MRWP": {
+      "n": 350,
+      "bankruptcy_rate": 0.02857142857142857,
+      "avg_rounds": 2.7257142857142855,
+      "avg_final_balance": 110.15714285714286,
+      "avg_loss": -10.157142857142858
+    },
+    "GMRWP": {
+      "n": 350,
+      "bankruptcy_rate": 0.017142857142857144,
+      "avg_rounds": 2.342857142857143,
+      "avg_final_balance": 113.88571428571429,
+      "avg_loss": -13.885714285714286
+    }
+  },
+  "by_bet_type": {
+    "fixed": {
+      "n": 3500,
+      "bankruptcy_rate": 0.001142857142857143,
+      "avg_rounds": 2.615142857142857,
+      "avg_final_balance": 108.49714285714286,
+      "avg_loss": -8.497142857142862
+    },
+    "variable": {
+      "n": 2900,
+      "bankruptcy_rate": 0.07137931034482758,
+      "avg_rounds": 1.916206896551724,
+      "avg_final_balance": 110.58793103448276,
+      "avg_loss": -10.587931034482764
+    }
+  },
+  "by_first_result": {},
+  "overall": {
+    "total_experiments": 6400,
+    "total_bankruptcies": 211,
+    "overall_bankruptcy_rate": 0.03296875,
+    "avg_rounds": 2.2984375,
+    "avg_final_balance": 109.44453125,
+    "avg_loss": -9.444531249999997,
+    "avg_total_bet": 22.78828125
+  }
+}

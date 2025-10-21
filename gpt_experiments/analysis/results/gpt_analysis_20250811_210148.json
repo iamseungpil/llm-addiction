@@ -1,0 +1,174 @@
+{
+  "basic_stats": {
+    "overall": {
+      "total_experiments": 1280,
+      "overall_bankruptcy_rate": 0.27578125,
+      "overall_avg_profit": 7.203125,
+      "overall_avg_rounds": 2.3515625,
+      "voluntary_stop_rate": 0.72421875
+    },
+    "by_betting": {
+      "is_bankrupt": {
+        "fixed": 0.0,
+        "variable": 0.552
+      },
+      "profit": {
+        "fixed": 9.219,
+        "variable": 5.188
+      },
+      "total_rounds": {
+        "fixed": 1.617,
+        "variable": 3.086
+      }
+    },
+    "by_first_result": {
+      "is_bankrupt": {
+        "L": 0.344,
+        "W": 0.208
+      },
+      "profit": {
+        "L": -17.984,
+        "W": 32.391
+      },
+      "total_rounds": {
+        "L": 2.095,
+        "W": 2.608
+      }
+    },
+    "interaction": {
+      "fixed_L": {
+        "bankruptcy_rate": 0.0,
+        "avg_profit": -10.5,
+        "avg_rounds": 1.453,
+        "n": 320.0
+      },
+      "fixed_W": {
+        "bankruptcy_rate": 0.0,
+        "avg_profit": 28.938,
+        "avg_rounds": 1.781,
+        "n": 320.0
+      },
+      "variable_L": {
+        "bankruptcy_rate": 0.688,
+        "avg_profit": -25.469,
+        "avg_rounds": 2.738,
+        "n": 320.0
+      },
+      "variable_W": {
+        "bankruptcy_rate": 0.416,
+        "avg_profit": 35.844,
+        "avg_rounds": 3.434,
+        "n": 320.0
+      }
+    },
+    "by_prompt": {
+      "is_bankrupt": {
+        "BASE": 0.25,
+        "G": 0.2,
+        "GM": 0.25,
+        "GMP": 0.2,
+        "GMR": 0.25,
+        "GMRP": 0.35,
+        "GMRW": 0.325,
+        "GMRWP": 0.275,
+        "GMW": 0.3,
+        "GMWP": 0.325,
+        "GP": 0.3,
+        "GR": 0.2,
+        "GRP": 0.275,
+        "GRW": 0.175,
+        "GRWP": 0.3,
+        "GW": 0.2,
+        "GWP": 0.275,
+        "M": 0.35,
+        "MP": 0.375,
+        "MR": 0.3,
+        "MRP": 0.2,
+        "MRW": 0.45,
+        "MRWP": 0.325,
+        "MW": 0.275,
+        "MWP": 0.4,
+        "P": 0.225,
+        "R": 0.2,
+        "RP": 0.225,
+        "RW": 0.325,
+        "RWP": 0.2,
+        "W": 0.25,
+        "WP": 0.275
+      },
+      "profit": {
+        "BASE": -9.25,
+        "G": -4.25,
+        "GM": -1.75,
+        "GMP": 23.5,
+        "GMR": 18.125,
+        "GMRP": 23.25,
+        "GMRW": -18.875,
+        "GMRWP": 13.0,
+        "GMW": -3.0,
+        "GMWP": 7.375,
+        "GP": 13.25,
+        "GR": 17.0,
+        "GRP": -15.25,
+        "GRW": 9.625,
+        "GRWP": 3.5,
+        "GW": 18.625,
+        "GWP": 37.875,
+        "M": -17.625,
+        "MP": 16.0,
+        "MR": 7.25,
+        "MRP": 40.125,
+        "MRW": -35.75,
+        "MRWP": 54.25,
+        "MW": 31.25,
+        "MWP": -24.0,
+        "P": -5.0,
+        "R": 26.5,
+        "RP": 7.0,
+        "RW": -11.25,
+        "RWP": 14.75,
+        "W": 14.0,
+        "WP": -19.75
+      },
+      "total_rounds": {
+        "BASE": 2.15,
+        "G": 1.625,
+        "GM": 1.75,
+        "GMP": 2.0,
+        "GMR": 2.275,
+        "GMRP": 2.775,
+        "GMRW": 2.5,
+        "GMRWP": 2.875,
+        "GMW": 2.025,
+        "GMWP": 2.95,
+        "GP": 2.025,
+        "GR": 1.875,
+        "GRP": 1.7,
+        "GRW": 2.05,
+        "GRWP": 1.925,
+        "GW": 1.85,
+        "GWP": 2.35,
+        "M": 3.475,
+        "MP": 2.425,
+        "MR": 3.35,
+        "MRP": 2.75,
+        "MRW": 3.075,
+        "MRWP": 3.65,
+        "MW": 3.25,
+        "MWP": 2.775,
+        "P": 1.5,
+        "R": 2.1,
+        "RP": 1.65,
+        "RW": 2.0,
+        "RWP": 2.475,
+        "W": 2.35,
+        "WP": 1.725
+      }
+    },
+    "p_values": {
+      "betting_type": 2.0646896283588323e-107,
+      "first_result": 1.5983892573897258e-12
+    }
+  },
+  "prompt_complexity": {
+    

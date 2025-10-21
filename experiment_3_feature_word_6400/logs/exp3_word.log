@@ -1,0 +1,1426 @@
+/data/miniforge3/lib/python3.10/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.2.6 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/home/ubuntu/llm_addiction/experiment_3_feature_word_6400/experiment_3_feature_word.py", line 372, in <module>
+    exp.run()
+  File "/home/ubuntu/llm_addiction/experiment_3_feature_word_6400/experiment_3_feature_word.py", line 302, in run
+    self.load_model()
+  File "/home/ubuntu/llm_addiction/experiment_3_feature_word_6400/experiment_3_feature_word.py", line 55, in load_model
+    self.model = AutoModelForCausalLM.from_pretrained(
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 597, in from_pretrained
+    model_class = _get_model_class(config, cls._model_mapping)
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 394, in _get_model_class
+    supported_models = model_mapping[type(config)]
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 803, in __getitem__
+    return self._load_attr_from_module(model_type, model_name)
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 817, in _load_attr_from_module
+    return getattribute_from_module(self._modules[module_name], attr)
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 729, in getattribute_from_module
+    if hasattr(module, attr):
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2292, in __getattr__
+    module = self._get_module(self._class_to_module[name])
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2320, in _get_module
+    return importlib.import_module("." + module_name, self.__name__)
+  File "/data/miniforge3/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 30, in <module>
+    from ...modeling_layers import (
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/modeling_layers.py", line 29, in <module>
+    from .processing_utils import Unpack
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/processing_utils.py", line 41, in <module>
+    from .video_utils import VideoMetadata, load_video
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/video_utils.py", line 28, in <module>
+    from .image_transforms import PaddingMode, to_channel_dimension_format
+  File "/data/miniforge3/lib/python3.10/site-packages/transformers/image_transforms.py", line 51, in <module>
+    import jax.numpy as jnp
+  File "/data/miniforge3/lib/python3.10/site-packages/jax/__init__.py", line 37, in <module>
+    import jax.core as _core
+  File "/data/miniforge3/lib/python3.10/site-packages/jax/core.py", line 18, in <module>
+    from jax._src.core import (
+  File "/data/miniforge3/lib/python3.10/site-packages/jax/_src/core.py", line 38, in <module>
+    from jax._src import dtypes
+  File "/data/miniforge3/lib/python3.10/site-packages/jax/_src/dtypes.py", line 33, in <module>
+    from jax._src import config
+  File "/data/miniforge3/lib/python3.10/site-packages/jax/_src/config.py", line 27, in <module>
+    from jax._src import lib
+  File "/data/miniforge3/lib/python3.10/site-packages/jax/_src/lib/__init__.py", line 87, in <module>
+    import jaxlib.xla_client as xla_client
+  File "/data/miniforge3/lib/python3.10/site-packages/jaxlib/xla_client.py", line 32, in <module>
+    from . import xla_extension as _xla
+AttributeError: _ARRAY_API not found
+================================================================================
+🚀 EXPERIMENT 3: FEATURE-WORD CO-OCCURRENCE ANALYSIS
+   GPU: 3
+   Analyzing 441 causal features with 6,400 responses
+================================================================================
+🚀 Loading LLaMA model
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:03<00:11,  3.80s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:05<00:05,  2.81s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:07<00:02,  2.25s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  1.60s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.03s/it]
+✅ LLaMA loaded successfully
+📂 Loading 441 causal features...
+✅ Loaded 441 causal features
+📂 Loading Exp1 data (6,400 games)...
+✅ Loaded 0 Exp1 responses
+
+🔍 Analyzing L25-1026...
+Processing L25-1026: 0it [00:00, ?it/s]Processing L25-1026: 0it [00:00, ?it/s]
+/data/miniforge3/lib/python3.10/site-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/data/miniforge3/lib/python3.10/site-packages/numpy/_core/_methods.py:145: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+
+🔍 Analyzing L25-10427...
+Processing L25-10427: 0it [00:00, ?it/s]Processing L25-10427: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-1130...
+Processing L25-1130: 0it [00:00, ?it/s]Processing L25-1130: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-11551...
+Processing L25-11551: 0it [00:00, ?it/s]Processing L25-11551: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-11588...
+Processing L25-11588: 0it [00:00, ?it/s]Processing L25-11588: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-1173...
+Processing L25-1173: 0it [00:00, ?it/s]Processing L25-1173: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-12115...
+Processing L25-12115: 0it [00:00, ?it/s]Processing L25-12115: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-12172...
+Processing L25-12172: 0it [00:00, ?it/s]Processing L25-12172: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-12242...
+Processing L25-12242: 0it [00:00, ?it/s]Processing L25-12242: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-13322...
+Processing L25-13322: 0it [00:00, ?it/s]Processing L25-13322: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-13464...
+Processing L25-13464: 0it [00:00, ?it/s]Processing L25-13464: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-13693...
+Processing L25-13693: 0it [00:00, ?it/s]Processing L25-13693: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-13839...
+Processing L25-13839: 0it [00:00, ?it/s]Processing L25-13839: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-14511...
+Processing L25-14511: 0it [00:00, ?it/s]Processing L25-14511: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-15214...
+Processing L25-15214: 0it [00:00, ?it/s]Processing L25-15214: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-15408...
+Processing L25-15408: 0it [00:00, ?it/s]Processing L25-15408: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-17077...
+Processing L25-17077: 0it [00:00, ?it/s]Processing L25-17077: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-17105...
+Processing L25-17105: 0it [00:00, ?it/s]Processing L25-17105: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-17160...
+Processing L25-17160: 0it [00:00, ?it/s]Processing L25-17160: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-17446...
+Processing L25-17446: 0it [00:00, ?it/s]Processing L25-17446: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_20_20251001_162326.json
+
+🔍 Analyzing L25-17626...
+Processing L25-17626: 0it [00:00, ?it/s]Processing L25-17626: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-17896...
+Processing L25-17896: 0it [00:00, ?it/s]Processing L25-17896: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-18438...
+Processing L25-18438: 0it [00:00, ?it/s]Processing L25-18438: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-1844...
+Processing L25-1844: 0it [00:00, ?it/s]Processing L25-1844: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-18825...
+Processing L25-18825: 0it [00:00, ?it/s]Processing L25-18825: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-18884...
+Processing L25-18884: 0it [00:00, ?it/s]Processing L25-18884: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-18920...
+Processing L25-18920: 0it [00:00, ?it/s]Processing L25-18920: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-19198...
+Processing L25-19198: 0it [00:00, ?it/s]Processing L25-19198: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-2021...
+Processing L25-2021: 0it [00:00, ?it/s]Processing L25-2021: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-20276...
+Processing L25-20276: 0it [00:00, ?it/s]Processing L25-20276: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-20658...
+Processing L25-20658: 0it [00:00, ?it/s]Processing L25-20658: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-2106...
+Processing L25-2106: 0it [00:00, ?it/s]Processing L25-2106: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-21320...
+Processing L25-21320: 0it [00:00, ?it/s]Processing L25-21320: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-23386...
+Processing L25-23386: 0it [00:00, ?it/s]Processing L25-23386: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-23397...
+Processing L25-23397: 0it [00:00, ?it/s]Processing L25-23397: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-23960...
+Processing L25-23960: 0it [00:00, ?it/s]Processing L25-23960: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-24013...
+Processing L25-24013: 0it [00:00, ?it/s]Processing L25-24013: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-24392...
+Processing L25-24392: 0it [00:00, ?it/s]Processing L25-24392: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-2498...
+Processing L25-2498: 0it [00:00, ?it/s]Processing L25-2498: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-25487...
+Processing L25-25487: 0it [00:00, ?it/s]Processing L25-25487: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_40_20251001_162326.json
+
+🔍 Analyzing L25-25949...
+Processing L25-25949: 0it [00:00, ?it/s]Processing L25-25949: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-27469...
+Processing L25-27469: 0it [00:00, ?it/s]Processing L25-27469: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-2782...
+Processing L25-2782: 0it [00:00, ?it/s]Processing L25-2782: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-27879...
+Processing L25-27879: 0it [00:00, ?it/s]Processing L25-27879: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-27969...
+Processing L25-27969: 0it [00:00, ?it/s]Processing L25-27969: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-28235...
+Processing L25-28235: 0it [00:00, ?it/s]Processing L25-28235: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-30388...
+Processing L25-30388: 0it [00:00, ?it/s]Processing L25-30388: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-30948...
+Processing L25-30948: 0it [00:00, ?it/s]Processing L25-30948: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-31622...
+Processing L25-31622: 0it [00:00, ?it/s]Processing L25-31622: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-31905...
+Processing L25-31905: 0it [00:00, ?it/s]Processing L25-31905: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-31936...
+Processing L25-31936: 0it [00:00, ?it/s]Processing L25-31936: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-32159...
+Processing L25-32159: 0it [00:00, ?it/s]Processing L25-32159: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-32318...
+Processing L25-32318: 0it [00:00, ?it/s]Processing L25-32318: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-4160...
+Processing L25-4160: 0it [00:00, ?it/s]Processing L25-4160: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-4612...
+Processing L25-4612: 0it [00:00, ?it/s]Processing L25-4612: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-5112...
+Processing L25-5112: 0it [00:00, ?it/s]Processing L25-5112: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-5245...
+Processing L25-5245: 0it [00:00, ?it/s]Processing L25-5245: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-5792...
+Processing L25-5792: 0it [00:00, ?it/s]Processing L25-5792: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-6706...
+Processing L25-6706: 0it [00:00, ?it/s]Processing L25-6706: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-7304...
+Processing L25-7304: 0it [00:00, ?it/s]Processing L25-7304: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_60_20251001_162326.json
+
+🔍 Analyzing L25-7307...
+Processing L25-7307: 0it [00:00, ?it/s]Processing L25-7307: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-8527...
+Processing L25-8527: 0it [00:00, ?it/s]Processing L25-8527: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-8583...
+Processing L25-8583: 0it [00:00, ?it/s]Processing L25-8583: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-8847...
+Processing L25-8847: 0it [00:00, ?it/s]Processing L25-8847: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-8948...
+Processing L25-8948: 0it [00:00, ?it/s]Processing L25-8948: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-9276...
+Processing L25-9276: 0it [00:00, ?it/s]Processing L25-9276: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-9316...
+Processing L25-9316: 0it [00:00, ?it/s]Processing L25-9316: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-9594...
+Processing L25-9594: 0it [00:00, ?it/s]Processing L25-9594: 0it [00:00, ?it/s]
+
+🔍 Analyzing L25-9764...
+Processing L25-9764: 0it [00:00, ?it/s]Processing L25-9764: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-10751...
+Processing L26-10751: 0it [00:00, ?it/s]Processing L26-10751: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-11008...
+Processing L26-11008: 0it [00:00, ?it/s]Processing L26-11008: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-1132...
+Processing L26-1132: 0it [00:00, ?it/s]Processing L26-1132: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-12715...
+Processing L26-12715: 0it [00:00, ?it/s]Processing L26-12715: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-13353...
+Processing L26-13353: 0it [00:00, ?it/s]Processing L26-13353: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-13771...
+Processing L26-13771: 0it [00:00, ?it/s]Processing L26-13771: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-13822...
+Processing L26-13822: 0it [00:00, ?it/s]Processing L26-13822: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-1453...
+Processing L26-1453: 0it [00:00, ?it/s]Processing L26-1453: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-1488...
+Processing L26-1488: 0it [00:00, ?it/s]Processing L26-1488: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-15167...
+Processing L26-15167: 0it [00:00, ?it/s]Processing L26-15167: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-15328...
+Processing L26-15328: 0it [00:00, ?it/s]Processing L26-15328: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_80_20251001_162326.json
+
+🔍 Analyzing L26-17129...
+Processing L26-17129: 0it [00:00, ?it/s]Processing L26-17129: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-17175...
+Processing L26-17175: 0it [00:00, ?it/s]Processing L26-17175: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-17535...
+Processing L26-17535: 0it [00:00, ?it/s]Processing L26-17535: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-19030...
+Processing L26-19030: 0it [00:00, ?it/s]Processing L26-19030: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-19643...
+Processing L26-19643: 0it [00:00, ?it/s]Processing L26-19643: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-2010...
+Processing L26-2010: 0it [00:00, ?it/s]Processing L26-2010: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-20131...
+Processing L26-20131: 0it [00:00, ?it/s]Processing L26-20131: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-20512...
+Processing L26-20512: 0it [00:00, ?it/s]Processing L26-20512: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-20752...
+Processing L26-20752: 0it [00:00, ?it/s]Processing L26-20752: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-21198...
+Processing L26-21198: 0it [00:00, ?it/s]Processing L26-21198: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-21721...
+Processing L26-21721: 0it [00:00, ?it/s]Processing L26-21721: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-22073...
+Processing L26-22073: 0it [00:00, ?it/s]Processing L26-22073: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-22096...
+Processing L26-22096: 0it [00:00, ?it/s]Processing L26-22096: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-22345...
+Processing L26-22345: 0it [00:00, ?it/s]Processing L26-22345: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-22708...
+Processing L26-22708: 0it [00:00, ?it/s]Processing L26-22708: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-23375...
+Processing L26-23375: 0it [00:00, ?it/s]Processing L26-23375: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-23454...
+Processing L26-23454: 0it [00:00, ?it/s]Processing L26-23454: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-23634...
+Processing L26-23634: 0it [00:00, ?it/s]Processing L26-23634: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-23764...
+Processing L26-23764: 0it [00:00, ?it/s]Processing L26-23764: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-23893...
+Processing L26-23893: 0it [00:00, ?it/s]Processing L26-23893: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_100_20251001_162326.json
+
+🔍 Analyzing L26-25841...
+Processing L26-25841: 0it [00:00, ?it/s]Processing L26-25841: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-26141...
+Processing L26-26141: 0it [00:00, ?it/s]Processing L26-26141: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-26324...
+Processing L26-26324: 0it [00:00, ?it/s]Processing L26-26324: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-26452...
+Processing L26-26452: 0it [00:00, ?it/s]Processing L26-26452: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-29004...
+Processing L26-29004: 0it [00:00, ?it/s]Processing L26-29004: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-29914...
+Processing L26-29914: 0it [00:00, ?it/s]Processing L26-29914: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-30049...
+Processing L26-30049: 0it [00:00, ?it/s]Processing L26-30049: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-30400...
+Processing L26-30400: 0it [00:00, ?it/s]Processing L26-30400: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-31199...
+Processing L26-31199: 0it [00:00, ?it/s]Processing L26-31199: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-31955...
+Processing L26-31955: 0it [00:00, ?it/s]Processing L26-31955: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-32072...
+Processing L26-32072: 0it [00:00, ?it/s]Processing L26-32072: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-3836...
+Processing L26-3836: 0it [00:00, ?it/s]Processing L26-3836: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-4490...
+Processing L26-4490: 0it [00:00, ?it/s]Processing L26-4490: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-4552...
+Processing L26-4552: 0it [00:00, ?it/s]Processing L26-4552: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-4733...
+Processing L26-4733: 0it [00:00, ?it/s]Processing L26-4733: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-5283...
+Processing L26-5283: 0it [00:00, ?it/s]Processing L26-5283: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-5425...
+Processing L26-5425: 0it [00:00, ?it/s]Processing L26-5425: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-5614...
+Processing L26-5614: 0it [00:00, ?it/s]Processing L26-5614: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-6090...
+Processing L26-6090: 0it [00:00, ?it/s]Processing L26-6090: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-7032...
+Processing L26-7032: 0it [00:00, ?it/s]Processing L26-7032: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_120_20251001_162326.json
+
+🔍 Analyzing L26-8276...
+Processing L26-8276: 0it [00:00, ?it/s]Processing L26-8276: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-8366...
+Processing L26-8366: 0it [00:00, ?it/s]Processing L26-8366: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-879...
+Processing L26-879: 0it [00:00, ?it/s]Processing L26-879: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-8846...
+Processing L26-8846: 0it [00:00, ?it/s]Processing L26-8846: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-9466...
+Processing L26-9466: 0it [00:00, ?it/s]Processing L26-9466: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-9689...
+Processing L26-9689: 0it [00:00, ?it/s]Processing L26-9689: 0it [00:00, ?it/s]
+
+🔍 Analyzing L26-9719...
+Processing L26-9719: 0it [00:00, ?it/s]Processing L26-9719: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-11759...
+Processing L27-11759: 0it [00:00, ?it/s]Processing L27-11759: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-12104...
+Processing L27-12104: 0it [00:00, ?it/s]Processing L27-12104: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-1387...
+Processing L27-1387: 0it [00:00, ?it/s]Processing L27-1387: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-16474...
+Processing L27-16474: 0it [00:00, ?it/s]Processing L27-16474: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-24741...
+Processing L27-24741: 0it [00:00, ?it/s]Processing L27-24741: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-28481...
+Processing L27-28481: 0it [00:00, ?it/s]Processing L27-28481: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-28498...
+Processing L27-28498: 0it [00:00, ?it/s]Processing L27-28498: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-29237...
+Processing L27-29237: 0it [00:00, ?it/s]Processing L27-29237: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-29583...
+Processing L27-29583: 0it [00:00, ?it/s]Processing L27-29583: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-31114...
+Processing L27-31114: 0it [00:00, ?it/s]Processing L27-31114: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-32304...
+Processing L27-32304: 0it [00:00, ?it/s]Processing L27-32304: 0it [00:00, ?it/s]
+
+🔍 Analyzing L27-32312...
+Processing L27-32312: 0it [00:00, ?it/s]Processing L27-32312: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-10954...
+Processing L28-10954: 0it [00:00, ?it/s]Processing L28-10954: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_140_20251001_162326.json
+
+🔍 Analyzing L28-11282...
+Processing L28-11282: 0it [00:00, ?it/s]Processing L28-11282: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-11402...
+Processing L28-11402: 0it [00:00, ?it/s]Processing L28-11402: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-13318...
+Processing L28-13318: 0it [00:00, ?it/s]Processing L28-13318: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-1338...
+Processing L28-1338: 0it [00:00, ?it/s]Processing L28-1338: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-13750...
+Processing L28-13750: 0it [00:00, ?it/s]Processing L28-13750: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-14093...
+Processing L28-14093: 0it [00:00, ?it/s]Processing L28-14093: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-14543...
+Processing L28-14543: 0it [00:00, ?it/s]Processing L28-14543: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-15265...
+Processing L28-15265: 0it [00:00, ?it/s]Processing L28-15265: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-15680...
+Processing L28-15680: 0it [00:00, ?it/s]Processing L28-15680: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-17160...
+Processing L28-17160: 0it [00:00, ?it/s]Processing L28-17160: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-18107...
+Processing L28-18107: 0it [00:00, ?it/s]Processing L28-18107: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-18857...
+Processing L28-18857: 0it [00:00, ?it/s]Processing L28-18857: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-18880...
+Processing L28-18880: 0it [00:00, ?it/s]Processing L28-18880: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-20721...
+Processing L28-20721: 0it [00:00, ?it/s]Processing L28-20721: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-21019...
+Processing L28-21019: 0it [00:00, ?it/s]Processing L28-21019: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-21750...
+Processing L28-21750: 0it [00:00, ?it/s]Processing L28-21750: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-22024...
+Processing L28-22024: 0it [00:00, ?it/s]Processing L28-22024: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-22377...
+Processing L28-22377: 0it [00:00, ?it/s]Processing L28-22377: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-22597...
+Processing L28-22597: 0it [00:00, ?it/s]Processing L28-22597: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-22604...
+Processing L28-22604: 0it [00:00, ?it/s]Processing L28-22604: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_160_20251001_162326.json
+
+🔍 Analyzing L28-22933...
+Processing L28-22933: 0it [00:00, ?it/s]Processing L28-22933: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-23866...
+Processing L28-23866: 0it [00:00, ?it/s]Processing L28-23866: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-2412...
+Processing L28-2412: 0it [00:00, ?it/s]Processing L28-2412: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-24474...
+Processing L28-24474: 0it [00:00, ?it/s]Processing L28-24474: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-24738...
+Processing L28-24738: 0it [00:00, ?it/s]Processing L28-24738: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-24847...
+Processing L28-24847: 0it [00:00, ?it/s]Processing L28-24847: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-26045...
+Processing L28-26045: 0it [00:00, ?it/s]Processing L28-26045: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-26060...
+Processing L28-26060: 0it [00:00, ?it/s]Processing L28-26060: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-26325...
+Processing L28-26325: 0it [00:00, ?it/s]Processing L28-26325: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-26792...
+Processing L28-26792: 0it [00:00, ?it/s]Processing L28-26792: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-28009...
+Processing L28-28009: 0it [00:00, ?it/s]Processing L28-28009: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-28237...
+Processing L28-28237: 0it [00:00, ?it/s]Processing L28-28237: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-29030...
+Processing L28-29030: 0it [00:00, ?it/s]Processing L28-29030: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-29851...
+Processing L28-29851: 0it [00:00, ?it/s]Processing L28-29851: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-30332...
+Processing L28-30332: 0it [00:00, ?it/s]Processing L28-30332: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-30751...
+Processing L28-30751: 0it [00:00, ?it/s]Processing L28-30751: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-3145...
+Processing L28-3145: 0it [00:00, ?it/s]Processing L28-3145: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-32096...
+Processing L28-32096: 0it [00:00, ?it/s]Processing L28-32096: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-32640...
+Processing L28-32640: 0it [00:00, ?it/s]Processing L28-32640: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-3341...
+Processing L28-3341: 0it [00:00, ?it/s]Processing L28-3341: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_180_20251001_162326.json
+
+🔍 Analyzing L28-3661...
+Processing L28-3661: 0it [00:00, ?it/s]Processing L28-3661: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-3681...
+Processing L28-3681: 0it [00:00, ?it/s]Processing L28-3681: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-3820...
+Processing L28-3820: 0it [00:00, ?it/s]Processing L28-3820: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-4558...
+Processing L28-4558: 0it [00:00, ?it/s]Processing L28-4558: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-498...
+Processing L28-498: 0it [00:00, ?it/s]Processing L28-498: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-522...
+Processing L28-522: 0it [00:00, ?it/s]Processing L28-522: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-5266...
+Processing L28-5266: 0it [00:00, ?it/s]Processing L28-5266: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-5942...
+Processing L28-5942: 0it [00:00, ?it/s]Processing L28-5942: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-640...
+Processing L28-640: 0it [00:00, ?it/s]Processing L28-640: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-6525...
+Processing L28-6525: 0it [00:00, ?it/s]Processing L28-6525: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-6777...
+Processing L28-6777: 0it [00:00, ?it/s]Processing L28-6777: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-6902...
+Processing L28-6902: 0it [00:00, ?it/s]Processing L28-6902: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-7675...
+Processing L28-7675: 0it [00:00, ?it/s]Processing L28-7675: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-8609...
+Processing L28-8609: 0it [00:00, ?it/s]Processing L28-8609: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-8916...
+Processing L28-8916: 0it [00:00, ?it/s]Processing L28-8916: 0it [00:00, ?it/s]
+
+🔍 Analyzing L28-9890...
+Processing L28-9890: 0it [00:00, ?it/s]Processing L28-9890: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-10029...
+Processing L29-10029: 0it [00:00, ?it/s]Processing L29-10029: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-10238...
+Processing L29-10238: 0it [00:00, ?it/s]Processing L29-10238: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-10626...
+Processing L29-10626: 0it [00:00, ?it/s]Processing L29-10626: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-10943...
+Processing L29-10943: 0it [00:00, ?it/s]Processing L29-10943: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_200_20251001_162326.json
+
+🔍 Analyzing L29-11143...
+Processing L29-11143: 0it [00:00, ?it/s]Processing L29-11143: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-11237...
+Processing L29-11237: 0it [00:00, ?it/s]Processing L29-11237: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-11424...
+Processing L29-11424: 0it [00:00, ?it/s]Processing L29-11424: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-11474...
+Processing L29-11474: 0it [00:00, ?it/s]Processing L29-11474: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-11956...
+Processing L29-11956: 0it [00:00, ?it/s]Processing L29-11956: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-124...
+Processing L29-124: 0it [00:00, ?it/s]Processing L29-124: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-1280...
+Processing L29-1280: 0it [00:00, ?it/s]Processing L29-1280: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-13187...
+Processing L29-13187: 0it [00:00, ?it/s]Processing L29-13187: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-13425...
+Processing L29-13425: 0it [00:00, ?it/s]Processing L29-13425: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-13502...
+Processing L29-13502: 0it [00:00, ?it/s]Processing L29-13502: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-13805...
+Processing L29-13805: 0it [00:00, ?it/s]Processing L29-13805: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-13909...
+Processing L29-13909: 0it [00:00, ?it/s]Processing L29-13909: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-13931...
+Processing L29-13931: 0it [00:00, ?it/s]Processing L29-13931: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-14045...
+Processing L29-14045: 0it [00:00, ?it/s]Processing L29-14045: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-14699...
+Processing L29-14699: 0it [00:00, ?it/s]Processing L29-14699: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-1593...
+Processing L29-1593: 0it [00:00, ?it/s]Processing L29-1593: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-1624...
+Processing L29-1624: 0it [00:00, ?it/s]Processing L29-1624: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-16368...
+Processing L29-16368: 0it [00:00, ?it/s]Processing L29-16368: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-16384...
+Processing L29-16384: 0it [00:00, ?it/s]Processing L29-16384: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-1639...
+Processing L29-1639: 0it [00:00, ?it/s]Processing L29-1639: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_220_20251001_162326.json
+
+🔍 Analyzing L29-16616...
+Processing L29-16616: 0it [00:00, ?it/s]Processing L29-16616: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-16672...
+Processing L29-16672: 0it [00:00, ?it/s]Processing L29-16672: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-16698...
+Processing L29-16698: 0it [00:00, ?it/s]Processing L29-16698: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-16708...
+Processing L29-16708: 0it [00:00, ?it/s]Processing L29-16708: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-16944...
+Processing L29-16944: 0it [00:00, ?it/s]Processing L29-16944: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-17293...
+Processing L29-17293: 0it [00:00, ?it/s]Processing L29-17293: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-17381...
+Processing L29-17381: 0it [00:00, ?it/s]Processing L29-17381: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-17585...
+Processing L29-17585: 0it [00:00, ?it/s]Processing L29-17585: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-1762...
+Processing L29-1762: 0it [00:00, ?it/s]Processing L29-1762: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-18606...
+Processing L29-18606: 0it [00:00, ?it/s]Processing L29-18606: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-1878...
+Processing L29-1878: 0it [00:00, ?it/s]Processing L29-1878: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-18880...
+Processing L29-18880: 0it [00:00, ?it/s]Processing L29-18880: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-19405...
+Processing L29-19405: 0it [00:00, ?it/s]Processing L29-19405: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-19647...
+Processing L29-19647: 0it [00:00, ?it/s]Processing L29-19647: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-20218...
+Processing L29-20218: 0it [00:00, ?it/s]Processing L29-20218: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-20662...
+Processing L29-20662: 0it [00:00, ?it/s]Processing L29-20662: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-2077...
+Processing L29-2077: 0it [00:00, ?it/s]Processing L29-2077: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-2086...
+Processing L29-2086: 0it [00:00, ?it/s]Processing L29-2086: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-21091...
+Processing L29-21091: 0it [00:00, ?it/s]Processing L29-21091: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-21492...
+Processing L29-21492: 0it [00:00, ?it/s]Processing L29-21492: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_240_20251001_162326.json
+
+🔍 Analyzing L29-21853...
+Processing L29-21853: 0it [00:00, ?it/s]Processing L29-21853: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-22775...
+Processing L29-22775: 0it [00:00, ?it/s]Processing L29-22775: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-23056...
+Processing L29-23056: 0it [00:00, ?it/s]Processing L29-23056: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-23088...
+Processing L29-23088: 0it [00:00, ?it/s]Processing L29-23088: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-23201...
+Processing L29-23201: 0it [00:00, ?it/s]Processing L29-23201: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-23432...
+Processing L29-23432: 0it [00:00, ?it/s]Processing L29-23432: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-23656...
+Processing L29-23656: 0it [00:00, ?it/s]Processing L29-23656: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-23824...
+Processing L29-23824: 0it [00:00, ?it/s]Processing L29-23824: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-24053...
+Processing L29-24053: 0it [00:00, ?it/s]Processing L29-24053: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-24272...
+Processing L29-24272: 0it [00:00, ?it/s]Processing L29-24272: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-24397...
+Processing L29-24397: 0it [00:00, ?it/s]Processing L29-24397: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-24617...
+Processing L29-24617: 0it [00:00, ?it/s]Processing L29-24617: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-24682...
+Processing L29-24682: 0it [00:00, ?it/s]Processing L29-24682: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-25629...
+Processing L29-25629: 0it [00:00, ?it/s]Processing L29-25629: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-26493...
+Processing L29-26493: 0it [00:00, ?it/s]Processing L29-26493: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-26685...
+Processing L29-26685: 0it [00:00, ?it/s]Processing L29-26685: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-26821...
+Processing L29-26821: 0it [00:00, ?it/s]Processing L29-26821: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-27313...
+Processing L29-27313: 0it [00:00, ?it/s]Processing L29-27313: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-28288...
+Processing L29-28288: 0it [00:00, ?it/s]Processing L29-28288: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-28453...
+Processing L29-28453: 0it [00:00, ?it/s]Processing L29-28453: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_260_20251001_162326.json
+
+🔍 Analyzing L29-28929...
+Processing L29-28929: 0it [00:00, ?it/s]Processing L29-28929: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-29097...
+Processing L29-29097: 0it [00:00, ?it/s]Processing L29-29097: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-29205...
+Processing L29-29205: 0it [00:00, ?it/s]Processing L29-29205: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-2934...
+Processing L29-2934: 0it [00:00, ?it/s]Processing L29-2934: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-29375...
+Processing L29-29375: 0it [00:00, ?it/s]Processing L29-29375: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-29928...
+Processing L29-29928: 0it [00:00, ?it/s]Processing L29-29928: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-3014...
+Processing L29-3014: 0it [00:00, ?it/s]Processing L29-3014: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-30868...
+Processing L29-30868: 0it [00:00, ?it/s]Processing L29-30868: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-30930...
+Processing L29-30930: 0it [00:00, ?it/s]Processing L29-30930: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-30993...
+Processing L29-30993: 0it [00:00, ?it/s]Processing L29-30993: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-31081...
+Processing L29-31081: 0it [00:00, ?it/s]Processing L29-31081: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-31191...
+Processing L29-31191: 0it [00:00, ?it/s]Processing L29-31191: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-32379...
+Processing L29-32379: 0it [00:00, ?it/s]Processing L29-32379: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-3454...
+Processing L29-3454: 0it [00:00, ?it/s]Processing L29-3454: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-3494...
+Processing L29-3494: 0it [00:00, ?it/s]Processing L29-3494: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-3615...
+Processing L29-3615: 0it [00:00, ?it/s]Processing L29-3615: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-4774...
+Processing L29-4774: 0it [00:00, ?it/s]Processing L29-4774: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-5006...
+Processing L29-5006: 0it [00:00, ?it/s]Processing L29-5006: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-5040...
+Processing L29-5040: 0it [00:00, ?it/s]Processing L29-5040: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-5113...
+Processing L29-5113: 0it [00:00, ?it/s]Processing L29-5113: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_280_20251001_162326.json
+
+🔍 Analyzing L29-5488...
+Processing L29-5488: 0it [00:00, ?it/s]Processing L29-5488: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-5703...
+Processing L29-5703: 0it [00:00, ?it/s]Processing L29-5703: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-5927...
+Processing L29-5927: 0it [00:00, ?it/s]Processing L29-5927: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-8164...
+Processing L29-8164: 0it [00:00, ?it/s]Processing L29-8164: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-8170...
+Processing L29-8170: 0it [00:00, ?it/s]Processing L29-8170: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-8197...
+Processing L29-8197: 0it [00:00, ?it/s]Processing L29-8197: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-8276...
+Processing L29-8276: 0it [00:00, ?it/s]Processing L29-8276: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-8624...
+Processing L29-8624: 0it [00:00, ?it/s]Processing L29-8624: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-8801...
+Processing L29-8801: 0it [00:00, ?it/s]Processing L29-8801: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-8839...
+Processing L29-8839: 0it [00:00, ?it/s]Processing L29-8839: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-9208...
+Processing L29-9208: 0it [00:00, ?it/s]Processing L29-9208: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-951...
+Processing L29-951: 0it [00:00, ?it/s]Processing L29-951: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-9694...
+Processing L29-9694: 0it [00:00, ?it/s]Processing L29-9694: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-9703...
+Processing L29-9703: 0it [00:00, ?it/s]Processing L29-9703: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-9762...
+Processing L29-9762: 0it [00:00, ?it/s]Processing L29-9762: 0it [00:00, ?it/s]
+
+🔍 Analyzing L29-9875...
+Processing L29-9875: 0it [00:00, ?it/s]Processing L29-9875: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-10744...
+Processing L30-10744: 0it [00:00, ?it/s]Processing L30-10744: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-10876...
+Processing L30-10876: 0it [00:00, ?it/s]Processing L30-10876: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-12795...
+Processing L30-12795: 0it [00:00, ?it/s]Processing L30-12795: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-13225...
+Processing L30-13225: 0it [00:00, ?it/s]Processing L30-13225: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_300_20251001_162326.json
+
+🔍 Analyzing L30-13566...
+Processing L30-13566: 0it [00:00, ?it/s]Processing L30-13566: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-14727...
+Processing L30-14727: 0it [00:00, ?it/s]Processing L30-14727: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-15144...
+Processing L30-15144: 0it [00:00, ?it/s]Processing L30-15144: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-15218...
+Processing L30-15218: 0it [00:00, ?it/s]Processing L30-15218: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-15442...
+Processing L30-15442: 0it [00:00, ?it/s]Processing L30-15442: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-15544...
+Processing L30-15544: 0it [00:00, ?it/s]Processing L30-15544: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-15613...
+Processing L30-15613: 0it [00:00, ?it/s]Processing L30-15613: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-15947...
+Processing L30-15947: 0it [00:00, ?it/s]Processing L30-15947: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-15997...
+Processing L30-15997: 0it [00:00, ?it/s]Processing L30-15997: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-16403...
+Processing L30-16403: 0it [00:00, ?it/s]Processing L30-16403: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-16555...
+Processing L30-16555: 0it [00:00, ?it/s]Processing L30-16555: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-16777...
+Processing L30-16777: 0it [00:00, ?it/s]Processing L30-16777: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-16827...
+Processing L30-16827: 0it [00:00, ?it/s]Processing L30-16827: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-16845...
+Processing L30-16845: 0it [00:00, ?it/s]Processing L30-16845: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-17033...
+Processing L30-17033: 0it [00:00, ?it/s]Processing L30-17033: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-17352...
+Processing L30-17352: 0it [00:00, ?it/s]Processing L30-17352: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-17384...
+Processing L30-17384: 0it [00:00, ?it/s]Processing L30-17384: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-17522...
+Processing L30-17522: 0it [00:00, ?it/s]Processing L30-17522: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-17924...
+Processing L30-17924: 0it [00:00, ?it/s]Processing L30-17924: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-18100...
+Processing L30-18100: 0it [00:00, ?it/s]Processing L30-18100: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_320_20251001_162326.json
+
+🔍 Analyzing L30-18141...
+Processing L30-18141: 0it [00:00, ?it/s]Processing L30-18141: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-18542...
+Processing L30-18542: 0it [00:00, ?it/s]Processing L30-18542: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-18786...
+Processing L30-18786: 0it [00:00, ?it/s]Processing L30-18786: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-18829...
+Processing L30-18829: 0it [00:00, ?it/s]Processing L30-18829: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-19197...
+Processing L30-19197: 0it [00:00, ?it/s]Processing L30-19197: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-19433...
+Processing L30-19433: 0it [00:00, ?it/s]Processing L30-19433: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-19747...
+Processing L30-19747: 0it [00:00, ?it/s]Processing L30-19747: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-20172...
+Processing L30-20172: 0it [00:00, ?it/s]Processing L30-20172: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-20587...
+Processing L30-20587: 0it [00:00, ?it/s]Processing L30-20587: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-20617...
+Processing L30-20617: 0it [00:00, ?it/s]Processing L30-20617: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-21705...
+Processing L30-21705: 0it [00:00, ?it/s]Processing L30-21705: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-22299...
+Processing L30-22299: 0it [00:00, ?it/s]Processing L30-22299: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-22493...
+Processing L30-22493: 0it [00:00, ?it/s]Processing L30-22493: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-22695...
+Processing L30-22695: 0it [00:00, ?it/s]Processing L30-22695: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-22903...
+Processing L30-22903: 0it [00:00, ?it/s]Processing L30-22903: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-22924...
+Processing L30-22924: 0it [00:00, ?it/s]Processing L30-22924: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-23605...
+Processing L30-23605: 0it [00:00, ?it/s]Processing L30-23605: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-23955...
+Processing L30-23955: 0it [00:00, ?it/s]Processing L30-23955: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-24798...
+Processing L30-24798: 0it [00:00, ?it/s]Processing L30-24798: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-2537...
+Processing L30-2537: 0it [00:00, ?it/s]Processing L30-2537: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_340_20251001_162326.json
+
+🔍 Analyzing L30-26079...
+Processing L30-26079: 0it [00:00, ?it/s]Processing L30-26079: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-2634...
+Processing L30-2634: 0it [00:00, ?it/s]Processing L30-2634: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-26388...
+Processing L30-26388: 0it [00:00, ?it/s]Processing L30-26388: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-26681...
+Processing L30-26681: 0it [00:00, ?it/s]Processing L30-26681: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-27100...
+Processing L30-27100: 0it [00:00, ?it/s]Processing L30-27100: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-27112...
+Processing L30-27112: 0it [00:00, ?it/s]Processing L30-27112: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-27141...
+Processing L30-27141: 0it [00:00, ?it/s]Processing L30-27141: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-28729...
+Processing L30-28729: 0it [00:00, ?it/s]Processing L30-28729: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-29044...
+Processing L30-29044: 0it [00:00, ?it/s]Processing L30-29044: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-29157...
+Processing L30-29157: 0it [00:00, ?it/s]Processing L30-29157: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-2948...
+Processing L30-2948: 0it [00:00, ?it/s]Processing L30-2948: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-3069...
+Processing L30-3069: 0it [00:00, ?it/s]Processing L30-3069: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-31063...
+Processing L30-31063: 0it [00:00, ?it/s]Processing L30-31063: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-31162...
+Processing L30-31162: 0it [00:00, ?it/s]Processing L30-31162: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-31204...
+Processing L30-31204: 0it [00:00, ?it/s]Processing L30-31204: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-32421...
+Processing L30-32421: 0it [00:00, ?it/s]Processing L30-32421: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-3269...
+Processing L30-3269: 0it [00:00, ?it/s]Processing L30-3269: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-4305...
+Processing L30-4305: 0it [00:00, ?it/s]Processing L30-4305: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-4335...
+Processing L30-4335: 0it [00:00, ?it/s]Processing L30-4335: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-461...
+Processing L30-461: 0it [00:00, ?it/s]Processing L30-461: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_360_20251001_162326.json
+
+🔍 Analyzing L30-512...
+Processing L30-512: 0it [00:00, ?it/s]Processing L30-512: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-5237...
+Processing L30-5237: 0it [00:00, ?it/s]Processing L30-5237: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-5516...
+Processing L30-5516: 0it [00:00, ?it/s]Processing L30-5516: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-5800...
+Processing L30-5800: 0it [00:00, ?it/s]Processing L30-5800: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-6387...
+Processing L30-6387: 0it [00:00, ?it/s]Processing L30-6387: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-6497...
+Processing L30-6497: 0it [00:00, ?it/s]Processing L30-6497: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-671...
+Processing L30-671: 0it [00:00, ?it/s]Processing L30-671: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-6710...
+Processing L30-6710: 0it [00:00, ?it/s]Processing L30-6710: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-7183...
+Processing L30-7183: 0it [00:00, ?it/s]Processing L30-7183: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-7254...
+Processing L30-7254: 0it [00:00, ?it/s]Processing L30-7254: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-7255...
+Processing L30-7255: 0it [00:00, ?it/s]Processing L30-7255: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-7680...
+Processing L30-7680: 0it [00:00, ?it/s]Processing L30-7680: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-7758...
+Processing L30-7758: 0it [00:00, ?it/s]Processing L30-7758: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-8068...
+Processing L30-8068: 0it [00:00, ?it/s]Processing L30-8068: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-8350...
+Processing L30-8350: 0it [00:00, ?it/s]Processing L30-8350: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-8697...
+Processing L30-8697: 0it [00:00, ?it/s]Processing L30-8697: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-8999...
+Processing L30-8999: 0it [00:00, ?it/s]Processing L30-8999: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-9151...
+Processing L30-9151: 0it [00:00, ?it/s]Processing L30-9151: 0it [00:00, ?it/s]
+
+🔍 Analyzing L30-9988...
+Processing L30-9988: 0it [00:00, ?it/s]Processing L30-9988: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-10036...
+Processing L31-10036: 0it [00:00, ?it/s]Processing L31-10036: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_380_20251001_162326.json
+
+🔍 Analyzing L31-10725...
+Processing L31-10725: 0it [00:00, ?it/s]Processing L31-10725: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-11256...
+Processing L31-11256: 0it [00:00, ?it/s]Processing L31-11256: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-11548...
+Processing L31-11548: 0it [00:00, ?it/s]Processing L31-11548: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-11974...
+Processing L31-11974: 0it [00:00, ?it/s]Processing L31-11974: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-12810...
+Processing L31-12810: 0it [00:00, ?it/s]Processing L31-12810: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-1287...
+Processing L31-1287: 0it [00:00, ?it/s]Processing L31-1287: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-14016...
+Processing L31-14016: 0it [00:00, ?it/s]Processing L31-14016: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-14374...
+Processing L31-14374: 0it [00:00, ?it/s]Processing L31-14374: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-14838...
+Processing L31-14838: 0it [00:00, ?it/s]Processing L31-14838: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-14913...
+Processing L31-14913: 0it [00:00, ?it/s]Processing L31-14913: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-15533...
+Processing L31-15533: 0it [00:00, ?it/s]Processing L31-15533: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-16189...
+Processing L31-16189: 0it [00:00, ?it/s]Processing L31-16189: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-16586...
+Processing L31-16586: 0it [00:00, ?it/s]Processing L31-16586: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-16925...
+Processing L31-16925: 0it [00:00, ?it/s]Processing L31-16925: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-1757...
+Processing L31-1757: 0it [00:00, ?it/s]Processing L31-1757: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-17787...
+Processing L31-17787: 0it [00:00, ?it/s]Processing L31-17787: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-18015...
+Processing L31-18015: 0it [00:00, ?it/s]Processing L31-18015: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-19311...
+Processing L31-19311: 0it [00:00, ?it/s]Processing L31-19311: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-19690...
+Processing L31-19690: 0it [00:00, ?it/s]Processing L31-19690: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-20205...
+Processing L31-20205: 0it [00:00, ?it/s]Processing L31-20205: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_400_20251001_162326.json
+
+🔍 Analyzing L31-20466...
+Processing L31-20466: 0it [00:00, ?it/s]Processing L31-20466: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-2073...
+Processing L31-2073: 0it [00:00, ?it/s]Processing L31-2073: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-21028...
+Processing L31-21028: 0it [00:00, ?it/s]Processing L31-21028: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-21390...
+Processing L31-21390: 0it [00:00, ?it/s]Processing L31-21390: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-21440...
+Processing L31-21440: 0it [00:00, ?it/s]Processing L31-21440: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-21462...
+Processing L31-21462: 0it [00:00, ?it/s]Processing L31-21462: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-21983...
+Processing L31-21983: 0it [00:00, ?it/s]Processing L31-21983: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-22745...
+Processing L31-22745: 0it [00:00, ?it/s]Processing L31-22745: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-22798...
+Processing L31-22798: 0it [00:00, ?it/s]Processing L31-22798: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-23263...
+Processing L31-23263: 0it [00:00, ?it/s]Processing L31-23263: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-25773...
+Processing L31-25773: 0it [00:00, ?it/s]Processing L31-25773: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-2690...
+Processing L31-2690: 0it [00:00, ?it/s]Processing L31-2690: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-270...
+Processing L31-270: 0it [00:00, ?it/s]Processing L31-270: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-27057...
+Processing L31-27057: 0it [00:00, ?it/s]Processing L31-27057: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-27073...
+Processing L31-27073: 0it [00:00, ?it/s]Processing L31-27073: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-27330...
+Processing L31-27330: 0it [00:00, ?it/s]Processing L31-27330: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-27388...
+Processing L31-27388: 0it [00:00, ?it/s]Processing L31-27388: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-27416...
+Processing L31-27416: 0it [00:00, ?it/s]Processing L31-27416: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-27441...
+Processing L31-27441: 0it [00:00, ?it/s]Processing L31-27441: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-27952...
+Processing L31-27952: 0it [00:00, ?it/s]Processing L31-27952: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_420_20251001_162326.json
+
+🔍 Analyzing L31-28105...
+Processing L31-28105: 0it [00:00, ?it/s]Processing L31-28105: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-28707...
+Processing L31-28707: 0it [00:00, ?it/s]Processing L31-28707: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-30032...
+Processing L31-30032: 0it [00:00, ?it/s]Processing L31-30032: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-32063...
+Processing L31-32063: 0it [00:00, ?it/s]Processing L31-32063: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-32310...
+Processing L31-32310: 0it [00:00, ?it/s]Processing L31-32310: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-32576...
+Processing L31-32576: 0it [00:00, ?it/s]Processing L31-32576: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-3781...
+Processing L31-3781: 0it [00:00, ?it/s]Processing L31-3781: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-4059...
+Processing L31-4059: 0it [00:00, ?it/s]Processing L31-4059: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-4378...
+Processing L31-4378: 0it [00:00, ?it/s]Processing L31-4378: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-4420...
+Processing L31-4420: 0it [00:00, ?it/s]Processing L31-4420: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-4828...
+Processing L31-4828: 0it [00:00, ?it/s]Processing L31-4828: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-5311...
+Processing L31-5311: 0it [00:00, ?it/s]Processing L31-5311: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-571...
+Processing L31-571: 0it [00:00, ?it/s]Processing L31-571: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-5891...
+Processing L31-5891: 0it [00:00, ?it/s]Processing L31-5891: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-6396...
+Processing L31-6396: 0it [00:00, ?it/s]Processing L31-6396: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-7707...
+Processing L31-7707: 0it [00:00, ?it/s]Processing L31-7707: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-7824...
+Processing L31-7824: 0it [00:00, ?it/s]Processing L31-7824: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-792...
+Processing L31-792: 0it [00:00, ?it/s]Processing L31-792: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-8369...
+Processing L31-8369: 0it [00:00, ?it/s]Processing L31-8369: 0it [00:00, ?it/s]
+
+🔍 Analyzing L31-9275...
+Processing L31-9275: 0it [00:00, ?it/s]Processing L31-9275: 0it [00:00, ?it/s]
+💾 Checkpoint saved: /data/llm_addiction/experiment_3_feature_word/checkpoint_440_20251001_162326.json
+
+🔍 Analyzing L31-9826...
+Processing L31-9826: 0it [00:00, ?it/s]Processing L31-9826: 0it [00:00, ?it/s]
+💾 Final results saved: /data/llm_addiction/experiment_3_feature_word/final_feature_word_20251001_162326.json
+
+================================================================================
+📊 ANALYSIS COMPLETE
+   Features analyzed: 441
+================================================================================

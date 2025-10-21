@@ -1,0 +1,42 @@
+SAE (Sparse AutoEncoder) Loading Issue Analysis Request
+
+## Problem Description
+We have a PyTorch Sparse AutoEncoder (SAE) for LLaMA that consistently hangs during the "Loading b_D..." step (decoder bias loading). Here are the key details:
+
+## Technical Context
+1. **SAE Architecture:**
+   - d_model = 4096
+   - d_sae = 32768  
+   - b_D shape: torch.Size([4096]) - decoder bias tensor
+   - File size: 512.1 MB checkpoint
+
+2. **Loading Process:**
+   - Uses torch.load(checkpoint_path, map_location='cpu') ✅
+   - Loading sequence: W_E ✅ → b_E ✅ → W_D ✅ → b_D (hangs here)
+   - CPU usage: 95-97% (indicating active processing)
+
+3. **Environment:**
+   - PyTorch environment with CUDA
+   - Multiple GPU setup (GPU 2, 4)
+   - Loading to CPU first, then moving to GPU
+
+## Observed Behavior
+- **Success case:** Same code worked 1 hour ago with n=30 trials
+- **Current issue:** Hangs at b_D loading step with n=100 trials
+- **Resource competition:** Initially 6 concurrent processes (now reduced to 1)
+- **CPU activity:** High CPU usage suggests not completely frozen
+
+## Hypothesis
+The issue appears related to:
+1. Resource competition from multiple processes
+2. Memory pressure during tensor loading
+3. Possible deadlock in PyTorch tensor operations
+
+## Questions for Analysis
+1. Why would b_D (decoder bias) loading be more problematic than W_D (decoder weights) which is much larger?
+2. What could cause high CPU usage during a "hang" - is this normal for large tensor operations?
+3. Are there known PyTorch issues with loading bias tensors specifically?
+4. Could this be related to tensor storage format or memory alignment issues?
+5. What debugging steps would you recommend to identify the root cause?
+
+The puzzling aspect is that the same code worked recently, suggesting this isn't a fundamental code issue but rather a resource/timing/environment problem.

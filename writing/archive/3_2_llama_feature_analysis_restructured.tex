@@ -1,0 +1,79 @@
+\subsection{LLaMA-3.1-8B Mechanistic Analysis}
+
+\subsubsection{행동 패턴 분석}
+
+\textbf{실험 설계}: LLaMA-3.1-8B Base 모델을 대상으로 슬롯머신 기반 multi-round 도박 게임을 설계하였다. 기본 게임 매개변수는 초기 자금 \$100, 승률 30\%, 당첨 시 3배 지급, 기댓값 -10\%로 설정하여 GPT와 동일한 조건을 유지하였다. 32개 프롬프트 조합(G: 목표 설정, M: 보상 최대화, P: 확률 정보, R: 숨겨진 패턴 암시, W: 보상 구조 명시)과 2개 베팅 타입(고정/가변), 2개 첫 게임 결과(승리/패배)로 총 128개 실험 조건을 구성하였다.
+
+\textbf{데이터 수집}: 각 조건당 50회 반복 실험으로 총 6,400개 게임을 수행하였다. 모든 게임은 파산 또는 자발적 중단 시까지 진행되었으며(최대 100라운드), 각 라운드에서 베팅 금액, 게임 결과, 최종 결정을 기록하였다. 실험 결과 전체 파산율 3.3\%로 GPT-4o-mini의 4.6\%보다 낮은 보수적 패턴을 보였다.
+
+파산 그룹의 비합리성 지표는 0.4817로 안전 그룹보다 1.3배 높았으나, GPT의 12배 차이보다 작았다. Figure~\ref{fig:llama-irrationality-components}는 LLaMA의 비합리성 지표 구성요소별 분석을 보여준다. 가변 베팅에서만 파산이 발생하는 패턴(Variable 7.1\% vs Fixed 0.1\%)은 GPT와 일치하였으나, LLaMA가 더 보수적 의사결정을 보였다.
+
+Figure~\ref{fig:consistency-scatter}는 두 모델 간 프롬프트별 위험도 순위 일관성을 보여준다. 4개 핵심 메트릭에 대한 Spearman 상관분석에서 평균 상관계수 $\rho = 0.905$의 높은 일관성이 확인되었다. 위험 관련 메트릭들에서 0.9 이상의 순위 일관성이 나타났으며, GMPW, GMPRW, PRW 등 고위험 프롬프트들이 두 모델에서 모두 상위 순위를 차지했다.
+
+프롬프트 복잡도와 위험 행동의 관계도 두 모델에서 일관되게 관찰되었다. 구성요소 수 증가에 따른 파산율의 체계적 증가 패턴이 동일했으며, W(보상 정보)와 P(확률 정보) 요소의 위험 증가 효과도 유사했다. 평균 라운드 수에서만 상대적으로 낮은 일관성($\rho = 0.524$)을 보여 두 모델이 게임 지속성 전략에서 차이를 보임을 의미한다.
+
+이러한 결과는 모델 아키텍처와 학습 데이터 차이에도 불구하고 LLM의 도박 관련 의사결정 메커니즘이 공통 특성을 가짐을 시사한다. 위험 추구 행동의 핵심 패턴에서 보인 높은 일관성은 이러한 행동이 특정 모델에 국한된 것이 아닌 LLM 전반의 근본적 특성임을 보여준다. 프롬프트별 위험도 순서의 일치는 인지적 편향을 유발하는 언어적 맥락이 모델에 관계없이 유사하게 작용함을 의미한다.
+
+\subsubsection{인과 메커니즘 검증}
+
+\textbf{SAE Feature 추출}: 파산과 자발적 중단을 구분하는 신경망 메커니즘 발견을 위해 Llama-Scope SAE(Sparse Autoencoder)를 활용하였다. Layer 25-31에서 각각 32,768개 features를 추출하여 총 7개 layer에 걸친 포괄적 분석을 수행하였다. 최종 라운드에서 모델이 베팅 또는 중단 결정을 내리는 순간의 마지막 토큰 위치에서 feature 활성화를 측정하였다. 전체 6,400개 실험 중 211개 파산 케이스와 6,189개 자발적 중단 케이스에서 feature 활성화 패턴을 비교 분석하였다. Figure~\ref{fig:feature-activation-dist}는 파산 그룹과 안전 그룹 간 주요 features의 활성화 분포를 violin plot으로 보여준다. 총 3,365개 features가 유의미한 차이를 보였으며($p < 0.001$, $|Cohen's\ d| > 0.3$, FDR 보정 $\alpha = 0.05$), 이는 전체 분석 features의 44.3\%에 해당한다.
+
+\textbf{Population Mean Patching 검증}: 발견된 3,365개 유의미한 features의 인과성을 검증하기 위해 population mean patching 실험을 설계하였다. 파산 그룹(211개)과 자발적 중단 그룹(6,189개)의 평균 feature 활성화 값을 계산한 후, 새로운 위험/안전 프롬프트 상황에서 target feature의 활성화를 조작하여 베팅 행동 변화를 관찰하였다. 조작 강도는 0.5배, 1.0배, 1.5배 세 수준으로 설정하였으며, 각 조건당 30회 시행하여 통계적 신뢰성을 확보하였다. 
+
+\textbf{인과성 검증 결과}: Figure~\ref{fig:intervention-curves}는 feature 조작 실험 결과를 보여준다. 356개 후보 features 중 275개(77.2\%)가 통계적으로 유의미한 인과성을 보였다(Spearman $|\rho| > 0.5$, p < 0.05). 비합리성 지표 구성요소별 분석에서는 파산 그룹이 EV 편차 0.127 vs 안전 그룹 0.084 (Cohen's d = 0.86), 손실 추격 0.089 vs 0.053 (Cohen's d = 0.72), 극단적 베팅 0.095 vs 0.026 (Cohen's d = 1.38)의 강한 차이를 보여 인간 중독 패턴과 유사한 비합리성을 확인하였다.
+
+\textbf{메커니즘 분석}: Figure~\ref{fig:layer-importance}는 유의미한 features의 layer별 분포를 보여주며, Layer 28이 541개 features로 가장 많았고, Layer 29(559개), Layer 30(540개), Layer 26(529개) 순으로 분포하였다. 상위 레이어(Layer 28-30)에 1,640개 features(48.7\%)가 집중되어 추상적 의사결정에 특화되어 있음을 확인하였다. 기능별 분석에서는 베팅 행동 영향, 중단 결정 영향, 양쪽 모두 영향하는 features로 분류되었다. Figure~\ref{fig:correlation-matrix}에서 보듯 risk-promoting features 간 양의 상관관계, safety-promoting features 간 양의 상관관계, 그리고 두 그룹 간 음의 상관관계를 보여 기능적으로 분리된 신경 회로의 존재를 시사한다. Cohen's d > 1.0인 강한 효과 크기를 가진 features에서는 조작 강도에 비례한 선형적 행동 변화(dose-response)가 관찰되었다.
+
+이러한 결과는 LLM의 도박 행동이 특정 신경망 features에 의해 체계적으로 제어됨을 보여준다. 7-layer 포괄적 분석을 통한 3,365개 features 발견은 mechanistic interpretability 접근법의 유효성을 입증한다. 전체 분석 features의 44.3\%가 통계적으로 유의미한 차이를 보인 높은 비율은 발견된 features가 실제 인과적 메커니즘을 반영함을 시사한다. 상위 레이어(Layer 28-30)에서의 높은 feature 집중(48.7\%)은 상위 레이어가 추상적 의사결정에 특화되어 있다는 transformer 아키텍처 특성과 일치한다.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/feature_activation_distribution.pdf}
+\caption{파산 vs 안전 그룹 간 주요 features의 활성화 분포 비교. Violin plot으로 두 그룹 간 차이를 시각화하였으며, Cohen's d 효과 크기가 annotation으로 표시되어 있다. 파산 그룹에서 risk-promoting features의 높은 활성화가 명확히 관찰된다.}
+\label{fig:feature-activation-dist}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/intervention_response_curves.pdf}
+\caption{Feature 조작 강도에 따른 행동 변화 곡선. 왼쪽: 베팅 금액 변화, 오른쪽: 위험 추구 확률 변화. Scaling factor가 증가할수록 risk-promoting features의 영향이 선형적으로 증가하는 dose-response 관계를 보여준다.}
+\label{fig:intervention-curves}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/layer_wise_importance.pdf}
+\caption{Layer별 feature 중요도 분석. 실제 데이터에서 인과적 features가 모두 Layer 30에 집중되어 있어(100\%), 상위 레이어가 추상적 의사결정에 특화되어 있음을 보여준다. 오른쪽은 top features의 효과 크기 순위를 나타낸다.}
+\label{fig:layer-importance}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/feature_correlation_matrix.pdf}
+\caption{Feature 활성화 상관관계 매트릭스. Risk-promoting features 간 양의 상관관계(평균 r=0.48), Safety-promoting features 간 양의 상관관계(평균 r=0.46), 그리고 두 그룹 간 음의 상관관계(평균 r=-0.56)가 관찰되어 기능적으로 분리된 신경 회로의 존재를 시사한다.}
+\label{fig:correlation-matrix}
+\end{figure}
+
+\subsubsection{결론}
+
+LLM의 도박 행동이 특정 신경망 features에 의해 체계적으로 제어되며, 이러한 메커니즘이 모델 간에 공통적으로 존재함이 입증되었다. GPT-4o-mini와의 높은 순위 일관성(ρ = 0.905)은 도박 관련 인지적 편향이 LLM의 보편적 특성임을 시사한다.
+
+7-layer 포괄적 분석을 통한 3,365개 features의 발견은 mechanistic interpretability 접근법의 유효성을 보여준다. 상위 레이어(Layer 28-30)에서의 높은 feature 집중(48.7\%)은 상위 레이어가 추상적 의사결정에 특화되어 있다는 transformer 아키텍처 특성과 일치한다. Risk-promoting과 safety-promoting features 간 명확한 기능적 분리는 LLM 내부에 상반된 의사결정 회로가 공존함을 보여준다.
+
+본 연구는 LLM의 중독 유사 행동을 신경망 수준에서 해석하고 조작할 수 있는 가능성을 제시한다. 7개 layer에 걸친 체계적 feature 분석은 AI 안전성 연구에서 위험 행동을 예방하거나 완화할 수 있는 기술적 기반을 제공한다.
+
+% Figure inclusions
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/irrationality_components.pdf}
+\caption{LLaMA의 비합리성 지표 구성요소별 분석. EV 편차(50\%), 손실 추격(30\%), 극단적 베팅(20\%)의 가중평균으로 구성되며, 모든 요소가 프롬프트 복잡도와 강한 양의 상관관계를 보인다. GPT 대비 LLaMA는 모든 구성요소에서 낮은 값을 보여 보수적 특성을 확인할 수 있다.}
+\label{fig:llama-irrationality-components}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/REAL_consistency_scatter.pdf}
+\caption{GPT-4o-mini와 LLaMA-3.1-8B의 위험도 순위 일관성 (Spearman ρ = 0.907). 두 모델 간 프롬프트별 위험 평가에서 매우 높은 일관성을 보여 LLM 도박 행동의 보편적 특성을 시사한다.}
+\label{fig:consistency-scatter}
+\end{figure}
+

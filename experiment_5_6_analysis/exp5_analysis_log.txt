@@ -1,0 +1,43 @@
+Loading Experiment 5 data from /data/llm_addiction/experiment_5_multiround_patching/multiround_patching_final_20251012_021759.json...
+Loaded 441 features
+
+Calculating feature effects...
+Saved all features to /home/ubuntu/llm_addiction/experiment_5_6_analysis/results/exp5_all_features.csv
+
+================================================================================
+OVERALL STATISTICS
+================================================================================
+
+Baseline bankruptcy rate: 0.000
+Safe mean bankruptcy rate: nan
+Risky mean bankruptcy rate: nan
+
+Baseline balance: $56.43
+Safe mean balance: $nan
+Risky mean balance: $nan
+
+================================================================================
+TOP 20 FEATURES BY BANKRUPTCY RATE CHANGE (SAFE MEAN)
+================================================================================
+Traceback (most recent call last):
+  File "/home/ubuntu/llm_addiction/experiment_5_6_analysis/analyze_exp5_feature_effects.py", line 241, in <module>
+    main()
+  File "/home/ubuntu/llm_addiction/experiment_5_6_analysis/analyze_exp5_feature_effects.py", line 178, in main
+    top_safe = rank_features(df, 'delta_bankruptcy_safe', 20)
+  File "/home/ubuntu/llm_addiction/experiment_5_6_analysis/analyze_exp5_feature_effects.py", line 98, in rank_features
+    df_sorted = df.sort_values(by=metric, key=abs, ascending=False)
+  File "/data/miniforge3/lib/python3.10/site-packages/pandas/core/frame.py", line 7207, in sort_values
+    indexer = nargsort(
+  File "/data/miniforge3/lib/python3.10/site-packages/pandas/core/sorting.py", line 401, in nargsort
+    items = ensure_key_mapped(items, key)
+  File "/data/miniforge3/lib/python3.10/site-packages/pandas/core/sorting.py", line 569, in ensure_key_mapped
+    result = key(values.copy())
+  File "/data/miniforge3/lib/python3.10/site-packages/pandas/core/generic.py", line 1726, in __abs__
+    return self.abs()
+  File "/data/miniforge3/lib/python3.10/site-packages/pandas/core/generic.py", line 1719, in abs
+    res_mgr = self._mgr.apply(np.abs)
+  File "/data/miniforge3/lib/python3.10/site-packages/pandas/core/internals/managers.py", line 361, in apply
+    applied = b.apply(f, **kwargs)
+  File "/data/miniforge3/lib/python3.10/site-packages/pandas/core/internals/blocks.py", line 395, in apply
+    result = func(self.values, **kwargs)
+TypeError: bad operand type for abs(): 'NoneType'

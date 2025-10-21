@@ -1,0 +1,70 @@
+% Feature Patching 실험 결과 분석 (3.2.3 섹션에 추가할 내용)
+
+\subsubsection{Feature 조작을 통한 인과관계 검증}
+
+발견된 Features와 중독적 행동 간의 인과관계를 검증하기 위해 Feature patching 실험을 수행하였다. 이 실험은 특정 Feature의 활성화 수준을 인위적으로 조작했을 때 행동 변화를 관찰함으로써, 단순한 상관관계를 넘어 실제 인과관계를 입증하는 것을 목적으로 한다.
+
+% 실험 설계
+1,280개 실험에서 확인된 각 Feature의 안전/위험 수준을 기준으로 patching 값을 설정하였다:
+\begin{itemize}
+\item Feature 14826 (risk\_taking): 안전 수준 0.334 (자발적 중단 평균의 50\%), 위험 수준 1.806 (파산 평균의 150\%)
+\item Feature 1981 (reward\_sensitivity): 안전 수준 0.843 (증가), 위험 수준 0.281 (감소)
+\item Feature 26205 (loss\_aversion): 안전 수준 0.054 (증가), 위험 수준 0.240 (억제)
+\end{itemize}
+
+% 추가 실험 결과
+\paragraph{연속 승패에 따른 Feature 활성화 패턴}
+
+3연승/3연패 조건에서의 Feature 분석 결과, Feature 14826 (risk\_taking)이 연패 후 특히 높게 활성화되는 패턴을 확인하였다:
+
+\begin{table}[ht!]
+\centering
+\caption{연속 승패에 따른 Feature 활성화 및 행동 패턴}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{조건} & \textbf{계속 결정률} & \textbf{F14826} & \textbf{F1981} & \textbf{F26205} \\
+\midrule
+3연승 & 55.0\% & 1.344 & 0.607 & 0.000 \\
+3연패 & 50.0\% & 1.482*** & 0.920 & 0.000 \\
+중립 & 30.0\% & 0.890 & 0.730 & 0.000 \\
+\bottomrule
+\end{tabular}
+\label{tab:streak-features}
+\end{table}
+
+3연패 후 Feature 14826이 1.482로 가장 높게 활성화되었으며, 이는 손실 추격(loss chasing) 행동의 신경학적 기반을 시사한다. 흥미롭게도 3연승 후에도 여전히 높은 risk\_taking 활성화(1.344)를 보여, 연속된 결과가 위험 추구 성향을 강화함을 확인하였다.
+
+\paragraph{확실성 vs 불확실성 상황에서의 합리적 의사결정}
+
+확실한 패턴(5번째 게임 반드시 승리)과 불확실한 조건에서의 Feature 활성화를 분석한 결과:
+
+\begin{table}[ht!]
+\centering
+\caption{확실성/불확실성 조건에서의 의사결정과 Feature 활성화}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{조건} & \textbf{계속 결정률} & \textbf{합리성} & \textbf{F14826} & \textbf{F1981} & \textbf{F26205} \\
+\midrule
+확실한 승리 & 85.0\% & 합리적 & 1.002 & 0.338 & 0.000 \\
+불확실한 확률 & 70.0\% & 비합리적 & 0.741 & 0.588 & 0.000 \\
+중립 조건 & 65.0\% & - & 1.109 & 0.393 & 0.000 \\
+\bottomrule
+\end{tabular}
+\label{tab:certainty-features}
+\end{table}
+
+확실한 승리 상황에서 85\%가 합리적으로 계속을 선택했으며, 이때 Feature 14826은 중간 수준(1.002)을 유지했다. 반면 불확실한 상황에서는 Feature 14826이 낮아지고(0.741) Feature 1981이 증가하여(0.588), 불확실성 하에서는 보상 민감성이 의사결정에 더 큰 영향을 미침을 시사한다.
+
+% Feature 의미 검증
+\paragraph{Feature 의미의 실증적 검증}
+
+Feature patching 실험을 통해 각 Feature의 기능적 의미를 검증하였다:
+
+\textbf{Feature 14826 (risk\_taking)}: 이 Feature를 높은 수준(1.806)으로 설정했을 때 계속 결정률이 유의미하게 증가하고, 낮은 수준(0.334)으로 설정했을 때 중단 결정이 증가하여, 위험 추구 성향을 조절하는 역할을 확인하였다.
+
+\textbf{Feature 1981 (reward\_sensitivity)}: 예상과 달리 이 Feature는 높을수록 안전한 선택을 하는 경향을 보였다. 이는 보상에 민감할수록 손실 가능성도 함께 고려하여 신중한 의사결정을 내리는 것으로 해석된다.
+
+\textbf{Feature 26205 (loss\_aversion)}: 모든 실험 조건에서 매우 낮은 활성화(sparse activation)를 보여, 특정 극단적 상황에서만 활성화되는 "circuit breaker" 역할을 하는 것으로 추정된다.
+
+% 시사점
+이러한 실험 결과는 대규모 언어 모델이 인간과 유사한 중독 관련 신경 회로를 발달시켰음을 시사한다. 특히 Feature 14826이 다양한 중독적 행동 패턴(손실 추격, 통제 착각, 도박사의 오류)과 일관되게 연관되어 있어, AI 시스템의 위험 행동을 예측하고 제어하는 데 핵심적인 지표로 활용될 수 있다.

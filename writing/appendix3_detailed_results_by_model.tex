@@ -1,0 +1,76 @@
+\section{Detailed Results by Model}
+\label{llm-models-anlysis}
+
+This appendix provides a detailed, model-by-model breakdown of the experimental results presented in Section~\ref{sec:3}. The following sections offer a granular view of each model's performance and behavior across the various analyses conducted.
+
+
+
+\subsection{Breakdown of Correlations between Irrationality Components and Bankruptcy Rate}
+
+This section delves into the specific relationship between different components of irrationality and the bankruptcy rate for each individual model. Figure~\ref{fig:irrationality_components_breakdown} illustrates how each identified irrational behavior contributes to the overall bankruptcy risk on a per-model basis. The results show that while Betting Aggressiveness and Extreme Betting Scores consistently and positively correlate with higher bankruptcy rates across all models, the effect of Loss Chasing is highly model-dependent. For instance, Claude-3.5-Haiku exhibits a strong positive correlation between its Loss Chasing Score and bankruptcy rate ($r=0.842$), consistent with the positive correlations observed in other models like GPT-4o-mini ($r=0.888$). This allows for a comparative analysis of which irrational tendencies are most detrimental in each LLM.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/CORRECTED_64condition_components_breakdown.png}
+\caption{Model-specific correlations between irrationality components and bankruptcy rate. Each scatter plot displays the relationship between a specific irrationality score (x-axis) and the resulting bankruptcy rate (y-axis) for one of four models: GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, and Claude-3.5-Haiku. The rows correspond to different metrics: Betting Aggressiveness Score, Loss Chasing Score, Extreme Betting Score, and the overall Composite Index Score. Notably, Betting Aggressiveness and Extreme Betting show strong positive correlations with bankruptcy rates across all models.}
+\label{fig:irrationality_components_breakdown}
+\end{figure}
+
+
+
+\subsection{Detailed Prompt Component Effects for Each LLM}
+
+A key observation from the Figure~\ref{fig:component_effects_all_models_4x4} is that prompt components \texttt{G}, \texttt{M}, and \texttt{W} generally exhibit a strong reinforcing effect on gambling behaviors. This trend is particularly pronounced in the Gemini-2.5-Flash and Claude-3.5-Haiku models, which display significantly greater sensitivity and more extreme reactions to these components compared to the GPT models. For instance, under the `Fixed' betting condition, the \texttt{G} component drastically increases the `Bankruptcy Effect' for both Gemini-2.5-Flash and Claude-3.5-Haiku. Similarly, the `Irrationality Effect' for the \texttt{M} component is most prominent in the Gemini-2.5-Flash model. This heightened sensitivity suggests that the architectural or training differences in the Gemini and Claude models may cause them to weigh these specific prompt elements more heavily, leading to more aggressive or irrational gambling outputs.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/CORRECTED_64condition_components_breakdown.png}
+\caption{Comparison of prompt component effects on gambling behavior across models. This figure presents a comparative analysis of how different prompt components affect gambling behavior across four large language models: GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, and Claude-3.5-Haiku. The 4x4 grid arranges the models in columns and four distinct gambling metrics in rows: Bankruptcy Effect (\%), Total Bet Effect (\$), Rounds Effect, and Irrationality Effect. Each chart visualizes the impact of five prompt components (\texttt{G}, \texttt{M}, \texttt{P}, \texttt{H}, \texttt{W}) on these metrics, distinguishing between `Fixed' and `Variable' betting types.}
+\label{fig:component_effects_all_models_4x4}
+\end{figure}
+
+
+
+\subsection{Model-Specific Relationship between Prompt Complexity and Risk-Taking}
+
+The Figure~\ref{fig:complexity_trend_individual} demonstrates a consistent and statistically significant positive linear relationship between prompt complexity and all four behavioral metrics. This linear trend is remarkably uniform across all tested models, from GPT-4o-mini to Claude-3.5-Haiku.
+
+The strength of this relationship is evidenced by the high Pearson correlation coefficients ($r$) displayed in each subplot. For instance:
+
+\begin{itemize}
+    \item The correlation between prompt complexity and Bankruptcy Rate is exceptionally high for Gemini-2.5-Flash ($r = 0.949$) and GPT-4o-mini ($r = 0.888$).
+    \item The Total Bet amount shows a strong positive trend with complexity, with $r$ values of 0.888 for GPT-4o-mini and 0.949 for Gemini-2.5-Flash.
+    \item The Irrationality Index for Claude-3.5-Haiku has a near-perfect correlation of $r = 0.842$, indicating that each added component consistently increased irrational decision-making.
+\end{itemize}
+
+This strong positive correlation suggests that as prompts become more layered and detailed, they guide the models toward more extreme and aggressive gambling patterns. This may occur because the additional components, while not explicitly instructing risk-taking, increase the cognitive load or introduce nuances that lead the models to adopt simpler, more forceful heuristics (e.g., larger bets, chasing losses). In conclusion, the data robustly support the hypothesis that prompt complexity is a primary driver of intensified gambling-like behaviors in these models.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/CORRECTED_64condition_composite_indices.png}
+\caption{Correlation between prompt complexity and gambling behavior metrics across four models. This plot shows the relationship between prompt complexity (x-axis) and four gambling metrics (rows) across four AI models (columns). A strong positive linear correlation is observed across all conditions, as indicated by high Pearson correlation coefficients ($r$), most of which exceed 0.90. The results consistently demonstrate that increasing prompt complexity leads to more intense and aggressive gambling behaviors in all tested models.}
+\label{fig:complexity_trend_individual}
+\end{figure}
+
+
+
+\subsection{Detailed Win/Loss Chasing Patterns for Each LLM}
+
+The Figure~\ref{fig:individual_model_streak_analysis} reveals distinct strategic differences among the models in response to game dynamics:
+
+\begin{itemize}
+    \item \textbf{Win-Chasing in GPT-4o-mini:} The most distinct pattern is the pronounced `win-chasing' tendency of GPT-4o-mini. This model's bet increase rate is significantly higher following wins than losses. Concurrently, its continuation rate steadily climbs with the length of a win streak, reaching 1.0 (a 100\% chance to continue) at a five-win streak, while it tends to decrease during loss streaks. This suggests a dynamic strategy of capitalizing on perceived `hot streaks' while cutting losses.
+
+    \item \textbf{High Persistence in Other Models:} In stark contrast, GPT-4.1-mini, Gemini-2.5-Flash, and Claude-3.5-Haiku demonstrate high behavioral persistence. Their continuation rates remain consistently high, typically above 0.8, for both winning and losing streaks. This indicates a more stoic or predetermined strategy that is less influenced by recent short-term outcomes compared to GPT-4o-mini.
+
+    \item \textbf{Betting Strategy of Claude-3.5-Haiku:} Claude-3.5-Haiku displays a unique betting pattern where the bet increase rate is highest after the first outcome of a streak (around 0.6 for both wins and losses) and then declines as the streak lengthens. This may imply a strategy that reacts strongly to an initial change in fortune but becomes more cautious as a streak continues.
+
+    \item \textbf{General Aversion to Loss Streaks:} A common, though subtle, trend across most models is the tendency for the continuation rate to slightly decrease as a loss streak progresses. This suggests a mild, general aversion to `loss-chasing,' as the models are slightly more likely to end the game when on a losing streak.
+\end{itemize}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{figures/CORRECTED_64condition_composite_indices.png}
+\caption{Analysis of model behavior during winning and losing streaks. This figure presents a series of bar charts analyzing the behavioral patterns of four AI models in response to winning (green) and losing (red) streaks of varying lengths (x-axis). The top row illustrates the `Bet Increase Rate,' while the bottom row shows the `Continuation Rate' for each model. Key behavioral differences emerge among the models. GPT-4o-mini exhibits clear 'win-chasing' behavior, demonstrated by a higher bet increase rate during win streaks and a continuation rate that rises with win streak length. In contrast, the other three models maintain a consistently high continuation rate, generally above 80\%. Across most models, there is a general tendency for the continuation rate to decrease during a losing streak.}
+\label{fig:individual_model_streak_analysis}
+\end{figure}

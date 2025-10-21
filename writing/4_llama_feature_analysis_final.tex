@@ -1,0 +1,65 @@
+\section{Mechanistic Causes of Risk-Taking Behavior in LLMs}
+\label{sec:4}
+
+\subsection{Experimental Design}
+
+To understand the fundamental causes of gambling addiction-like behavior identified in LLMs' experiments, we performed a mechanistic interpretability analysis on the LLaMA-3.1-8B model. The key research questions are as follows: (1) How do the feature patterns activated in internal neural networks differ between bankruptcy and safe stopping decisions? (2) Do these differential features actually have a causal influence on gambling behavior?
+
+To address these questions, we utilized Sparse Autoencoder (SAE)~\citep{cunningham2024sparse} and activation patching~\citep{vig2020causal}. Activation patching is a key technique in mechanistic interpretability that directly verifies causality by replacing specific activation values in neural networks with alternative values~\citep{geiger2023causal, zhang2024towards}, allowing us to measure the direct impact of specific internal representations on model behavior beyond simple correlations.
+
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.85\textwidth]{iclr2026/images/feature_patching.pdf}
+\caption{Activation patching for causal analysis of LLM features. Activations are extracted from an LLM layer and converted into sparse features using an SAE. The core of the method involves editing the feature map by replacing original features with pre-defined `safe' or `risky' ones. By decoding these new features back into activations and patching them into the LLM, we can directly measure their causal effect on the model's output.}
+\label{fig:feature-patching}
+\end{figure}
+
+The experiment proceeded in the following order: (1) Conducting 6,400 LLaMA slot machine games under the same conditions as GPT experiments, (2) Extracting SAE features at the moment of final decision from 7 layers (25--31), focusing on later layers where high-level processing and decision-making occur~\citep{du2025how}, (3) Identifying differential features between bankruptcy/safe groups, (4) Verifying causality through population mean activation patching. Figure~\ref{fig:feature-patching} shows how feature patching specifically operates among these steps. Population mean patching is a method that measures behavioral changes by applying the average feature activation values of bankruptcy and safe groups to different contexts, a methodology validated in studies on indirect object identification circuits~\citep{wang2023interpretability} and bias analysis research~\citep{vig2020causal}.
+
+\subsection{Experimental Results and Quantitative Analysis}
+
+Neural network-level analysis of 211 bankruptcy cases and 6,189 voluntary stopping cases from a total of 6,400 experiments revealed specific mechanisms that regulate risk decision-making within LLMs. We conducted analysis by extracting 32,768 features per layer from 7 layers (25--31).
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\textwidth]{iclr2026/images/SAE_feature_separation_main.pdf}
+\caption{Activation distributions of SAE features showing maximum separation between risky and safe groups. The figure displays representative `risky' and `safe' features from model Layers 28 and 30. Each feature demonstrates a significant separation with a Cohen's $d$ magnitude greater than 1.2. A positive Cohen's $d$ value indicates a risk-oriented pattern, while a negative value indicates a safety-oriented pattern.}
+\label{fig:feature-separation}
+\end{figure}
+
+% \textbf{Finding 1: Discovery of differential features distinguishing risk decision-making at the neural network level}
+
+\textbf{Finding 1: Discovery of differential features in neural-level risk decision-making}
+
+Among 7,594 activated features, 3,365 passed stringent statistical criteria ($p < 0.001$, FDR correction, $|$Cohen's $d| > 0.3$)\footnote{False Discovery Rate correction is a statistical method for controlling Type I errors in multiple comparisons. Cohen's $d$ is a standardized effect size calculated as the mean difference between two groups divided by the pooled standard deviation, using the formula $d = (M_1 - M_2) / S_p$. Generally, $|d| = 0.2$ is interpreted as a small effect, $0.5$ as a medium effect, and $0.8$ as a large effect~\citep{cohen1988statistical}.}. Figure~\ref{fig:feature-separation} shows the activation distribution of features with the strongest separation, highlighting representative examples from Layers 28 and 30. For instance, in Layer 28, Feature 25651 shows a strong risk-oriented pattern (Cohen's $d = +1.482$), while Feature 18936 displays a safety-oriented one (Cohen's $d = -1.282$). Similarly, Layer 30's Feature 16827 (Cohen's $d = +1.669$) and Feature 18141 (Cohen's $d = -1.272$) also demonstrate a clear distinction between the bankruptcy and safe groups. This indicates that high-risk and safe decision-making within LLMs are represented as distinguishable neural network patterns. Notably, features with a positive Cohen's $d$ showed high activation in the bankruptcy group, whereas features with a negative Cohen's $d$ showed predominant patterns in the safe group. (See Appendix~\ref{SAE-feature} for all layers' results)
+
+\textbf{Finding 2: Establishing causality through activation patching - Direct behavioral control}
+
+Population mean activation patching experiments identified 361 safe features and 80 risky features with significant causal effects from the 3,365 differential features. Safe features outnumbered risky features and demonstrated consistent protective effects across both safe and risky contexts—systematically increasing stopping rates and reducing bankruptcy (Figure~\ref{fig:causal-patching-comparison}). Risky features produced opposite effects, promoting continued gambling and bankruptcy. Validated through 30 independent trials per condition, these findings establish that specific neural features directly control risk-taking behavior in LLMs, transcending mere correlational patterns. This causal control suggests that targeted feature interventions could prevent harmful risk-taking behaviors in deployed AI systems.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.65\textwidth]{iclr2026/images/causal_patching_comparison.pdf}
+\caption{Comparison of activation patching effects between safe (361) and risky features (80) from 1,366 analyzed features. Left: In safe contexts, safe feature patching increases the stopping rate by $+$29.6\%, while risky feature patching decreases it by $-$6.4\%. Right: In risky contexts, safe features increase stopping rate by $+$28.4\% and decrease bankruptcy rate by $-$14.2\%, while risky features decrease stopping rate by $-$7.8\% and increase bankruptcy rate by $+$11.7\%. Error bars represent standard error. All effects are statistically significant.}
+\label{fig:causal-patching-comparison}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.70\columnwidth]{iclr2026/images/causal_features_layer_distribution.pdf}
+\caption{Layer-wise distribution of 441 causal features. Safe features (green) and risky features (red) are shown stacked, with total numbers displayed above bars. A significant concentration of features is found in Layers 29--31. Notably, safe features predominate over risky features within these key layers, a trend that is consistent across all layers.  This suggests that risk decision-making is primarily processed in middle-to-late network layers.}
+\label{fig:causal-features-layer-distribution}
+\end{figure}
+
+\textbf{Finding 3: Layer-wise distribution patterns}
+
+The 441 causal features exhibit distinct spatial organization within the network architecture (Figure~\ref{fig:causal-features-layer-distribution}). Safe features concentrate predominantly in later layers (29--31), where they overwhelmingly dominate, while risky features cluster in earlier layers (25--28). The numerical predominance of safe features indicates that the model's default risk assessment architecture favors conservative decision-making, which must be overcome by specific conditions to produce gambling behavior.
+
+\subsection{Summary}
+
+Our mechanistic analysis reveals that LLMs encode distinct neural patterns for risk decisions: 3,365 features differentiate bankruptcy from safe stopping, of which 441 causally control gambling outcomes. Activation patching shows safe features reduce bankruptcy by 29.6\% while risky features increase it by 11.7\%. These causal features segregate across layers—safe features dominate later layers while risky features cluster earlier, indicating a conservative architectural bias. These findings demonstrate that gambling-like behaviors arise from specific, manipulable neural mechanisms, enabling targeted interventions.
+
+% Through this LLaMA-3.1-8B mechanistic analysis, we empirically demonstrated that LLMs possess distinguishable decision-making mechanisms at the internal neural network level in gambling-like risk situations. The 3,365 statistically significant features extracted from 6,400 independent experiments show differences in neural network representations between bankruptcy and voluntary stopping, and the discovery of 149 causal features proves the existence of specific neural mechanisms that regulate gambling behavior within LLMs.
+
+% In causality verification through activation patching, safe feature patching induced a 29.6\% increase in stopping rate in safe contexts, and a 28.4\% increase in stopping rate and 14.2\% decrease in bankruptcy rate in risky contexts, showing strong risk aversion effects. Conversely, risky feature patching induced decreased stopping rates and increased bankruptcy rates, showing contrasting effects. In particular, causal features concentrated in Layers 29--31 (55.6\%) demonstrate that risk decision-making is processed in middle-to-late network layers. This proves that specific internal features can directly modulate risk behavior in LLMs beyond simple correlation, and presents the possibility of understanding and controlling LLM risk behavior at the neural network level through mechanistic interpretability methodology.

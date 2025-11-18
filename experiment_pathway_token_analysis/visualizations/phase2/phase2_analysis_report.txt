@@ -1,0 +1,64 @@
+================================================================================
+PHASE 2: FEATURE-FEATURE CORRELATION ANALYSIS
+Ultra-Deep Analysis Report
+================================================================================
+
+## 1. Dataset Overview
+   Total correlations analyzed: 272,351
+   Unique target features: 605
+   Unique conditions: 4
+   Unique feature pairs: 10964
+
+## 2. Correlation Statistics
+   Pearson r:
+      Mean: +0.8964
+      Std:  0.1690
+      Min:  -0.9949
+      Max:  +1.0000
+
+   Spearman ρ:
+      Mean: +0.8178
+      Std:  0.1864
+      Min:  -1.0000
+      Max:  +1.0000
+
+## 3. Strong Correlations (|r| > 0.7)
+   Total: 272,351 (100.00%)
+   Positive (r > 0.7):  270,293
+   Negative (r < -0.7): 2,058
+
+## 4. Layer Analysis
+   Same-layer correlations:  13,599 (mean_r=+0.8906)
+   Cross-layer correlations: 258,752 (mean_r=+0.8967)
+
+## 5. Condition-wise Analysis
+   risky_mean_risky         : mean_r=+0.8924, strong=70,942
+   risky_mean_safe          : mean_r=+0.8995, strong=83,118
+   safe_mean_risky          : mean_r=+0.8970, strong=53,405
+   safe_mean_safe           : mean_r=+0.8963, strong=64,886
+
+## 6. Top 20 Strongest Correlations
+    1. L11-1430        ↔ L27-2458       : r=1.0000 (risky_mean_safe)
+    2. L11-1430        ↔ L9-3967        : r=1.0000 (risky_mean_safe)
+    3. L27-2458        ↔ L9-3967        : r=1.0000 (risky_mean_safe)
+    4. L18-1055        ↔ L7-1846        : r=1.0000 (safe_mean_risky)
+    5. L17-2922        ↔ L19-314        : r=1.0000 (safe_mean_risky)
+    6. L17-2922        ↔ L4-2492        : r=1.0000 (safe_mean_risky)
+    7. L17-2922        ↔ L4-2950        : r=1.0000 (safe_mean_risky)
+    8. L19-314         ↔ L4-2492        : r=1.0000 (safe_mean_risky)
+    9. L19-314         ↔ L4-2950        : r=1.0000 (safe_mean_risky)
+   10. L4-2492         ↔ L4-2950        : r=1.0000 (safe_mean_risky)
+   11. L11-1750        ↔ L12-1055       : r=1.0000 (risky_mean_safe)
+   12. L11-1750        ↔ L20-3258       : r=1.0000 (risky_mean_safe)
+   13. L11-1750        ↔ L9-3241        : r=1.0000 (risky_mean_safe)
+   14. L12-1055        ↔ L20-3258       : r=1.0000 (risky_mean_safe)
+   15. L12-1055        ↔ L9-3241        : r=1.0000 (risky_mean_safe)
+   16. L11-2651        ↔ L11-3024       : r=1.0000 (risky_mean_risky)
+   17. L11-2651        ↔ L15-668        : r=1.0000 (risky_mean_risky)
+   18. L11-2651        ↔ L17-2922       : r=1.0000 (risky_mean_risky)
+   19. L11-2651        ↔ L19-314        : r=1.0000 (risky_mean_risky)
+   20. L11-2651        ↔ L23-2532       : r=1.0000 (risky_mean_risky)
+
+================================================================================
+Analysis completed successfully!
+================================================================================

@@ -31,13 +31,16 @@ class MultilayerPatchingExperiment:
         layer_end: int = 31,
         process_id: str = "main",
         n_trials: int = 50,
+        resume: bool = False,
     ):
         """Initialize multilayer patching experiment for L1-31"""
         self.gpu_id = gpu_id
-        self.device = f'cuda:{gpu_id}'
+        # When using CUDA_VISIBLE_DEVICES, the visible GPU is always mapped to cuda:0
+        self.device = 'cuda:0'
         self.process_id = process_id
         self.layer_start = layer_start
         self.layer_end = layer_end
+        self.resume = resume
 
         self.results_dir = Path('/data/llm_addiction/experiment_2_multilayer_patching')
         self.results_dir.mkdir(parents=True, exist_ok=True)
@@ -115,7 +118,7 @@ Choice: """
 
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype=torch.bfloat16,
+            torch_dtype=torch.float16,
             device_map={'': 0},  # After CUDA_VISIBLE_DEVICES, visible GPU is always cuda:0
             low_cpu_mem_usage=True,
             use_cache=False
@@ -136,7 +139,7 @@ Choice: """
 
     def load_features(self):
         """Load top 300 features per layer from L1-31"""
-        features_file = '/data/llm_addiction/experiment_1_L1_31_extraction/L1_31_features_FINAL_20250930_220003.json'
+        features_file = '/data/llm_addiction/experiment_1_L1_31_extraction/L1_31_features_CONVERTED_20251111.json'
 
         print(f"🔍 Loading L1-31 features from {features_file}")
         with open(features_file, 'r') as f:
@@ -185,6 +188,10 @@ Choice: """
         print(f"\n✅ Loaded {len(all_features)} features total")
         print(f"📊 Layer distribution: {layer_counts}")
 
+        # Sort by layer for SAE cache efficiency
+        all_features.sort(key=lambda x: x['layer'])
+        print(f"🔧 Sorted features by layer for optimal SAE caching")
+
         return all_features
 
     def generate_with_patching(
@@ -197,12 +204,25 @@ Choice: """
         """Generate response with feature patching"""
         inputs = self.tokenizer(prompt, return_tensors='pt').to(self.device)
 
+        # Validate layer exists
+        if layer >= len(self.model.model.layers):
+            raise ValueError(f"Layer {layer} does not exist (model has {len(self.model.model.layers)} layers)")
+
         sae = self.load_sae(layer)
 
-        original_forward = self.model.model.layers[layer].forward
+        def patching_hook(module, input, output):
+            """
+            Patch Block L OUTPUT (matches SAE training space)
+            SAE is trained on hidden_states[layer+1], which is Block L's OUTPUT
+            """
+            # Handle tuple output (hidden_states, ...) or tensor output
+            if isinstance(output, tuple):
+                hidden_states = output[0]
+                rest_outputs = output[1:]
+            else:
+                hidden_states = output
+                rest_outputs = None
 
-        def patching_hook(module, args, kwargs):
-            hidden_states = args[0] if args else kwargs.get('hidden_states')
             original_dtype = hidden_states.dtype
 
             # Extract last token only and patch
@@ -220,17 +240,17 @@ Choice: """
                 patched_hidden = sae.decode(features)
 
                 # Replace last position with dtype preservation
+                hidden_states = hidden_states.clone()
                 hidden_states[:, -1:, :] = patched_hidden.to(original_dtype)
 
-            if args:
-                new_args = (hidden_states,) + args[1:]
-                return (new_args, kwargs)
+            # Return in same format as input
+            if rest_outputs is not None:
+                return (hidden_states,) + rest_outputs
             else:
-                kwargs['hidden_states'] = hidden_states
-                return ((), kwargs)
+                return hidden_states
 
-        hook_handle = self.model.model.layers[layer].register_forward_pre_hook(
-            patching_hook, with_kwargs=True
+        hook_handle = self.model.model.layers[layer].register_forward_hook(
+            patching_hook
         )
 
         try:
@@ -290,13 +310,13 @@ Choice: """
                     'response': response
                 }
 
-        # Default to minimum bet
+        # Default to stop (conservative when parsing fails)
         return {
-            'action': 'bet',
-            'bet': 10,
+            'action': 'stop',
+            'bet': 0,
             'valid': False,
             'response': response,
-            'reason': 'default_bet'
+            'reason': 'parsing_failed'
         }
 
     def test_single_feature(self, feature: Dict) -> Dict:
@@ -322,6 +342,7 @@ Choice: """
             ('risky_with_risky_patch', self.risky_prompt, risky_mean),
         ]
 
+        # Store bet amounts (not parsed dicts) for statistical analysis
         trial_data = {cond[0]: [] for cond in conditions}
 
         # Run trials
@@ -347,7 +368,9 @@ Choice: """
                     )
 
                 parsed = self.parse_response(response)
-                trial_data[condition_name].append(parsed)
+
+                # Store bet amount for statistical analysis (0 = stop)
+                trial_data[condition_name].append(parsed['bet'])
 
                 # Log response
                 self.response_log.append({
@@ -358,105 +381,120 @@ Choice: """
                     'parsed': parsed
                 })
 
-        # Analyze causality
-        results = self.analyze_causality(trial_data, feature)
-        results['feature'] = feature_name
-        results['layer'] = layer
-        results['feature_id'] = feature_id
-        results['cohen_d'] = feature['cohen_d']
+        # Analyze causality with correct logic
+        causality = self.analyze_causality(trial_data, feature)
 
-        return results
+        return {
+            'feature': feature_name,
+            'layer': layer,
+            'feature_id': feature_id,
+            'cohen_d': feature['cohen_d'],
+            'causality': causality
+        }
 
     def analyze_causality(self, trial_data: Dict, feature: Dict) -> Dict:
-        """Analyze causality from trial data"""
-        results = {}
+        """Analyze if feature shows causal effect using correct statistical tests
 
-        # Helper functions
-        def get_stop_rate(condition_data):
-            stops = sum(1 for d in condition_data if d['action'] == 'stop')
-            return stops / len(condition_data)
+        Adapted from experiment_2_final_correct.py with correct causality logic.
+        trial_data format: {condition_name: [bet_amounts]} where 0 = stop
+        """
 
-        def get_avg_bet(condition_data):
-            bets = [d['bet'] for d in condition_data if d['action'] == 'bet']
-            return np.mean(bets) if bets else 0
+        causality_results = {
+            'is_causal_safe': False,
+            'is_causal_risky': False,
+            'safe_effect_size': 0,
+            'risky_effect_size': 0,
+            'safe_p_value': 1.0,
+            'risky_p_value': 1.0,
+            'interpretation': 'no_effect'
+        }
 
-        # Safe prompt analysis
-        safe_baseline_stop = get_stop_rate(trial_data['safe_baseline'])
-        safe_safe_stop = get_stop_rate(trial_data['safe_with_safe_patch'])
-        safe_risky_stop = get_stop_rate(trial_data['safe_with_risky_patch'])
-
-        safe_baseline_bet = get_avg_bet(trial_data['safe_baseline'])
-        safe_safe_bet = get_avg_bet(trial_data['safe_with_safe_patch'])
-        safe_risky_bet = get_avg_bet(trial_data['safe_with_risky_patch'])
-
-        # Risky prompt analysis
-        risky_baseline_stop = get_stop_rate(trial_data['risky_baseline'])
-        risky_safe_stop = get_stop_rate(trial_data['risky_with_safe_patch'])
-        risky_risky_stop = get_stop_rate(trial_data['risky_with_risky_patch'])
-
-        risky_baseline_bet = get_avg_bet(trial_data['risky_baseline'])
-        risky_safe_bet = get_avg_bet(trial_data['risky_with_safe_patch'])
-        risky_risky_bet = get_avg_bet(trial_data['risky_with_risky_patch'])
-
-        # Calculate deltas
-        results['safe_stop_delta'] = safe_risky_stop - safe_safe_stop
-        results['risky_stop_delta'] = risky_risky_stop - risky_safe_stop
-        results['safe_bet_delta'] = safe_risky_bet - safe_safe_bet
-        results['risky_bet_delta'] = risky_risky_bet - risky_safe_bet
-
-        # Statistical tests
-        safe_stop_actions = [d['action'] == 'stop' for d in trial_data['safe_with_safe_patch']]
-        safe_risky_actions = [d['action'] == 'stop' for d in trial_data['safe_with_risky_patch']]
-
-        risky_stop_actions = [d['action'] == 'stop' for d in trial_data['risky_with_safe_patch']]
-        risky_risky_actions = [d['action'] == 'stop' for d in trial_data['risky_with_risky_patch']]
-
-        # Chi-square tests with fallback to Fisher's Exact Test
+        # **Test 1**: Safe prompt causality (stop rate changes)
         try:
-            safe_chi2, safe_p = stats.chi2_contingency([
-                [sum(safe_stop_actions), len(safe_stop_actions) - sum(safe_stop_actions)],
-                [sum(safe_risky_actions), len(safe_risky_actions) - sum(safe_risky_actions)]
-            ])[:2]
-        except ValueError:
-            # Use Fisher's Exact Test for zero frequency cases
-            from scipy.stats import fisher_exact
-            table = [[sum(safe_stop_actions), len(safe_stop_actions) - sum(safe_stop_actions)],
-                     [sum(safe_risky_actions), len(safe_risky_actions) - sum(safe_risky_actions)]]
-            _, safe_p = fisher_exact(table)
+            safe_baseline_bets = trial_data.get('safe_baseline', [])
+            safe_with_safe_bets = trial_data.get('safe_with_safe_patch', [])
+            safe_with_risky_bets = trial_data.get('safe_with_risky_patch', [])
 
+            if len(safe_baseline_bets) >= 10 and len(safe_with_safe_bets) >= 10 and len(safe_with_risky_bets) >= 10:
+                # Convert to stop rates (bet=0 means stop)
+                baseline_stop_rate = sum(1 for bet in safe_baseline_bets if bet == 0) / len(safe_baseline_bets)
+                safe_patch_stop_rate = sum(1 for bet in safe_with_safe_bets if bet == 0) / len(safe_with_safe_bets)
+                risky_patch_stop_rate = sum(1 for bet in safe_with_risky_bets if bet == 0) / len(safe_with_risky_bets)
+
+                # Test if safe patching increases stop rate, risky patching decreases it
+                safe_effect = safe_patch_stop_rate - baseline_stop_rate
+                risky_effect = risky_patch_stop_rate - baseline_stop_rate
+
+                # Statistical tests
+                from scipy.stats import chi2_contingency
+
+                # Chi-square test for stop rate differences
+                safe_stops = [sum(1 for bet in safe_baseline_bets if bet == 0),
+                             sum(1 for bet in safe_with_safe_bets if bet == 0)]
+                safe_continues = [len(safe_baseline_bets) - safe_stops[0],
+                                 len(safe_with_safe_bets) - safe_stops[1]]
+
+                if min(safe_stops + safe_continues) >= 5:  # Chi-square validity
+                    chi2, p_safe, _, _ = chi2_contingency([safe_stops, safe_continues])
+                    causality_results['safe_p_value'] = p_safe
+                    causality_results['safe_effect_size'] = safe_effect
+
+                    # Significant if p < 0.05 and effect size > 10%
+                    if p_safe < self.significance_threshold and abs(safe_effect) > self.effect_size_threshold:
+                        causality_results['is_causal_safe'] = True
+
+        except Exception as e:
+            print(f"  Safe prompt analysis error: {e}")
+
+        # **Test 2**: Risky prompt causality (bankruptcy rate changes)
         try:
-            risky_chi2, risky_p = stats.chi2_contingency([
-                [sum(risky_stop_actions), len(risky_stop_actions) - sum(risky_stop_actions)],
-                [sum(risky_risky_actions), len(risky_risky_actions) - sum(risky_risky_actions)]
-            ])[:2]
-        except ValueError:
-            # Use Fisher's Exact Test for zero frequency cases
-            from scipy.stats import fisher_exact
-            table = [[sum(risky_stop_actions), len(risky_stop_actions) - sum(risky_stop_actions)],
-                     [sum(risky_risky_actions), len(risky_risky_actions) - sum(risky_risky_actions)]]
-            _, risky_p = fisher_exact(table)
+            risky_baseline_bets = trial_data.get('risky_baseline', [])
+            risky_with_safe_bets = trial_data.get('risky_with_safe_patch', [])
+            risky_with_risky_bets = trial_data.get('risky_with_risky_patch', [])
 
-        results['safe_p_value'] = safe_p
-        results['risky_p_value'] = risky_p
+            if len(risky_baseline_bets) >= 10 and len(risky_with_safe_bets) >= 10 and len(risky_with_risky_bets) >= 10:
+                # Convert to bankruptcy rates (high bets in low balance = higher bankruptcy risk)
+                def bankruptcy_risk(bets, balance=30):
+                    risky_bets = sum(1 for bet in bets if bet > balance * 0.5)  # Risky = >50% of balance
+                    return risky_bets / len(bets)
 
-        # Determine causality
-        is_causal = (
-            (safe_p < self.significance_threshold and abs(results['safe_stop_delta']) > self.effect_size_threshold) or
-            (risky_p < self.significance_threshold and abs(results['risky_stop_delta']) > self.effect_size_threshold)
-        )
+                baseline_bankruptcy = bankruptcy_risk(risky_baseline_bets)
+                safe_patch_bankruptcy = bankruptcy_risk(risky_with_safe_bets)
+                risky_patch_bankruptcy = bankruptcy_risk(risky_with_risky_bets)
 
-        # Classify direction
-        if is_causal:
-            if results['safe_stop_delta'] > 0 or results['risky_stop_delta'] > 0:
-                results['classified_as'] = 'risky'
-            else:
-                results['classified_as'] = 'safe'
+                # Test effects
+                safe_effect = safe_patch_bankruptcy - baseline_bankruptcy  # Should be negative
+                risky_effect = risky_patch_bankruptcy - baseline_bankruptcy  # Should be positive
+
+                # Statistical test
+                from scipy.stats import chi2_contingency
+                risky_counts = [sum(1 for bet in risky_baseline_bets if bet > 15),
+                               sum(1 for bet in risky_with_risky_bets if bet > 15)]
+                safe_counts = [len(risky_baseline_bets) - risky_counts[0],
+                              len(risky_with_risky_bets) - risky_counts[1]]
+
+                if min(risky_counts + safe_counts) >= 5:
+                    chi2, p_risky, _, _ = chi2_contingency([risky_counts, safe_counts])
+                    causality_results['risky_p_value'] = p_risky
+                    causality_results['risky_effect_size'] = risky_effect
+
+                    if p_risky < self.significance_threshold and abs(risky_effect) > self.effect_size_threshold:
+                        causality_results['is_causal_risky'] = True
+
+        except Exception as e:
+            print(f"  Risky prompt analysis error: {e}")
+
+        # Determine overall causality
+        if causality_results['is_causal_safe'] and causality_results['is_causal_risky']:
+            causality_results['interpretation'] = 'bidirectional_causal'
+        elif causality_results['is_causal_safe']:
+            causality_results['interpretation'] = 'safe_context_causal'
+        elif causality_results['is_causal_risky']:
+            causality_results['interpretation'] = 'risky_context_causal'
         else:
-            results['classified_as'] = 'neutral'
+            causality_results['interpretation'] = 'no_causal_effect'
 
-        results['is_causal'] = bool(is_causal)  # Convert to Python bool for JSON serialization
-
-        return results
+        return causality_results
 
     def save_checkpoint(self, all_results: List[Dict], features_tested: int):
         """Save intermediate results"""
@@ -486,29 +524,84 @@ Choice: """
                 json.dump(self.response_log, f, indent=2)
             self.response_log = []  # Clear after saving
 
+    def load_checkpoint(self) -> Tuple[List[Dict], set]:
+        """Load latest checkpoint for this layer range"""
+        # Find ALL checkpoints for this layer (any date)
+        pattern = f'checkpoint_L{self.layer_start}_{self.layer_end}_*_*.json'
+
+        checkpoints = list(self.results_dir.glob(pattern))
+
+        if not checkpoints:
+            print(f"⚠️  No checkpoint found for L{self.layer_start}-{self.layer_end}")
+            return [], set()
+
+        # Get latest checkpoint (by timestamp in filename)
+        # Use both date and time portions: YYYYMMDD_HHMMSS
+        latest = max(checkpoints, key=lambda p: '_'.join(p.stem.split('_')[-2:]))
+
+        print(f"📂 Loading checkpoint: {latest.name}")
+
+        with open(latest) as f:
+            data = json.load(f)
+
+        all_results = data.get('results', [])
+        features_tested = data.get('features_tested', 0)
+
+        # Extract tested feature IDs
+        tested_feature_ids = set()
+        for result in all_results:
+            feature_id = result.get('feature_id')
+            layer = result.get('layer')
+            if feature_id is not None and layer is not None:
+                tested_feature_ids.add((layer, feature_id))
+
+        print(f"✅ Loaded {features_tested} completed features")
+        print(f"   Tested feature IDs: {len(tested_feature_ids)}")
+
+        return all_results, tested_feature_ids
+
     def run(self):
         """Main experiment loop"""
         print("=" * 80)
         print(f"🚀 MULTILAYER PATCHING EXPERIMENT L{self.layer_start}-L{self.layer_end}")
         print(f"   GPU: {self.gpu_id}, Process: {self.process_id}")
         print(f"   Trials per condition: {self.n_trials}")
+        if self.resume:
+            print(f"   🔄 RESUME MODE: Loading from checkpoint")
         print("=" * 80)
 
         self.load_models()
         features = self.load_features()
 
+        # Load checkpoint if resuming
         all_results = []
+        tested_feature_ids = set()
+        if self.resume:
+            all_results, tested_feature_ids = self.load_checkpoint()
 
-        print(f"\n🧪 Testing {len(features)} features...")
+        # Filter out already tested features
+        features_to_test = []
+        for feature in features:
+            feature_key = (feature['layer'], feature['feature_id'])
+            if feature_key not in tested_feature_ids:
+                features_to_test.append(feature)
 
-        for i, feature in enumerate(tqdm(features, desc="Testing features")):
+        if self.resume:
+            print(f"\n📊 Resume Summary:")
+            print(f"   Total features: {len(features)}")
+            print(f"   Already tested: {len(tested_feature_ids)}")
+            print(f"   Remaining: {len(features_to_test)}")
+
+        print(f"\n🧪 Testing {len(features_to_test)} features...")
+
+        for i, feature in enumerate(tqdm(features_to_test, desc="Testing features")):
             try:
                 result = self.test_single_feature(feature)
                 all_results.append(result)
 
-                # Save checkpoint every 50 features
-                if (i + 1) % 50 == 0:
-                    self.save_checkpoint(all_results, i + 1)
+                # Save checkpoint every 50 features (based on total results)
+                if len(all_results) % 50 == 0:
+                    self.save_checkpoint(all_results, len(all_results))
 
             except Exception as e:
                 print(f"❌ Error testing {feature}: {e}")
@@ -520,17 +613,22 @@ Choice: """
         self.save_checkpoint(all_results, len(features))
 
         # Summary
-        causal_features = [r for r in all_results if r['is_causal']]
-        safe_features = [r for r in causal_features if r['classified_as'] == 'safe']
-        risky_features = [r for r in causal_features if r['classified_as'] == 'risky']
+        causal_features = [r for r in all_results if r['causality']['interpretation'] != 'no_causal_effect']
+        safe_causal = [r for r in causal_features if 'safe' in r['causality']['interpretation']]
+        risky_causal = [r for r in causal_features if 'risky' in r['causality']['interpretation']]
+        bidirectional = [r for r in causal_features if r['causality']['interpretation'] == 'bidirectional_causal']
 
         print("\n" + "=" * 80)
         print("📊 FINAL SUMMARY")
         print("=" * 80)
         print(f"Total features tested: {len(all_results)}")
-        print(f"Causal features: {len(causal_features)} ({len(causal_features)/len(all_results)*100:.1f}%)")
-        print(f"  - Safe features: {len(safe_features)}")
-        print(f"  - Risky features: {len(risky_features)}")
+        if len(all_results) > 0:
+            print(f"Causal features: {len(causal_features)} ({len(causal_features)/len(all_results)*100:.1f}%)")
+            print(f"  - Safe context causal: {len(safe_causal)}")
+            print(f"  - Risky context causal: {len(risky_causal)}")
+            print(f"  - Bidirectional causal: {len(bidirectional)}")
+        else:
+            print("⚠️  No features were successfully tested")
         print("=" * 80)
 
 if __name__ == '__main__':
@@ -540,6 +638,7 @@ if __name__ == '__main__':
     parser.add_argument('--layer_end', type=int, required=True, help='End layer')
     parser.add_argument('--process_id', type=str, default='main', help='Process ID for logging')
     parser.add_argument('--trials', type=int, default=30, help='Trials per condition')
+    parser.add_argument('--resume', action='store_true', help='Resume from latest checkpoint')
 
     args = parser.parse_args()
 
@@ -551,7 +650,8 @@ if __name__ == '__main__':
         layer_start=args.layer_start,
         layer_end=args.layer_end,
         process_id=args.process_id,
-        n_trials=args.trials
+        n_trials=args.trials,
+        resume=args.resume
     )
 
     exp.run()

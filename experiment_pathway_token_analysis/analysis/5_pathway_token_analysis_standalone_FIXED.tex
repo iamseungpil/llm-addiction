@@ -1,0 +1,90 @@
+\documentclass[11pt]{article}
+
+% Package imports
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cite}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{float}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=blue,
+}
+
+% Title and author
+\title{Temporal and Linguistic Dimensions of Risk-Taking Mechanisms in Large Language Models}
+\author{LLM Addiction Research Project}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This study extends mechanistic analysis of gambling behavior in large language models by investigating temporal dynamics, linguistic control, and network architecture of risk-taking features. Through 100-round behavioral simulations, word-feature correlation analysis, and complete layer-wise profiling, we demonstrate that risk-taking mechanisms operate through coordinated networks spanning the entire model architecture, directly shape output vocabulary, and produce cumulative behavioral trajectories that diverge systematically between safe and risky conditions.
+\end{abstract}
+
+\section{Temporal and Linguistic Dimensions of Risk-Taking Mechanisms}
+\label{sec:5}
+
+Prior mechanistic analysis\footnote{This refers to Section 4 of the main paper, which is not included in this standalone document.} identified 441 causally relevant features (selected from 2,787 causally validated features) that control gambling behavior through single-decision interventions. This section extends the investigation to two unexplored dimensions: how these features operate across multiple decisions over time, and how they control the linguistic output that implements gambling decisions. These analyses reveal that risk-taking mechanisms in LLMs operate through coordinated networks spanning the entire model architecture, directly shape the vocabulary of decision outputs, and produce cumulative behavioral trajectories that diverge systematically between safe and risky conditions.
+
+\subsection{Multi-round Behavioral Dynamics}
+
+To understand how causal features influence behavior beyond isolated decisions, we conducted 100-round gambling simulations with the 441 validated causal features under both safe and risky activation conditions. The purpose of this analysis is to quantify cumulative effects that emerge only through repeated decisions, which cannot be observed in single-shot patching experiments.
+
+Figure~\ref{fig:multiround-dynamics} shows that feature interventions produce diverging behavioral trajectories across extended gameplay. Safe feature patching maintained higher average balances throughout all 100 rounds, while risky patching induced systematic risk escalation. The risky condition produced 1.86 times more gambling rounds than the safe condition (1,287,282 vs 692,458 trial-rounds across 39,690 total trials), indicating that risky features not only influence individual bet decisions but also sustain gambling behavior over time. Cumulative bankruptcy analysis revealed that safe patching prevented 46\% of bankruptcies that occurred under risky patching (8,314 vs 15,252 bankruptcies), demonstrating protective effects that compound across decisions. These findings indicate that the causal features identified in prior work do not merely bias isolated choices but fundamentally alter behavioral trajectories through their sustained influence on decision-making processes.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.85\textwidth]{images/05_multiround_patching_timeline.pdf}
+\caption{Behavioral trajectories across 100 gambling rounds under safe and risky feature patching. Top left: Average bet amounts diverge between conditions, with risky patching maintaining higher bet sizes. Top right: Balance evolution shows systematic advantage for safe patching. Bottom left: Cumulative bankruptcies demonstrate 46\% protection effect from safe features. Bottom right: Active trial counts reveal $1.86\times$ longer gambling engagement under risky patching. Data from 441 features across 39,690 trials.}
+\label{fig:multiround-dynamics}
+\end{figure}
+
+\subsection{Feature-Controlled Output Generation}
+
+The mechanism by which internal features translate into observable behavior operates through the model's output vocabulary. We analyzed correlations between 2,787 causal features and 1,909 unique words appearing in gambling decision outputs, yielding 7.3 million word-feature correlation measurements. This analysis tests whether features control behavior by systematically biasing the generation of specific decision-related words.
+
+Figure~\ref{fig:output-vocabulary} demonstrates that risky and safe features activate distinct vocabularies. Risky features showed strongest positive correlations with betting-related words (\texttt{\$200}, \texttt{bet}, \texttt{betting}) and numerical escalation terms (\texttt{165}, \texttt{amid}), while safe features correlated with stopping-related vocabulary (\texttt{stop}, \texttt{anywhere}, \texttt{around}, \texttt{beware}). Among the 144 features showing effect sizes with magnitude of Cohen's $d$ greater than 0.2, 62 were risky-oriented and 82 were safe-oriented, maintaining the asymmetry observed in behavioral outcomes. This vocabulary control is causal rather than correlational: because these are the same features validated through activation patching in prior work, the word-feature associations represent the linguistic implementation of causally verified decision mechanisms. The findings suggest that risk-taking behavior in LLMs emerges from features that directly increase the probability of generating gambling-continuation language while suppressing stopping-related vocabulary.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.75\textwidth]{images/02_word_feature_association_heatmap.pdf}
+\caption{Word-feature association patterns reveal vocabulary control mechanisms. Left: Top 30 risky-associated words show betting and numerical escalation terms. Right: Top 30 safe-associated words emphasize stopping and caution vocabulary. Center: Differential activation heatmap highlights opposing patterns. Analysis based on 7.3M correlations between 2,787 features and 1,909 unique output words.}
+\label{fig:output-vocabulary}
+\end{figure}
+
+\subsection{Feature Network Architecture}
+
+The coordination among features across different network layers determines how distributed representations converge into coherent behavioral outputs. We measured correlations among all 2,787 causally validated features to characterize their network organization. The purpose is to determine whether risk-related features operate independently or as coordinated functional networks.
+
+Analysis of 272,351 feature pairs with strong correlations (absolute value of $r$ greater than 0.7) revealed a mean Pearson correlation of $r = +0.8964$, indicating coordinated activation patterns rather than independent feature operation. Cross-layer correlations ($r = +0.8967$, $n = 258,752$ pairs) slightly exceeded same-layer correlations ($r = +0.8906$, $n = 13,599$ pairs), demonstrating that features in different layers activate together more strongly than features within the same layer. This cross-layer coordination suggests that risk-taking representations emerge through hierarchical integration across the network rather than localized processing in individual layers. The high correlation structure implies that interventions on single features propagate through interconnected networks, explaining why the 441 causal features in prior work produce robust behavioral changes despite representing less than 0.2\% of total network features.
+
+\subsection{Complete Layer-wise Processing}
+
+While prior work focused on later layers (25--31) where decision-making concentrates, the complete picture requires understanding how risk representations emerge from early layers. We extended the analysis to all 31 layers, identifying 87,012 features with significant bankruptcy-vs-safe differentiation ($p < 0.001$, FDR corrected).
+
+Figure~\ref{fig:layer-profile} shows distributed risk processing throughout the network. Layer 1 contained 2,195 significant features (53.6\% of the layer's 4,096 total features), demonstrating that risk-related representations begin forming immediately at the input level. Mid-network layers (9--13) showed the highest feature concentrations, with Layer 9 containing 503 prompt-sensitive features. The significance rate averaged 47\% across all layers (meaning 47\% of features show significant bankruptcy-vs-safe differentiation), indicating that nearly half of all learned features participate in risk-related processing. This distributed architecture contrasts with localized processing hypotheses and indicates that gambling behavior emerges from network-wide coordination rather than specialized decision circuits in late layers alone.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.85\textwidth]{images/04_layer_evolution.pdf}
+\caption{Layer-wise distribution of significant features across all 31 layers. Top: Total significant features per layer, showing concentration in early (Layers 1--2) and mid-network (Layers 9--13) regions. Middle: Separate counts for bankrupt-associated and safe-associated features across layers. Bottom: Evolution of effect sizes (Cohen's $d$) across network depth. The 47\% average significance rate indicates nearly half of all features contribute to risk-related processing.}
+\label{fig:layer-profile}
+\end{figure}
+
+\subsection{Summary}
+
+This section demonstrates that risk-taking mechanisms in LLMs operate through three integrated systems: temporal dynamics that produce diverging behavioral trajectories across repeated decisions, vocabulary control that implements decisions through systematic word generation biases, and network-wide coordination that distributes risk processing across all 31 layers. Safe feature patching prevented 46\% of bankruptcies across 100-round simulations (8,314 vs 15,252 bankruptcies), while word-feature correlation analysis revealed causal control over decision vocabulary (7.3M associations analyzed). Feature network analysis identified mean correlations of $r = +0.8964$, with cross-layer coordination exceeding same-layer coordination, and complete layer profiling found 87,012 significant features with 47\% average significance rate spanning all network layers. These findings extend prior causal validation by demonstrating that the 441 validated features operate within coordinated networks that control gambling behavior through sustained temporal effects and direct linguistic implementation.
+
+\end{document}

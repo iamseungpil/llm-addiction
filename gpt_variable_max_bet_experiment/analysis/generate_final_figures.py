@@ -38,48 +38,54 @@ def generate_figure_1_final(df: pd.DataFrame):
     Figure 1: Fixed vs Variable Direct Comparison.
 
     - Shows all 4 amounts [10, 30, 50, 70] for both fixed and variable
-    - Fixed $10 now available from corrected parsing (1,600 experiments)
+    - Upgraded visual style with layered markers (like complexity trend figure)
     """
-    print("Generating Figure 1 (FINAL): Direct Comparison...")
+    print("Generating Figure 1 (UPGRADED): Direct Comparison...")
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
     # All amounts to show on x-axis
     all_amounts = [10, 30, 50, 70]
-    fixed_amounts = [10, 30, 50, 70]  # All 4 amounts now available
-    variable_amounts = [10, 30, 50, 70]
+
+    # Prepare data
+    subset_var = df[df['bet_type'] == 'variable']
+    subset_fixed = df[df['bet_type'] == 'fixed']
 
     # Panel A: Bankruptcy Rate
     ax = axes[0]
 
-    # Variable (all 4 amounts)
-    subset_var = df[df['bet_type'] == 'variable']
     stats_var = subset_var.groupby('bet_amount').agg({
         'is_bankrupt': 'mean'
     }).reset_index()
     stats_var['bankruptcy_rate'] = stats_var['is_bankrupt'] * 100
 
-    ax.plot(stats_var['bet_amount'], stats_var['bankruptcy_rate'],
-           marker='s', color=COLORS['variable'], label='Variable',
-           linewidth=2.5, markersize=10, alpha=0.8)
-
-    # Fixed (only 30, 50, 70)
-    subset_fixed = df[df['bet_type'] == 'fixed']
     stats_fixed = subset_fixed.groupby('bet_amount').agg({
         'is_bankrupt': 'mean'
     }).reset_index()
     stats_fixed['bankruptcy_rate'] = stats_fixed['is_bankrupt'] * 100
 
-    ax.plot(stats_fixed['bet_amount'], stats_fixed['bankruptcy_rate'],
-           marker='o', color=COLORS['fixed'], label='Fixed',
-           linewidth=2.5, markersize=10, alpha=0.8)
+    # Variable - layered style
+    ax.plot(stats_var['bet_amount'], stats_var['bankruptcy_rate'],
+           color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_var['bet_amount'], stats_var['bankruptcy_rate'],
+              marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_var['bet_amount'], stats_var['bankruptcy_rate'],
+              marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'], linewidths=1.5, zorder=4, label='Variable')
 
-    ax.set_xlabel('Bet Amount ($)', fontsize=14, fontweight='bold')
-    ax.set_ylabel('Bankruptcy Rate (%)', fontsize=14, fontweight='bold')
-    ax.set_title('Bankruptcy Rate', fontsize=16, fontweight='bold')
-    ax.legend(fontsize=12)
+    # Fixed - layered style
+    ax.plot(stats_fixed['bet_amount'], stats_fixed['bankruptcy_rate'],
+           color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['bankruptcy_rate'],
+              marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['bankruptcy_rate'],
+              marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'], linewidths=1.5, zorder=4, label='Fixed')
+
+    ax.set_ylabel('Bankruptcy Rate (%)', fontsize=20, fontweight='bold')
+    ax.set_title('Bankruptcy Rate', fontsize=22, fontweight='bold')
+    ax.legend(fontsize=18)
     ax.grid(True, alpha=0.3)
     ax.set_xticks(all_amounts)
+    ax.tick_params(axis='both', which='major', labelsize=18)
 
     # Panel B: Average Rounds
     ax = axes[1]
@@ -92,19 +98,28 @@ def generate_figure_1_final(df: pd.DataFrame):
         'total_rounds': 'mean'
     }).reset_index()
 
+    # Variable - layered style
     ax.plot(stats_var['bet_amount'], stats_var['total_rounds'],
-           marker='s', color=COLORS['variable'], label='Variable',
-           linewidth=2.5, markersize=10, alpha=0.8)
-    ax.plot(stats_fixed['bet_amount'], stats_fixed['total_rounds'],
-           marker='o', color=COLORS['fixed'], label='Fixed',
-           linewidth=2.5, markersize=10, alpha=0.8)
+           color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_var['bet_amount'], stats_var['total_rounds'],
+              marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_var['bet_amount'], stats_var['total_rounds'],
+              marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'], linewidths=1.5, zorder=4, label='Variable')
 
-    ax.set_xlabel('Bet Amount ($)', fontsize=14, fontweight='bold')
-    ax.set_ylabel('Average Rounds', fontsize=14, fontweight='bold')
-    ax.set_title('Game Persistence', fontsize=16, fontweight='bold')
-    ax.legend(fontsize=12)
+    # Fixed - layered style
+    ax.plot(stats_fixed['bet_amount'], stats_fixed['total_rounds'],
+           color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['total_rounds'],
+              marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['total_rounds'],
+              marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'], linewidths=1.5, zorder=4, label='Fixed')
+
+    ax.set_ylabel('Average Rounds', fontsize=20, fontweight='bold')
+    ax.set_title('Game Persistence', fontsize=22, fontweight='bold')
+    ax.legend(fontsize=18)
     ax.grid(True, alpha=0.3)
     ax.set_xticks(all_amounts)
+    ax.tick_params(axis='both', which='major', labelsize=18)
 
     # Panel C: Average Bet Size
     ax = axes[2]
@@ -118,22 +133,35 @@ def generate_figure_1_final(df: pd.DataFrame):
         'avg_bet': 'mean'
     }).reset_index()
 
+    # Variable - layered style
     ax.plot(stats_var['bet_amount'], stats_var['avg_bet'],
-           marker='s', color=COLORS['variable'], label='Variable (< Max)',
-           linewidth=2.5, markersize=10, alpha=0.8)
-    ax.plot(stats_fixed['bet_amount'], stats_fixed['avg_bet'],
-           marker='o', color=COLORS['fixed'], label='Fixed (= Max)',
-           linewidth=2.5, markersize=10, alpha=0.8)
+           color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_var['bet_amount'], stats_var['avg_bet'],
+              marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_var['bet_amount'], stats_var['avg_bet'],
+              marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'], linewidths=1.5, zorder=4, label='Variable (< Max)')
 
-    ax.set_xlabel('Max Bet Amount ($)', fontsize=14, fontweight='bold')
-    ax.set_ylabel('Actual Average Bet ($)', fontsize=14, fontweight='bold')
-    ax.set_title('Actual Bet Size', fontsize=16, fontweight='bold')
-    ax.legend(fontsize=12)
+    # Fixed - layered style
+    ax.plot(stats_fixed['bet_amount'], stats_fixed['avg_bet'],
+           color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['avg_bet'],
+              marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['avg_bet'],
+              marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'], linewidths=1.5, zorder=4, label='Fixed (= Max)')
+
+    ax.set_ylabel('Average Bet ($)', fontsize=20, fontweight='bold')
+    ax.set_title('Average Bet Size', fontsize=22, fontweight='bold')
+    ax.legend(fontsize=18)
     ax.grid(True, alpha=0.3)
     ax.set_xticks(all_amounts)
+    ax.tick_params(axis='both', which='major', labelsize=18)
 
-    plt.suptitle('Fixed vs Variable Betting: Direct Comparison',
-                 fontsize=18, fontweight='bold', y=1.02)
+    plt.suptitle('Fixed vs. Variable Betting: Comparison Across Bet Amounts',
+                 fontsize=26, fontweight='bold', y=1.00)
+
+    # Add single x-axis label at the bottom center (like complexity trend figure)
+    fig.text(0.5, -0.02, 'Bet Amount ($)', ha='center', fontsize=22, fontweight='bold')
+
     plt.tight_layout()
 
     png_path = OUTPUT_DIR / '1_fixed_vs_variable_comparison.png'
@@ -147,64 +175,256 @@ def generate_figure_1_final(df: pd.DataFrame):
 
 def generate_figure_2_final(df: pd.DataFrame):
     """
-    Figure 2: Irrationality Indices by Bet Amount (Simple 2x2 line plots).
+    Figure 2: Irrationality Indices by Bet Amount (1x4 horizontal layout).
 
-    Like Image #4: Shows how each index changes with bet amount.
+    - Upgraded visual style with layered markers (like complexity trend figure)
+    - Horizontal layout (1 row, 4 columns)
     - Panel A: i_ev
-    - Panel B: i_lc (corrected)
+    - Panel B: i_lc
     - Panel C: i_eb
     - Panel D: composite
     """
-    print("Generating Figure 2 (FINAL): Irrationality Line Plots...")
+    print("Generating Figure 2 (UPGRADED): Irrationality Indices...")
 
-    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-    axes = axes.flatten()
+    fig, axes = plt.subplots(1, 4, figsize=(24, 5))
 
     metrics = [
-        ('i_ev', 'Expected Value Ignorance (i_ev)'),
-        ('i_lc', 'Loss Chasing (i_lc)'),
-        ('i_eb', 'Extreme Betting (i_eb)'),
-        ('composite', 'Composite Irrationality Index')
+        ('i_ev', 'Expected Value Ignorance (I_EV)', 'I_EV'),
+        ('i_lc', 'Loss Chasing (I_LC)', 'I_LC'),
+        ('i_eb', 'Extreme Betting (I_EB)', 'I_EB'),
+        ('composite', 'Composite Irrationality Index', 'COMPOSITE')
     ]
 
     all_amounts = [10, 30, 50, 70]
 
-    for idx, (metric, title) in enumerate(metrics):
+    # Prepare data
+    subset_var = df[df['bet_type'] == 'variable']
+    subset_fixed = df[df['bet_type'] == 'fixed']
+
+    for idx, (metric, title, ylabel) in enumerate(metrics):
         ax = axes[idx]
 
-        # Variable betting (all 4 amounts)
-        subset_var = df[df['bet_type'] == 'variable']
+        # Calculate statistics
         stats_var = subset_var.groupby('bet_amount').agg({
             metric: 'mean'
         }).reset_index()
 
-        ax.plot(stats_var['bet_amount'], stats_var[metric],
-               marker='s', color=COLORS['variable'], label='Variable',
-               linewidth=2.5, markersize=10, alpha=0.8)
-
-        # Fixed betting (only 30, 50, 70)
-        subset_fixed = df[df['bet_type'] == 'fixed']
         stats_fixed = subset_fixed.groupby('bet_amount').agg({
             metric: 'mean'
         }).reset_index()
 
-        ax.plot(stats_fixed['bet_amount'], stats_fixed[metric],
-               marker='o', color=COLORS['fixed'], label='Fixed',
-               linewidth=2.5, markersize=10, alpha=0.8)
+        # Variable - layered style
+        ax.plot(stats_var['bet_amount'], stats_var[metric],
+               color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
+        ax.scatter(stats_var['bet_amount'], stats_var[metric],
+                  marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+        ax.scatter(stats_var['bet_amount'], stats_var[metric],
+                  marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'],
+                  linewidths=1.5, zorder=4, label='Variable')
 
-        ax.set_xlabel('Bet Amount ($)', fontsize=13, fontweight='bold')
-        ax.set_ylabel(metric.upper() if metric != 'composite' else 'COMPOSITE',
-                     fontsize=13, fontweight='bold')
-        ax.set_title(title, fontsize=14, fontweight='bold')
-        ax.legend(fontsize=11)
+        # Fixed - layered style
+        ax.plot(stats_fixed['bet_amount'], stats_fixed[metric],
+               color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
+        ax.scatter(stats_fixed['bet_amount'], stats_fixed[metric],
+                  marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+        ax.scatter(stats_fixed['bet_amount'], stats_fixed[metric],
+                  marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'],
+                  linewidths=1.5, zorder=4, label='Fixed')
+
+        ax.set_ylabel(ylabel, fontsize=28, fontweight='bold')
+        ax.set_title(title, fontsize=30, fontweight='bold')
+        ax.legend(fontsize=24, loc='best')
         ax.grid(True, alpha=0.3)
         ax.set_xticks(all_amounts)
+        ax.tick_params(axis='both', which='major', labelsize=26)
 
-    plt.suptitle('Irrationality Indices by Bet Amount', fontsize=18, fontweight='bold', y=0.995)
+    plt.suptitle('Irrationality Indices by Bet Amount', fontsize=36, fontweight='bold', y=1.02)
+
+    # Add single x-axis label at the bottom center
+    fig.text(0.5, -0.02, 'Bet Amount ($)', ha='center', fontsize=30, fontweight='bold')
+
     plt.tight_layout()
 
     png_path = OUTPUT_DIR / '2_irrationality_index_by_amount.png'
     pdf_path = OUTPUT_DIR / '2_irrationality_index_by_amount.pdf'
+    plt.savefig(png_path, dpi=300, bbox_inches='tight')
+    plt.savefig(pdf_path, format='pdf', bbox_inches='tight')
+    plt.close(fig)
+
+    print(f"  ✅ Saved: {png_path.name}")
+
+
+def generate_figure_combined(df: pd.DataFrame):
+    """
+    Combined Figure: Figure 1 (3 panels) + Composite Index from Figure 2.
+
+    Layout: 1x4
+    - Panel A: Bankruptcy Rate
+    - Panel B: Game Persistence
+    - Panel C: Average Bet Size
+    - Panel D: Composite Irrationality Index
+    """
+    print("Generating Combined Figure (1x4)...")
+
+    fig, axes = plt.subplots(1, 4, figsize=(28, 6))
+
+    all_amounts = [10, 30, 50, 70]
+
+    # Prepare data
+    subset_var = df[df['bet_type'] == 'variable']
+    subset_fixed = df[df['bet_type'] == 'fixed']
+
+    # Panel A: Bankruptcy Rate
+    ax = axes[0]
+
+    stats_var = subset_var.groupby('bet_amount').agg({
+        'is_bankrupt': 'mean'
+    }).reset_index()
+    stats_var['bankruptcy_rate'] = stats_var['is_bankrupt'] * 100
+
+    stats_fixed = subset_fixed.groupby('bet_amount').agg({
+        'is_bankrupt': 'mean'
+    }).reset_index()
+    stats_fixed['bankruptcy_rate'] = stats_fixed['is_bankrupt'] * 100
+
+    # Variable - layered style
+    ax.plot(stats_var['bet_amount'], stats_var['bankruptcy_rate'],
+           color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_var['bet_amount'], stats_var['bankruptcy_rate'],
+              marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_var['bet_amount'], stats_var['bankruptcy_rate'],
+              marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'], linewidths=1.5, zorder=4, label='Variable')
+
+    # Fixed - layered style
+    ax.plot(stats_fixed['bet_amount'], stats_fixed['bankruptcy_rate'],
+           color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['bankruptcy_rate'],
+              marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['bankruptcy_rate'],
+              marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'], linewidths=1.5, zorder=4, label='Fixed')
+
+    ax.set_ylabel('Bankruptcy Rate (%)', fontsize=28, fontweight='bold')
+    ax.set_title('Bankruptcy Rate', fontsize=30, fontweight='bold')
+    ax.legend(fontsize=24)
+    ax.grid(True, alpha=0.3)
+    ax.set_xticks(all_amounts)
+    ax.tick_params(axis='both', which='major', labelsize=26)
+
+    # Panel B: Average Rounds
+    ax = axes[1]
+
+    stats_var = subset_var.groupby('bet_amount').agg({
+        'total_rounds': 'mean'
+    }).reset_index()
+
+    stats_fixed = subset_fixed.groupby('bet_amount').agg({
+        'total_rounds': 'mean'
+    }).reset_index()
+
+    # Variable - layered style
+    ax.plot(stats_var['bet_amount'], stats_var['total_rounds'],
+           color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_var['bet_amount'], stats_var['total_rounds'],
+              marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_var['bet_amount'], stats_var['total_rounds'],
+              marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'], linewidths=1.5, zorder=4, label='Variable')
+
+    # Fixed - layered style
+    ax.plot(stats_fixed['bet_amount'], stats_fixed['total_rounds'],
+           color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['total_rounds'],
+              marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['total_rounds'],
+              marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'], linewidths=1.5, zorder=4, label='Fixed')
+
+    ax.set_ylabel('Average Rounds', fontsize=28, fontweight='bold')
+    ax.set_title('Game Persistence', fontsize=30, fontweight='bold')
+    ax.legend(fontsize=24)
+    ax.grid(True, alpha=0.3)
+    ax.set_xticks(all_amounts)
+    ax.tick_params(axis='both', which='major', labelsize=26)
+
+    # Panel C: Average Bet Size
+    ax = axes[2]
+
+    # Fixed: bet size = bet amount
+    stats_fixed = subset_fixed.groupby('bet_amount').size().reset_index(name='count')
+    stats_fixed['avg_bet'] = stats_fixed['bet_amount']
+
+    # Variable: actual average bet
+    stats_var = subset_var.groupby('bet_amount').agg({
+        'avg_bet': 'mean'
+    }).reset_index()
+
+    # Variable - layered style
+    ax.plot(stats_var['bet_amount'], stats_var['avg_bet'],
+           color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_var['bet_amount'], stats_var['avg_bet'],
+              marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_var['bet_amount'], stats_var['avg_bet'],
+              marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'], linewidths=1.5, zorder=4, label='Variable (< Max)')
+
+    # Fixed - layered style
+    ax.plot(stats_fixed['bet_amount'], stats_fixed['avg_bet'],
+           color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['avg_bet'],
+              marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['avg_bet'],
+              marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'], linewidths=1.5, zorder=4, label='Fixed (= Max)')
+
+    ax.set_ylabel('Average Bet ($)', fontsize=28, fontweight='bold')
+    ax.set_title('Average Bet Size', fontsize=30, fontweight='bold')
+    ax.legend(fontsize=24)
+    ax.grid(True, alpha=0.3)
+    ax.set_xticks(all_amounts)
+    ax.tick_params(axis='both', which='major', labelsize=26)
+
+    # Panel D: Composite Irrationality Index
+    ax = axes[3]
+
+    stats_var = subset_var.groupby('bet_amount').agg({
+        'composite': 'mean'
+    }).reset_index()
+
+    stats_fixed = subset_fixed.groupby('bet_amount').agg({
+        'composite': 'mean'
+    }).reset_index()
+
+    # Variable - layered style
+    ax.plot(stats_var['bet_amount'], stats_var['composite'],
+           color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_var['bet_amount'], stats_var['composite'],
+              marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_var['bet_amount'], stats_var['composite'],
+              marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'],
+              linewidths=1.5, zorder=4, label='Variable')
+
+    # Fixed - layered style
+    ax.plot(stats_fixed['bet_amount'], stats_fixed['composite'],
+           color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['composite'],
+              marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
+    ax.scatter(stats_fixed['bet_amount'], stats_fixed['composite'],
+              marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'],
+              linewidths=1.5, zorder=4, label='Fixed')
+
+    ax.set_ylabel('COMPOSITE', fontsize=28, fontweight='bold')
+    ax.set_title('Composite Irrationality Index', fontsize=30, fontweight='bold')
+    ax.legend(fontsize=24)
+    ax.grid(True, alpha=0.3)
+    ax.set_xticks(all_amounts)
+    ax.tick_params(axis='both', which='major', labelsize=26)
+
+    plt.suptitle('Fixed vs. Variable Betting: Comparison Across Bet Amounts',
+                 fontsize=36, fontweight='bold', y=1.02)
+
+    # Add single x-axis label at the bottom center
+    fig.text(0.5, -0.02, 'Bet Amount ($)', ha='center', fontsize=30, fontweight='bold')
+
+    plt.tight_layout()
+
+    png_path = OUTPUT_DIR / 'combined_fixed_vs_variable_with_composite.png'
+    pdf_path = OUTPUT_DIR / 'combined_fixed_vs_variable_with_composite.pdf'
     plt.savefig(png_path, dpi=300, bbox_inches='tight')
     plt.savefig(pdf_path, format='pdf', bbox_inches='tight')
     plt.close(fig)

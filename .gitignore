@@ -1,0 +1,41 @@
+# Large data files (>50MB)
+*.json
+*.log
+*.npz
+*.npy
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Specific large files
+causal_feature_discovery/results/comprehensive_patching_*.json
+experiment_3_feature_word_6400/logs/*.log
+experiment_*/logs/*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Data directories
+/data/
+*.csv
+*.tsv
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+*.env
+
+# OS files
+.DS_Store
+Thumbs.db

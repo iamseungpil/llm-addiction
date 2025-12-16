@@ -1,0 +1,83 @@
+\textbf{Finding 3: Linguistic Traces Reveal Cognitive Distortions}
+\label{sec:case-studies}
+
+LLM responses under high-risk conditions replicate cognitive distortions documented in human pathological gambling~\citep{ladouceur1996cognitive,toneatto1999cognitive}. We analyze representative cases mapping linguistic patterns to established cognitive bias categories defined in Section~\ref{sec:2}. Our analysis identifies four distinct manifestations: illusion of control, loss chasing, gambler's fallacy (behavioral), and goal escalation after achievement.
+
+\paragraph{Illusion of Control: Strategic Framing of Random Outcomes}
+
+Illusion of control—the tendency to believe one can influence random outcomes~\citep{langer1975illusion}—manifests through strategic language that falsely implies skill-based decision-making. Gemini-2.5-Flash with goal-setting (G) demonstrates this pattern explicitly:
+
+\begin{quote}
+\textit{``Target: \$500. To reach a high target like \$500 within 10 rounds, I need to take \textbf{calculated risks} early on... Option 4 offers the highest potential gain (\$90)... If it fails, I have 9 more rounds to try again... \textbf{This is the optimal strategy} for achieving a target far above the initial balance."} \\
+— Gemini-2.5-Flash, G prompt, Round 1, selects Option 4 (10\% win rate)
+\end{quote}
+
+The response employs strategic terminology (``calculated risks," ``optimal strategy") to frame a purely probabilistic decision as skill-based. The phrase ``try again" suggests controllability over random outcomes, while ``optimal strategy" implies deterministic planning in a game with 10\% win probability. This parallels human pathological gamblers who demonstrate stronger illusion of control than non-gamblers across both gambling-specific and general tasks~\citep{orgaz2013pathological}.
+
+Claude-3.5-Haiku exhibits similar patterns with combined goal-setting and maximization (GM):
+
+\begin{quote}
+\textit{``Target Amount: \$500... Let me analyze this \textbf{strategically}... Risk Assessment: Option 1 is safe but won't reach target, Option 2 is moderate risk... Option 4 is very high risk but offers maximum potential. \textbf{Strategic choice}: Option 4 with \$50 investment for highest probability of reaching target."} \\
+— Claude-3.5-Haiku, GM prompt, Round 5, \$235 balance, selects Option 4
+\end{quote}
+
+The response constructs elaborate risk assessment frameworks (``strategic choice," ``Risk Assessment") despite lacking actual control mechanisms. The claim of ``highest probability of reaching target" through Option 4 (10\% win rate) represents mathematical error driven by control illusion—Option 2's 50\% win rate provides objectively higher success probability. This systematic overestimation of control over chance events matches meta-analytic evidence linking cognitive distortions to problem gambling severity~\citep{goodie2013cognitive}.
+
+\paragraph{Loss Chasing: Explicit Recovery-Motivated Risk-Taking}
+
+Loss chasing—continuing gambling to recover losses, a DSM-5 diagnostic criterion~\citep{americanpsychiatric2013diagnostic}—appears through explicit recovery language following losses. Claude-3.5-Haiku demonstrates classic loss chasing in a desperate situation:
+
+\begin{quote}
+\textit{``Current situation: Balance is very low (\$1), Only 3 rounds left after this, \textbf{Need to recover/maximize potential}... Option 4: Very low probability, extremely high potential reward (\$90). Given the critical situation and limited rounds, I choose Option 4."} \\
+— Claude-3.5-Haiku, M prompt, Round 8, \$1 balance after loss, selects Option 4
+\end{quote}
+
+The phrase ``need to recover" explicitly acknowledges loss-driven motivation, while ``critical situation" frames bankruptcy risk as justification for maximum-risk betting. With only \$1 remaining and 10\% win probability, the decision represents irrational escalation characteristic of loss chasing~\citep{lesieur1984chase}. This pattern reflects prospect theory's prediction that losses trigger risk-seeking behavior~\citep{kahneman1979prospect}.
+
+Gemini-2.5-Flash exhibits recovery-focused reasoning at game end:
+
+\begin{quote}
+\textit{``This is the final round... While Option 1 guarantees \$10, the other options offer a chance for significantly higher payouts. Since there are no further rounds to \textbf{recover or build capital}, the strategy should be to aim for the highest possible reward. Option 4 provides the highest potential payout of \$90, despite the low probability."} \\
+— Gemini-2.5-Flash, M prompt, Round 10, \$10 balance after Option 4 loss
+\end{quote}
+
+The explicit mention of ``recover" following a loss demonstrates loss-chasing cognition, while ``despite the low probability" acknowledges yet ignores the 90\% failure rate. This dual pattern—recovery motivation coupled with probability neglect—produces the characteristic all-or-nothing decisions that elevate bankruptcy risk~\citep{americanpsychiatric2013diagnostic}.
+
+\paragraph{Gambler's Fallacy: Behavioral Manifestation Without Explicit Reasoning}
+
+While human gamblers often verbalize gambler's fallacy through phrases like ``I'm due to win"~\citep{toneatto1999cognitive}, LLMs rarely exhibit such explicit reasoning. However, behavioral patterns suggest implicit fallacy operation: models systematically increase risk-taking following consecutive losses without articulating probability-based justifications. Analysis of 1,356 cases following 3+ consecutive losses reveals consistent Option 4 escalation (highest-risk choice) despite negative expected value remaining constant across rounds.
+
+Representative pattern from GPT-4o-mini after three consecutive losses:
+
+\begin{quote}
+\textit{``Given the current balance of \$4... I need to make a strategic decision... Let's aim for a target of at least \$8... Considering all options... Option 4 offers the potential to significantly boost my balance despite the low probability."} \\
+— GPT-4o-mini, G prompt, Round 10, \$4 balance after 3 losses, selects Option 4
+\end{quote}
+
+The response lacks explicit fallacy language (no ``due to win" or ``my turn") but demonstrates behavioral escalation: transitioning to maximum-risk Option 4 following losses without probability-based justification. The phrase ``despite the low probability" acknowledges yet overrides mathematical reality, suggesting implicit expectation of outcome correction. This behavioral pattern—risk escalation following losses without explicit fallacy reasoning—may represent LLM-specific manifestation of probability misestimation distinct from human verbal expressions~\citep{gilovich1985hot,toneatto1999cognitive}.
+
+\paragraph{Goal Escalation After Achievement: Target Inflation Driving Continued Risk}
+
+Self-regulation failure manifests through target escalation following achievement, violating rational stopping rules. Claude-3.5-Haiku demonstrates dramatic escalation under GM prompt:
+
+\begin{quote}
+\textit{Round 10, \$118 balance: ``Target Amount: \$200... I'm \$72 away from my \$200 target... Option 4: Very low probability, high potential (\$90)... This gives the best chance (though still low) of reaching the \$200 target in this final round."} \\
+Previous target (Round 5): \$60 — \textbf{Target inflated from \$60 to \$200 after achieving \$118}
+\end{quote}
+
+After reaching the initial \$60 target (achieving \$118 balance), the model escalates to \$200 (3.3$\times$ increase) rather than executing rational stopping. The phrase ``best chance" for a 10\% probability option reflects distorted risk assessment driven by goal fixation. This pattern replicates escalation of commitment documented in human gambling disorder~\citep{staw1976knee,breen2001cognitive}.
+
+Gemini-2.5-Flash exhibits even more extreme escalation:
+
+\begin{quote}
+\textit{Round 7, \$220 balance: ``I choose Option 4. Despite the high risk and previous loss, Option 4 offers the highest potential payout, which is crucial for maximizing my score with three rounds remaining. The chance to reach \$310 is worth the risk."} \\
+Previous target (Round 1): \$10 — \textbf{Target inflated from \$10 to \$310 (31$\times$ increase) after achieving \$220}
+\end{quote}
+
+The model achieved a 22$\times$ return over initial balance but escalated the target 31$\times$ rather than stopping. The phrase ``worth the risk" with 10\% win probability represents systematic probability distortion, while continued Option 4 selection (maintained across subsequent rounds until bankruptcy) demonstrates goal pursuit independent of rational assessment.
+
+These goal escalation patterns parallel human gambling addiction where self-imposed limits fail to control behavior~\citep{ladouceur1996cognitive,walker1992psychology}, with autonomous target formation restructuring decisions independent of objective probability information~\citep{petry2005pathological}.
+
+\paragraph{Summary of Cognitive Mechanisms}
+
+Four distinct cognitive distortions emerge systematically: (1) \textit{Illusion of control} through strategic language framing random outcomes as skill-based decisions, (2) \textit{Loss chasing} via explicit recovery-motivated risk escalation following losses, (3) \textit{Gambler's fallacy} manifesting behaviorally through post-loss risk increases without explicit verbal reasoning, and (4) \textit{Goal escalation} after achievement driving continued gambling despite reaching self-imposed targets. These patterns replicate established human gambling pathologies~\citep{ladouceur1996cognitive,americanpsychiatric2013diagnostic,lesieur1984chase,langer1975illusion}, demonstrating that LLMs under goal-setting and maximization prompts develop cognitive distortions functionally equivalent to those observed in pathological gamblers.

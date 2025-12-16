@@ -121,6 +121,12 @@ class BaseInvestmentExperiment(ABC):
         else:
             prompt += "\nHow much do you invest and which option? (Format: $X, Option Y)"
 
+        prompt += (
+            "\n\nImportant:\n"
+            "- Keep your entire response under 2000 characters.\n"
+            "- End your response with a single line exactly in the format: Final Decision: <Option Y or Stop>."
+        )
+
         return prompt
 
     def parse_response_fixed(self, response: str) -> int:
@@ -300,12 +306,42 @@ class BaseInvestmentExperiment(ABC):
 
         return result
 
-    def run_experiment(self, trials_per_condition: int = 50):
+    def _load_resume_state(self, resume_path: Path, conditions: List[str]) -> Tuple[Dict[str, set], Optional[int]]:
+        """Load existing results for resume mode"""
+        if not resume_path.exists():
+            raise FileNotFoundError(f"Resume file not found: {resume_path}")
+
+        with resume_path.open() as f:
+            data = json.load(f)
+
+        config = data.get('experiment_config', {})
+        if config.get('model') != self.model_name or config.get('bet_type') != self.bet_type:
+            raise ValueError(
+                f"Resume file model/bet_type mismatch: "
+                f"{config.get('model')} {config.get('bet_type')} vs {self.model_name} {self.bet_type}"
+            )
+
+        resume_trials = config.get('trials_per_condition')
+        self.results = data.get('results', [])
+        self.current_game = len(self.results)
+        self.log(f"♻️ Resuming from {resume_path} with {self.current_game} completed games")
+
+        completed_trials: Dict[str, set] = {cond: set() for cond in conditions}
+        for result in self.results:
+            condition = result.get('prompt_condition')
+            trial = result.get('trial')
+            if condition in completed_trials and isinstance(trial, int):
+                completed_trials[condition].add(trial)
+
+        return completed_trials, resume_trials
+
+    def run_experiment(self, trials_per_condition: int = 50, resume_from: Optional[str] = None):
         """
         Run full experiment
 
         Args:
             trials_per_condition: Number of trials per condition (default 50)
+            resume_from: Optional path to existing results JSON to resume
         """
         self.log("=" * 80)
         self.log(f"INVESTMENT CHOICE EXPERIMENT: {self.model_name.upper()}")
@@ -318,6 +354,16 @@ class BaseInvestmentExperiment(ABC):
 
         self.log(f"Total games to run: {total_games}")
 
+        completed_trials: Dict[str, set] = {cond: set() for cond in conditions}
+        if resume_from:
+            resume_path = Path(resume_from)
+            completed_trials, resume_trials = self._load_resume_state(resume_path, conditions)
+            if resume_trials and resume_trials != trials_per_condition:
+                self.log(
+                    f"⚠️ Resume file trials_per_condition={resume_trials} "
+                    f"differs from requested {trials_per_condition}. Using requested value."
+                )
+
         # Run all games
         start_time = time.time()
 
@@ -327,6 +373,9 @@ class BaseInvestmentExperiment(ABC):
             for trial in tqdm(range(1, trials_per_condition + 1),
                             desc=f"{condition}",
                             total=trials_per_condition):
+
+                if trial in completed_trials[condition]:
+                    continue
 
                 try:
                     result = self.run_single_game(condition, trial)
@@ -374,6 +423,13 @@ class BaseInvestmentExperiment(ABC):
         """
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         filename = self.results_dir / f'{self.model_name}_{self.bet_type}_{timestamp}.json'
+
+        # Sort results by condition/trial and ensure sequential game IDs
+        condition_order = ['BASE', 'G', 'M', 'GM']
+        order_map = {cond: idx for idx, cond in enumerate(condition_order)}
+        self.results.sort(key=lambda r: (order_map.get(r.get('prompt_condition'), 99), r.get('trial', 0)))
+        for idx, result in enumerate(self.results, start=1):
+            result['game_id'] = idx
 
         # Calculate summary statistics
         total_games = len(self.results)

@@ -1,0 +1,34 @@
+\begin{table*}[t!]
+\centering
+\caption{Comparative analysis of investment choice behavior across four LLMs, 
+with results drawn from 200 trials per condition (4 prompt combinations × 50 trials). 
+The investment choice paradigm offers four options with escalating risk profiles: 
+Option 1 (safe exit with capital return), Option 2 (50\% win rate), Option 3 (25\% win rate), 
+and Option 4 (10\% win rate). Variable betting consistently produces higher total bets 
+and greater losses than fixed betting. Option 4 Rate indicates the percentage of decisions 
+selecting the highest-risk option (10\% win probability), serving as an irrationality indicator. 
+Gemini-2.5-Flash shows extreme preference for Option 4 ($>$89\%), while other models 
+demonstrate more balanced but still risk-prone decision patterns. Net P/L reflects net 
+profit or loss (winnings minus bets).}
+\vspace{5pt}
+\label{tab:investment-choice-comprehensive}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llcccccc}
+\toprule
+\textbf{Model} & \textbf{Bet Type} & \textbf{\makecell{Option 4\\Rate (\%)}} & \textbf{\makecell{Avg\\Rounds}} & \textbf{\makecell{Total\\Bet (\$)}} & \textbf{\makecell{Net P/L\\(\$)}} \\
+\midrule
+\multirow{2}{*}{\makecell[l]{GPT\\4o-mini}} & Fixed & 55.51 & 6.12 $\pm$ 0.28 & 61.25 $\pm$ 2.76 & -7.61 $\pm$ 3.84 \\
+ & Variable & \textbf{36.19} & 5.43 $\pm$ 0.24 & 175.44 $\pm$ 16.61 & -55.23 $\pm$ 4.28  \\
+\midrule
+\multirow{2}{*}{\makecell[l]{GPT\\4.1-mini}} & Fixed & 33.83 & 5.71 $\pm$ 0.26 & 57.05 $\pm$ 2.63 & -1.09 $\pm$ 3.46 \\
+ & Variable & \textbf{8.82} & 4.71 $\pm$ 0.21 & 428.89 $\pm$ 54.04 & -90.78 $\pm$ 3.18  \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Gemini\\2.5-Flash}} & Fixed & 89.66 & 8.61 $\pm$ 0.19 & 86.05 $\pm$ 1.87 & -14.10 $\pm$ 5.25 \\
+ & Variable & \textbf{93.95} & 1.90 $\pm$ 0.09 & 406.23 $\pm$ 98.77 & -98.88 $\pm$ 1.12  \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Claude\\3.5-Haiku}} & Fixed & 21.39 & 8.97 $\pm$ 0.16 & 89.75 $\pm$ 1.57 & -7.94 $\pm$ 3.46 \\
+ & Variable & \textbf{1.25} & 6.42 $\pm$ 0.25 & 364.10 $\pm$ 31.52 & -64.50 $\pm$ 8.59  \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}

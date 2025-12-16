@@ -130,25 +130,20 @@ def compute_irrationality_index(exp, model_short) -> float:
 
 
 def generate_comprehensive_model_chart(df: pd.DataFrame):
-    """Generate one large chart with all models and metrics (4x4 grid)"""
+    """Generate one large chart with all models and metrics (3x4 grid, no Irrationality Index)"""
     components = ['G', 'M', 'P', 'H', 'W']
-    metrics = ['bankruptcy_effect', 'bet_effect', 'rounds_effect', 'irrationality_effect']
-    metric_titles = ['Bankruptcy Effect (%)', 'Total Bet Effect ($)', 'Rounds Effect', 'Irrationality Effect']
+    metrics = ['bankruptcy_effect', 'bet_effect', 'rounds_effect']
+    metric_titles = ['Bankruptcy Effect (%)', 'Total Bet Effect ($)', 'Rounds Effect']
     model_order = ['GPT-4o-mini', 'GPT-4.1-mini', 'Gemini-2.5-Flash', 'Claude-3.5-Haiku']
 
     # Compute irrationality index for all experiments
     df['irrationality'] = df.apply(lambda row: compute_irrationality_index(row, row['model_short']), axis=1)
 
-    # Different color schemes for each model (reordered)
-    model_colors = {
-        'GPT-4o-mini': {'fixed': '#2ca02c', 'variable': '#d62728'},        # Green/Red
-        'GPT-4.1-mini': {'fixed': '#1f77b4', 'variable': '#ff7f0e'},       # Blue/Orange
-        'Gemini-2.5-Flash': {'fixed': '#9467bd', 'variable': '#8c564b'},   # Purple/Brown
-        'Claude-3.5-Haiku': {'fixed': '#17becf', 'variable': '#e377c2'}    # Cyan/Pink
-    }
+    # Unified color scheme for all models (Green/Red)
+    colors = {'fixed': '#2ca02c', 'variable': '#d62728'}
 
-    # Create 4x4 grid (4 metrics x 4 models) - transposed layout
-    fig, axes = plt.subplots(4, 4, figsize=(20, 18), sharex=True)
+    # Create 3x4 grid (3 metrics x 4 models) - no Irrationality Index
+    fig, axes = plt.subplots(3, 4, figsize=(20, 14), sharex=True)
 
     for model_idx, model in enumerate(model_order):
         model_group = df[df['model'] == model]
@@ -186,8 +181,7 @@ def generate_comprehensive_model_chart(df: pd.DataFrame):
 
         effect_df = pd.DataFrame(records)
 
-        # Plot in the 4x4 grid (transposed: metrics as rows, models as columns)
-        colors = model_colors[model]  # Get colors for this specific model
+        # Plot in the 3x4 grid (metrics as rows, models as columns)
 
         for metric_idx, metric in enumerate(metrics):
             ax = axes[metric_idx, model_idx]  # Transposed indices
@@ -234,8 +228,6 @@ def generate_comprehensive_model_chart(df: pd.DataFrame):
                 ax.set_ylim(-200, 350)  # Current scale is sufficient
             elif metric == 'rounds_effect':
                 ax.set_ylim(-10, 18)  # Current scale is sufficient
-            elif metric == 'irrationality_effect':
-                ax.set_ylim(-0.10, 0.45)  # Gemini max: 0.395
 
             # Legend on all top row charts (each model has different colors)
             if metric_idx == 0:
@@ -248,8 +240,8 @@ def generate_comprehensive_model_chart(df: pd.DataFrame):
     fig.text(0.5, -0.02, 'Prompt Components', ha='center', fontsize=24, fontweight='bold')
 
     # Save comprehensive chart
-    png_path = OUTPUT_DIR / 'component_effects_all_models_4x4.png'
-    pdf_path = OUTPUT_DIR / 'component_effects_all_models_4x4.pdf'
+    png_path = OUTPUT_DIR / 'component_effects_all_models_3x4.png'
+    pdf_path = OUTPUT_DIR / 'component_effects_all_models_3x4.pdf'
 
     plt.savefig(png_path, dpi=300, bbox_inches='tight')
     plt.savefig(pdf_path, format='pdf', bbox_inches='tight')
@@ -266,7 +258,7 @@ def main():
     print(f"Loaded {len(df)} experiments from {df['model'].nunique()} models")
 
     print(f"Models found: {df['model'].unique().tolist()}")
-    print(f"\nGenerating comprehensive 4x4 model comparison chart...")
+    print(f"\nGenerating comprehensive 3x4 model comparison chart (no Irrationality Index)...")
 
     generate_comprehensive_model_chart(df)
 

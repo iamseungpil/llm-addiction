@@ -201,43 +201,44 @@ Choice: """
         sae = self.load_sae(target_layer)
 
         def patching_hook(module, input, output):
-            # Handle different output formats
+            """
+            Patch Block L OUTPUT (matches SAE training space)
+            SAE is trained on hidden_states[layer+1], which is Block L's OUTPUT
+            Based on working code from experiment_2_L1_31_top300.py
+            """
+            # Handle tuple output (hidden_states, ...) or tensor output
             if isinstance(output, tuple):
                 hidden_states = output[0]
                 rest_outputs = output[1:]
             else:
                 hidden_states = output
-                rest_outputs = ()
+                rest_outputs = None
 
-            # Safety check: ensure hidden_states is a tensor
-            if isinstance(hidden_states, tuple):
-                hidden_states = hidden_states[0]
+            original_dtype = hidden_states.dtype
 
+            # Extract last token only and patch (KEY FIX: only patch last token!)
             with torch.no_grad():
-                feature_acts = sae.encode(hidden_states.float())
+                # Get last position for generation - maintain shape
+                last_token = hidden_states[:, -1:, :].float()  # [batch, 1, 4096]
 
-                # Handle both full sequence and single token cases
-                if feature_acts.dim() == 3:
-                    # Full sequence: [batch, seq_len, n_features]
-                    feature_acts[0, -1, target_feature_id] = patch_value
-                elif feature_acts.dim() == 2:
-                    # Single token during generation: [batch, n_features]
-                    feature_acts[0, target_feature_id] = patch_value
-                else:
-                    raise ValueError(f"Unexpected feature_acts shape: {feature_acts.shape}")
+                # Encode with SAE
+                features = sae.encode(last_token)  # [batch, 1, 32768]
+
+                # Patch the target feature (single position only)
+                features[0, 0, target_feature_id] = float(patch_value)
 
                 # Decode back
-                patched_hidden = sae.decode(feature_acts)
+                patched_hidden = sae.decode(features)
 
-            # Return patched hidden states with proper dtype
-            patched_hidden = patched_hidden.to(hidden_states.dtype)
+                # Replace last position with dtype preservation
+                hidden_states = hidden_states.clone()
+                hidden_states[:, -1:, :] = patched_hidden.to(original_dtype)
 
-            if rest_outputs:
-                # Return tuple with rest_outputs if original output was a tuple
-                return (patched_hidden,) + rest_outputs
+            # Return in original format
+            if rest_outputs is not None:
+                return (hidden_states,) + rest_outputs
             else:
-                # Return tensor directly if original output was a tensor
-                return patched_hidden
+                return hidden_states
 
         # Register hook
         target_block = self.model.model.layers[target_layer]
@@ -259,6 +260,11 @@ Choice: """
                 response = self.tokenizer.decode(full_sequence, skip_special_tokens=True)
                 response = response[len(prompt):].strip()
 
+                # 2a. Extract generated token IDs and tokens (for Phase 4 word analysis)
+                prompt_len = inputs['input_ids'].shape[1]
+                generated_token_ids = full_sequence[prompt_len:].tolist()
+                generated_tokens = [self.tokenizer.decode([tid]) for tid in generated_token_ids]
+
                 # 3. Forward pass with FULL generated sequence
                 full_outputs = self.model(
                     input_ids=full_sequence.unsqueeze(0),
@@ -277,7 +283,7 @@ Choice: """
         finally:
             handle.remove()
 
-        return response, all_activations
+        return response, all_activations, generated_token_ids, generated_tokens
 
     def load_checkpoint(self, checkpoint_file: Path):
         """Load checkpoint to see which trials are already completed"""
@@ -369,7 +375,7 @@ Choice: """
                             continue
 
                         try:
-                            response, all_activations = self.generate_with_patching(
+                            response, all_activations, token_ids, tokens = self.generate_with_patching(
                                 prompt, target_layer, target_feature_id, patch_value
                             )
 
@@ -382,6 +388,8 @@ Choice: """
                                 'prompt_type': prompt_type,
                                 'trial': trial,
                                 'response': response,
+                                'generated_token_ids': token_ids,
+                                'generated_tokens': tokens,
                                 'all_features': all_activations
                             }
 
@@ -406,14 +414,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--gpu-id', type=int, required=True)
     parser.add_argument('--n-trials', type=int, default=30)
-    parser.add_argument('--top-n', type=int, default=2787, help="Number of top features to patch")
+    parser.add_argument('--top-n', type=int, default=2510, help="Number of top features to patch (REPARSED: 2510)")
     parser.add_argument('--offset', type=int, default=0, help="Feature offset for GPU distribution")
     parser.add_argument('--limit', type=int, default=None, help="Maximum features to process (for GPU distribution)")
     parser.add_argument('--checkpoint-interval', type=int, default=50, help="Save checkpoint every N trials")
+    parser.add_argument('--output-dir', type=str,
+                       default="/data/llm_addiction/experiment_pathway_token_analysis/results/phase1_patching_REPARSED",
+                       help="Output directory for results")
     parser.add_argument('--causal-features', type=str,
-                       default="/home/ubuntu/llm_addiction/experiment_pathway_token_analysis/causal_features_list.json")
+                       default="/home/ubuntu/llm_addiction/experiment_pathway_token_analysis/causal_features_list_REPARSED.json")
     parser.add_argument('--feature-means', type=str,
-                       default="/home/ubuntu/llm_addiction/experiment_pathway_token_analysis/feature_means_lookup.json")
+                       default="/home/ubuntu/llm_addiction/experiment_pathway_token_analysis/feature_means_lookup_REPARSED_FULL.json")
     args = parser.parse_args()
 
     LOGGER.info(f"=== Phase 1: Patching + Multi-Feature Extraction (WITH CHECKPOINT) ===")
@@ -423,7 +434,8 @@ def main():
     elif args.offset > 0:
         LOGGER.info(f"Processing features from offset {args.offset}")
 
-    output_dir = Path("/data/llm_addiction/experiment_pathway_token_analysis/results/phase1_patching_full")
+    output_dir = Path(args.output_dir)
+    LOGGER.info(f"Output directory: {output_dir}")
 
     extractor = PatchingMultiFeatureExtractor(
         gpu_id=args.gpu_id,

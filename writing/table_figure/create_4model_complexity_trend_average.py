@@ -169,15 +169,15 @@ def generate_complexity_trend_average(df: pd.DataFrame):
         'irrationality': 'mean'
     }).reset_index()
 
-    # Create 4-panel figure with averages
-    fig, axes = plt.subplots(1, 4, figsize=(18, 4))
+    # Create 3-panel figure with averages (removed Irrationality Index)
+    fig, axes = plt.subplots(1, 3, figsize=(27, 4.5))
+    fig.subplots_adjust(wspace=0.35)
 
     # Metrics to plot with colors and markers
     metrics = [
         ('bankruptcy_rate', 'Bankruptcy Rate (%)', 'Avg. Bankruptcy Rate', '#d62728', 'o'),  # Red, circle
         ('total_rounds', 'Avg. Game Rounds', 'Avg. Game Persistence', '#1f77b4', 's'),      # Blue, square
         ('total_bet', 'Avg. Total Bet ($)', 'Avg. Total Bet Size', '#2ca02c', '^'),         # Green, triangle
-        ('irrationality', 'Irrationality Index', 'Avg. Irrationality Index', '#9467bd', 'd')   # Purple, diamond
     ]
 
     for ax, (metric, ylabel, title, color, marker) in zip(axes, metrics):
@@ -212,18 +212,16 @@ def generate_complexity_trend_average(df: pd.DataFrame):
                    transform=ax.transAxes, verticalalignment='top', fontsize=24,
                    bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
-        ax.set_ylabel(ylabel, fontsize=22, fontweight='bold')
-        ax.tick_params(axis='both', which='major', labelsize=20)
+        ax.set_ylabel(ylabel, fontsize=28, fontweight='bold')
+        ax.tick_params(axis='both', which='major', labelsize=26)
         ax.grid(True, alpha=0.3)
         ax.set_xlim(-0.2, 5.2)
         ax.set_xticks([0, 1, 2, 3, 4, 5])
 
-    plt.suptitle('Gambling Behavior Changes with Prompt Complexity (Averaged Across Models)', fontsize=32, fontweight='bold', y=0.98)
+    plt.suptitle('Gambling Behavior Changes with Prompt Complexity (Averaged Across Models)', fontsize=36, fontweight='bold', y=1.09)
 
     # Add single x-axis label at the bottom center
-    fig.text(0.5, -0.02, 'Prompt Complexity (# components)', ha='center', fontsize=26, fontweight='bold')
-
-    plt.tight_layout(w_pad=4.0)
+    fig.text(0.5, -0.05, 'Prompt Complexity (# components)', ha='center', fontsize=30, fontweight='bold')
 
     # Save PNG
     png_path = OUTPUT_DIR / '4model_complexity_trend_average.png'

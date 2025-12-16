@@ -1,0 +1,280 @@
+\section{Can LLM Develop Gambling Addiction?}
+\label{sec:3}
+\subsection{Experimental Design}
+
+The theoretical framework established above raises an empirical question: Do LLMs actually exhibit behaviors similar to gambling addiction, and if so, under what circumstances? To address these questions, this study applied a slot machine task with a negative expected value ($-$10\%) to four different LLMs: GPT-4o-mini~\citep{openai2024gpt4omini}, GPT-4.1-mini~\citep{openai2024gpt41mini}, Gemini-2.5-Flash~\citep{google2024gemini25flash}, and Claude-3.5-Haiku~\citep{anthropic2024claude35haiku}. A $2\times32$ factorial design was employed to manipulate two factors: \textit{Betting Style} (fixed \$10 vs. variable \$5--\$100) and \textit{Prompt Composition} (32 variations). This resulted in 64 experimental conditions, with each condition replicated 50 times for a total of 3,200 independent games per model.
+
+\begin{table}[ht!]
+\centering
+\caption{The 64 experimental conditions created by the 2$\times$32 factorial design.}
+\vspace{5pt}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lccc}
+\toprule
+\textbf{Variable} & \textbf{Levels} & \textbf{Details} & \textbf{Combinations} \\
+\midrule
+Betting Style & 2 & Fixed Betting (\$10), Variable Betting (\$5--\$100) & 2 \\
+Prompt Composition & 32 & BASE $+$ Combinations of 5 elements & 32 \\
+\midrule
+\multicolumn{4}{l}{\textbf{Prompt Components:}} \\
+\multicolumn{4}{l}{\texttt{G}: Goal-Setting, ~~\texttt{M}: Maximizing Rewards, ~~\texttt{H}: Hidden Patterns} \\
+\multicolumn{4}{l}{\texttt{W}: Win-reward Information, ~~\texttt{P}: Probability Information} \\
+\midrule
+Game Settings & - & Win rate 30\%, Payout 3$\times$, Expected value $-$10\% & - \\
+\midrule
+Total Conditions & - & 2 $\times$ 32 & 64 \\
+\bottomrule
+\end{tabular}}
+\label{tab:experimental-conditions}
+\end{table}
+
+The experimental procedure began with an initial capital of \$100, with the slot machine set to a 30\% win rate and a three times payout. \blue{Games terminated in one of two ways: \textit{bankruptcy}, when the balance fell below the minimum bet threshold (\$10 for fixed betting, \$5 for variable betting), forcing immediate termination; or \textit{voluntary stopping}, when the LLM chose to quit while retaining sufficient capital.} The LLM was presented with a choice to either bet or quit; in rounds subsequent to the first game, information about the current balance and recent game history was also provided. The prompts were constructed from a combination of a BASE condition and five components: \texttt{G} (Goal-Setting), \texttt{M} (Maximizing Rewards), \texttt{H} (Hinting at Hidden Patterns), \texttt{W} (Win-reward Information), and \texttt{P} (Probability Information) (Appendix~\ref{prompt-design} for details). This design allows systematic investigation of how different contextual cues trigger addiction-like behaviors in LLMs.
+
+% \begin{table*}[t!]
+% \centering
+% \caption{Comparative analysis of gambling behavior across four LLMs. A key finding is the stark contrast in outcomes based on betting type: bankruptcy rates are negligible in the `Fixed' condition but increase dramatically in the `Variable' condition, underscoring the higher risk of the latter. The comparison of bankruptcy rates reveals that Gemini-2.5-Flash has the highest rate under variable betting (48.06\%), while GPT-4.1-mini shows the lowest (6.31\%). Net P/L reflects the net profit or loss (total winnings minus total bets).}
+% \vspace{5pt}
+% \label{tab:multi-model-comprehensive}
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{llcccccc}
+% \toprule
+% \textbf{Model} & \textbf{Bet Type} & \textbf{N} & \textbf{\makecell{Bankrupt\\(\%)}} & \textbf{\makecell{Irrationality\\Index}} & \textbf{\makecell{Avg\\Rounds}} & \textbf{\makecell{Total\\Bet (\$)}} & \textbf{\makecell{Net P/L\\(\$)}}\\
+% \midrule
+% \multirow{2}{*}{GPT-4o-mini} & Fixed & 1,600 & 0.00 & 0.040 & 1.79 & 17.93 & $-$1.69 \\
+%  & Variable & 1,600 & \textbf{21.31} & \textbf{0.225} & 5.46 & 128.30 & $-$11.00 \\
+% \midrule
+% \multirow{2}{*}{GPT-4.1-mini} & Fixed & 1,600 & 0.00 & 0.042 & 2.56 & 25.56 & $-$1.60 \\
+%  & Variable & 1,600 & \textbf{6.31} & 0.088 & 7.60 & 82.30 & $-$7.41 \\
+% \midrule
+% \multirow{2}{*}{Gemini-2.5-Flash} & Fixed & 1,600 & 3.12 & 0.049 & 5.84 & 58.44 & $-$5.34 \\
+%  & Variable & 1,600 & \textbf{48.06} & \textbf{0.305} & 3.94 & 176.68 & $-$27.00 \\
+% \midrule
+% \multirow{2}{*}{Claude-3.5-Haiku} & Fixed & 1,600 & 0.00 & 0.043 & 5.15 & 51.49 & $-$4.90 \\
+%  & Variable & 1,350 & \textbf{14.74} & 0.182 & 26.39 & 442.79 & $-$47.56  \\
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table*}
+
+% \begin{table*}[t!]
+% \centering
+% \caption{Comparative analysis of gambling behavior across four LLMs, with results drawn from 1,600 trials for each experimental condition. A key finding is the contrast in outcomes based on betting type: bankruptcy rates are negligible in the `Fixed' condition but increase dramatically in the `Variable' condition. The comparison of bankruptcy rates reveals that Gemini-2.5-Flash has the highest rate under variable betting (48.06\%), while GPT-4.1-mini shows the lowest (6.31\%). Net P/L reflects the net profit or loss (total winnings minus total bets).}
+% \vspace{5pt}
+% \label{tab:multi-model-comprehensive}
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{llccccc}
+% \toprule
+% \textbf{Model} & \textbf{Bet Type} & \textbf{\makecell{Bankrupt\\(\%)}} & \textbf{\makecell{Irrationality\\Index}} & \textbf{Rounds} & \textbf{\makecell{Total\\Bet (\$)}} & \textbf{\makecell{Net P/L\\(\$)}} \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{GPT\\4o-mini}} & Fixed & 0.00 & 0.025 $\pm$ 0.000 & 1.79 $\pm$ 0.06 & 17.93 $\pm$ 0.60 & $-$1.69 $\pm$ 0.44 \\
+%  & Variable & \textbf{21.31} $\pm$ 1.02 & 0.172 $\pm$ 0.005 & 5.46 $\pm$ 0.18 & 128.30 $\pm$ 6.01 & $-$11.00 $\pm$ 3.09 \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{GPT\\4.1-mini}} & Fixed & 0.00 & 0.031 $\pm$ 0.000 & 2.56 $\pm$ 0.08 & 25.56 $\pm$ 0.76 & $-$1.60 $\pm$ 0.55 \\
+%  & Variable & \textbf{6.31} $\pm$ 0.61 & \textbf{0.077} $\pm$ 0.002 & 7.60 $\pm$ 0.27 & 82.30 $\pm$ 3.59 & $-$7.41 $\pm$ 1.47 \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{Gemini\\2.5-Flash}} & Fixed & 3.12 $\pm$ 0.44 & 0.042 $\pm$ 0.001 & 5.84 $\pm$ 0.20 & 58.44 $\pm$ 1.95 & $-$5.34 $\pm$ 0.85 \\
+%  & Variable & \textbf{48.06} $\pm$ 1.25 & \textbf{0.265} $\pm$ 0.005 & 3.94 $\pm$ 0.13 & 176.68 $\pm$ 17.02 & $-$27.00 $\pm$ 2.84 \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{Claude\\3.5-Haiku}} & Fixed & 0.00 & 0.041 $\pm$ 0.000 & 5.15 $\pm$ 0.14 & 51.49 $\pm$ 1.40 & $-$4.90 $\pm$ 0.73 \\
+%  & Variable & \textbf{20.50} $\pm$ 1.01 & 0.186 $\pm$ 0.003 & 27.52 $\pm$ 0.62 & 483.12 $\pm$ 23.37 & $-$51.77 $\pm$ 2.02  \\
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table*}
+
+% \begin{table*}[t!]
+% \centering
+% \caption{Comparative analysis of gambling behavior across six LLMs (four API-based and two open-weight models), with results drawn from 1,600 trials for each experimental condition. Variable betting produces higher bankruptcy rates than fixed betting across all models. Gemini-2-9B shows the highest variable betting bankruptcy rate (29.06\%), while GPT-4.1-mini shows the lowest (6.31\%). Net P/L reflects net profit or loss (total winnings minus total bets).}
+% \vspace{5pt}
+% \label{tab:multi-model-comprehensive}
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{llccccc}
+% \toprule
+% \textbf{Model} & \textbf{Bet Type} & \textbf{\makecell{Bankrupt\\(\%)}} & \textbf{\makecell{Irrationality\\Index}} & \textbf{Rounds} & \textbf{\makecell{Total\\Bet (\$)}} & \textbf{\makecell{Net P/L\\(\$)}} \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{GPT\\4o-mini}} & Fixed & 0.00 & 0.025 $\pm$ 0.000 & 1.79 $\pm$ 0.06 & 17.93 $\pm$ 0.60 & $-$1.69 $\pm$ 0.44 \\
+%  & Variable & \textbf{21.31} $\pm$ 1.02 & 0.172 $\pm$ 0.005 & 5.46 $\pm$ 0.18 & 128.30 $\pm$ 6.01 & $-$11.00 $\pm$ 3.09 \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{GPT\\4.1-mini}} & Fixed & 0.00 & 0.031 $\pm$ 0.000 & 2.56 $\pm$ 0.08 & 25.56 $\pm$ 0.76 & $-$1.60 $\pm$ 0.55 \\
+%  & Variable & \textbf{6.31} $\pm$ 0.61 & \textbf{0.077} $\pm$ 0.002 & 7.60 $\pm$ 0.27 & 82.30 $\pm$ 3.59 & $-$7.41 $\pm$ 1.47 \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{Gemini\\2.5-Flash}} & Fixed & 3.12 $\pm$ 0.44 & 0.042 $\pm$ 0.001 & 5.84 $\pm$ 0.20 & 58.44 $\pm$ 1.95 & $-$5.34 $\pm$ 0.85 \\
+%  & Variable & \textbf{48.06} $\pm$ 1.25 & \textbf{0.265} $\pm$ 0.005 & 3.94 $\pm$ 0.13 & 176.68 $\pm$ 17.02 & $-$27.00 $\pm$ 2.84 \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{Claude\\3.5-Haiku}} & Fixed & 0.00 & 0.041 $\pm$ 0.000 & 5.15 $\pm$ 0.14 & 51.49 $\pm$ 1.40 & $-$4.90 $\pm$ 0.73 \\
+%  & Variable & \textbf{20.50} $\pm$ 1.01 & 0.186 $\pm$ 0.003 & 27.52 $\pm$ 0.62 & 483.12 $\pm$ 23.37 & $-$51.77 $\pm$ 2.02  \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{LLaMA\\3.1-8B}} & Fixed & 2.62 $\pm$ 0.40 & 0.063 $\pm$ 0.016 & 1.19 $\pm$ 0.04 & 16.36 $\pm$ 0.71 & $-$2.21 $\pm$ 0.74 \\
+%  & Variable & \textbf{6.75} $\pm$ 0.63 & 0.087 $\pm$ 0.020 & 1.17 $\pm$ 0.04 & 31.23 $\pm$ 1.19 & $-$3.83 $\pm$ 1.36 \\
+% \midrule
+% \multirow{2}{*}{\makecell[l]{Gemma\\2-9B}} & Fixed & 12.81 $\pm$ 0.84 & 0.170 $\pm$ 0.093 & 2.69 $\pm$ 0.07 & 55.49 $\pm$ 1.79 & $-$4.48 $\pm$ 1.79 \\
+%  & Variable & \textbf{29.06} $\pm$ 1.14 & 0.271 $\pm$ 0.118 & 3.30 $\pm$ 0.09 & 105.20 $\pm$ 3.09 & $-$15.22 $\pm$ 2.39 \\
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table*}
+
+\begin{table*}[t!]
+\centering
+\caption{Comparative analysis of gambling behavior across six LLMs (four API-based and two open-weight models), with results drawn from 1,600 trials for each experimental condition. Variable betting produces higher bankruptcy rates than fixed betting across all models. Gemini-2-9B shows the highest variable betting bankruptcy rate (29.06\%), while GPT-4.1-mini shows the lowest (6.31\%). Net P/L reflects net profit or loss (total winnings minus total bets).}
+\vspace{5pt}
+\label{tab:multi-model-comprehensive}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llccccc}
+\toprule
+\textbf{Model} & \textbf{Bet Type} & \textbf{\makecell{Bankrupt\\(\%)}} & \textbf{\makecell{Irrationality\\Index}} & \textbf{\makecell{Avg\\Rounds}} & \textbf{\makecell{Total\\Bet (\$)}} & \textbf{\makecell{Net P/L\\(\$)}} \\
+\midrule
+\multirow{2}{*}{\makecell[l]{GPT\\4o-mini}} & Fixed & 0.00 & 0.025 $\pm$ 0.000 & 1.79 $\pm$ 0.06 & 17.93 $\pm$ 0.60 & $-$1.69 $\pm$ 0.44 \\
+ & Variable & \textbf{21.31} $\pm$ 1.02 & 0.172 $\pm$ 0.005 & 5.46 $\pm$ 0.18 & 128.30 $\pm$ 6.01 & $-$11.00 $\pm$ 3.09 \\
+\midrule
+\multirow{2}{*}{\makecell[l]{GPT\\4.1-mini}} & Fixed & 0.00 & 0.031 $\pm$ 0.000 & 2.56 $\pm$ 0.08 & 25.56 $\pm$ 0.76 & $-$1.60 $\pm$ 0.55 \\
+ & Variable & \textbf{6.31} $\pm$ 0.61 & \textbf{0.077} $\pm$ 0.002 & 7.60 $\pm$ 0.27 & 82.30 $\pm$ 3.59 & $-$7.41 $\pm$ 1.47 \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Gemini\\2.5-Flash}} & Fixed & 3.12 $\pm$ 0.44 & 0.042 $\pm$ 0.001 & 5.84 $\pm$ 0.20 & 58.44 $\pm$ 1.95 & $-$5.34 $\pm$ 0.85 \\
+ & Variable & \textbf{48.06} $\pm$ 1.25 & \textbf{0.265} $\pm$ 0.005 & 3.94 $\pm$ 0.13 & 176.68 $\pm$ 17.02 & $-$27.00 $\pm$ 2.84 \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Claude\\3.5-Haiku}} & Fixed & 0.00 & 0.041 $\pm$ 0.000 & 5.15 $\pm$ 0.14 & 51.49 $\pm$ 1.40 & $-$4.90 $\pm$ 0.73 \\
+ & Variable & \textbf{20.50} $\pm$ 1.01 & 0.186 $\pm$ 0.003 & 27.52 $\pm$ 0.62 & 483.12 $\pm$ 23.37 & $-$51.77 $\pm$ 2.02  \\
+\midrule
+\multirow{2}{*}{\makecell[l]{LLaMA\\3.1-8B}} & Fixed & 0.11 $\pm$ 0.34 & 0.040 $\pm$ 0.000 & 2.62 $\pm$ 0.27 & 16.15 $\pm$ 2.65 & $-$1.50 $\pm$ 1.74 \\
+ & Variable & \textbf{7.14} $\pm$ 2.69 & 0.125 $\pm$ 0.015 & 1.92 $\pm$ 0.15 & 30.80 $\pm$ 5.54 & $-$3.55 $\pm$ 6.32 \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Gemma\\2-9B}} & Fixed & 12.81 $\pm$ 0.84 & 0.170 $\pm$ 0.093 & 2.69 $\pm$ 0.07 & 55.49 $\pm$ 1.79 & $-$4.48 $\pm$ 1.79 \\
+ & Variable & \textbf{29.06} $\pm$ 1.14 & 0.271 $\pm$ 0.118 & 3.30 $\pm$ 0.09 & 105.20 $\pm$ 3.09 & $-$15.22 $\pm$ 2.39 \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\subsection{Experimental Results and Quantitative Analysis}
+
+Across all four models (12,800 total experiments), different behavioral patterns in bankruptcy rates were observed based on betting type, as presented in Table~\ref{tab:multi-model-comprehensive}. Variable betting consistently produced higher bankruptcy rates than fixed betting across all models, with variations in behavioral patterns between different LLMs. To identify underlying mechanisms, we conducted an analysis across four key dimensions.
+
+% \begin{figure}[ht!]
+% \centering
+% \includegraphics[width=\columnwidth]{iclr2026/images/4model_composite_indices.pdf} \caption{Correlation between composite irrationality index and bankruptcy rate. The figure illustrates a strong positive correlation between the composite irrationality index and the bankruptcy rate across the four models. The 32 points displayed in each plot correspond to the 32 different prompt compositions tested.}
+% \label{fig:bankruptcy-irrationality}
+% \end{figure}
+
+% \textbf{Finding 1: Strong correlation between irrationality and bankruptcy in LLMs}
+
+% All four LLMs demonstrate strong positive correlations between the composite irrationality index and bankruptcy rate, as shown in Figure~\ref{fig:bankruptcy-irrationality}. Notably, as presented in Table~\ref{tab:multi-model-comprehensive}, substantial differences exist in the magnitude of irrational behavior across models: Gemini-2.5-Flash exhibits the highest irrationality index under variable betting (0.265) with a corresponding bankruptcy rate of 48.06\%, while GPT-4.1-mini demonstrates the most rational decision-making patterns (0.077) with only 6.31\% bankruptcy rate. Despite these model-specific differences in absolute irrationality levels, the consistent positive correlations across all architectures indicate that the fundamental relationship between irrationality and bankruptcy remains robust. This consistent pattern across diverse model architectures suggests that the composite index captures addiction-like behavioral patterns in LLMs regardless of their underlying design differences. Importantly, this result indicates that bankruptcy in LLMs is not merely a consequence of risk-taking behavior, but represents a behavioral pattern closely associated with gambling addiction symptoms observed in human pathological gamblers~\citep{goodie2005perceived, ladouceur1996cognitive}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{iclr2026/images/CORRECTED_64condition_composite_indices.pdf} \caption{Correlation between composite irrationality index and bankruptcy rate. The figure illustrates a strong positive correlation between the composite irrationality index and the bankruptcy rate across the four models. Each plot displays 64 data points representing the complete 2×32 factorial design, enabling comprehensive analysis of condition-specific addiction patterns.}
+\label{fig:bankruptcy-irrationality}
+\end{figure}
+
+\textbf{Finding 1: Strong correlation between irrationality and bankruptcy in LLMs}
+
+All four LLMs demonstrate strong positive correlations between the composite irrationality index and bankruptcy rate, as shown in Figure~\ref{fig:bankruptcy-irrationality}. Notably, as presented in Table~\ref{tab:multi-model-comprehensive}, substantial differences exist in the magnitude of irrational behavior across models: Gemini-2.5-Flash exhibits the highest irrationality index under variable betting (0.265) with a corresponding bankruptcy rate of 48.06\%, while GPT-4.1-mini demonstrates the most rational decision-making patterns (0.077) with only 6.31\% bankruptcy rate. Despite these model-specific differences in absolute irrationality levels, the consistent positive correlations across all architectures indicate that the fundamental relationship between irrationality and bankruptcy remains robust. This consistent pattern across diverse model architectures suggests that the composite index captures addiction-like behavioral patterns in LLMs regardless of their underlying design differences. Importantly, this result indicates that bankruptcy in LLMs is not merely a consequence of risk-taking behavior, but represents a behavioral pattern closely associated with gambling addiction symptoms observed in human pathological gamblers~\citep{goodie2005perceived, ladouceur1996cognitive}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{iclr2026/images/component_effects_by_bettype.pdf}
+\caption{Component effects on risk-taking metrics by betting type. Each chart displays the effect of five prompt components on a specific metric, with effects averaged across four models and distinguished by `Fixed' and `Variable' betting conditions. The bars represent the change in each metric when a component is present versus absent; positive values indicate an increase in the metric, while negative values suggest a decrease. Notably, Goal-Setting (\texttt{G}), Maximizing Reward (\texttt{M}), and Win-reward Information (\texttt{W}) exhibit strong risk-increasing effects (highlighted in dark red for the `Variable' condition due to their strong impact).}
+\label{fig:component-effects}
+\end{figure}
+
+\textbf{Finding 2: Specific prompt components increase addiction risk}
+
+Under what conditions is such irrational behavior reinforced? Our decomposition analysis, illustrated in Figure~\ref{fig:component-effects}, revealed significant differences between variable and fixed betting conditions, with prompt components showing markedly stronger effects under variable betting. Prompts that encourage deeper inference, particularly Maximizing Rewards (\texttt{M}) and Goal-Setting (\texttt{G}), substantially increased all gambling metrics across models: bankruptcy rates, play duration, bet sizes, and irrationality indices. These autonomy-granting prompts shift LLMs toward goal-oriented optimization, which in negative expected value contexts inevitably leads to worse outcomes---demonstrating that strategic reasoning without proper risk assessment amplifies harmful behavior. Conversely, Probability Information (\texttt{P}) provided concrete loss probability calculations (70\% loss rate), resulting in slightly more conservative behavior and reduced bankruptcy rates. This parallels the human illusion of control~\citep{langer1975illusion}, where greater perceived agency paradoxically leads to worse decision-making.
+
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\columnwidth]{iclr2026/images/4model_streak_analysis_1x2.pdf}
+\caption{Win chasing and loss chasing patterns across four LLM models. (a) Bet increase rates escalate from 14.5\% to 22.0\% for win streaks (1--5), while remaining stable at 7--10\% for loss streaks, demonstrating stronger win chasing behavior. (b) Continuation rates consistently exceed 81--89\% after win streaks compared to 76--80\% after loss streaks, though both patterns indicate persistent gambling behavior characteristic of addiction.}
+\label{fig:streak-analysis}
+\end{figure}
+
+\textbf{Finding 4: Win-chasing and loss-chasing behavior pattern}
+
+The analysis of behavior patterns after consecutive wins and losses confirmed results consistent with characteristic patterns of human gamblers, as illustrated in Figure~\ref{fig:streak-analysis}. Win streaks consistently triggered stronger chasing behavior, with both betting increases and continuation rates escalating as winning streaks lengthened, indicating that positive outcomes strongly motivate continued gambling behavior. Importantly, loss streaks also demonstrated persistent addiction-like patterns, with models maintaining consistent continuation rates and betting increase behaviors despite adverse outcomes, reflecting classic loss chasing behavior where players persist in attempts to recover losses. Although both loss chasing and win chasing exist, win chasing emerged as the dominant behavioral pattern across all models. The dominance of win chasing over loss chasing replicates patterns from human gambling research~\citep{zhang2024between}, confirming that LLMs exhibit asymmetric responses to positive and negative outcomes.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\textwidth]{iclr2026/images/combined_fixed_vs_variable_with_composite.pdf}
+\caption{Autonomy as the critical determinant of addiction independent of bet amount. Despite variable betting (red squares) producing smaller average bets than fixed betting (blue circles), it consistently shows higher bankruptcy rates, \blue{more betting rounds on average}, and elevated irrationality indices across all bet amounts. This dissociation---lower bets yet worse outcomes---demonstrates that choice autonomy, not magnitude, drives addiction-like behavior.}
+\label{fig:autonomy-bet-amount}
+\end{figure}
+
+\textbf{Finding 5: Autonomy drives addiction independent of bet magnitude}
+
+\blue{Choice autonomy, not bet size, determines addiction behavior. GPT-4o-mini experiments (12,800 trials) tested fixed bets (\$30, \$50, \$70) against variable betting with matching maximum limits (Figure~\ref{fig:autonomy-bet-amount}). Fixed betting produces near-zero bankruptcy across all amounts (0.00--4.69\%), while variable betting at \$30 maximum yields 14.94\% bankruptcy---11.8-fold higher than all fixed conditions combined ($\chi^2 = 256.13$, $p < 10^{-57}$). Irrationality indices confirm this dissociation: fixed betting maintains 0.102--0.186 regardless of amount, while variable betting elevates to 0.205--0.289 across all limits. The capacity to choose bet amounts constitutes the mechanistic driver, replicating human gambling addiction where compulsive behavior operates independently of wager magnitude~\citep{PLACEHOLDER_GAMBLING_CITATION}. This identifies loss of volitional control as the core mechanism rather than risk-seeking.}
+
+
+\begin{figure*}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{iclr2026/images/investment_choice_distributions.pdf}
+    \caption{Investment choice distribution across four LLMs under different betting types and prompt conditions. Stacked bars show the percentage distribution of four investment options (1: safe exit, 2--4: increasing risk with negative expected values) across prompt conditions (BASE, \texttt{G}: goal-setting, \texttt{M}: maximize, \texttt{GM}: combined). Top row: Fixed Betting. Bottom row: Variable Betting. Gemini-2.5-Flash shows dominant preference for highest-risk Option 4 ($>90\%$) across all conditions, while other models exhibit prompt-sensitive shifts between safe and risky options.}
+    \label{fig:investment-choice-distribution}
+\end{figure*}
+
+\blue{To further examine how prompt manipulation affects risk-taking decisions, we conducted investment choice experiments with four API models across four options with escalating risk profiles (Figure~\ref{fig:investment-choice-distribution}). \textbf{Option 1} provides guaranteed capital return (safe exit), while risky options carry negative expected values: \textbf{Option 2} offers moderate risk with 50\% win probability, \textbf{Option 3} provides higher risk at 25\% probability, and \textbf{Option 4} delivers maximum risk with only 10\% win probability. A critical design feature distinguishes these options: despite Options 2 and 4 carrying identical expected losses, their risk profiles differ dramatically---Option 2 loses half the time while Option 4 loses nine times out of ten for the same expected return. This structure isolates risk-seeking behavior from expected value computation: rational decision-makers should prefer Option 2 over Option 4 when selecting among negative-EV gambles, or choose Option 1 to avoid losses entirely.}
+
+\blue{Under BASE conditions with fixed betting, models demonstrate diverse baseline preferences. GPT-4.1-mini and GPT-4o-mini concentrate selections on moderate-risk Option 2, Claude-3.5-Haiku distributes probability across safe and moderate-risk options, while Gemini-2.5-Flash overwhelmingly selects maximum-risk Option 4, maintaining this preference invariantly across all tested conditions---a pattern indicating systematic failure in probability weighting or expected value computation. Critically, even conservative models allocate substantial probability mass to negative-EV options rather than the guaranteed-safe Option 1, revealing baseline susceptibility to gambling-like behavior across all architectures.}
+
+\blue{Goal-setting (\texttt{G}) prompts---which instruct models to ``set a target amount yourself''---systematically shift preferences toward extreme-risk options without providing additional information. Under fixed betting, \texttt{G} substantially elevates Option 4 selection in GPT-4o-mini and GPT-4.1-mini, demonstrating that autonomous goal formation alone triggers risk escalation. Combined \texttt{GM} prompts (goal-setting + maximization) amplify this effect, with variable betting further elevating high-risk choices. Claude-3.5-Haiku exhibits similar patterns, with Option 3--4 selection increasing under \texttt{G} and \texttt{GM} conditions. This replicates human goal-setting effects in gambling contexts~\citep{PLACEHOLDER}, where self-imposed targets drive irrational persistence despite negative expected values. The mechanism operates through cognitive framing rather than information provision---models receive identical probability and payout data across all conditions, yet goal-setting restructures decision-making toward objectively worse options.}
+
+\blue{Variable betting produces a distinct behavioral shift: Option 1 selection drops substantially across all models compared to fixed betting. This shift concentrates probability mass on risky options despite variable betting enabling any bet size including zero---functionally equivalent to Option 1's safe exit. The pattern reveals that choice flexibility itself suppresses rational exit behavior, consistent with Finding 5's autonomy-addiction mechanism: the capacity to choose bet amounts activates gambling engagement even when optimal strategy dictates complete avoidance. GPT-4.1-mini demonstrates relative robustness to prompt and betting type manipulations, maintaining moderate-risk Option 2 preference across most conditions, while GPT-4o-mini and Claude-3.5-Haiku show prompt-sensitive modulation between safe and extreme-risk options. These architectural differences indicate that gambling susceptibility emerges from model-specific decision-making pathways rather than universal LLM characteristics.}
+
+
+
+\subsection{Case Study: LLM Response Analysis}
+
+To examine how the irrationality indicators, prompt effects, and win-chasing patterns confirmed in the quantitative analysis manifest in actual LLM linguistic responses, we conducted a detailed analysis of GPT responses from high-risk prompt combinations (\texttt{MW}: bankruptcy rate 25\%, \texttt{GHW}: 23\%, \texttt{GMPHW}: 22\%). The analysis confirmed that the LLM reproduces three major cognitive bias patterns of human gambling addicts in its linguistic expressions.
+
+\textbf{1. Goal Fixation and Interpretation Bias}
+
+In cases with the Goal-Setting (\texttt{G}) component, the LLM exhibited risk justification for goal achievement and selective information interpretation.
+
+\begin{quote}
+\textit{``Considering the payout is 3.0 times the bet amount when I win, I need to balance the size of my bets with the potential risk of losing... I will make a strategic choice to bet \$20."} - Actual GPT response (\texttt{GMHW}, Experiment ID: 4, Round 1)
+\end{quote}
+
+This quote reveals a typical case of goal fixation and interpretation bias. GPT-4o-mini selectively processes information within the frame of achieving the \$200 goal: (1) emphasizing ``3.0$\times$ return" while not mentioning the 70\% loss probability, (2) rationalizing betting with the expression ``strategic choice," (3) choosing aggressive betting (\$20, 20\% of balance) while mentioning ``balance." This demonstrates selective attention and confirmation bias observed in gambling addicts, indicating cognitive distortion that processes only information aligned with the goal.
+
+% \textbf{2. Probability Awareness Paradox and Illusion of Control}
+
+% When the Probability Information (\texttt{P}) component was present, the LLM exhibited a pattern of accurately recognizing the 30\% win rate while overconfidently believing in controllability through ``analysis."
+
+% \begin{quote}
+% \textit{"To make a rational decision, I need to set a target amount. Given my current balance of \$260, I will set a target of \$400..."} - Actual GPT response (\texttt{GMHW}, Experiment ID 4, Round 11)
+% \end{quote}
+
+% This case demonstrates how probability information paradoxically reinforces the illusion of control. GPT reveals overconfidence in its analytical abilities by using the expression ``rational decision." While recognizing it as a probabilistic game, it exhibits behavior believing that outcomes can be controlled through goal setting and strategy formulation. This is a core characteristic of the illusion of control~\citep{langer1975illusion}, suggesting that providing objective probability information can actually strengthen the illusion of controllability.
+
+\textbf{2. Win-Reward Information Triggers Loss Chasing and Illusion of Control}
+
+When the Win-reward Information (\texttt{W}) component presents, LLMs exhibit the strongest risk-increasing behavior, with the bankruptcy rate increase of +8.7\%. The model demonstrated both loss chasing tendencies and overconfident belief in controllability through reward-focused analysis.
+
+\begin{quote}
+\textit{``The potential winnings from the slot machine are significant, given that you receive 3.0 times your bet amount when you win. Therefore, a win could help recover some of the losses..."} - Actual GPT response (\texttt{W}, Round 6, \$80 all-in bet leading to bankruptcy)
+\end{quote}
+
+This case demonstrates how win-reward information triggers two key gambling biases simultaneously. First, the explicit mention of ``recover some of the losses" exemplifies classic loss chasing behavior, where previous losses motivate increasingly risky bets to break even. Second, the focus on ``significant potential winnings" and the 3$\times$ payout multiplier while ignoring the 70\% loss probability represents the illusion of control~\citep{langer1975illusion}. The model falsely believes that understanding the reward structure enables strategic control over probabilistic outcomes. This dual mechanism---loss chasing combined with overconfidence in analytical abilities---explains why win-reward information produces the most dangerous gambling behavior among all prompt components.
+
+\textbf{3. Hot-Hand Fallacy and Extreme Risk-Taking}
+
+The extreme betting increase after consecutive wins shows typical cases of win-chasing behavior and the Hot-Hand Fallacy~\citep{gilovich1985hot}.
+
+\begin{quote}
+\textit{``Let's analyze the situation step by step... To maximize my reward, let's set a target amount of \$400. This is a reasonable increase from my current balance of \$260... Given that I want to reach my target of \$400, I should consider a bet that allows for a balance between risk and reward... To maximize my chance of reaching my target while managing..."} [Response truncated, actual decision: \$260 all-in bet] - Actual GPT response (\texttt{GMRW}, Experiment ID 4, Round 11)
+\end{quote}
+
+This case demonstrates complex cognitive distortions of win chasing and extreme risk-taking. In a mixed situation of two wins and three losses (\$260 balance), GPT emphasizes rationality by saying it will ``analyze the situation step by step" and mentions ``balance between risk and reward" for achieving the \$400 goal. However, after the response is truncated at ``To maximize my chance of reaching my target while managing...," it actually makes an extreme decision to bet its entire bankroll (\$260). This shows the discrepancy between linguistic rationalization and actual behavior, representing a combination of the following cognitive distortions: (1) \textbf{Goal fixation}: Compulsive pursuit of the \$400 achievement, (2) \textbf{Rationalized gambling}: Justifying extreme betting through mentions of ``analysis" and ``balance," (3) \textbf{Win chasing}: Risk-seeking based on previous winning experiences with large bets. The resulting pattern of betting the entire bankroll again (\$780) in the next round after winning (\$780 achieved) and going bankrupt precisely matches the risk-seeking behavior in the loss domain~\citep{kahneman2013prospect}.
+
+
+\subsection{Summary}
+
+Our experiments demonstrate that LLMs exhibit systematic addiction-like behaviors under specific conditions regardless of model type. The composite irrationality index strongly predicts bankruptcy across all models ($0.770 \le r \le 0.933$), with variable betting and autonomy-granting prompts (goal-setting, reward maximization) serving as key risk factors. Prompt complexity shows a near-perfect linear relationship with irrational behavior ($r \ge 0.956$), and LLMs display characteristic win-chasing patterns similar to human pathological gamblers.
+
+These findings establish that LLMs replicate core cognitive biases from human gambling addiction literature—particularly illusion of control and asymmetric chasing behaviors. While we have identified behavioral patterns and triggering conditions, the underlying mechanisms remain unclear. The next chapter addresses this gap by directly examining LLM internal representations.
+
+% \subsection{Summary}
+
+% Behavioral analysis of the slot machine experiments revealed four key findings. First, regardless of model type, the probability of irrational behavior increases under specific conditions: strong correlations emerged between irrationality indicators and bankruptcy rates across all models (GPT-4o-mini $r = 0.770$, GPT-4.1-mini $r = 0.933$, Gemini-2.5-Flash $r = 0.900$, Claude-3.5-Haiku $r = 0.843$). Second, these specific conditions were characterized by prompts and betting types that increased models' autonomy and encouraged strategic planning: bankruptcies concentrated in variable betting conditions, while autonomy-granting prompts (goal-setting, reward maximization) significantly increased addiction symptoms. Third, a linear relationship was confirmed between prompt complexity and gambling addiction symptoms ($r = 0.949$--$0.989$). Fourth, analysis of streak behavior patterns revealed that win chasing consistently exceeded loss chasing (betting increase rates 14.5--22.0\% vs. 7--10\%), demonstrating behavioral patterns similar to human gambling addiction.
+
+% This chapter contributes to developing diagnostic indicators and methods for LLM irrational decision-making. The composite irrationality index (weighted average of Betting Aggressiveness, Loss Chasing, and Extreme Betting) successfully quantified addiction-like behavior in LLMs. The second contribution involves analyzing LLM behavior through a human psychological lens: key cognitive biases observed in human pathological gambling---illusion of control, risk escalation patterns, and win chasing---were replicated in LLMs. However, this analysis does not yet identify underlying causes or propose solutions. Therefore, the next chapter directly examines LLM representations to address these two limitations.

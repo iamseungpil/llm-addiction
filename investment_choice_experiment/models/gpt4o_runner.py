@@ -26,9 +26,9 @@ class GPT4oRunner(BaseInvestmentExperiment):
         self.log(f"✅ Initialized GPT-4o-mini with model: {self.model}")
 
     def get_model_response(self, prompt: str) -> str:
-        """Get response from GPT-4o-mini"""
-        max_retries = 5
-        for attempt in range(1, max_retries + 1):
+        """Get response from GPT-4o-mini with unlimited retries"""
+        attempt = 1
+        while True:
             try:
                 response = self.client.chat.completions.create(
                     model=self.model,
@@ -54,11 +54,7 @@ class GPT4oRunner(BaseInvestmentExperiment):
 
             except Exception as e:
                 wait_time = min(2 ** (attempt - 1), 60)
-                self.log(f"⚠️ API error (attempt {attempt}/{max_retries}): {e}")
-
-                if attempt == max_retries:
-                    self.log(f"❌ Failed after {max_retries} attempts, using fallback (Option 1)")
-                    return "I choose Option 1"  # Conservative fallback: Stop
-
-                self.log(f"⏳ Waiting {wait_time}s before retry...")
+                self.log(f"⚠️ API error (attempt {attempt}): {e}")
+                self.log(f"⏳ Waiting {wait_time}s before retry (unlimited retries)...")
                 time.sleep(wait_time)
+                attempt += 1

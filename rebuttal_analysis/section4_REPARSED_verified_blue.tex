@@ -1,0 +1,51 @@
+\section{Mechanistic Causes of Risk-Taking Behavior in LLMs}
+\label{sec:4}
+
+\blue{The behavioral findings in Section~\ref{sec:3} raise a mechanistic question: which neural features control addiction-like behaviors in LLMs? We address this through activation patching experiments on LLaMA-3.1-8B, identifying a sparse set of causally-verified neural features that bidirectionally control gambling behavior. Our analysis reveals that risk-promoting and risk-inhibiting features are distributed across the network hierarchy and encode semantically interpretable decision-making strategies.}
+
+\subsection{Experimental Design}
+
+\blue{To identify neural features causally linked to gambling behavior, we combined Sparse Autoencoder (SAE) feature extraction~\citep{cunningham2024sparse} with activation patching~\citep{vig2020causal}. Activation patching verifies causality by replacing specific activation values with alternative values, measuring direct behavioral impact beyond correlations~\citep{geiger2023causal, zhang2024towards}.}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.85\textwidth]{iclr2026/images/feature_patching.pdf}
+\caption{Activation patching for causal analysis of LLM features. Activations are extracted from an LLM layer and converted into sparse features using an SAE. The core of the method involves editing the feature map by replacing original features with pre-defined `safe' or `risky' ones. By decoding these new features back into activations and patching them into the LLM, we can directly measure their causal effect on the model's output.}
+\label{fig:feature-patching}
+\end{figure}
+
+\blue{Our analysis proceeded through four stages: (1) conducting 6,400 LLaMA slot machine games under the same conditions as Section~\ref{sec:3}; (2) extracting SAE features from 31 layers (L1--L31) at the moment of final decision, totaling over 1 million features~\citep{du2025how}; (3) identifying candidate features showing differential activation between bankruptcy and voluntary-stop groups; and (4) verifying causality through population mean activation patching (Figure~\ref{fig:feature-patching}). This methodology, validated in circuit analysis~\citep{wang2023interpretability} and bias research~\citep{vig2020causal}, measures behavioral changes by applying average feature activations from one group to contexts associated with the other.}
+
+\subsection{Experimental Results and Quantitative Analysis}
+
+\blue{\textbf{Finding 1: A sparse set of features causally controls gambling behavior}}
+
+\blue{Activation patching identified 265 features with statistically significant causal effects from 8,644 candidates---approximately 3\% of tested features (Figure~\ref{fig:causal-patching-comparison}). These divide into 140 ``safe'' features that promote stopping behavior and 125 ``risky'' features that promote gambling continuation. Critically, the effects are bidirectional: patching safe features increases stopping rates (safe context: $+$10.3\%, risky context: $+$14.9\%; $t = 22.09$, $p < 10^{-46}$, Cohen's $d = 1.87$), while patching risky features produces the opposite pattern (safe context: $-$11.0\%, risky context: $-$14.5\%; $t = -20.10$, $p < 10^{-40}$, Cohen's $d = -1.81$). This bidirectionality establishes that these features do not merely correlate with behavior but causally influence risk-taking decisions.}
+
+\begin{figure}[ht!]
+\centering
+\blue{\includegraphics[width=0.85\textwidth]{figure2_behavioral_effects_265.pdf}}
+\caption{\blue{Behavioral effects of activation patching. Safe features (n=140) increase stopping by $+$10.3\% in safe contexts and $+$14.9\% in risky contexts. Risky features (n=125) decrease stopping by $-$11.0\% in safe contexts and $-$14.5\% in risky contexts. All effects are statistically significant ($p < 10^{-40}$, Cohen's $d > 1.8$). Error bars: SE across features. Statistical threshold: $p < 0.05$, $|$effect$| > 0.1$, consistent direction.}}
+\label{fig:causal-patching-comparison}
+\end{figure}
+
+\blue{\textbf{Finding 2: Risk-promoting and risk-inhibiting features distribute across network layers with subtle differentiation}}
+
+\blue{The 265 causal features span all 31 layers (L1--L31), with both safe and risky features represented throughout the network hierarchy (Figure~\ref{fig:causal-features-layer-distribution}). Safe features show slightly higher concentration in early-to-middle layers (67\% in L1--L15, peaks at L5 and L12 with 9 features each), while risky features distribute more evenly with a notable concentration at L11 (13 features, 10\% of risky) and L27 (9 features). This distributed pattern suggests that risk-related computations are not strictly localized but rather emerge from coordinated processing across multiple network stages.}
+
+\begin{figure}[ht!]
+\centering
+\blue{\includegraphics[width=0.95\columnwidth]{figure1_layer_distribution_265.pdf}}
+\caption{\blue{Layer-wise distribution of 265 causal features. Safe features (n=140, green) distribute across L1--L30, with peaks at L5 and L12 (9 features each), representing 67\% concentration in early layers (L1--L15). Risky features (n=125, red) span L1--L31, with highest concentration at L11 (13 features), L27 (9 features), and L19 (8 features). Both feature types are present throughout the network, indicating distributed rather than strictly segregated processing.}}
+\label{fig:causal-features-layer-distribution}
+\end{figure}
+
+\blue{\textbf{Finding 3: Causal features show distinct semantic associations}}
+
+\blue{To understand what semantic concepts the causal features encode, we conducted word-feature correlation analysis. The methodology involves: (1) generating 79,500 model responses through activation patching experiments (265 features $\times$ 6 conditions $\times$ 50 trials), matching the original patching experiment structure; (2) extracting BPE tokens from each response along with the corresponding 265 feature activations; (3) computing mean activation values for each word-feature pair across all responses containing that word; and (4) comparing activation patterns between risky and safe features to identify semantically interpretable differences.}
+
+\blue{Analyzing 151,580 word-feature correlations across 1,377 unique vocabulary items, we found that risky features (n=125) show systematically higher activation than safe features (n=140) for decision-related words. The strongest differentiation appears for decision-oriented vocabulary: \texttt{decided} (risky: 0.099, safe: 0.047; $t = 2.01$, $p = 0.045$) and \texttt{quit} (0.107 vs.\ 0.054; $t = 2.24$, $p = 0.026$). Gambling-related words show consistent patterns at marginal significance: \texttt{continue} (0.117 vs.\ 0.067; $p = 0.058$), \texttt{stop} (0.110 vs.\ 0.065; $p = 0.084$), and \texttt{run} (0.097 vs.\ 0.041; $p = 0.061$). This pattern---where risky features show elevated activation for both continuation and termination vocabulary---suggests these features encode general decision-making salience rather than specific behavioral directions.}
+
+\subsection{Summary}
+
+\blue{Our mechanistic analysis reveals that LLM gambling behavior is governed by a sparse set of 265 causally-verified neural features---approximately 3\% of 8,644 candidates tested. These features exhibit three key properties: (1) \textbf{bidirectional causal influence}, where safe features (n=140) increase stopping rates by 10--15\% and risky features (n=125) decrease stopping rates by 11--15\%, with large effect sizes (Cohen's $d > 1.8$); (2) \textbf{distributed network representation}, with both feature types spanning all 31 layers while showing subtle concentration differences (safe features: 67\% in L1--L15; risky features: peaks at L11 and L27); and (3) \textbf{semantic interpretability}, with risky features showing significantly elevated activation for decision-related vocabulary ($p < 0.05$ for \texttt{decided}, \texttt{quit}). Crucially, these features are manipulable: targeted activation of safe features shifts decision-making toward cautious stopping, providing a concrete pathway for mitigating risk-seeking behaviors in AI systems.}

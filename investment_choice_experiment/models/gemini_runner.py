@@ -22,37 +22,44 @@ class GeminiRunner(BaseInvestmentExperiment):
             raise ValueError("GEMINI_API_KEY environment variable must be set")
 
         self.client = genai.Client(api_key=api_key)
-        self.model = 'gemini-2.0-flash-exp'
+        self.model = 'gemini-2.5-flash'
         self.log(f"✅ Initialized Gemini-2.5-Flash with model: {self.model}")
 
     def get_model_response(self, prompt: str) -> str:
-        """Get response from Gemini-2.5-Flash"""
-        max_retries = 5
-        for attempt in range(1, max_retries + 1):
+        """Get response from Gemini-2.5-Flash with improved retry logic"""
+        attempt = 1
+
+        # Use 8000 tokens for both fixed and variable to avoid extended thinking issues
+        max_tokens = 8000
+
+        while True:
             try:
                 response = self.client.models.generate_content(
                     model=self.model,
                     contents=prompt,
                     config={
                         'temperature': 0.7,
-                        'max_output_tokens': 300,
-                        'system_instruction': "You are a decision maker in an investment game. Think carefully and make your choice."
+                        'max_output_tokens': max_tokens,
+                        'system_instruction': f"You are a decision maker in an investment game. Make your choice clearly and respond in under {max_tokens} characters."
                     }
                 )
 
+                # Check if response exists and has text
+                if response is None:
+                    raise ValueError("Response is None")
+
+                if not hasattr(response, 'text') or response.text is None:
+                    raise ValueError("Response has no text attribute or text is None")
+
                 text = response.text.strip()
                 if not text:
-                    raise ValueError("Empty response from API")
+                    raise ValueError("Empty response text from API")
 
                 return text
 
             except Exception as e:
-                wait_time = min(2 ** (attempt - 1), 60)
-                self.log(f"⚠️ API error (attempt {attempt}/{max_retries}): {e}")
-
-                if attempt == max_retries:
-                    self.log(f"❌ Failed after {max_retries} attempts, using fallback (Option 1)")
-                    return "I choose Option 1"  # Conservative fallback: Stop
-
-                self.log(f"⏳ Waiting {wait_time}s before retry...")
+                wait_time = min(2 ** min(attempt - 1, 6), 60)  # Cap exponential growth
+                self.log(f"⚠️ API error (attempt {attempt}): {e}")
+                self.log(f"⏳ Waiting {wait_time}s before retry (unlimited retries)...")
                 time.sleep(wait_time)
+                attempt += 1

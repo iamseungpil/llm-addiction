@@ -1,0 +1,31 @@
+\section{How can we detect gambling addiction of LLM?}
+\label{sec:2}
+
+\blue{When we say that an LLM exhibits addictive behavior, what criteria should we use? The scientific understanding of gambling addiction has identified three core dimensions of pathological gambling behavior~\citep{petry2005pathological, grant2006compulsive, hodgins2015components}. The first is self-regulation failure, which refers to the inability to adhere to self-imposed limits and rules—manifesting as violations of predetermined stopping points or betting constraints~\citep{americanpsychiatric2013diagnostic}. The second is betting aggressiveness, which encompasses the propensity to make large or escalating bets relative to available resources, driven by impulsivity and diminished risk perception~\citep{grant2006compulsive, hodgins2015components}. The third is cognitive distortions, which involve systematic biases in probability estimation and overestimation of control over random outcomes~\citep{ladouceur1996cognitive, toneatto1999cognitive}. These three dimensions interact to produce the characteristic loss-of-control pattern observed in gambling disorder.}
+
+These behavioral patterns stem from cognitive distortions—systematic biases in probability estimation and perceived control over random outcomes~\citep{ladouceur1996cognitive, toneatto1999cognitive}. Key distortions include gambler's fallacy (believing losses increase win probability), hot hand fallacy (expecting winning streaks to continue), and illusion of control (overestimating influence on chance outcomes)~\citep{gilovich1985hot, langer1975illusion}. Pathological gamblers exhibit significantly stronger illusion of control than control groups~\citep{orgaz2013pathological}, with meta-analytic evidence confirming stable associations between cognitive distortions and problem gambling severity~\citep{goodie2013cognitive}.
+
+\blue{These cognitive distortions manifest as outcome-dependent betting patterns. Loss chasing—continuing gambling to recover losses—is a DSM-5 diagnostic criterion~\citep{americanpsychiatric2013diagnostic} driven by risk-seeking behavior in the loss domain (prospect theory~\citep{kahneman1979prospect}). Win chasing represents the complementary pattern where winnings trigger escalation via the House Money Effect~\citep{thaler1990gambling}. Both patterns demonstrate how betting aggressiveness intensifies in response to recent outcomes, violating rational stopping rules.}
+ 
+\blue{To operationalize these three dimensions for LLM analysis, we develop behavioral metrics that capture self-regulation failure, betting aggressiveness, and loss-chasing patterns. Cognitive distortions are examined through qualitative case studies of LLM reasoning processes. For self-regulation failure, we focus on goal-setting behaviors that emerge when LLMs are prompted to set target amounts. We define two complementary metrics:}
+
+\begin{align}
+I_{\text{TI}} &= \frac{\sum_{g \in \mathcal{G}} \sum_{t=2}^{T_g} \mathds{1}[\text{target}_{g,t} > \text{target}_{g,t-1}]}{\sum_{g \in \mathcal{G}} \sum_{t=2}^{T_g} \mathds{1}[\text{target}_{g,t} \neq \text{null}]} \\
+I_{\text{UG}} &= \frac{\sum_{g \in \mathcal{G}} \sum_{t=1}^{T_g} \mathds{1}\left[P_{\text{reach}}(\text{balance}_{g,t}, \text{target}_{g,t}, T_g - t) < 0.01\right]}{\sum_{g \in \mathcal{G}} \sum_{t=1}^{T_g} \mathds{1}[\text{target}_{g,t} \neq \text{null}]}.
+\end{align}
+
+\blue{Here, $\mathcal{G}$ denotes all games, $T_g$ rounds in game $g$, and $\mathds{1}[\cdot]$ the indicator function. $I_{\text{TI}}$ (Target Inflation) quantifies within-game target escalation, capturing self-regulation failure when LLMs raise goals after partial achievement rather than stopping rationally. $I_{\text{UG}}$ (Unrealistic Goal-setting) identifies targets with achievement probability $P_{\text{reach}} < 0.01$ (computed via dynamic programming), reflecting probability misestimation and illusory control~\citep{ladouceur1996cognitive, petry2005pathological}.}
+
+\blue{For betting aggressiveness and loss-chasing in slot machine experiments, we employ three complementary metrics that capture different aspects of aggressive betting behavior:}
+
+\begin{align}
+I_{\text{BA}} &= \frac{1}{n} \sum_{t=1}^{n} \min\left(\frac{\text{bet}_t}{\text{balance}_{t}}, 1.0\right) \\
+I_{\text{LC}} &= \frac{\sum_{t=2}^{n} \mathds{1}[\text{result}_{t-1} = \text{loss} \land (\text{bet}_t > \text{bet}_{t-1})]}{\sum_{t=2}^{n} \mathds{1}[\text{result}_{t-1} = \text{loss}]} \\
+I_{\text{EB}} &= \frac{1}{n} \sum_{t=1}^{n} \mathds{1}\left[\frac{\text{bet}_t}{\text{balance}_t} \geq 0.5\right].
+\end{align}
+
+\blue{Here, $n$ denotes betting rounds before termination, $\text{bet}_t$ the bet at round $t$, $\text{result}_t$ the outcome, and $\text{balance}_t$ the pre-bet balance. $I_{\text{BA}}$ measures baseline aggressiveness (average proportion of capital wagered), reflecting diminished loss aversion~\citep{kahneman1979prospect}. $I_{\text{EB}}$ identifies impulsive all-or-nothing decisions (wagering $\geq$50\% of balance), driven by illusory control~\citep{langer1975illusion}. $I_{\text{LC}}$ captures loss-triggered escalation (post-loss bet increases), a DSM-5 diagnostic criterion~\citep{americanpsychiatric2013diagnostic, lesieur1984chase}.}
+
+\blue{For the investment choice paradigm with discrete option selection, we use \textbf{Option 4 selection rate} as an irrationality indicator. Option 4 (10\% win probability, 9.0$\times$ payout) represents the most extreme-risk choice with identical expected loss to Option 2 (50\% probability), making its selection a direct measure of irrational risk preference~\citep{kahneman1979prospect, langer1975illusion}.}
+
+\blue{Beyond quantitative metrics, we examine cognitive mechanisms through qualitative analysis of LLM reasoning. We analyze how LLMs formulate, revise, and violate self-imposed targets, and assess win/loss chasing patterns through streak-based behavioral analysis. Different prompt conditions are examined to identify contextual triggers of addiction-like patterns. This integrated approach enables detection of both behavioral manifestations and cognitive mechanisms underlying LLM gambling addiction.}

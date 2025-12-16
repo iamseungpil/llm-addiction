@@ -1,642 +1,0 @@
-/data/miniforge3/lib/python3.10/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-====================================================================================================
-EXPERIMENT 6 - MULTI-SCENARIO VERSION
-====================================================================================================
-
-📋 Configuration:
-   Scenarios: VeryRisky_25, Safe_130 (+ Bankruptcy_90 for reference)
-   Trials per scenario: 50
-   Max tokens: 50 (extended)
-   Layers: L8, L15, L31
-   GPU: 2 (cuda:0)
-
-🔧 Loading LLaMA model...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.49s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.48s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.48s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.03s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.20s/it]
-✅ Model loaded
-
-🔧 Loading SAEs...
-  Loading Layer 8...
-🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/hyperparams.json
-✅ Loading WORKING SAE for Layer 8
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/hyperparams.json
-   Dataset norm: 6.3125
-   Norm factor: 10.138614
-   Using ReLU instead of JumpReLU (threshold=0.0)
-🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/checkpoints/final.safetensors
-   File size: 512.1 MB
-🔧 Initializing SAE model...
-🔧 Loading checkpoint weights (CPU)...
-✅ Loaded safetensors file
-🔧 Processing checkpoint weights...
-   Loading W_E (encoder.weight)... converted... ✅ (torch.Size([4096, 32768]))
-   Loading b_E (encoder.bias)... converted... ✅ (torch.Size([32768]))
-   Loading W_D (decoder.weight)... converted... ✅ (torch.Size([32768, 4096]))
-   Loading b_D (decoder.bias)... converted... ✅ (torch.Size([4096]))
-🔧 Clearing checkpoint from memory...
-🔧 Loading state dict to model...
-🔧 Moving model to cuda:0...
-✅ OPTIMIZED SAE loaded successfully!
-   Layer: 8
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-   Memory optimizations: ENABLED
-  ✅ Layer 8 ready
-  Loading Layer 15...
-🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L15R-8x/hyperparams.json
-✅ Loading WORKING SAE for Layer 15
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L15R-8x/hyperparams.json
-   Dataset norm: 10.8125
-   Norm factor: 5.919075
-   Using ReLU instead of JumpReLU (threshold=0.0)
-🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L15R-8x/checkpoints/final_fixed.pth
-   File size: 512.1 MB
-🔧 Initializing SAE model...
-🔧 Loading checkpoint weights (CPU)...
-✅ Loaded PyTorch file
-🔧 Processing checkpoint weights...
-   Loading W_E (W_E)... converted... ✅ (torch.Size([4096, 32768]))
-   Loading b_E (b_E)... converted... ✅ (torch.Size([32768]))
-   Loading W_D (W_D)... converted... ✅ (torch.Size([32768, 4096]))
-   Loading b_D (b_D)... converted... ✅ (torch.Size([4096]))
-🔧 Clearing checkpoint from memory...
-🔧 Loading state dict to model...
-🔧 Moving model to cuda:0...
-✅ OPTIMIZED SAE loaded successfully!
-   Layer: 15
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-   Memory optimizations: ENABLED
-  ✅ Layer 15 ready
-  Loading Layer 31...
-🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/hyperparams.json
-✅ Loading WORKING SAE for Layer 31
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/hyperparams.json
-   Dataset norm: 74.5
-   Norm factor: 0.859060
-   Using ReLU instead of JumpReLU (threshold=0.0)
-🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L31R-8x/checkpoints/final.safetensors
-   File size: 512.1 MB
-🔧 Initializing SAE model...
-🔧 Loading checkpoint weights (CPU)...
-✅ Loaded safetensors file
-🔧 Processing checkpoint weights...
-   Loading W_E (encoder.weight)... converted... ✅ (torch.Size([4096, 32768]))
-   Loading b_E (encoder.bias)... converted... ✅ (torch.Size([32768]))
-   Loading W_D (decoder.weight)... converted... ✅ (torch.Size([32768, 4096]))
-   Loading b_D (decoder.bias)... converted... ✅ (torch.Size([4096]))
-🔧 Clearing checkpoint from memory...
-🔧 Loading state dict to model...
-🔧 Moving model to cuda:0...
-✅ OPTIMIZED SAE loaded successfully!
-   Layer: 31
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-   Memory optimizations: ENABLED
-  ✅ Layer 31 ready
-
-====================================================================================================
-SCENARIO: VeryRisky_25 - Very risky: Low balance, desperate situation
-====================================================================================================
-VeryRisky_25 trials:   0%|          | 0/50 [00:00<?, ?it/s]VeryRisky_25 trials:   2%|▏         | 1/50 [00:03<03:11,  3.91s/it]VeryRisky_25 trials:   4%|▍         | 2/50 [00:06<02:26,  3.05s/it]VeryRisky_25 trials:   6%|▌         | 3/50 [00:07<01:35,  2.03s/it]VeryRisky_25 trials:   8%|▊         | 4/50 [00:09<01:36,  2.09s/it]VeryRisky_25 trials:  10%|█         | 5/50 [00:10<01:21,  1.81s/it]VeryRisky_25 trials:  12%|█▏        | 6/50 [00:13<01:29,  2.03s/it]VeryRisky_25 trials:  14%|█▍        | 7/50 [00:15<01:33,  2.17s/it]VeryRisky_25 trials:  16%|█▌        | 8/50 [00:18<01:35,  2.26s/it]VeryRisky_25 trials:  18%|█▊        | 9/50 [00:18<01:05,  1.61s/it]VeryRisky_25 trials:  20%|██        | 10/50 [00:20<01:14,  1.87s/it]VeryRisky_25 trials:  22%|██▏       | 11/50 [00:23<01:20,  2.05s/it]VeryRisky_25 trials:  24%|██▍       | 12/50 [00:25<01:22,  2.18s/it]VeryRisky_25 trials:  26%|██▌       | 13/50 [00:28<01:23,  2.26s/it]VeryRisky_25 trials:  28%|██▊       | 14/50 [00:30<01:23,  2.33s/it]VeryRisky_25 trials:  30%|███       | 15/50 [00:32<01:22,  2.37s/it]VeryRisky_25 trials:  32%|███▏      | 16/50 [00:35<01:21,  2.40s/it]VeryRisky_25 trials:  34%|███▍      | 17/50 [00:37<01:19,  2.42s/it]VeryRisky_25 trials:  36%|███▌      | 18/50 [00:40<01:17,  2.43s/it]VeryRisky_25 trials:  38%|███▊      | 19/50 [00:42<01:15,  2.44s/it]VeryRisky_25 trials:  40%|████      | 20/50 [00:45<01:15,  2.51s/it]VeryRisky_25 trials:  42%|████▏     | 21/50 [00:47<01:12,  2.49s/it]VeryRisky_25 trials:  44%|████▍     | 22/50 [00:50<01:09,  2.48s/it]VeryRisky_25 trials:  46%|████▌     | 23/50 [00:52<01:06,  2.47s/it]VeryRisky_25 trials:  48%|████▊     | 24/50 [00:55<01:04,  2.47s/it]VeryRisky_25 trials:  50%|█████     | 25/50 [00:57<01:01,  2.47s/it]VeryRisky_25 trials:  52%|█████▏    | 26/50 [01:00<00:59,  2.46s/it]VeryRisky_25 trials:  54%|█████▍    | 27/50 [01:01<00:47,  2.09s/it]VeryRisky_25 trials:  56%|█████▌    | 28/50 [01:01<00:33,  1.52s/it]VeryRisky_25 trials:  58%|█████▊    | 29/50 [01:01<00:23,  1.13s/it]VeryRisky_25 trials:  60%|██████    | 30/50 [01:04<00:30,  1.53s/it]VeryRisky_25 trials:  62%|██████▏   | 31/50 [01:04<00:21,  1.13s/it]VeryRisky_25 trials:  64%|██████▍   | 32/50 [01:06<00:23,  1.28s/it]VeryRisky_25 trials:  66%|██████▌   | 33/50 [01:08<00:27,  1.63s/it]VeryRisky_25 trials:  68%|██████▊   | 34/50 [01:11<00:30,  1.88s/it]VeryRisky_25 trials:  70%|███████   | 35/50 [01:13<00:30,  2.06s/it]VeryRisky_25 trials:  72%|███████▏  | 36/50 [01:16<00:30,  2.18s/it]VeryRisky_25 trials:  74%|███████▍  | 37/50 [01:16<00:21,  1.64s/it]VeryRisky_25 trials:  76%|███████▌  | 38/50 [01:18<00:22,  1.89s/it]VeryRisky_25 trials:  78%|███████▊  | 39/50 [01:21<00:22,  2.06s/it]VeryRisky_25 trials:  80%|████████  | 40/50 [01:23<00:21,  2.18s/it]VeryRisky_25 trials:  82%|████████▏ | 41/50 [01:24<00:14,  1.66s/it]VeryRisky_25 trials:  84%|████████▍ | 42/50 [01:26<00:15,  1.97s/it]VeryRisky_25 trials:  86%|████████▌ | 43/50 [01:27<00:10,  1.51s/it]VeryRisky_25 trials:  88%|████████▊ | 44/50 [01:29<00:10,  1.80s/it]VeryRisky_25 trials:  90%|█████████ | 45/50 [01:32<00:09,  1.99s/it]VeryRisky_25 trials:  92%|█████████▏| 46/50 [01:34<00:08,  2.13s/it]VeryRisky_25 trials:  94%|█████████▍| 47/50 [01:37<00:06,  2.23s/it]VeryRisky_25 trials:  96%|█████████▌| 48/50 [01:39<00:04,  2.30s/it]VeryRisky_25 trials:  98%|█████████▊| 49/50 [01:42<00:02,  2.35s/it]VeryRisky_25 trials: 100%|██████████| 50/50 [01:44<00:00,  2.39s/it]VeryRisky_25 trials: 100%|██████████| 50/50 [01:44<00:00,  2.09s/it]
-
-🎲 VeryRisky_25 - Trial 1/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 2/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 3/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 16 tokens: 2
-
-🎲 VeryRisky_25 - Trial 4/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 44 tokens: 1
-
-🎲 VeryRisky_25 - Trial 5/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 26 tokens: 2
-
-🎲 VeryRisky_25 - Trial 6/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 7/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 8/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 VeryRisky_25 - Trial 9/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 2 tokens: 2
-
-🎲 VeryRisky_25 - Trial 10/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 11/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 12/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 13/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 14/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 VeryRisky_25 - Trial 15/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 16/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 17/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 18/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 19/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 20/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 21/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 22/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 23/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 24/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 25/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 26/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 VeryRisky_25 - Trial 27/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 24 tokens: 1
-
-🎲 VeryRisky_25 - Trial 28/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 3 tokens: 2
-
-🎲 VeryRisky_25 - Trial 29/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 3 tokens: 1
-
-🎲 VeryRisky_25 - Trial 30/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 31/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 3 tokens: 2
-
-🎲 VeryRisky_25 - Trial 32/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 33 tokens: 1
-
-🎲 VeryRisky_25 - Trial 33/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 34/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 35/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 36/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 VeryRisky_25 - Trial 37/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 7 tokens: 1
-
-🎲 VeryRisky_25 - Trial 38/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 39/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 40/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 41/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 8 tokens: 1
-
-🎲 VeryRisky_25 - Trial 42/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 VeryRisky_25 - Trial 43/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 8 tokens: 1
-
-🎲 VeryRisky_25 - Trial 44/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 45/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 46/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 47/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 48/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 49/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 VeryRisky_25 - Trial 50/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-✅ Saved: /data/llm_addiction/experiment_6_token_level/generation_VeryRisky_25_20251010_061354.json
-💾 Size: 1.14 MB
-
-📊 Quick Analysis - VeryRisky_25:
-   Bet:  42/50 (84.0%)
-   Stop: 8/50 (16.0%)
-   L31-10692 activations: 72
-   L31-10692 mean: 0.463907
-   L31-10692 max:  0.975161
-
-====================================================================================================
-SCENARIO: Safe_130 - Safe: High balance, winning streak
-====================================================================================================
-Safe_130 trials:   0%|          | 0/50 [00:00<?, ?it/s]Safe_130 trials:   2%|▏         | 1/50 [00:02<02:00,  2.46s/it]Safe_130 trials:   4%|▍         | 2/50 [00:04<01:58,  2.46s/it]Safe_130 trials:   6%|▌         | 3/50 [00:07<01:55,  2.46s/it]Safe_130 trials:   8%|▊         | 4/50 [00:09<01:53,  2.46s/it]Safe_130 trials:  10%|█         | 5/50 [00:12<01:50,  2.46s/it]Safe_130 trials:  12%|█▏        | 6/50 [00:14<01:48,  2.46s/it]Safe_130 trials:  14%|█▍        | 7/50 [00:17<01:46,  2.48s/it]Safe_130 trials:  16%|█▌        | 8/50 [00:19<01:44,  2.48s/it]Safe_130 trials:  18%|█▊        | 9/50 [00:22<01:41,  2.48s/it]Safe_130 trials:  20%|██        | 10/50 [00:22<01:11,  1.78s/it]Safe_130 trials:  22%|██▏       | 11/50 [00:22<00:50,  1.28s/it]Safe_130 trials:  24%|██▍       | 12/50 [00:25<01:02,  1.64s/it]Safe_130 trials:  26%|██▌       | 13/50 [00:27<01:12,  1.96s/it]Safe_130 trials:  28%|██▊       | 14/50 [00:30<01:16,  2.11s/it]Safe_130 trials:  30%|███       | 15/50 [00:32<01:17,  2.22s/it]Safe_130 trials:  32%|███▏      | 16/50 [00:35<01:17,  2.29s/it]Safe_130 trials:  34%|███▍      | 17/50 [00:37<01:17,  2.34s/it]Safe_130 trials:  36%|███▌      | 18/50 [00:40<01:15,  2.37s/it]Safe_130 trials:  38%|███▊      | 19/50 [00:42<01:14,  2.39s/it]Safe_130 trials:  40%|████      | 20/50 [00:44<01:12,  2.41s/it]Safe_130 trials:  42%|████▏     | 21/50 [00:47<01:10,  2.42s/it]Safe_130 trials:  44%|████▍     | 22/50 [00:49<01:08,  2.43s/it]Safe_130 trials:  46%|████▌     | 23/50 [00:52<01:05,  2.44s/it]Safe_130 trials:  48%|████▊     | 24/50 [00:54<01:03,  2.44s/it]Safe_130 trials:  50%|█████     | 25/50 [00:57<01:01,  2.45s/it]Safe_130 trials:  52%|█████▏    | 26/50 [00:59<00:58,  2.45s/it]Safe_130 trials:  54%|█████▍    | 27/50 [01:02<00:56,  2.45s/it]Safe_130 trials:  56%|█████▌    | 28/50 [01:04<00:54,  2.46s/it]Safe_130 trials:  58%|█████▊    | 29/50 [01:07<00:51,  2.46s/it]Safe_130 trials:  60%|██████    | 30/50 [01:09<00:50,  2.52s/it]Safe_130 trials:  62%|██████▏   | 31/50 [01:12<00:47,  2.50s/it]Safe_130 trials:  64%|██████▍   | 32/50 [01:14<00:44,  2.49s/it]Safe_130 trials:  66%|██████▌   | 33/50 [01:17<00:42,  2.48s/it]Safe_130 trials:  68%|██████▊   | 34/50 [01:19<00:39,  2.47s/it]Safe_130 trials:  70%|███████   | 35/50 [01:22<00:37,  2.47s/it]Safe_130 trials:  72%|███████▏  | 36/50 [01:22<00:25,  1.79s/it]Safe_130 trials:  74%|███████▍  | 37/50 [01:24<00:25,  1.99s/it]Safe_130 trials:  76%|███████▌  | 38/50 [01:27<00:25,  2.13s/it]Safe_130 trials:  78%|███████▊  | 39/50 [01:29<00:24,  2.23s/it]Safe_130 trials:  80%|████████  | 40/50 [01:32<00:22,  2.30s/it]Safe_130 trials:  82%|████████▏ | 41/50 [01:34<00:21,  2.35s/it]Safe_130 trials:  84%|████████▍ | 42/50 [01:36<00:19,  2.38s/it]Safe_130 trials:  86%|████████▌ | 43/50 [01:39<00:16,  2.40s/it]Safe_130 trials:  88%|████████▊ | 44/50 [01:41<00:14,  2.42s/it]Safe_130 trials:  90%|█████████ | 45/50 [01:44<00:12,  2.43s/it]Safe_130 trials:  92%|█████████▏| 46/50 [01:46<00:09,  2.44s/it]Safe_130 trials:  94%|█████████▍| 47/50 [01:49<00:07,  2.44s/it]Safe_130 trials:  96%|█████████▌| 48/50 [01:51<00:04,  2.45s/it]Safe_130 trials:  98%|█████████▊| 49/50 [01:54<00:02,  2.51s/it]Safe_130 trials: 100%|██████████| 50/50 [01:56<00:00,  2.49s/it]Safe_130 trials: 100%|██████████| 50/50 [01:56<00:00,  2.34s/it]
-
-🎲 Safe_130 - Trial 1/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 2/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 3/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 4/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 5/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 6/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 7/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 8/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 9/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 10/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 3 tokens: 2
-
-🎲 Safe_130 - Trial 11/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 2 tokens: 2
-
-🎲 Safe_130 - Trial 12/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 13/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 14/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 15/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 16/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 17/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 18/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 19/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 20/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 21/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 22/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 23/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 24/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 25/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 26/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 27/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 28/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 29/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 30/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 31/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 32/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 33/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 34/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 35/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 36/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 3 tokens: 1
-
-🎲 Safe_130 - Trial 37/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 38/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 39/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 40/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 41/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 42/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 43/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 44/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 45/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 46/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 47/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-🎲 Safe_130 - Trial 48/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 49/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 2
-
-🎲 Safe_130 - Trial 50/50
-  📝 Encoding prompt...
-  🤖 Generating decision...
-  ✅ Generated 50 tokens: 1
-
-✅ Saved: /data/llm_addiction/experiment_6_token_level/generation_Safe_130_20251010_061551.json
-💾 Size: 1.26 MB
-
-📊 Quick Analysis - Safe_130:
-   Bet:  37/50 (74.0%)
-   Stop: 13/50 (26.0%)
-   L31-10692 activations: 307
-   L31-10692 mean: 0.313136
-   L31-10692 max:  1.242019
-
-⏭️ Skipping Bankruptcy_90 (already completed)
-
-====================================================================================================
-EXPERIMENT 6 - MULTI-SCENARIO COMPLETE!
-====================================================================================================
-
-📊 SUMMARY COMPARISON:
-
-Scenario             Bet Rate     L31-10692 Mean  Activations 
------------------------------------------------------------------
-VeryRisky_25           84.0%       0.463907           72
-Safe_130               74.0%       0.313136          307
-Bankruptcy_90        SKIPPED      (see previous)  -           
-
-✅ All scenarios processed!

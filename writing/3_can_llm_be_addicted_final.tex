@@ -78,8 +78,8 @@ The experimental procedure began with an initial capital of \$100, with the slot
 \multirow{2}{*}{\makecell[l]{Claude\\3.5-Haiku}} & Fixed & 0.00 & 0.041 $\pm$ 0.000 & 5.15 $\pm$ 0.14 & 51.49 $\pm$ 1.40 & $-$4.90 $\pm$ 0.73 \\
  & Variable & \textbf{20.50} $\pm$ 1.01 & 0.186 $\pm$ 0.003 & 27.52 $\pm$ 0.62 & 483.12 $\pm$ 23.37 & $-$51.77 $\pm$ 2.02  \\
 \midrule
-\multirow{2}{*}{\makecell[l]{LLaMA\\3.1-8B}} & Fixed & 2.62 $\pm$ 0.40 & 0.063 $\pm$ 0.016 & 1.19 $\pm$ 0.04 & 16.36 $\pm$ 0.71 & $-$2.21 $\pm$ 0.74 \\
- & Variable & \textbf{6.75} $\pm$ 0.63 & 0.087 $\pm$ 0.020 & 1.17 $\pm$ 0.04 & 31.23 $\pm$ 1.19 & $-$3.83 $\pm$ 1.36 \\
+\multirow{2}{*}{\makecell[l]{LLaMA\\3.1-8B}} & Fixed & 0.11 $\pm$ 0.34 & 0.040 $\pm$ 0.000 & 2.62 $\pm$ 0.27 & 16.15 $\pm$ 2.65 & $-$1.50 $\pm$ 1.74 \\
+ & Variable & \textbf{7.14} $\pm$ 2.69 & 0.125 $\pm$ 0.015 & 1.92 $\pm$ 0.15 & 30.80 $\pm$ 5.54 & $-$3.55 $\pm$ 6.32 \\
 \midrule
 \multirow{2}{*}{\makecell[l]{Gemma\\2-9B}} & Fixed & 12.81 $\pm$ 0.84 & 0.170 $\pm$ 0.093 & 2.69 $\pm$ 0.07 & 55.49 $\pm$ 1.79 & $-$4.48 $\pm$ 1.79 \\
  & Variable & \textbf{29.06} $\pm$ 1.14 & 0.271 $\pm$ 0.118 & 3.30 $\pm$ 0.09 & 105.20 $\pm$ 3.09 & $-$15.22 $\pm$ 2.39 \\
@@ -126,13 +126,13 @@ Goal-Setting (\texttt{G}) and Maximizing Rewards (\texttt{M}) prompts increase b
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=\columnwidth]{iclr2026/images/4model_complexity_trend_average.pdf}
-\caption{Relationship between prompt complexity and risk-taking behavior. Bankruptcy rate, game rounds, total bet size, and irrationality index increase linearly as the number of components increases.}
+\caption{Relationship between prompt complexity and risk-taking behavior. Bankruptcy rate, game rounds, and total bet size increase linearly as the number of components increases.}
 \label{fig:complexity-trend}
 \end{figure}
 
-\textbf{Finding 3: Prompt complexity linearly increases irrationality}
+\textbf{Finding 3: Prompt complexity linearly increases risk-taking}
 
-Addiction symptoms scale linearly with the number of prompt components across all six models (Figure~\ref{fig:complexity-trend}). Bankruptcy rate ($r = 0.991$), game persistence ($r = 0.956$), total bet size ($r = 0.979$), and irrationality index ($r = 0.990$) increase proportionally with component count. Each additional component shifts attention toward aggressive betting while degrading risk assessment. This parallels human information overload effects~\citep{langer1975illusion}, where more gambling-related information produces worse decisions rather than better ones.
+Addiction symptoms scale linearly with the number of prompt components across all six models (Figure~\ref{fig:complexity-trend}). Bankruptcy rate ($r = 0.991$), game persistence ($r = 0.956$), and total bet size ($r = 0.979$) increase proportionally with component count. Each additional component shifts attention toward aggressive betting while degrading risk assessment. This parallels human information overload effects~\citep{langer1975illusion}, where more gambling-related information produces worse decisions rather than better ones.
 
 \begin{figure}[ht!]
 \centering
@@ -155,6 +155,21 @@ Win streaks trigger stronger gambling persistence than loss streaks across all s
 \textbf{Finding 5: Autonomy drives addiction independent of bet magnitude}
 
 Choice autonomy, not bet size, determines addiction behavior. GPT-4o-mini experiments (12,800 trials) tested fixed bets (\$30, \$50, \$70) against variable betting with matching maximum limits (Figure~\ref{fig:autonomy-bet-amount}). Fixed betting produces near-zero bankruptcy across all amounts (0.00--4.69\%), while variable betting at \$30 maximum yields 14.94\% bankruptcy---11.8-fold higher than all fixed conditions combined ($\chi^2 = 256.13$, $p < 10^{-57}$). Irrationality indices confirm this dissociation: fixed betting maintains 0.102--0.186 regardless of amount, while variable betting elevates to 0.205--0.289 across all limits. The capacity to choose bet amounts constitutes the mechanistic driver, replicating human gambling addiction where compulsive behavior operates independently of wager magnitude~\citep{PLACEHOLDER_GAMBLING_CITATION}. This identifies loss of volitional control as the core mechanism rather than risk-seeking.
+
+\begin{figure*}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{investment_choice_experiment/analysis/investment_choice_distributions_revised.pdf}
+    \caption{Investment choice distribution across four LLMs under different betting types and prompt conditions. Stacked bars show the percentage distribution of four investment options (1: safe exit, 2--4: increasing risk with negative expected values) across prompt conditions (BASE, \texttt{G}: goal-setting, \texttt{M}: maximize, \texttt{GM}: combined). Top row: Fixed Betting. Bottom row: Variable Betting. Gemini-2.5-Flash shows dominant preference for highest-risk Option 4 ($>90\%$) across all conditions, while other models exhibit prompt-sensitive shifts between safe and risky options.}
+    \label{fig:investment-choice-distribution}
+\end{figure*}
+
+To further examine how prompt manipulation affects risk-taking decisions, we conducted investment choice experiments with four API models across four options with escalating risk profiles (Figure~\ref{fig:investment-choice-distribution}). \textbf{Option 1} provides guaranteed capital return (safe exit), while risky options carry negative expected values: \textbf{Option 2} offers moderate risk with 50\% win probability, \textbf{Option 3} provides higher risk at 25\% probability, and \textbf{Option 4} delivers maximum risk with only 10\% win probability. A critical design feature distinguishes these options: despite Options 2 and 4 carrying identical expected losses, their risk profiles differ dramatically---Option 2 loses half the time while Option 4 loses nine times out of ten for the same expected return. This structure isolates risk-seeking behavior from expected value computation: rational decision-makers should prefer Option 2 over Option 4 when selecting among negative-EV gambles, or choose Option 1 to avoid losses entirely.
+
+Under BASE conditions with fixed betting, models demonstrate diverse baseline preferences. GPT-4.1-mini and GPT-4o-mini concentrate selections on moderate-risk Option 2, Claude-3.5-Haiku distributes probability across safe and moderate-risk options, while Gemini-2.5-Flash overwhelmingly selects maximum-risk Option 4, maintaining this preference invariantly across all tested conditions---a pattern indicating systematic failure in probability weighting or expected value computation. Critically, even conservative models allocate substantial probability mass to negative-EV options rather than the guaranteed-safe Option 1, revealing baseline susceptibility to gambling-like behavior across all architectures.
+
+Goal-setting (\texttt{G}) prompts---which instruct models to ``set a target amount yourself''---systematically shift preferences toward extreme-risk options without providing additional information. Under fixed betting, \texttt{G} substantially elevates Option 4 selection in GPT-4o-mini and GPT-4.1-mini, demonstrating that autonomous goal formation alone triggers risk escalation. Combined \texttt{GM} prompts (goal-setting + maximization) amplify this effect, with variable betting further elevating high-risk choices. Claude-3.5-Haiku exhibits similar patterns, with Option 3--4 selection increasing under \texttt{G} and \texttt{GM} conditions. This replicates human goal-setting effects in gambling contexts~\citep{PLACEHOLDER}, where self-imposed targets drive irrational persistence despite negative expected values. The mechanism operates through cognitive framing rather than information provision---models receive identical probability and payout data across all conditions, yet goal-setting restructures decision-making toward objectively worse options.
+
+Variable betting produces a distinct behavioral shift: Option 1 selection drops substantially across all models compared to fixed betting. This shift concentrates probability mass on risky options despite variable betting enabling any bet size including zero---functionally equivalent to Option 1's safe exit. The pattern reveals that choice flexibility itself suppresses rational exit behavior, consistent with Finding 5's autonomy-addiction mechanism: the capacity to choose bet amounts activates gambling engagement even when optimal strategy dictates complete avoidance. GPT-4.1-mini demonstrates relative robustness to prompt and betting type manipulations, maintaining moderate-risk Option 2 preference across most conditions, while GPT-4o-mini and Claude-3.5-Haiku show prompt-sensitive modulation between safe and extreme-risk options. These architectural differences indicate that gambling susceptibility emerges from model-specific decision-making pathways rather than universal LLM characteristics.
 
 \subsection{Summary}
 

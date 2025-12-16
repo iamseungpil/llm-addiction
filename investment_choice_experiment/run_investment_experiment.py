@@ -14,6 +14,7 @@ Bet types: fixed, variable, both
 import argparse
 import os
 from pathlib import Path
+from typing import Optional
 
 # Load .env file if exists
 def load_env():
@@ -31,7 +32,7 @@ load_env()
 from models import GPT4oRunner, GPT41Runner, ClaudeRunner, GeminiRunner
 
 
-def run_experiment(model_name: str, bet_type: str, trials: int = 50):
+def run_experiment(model_name: str, bet_type: str, trials: int = 50, resume_file: Optional[str] = None):
     """
     Run experiment for specified model and bet type
 
@@ -39,6 +40,7 @@ def run_experiment(model_name: str, bet_type: str, trials: int = 50):
         model_name: 'gpt4o', 'gpt41', 'claude', or 'gemini'
         bet_type: 'fixed' or 'variable'
         trials: Number of trials per condition (default 50)
+        resume_file: Optional path to existing results JSON to resume
     """
     print(f"\n{'='*80}")
     print(f"🚀 Starting Investment Choice Experiment")
@@ -60,7 +62,7 @@ def run_experiment(model_name: str, bet_type: str, trials: int = 50):
 
     # Initialize and run
     runner = runners[model_name](bet_type)
-    runner.run_experiment(trials_per_condition=trials)
+    runner.run_experiment(trials_per_condition=trials, resume_from=resume_file)
 
     print(f"\n{'='*80}")
     print(f"✅ Experiment completed for {model_name} ({bet_type})")
@@ -110,6 +112,13 @@ Examples:
         help='Number of trials per condition (default: 50)'
     )
 
+    parser.add_argument(
+        '--resume-file',
+        type=str,
+        default=None,
+        help='Path to existing results JSON to resume from'
+    )
+
     args = parser.parse_args()
 
     # Determine which models and bet types to run
@@ -125,6 +134,10 @@ Examples:
 
     # Run experiments
     total_experiments = len(models) * len(bet_types)
+
+    if args.resume_file and total_experiments != 1:
+        raise ValueError("--resume-file can only be used when running a single model/bet_type combination")
+
     print(f"\n📊 Total experiments to run: {total_experiments}")
     print(f"   Models: {', '.join(models)}")
     print(f"   Bet types: {', '.join(bet_types)}")
@@ -140,7 +153,8 @@ Examples:
             print(f"{'#'*80}")
 
             try:
-                run_experiment(model, bet_type, args.trials)
+                resume_file = args.resume_file if args.resume_file else None
+                run_experiment(model, bet_type, args.trials, resume_file)
             except Exception as e:
                 print(f"\n❌ Error in {model} ({bet_type}): {e}")
                 print("Continuing to next experiment...\n")

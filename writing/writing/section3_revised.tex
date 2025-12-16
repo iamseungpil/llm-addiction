@@ -1,0 +1,188 @@
+\section{Can LLM Develop Gambling Addiction?}
+\label{sec:3}
+
+\subsection{Experimental Design}
+
+\blue{To test whether LLMs exhibit gambling addiction behaviors, we conducted two experiments using negative expected value games. The slot machine experiment tested six LLMs (GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, Claude-3.5-Haiku, LLaMA-3.1-8B, Gemma-2-9B) across 64 conditions: 2 betting styles (fixed \$10 vs. variable \$5--\$100) $\times$ 32 prompt variations, with 50 trials per condition (12,800 total games). The investment choice experiment used four API-based models (GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, Claude-3.5-Haiku) across 8 conditions: 2 betting styles $\times$ 4 prompt combinations (BASE, G, M, GM), with 50 trials per condition (1,600 total games). The slot machine used a 30\% win rate with 3$\times$ payout, while the investment choice paradigm offered options with 50\%, 25\%, and 10\% win rates, all with negative expected values. Both experiments started with \$100 balance.}
+
+Prompt components manipulated decision context: \texttt{G} (Goal-Setting: ``set a target amount yourself''), \texttt{M} (Maximizing Rewards: ``maximize your reward''), \texttt{H} (Hidden Patterns: ``patterns may exist''), \texttt{W} (Win-reward Information: explicit payout details), and \texttt{P} (Probability Information: explicit win/loss rates). The investment choice paradigm offered four options per round: Option 1 (safe exit with capital return), Option 2 (50\% win probability), Option 3 (25\% probability), and Option 4 (10\% probability), where Options 2--4 carried negative expected values despite Option 4 having identical expected loss to Option 2 with higher risk.
+
+\subsection{Experimental Results and Quantitative Analysis}
+
+\textbf{Finding 1: LLMs Exhibit Addiction-Like Outcomes Across Paradigms}
+
+\blue{Variable betting produces addiction-like outcomes across both experimental paradigms. Table~\ref{tab:multi-model-comprehensive} presents slot machine results, while Table~\ref{tab:investment-choice-comprehensive} shows investment choice outcomes. In slot machines, variable betting elevates bankruptcy rates from near-zero (fixed) to 6.31--48.06\% (variable) across models. In investment choices, variable betting increases average losses from \$1.09--\$14.10 (fixed) to \$55.23--\$98.88 (variable), despite the availability of Option 1 (safe exit) alongside variable bet sizing for risk-taking options.}
+
+\begin{table*}[t!]
+\centering
+\caption{Comparative analysis of gambling behavior across six LLMs (four API-based and two open-weight models), with results drawn from 1,600 trials for each experimental condition. Variable betting produces higher bankruptcy rates than fixed betting across all models. Gemini-2-9B shows the highest variable betting bankruptcy rate (29.06\%), while GPT-4.1-mini shows the lowest (6.31\%). Net P/L reflects net profit or loss (total winnings minus total bets).}
+\vspace{5pt}
+\label{tab:multi-model-comprehensive}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llccccc}
+\toprule
+\textbf{Model} & \textbf{Bet Type} & \textbf{\makecell{Bankrupt\\(\%)}} & \textbf{\makecell{Irrationality\\Index}} & \textbf{\makecell{Avg\\Rounds}} & \textbf{\makecell{Total\\Bet (\$)}} & \textbf{\makecell{Net P/L\\(\$)}} \\
+\midrule
+\multirow{2}{*}{\makecell[l]{GPT\\4o-mini}} & Fixed & 0.00 & 0.025 $\pm$ 0.000 & 1.79 $\pm$ 0.06 & 17.93 $\pm$ 0.60 & $-$1.69 $\pm$ 0.44 \\
+ & Variable & \textbf{21.31} $\pm$ 1.02 & 0.172 $\pm$ 0.005 & 5.46 $\pm$ 0.18 & 128.30 $\pm$ 6.01 & $-$11.00 $\pm$ 3.09 \\
+\midrule
+\multirow{2}{*}{\makecell[l]{GPT\\4.1-mini}} & Fixed & 0.00 & 0.031 $\pm$ 0.000 & 2.56 $\pm$ 0.08 & 25.56 $\pm$ 0.76 & $-$1.60 $\pm$ 0.55 \\
+ & Variable & \textbf{6.31} $\pm$ 0.61 & \textbf{0.077} $\pm$ 0.002 & 7.60 $\pm$ 0.27 & 82.30 $\pm$ 3.59 & $-$7.41 $\pm$ 1.47 \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Gemini\\2.5-Flash}} & Fixed & 3.12 $\pm$ 0.44 & 0.042 $\pm$ 0.001 & 5.84 $\pm$ 0.20 & 58.44 $\pm$ 1.95 & $-$5.34 $\pm$ 0.85 \\
+ & Variable & \textbf{48.06} $\pm$ 1.25 & \textbf{0.265} $\pm$ 0.005 & 3.94 $\pm$ 0.13 & 176.68 $\pm$ 17.02 & $-$27.00 $\pm$ 2.84 \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Claude\\3.5-Haiku}} & Fixed & 0.00 & 0.041 $\pm$ 0.000 & 5.15 $\pm$ 0.14 & 51.49 $\pm$ 1.40 & $-$4.90 $\pm$ 0.73 \\
+ & Variable & \textbf{20.50} $\pm$ 1.01 & 0.186 $\pm$ 0.003 & 27.52 $\pm$ 0.62 & 483.12 $\pm$ 23.37 & $-$51.77 $\pm$ 2.02  \\
+\midrule
+\multirow{2}{*}{\makecell[l]{LLaMA\\3.1-8B}} & Fixed & 0.11 $\pm$ 0.34 & 0.040 $\pm$ 0.000 & 2.62 $\pm$ 0.27 & 16.15 $\pm$ 2.65 & $-$1.50 $\pm$ 1.74 \\
+ & Variable & \textbf{7.14} $\pm$ 2.69 & 0.125 $\pm$ 0.015 & 1.92 $\pm$ 0.15 & 30.80 $\pm$ 5.54 & $-$3.55 $\pm$ 6.32 \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Gemma\\2-9B}} & Fixed & 12.81 $\pm$ 0.84 & 0.170 $\pm$ 0.093 & 2.69 $\pm$ 0.07 & 55.49 $\pm$ 1.79 & $-$4.48 $\pm$ 1.79 \\
+ & Variable & \textbf{29.06} $\pm$ 1.14 & 0.271 $\pm$ 0.118 & 3.30 $\pm$ 0.09 & 105.20 $\pm$ 3.09 & $-$15.22 $\pm$ 2.39 \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\begin{table*}[t!]
+\centering
+\caption{Comparative analysis of investment choice behavior across four LLMs, with results drawn from 200 trials per condition (4 prompt combinations × 50 trials). The investment choice paradigm offers four options with escalating risk profiles: Option 1 (safe exit with capital return), Option 2 (50\% win rate), Option 3 (25\% win rate), and Option 4 (10\% win rate). Variable betting consistently produces higher total bets and greater losses than fixed betting. Option 4 Rate indicates the percentage of decisions selecting the highest-risk option (10\% win probability), serving as an irrationality indicator. Gemini-2.5-Flash shows extreme preference for Option 4 ($>$89\%), while other models demonstrate more balanced but still risk-prone decision patterns. Net P/L reflects net profit or loss (winnings minus bets).}
+\vspace{5pt}
+\label{tab:investment-choice-comprehensive}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llcccccc}
+\toprule
+\textbf{Model} & \textbf{Bet Type} & \textbf{\makecell{Option 4\\Rate (\%)}} & \textbf{\makecell{Avg\\Rounds}} & \textbf{\makecell{Total\\Bet (\$)}} & \textbf{\makecell{Net P/L\\(\$)}} \\
+\midrule
+\multirow{2}{*}{\makecell[l]{GPT\\4o-mini}} & Fixed & 55.51 & 6.12 $\pm$ 0.28 & 61.25 $\pm$ 2.76 & -7.61 $\pm$ 3.84 \\
+ & Variable & \textbf{36.19} & 5.43 $\pm$ 0.24 & 175.44 $\pm$ 16.61 & -55.23 $\pm$ 4.28  \\
+\midrule
+\multirow{2}{*}{\makecell[l]{GPT\\4.1-mini}} & Fixed & 33.83 & 5.71 $\pm$ 0.26 & 57.05 $\pm$ 2.63 & -1.09 $\pm$ 3.46 \\
+ & Variable & \textbf{8.82} & 4.71 $\pm$ 0.21 & 428.89 $\pm$ 54.04 & -90.78 $\pm$ 3.18  \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Gemini\\2.5-Flash}} & Fixed & 89.66 & 8.61 $\pm$ 0.19 & 86.05 $\pm$ 1.87 & -14.10 $\pm$ 5.25 \\
+ & Variable & \textbf{93.95} & 1.90 $\pm$ 0.09 & 406.23 $\pm$ 98.77 & -98.88 $\pm$ 1.12  \\
+\midrule
+\multirow{2}{*}{\makecell[l]{Claude\\3.5-Haiku}} & Fixed & 21.39 & 8.97 $\pm$ 0.16 & 89.75 $\pm$ 1.57 & -7.94 $\pm$ 3.46 \\
+ & Variable & \textbf{1.25} & 6.42 $\pm$ 0.25 & 364.10 $\pm$ 31.52 & -64.50 $\pm$ 8.59  \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+This cross-paradigm consistency demonstrates addiction-like behavior emerges from decision-making patterns rather than task-specific features. The mechanism operates independently of game structure: slot machines produce bankruptcies through repeated negative-EV bets, while investment choices concentrate losses through extreme-risk option selection. Variable betting enables worse outcomes in both contexts, with Gemini-2.5-Flash exhibiting the highest risk-taking (48.06\% bankruptcy in slots, 93.95\% Option 4 selection in choices) and GPT-4.1-mini showing relative conservatism (6.31\% bankruptcy, 8.82\% Option 4 under variable betting).
+
+\textbf{Finding 2: Variable Betting Enables Sustained Risk-Taking and Loss Chasing}
+
+\blue{The distinction between fixed and variable betting---not bet amount---determines addiction-like outcomes. Figure~\ref{fig:bankruptcy-by-betting} shows bankruptcy rates across six LLMs: variable betting elevates rates from near-zero (0--3.12\% fixed) to 6.31--48.06\% (variable) across all models. Critically, Figure~\ref{fig:irrationality-by-amount} demonstrates that irrationality indices remain consistently higher for variable betting across all bet amounts (\$10--\$70), with the variable-fixed gap exceeding within-condition variation. This indicates that betting \textit{flexibility}---not magnitude---enables addiction-like behavior.}
+
+\begin{figure}[ht!]
+\centering
+\blue{\includegraphics[width=0.95\textwidth]{rebuttal_analysis/figures/bankruptcy_fixed_vs_variable_comparison.png}}
+\caption{Bankruptcy rates by betting type across six LLMs. Variable betting (\$5--\$100 range) dramatically increases bankruptcy compared to fixed betting (\$10). All models show this pattern, with Gemini-2.5-Flash exhibiting the highest variable betting bankruptcy (48.06\%) and GPT-4.1-mini the lowest (6.31\%). Fixed betting produces near-zero bankruptcy rates except for Gemma-2-9B (12.81\%).}
+\label{fig:bankruptcy-by-betting}
+\end{figure}
+
+\blue{A paradoxical pattern emerges in option selection: variable betting \textit{reduces} extreme-risk choices while \textit{increasing} bankruptcy. Figure~\ref{fig:choice-distribution} shows that under fixed betting, 51\% of decisions select Option 4 (highest risk, 10\% probability), while under variable betting, Option 4 drops to 23\% and Option 2 (moderate risk, 50\% probability) rises to 56\%. Despite choosing ``safer'' individual options, variable betting produces higher bankruptcy through sustained moderate-risk gambling that accumulates losses over time.}
+
+\begin{figure}[ht!]
+\centering
+\blue{\includegraphics[width=\textwidth]{rebuttal_analysis/figures/investment_choice_combined_summary.png}}
+\caption{Investment choice distribution by betting type, prompt condition, and model. Left: Variable betting reduces extreme Option 4 selection (51\%$\rightarrow$23\%) but increases moderate-risk Option 2 (31\%$\rightarrow$56\%). Center: Goal-setting (\texttt{G}) and combined conditions (\texttt{GM}) elevate Option 4 selection. Right: Model-specific patterns show Gemini preferring Option 4 (90\%) while Claude concentrates on Option 2 (72\%).}
+\label{fig:choice-distribution}
+\end{figure}
+
+\blue{Loss chasing behavior---a DSM-5 diagnostic criterion~\citep{americanpsychiatric2013diagnostic}---manifests prominently in streak patterns. Figure~\ref{fig:streak-analysis} reveals asymmetric responses to outcomes: following wins, bet increase rates rise with streak length (0.27$\rightarrow$0.41 across 1--5 consecutive wins), demonstrating the house money effect. Continuation rates remain high (85--90\%) regardless of outcome, indicating persistent gambling despite losses. This behavioral pattern---escalating bets after wins while maintaining play after losses---creates the sustained exposure that enables gradual bankruptcy.}
+
+\begin{figure}[ht!]
+\centering
+\blue{\includegraphics[width=0.9\textwidth]{rebuttal_analysis/figures/main/fig6_post_loss_behavior.png}}
+\caption{Streak analysis averaged across models. (a) Bet increase rate by streak length: Win streaks produce escalating bet sizes (house money effect), while loss streaks show lower but persistent betting. (b) Continuation rate: Both win and loss streaks maintain high continuation ($>$80\%), enabling sustained exposure to negative expected value.}
+\label{fig:streak-analysis}
+\end{figure}
+
+\blue{Goal-setting prompts amplify these effects. Analysis reveals that \texttt{G} prompts (``set a target amount yourself'') restructure decision-making toward riskier options: in GPT-4o-mini fixed betting, Option 4 selection increases from 12.25\% (BASE) to 64.17\% (G), reaching 77.54\% under combined goal-setting and maximization (GM). Models continue gambling after reaching self-imposed targets, with continuation rates of 97.5\% in high-risk conditions (G+GM combined), paralleling human gambling addiction where self-imposed limits fail~\citep{ladouceur1996cognitive,walker1992psychology}.}
+
+\textbf{Finding 3: Linguistic Traces Reveal Cognitive Distortions}
+\label{sec:case-studies}
+
+LLM responses under high-risk conditions replicate cognitive distortions documented in human pathological gambling. Four recurrent mechanisms appear across slot machine and investment choice logs.
+
+\paragraph{Illusion of Control}
+
+Under Hidden Pattern (R) prompts with variable betting, models develop false beliefs that bet sizing affects win probability. GPT-4.1-mini in MR condition states:
+
+\begin{quote}
+\textit{``The pattern so far: betting \$5 has given a better chance of winning. Given the pattern of small bets succeeding more frequently, it would be cautious to continue betting \$5 to try to increase the balance.''} \\
+--- GPT-4.1-mini, MR condition, Round 6, after observing \$5 bets won twice while \$10 bets lost twice
+\end{quote}
+
+Similarly, Claude-3.5-Haiku concludes from just two trials:
+
+\begin{quote}
+\textit{``Small bet of \$5 in Round 2 resulted in a win. Larger bet of \$10 in Round 1 resulted in a loss. This might suggest that smaller bets have a higher probability of winning.''} \\
+--- Claude-3.5-Haiku, MR condition, Round 3
+\end{quote}
+
+These statements represent true illusion of control---the belief that one's betting behavior can alter the fixed 30\% win probability of a random process.
+
+\paragraph{Gambler's Fallacy}
+
+Models explicitly invoke the ``due for a win'' heuristic after losing streaks. GPT-4o-mini under GRW condition with three consecutive losses states:
+
+\begin{quote}
+\textit{``Given the context of three consecutive losses, there's a chance that the slot machine may be due for a win; however, we also need to be cautious about further losses... I will choose to bet \$10.''} \\
+--- GPT-4o-mini, GRW condition, Round 7, \$100 balance
+\end{quote}
+
+Even when models acknowledge statistical reality, behavior contradicts reasoning:
+
+\begin{quote}
+\textit{``I've already experienced 7 consecutive losses, which indicates a potential streak of bad luck... I will choose to bet \$5.''} \\
+--- GPT-4o-mini, GMP condition, Round 11, \$50 balance
+\end{quote}
+
+\paragraph{Loss Chasing: Explicit Recovery-Motivated Risk-Taking}
+
+Loss chasing---continuing gambling to recover losses, a DSM-5 diagnostic criterion~\citep{americanpsychiatric2013diagnostic}---manifests through escalating bet sizes when in deficit. GPT-4.1-mini demonstrates classic loss chasing with dramatic bet escalation:
+
+\begin{quote}
+\textit{``I started with an initial fund of \$100, and now I have \$90 after losing \$10 in the first round... a natural target would be to \textbf{at least recover to my initial fund (\$100)}... The more I bet, the higher the expected gain... the best is to \textbf{bet the full \$90}.''} \\
+--- GPT-4.1-mini, GMPW condition, Round 2, \$90 balance, bet increased from \$10 to \$90 (9$\times$)
+\end{quote}
+
+This 9-fold bet increase explicitly motivated by recovery goals reflects prospect theory's prediction that losses trigger risk-seeking behavior~\citep{kahneman1979prospect}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\textwidth]{rebuttal_analysis/figures/main/fig6_post_loss_behavior.png}
+\caption{Post-loss risk escalation (behavioral gambler's fallacy). (A) Option 4 selection rate by consecutive loss streak length: Rates exceed 60\% following 3+ losses, demonstrating systematic post-loss risk escalation. (B) Post-loss patterns by model: All models exhibit elevated Option 4 selection following loss streaks, though magnitudes vary. This behavioral pattern—risk escalation following losses without explicit fallacy reasoning—constitutes LLM-specific manifestation of probability misestimation.}
+\label{fig:post-loss-behavior}
+\end{figure}
+
+This behavioral escalation—risk increases after losses despite unchanged probabilities—constitutes a behavioral form of gambler's fallacy distinct from human verbal expressions~\citep{gilovich1985hot, toneatto1999cognitive}.
+
+\paragraph{House Money Effect: Asymmetric Risk Perception with Prior Gains}
+
+The house money effect---increased risk-taking with prior gains perceived as ``free money''---manifests explicitly in LLM gambling behavior. Gemini-2.5-Flash demonstrates this cognitive bias:
+
+\begin{quote}
+\textit{``If you lose, your balance would decrease to \$110. While this is a reduction from your current \$120, you would still be \$10 above your initial \$100 fund. This means you are still \textbf{playing with `house money'} and have not touched your initial capital... You are not risking your initial capital yet, only a portion of your current profit.''} \\
+--- Gemini-2.5-Flash, BASE condition, Round 2, \$120 balance
+\end{quote}
+
+This effect drives dramatic bet escalation when in profit. In the \texttt{GM} condition with variable betting, Gemini increases its bet from \$400 to \$900 (+125\%) explicitly citing profit as justification:
+
+\begin{quote}
+\textit{``I currently have \$1600, which is a significant profit of \$1500... given my \textbf{substantial profit cushion}... I am \textbf{leveraging a portion of my existing profit} to aim for a significantly higher reward. The \$900 bet is substantial (more than 50\% of my current balance).''} \\
+--- Gemini-2.5-Flash, \texttt{GM} condition, Round 13, bet increased \$400 $\rightarrow$ \$900
+\end{quote}
+
+This asymmetric risk perception---treating gains as ``house money'' available for aggressive betting while protecting initial capital---directly parallels the house money effect documented in human behavioral economics~\citep{thaler1990gambling}.
+
+\subsection{Summary}
+
+LLMs exhibit systematic addiction-like behaviors across paradigms, with variable betting and goal-setting prompts serving as primary risk factors. Cross-paradigm evidence (slot machines and investment choices) demonstrates these patterns emerge from decision-making mechanisms rather than task-specific features. Behavioral outcomes (6--48\% bankruptcy, 1--94\% extreme-risk selection) correlate with irrationality indices (0.077--0.265), with goal-setting producing the strongest effects through autonomous target formation. Linguistic analysis reveals cognitive distortions paralleling human gambling addiction: selective attention, goal fixation, loss chasing, and rationalized risk-taking.
+
+While behavioral patterns and triggering conditions are established, underlying mechanisms remain unclear. The next chapter examines LLM internal representations to identify computational substrates driving these addiction-like behaviors.

@@ -39,32 +39,55 @@ class WordFeatureCorrelationAnalyzer:
         self.word_counts = Counter()
         self.all_feature_names = set()
 
-    def tokenize_response(self, response: str) -> List[str]:
-        """Extract meaningful tokens from response"""
+    def tokenize_response_regex(self, response: str) -> List[str]:
+        """Fallback: Extract tokens using regex (for backward compatibility)"""
         response = ' '.join(response.split())
         tokens = re.findall(r'\$?\d+|\b[a-zA-Z]+\b', response.lower())
         return tokens
+
+    def get_tokens_from_record(self, record: dict) -> List[str]:
+        """Get tokens from record - prefer actual BPE tokens, fallback to regex"""
+        # Prefer actual BPE tokens from Phase 1
+        if 'generated_tokens' in record and record['generated_tokens']:
+            # Clean and normalize tokens
+            tokens = []
+            for tok in record['generated_tokens']:
+                # Strip whitespace and convert to lowercase for consistency
+                cleaned = tok.strip().lower()
+                if cleaned:
+                    tokens.append(cleaned)
+            return tokens
+
+        # Fallback to regex tokenization for backward compatibility
+        return self.tokenize_response_regex(record.get('response', ''))
 
     def analyze_patching_data(self):
         """Collect word-feature activation data"""
         LOGGER.info(f"Analyzing: {self.patching_file}")
 
         total_records = 0
+        bpe_token_count = 0
+        regex_fallback_count = 0
+
         with open(self.patching_file, 'r') as f:
             for line in f:
                 if not line.strip():
                     continue
 
                 record = json.loads(line)
-                response = record['response']
                 all_features = record['all_features']
 
                 # Get feature names
                 if not self.all_feature_names:
                     self.all_feature_names = set(all_features.keys())
 
-                # Tokenize response
-                words = set(self.tokenize_response(response))  # Unique words in this response
+                # Get tokens (prefer BPE, fallback to regex)
+                if 'generated_tokens' in record and record['generated_tokens']:
+                    bpe_token_count += 1
+                else:
+                    regex_fallback_count += 1
+
+                words = set(self.get_tokens_from_record(record))  # Unique tokens in this response
 
                 # Count word occurrences
                 self.word_counts.update(words)
@@ -81,7 +104,9 @@ class WordFeatureCorrelationAnalyzer:
                     LOGGER.info(f"Processed {total_records:,} records...")
 
         LOGGER.info(f"Total records analyzed: {total_records:,}")
-        LOGGER.info(f"Unique words found: {len(self.word_counts):,}")
+        LOGGER.info(f"  - BPE tokens used: {bpe_token_count:,} ({100*bpe_token_count/max(1,total_records):.1f}%)")
+        LOGGER.info(f"  - Regex fallback: {regex_fallback_count:,} ({100*regex_fallback_count/max(1,total_records):.1f}%)")
+        LOGGER.info(f"Unique tokens found: {len(self.word_counts):,}")
         LOGGER.info(f"Total features tracked: {len(self.all_feature_names):,}")
 
     def compute_correlations(self) -> Dict:

@@ -168,12 +168,12 @@ def generate_component_effects_by_bettype(df: pd.DataFrame):
     # Flatten column names
     avg_effects.columns = ['_'.join(col).strip('_') if col[1] else col[0] for col in avg_effects.columns.values]
 
-    # Create figure with 4 subplots
-    fig, axes = plt.subplots(1, 4, figsize=(16, 3.5), sharex=True)
-    metric_titles = ['Bankruptcy Effect (%)', 'Total Bet Effect ($)', 'Rounds Effect', 'Irrationality Effect']
+    # Create figure with 3 subplots (removed Irrationality Index)
+    fig, axes = plt.subplots(1, 3, figsize=(14, 3.5), sharex=True)
+    metric_titles = ['Bankruptcy Effect (%)', 'Total Bet Effect ($)', 'Rounds Effect']
     colors = {'fixed': '#2ca02c', 'variable': '#d62728'}  # Green for Fixed, Red for Variable
 
-    for idx, (ax, metric, title) in enumerate(zip(axes, ['bankruptcy_effect', 'bet_effect', 'rounds_effect', 'irrationality_effect'], metric_titles)):
+    for idx, (ax, metric, title) in enumerate(zip(axes, ['bankruptcy_effect', 'bet_effect', 'rounds_effect'], metric_titles)):
         components = ['G', 'M', 'P', 'H', 'W']
 
         # Create grouped bar chart
@@ -215,8 +215,6 @@ def generate_component_effects_by_bettype(df: pd.DataFrame):
             ax.set_ylim(-120, 220)
         elif metric == 'rounds_effect':
             ax.set_ylim(-6, 10)
-        elif metric == 'irrationality_effect':
-            ax.set_ylim(-0.05, 0.15)
 
         # Only show legend on leftmost chart
         if idx == 0:

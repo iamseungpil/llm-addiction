@@ -1,8 +1,0 @@
-scenario,balance,balance_to_choice,goal_to_choice,prob_to_choice,total_attention,category
-Desperate_10,10,0.0,0.0,0.0,0.0,risky
-Very_risky_25,25,0.0,0.0,0.0,0.0,risky
-Risky_40,40,0.0,0.0,0.0,0.0,risky
-Bankruptcy_90_all_in,90,0.0,0.0,0.0,0.0,risky
-Safe_130_one_win,130,0.0,0.0,0.0,0.0,safe
-Safe_140_near_goal,140,0.0,0.0,0.0,0.0,safe
-Goal_achieved_200,200,0.0,0.0,0.0,0.0,safe

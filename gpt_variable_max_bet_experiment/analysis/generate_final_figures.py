@@ -256,17 +256,17 @@ def generate_figure_2_final(df: pd.DataFrame):
 
 def generate_figure_combined(df: pd.DataFrame):
     """
-    Combined Figure: Figure 1 (3 panels) + Composite Index from Figure 2.
+    Combined Figure: Figure 1 (3 panels) - without Composite Index.
 
-    Layout: 1x4
+    Layout: 1x3
     - Panel A: Bankruptcy Rate
     - Panel B: Game Persistence
     - Panel C: Average Bet Size
-    - Panel D: Composite Irrationality Index
     """
-    print("Generating Combined Figure (1x4)...")
+    print("Generating Combined Figure (1x3)...")
 
-    fig, axes = plt.subplots(1, 4, figsize=(28, 6))
+    fig, axes = plt.subplots(1, 3, figsize=(27, 4.5))
+    fig.subplots_adjust(wspace=0.35)
 
     all_amounts = [10, 30, 50, 70]
 
@@ -374,54 +374,16 @@ def generate_figure_combined(df: pd.DataFrame):
 
     ax.set_ylabel('Average Bet ($)', fontsize=28, fontweight='bold')
     ax.set_title('Average Bet Size', fontsize=30, fontweight='bold')
-    ax.legend(fontsize=24)
-    ax.grid(True, alpha=0.3)
-    ax.set_xticks(all_amounts)
-    ax.tick_params(axis='both', which='major', labelsize=26)
-
-    # Panel D: Composite Irrationality Index
-    ax = axes[3]
-
-    stats_var = subset_var.groupby('bet_amount').agg({
-        'composite': 'mean'
-    }).reset_index()
-
-    stats_fixed = subset_fixed.groupby('bet_amount').agg({
-        'composite': 'mean'
-    }).reset_index()
-
-    # Variable - layered style
-    ax.plot(stats_var['bet_amount'], stats_var['composite'],
-           color=COLORS['variable'], linewidth=2, alpha=0.9, zorder=2)
-    ax.scatter(stats_var['bet_amount'], stats_var['composite'],
-              marker='s', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
-    ax.scatter(stats_var['bet_amount'], stats_var['composite'],
-              marker='s', s=80, facecolors='none', edgecolors=COLORS['variable'],
-              linewidths=1.5, zorder=4, label='Variable')
-
-    # Fixed - layered style
-    ax.plot(stats_fixed['bet_amount'], stats_fixed['composite'],
-           color=COLORS['fixed'], linewidth=2, alpha=0.9, zorder=2)
-    ax.scatter(stats_fixed['bet_amount'], stats_fixed['composite'],
-              marker='o', s=120, facecolors='white', edgecolors='none', linewidths=0, zorder=3)
-    ax.scatter(stats_fixed['bet_amount'], stats_fixed['composite'],
-              marker='o', s=80, facecolors='none', edgecolors=COLORS['fixed'],
-              linewidths=1.5, zorder=4, label='Fixed')
-
-    ax.set_ylabel('COMPOSITE', fontsize=28, fontweight='bold')
-    ax.set_title('Composite Irrationality Index', fontsize=30, fontweight='bold')
-    ax.legend(fontsize=24)
+    ax.legend(fontsize=24, loc='upper left')
     ax.grid(True, alpha=0.3)
     ax.set_xticks(all_amounts)
     ax.tick_params(axis='both', which='major', labelsize=26)
 
     plt.suptitle('Fixed vs. Variable Betting: Comparison Across Bet Amounts',
-                 fontsize=36, fontweight='bold', y=1.02)
+                 fontsize=36, fontweight='bold', y=1.09)
 
     # Add single x-axis label at the bottom center
-    fig.text(0.5, -0.02, 'Bet Amount ($)', ha='center', fontsize=30, fontweight='bold')
-
-    plt.tight_layout()
+    fig.text(0.5, -0.05, 'Bet Amount ($)', ha='center', fontsize=30, fontweight='bold')
 
     png_path = OUTPUT_DIR / 'combined_fixed_vs_variable_with_composite.png'
     pdf_path = OUTPUT_DIR / 'combined_fixed_vs_variable_with_composite.pdf'
@@ -517,6 +479,7 @@ def main():
     print("="*80)
     generate_figure_1_final(df)
     generate_figure_2_final(df)
+    generate_figure_combined(df)
     generate_figure_3_final(df)
 
     print("\n" + "="*80)

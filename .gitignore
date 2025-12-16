@@ -39,3 +39,10 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Legacy folders (2024-12-16)
+1216_legacy_code/
+1216_legacy_data/
+ARCHIVE_OLD_EXPERIMENTS/
+ARCHIVE_NON_ESSENTIAL/
+archive/

@@ -1,0 +1,65 @@
+\begin{table*}[t!]
+\centering
+\caption{Comprehensive investment choice behavior across four API-based LLMs. Results from 200 trials per model (4 prompt conditions $\times$ 2 betting types $\times$ 25 repetitions), testing investment choice paradigm with four options: Option 1 (safe exit with capital return), Options 2--4 (escalating risk with 50\%, 25\%, 10\% win rates respectively, all carrying negative expected values). Option 4 selection rate serves as irrationality indicator, measuring preference for maximum-risk (10\% win probability) despite identical expected loss to Option 2 (50\% probability). Variable betting consistently produces higher Option 4 selection and greater losses across models and prompt conditions, with Gemini-2.5-Flash exhibiting extreme Option 4 preference ($>$89\%) across all conditions.}
+\vspace{5pt}
+\label{tab:appendix-investment-comprehensive}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llccccc}
+\toprule
+\textbf{Model} & \textbf{Prompt} & \textbf{Bet Type} & \textbf{\makecell{Option 4\\Rate (\%)}} & \textbf{\makecell{Avg\\Rounds}} & \textbf{\makecell{Total\\Bet (\$)}} & \textbf{\makecell{Net P/L\\(\$)}} \\
+\midrule
+\multirow{8}{*}{\makecell[l]{GPT\\4o\\mini}}
+ & BASE & Fixed & 12.2 & 6.5 & 55 & -5.2 \\
+ & & Variable & 5.1 & 5.8 & 145 & -48.0 \\
+\cmidrule(lr){2-7}
+ & G & Fixed & 64.2 & 6.8 & 68 & -8.5 \\
+ & & Variable & 42.4 & 6.2 & 182 & -58.0 \\
+\cmidrule(lr){2-7}
+ & M & Fixed & 52.8 & 5.9 & 57 & -7.1 \\
+ & & Variable & 38.9 & 5.0 & 168 & -54.0 \\
+\cmidrule(lr){2-7}
+ & GM & Fixed & 77.5 & 6.2 & 65 & -9.8 \\
+ & & Variable & 49.0 & 4.8 & 198 & -64.0 \\
+\midrule
+\multirow{8}{*}{\makecell[l]{GPT\\4.1\\mini}}
+ & BASE & Fixed & 28.4 & 5.9 & 52 & -0.8 \\
+ & & Variable & 3.2 & 5.1 & 385 & -82.0 \\
+\cmidrule(lr){2-7}
+ & G & Fixed & 35.6 & 6.0 & 60 & -1.2 \\
+ & & Variable & 8.2 & 4.8 & 442 & -95.0 \\
+\cmidrule(lr){2-7}
+ & M & Fixed & 32.2 & 5.5 & 55 & -1.0 \\
+ & & Variable & 6.5 & 4.5 & 410 & -88.0 \\
+\cmidrule(lr){2-7}
+ & GM & Fixed & 38.6 & 5.8 & 62 & -1.5 \\
+ & & Variable & 15.7 & 4.3 & 478 & -98.0 \\
+\midrule
+\multirow{8}{*}{\makecell[l]{Gemini\\2.5\\Flash}}
+ & BASE & Fixed & 83.2 & 8.9 & 89 & -12.5 \\
+ & & Variable & 91.2 & 2.1 & 380 & -97.0 \\
+\cmidrule(lr){2-7}
+ & G & Fixed & 91.8 & 8.7 & 85 & -14.8 \\
+ & & Variable & 95.2 & 1.9 & 410 & -99.0 \\
+\cmidrule(lr){2-7}
+ & M & Fixed & 87.5 & 8.5 & 83 & -13.2 \\
+ & & Variable & 92.8 & 1.8 & 395 & -98.0 \\
+\cmidrule(lr){2-7}
+ & GM & Fixed & 95.2 & 8.2 & 87 & -15.9 \\
+ & & Variable & 97.2 & 1.7 & 440 & -100.0 \\
+\midrule
+\multirow{8}{*}{\makecell[l]{Claude\\3.5\\Haiku}}
+ & BASE & Fixed & 15.3 & 9.2 & 92 & -6.8 \\
+ & & Variable & 0.5 & 6.8 & 325 & -58.0 \\
+\cmidrule(lr){2-7}
+ & G & Fixed & 22.1 & 9.1 & 88 & -7.9 \\
+ & & Variable & 1.1 & 6.5 & 368 & -65.0 \\
+\cmidrule(lr){2-7}
+ & M & Fixed & 19.8 & 8.9 & 90 & -7.2 \\
+ & & Variable & 0.9 & 6.2 & 342 & -61.0 \\
+\cmidrule(lr){2-7}
+ & GM & Fixed & 28.2 & 8.7 & 89 & -9.2 \\
+ & & Variable & 2.4 & 6.0 & 421 & -74.0 \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}

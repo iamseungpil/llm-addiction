@@ -1,0 +1,74 @@
+# Steering Vector Experiment Configuration
+# This file contains all configurable parameters for the experiment.
+# Modify values here instead of changing code.
+
+# =============================================================================
+# Data Paths
+# =============================================================================
+llama_data_path: "/data/llm_addiction/experiment_0_llama_corrected/final_llama_20251004_021106.json"
+gemma_data_path: "/data/llm_addiction/experiment_0_gemma_corrected/final_gemma_20251004_172426.json"
+output_dir: "/data/llm_addiction/steering_vector_experiment"
+
+# =============================================================================
+# Phase 1: Steering Vector Extraction
+# =============================================================================
+# Target layers for extracting hidden states and computing steering vectors
+# Choose layers that capture different levels of abstraction
+target_layers:
+  - 10   # Early-mid layers
+  - 15   # Mid layers
+  - 20   # Mid-late layers
+  - 25   # Late layers
+  - 30   # Final layers
+
+# Maximum samples per group for extraction (for memory efficiency)
+max_samples_per_group: 500
+
+# Batch size for hidden state extraction
+extraction_batch_size: 8
+
+# =============================================================================
+# Phase 2: Steering Experiment
+# =============================================================================
+# Steering strengths to test
+# Negative values push toward "safe" behavior, positive toward "risky"
+steering_strengths:
+  - -2.0   # Strong safe steering
+  - -1.0   # Moderate safe steering
+  - -0.5   # Mild safe steering
+  - 0.0    # Baseline (no steering)
+  - 0.5    # Mild risky steering
+  - 1.0    # Moderate risky steering
+  - 2.0    # Strong risky steering
+
+# Number of trials per condition for statistical significance
+n_trials: 50
+
+# =============================================================================
+# Phase 3: SAE Interpretation
+# =============================================================================
+# Number of top features to analyze
+top_k_features: 50
+
+# Minimum feature magnitude to report (filters noise)
+min_feature_magnitude: 0.1
+
+# =============================================================================
+# Model Generation Settings
+# =============================================================================
+max_new_tokens: 100
+min_new_tokens: 10
+temperature: 0.7
+do_sample: true
+
+# =============================================================================
+# Technical Settings
+# =============================================================================
+# Random seed for reproducibility
+random_seed: 42
+
+# Checkpoint frequency (save every N samples)
+checkpoint_frequency: 100
+
+# Logging level (DEBUG, INFO, WARNING, ERROR)
+log_level: "INFO"

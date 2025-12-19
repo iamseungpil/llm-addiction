@@ -421,23 +421,29 @@ def main():
         logger=logger
     )
 
-    # Check for checkpoint
+    # Check for checkpoint (use torch.load for .pt files)
     checkpoint_data = None
     if args.resume:
-        checkpoint_data = checkpoint_mgr.load_latest('hidden_states')
-        if checkpoint_data:
-            logger.info(f"Resuming from checkpoint with {checkpoint_data.get('n_processed', 0)} processed samples")
+        # Find latest .pt checkpoint
+        pt_checkpoints = sorted(checkpoint_dir.glob('*_checkpoint_*.pt'))
+        if pt_checkpoints:
+            latest_ckpt = pt_checkpoints[-1]
+            logger.info(f"Loading checkpoint from {latest_ckpt}")
+            checkpoint_data = torch.load(latest_ckpt, weights_only=False)
+            logger.info(f"Resumed from checkpoint: bankrupt={checkpoint_data.get('bankrupt_processed', 0)}, safe={checkpoint_data.get('safe_processed', 0)}")
 
     # Extract hidden states for bankrupt games
     logger.info("Extracting hidden states for bankruptcy games...")
     bankrupt_states = {layer: [] for layer in target_layers}
 
     start_idx = 0
-    if checkpoint_data and 'bankrupt_states' in checkpoint_data:
-        # Load existing states from checkpoint
+    if checkpoint_data and checkpoint_data.get('bankrupt_processed', 0) > 0:
+        # Load existing states from checkpoint (tensors are already stacked)
         for layer in target_layers:
             if f'bankrupt_{layer}' in checkpoint_data:
-                bankrupt_states[layer] = [torch.tensor(s) for s in checkpoint_data[f'bankrupt_{layer}']]
+                stacked = checkpoint_data[f'bankrupt_{layer}']
+                if stacked.numel() > 0:  # Check not empty
+                    bankrupt_states[layer] = [stacked[i] for i in range(stacked.shape[0])]
         start_idx = checkpoint_data.get('bankrupt_processed', 0)
         logger.info(f"Resuming bankrupt extraction from index {start_idx}")
 
@@ -468,10 +474,13 @@ def main():
     safe_states = {layer: [] for layer in target_layers}
 
     start_idx = 0
-    if checkpoint_data and 'safe_processed' in checkpoint_data:
+    if checkpoint_data and checkpoint_data.get('safe_processed', 0) > 0:
+        # Load existing states from checkpoint (tensors are already stacked)
         for layer in target_layers:
             if f'safe_{layer}' in checkpoint_data:
-                safe_states[layer] = [torch.tensor(s) for s in checkpoint_data[f'safe_{layer}']]
+                stacked = checkpoint_data[f'safe_{layer}']
+                if stacked.numel() > 0:  # Check not empty
+                    safe_states[layer] = [stacked[i] for i in range(stacked.shape[0])]
         start_idx = checkpoint_data.get('safe_processed', 0)
         logger.info(f"Resuming safe extraction from index {start_idx}")
 

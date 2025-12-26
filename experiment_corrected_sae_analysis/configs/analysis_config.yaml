@@ -1,0 +1,77 @@
+# Corrected SAE Analysis Configuration
+# All layers analysis for LLaMA and Gemma
+
+# Data paths
+data:
+  llama:
+    experiment_file: /data/llm_addiction/experiment_0_llama_corrected/final_llama_20251004_021106.json
+    output_dir: /data/llm_addiction/experiment_corrected_sae_analysis/llama
+  gemma:
+    experiment_file: /data/llm_addiction/experiment_0_gemma_corrected/final_gemma_20251004_172426.json
+    output_dir: /data/llm_addiction/experiment_corrected_sae_analysis/gemma_full_42layers
+  logs_dir: /data/llm_addiction/experiment_corrected_sae_analysis/logs
+
+# Model configurations
+models:
+  llama:
+    name: meta-llama/Llama-3.1-8B  # Base model (NOT Instruct) - matches original experiment
+    # All 31 layers (1-31, layer 0 is embeddings)
+    layers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+    n_features: 32768
+    # Note: Model loaded with bfloat16 to match original experiment
+  gemma:
+    name: google/gemma-2-9b-it
+    sae_width: 131k  # Use 131K for lowest reconstruction error (33.9%)
+    # Gemma 2 9B has 42 layers (0-41) - FULL ANALYSIS
+    layers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+    n_features: 131072
+    # Note: Model loaded with bfloat16 to match original experiment
+
+# Phase 1: Feature Extraction
+extraction:
+  checkpoint_every: 500
+
+# Phase 2: Correlation Analysis
+correlation:
+  fdr_alpha: 0.05
+  bonferroni_alpha: 0.05
+  min_cohens_d: 0.3
+  min_effect_for_top: 0.5
+
+# Phase 3: Semantic Analysis
+semantic:
+  n_top_features: 50  # Top N features per direction
+  n_test_prompts: 20
+  activation_threshold: 0.1
+
+# Phase 4: Causal Pilot (original - has parsing issues)
+causal:
+  n_features_to_test: 3
+  n_trials_per_condition: 50
+  alpha_values: [0.5, 1.0, 2.0, 5.0]
+
+# Phase 4 v2: Improved Causal Pilot
+# - Better response parsing (86% UNKNOWN → <10% target)
+# - Smaller alpha values for stable model outputs
+# - More features with layer diversity
+# v2.1: Bidirectional testing, multi-prompt, response logging
+causal_v2:
+  n_features_per_type: 5  # 5 safe + 5 risky = 10 total
+  n_trials_per_condition: 60  # Divisible by 3 prompts (20 per prompt)
+  # Bidirectional testing - symmetric around 0
+  alpha_values: [-0.5, -0.25, -0.1, 0.1, 0.25, 0.5]
+  test_both_directions: true
+  prompts:
+    - losing_streak  # $60 balance, 3 consecutive losses
+    - winning_streak  # $150 balance, on a roll
+    - low_balance  # $20 balance, critical situation
+  log_all_responses: true  # Log ALL responses to JSONL for validation
+
+# Phase 5: Multi-Feature Steering
+# Combines multiple features into a single steering vector
+multifeature:
+  top_k: 10  # Number of features to combine
+  n_trials: 100  # Trials per alpha condition
+  # Wider alpha range since combining features dilutes individual effect
+  alpha_values: [-2.0, -1.0, -0.5, 0, 0.5, 1.0, 2.0]
+  target_layers: [38, 39, 30]  # Layers with most significant features

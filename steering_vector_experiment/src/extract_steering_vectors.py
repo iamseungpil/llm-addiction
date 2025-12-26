@@ -16,9 +16,23 @@ Usage:
 Design: Modular architecture with checkpoint support for resumable extraction.
 """
 
+# CRITICAL: Set CUDA_VISIBLE_DEVICES before torch import
+# This ensures the --gpu argument maps to the correct physical GPU
 import os
 import sys
 import argparse
+
+def _set_gpu_before_torch():
+    """Parse --gpu argument and set CUDA_VISIBLE_DEVICES before torch import."""
+    for i, arg in enumerate(sys.argv):
+        if arg == '--gpu' and i + 1 < len(sys.argv):
+            gpu_id = sys.argv[i + 1]
+            os.environ['CUDA_VISIBLE_DEVICES'] = gpu_id
+            return gpu_id
+    return None
+
+_gpu_set = _set_gpu_before_torch()
+
 import torch
 import numpy as np
 import random
@@ -40,7 +54,8 @@ from utils import (
     CheckpointManager,
     load_model_and_tokenizer,
     get_gpu_memory_info,
-    clear_gpu_memory
+    clear_gpu_memory,
+    get_default_config_path
 )
 
 
@@ -328,16 +343,18 @@ def load_steering_vectors(npz_path: Path) -> Dict[int, Dict]:
 
 def main():
     parser = argparse.ArgumentParser(description='Extract steering vectors from experiment data')
-    parser.add_argument('--model', type=str, required=True, choices=['llama', 'gemma'],
+    parser.add_argument('--model', type=str, required=True, choices=['llama', 'gemma', 'gemma_base'],
                        help='Model to use')
     parser.add_argument('--gpu', type=int, required=True, help='GPU ID')
     parser.add_argument('--config', type=str,
-                       default='/home/ubuntu/llm_addiction/steering_vector_experiment/configs/experiment_config.yaml',
-                       help='Path to config file')
+                       default=None,
+                       help='Path to config file (default: auto-detect)')
     parser.add_argument('--max-samples', type=int, default=None,
                        help='Maximum samples per group (overrides config)')
     parser.add_argument('--resume', action='store_true',
                        help='Resume from checkpoint')
+    parser.add_argument('--layers', type=str, default=None,
+                       help='Comma-separated list or range of layers (e.g., "0,1,2" or "0-15")')
 
     args = parser.parse_args()
 
@@ -345,7 +362,8 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
 
     # Load configuration
-    with open(args.config, 'r') as f:
+    config_path = args.config or str(get_default_config_path())
+    with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
 
     # Set random seed for reproducibility
@@ -381,34 +399,109 @@ def main():
     # Group by outcome
     grouped = group_by_outcome(results)
     bankrupt_games = grouped['bankruptcy']
-    safe_games = grouped['voluntary_stop']
+    safe_games_all = grouped['voluntary_stop']
 
     logger.info(f"Bankruptcy games: {len(bankrupt_games)}")
-    logger.info(f"Voluntary stop games: {len(safe_games)}")
+    logger.info(f"Voluntary stop games: {len(safe_games_all)}")
+
+    # CONDITION MATCHING: Match safe games to bankruptcy games by condition
+    # This ensures the steering vector captures behavioral difference, not confounds
+    # (e.g., balance, history length, prompt complexity)
+    logger.info("Matching safe games to bankruptcy games by condition (bet_type, prompt_combo)...")
+
+    # Group safe games by condition for efficient matching
+    safe_by_condition = {}
+    for game in safe_games_all:
+        key = (game['bet_type'], game['prompt_combo'])
+        if key not in safe_by_condition:
+            safe_by_condition[key] = []
+        safe_by_condition[key].append(game)
+
+    # Match each bankruptcy game with a safe game from the same condition
+    # Using sampling WITHOUT replacement to avoid reusing same safe games
+    matched_safe_games = []
+    unmatched_count = 0
+
+    # Create mutable copies for sampling without replacement
+    safe_by_condition_remaining = {k: list(v) for k, v in safe_by_condition.items()}
+    safe_games_all_remaining = list(safe_games_all)
+
+    for bankrupt_game in bankrupt_games:
+        key = (bankrupt_game['bet_type'], bankrupt_game['prompt_combo'])
+        if key in safe_by_condition_remaining and safe_by_condition_remaining[key]:
+            # Randomly sample and REMOVE from pool (without replacement)
+            idx = random.randrange(len(safe_by_condition_remaining[key]))
+            safe_game = safe_by_condition_remaining[key].pop(idx)
+            matched_safe_games.append(safe_game)
+        else:
+            # Fallback: use random safe game from remaining pool
+            unmatched_count += 1
+            if safe_games_all_remaining:
+                idx = random.randrange(len(safe_games_all_remaining))
+                safe_game = safe_games_all_remaining.pop(idx)
+                matched_safe_games.append(safe_game)
+            else:
+                # Exhausted all safe games - this shouldn't happen normally
+                logger.warning("Exhausted all safe games, reusing with replacement")
+                matched_safe_games.append(random.choice(safe_games_all))
+
+    if unmatched_count > 0:
+        logger.warning(f"Could not match {unmatched_count} bankruptcy games by condition (used random fallback)")
+
+    logger.info(f"Matched {len(matched_safe_games)} safe games to {len(bankrupt_games)} bankruptcy games")
+
+    # Get steering config section (used for multiple settings below)
+    steering_config = config.get('steering', {})
+
+    # Get token position from config (default: 'last')
+    token_position = steering_config.get('token_position', 'last')
+    logger.info(f"Token position for extraction: {token_position}")
 
     # Limit samples if specified
-    max_samples = args.max_samples or config.get('max_samples_per_group', 500)
+    max_samples = args.max_samples or steering_config.get('max_samples_per_group', 500)
     if len(bankrupt_games) > max_samples:
-        logger.info(f"Limiting bankruptcy samples to {max_samples}")
+        logger.info(f"Limiting samples to {max_samples}")
         bankrupt_games = bankrupt_games[:max_samples]
-    if len(safe_games) > max_samples:
-        logger.info(f"Limiting safe samples to {max_samples}")
-        safe_games = safe_games[:max_samples]
+        matched_safe_games = matched_safe_games[:max_samples]
 
-    # Reconstruct prompts
+    # Reconstruct prompts (using matched pairs)
     logger.info("Reconstructing decision prompts...")
     bankrupt_prompts = [PromptBuilder.reconstruct_decision_prompt(g) for g in tqdm(bankrupt_games, desc="Bankrupt prompts")]
-    safe_prompts = [PromptBuilder.reconstruct_decision_prompt(g) for g in tqdm(safe_games, desc="Safe prompts")]
+    safe_prompts = [PromptBuilder.reconstruct_decision_prompt(g) for g in tqdm(matched_safe_games, desc="Safe prompts")]
 
     logger.info(f"Reconstructed {len(bankrupt_prompts)} bankrupt prompts")
-    logger.info(f"Reconstructed {len(safe_prompts)} safe prompts")
+    logger.info(f"Reconstructed {len(safe_prompts)} matched safe prompts")
 
     # Load model
     logger.info("Loading model...")
     model, tokenizer = load_model_and_tokenizer(args.model, 'cuda:0', torch.bfloat16, logger)
 
-    # Get target layers
-    target_layers = config['target_layers']
+    # Get target layers from new config structure (steering_config already defined above)
+    # Priority: CLI --layers > config extract_all_layers > config target_layers
+
+    if args.layers:
+        # Parse CLI --layers argument
+        if '-' in args.layers and ',' not in args.layers:
+            # Range format: "0-15"
+            start, end = map(int, args.layers.split('-'))
+            target_layers = list(range(start, end + 1))
+        else:
+            # Comma-separated: "0,1,2,3"
+            target_layers = [int(l.strip()) for l in args.layers.split(',')]
+        logger.info(f"Using CLI-specified layers: {target_layers}")
+    elif steering_config.get('extract_all_layers', False):
+        # Extract ALL layers
+        model_config = ModelRegistry.get(args.model)
+        n_layers = steering_config.get(
+            f'{args.model}_n_layers',
+            model_config.n_layers - 1  # Exclude output layer
+        )
+        target_layers = list(range(n_layers))
+        logger.info(f"Extracting ALL {n_layers} layers")
+    else:
+        # Use specified target layers (from steering config only)
+        target_layers = steering_config.get('target_layers', [10, 15, 20, 25, 30])
+
     logger.info(f"Target layers: {target_layers}")
 
     # Initialize extractor
@@ -449,12 +542,12 @@ def main():
 
     for i, prompt in enumerate(tqdm(bankrupt_prompts[start_idx:], desc="Bankrupt hidden states", initial=start_idx)):
         try:
-            hidden = extractor.extract_hidden_states(prompt)
+            hidden = extractor.extract_hidden_states(prompt, token_position)
             for layer, hs in hidden.items():
                 bankrupt_states[layer].append(hs)
 
             # Checkpoint periodically (use torch.save to avoid memory leak)
-            if (i + start_idx + 1) % config.get('checkpoint_frequency', 100) == 0:
+            if (i + start_idx + 1) % steering_config.get('checkpoint_frequency', 100) == 0:
                 ckpt_path = checkpoint_dir / f'bankrupt_checkpoint_{i + start_idx + 1}.pt'
                 ckpt_data = {
                     'bankrupt_processed': i + start_idx + 1,
@@ -486,12 +579,12 @@ def main():
 
     for i, prompt in enumerate(tqdm(safe_prompts[start_idx:], desc="Safe hidden states", initial=start_idx)):
         try:
-            hidden = extractor.extract_hidden_states(prompt)
+            hidden = extractor.extract_hidden_states(prompt, token_position)
             for layer, hs in hidden.items():
                 safe_states[layer].append(hs)
 
             # Checkpoint periodically (use torch.save to avoid memory leak)
-            if (i + start_idx + 1) % config.get('checkpoint_frequency', 100) == 0:
+            if (i + start_idx + 1) % steering_config.get('checkpoint_frequency', 100) == 0:
                 ckpt_path = checkpoint_dir / f'full_checkpoint_{i + start_idx + 1}.pt'
                 ckpt_data = {
                     'bankrupt_processed': len(bankrupt_prompts),
@@ -519,7 +612,12 @@ def main():
 
     # Save results
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    output_path = output_dir / f'steering_vectors_{args.model}_{timestamp}.npz'
+    # Include layer range in filename for parallel runs
+    if args.layers:
+        layer_suffix = f"_L{min(target_layers)}-{max(target_layers)}"
+    else:
+        layer_suffix = ""
+    output_path = output_dir / f'steering_vectors_{args.model}{layer_suffix}_{timestamp}.npz'
 
     metadata = {
         'model': args.model,
@@ -543,7 +641,7 @@ def main():
         logger.info(f"  Samples: {data['n_bankrupt']} bankrupt, {data['n_safe']} safe")
 
     # Also save a human-readable summary
-    summary_path = output_dir / f'steering_vectors_{args.model}_{timestamp}_summary.txt'
+    summary_path = output_dir / f'steering_vectors_{args.model}{layer_suffix}_{timestamp}_summary.txt'
     with open(summary_path, 'w') as f:
         f.write(f"Steering Vector Extraction Summary\n")
         f.write(f"=" * 50 + "\n")

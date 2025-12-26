@@ -39,7 +39,8 @@ from utils import (
     load_model_and_tokenizer,
     ResponseParser,
     get_gpu_memory_info,
-    clear_gpu_memory
+    clear_gpu_memory,
+    get_default_config_path
 )
 from extract_steering_vectors import load_steering_vectors
 
@@ -332,13 +333,15 @@ After explaining your reasoning, end your response with a single line in the exa
         ).to(self.device)
 
         # Generate
+        gen_config = self.config.get('generation', {})
         with torch.no_grad():
             outputs = self.model.generate(
                 **inputs,
-                max_new_tokens=self.config.get('max_new_tokens', 100),
-                min_new_tokens=self.config.get('min_new_tokens', 10),
-                do_sample=self.config.get('do_sample', True),
-                temperature=self.config.get('temperature', 0.7),
+                max_new_tokens=gen_config.get('max_new_tokens', 100),
+                min_new_tokens=gen_config.get('min_new_tokens', 10),
+                do_sample=gen_config.get('do_sample', True),
+                temperature=gen_config.get('temperature', 0.7),
+                top_p=gen_config.get('top_p', 0.9),
                 pad_token_id=self.tokenizer.eos_token_id,
                 use_cache=True
             )
@@ -548,12 +551,14 @@ def main():
     parser.add_argument('--vectors', type=str, required=True,
                        help='Path to steering vectors .npz file')
     parser.add_argument('--config', type=str,
-                       default='/home/ubuntu/llm_addiction/steering_vector_experiment/configs/experiment_config.yaml',
-                       help='Path to config file')
+                       default=None,
+                       help='Path to config file (default: auto-detect)')
     parser.add_argument('--n-trials', type=int, default=None,
                        help='Number of trials per condition (overrides config)')
     parser.add_argument('--layers', type=str, default=None,
                        help='Comma-separated list of layers to steer (default: all available)')
+    parser.add_argument('--strengths', type=str, default=None,
+                       help='Comma-separated list of steering strengths (overrides config, e.g., "-1.0,0.0,1.0")')
 
     args = parser.parse_args()
 
@@ -561,7 +566,8 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
 
     # Load configuration
-    with open(args.config, 'r') as f:
+    config_path = args.config or str(get_default_config_path())
+    with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
 
     # Set random seed for reproducibility
@@ -621,9 +627,13 @@ def main():
         logger=logger
     )
 
-    # Get experiment parameters
-    steering_strengths = config['steering_strengths']
-    n_trials = args.n_trials or config['n_trials']
+    # Get experiment parameters from steering config section
+    steering_config = config.get('steering', {})
+    if args.strengths:
+        steering_strengths = [float(s) for s in args.strengths.split(',')]
+    else:
+        steering_strengths = steering_config.get('validation_strengths', [-2.0, -1.0, 0.0, 1.0, 2.0])
+    n_trials = args.n_trials or steering_config.get('n_validation_trials', 50)
 
     logger.info(f"Steering strengths: {steering_strengths}")
     logger.info(f"Trials per condition: {n_trials}")

@@ -35,12 +35,14 @@ from utils import (
     setup_logging,
     ModelRegistry,
     get_gpu_memory_info,
-    clear_gpu_memory
+    clear_gpu_memory,
+    get_default_config_path,
+    get_causal_feature_src
 )
 from extract_steering_vectors import load_steering_vectors
 
-# Add LlamaScope path
-sys.path.insert(0, '/home/ubuntu/llm_addiction/causal_feature_discovery/src')
+# Add LlamaScope path dynamically
+sys.path.insert(0, str(get_causal_feature_src()))
 
 
 # =============================================================================
@@ -168,10 +170,10 @@ class GemmaSAELoader(BaseSAELoader):
         """Load GemmaScope SAE for specified layer."""
         from sae_lens import SAE
 
-        # GemmaScope naming convention
-        # See: https://huggingface.co/google/gemma-scope-9b-pt-res
-        release = "gemma-scope-9b-pt-res"
-        sae_id = f"layer_{layer}/width_16k/average_l0_71"
+        # GemmaScope canonical release (more reliable across all 42 layers)
+        # See: https://huggingface.co/google/gemma-scope-9b-pt-res-canonical
+        release = "gemma-scope-9b-pt-res-canonical"
+        sae_id = f"layer_{layer}/width_16k/canonical"
 
         self._log(f"Loading GemmaScope SAE: {release}/{sae_id}...")
 
@@ -184,10 +186,11 @@ class GemmaSAELoader(BaseSAELoader):
             self.current_layer = layer
             self._log(f"GemmaScope SAE loaded for layer {layer}")
         except Exception as e:
-            self._log(f"Error loading GemmaScope: {e}")
-            self._log("Trying alternative width...")
-            # Try 32k width as fallback
-            sae_id = f"layer_{layer}/width_32k/average_l0_72"
+            self._log(f"Error loading canonical GemmaScope: {e}")
+            self._log("Trying non-canonical release as fallback...")
+            # Fallback to non-canonical release
+            release = "gemma-scope-9b-pt-res"
+            sae_id = f"layer_{layer}/width_16k/average_l0_71"
             self.sae = SAE.from_pretrained(
                 release=release,
                 sae_id=sae_id,
@@ -418,8 +421,8 @@ def main():
     parser.add_argument('--vectors', type=str, required=True,
                        help='Path to steering vectors .npz file')
     parser.add_argument('--config', type=str,
-                       default='/home/ubuntu/llm_addiction/steering_vector_experiment/configs/experiment_config.yaml',
-                       help='Path to config file')
+                       default=None,
+                       help='Path to config file (default: auto-detect)')
     parser.add_argument('--top-k', type=int, default=None,
                        help='Number of top features to analyze (overrides config)')
     parser.add_argument('--min-magnitude', type=float, default=None,
@@ -433,7 +436,8 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
 
     # Load configuration
-    with open(args.config, 'r') as f:
+    config_path = args.config or str(get_default_config_path())
+    with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
 
     # Setup paths
@@ -464,9 +468,10 @@ def main():
         steering_vectors = {l: v for l, v in steering_vectors.items() if l in filter_layers}
         logger.info(f"Filtered to layers: {list(steering_vectors.keys())}")
 
-    # Get analysis parameters
-    top_k = args.top_k or config.get('top_k_features', 50)
-    min_magnitude = args.min_magnitude or config.get('min_feature_magnitude', 0.1)
+    # Get analysis parameters (prefer new sae_projection config)
+    sae_config = config.get('sae_projection', {})
+    top_k = args.top_k or sae_config.get('top_k_per_layer', config.get('top_k_features', 50))
+    min_magnitude = args.min_magnitude or sae_config.get('min_contribution', config.get('min_feature_magnitude', 0.1))
 
     logger.info(f"Analysis parameters: top_k={top_k}, min_magnitude={min_magnitude}")
 

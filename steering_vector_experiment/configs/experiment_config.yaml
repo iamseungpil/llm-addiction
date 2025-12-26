@@ -1,6 +1,20 @@
 # Steering Vector Experiment Configuration
-# This file contains all configurable parameters for the experiment.
-# Modify values here instead of changing code.
+# =============================================================================
+# 5-Phase Causal Analysis Pipeline for LLM Gambling Behavior
+# =============================================================================
+#
+# Pipeline Overview:
+#   Phase 1: Steering Vector Extraction (A)
+#   Phase 2: SAE Feature Projection (C)
+#   Phase 3: Soft Interpolation Patching (B) - Dose-response validation
+#   Phase 4: Head Patching (D) - Attention mechanism analysis
+#   Phase 5: Gambling-Context Interpretation
+#
+# Design Philosophy:
+#   - Modular: Each phase can run independently with saved outputs
+#   - Configurable: All parameters externalized here
+#   - Extensible: Registry patterns allow adding new models/SAEs
+# =============================================================================
 
 # =============================================================================
 # Data Paths
@@ -10,56 +24,207 @@ gemma_data_path: "/data/llm_addiction/experiment_0_gemma_corrected/final_gemma_2
 output_dir: "/data/llm_addiction/steering_vector_experiment"
 
 # =============================================================================
-# Phase 1: Steering Vector Extraction
+# Phase 1: Steering Vector Extraction (A)
 # =============================================================================
-# Target layers for extracting hidden states and computing steering vectors
-# Choose layers that capture different levels of abstraction
-target_layers:
-  - 10   # Early-mid layers
-  - 15   # Mid layers
-  - 20   # Mid-late layers
-  - 25   # Late layers
-  - 30   # Final layers
+# Extract hidden states at ALL layers and compute steering vectors
+steering:
+  # Extract all layers (not just target subset)
+  extract_all_layers: true
 
-# Maximum samples per group for extraction (for memory efficiency)
-max_samples_per_group: 500
+  # Number of layers per model (used when extract_all_layers is true)
+  # If false, uses target_layers below
+  llama_n_layers: 32  # Layers 0-31
+  gemma_n_layers: 42  # Layers 0-41
 
-# Batch size for hidden state extraction
-extraction_batch_size: 8
+  # Target layers when not extracting all (legacy support)
+  target_layers:
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
 
-# =============================================================================
-# Phase 2: Steering Experiment
-# =============================================================================
-# Steering strengths to test
-# Negative values push toward "safe" behavior, positive toward "risky"
-steering_strengths:
-  - -2.0   # Strong safe steering
-  - -1.0   # Moderate safe steering
-  - -0.5   # Mild safe steering
-  - 0.0    # Baseline (no steering)
-  - 0.5    # Mild risky steering
-  - 1.0    # Moderate risky steering
-  - 2.0    # Strong risky steering
+  # Steering validation experiment settings
+  validation_strengths:
+    - -2.0   # Strong safe steering
+    - -1.0   # Moderate safe steering
+    - -0.5   # Mild safe steering
+    - 0.0    # Baseline (no steering)
+    - 0.5    # Mild risky steering
+    - 1.0    # Moderate risky steering
+    - 2.0    # Strong risky steering
 
-# Number of trials per condition for statistical significance
-n_trials: 50
+  # Trials per condition for validation
+  n_validation_trials: 50
 
-# =============================================================================
-# Phase 3: SAE Interpretation
-# =============================================================================
-# Number of top features to analyze
-top_k_features: 50
+  # Maximum samples per group for extraction
+  max_samples_per_group: 500
 
-# Minimum feature magnitude to report (filters noise)
-min_feature_magnitude: 0.1
+  # Checkpoint frequency
+  checkpoint_frequency: 100
 
 # =============================================================================
-# Model Generation Settings
+# Phase 2: SAE Feature Projection (C)
 # =============================================================================
-max_new_tokens: 100
-min_new_tokens: 10
-temperature: 0.7
-do_sample: true
+# Project steering vectors through SAE encoder to identify candidate features
+sae_projection:
+  # Top features per layer by |contribution|
+  top_k_per_layer: 20
+
+  # Minimum contribution to include
+  min_contribution: 0.01
+
+  # Include layers for projection (subset of extracted layers)
+  # Typically mid-to-late layers where semantic features emerge
+  target_layers:
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
+
+# =============================================================================
+# Phase 3: Soft Interpolation Patching (B)
+# =============================================================================
+# Validate feature causality via dose-response patching
+soft_interpolation:
+  # Alpha values for interpolation
+  # 0.0 = corrupt (safe), 1.0 = clean (risky)
+  alpha_values:
+    - 0.0
+    - 0.25
+    - 0.5
+    - 0.75
+    - 1.0
+
+  # Number of test prompts for validation
+  n_test_prompts: 100
+
+  # Monotonicity threshold for Spearman correlation
+  # Features with |rho| > threshold are considered validated
+  monotonicity_threshold: 0.8
+
+  # Minimum effect size (Cohen's d) for dose-response validation
+  min_effect_size: 0.3
+
+  # Minimum effect size for bidirectional causal tests (typically higher bar)
+  min_bidirectional_effect: 0.5
+
+  # FDR (False Discovery Rate) significance threshold
+  # Used for Benjamini-Hochberg correction in multiple comparisons
+  fdr_alpha: 0.05
+
+  # Batch size for patching experiments
+  batch_size: 10
+
+  # Which metric to use for behavioral measurement
+  # Options: "stop_probability", "bet_amount", "decision_logit_diff"
+  behavioral_metric: "stop_probability"
+
+# =============================================================================
+# Phase 4: Head Patching (D)
+# =============================================================================
+# Identify causally important attention heads
+head_patching:
+  # Enable head patching analysis
+  enabled: true
+
+  # Effect threshold (minimum behavioral change to consider causal)
+  effect_threshold: 0.1
+
+  # Number of test prompts for head patching
+  n_test_prompts: 50
+
+  # Which layers to test heads in (uses validated feature layers)
+  use_validated_feature_layers: true
+
+  # Number of attention heads per layer
+  llama_n_heads: 32
+  gemma_n_heads: 16
+
+  # Patching direction
+  # "corrupt_to_clean": Replace clean head output with corrupt
+  # "clean_to_corrupt": Replace corrupt head output with clean
+  patching_direction: "corrupt_to_clean"
+
+# =============================================================================
+# Phase 5: Gambling-Context Interpretation
+# =============================================================================
+# Generate gambling-specific explanations for validated features
+interpretation:
+  # Use gambling-specific templates (vs generic "X means")
+  use_gambling_context: true
+
+  # Scale values for decoder patching
+  # Sensitive hyperparameter - too low: vague, too high: hallucination
+  scales:
+    - 3.0
+    - 5.0
+    - 8.0
+
+  # Number of templates to try per feature
+  n_templates: 3
+
+  # Maximum tokens for explanation generation
+  max_new_tokens: 50
+
+  # Enable feature clustering
+  enable_clustering: true
+
+  # Minimum cluster size
+  min_cluster_size: 3
+
+  # Generate narrative summary
+  generate_narrative: true
+
+# =============================================================================
+# Model Configuration
+# =============================================================================
+models:
+  llama:
+    model_id: "meta-llama/Llama-3.1-8B"
+    d_model: 4096
+    n_layers: 32
+    n_heads: 32
+    use_chat_template: false
+
+  gemma:
+    model_id: "google/gemma-2-9b-it"
+    d_model: 3584
+    n_layers: 42
+    n_heads: 16
+    use_chat_template: true
+
+# =============================================================================
+# SAE Configuration
+# =============================================================================
+sae:
+  llama:
+    # Primary: LlamaScope (fnlp)
+    primary_repo: "fnlp/Llama-Scope"
+    primary_pattern: "fnlp/Llama3_1-8B-Base-L{layer}R-8x"
+    d_sae: 32768
+    # Fallback: EleutherAI SAE
+    fallback_repo: "EleutherAI/sae-llama-3.1-8b-32x"
+
+  gemma:
+    # GemmaScope via sae_lens
+    release: "gemma-scope-9b-pt-res"
+    # Width options in order of preference
+    widths:
+      - "16k"
+      - "32k"
+    d_sae: 16384  # For 16k width
+
+# =============================================================================
+# Generation Settings
+# =============================================================================
+generation:
+  max_new_tokens: 100
+  min_new_tokens: 10
+  temperature: 0.7
+  do_sample: true
+  top_p: 0.9
 
 # =============================================================================
 # Technical Settings
@@ -67,8 +232,33 @@ do_sample: true
 # Random seed for reproducibility
 random_seed: 42
 
-# Checkpoint frequency (save every N samples)
-checkpoint_frequency: 100
-
-# Logging level (DEBUG, INFO, WARNING, ERROR)
+# Logging level
 log_level: "INFO"
+
+# GPU memory management
+clear_cache_frequency: 50  # Clear GPU cache every N samples
+
+# Checkpoint settings
+enable_checkpoints: true
+checkpoint_format: "pt"  # "pt" for torch, "npz" for numpy
+
+# =============================================================================
+# Pipeline Execution Settings
+# =============================================================================
+pipeline:
+  # Phases to run (can skip completed phases)
+  phases:
+    - steering_extraction      # Phase 1
+    - sae_projection          # Phase 2
+    - soft_interpolation      # Phase 3
+    - head_patching           # Phase 4
+    - interpretation          # Phase 5
+
+  # Continue from checkpoint if available
+  resume_from_checkpoint: true
+
+  # Save intermediate results after each phase
+  save_intermediate: true
+
+  # Strict mode: fail pipeline if any phase fails
+  strict_mode: true

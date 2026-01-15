@@ -1,0 +1,96 @@
+
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2026_conference,times}
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{svg}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable,skins}
+\usepackage{dsfont}
+
+\newtcolorbox{promptbox}[1][]{
+  colback=black!5!white, 
+  colframe=black!75!white, 
+  fonttitle=\bfseries,  
+  title={#1},
+  breakable, 
+}
+
+\newcommand{\blue}[1]{\textcolor{black}{#1}}
+
+
+\title{Can Large Language Models Develop \\Gambling Addiction?}
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \iclrfinalcopy macro remains commented out below.
+% Non-anonymous submissions will be rejected without review.
+
+\author{
+  Seungpil Lee$^{1}$, Donghyeon Shin$^{1}$, Yunjeong Lee$^{2}$, Sundong Kim$^{1}$\\
+  $^{1}$Department of AI Convergence, Gwangju Institute of Science and Technology \\
+  $^{2}$Department of Life Science, Gwangju Institute of Science and Technology \\
+  \texttt{\{iamseungpil, dong97411, linda0706\}@gm.gist.ac.kr,} \\
+  \texttt{sundong@gist.ac.kr}
+}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+\begin{document}
+
+
+\maketitle
+
+\input{iclr2026/content/0.abstract}
+\input{iclr2026/content/1.introduction}
+% \input{iclr2026/content/2.preliminaries}
+\input{iclr2026/content/2.what_is_addiction_to_llm}
+% \input{iclr2026/content/3.can_llm_be_addicted}
+\input{iclr2026/content/3.can_llm_be_addicted}
+% \input{iclr2026/content/4.llama_feature_analysis}
+\input{iclr2026/content/4.llama_feature_analysis}
+\input{iclr2026/content/5.conclusion}
+
+% \subsubsection*{Author Contributions}
+% If you'd like to, you may include a section for author contributions as is done
+% in many journals. This is optional and at the discretion of the authors.
+
+\iffalse
+\subsubsection*{Acknowledgments}
+This work was supported by the IITP (RS-2023-00216011, RS-2024-00445087, No. 2019-0-01842) and the NRF (RS-2024-00451162) grants funded by the Ministry of Science and ICT, Korea.
+\fi
+
+\bibliography{iclr2026_conference}
+\bibliographystyle{iclr2026_conference}
+
+\input{iclr2026/appendix/appendix}
+
+
+
+
+\end{document}

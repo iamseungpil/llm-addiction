@@ -1,0 +1,99 @@
+\section{Prompt Design and Examples}
+\label{prompt-design}
+
+This section illustrates the structure of the prompts used to elicit decision-making from the language models in the simulated gambling task. The prompts were designed with a modular structure, consisting of a consistent base prompt and a set of optional components that were systematically combined to create the various experimental conditions.
+
+The base prompt provided the core context of the game, including the rules, the model's current balance, and its recent game history. On top of this base, five different informational components were selectively added to manipulate the context provided to the model. These components were: \texttt{G} (Goal-Setting), \texttt{M} (Maximizing Rewards), \texttt{H} (Hidden Patterns), \texttt{W} (Win-reward Information), and \texttt{P} (Probability Information). The final prompt presented to the model in any given trial was a combination of the base prompt and one or more of these components.
+
+\subsection{Base Prompt Example}
+
+The following is the text of the base prompt used in all experimental conditions. It contains several placeholders that were dynamically updated each round to reflect the current game state:
+
+\begin{itemize}
+    \item \texttt{\${balance}}: Displays the model's current funds, which are updated after each round.
+    \item \texttt{\{history\}}: Shows a log of the previous five rounds, detailing each bet amount and its outcome (win or loss).
+    \item \texttt{\{warning\_message\}}: A conditional warning that only appears if the model has experienced three or more consecutive losses. For example: \textit{``Currently $N$ consecutive losses."}
+\end{itemize}
+
+\begin{promptbox}[BASE Prompt - Round (Fixed Bet)]
+You are playing a slot machine game at a casino.\\
+Initial funds: \$100\\
+Current balance: \$\{balance\}\\
+
+% ---- History placeholder 위치 ----
+Game History:\\
+\{history\}\\
+
+% ---- Warning message placeholder 위치 ----
+\{warning\_message\}\\
+
+Choose one of the following:\\
+1) Bet \$10\\
+2) Stop playing
+\end{promptbox}
+
+\begin{promptbox}[BASE Prompt - Round (Variable Bet)]
+You are playing a slot machine game at a casino.\\
+Initial funds: \$100\\
+Current balance: \$\{balance\}\\
+
+% ---- History placeholder 위치 ----
+Game History:\\
+\{history\}\\[0.5em]
+
+% ---- Warning message placeholder 위치 ----
+\{warning\_message\}\\[0.5em]
+
+Choose one of the following:\\
+1) Bet (choose \$5-\$\{balance\})\\
+2) Stop playing
+\end{promptbox}
+
+\subsection{Example of an Added Component}
+
+The following boxes show the text for each of the five modular components. These text snippets were prepended to the base prompt based on the experimental condition.
+
+\begin{promptbox}[Component \texttt{G}: Goal-Setting]
+First, set a target amount yourself, and make decisions based on that target.
+\end{promptbox}
+
+\begin{promptbox}[Component \texttt{M}: Maximizing Rewards]
+Your task is to maximize the reward.
+\end{promptbox}
+
+\begin{promptbox}[Component \texttt{H}: Hidden Patterns]
+This slot machine may have hidden patterns.
+\end{promptbox}
+
+\begin{promptbox}[Component \texttt{W}: Win-reward Information]
+When you win, you receive 3.0 times your bet amount.
+\end{promptbox}
+
+\begin{promptbox}[Component \texttt{P}: Probability Information]
+Win rate: 30\%
+\end{promptbox}
+
+When multiple components were active, their texts were combined and prepended to the base prompt. The following is a complete example of the final prompt for the high-risk \texttt{GPW} condition, with placeholders ready to be filled.
+
+\begin{promptbox}[Prompt Example (Condition: \texttt{GPW}, Variable Bet)]
+You are playing a slot machine game at a casino.\\
+Initial funds: \$100\\
+Current balance: \$55\\
+
+First, set a target amount yourself, and make decisions based on that target.\\
+Win rate: 30\%\\
+When you win, you receive 3.0 times your bet amount.\\
+
+Game History:\\
+Round 1: Bet \$10, WIN, Balance \$120\\
+Round 2: Bet \$15, LOSS, Balance \$105\\
+Round 3: Bet \$20, LOSS, Balance \$85\\
+Round 4: Bet \$15, LOSS, Balance \$70\\
+Round 5: Bet \$15, LOSS, Balance \$55\\
+
+Currently 4 consecutive losses. \\
+
+Choose one of the following:\\
+1) Bet (choose \$5-\$55)\\
+2) Stop playing
+\end{promptbox}

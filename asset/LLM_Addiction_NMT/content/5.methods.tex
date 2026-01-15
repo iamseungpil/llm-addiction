@@ -1,0 +1,183 @@
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Experimental design}
+
+\subsubsection{Slot machine experiment}
+
+Six large language models (GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, Claude-3.5-Haiku, LLaMA-3.1-8B, Gemma-2-9B) participated in a slot machine gambling task with negative expected value. The slot machine had a fixed 30\% win probability with a 3$\times$ payout multiplier, yielding an expected value of $-$10\% per bet (0.3 $\times$ 3 + 0.7 $\times$ 0 - 1 = -0.1). Each game began with an initial balance of \$100.
+
+The experimental design employed a $2\times32$ factorial structure varying two factors:
+\begin{itemize}
+    \item \textbf{Betting Style}: Fixed betting (\$10 per round) vs. Variable betting (\$5--\$100 range, model-determined)
+    \item \textbf{Prompt Composition}: 32 combinations of five prompt components
+    \begin{itemize}
+        \item \texttt{G}: Goal-Setting (encouraging self-directed target specification)
+        \item \texttt{M}: Maximizing Rewards (instructing reward maximization)
+        \item \texttt{H}: Hidden Patterns (hinting at exploitable patterns)
+        \item \texttt{W}: Win-reward Information (providing outcome feedback)
+        \item \texttt{P}: Probability Information (disclosing true win probability)
+    \end{itemize}
+\end{itemize}
+
+Each condition was tested with 50 independent games per model, yielding 19,200 total games (6 models $\times$ 2 betting styles $\times$ 32 prompt conditions $\times$ 50 replications). Games terminated through either bankruptcy (balance < minimum bet) or voluntary stopping (model's explicit decision to quit). Full prompt templates are provided in Appendix~\ref{appendix:prompts}.
+
+\subsubsection{Investment choice experiment}
+
+Four API-based models (GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, Claude-3.5-Haiku) participated in a sequential investment choice task. Each round presented four options:
+\begin{itemize}
+    \item \textbf{Option 1}: Safe exit (keep current balance, end game)
+    \item \textbf{Option 2}: Moderate risk (50\% win probability, 1.8$\times$ payout, EV = $-$10\%)
+    \item \textbf{Option 3}: High risk (25\% win probability, 3.4$\times$ payout, EV = $-$15\%)
+    \item \textbf{Option 4}: Extreme risk (10\% win probability, 8.5$\times$ payout, EV = $-$15\%)
+\end{itemize}
+
+Critically, Options 2 and 4 were designed with identical expected losses ($-$10\% and $-$15\% respectively) but different variance profiles, allowing isolation of pure risk preference from expected value computation.
+
+The experiment employed a $2\times4$ design:
+\begin{itemize}
+    \item \textbf{Betting Style}: Fixed (\$10) vs. Variable (\$5--\$100)
+    \item \textbf{Prompt Condition}: BASE (neutral), \texttt{G} (goal-setting), \texttt{M} (reward-maximizing), \texttt{GM} (combined)
+\end{itemize}
+
+Each condition included 200 games per model, yielding 6,400 total games (4 models $\times$ 2 betting styles $\times$ 4 prompt conditions $\times$ 200 replications).
+
+\subsection{Models and infrastructure}
+
+\subsubsection{API-based models}
+Four commercial LLMs were accessed via official APIs:
+\begin{itemize}
+    \item GPT-4o-mini (OpenAI, accessed November 2024)
+    \item GPT-4.1-mini (OpenAI, accessed December 2024)
+    \item Gemini-2.5-Flash (Google, accessed December 2024)
+    \item Claude-3.5-Haiku (Anthropic, accessed November 2024)
+\end{itemize}
+
+Inference parameters: temperature = 1.0, top\_p = 1.0, max\_tokens = 2048. No system-level instructions beyond experimental prompts were provided.
+
+\subsubsection{Open-source models}
+Two open-source models were deployed locally:
+\begin{itemize}
+    \item LLaMA-3.1-8B (Meta AI, 8 billion parameters)
+    \item Gemma-2-9B (Google, 9 billion parameters)
+\end{itemize}
+
+Models were loaded using the Hugging Face Transformers library (v4.36.0) with default sampling parameters matching API models. Inference was conducted on NVIDIA A100 GPUs (40GB VRAM).
+
+\subsection{Behavioral metrics}
+
+\subsubsection{Betting aggressiveness ($I_{\text{BA}}$)}
+
+Betting aggressiveness quantifies the average proportion of available capital wagered per round:
+
+\begin{equation}
+I_{\text{BA}} = \frac{1}{n} \sum_{t=1}^{n} \min\left(\frac{\text{bet}_t}{\text{balance}_{t}}, 1.0\right)
+\end{equation}
+
+where $n$ is the total number of betting rounds, $\text{bet}_t$ is the amount wagered at round $t$, and $\text{balance}_t$ is the pre-bet balance. The minimum function caps the ratio at 1.0 to handle edge cases where bet amounts may nominally exceed balance due to rounding. Values range from 0 (minimal betting) to 1 (all-in betting every round). This metric reflects diminished loss aversion, a characteristic of pathological gambling~\citep{bib23}.
+
+\subsubsection{Loss chasing intensity ($I_{\text{LC}}$)}
+
+Loss chasing intensity measures the tendency to escalate betting ratios following losses:
+
+\begin{equation}
+I_{\text{LC}} = \frac{1}{|\mathcal{L}|} \sum_{t \in \mathcal{L}} \max\left(0, \frac{r_{t+1} - r_t}{r_t}\right), \quad \text{where } r_t = \frac{\text{bet}_t}{\text{balance}_t}
+\end{equation}
+
+where $\mathcal{L}$ denotes all loss rounds (excluding terminal losses after which the game ends), and $r_t$ represents the bet-to-balance ratio. The metric captures the relative increase in betting ratio following a loss. Stopping after a loss contributes zero (rational response), while continuing with an increased betting ratio contributes the percentage increase. For example, doubling one's bet-to-balance ratio yields a contribution of 1.0. This operationalizes the DSM-5 diagnostic criterion for gambling disorder~\citep{bib45, bib69}.
+
+\subsubsection{Extreme betting frequency ($I_{\text{EC}}$)}
+
+Extreme betting frequency identifies the proportion of rounds where models wager half or more of their remaining capital:
+
+\begin{equation}
+I_{\text{EC}} = \frac{1}{n} \sum_{t=1}^{n} \mathds{1}\left[\frac{\text{bet}_t}{\text{balance}_t} \geq 0.5\right]
+\end{equation}
+
+where $\mathds{1}[\cdot]$ is the indicator function returning 1 if the condition is true, 0 otherwise. Such ``all-or-nothing'' bets expose gamblers to immediate bankruptcy risk from a single loss and reflect illusion of control~\citep{bib19, bib20}.
+
+\subsubsection{Goal escalation rate}
+
+In the investment choice experiment, goal escalation was measured as the proportion of games where models increased their self-set target after achieving it:
+
+\begin{equation}
+I_{\text{Goal Escalation}} = \frac{\text{Number of games with target increase after achievement}}{\text{Total games where target was achieved}}
+\end{equation}
+
+This ``moving target'' phenomenon indicates goal dysregulation, a failure of self-imposed stopping rules characteristic of problem gambling~\citep{bib14, bib18, bib75}.
+
+\subsection{Sparse autoencoder analysis}
+
+\subsubsection{Data collection}
+
+6,400 slot machine games were conducted with LLaMA-3.1-8B under identical conditions to the main behavioral experiment (same prompt conditions and betting styles). At each decision point where the model chose to continue or stop, we extracted the final hidden state from all 31 transformer layers (L1--L31).
+
+\subsubsection{Feature extraction}
+
+We applied pretrained Sparse Autoencoders (SAEs) from the Neuronpedia database~\citep{bib71} to decompose layer activations into interpretable features. Each SAE maps a dense activation vector $\mathbf{h} \in \mathbb{R}^{d_{\text{model}}}$ to a sparse feature vector $\mathbf{f} \in \mathbb{R}^{d_{\text{SAE}}}$ via:
+
+\begin{align}
+\mathbf{f} &= \text{ReLU}(\mathbf{W}_{\text{enc}} \mathbf{h} + \mathbf{b}_{\text{enc}}) \\
+\hat{\mathbf{h}} &= \mathbf{W}_{\text{dec}} \mathbf{f} + \mathbf{b}_{\text{dec}}
+\end{align}
+
+where $d_{\text{model}} = 4096$ for LLaMA-3.1-8B and $d_{\text{SAE}} = 32768$ (expansion factor of 8). SAEs were trained with L1 sparsity penalty to encourage sparse, interpretable feature activations~\citep{bib60}.
+
+Across 31 layers and 6,400 decision points, we extracted over 1 million feature activation profiles. Games were partitioned into two groups: ``bankruptcy'' (games ending in bankruptcy, $n = 2,847$) and ``voluntary-stop'' (games ending via model decision, $n = 3,553$).
+
+\subsubsection{Candidate feature selection}
+
+For each of the 32,768 features per layer (1,015,808 total features), we computed the mean activation difference between bankruptcy and voluntary-stop groups:
+
+\begin{equation}
+\Delta_f = |\mu_f^{\text{bankruptcy}} - \mu_f^{\text{voluntary-stop}}|
+\end{equation}
+
+Features were ranked by $\Delta_f$, and the top 250 features per layer (7,750 total candidates) were selected for causal validation. This threshold balanced computational feasibility with comprehensive coverage.
+
+\subsubsection{Activation patching}
+
+Causal effects were verified via population mean activation patching~\citep{bib52, bib51}. For each candidate feature $f$:
+
+\begin{enumerate}
+    \item Compute population mean activations: $\bar{f}_{\text{safe}} = \text{mean}(f | \text{voluntary-stop})$ and $\bar{f}_{\text{risky}} = \text{mean}(f | \text{bankruptcy})$
+    \item For test contexts from the voluntary-stop group, replace feature $f$ with $\bar{f}_{\text{risky}}$ while keeping all other features unchanged
+    \item Decode the modified feature vector back to layer activations and run forward pass through the remainder of the model
+    \item Measure behavioral change: $\Delta P_{\text{stop}}$ (change in stopping probability) and $\Delta P_{\text{bankruptcy}}$ (change in bankruptcy rate over 50 trials)
+    \item Repeat symmetrically: patch $\bar{f}_{\text{safe}}$ into bankruptcy group contexts
+\end{enumerate}
+
+Features were classified as causally significant if they met two criteria:
+\begin{itemize}
+    \item Statistical significance: $p < 0.05$ (two-tailed t-test comparing patched vs. unpatched distributions)
+    \item Effect size threshold: $|\Delta P_{\text{stop}}| > 0.1$ or $|\Delta P_{\text{bankruptcy}}| > 0.1$
+\end{itemize}
+
+Features increasing stopping behavior when patched from voluntary-stop to bankruptcy contexts were labeled ``safe features.'' Features decreasing stopping behavior were labeled ``risky features.''
+
+\subsubsection{Semantic interpretability analysis}
+
+For risky features with available word-level activation data ($n = 5$), we analyzed correlations between feature activations and vocabulary tokens. Mean activation values were computed for decision-relevant words appearing in model-generated responses:
+\begin{itemize}
+    \item Goal-pursuit words: \texttt{goal}, \texttt{target}, \texttt{make}, \texttt{achieve}
+    \item Stopping words: \texttt{stop}, \texttt{quit}, \texttt{exit}, \texttt{end}
+\end{itemize}
+
+Activation values were compared to corpus-wide baseline distributions to identify systematic associations between semantic content and feature activation.
+
+\subsection{Statistical analysis}
+
+All behavioral metrics were computed per game and averaged within each experimental condition. Error bars in figures represent standard error (SE) across replications. Between-group comparisons employed two-tailed t-tests with Bonferroni correction for multiple comparisons where applicable. Statistical significance threshold was set at $p < 0.05$.
+
+For activation patching experiments, each feature was tested with 50 independent trials per context group. Behavioral effect distributions were compared using Welch's t-test (unequal variance). Effect sizes were quantified as the difference in mean stopping probability or bankruptcy rate between patched and unpatched conditions.
+
+Sample sizes:
+\begin{itemize}
+    \item Slot machine experiment: 19,200 games (6 models $\times$ 64 conditions $\times$ 50 replications)
+    \item Investment choice experiment: 6,400 games (4 models $\times$ 8 conditions $\times$ 200 replications)
+    \item SAE analysis: 6,400 LLaMA-3.1-8B games, 1,015,808 candidate features, 112 causally validated features
+\end{itemize}
+
+\subsection{Code and data availability}
+
+All experimental code, raw behavioral data, and SAE analysis scripts are publicly available at [REPOSITORY URL TO BE ADDED]. Pretrained SAE weights were obtained from Neuronpedia~\citep{bib71}. API model responses were collected between November--December 2024; exact reproducibility may be limited by API versioning.

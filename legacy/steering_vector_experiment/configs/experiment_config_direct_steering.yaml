@@ -1,0 +1,261 @@
+# Direct Steering Vector Experiment Configuration
+# =============================================================================
+# Revised 4-Phase Causal Analysis Pipeline
+# Key change: SAE used for interpretation only, not for causal patching
+# =============================================================================
+#
+# Pipeline Overview:
+#   Phase 1: Steering Vector Extraction (hidden state differences)
+#   Phase 2: Direct Steering Validation (apply steering, measure behavior)
+#   Phase 3: SAE Interpretation (project steering onto features)
+#   Phase 4: Gambling-Context Interpretation
+#
+# Why this change:
+#   - SAE reconstruction error (47-145%) made patching ineffective
+#   - Direct steering has 0% error (no encode/decode cycle)
+#   - SAE is still useful for interpretation (one-way projection)
+# =============================================================================
+
+# =============================================================================
+# Data Paths
+# =============================================================================
+llama_data_path: "/data/llm_addiction/experiment_0_llama_corrected/final_llama_20251004_021106.json"
+gemma_data_path: "/data/llm_addiction/experiment_0_gemma_corrected/final_gemma_20251004_172426.json"
+output_dir: "/data/llm_addiction/steering_vector_experiment_direct"
+prompts_path: "/data/llm_addiction/steering_vector_experiment_full/condition_prompts.json"
+
+# =============================================================================
+# Phase 1: Steering Vector Extraction
+# =============================================================================
+# Compute steering vectors from bankrupt vs safe hidden states
+# NOTE: Key must be 'steering' to match extract_steering_vectors.py
+steering:
+  # Layers to extract (all layers recommended for analysis)
+  extract_all_layers: true
+  llama_n_layers: 32   # LLaMA-3.1-8B has 32 layers (0-31)
+  gemma_n_layers: 42   # Gemma-2-9B has 42 layers (0-41)
+
+  # Maximum samples per group (bankrupt/safe)
+  max_samples_per_group: 500
+
+  # Token position for hidden state extraction
+  # "last": last token, "mean": mean pool all tokens
+  token_position: "last"
+
+  # Checkpoint frequency
+  checkpoint_frequency: 100
+
+  # Target layers (used when extract_all_layers is false)
+  target_layers:
+    - 15
+    - 20
+    - 25
+    - 30
+
+# =============================================================================
+# Phase 2: Direct Steering Validation (NEW)
+# =============================================================================
+# Apply steering vector directly and measure behavioral change
+phase2_direct_steering:
+  # Steering strengths (alpha values)
+  # Positive: push toward risky, Negative: push toward safe
+  alpha_values:
+    - -2.0
+    - -1.0
+    - -0.5
+    - 0.0    # baseline
+    - 0.5
+    - 1.0
+    - 2.0
+
+  # Layers to test (mid-to-late typically most effective)
+  target_layers:
+    - 15
+    - 20
+    - 25
+    - 30
+
+  # Number of test prompts per condition
+  n_test_prompts: 50
+
+  # Behavioral metrics to measure
+  metrics:
+    - stop_probability    # P(stop) from model output
+    - bet_amount          # Average bet when betting
+    - decision_entropy    # Uncertainty in decision
+
+  # Validation criteria
+  validation:
+    # Minimum behavioral change to consider layer effective
+    min_effect_size: 0.3  # Cohen's d
+
+    # Expected direction: +alpha should increase risky behavior
+    check_direction: true
+
+    # Statistical significance
+    p_value_threshold: 0.05
+
+# =============================================================================
+# Phase 3: SAE Interpretation (Changed)
+# =============================================================================
+# Project steering vector onto SAE features for interpretation
+# NOTE: No reconstruction - only encode (one-way projection)
+phase3_sae_interpretation:
+  # Top features to report per layer
+  top_k_per_layer: 50
+
+  # Minimum contribution to include
+  min_contribution: 0.01
+
+  # Layers to analyze (use layers validated in Phase 2)
+  use_validated_layers: true
+
+  # Fallback layers if validation not available
+  default_layers:
+    - 20
+    - 25
+    - 30
+
+  # Feature clustering
+  enable_clustering: true
+  n_clusters: 10
+
+  # Cross-model comparison (if both LLaMA and Gemma run)
+  cross_model_analysis: true
+
+# =============================================================================
+# Phase 4A: Head and Component Analysis (NEW)
+# =============================================================================
+# Decompose steering effects to attention head and component level
+phase4_head_component:
+  # Default layer for analysis (validated causal layer from Phase 2)
+  default_layer: 13
+
+  # Head-level analysis settings
+  head_analysis:
+    # Number of top heads to display in summary
+    top_k_display: 10
+
+    # Minimum contribution fraction to consider significant
+    min_contribution_fraction: 0.05
+
+  # Causal validation settings (when --validate flag is used)
+  causal_validation:
+    # Steering strength for validation
+    alpha: 2.0
+
+    # Number of top heads to validate (by magnitude)
+    top_k_validate: 10
+
+    # Minimum effect size to consider head causal
+    min_effect_size: 0.3
+
+    # P-value threshold
+    p_value_threshold: 0.05
+
+  # Component attribution settings (when --components flag is used)
+  component_attribution:
+    # Steering strength for component analysis
+    alpha: 2.0
+
+    # Threshold for balanced vs dominant classification
+    dominance_threshold: 1.5  # One component must be 1.5x the other
+
+# =============================================================================
+# Phase 4B: Gambling-Context Interpretation
+# =============================================================================
+# Generate gambling-specific explanations for top features
+phase4_interpretation:
+  # Use gambling-specific templates
+  use_gambling_context: true
+
+  # Templates for feature interpretation
+  gambling_templates:
+    - "In gambling context, this feature activates when"
+    - "This represents the model's tendency to"
+    - "When making betting decisions, this captures"
+
+  # Decoder patching scales (for auto-interp)
+  scales:
+    - 3.0
+    - 5.0
+    - 8.0
+
+  # Maximum tokens for explanation
+  max_new_tokens: 50
+
+  # Generate narrative summary
+  generate_narrative: true
+
+# =============================================================================
+# Model Configuration
+# =============================================================================
+models:
+  llama:
+    model_id: "meta-llama/Llama-3.1-8B"
+    d_model: 4096
+    n_layers: 32
+    n_heads: 32
+    use_chat_template: false
+
+  gemma_base:
+    model_id: "google/gemma-2-9b"  # BASE model for SAE compatibility
+    d_model: 3584
+    n_layers: 42
+    n_heads: 16
+    use_chat_template: false  # Base model doesn't use chat template
+
+  gemma:
+    model_id: "google/gemma-2-9b-it"  # Instruct model (matches original experiment)
+    d_model: 3584
+    n_layers: 42
+    n_heads: 16
+    use_chat_template: true  # Instruct model uses chat template
+
+# =============================================================================
+# SAE Configuration (for interpretation only)
+# =============================================================================
+sae:
+  llama:
+    repo: "fnlp/Llama-Scope"
+    pattern: "fnlp/Llama3_1-8B-Base-L{layer}R-8x"
+    d_sae: 32768
+
+  gemma:
+    release: "gemma-scope-9b-pt-res"
+    width: "16k"
+    d_sae: 16384
+
+# =============================================================================
+# Generation Settings
+# =============================================================================
+generation:
+  max_new_tokens: 100
+  min_new_tokens: 10
+  temperature: 0.7
+  do_sample: true
+  top_p: 0.9
+
+# =============================================================================
+# Technical Settings
+# =============================================================================
+random_seed: 42
+log_level: "INFO"
+clear_cache_frequency: 50
+enable_checkpoints: true
+
+# =============================================================================
+# Pipeline Execution
+# =============================================================================
+pipeline:
+  phases:
+    - steering_extraction      # Phase 1
+    - direct_steering          # Phase 2
+    - sae_interpretation       # Phase 3
+    - head_component_analysis  # Phase 4A (NEW - Head and Component)
+    - interpretation           # Phase 4B (Gambling-Context Interpretation)
+    - activation_patching      # Phase 5 (Activation replacement)
+
+  resume_from_checkpoint: true
+  save_intermediate: true
+  parallel_execution: false  # Run phases sequentially

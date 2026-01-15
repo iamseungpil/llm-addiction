@@ -1,25 +1,0 @@
-/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loading ALL features from /data/llm_addiction/results/significant_features_exp1.json...
-✅ Found 17028 Layer 25 features
-✅ Found 16021 Layer 30 features
-✅ TOTAL: 33,049 features to test
-📊 Total batches: 1,653
-📊 Total batch inferences: 14,877
-⏱️  Estimated time (0.5s per batch): 2.1 hours
-🔄 Loading Llama-3.1-8B-Base...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:03<00:10,  3.39s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:03,  1.99s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.52s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.37s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.63s/it]
-🔄 Loading SAEs...
-✅ Loading Layer 25 SAE from checkpoint...
-✅ Layer 25 SAE loaded successfully
-✅ Loading Layer 30 SAE from checkpoint...
-✅ Layer 30 SAE loaded successfully
-✅ Models loaded
-
-================================================================================
-🚀 BATCH-OPTIMIZED FEATURE CLAMPING - ALL 33,049 FEATURES
-   Batch size: 20, Stages: 3, Trials: 3
-================================================================================
-
-📊 Testing 17,028 Layer 25 features...
-Layer 25 batches:   0%|          | 0/852 [00:00<?, ?it/s]Layer 25 batches:   0%|          | 1/852 [06:11<87:50:40, 371.61s/it]

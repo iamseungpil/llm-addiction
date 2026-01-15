@@ -1,9 +1,0 @@
-/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Starting Single-Round End-Prompts Experiment (index=2 targets, single-donor values)
-Loaded features: 392 (L25=192, L30=200)
-Targets fixed at index 2 (safe) and 2 (risky)
-Donor values from index 2 (safe) and 2 (risky)
-
-Loading model and SAEs...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:21<01:04, 21.66s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:41<00:41, 20.81s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [01:03<00:21, 21.35s/it]Loading checkpoint shards: 100%|██████████| 4/4 [01:09<00:00, 14.97s/it]Loading checkpoint shards: 100%|██████████| 4/4 [01:09<00:00, 17.26s/it]

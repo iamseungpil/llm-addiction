@@ -1,0 +1,169 @@
+# Full Layer Steering Vector Experiment Configuration
+# =============================================================================
+# 5-Phase Causal Analysis Pipeline with ALL layers
+# Phase 4 (Head Patching) SKIPPED
+# =============================================================================
+
+# =============================================================================
+# Data Paths - 3,200 experiments each
+# =============================================================================
+llama_data_path: "/data/llm_addiction/experiment_0_llama_corrected/final_llama_20251004_021106.json"
+gemma_data_path: "/data/llm_addiction/experiment_0_gemma_corrected/final_gemma_20251004_172426.json"
+output_dir: "/data/llm_addiction/steering_vector_experiment_full"
+
+# =============================================================================
+# Phase 1: Steering Vector Extraction
+# =============================================================================
+steering:
+  extract_all_layers: true
+  llama_n_layers: 32  # Layers 0-31
+  gemma_n_layers: 42  # Layers 0-41
+
+  # Legacy support (not used when extract_all_layers=true)
+  target_layers:
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
+
+  max_samples_per_group: 500
+  checkpoint_frequency: 100
+
+# =============================================================================
+# Phase 2: SAE Feature Projection - ALL LAYERS
+# =============================================================================
+sae_projection:
+  top_k_per_layer: 20
+  min_contribution: 0.01
+
+  # Use all available layers
+  use_all_layers: true
+
+  # LLaMA: 0-31 (32 layers)
+  llama_layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+
+  # Gemma: 0-41 (42 layers)
+  gemma_layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]
+
+# =============================================================================
+# Phase 3: Soft Interpolation Patching - 8 CONDITIONS
+# =============================================================================
+soft_interpolation:
+  # 11 alpha values for better statistical power (was 5)
+  alpha_values:
+    - 0.0
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    - 0.6
+    - 0.7
+    - 0.8
+    - 0.9
+    - 1.0
+
+  # Use real experimental prompts
+  use_real_prompts: true
+  # 25 prompts per condition (was 1) - limited by risky_fixed (42 games)
+  prompts_per_condition: 25
+
+  # 8 conditions: model (implicit) × safe/risky × fixed/variable
+  conditions:
+    - name: "safe_fixed"
+      outcome: "voluntary_stop"
+      bet_type: "fixed"
+    - name: "safe_variable"
+      outcome: "voluntary_stop"
+      bet_type: "variable"
+    - name: "risky_fixed"
+      outcome: "bankruptcy"
+      bet_type: "fixed"
+    - name: "risky_variable"
+      outcome: "bankruptcy"
+      bet_type: "variable"
+
+  # Validation thresholds
+  monotonicity_threshold: 0.7  # Lowered from 0.8 for more flexibility
+  min_effect_size: 0.2  # Lowered from 0.3
+  min_bidirectional_effect: 0.3  # Lowered from 0.5
+  fdr_alpha: 0.1  # Raised from 0.05 for less aggressive correction
+  behavioral_metric: "stop_probability"
+
+# =============================================================================
+# Phase 4: Head Patching - SKIPPED
+# =============================================================================
+head_patching:
+  enabled: false  # SKIP Phase 4
+
+# =============================================================================
+# Phase 5: Gambling-Context Interpretation
+# =============================================================================
+interpretation:
+  use_gambling_context: true
+  scales:
+    - 3.0
+    - 5.0
+    - 8.0
+  n_templates: 3
+  max_new_tokens: 50
+  enable_clustering: true
+  min_cluster_size: 3
+  generate_narrative: true
+
+# =============================================================================
+# Model Configuration
+# =============================================================================
+models:
+  llama:
+    model_id: "meta-llama/Llama-3.1-8B"
+    d_model: 4096
+    n_layers: 32
+    n_heads: 32
+    use_chat_template: false
+
+  gemma:
+    model_id: "google/gemma-2-9b-it"
+    d_model: 3584
+    n_layers: 42
+    n_heads: 16
+    use_chat_template: true
+
+# =============================================================================
+# SAE Configuration
+# =============================================================================
+sae:
+  llama:
+    primary_repo: "fnlp/Llama-Scope"
+    primary_pattern: "fnlp/Llama3_1-8B-Base-L{layer}R-8x"
+    d_sae: 32768
+
+  gemma:
+    release: "gemma-scope-9b-pt-res-canonical"
+    width: "16k"
+    d_sae: 16384
+
+# =============================================================================
+# Technical Settings
+# =============================================================================
+random_seed: 42
+log_level: "INFO"
+clear_cache_frequency: 50
+enable_checkpoints: true
+checkpoint_format: "pt"
+
+# =============================================================================
+# Pipeline Execution - Phase 4 SKIPPED
+# =============================================================================
+pipeline:
+  phases:
+    - steering_extraction      # Phase 1
+    - sae_projection          # Phase 2
+    - soft_interpolation      # Phase 3
+    # - head_patching         # Phase 4 - SKIPPED
+    - interpretation          # Phase 5
+
+  resume_from_checkpoint: true
+  save_intermediate: true
+  strict_mode: true

@@ -1,42 +1,0 @@
-/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-
-================================================================================
-INDIVIDUAL FEATURE TESTING (SINGLE DECISION)
-================================================================================
-================================================================================
-Loading Models for Individual Feature Testing
-================================================================================
-Loading Llama-3.1-8B-Base model...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.46s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.46s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.47s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.05s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.20s/it]
-
-Loading SAEs...
-✅ Loading WORKING SAE for Layer 25
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
-   Dataset norm: 31.625
-   Norm factor: 2.023715
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ Layer 25 SAE loaded
-✅ Loading WORKING SAE for Layer 30
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
-   Dataset norm: 53.25
-   Norm factor: 1.201878
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ Layer 30 SAE loaded
-
-Loading features from: /data/llm_addiction/results/llama_feature_arrays_20250813_152135.npz
-✅ Layer 25: 192 features to test individually
-✅ Layer 30: 200 features to test individually
-
-📊 Testing Layer 25 (192 features)
-Layer 25:   0%|          | 0/192 [00:00<?, ?it/s]/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/scipy/stats/_axis_nan_policy.py:579: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
-  res = hypotest_fun_out(*samples, **kwds)
-Layer 25:   1%|          | 1/192 [00:59<3:10:37, 59.88s/it]Layer 25:   1%|          | 2/192 [01:55<3:01:33, 57.34s/it]Layer 25:   2%|▏         | 3/192 [02:51<2:58:37, 56.70s/it]Layer 25:   2%|▏         | 4/192 [03:49<2:58:49, 57.07s/it]Layer 25:   3%|▎         | 5/192 [04:44<2:56:25, 56.61s/it]Layer 25:   3%|▎         | 6/192 [05:44<2:58:38, 57.63s/it]Layer 25:   4%|▎         | 7/192 [06:45<3:01:07, 58.74s/it]Layer 25:   4%|▍         | 8/192 [07:44<3:00:32, 58.87s/it]Layer 25:   5%|▍         | 9/192 [08:38<2:55:03, 57.39s/it]Layer 25:   5%|▌         | 10/192 [09:41<2:59:11, 59.08s/it]Layer 25:   6%|▌         | 11/192 [10:40<2:57:43, 58.92s/it]Layer 25:   6%|▋         | 12/192 [11:42<3:00:02, 60.01s/it]Layer 25:   7%|▋         | 13/192 [12:39<2:56:10, 59.05s/it]Layer 25:   7%|▋         | 14/192 [13:41<2:58:04, 60.03s/it]Layer 25:   8%|▊         | 15/192 [14:40<2:56:01, 59.67s/it]Layer 25:   8%|▊         | 16/192 [15:41<2:56:03, 60.02s/it]

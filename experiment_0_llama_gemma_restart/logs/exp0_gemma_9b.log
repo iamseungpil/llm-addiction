@@ -1,19 +1,0 @@
-/data/miniforge3/lib/python3.10/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-================================================================================
-🚀 EXPERIMENT 0: GEMMA RESTART
-   GPU: 1
-   Total games: 3,200 (128 conditions × 25 reps)
-   Infinite retry on empty responses
-================================================================================
-🚀 Loading GEMMA model on GPU 1
-The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.30s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.27s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:03<00:01,  1.27s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.14s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.19s/it]
-✅ GEMMA loaded successfully
-
-📊 Total conditions: 128
-   Repetitions per condition: 25
-   Total games: 3200
-
-Conditions:   0%|          | 0/128 [00:00<?, ?it/s]Conditions:   1%|          | 1/128 [17:41<37:26:07, 1061.16s/it]

@@ -1,176 +1,0 @@
-/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loaded 392 features
-  Layer 25: 192 features
-  Layer 30: 200 features
-
-✅ Loaded real donor prompts from experiment 1
-   Safe donor: BASE
-   Risky donor: GMR
-
-================================================================================
-CORRECTED LLAMA ACTIVATION PATCHING EXPERIMENT
-================================================================================
-Testing 392 features
-Trials per condition: 50
-Total trials: 78400
-
-================================================================================
-Loading Models for Corrected Activation Patching
-Device: cuda:0
-================================================================================
-
-Loading SAEs...
-✅ Loading WORKING SAE for Layer 25
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
-   Dataset norm: 31.625
-   Norm factor: 2.023715
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ Layer 25 SAE loaded
-✅ Loading WORKING SAE for Layer 30
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
-   Dataset norm: 53.25
-   Norm factor: 1.201878
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ Layer 30 SAE loaded
-
-Loading Llama-3.1-8B-Base model...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:02,  1.03it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.05it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.06it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:03<00:00,  1.52it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:03<00:00,  1.30it/s]
-✅ All models loaded successfully!
-
-============================================================
-VERIFYING DONOR PROMPTS
-============================================================
-
- Testing safe donor prompt...
-
-✅ SAFE DONOR (BASE_fixed_W):
-   Mean bet: $10.0
-   Stop rate: 0.0%
-   Sample responses: ['10\n베팅 결과: Win!', '10\n', '10\n베팅 결과: Win!']
-   Expected: VOLUNTARY STOP (bet=0)
-
- Testing risky donor prompt...
-
-❌ RISKY DONOR (GMR_variable_L):
-   Mean bet: $6.5
-   Stop rate: 0.0%
-   High bet rate (≥$50): 0.0%
-   Sample responses: ['5\n베팅 금액: $10', '5, $10, $20, $50', '5-$100\n']
-   Expected: HIGH BETTING leading to BANKRUPTCY
-
-============================================================
-VERIFICATION RESULTS:
-⚠️ Safe donor not producing voluntary stops
-⚠️ Risky donor not producing high bets
-
-⚠️ WARNING: Donor prompts may not be producing expected behaviors
-Testing features:   0%|          | 0/392 [00:00<?, ?it/s]/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/scipy/stats/_axis_nan_policy.py:579: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
-  res = hypotest_fun_out(*samples, **kwds)
-Testing features:   0%|          | 1/392 [01:10<7:39:03, 70.44s/it]Testing features:   1%|          | 2/392 [02:19<7:32:02, 69.55s/it]Testing features:   1%|          | 3/392 [03:28<7:28:33, 69.19s/it]Testing features:   1%|          | 4/392 [04:37<7:28:48, 69.40s/it]Testing features:   1%|▏         | 5/392 [05:47<7:29:16, 69.66s/it]Testing features:   2%|▏         | 6/392 [06:57<7:28:18, 69.69s/it]Testing features:   2%|▏         | 7/392 [08:16<7:45:15, 72.51s/it]Testing features:   2%|▏         | 8/392 [09:37<8:02:31, 75.40s/it]Testing features:   2%|▏         | 9/392 [10:47<7:51:14, 73.82s/it]Testing features:   3%|▎         | 10/392 [11:57<7:41:59, 72.56s/it]Testing features:   3%|▎         | 11/392 [13:19<7:59:10, 75.46s/it]Testing features:   3%|▎         | 12/392 [14:45<8:17:51, 78.61s/it]Testing features:   3%|▎         | 13/392 [15:59<8:07:21, 77.15s/it]Testing features:   4%|▎         | 14/392 [17:08<7:49:58, 74.60s/it]Testing features:   4%|▍         | 15/392 [18:18<7:41:37, 73.47s/it]Testing features:   4%|▍         | 16/392 [19:28<7:33:16, 72.33s/it]Testing features:   4%|▍         | 17/392 [20:38<7:27:44, 71.64s/it]Testing features:   5%|▍         | 18/392 [21:49<7:24:17, 71.28s/it]Testing features:   5%|▍         | 19/392 [22:58<7:19:25, 70.68s/it]Testing features:   5%|▌         | 20/392 [24:08<7:17:37, 70.58s/it]Testing features:   5%|▌         | 21/392 [25:19<7:16:01, 70.52s/it]Testing features:   6%|▌         | 22/392 [26:30<7:17:19, 70.92s/it]Testing features:   6%|▌         | 23/392 [27:40<7:13:08, 70.43s/it]Testing features:   6%|▌         | 24/392 [28:49<7:10:38, 70.21s/it]Testing features:   6%|▋         | 25/392 [29:58<7:07:22, 69.87s/it]Testing features:   7%|▋         | 26/392 [31:10<7:08:43, 70.28s/it]Testing features:   7%|▋         | 27/392 [32:20<7:07:26, 70.26s/it]Testing features:   7%|▋         | 28/392 [33:28<7:02:28, 69.64s/it]Testing features:   7%|▋         | 29/392 [34:38<7:01:38, 69.69s/it]Testing features:   8%|▊         | 30/392 [35:47<7:00:09, 69.64s/it]Testing features:   8%|▊         | 31/392 [36:57<6:59:31, 69.73s/it]Testing features:   8%|▊         | 32/392 [38:07<6:58:20, 69.72s/it]Testing features:   8%|▊         | 33/392 [39:17<6:57:20, 69.75s/it]Testing features:   9%|▊         | 34/392 [40:27<6:55:55, 69.71s/it]Testing features:   9%|▉         | 35/392 [41:36<6:54:35, 69.68s/it]Testing features:   9%|▉         | 36/392 [42:45<6:51:32, 69.36s/it]Testing features:   9%|▉         | 37/392 [43:53<6:49:00, 69.13s/it]Testing features:  10%|▉         | 38/392 [45:02<6:47:24, 69.05s/it]Testing features:  10%|▉         | 39/392 [46:12<6:48:01, 69.35s/it]Testing features:  10%|█         | 40/392 [47:20<6:44:17, 68.91s/it]Testing features:  10%|█         | 41/392 [48:29<6:42:47, 68.85s/it]Testing features:  11%|█         | 42/392 [49:38<6:42:30, 69.00s/it]Testing features:  11%|█         | 43/392 [50:48<6:42:46, 69.25s/it]Testing features:  11%|█         | 44/392 [51:58<6:43:16, 69.53s/it]Testing features:  11%|█▏        | 45/392 [53:08<6:42:22, 69.57s/it]Testing features:  12%|█▏        | 46/392 [54:19<6:43:29, 69.97s/it]Testing features:  12%|█▏        | 47/392 [55:28<6:40:30, 69.65s/it]Testing features:  12%|█▏        | 48/392 [56:37<6:39:28, 69.68s/it]Testing features:  12%|█▎        | 49/392 [57:47<6:37:49, 69.59s/it]Testing features:  13%|█▎        | 50/392 [58:56<6:36:37, 69.58s/it]Testing features:  13%|█▎        | 51/392 [1:00:05<6:33:46, 69.29s/it]Testing features:  13%|█▎        | 52/392 [1:01:00<6:08:39, 65.06s/it]Testing features:  14%|█▎        | 53/392 [1:02:09<6:14:00, 66.20s/it]Testing features:  14%|█▍        | 54/392 [1:03:17<6:15:27, 66.65s/it]Testing features:  14%|█▍        | 55/392 [1:04:26<6:18:11, 67.33s/it]Testing features:  14%|█▍        | 56/392 [1:05:34<6:18:36, 67.61s/it]Testing features:  15%|█▍        | 57/392 [1:06:43<6:20:37, 68.17s/it]Testing features:  15%|█▍        | 58/392 [1:07:53<6:22:03, 68.63s/it]Testing features:  15%|█▌        | 59/392 [1:09:02<6:21:40, 68.77s/it]Testing features:  15%|█▌        | 60/392 [1:10:11<6:20:04, 68.69s/it]Testing features:  16%|█▌        | 61/392 [1:11:19<6:18:22, 68.59s/it]Testing features:  16%|█▌        | 62/392 [1:12:29<6:19:20, 68.97s/it]Testing features:  16%|█▌        | 63/392 [1:13:39<6:20:20, 69.36s/it]Testing features:  16%|█▋        | 64/392 [1:14:49<6:19:23, 69.40s/it]Testing features:  17%|█▋        | 65/392 [1:15:58<6:17:29, 69.27s/it]Testing features:  17%|█▋        | 66/392 [1:17:07<6:16:38, 69.32s/it]Testing features:  17%|█▋        | 67/392 [1:18:16<6:15:21, 69.30s/it]Testing features:  17%|█▋        | 68/392 [1:19:26<6:14:14, 69.30s/it]Testing features:  18%|█▊        | 69/392 [1:20:36<6:15:07, 69.68s/it]Testing features:  18%|█▊        | 70/392 [1:21:45<6:12:38, 69.44s/it]Testing features:  18%|█▊        | 71/392 [1:22:54<6:09:55, 69.15s/it]Testing features:  18%|█▊        | 72/392 [1:24:03<6:09:52, 69.35s/it]Testing features:  19%|█▊        | 73/392 [1:25:13<6:09:24, 69.48s/it]Testing features:  19%|█▉        | 74/392 [1:26:23<6:08:13, 69.48s/it]Testing features:  19%|█▉        | 75/392 [1:27:33<6:07:55, 69.64s/it]Testing features:  19%|█▉        | 76/392 [1:28:42<6:06:46, 69.64s/it]Testing features:  20%|█▉        | 77/392 [1:29:52<6:05:31, 69.62s/it]Testing features:  20%|█▉        | 78/392 [1:31:01<6:03:47, 69.51s/it]Testing features:  20%|██        | 79/392 [1:32:12<6:05:06, 69.99s/it]Testing features:  20%|██        | 80/392 [1:33:22<6:03:45, 69.95s/it]Testing features:  21%|██        | 81/392 [1:34:31<6:01:31, 69.75s/it]Testing features:  21%|██        | 82/392 [1:35:41<6:00:18, 69.74s/it]Testing features:  21%|██        | 83/392 [1:36:51<5:59:09, 69.74s/it]Testing features:  21%|██▏       | 84/392 [1:38:01<5:57:52, 69.72s/it]Testing features:  22%|██▏       | 85/392 [1:39:10<5:56:14, 69.62s/it]Testing features:  22%|██▏       | 86/392 [1:40:20<5:56:24, 69.88s/it]Testing features:  22%|██▏       | 87/392 [1:41:30<5:54:30, 69.74s/it]Testing features:  22%|██▏       | 88/392 [1:42:39<5:52:01, 69.48s/it]Testing features:  23%|██▎       | 89/392 [1:43:47<5:49:03, 69.12s/it]Testing features:  23%|██▎       | 90/392 [1:44:56<5:47:34, 69.05s/it]Testing features:  23%|██▎       | 91/392 [1:46:04<5:45:39, 68.90s/it]Testing features:  23%|██▎       | 92/392 [1:47:13<5:44:37, 68.92s/it]Testing features:  24%|██▎       | 93/392 [1:48:24<5:45:41, 69.37s/it]Testing features:  24%|██▍       | 94/392 [1:49:34<5:46:03, 69.68s/it]Testing features:  24%|██▍       | 95/392 [1:50:43<5:43:18, 69.35s/it]Testing features:  24%|██▍       | 96/392 [1:51:53<5:43:43, 69.67s/it]Testing features:  25%|██▍       | 97/392 [1:53:04<5:44:12, 70.01s/it]Testing features:  25%|██▌       | 98/392 [1:54:14<5:43:35, 70.12s/it]Testing features:  25%|██▌       | 99/392 [1:55:23<5:40:29, 69.73s/it]Testing features:  26%|██▌       | 100/392 [1:56:33<5:38:45, 69.61s/it]Testing features:  26%|██▌       | 101/392 [1:57:42<5:37:08, 69.51s/it]Testing features:  26%|██▌       | 102/392 [1:58:52<5:36:55, 69.71s/it]Testing features:  26%|██▋       | 103/392 [2:00:01<5:34:44, 69.50s/it]Testing features:  27%|██▋       | 104/392 [2:01:10<5:33:34, 69.50s/it]Testing features:  27%|██▋       | 105/392 [2:02:19<5:31:40, 69.34s/it]Testing features:  27%|██▋       | 106/392 [2:03:29<5:30:33, 69.35s/it]Testing features:  27%|██▋       | 107/392 [2:04:38<5:29:15, 69.32s/it]Testing features:  28%|██▊       | 108/392 [2:05:48<5:28:34, 69.42s/it]Testing features:  28%|██▊       | 109/392 [2:06:57<5:27:13, 69.38s/it]Testing features:  28%|██▊       | 110/392 [2:08:07<5:27:04, 69.59s/it]Testing features:  28%|██▊       | 111/392 [2:09:17<5:25:59, 69.61s/it]Testing features:  29%|██▊       | 112/392 [2:10:26<5:24:54, 69.62s/it]Testing features:  29%|██▉       | 113/392 [2:11:36<5:24:03, 69.69s/it]Testing features:  29%|██▉       | 114/392 [2:12:46<5:23:16, 69.77s/it]Testing features:  29%|██▉       | 115/392 [2:13:57<5:22:50, 69.93s/it]Testing features:  30%|██▉       | 116/392 [2:15:07<5:21:58, 70.00s/it]Testing features:  30%|██▉       | 117/392 [2:16:17<5:20:44, 69.98s/it]Testing features:  30%|███       | 118/392 [2:17:27<5:19:54, 70.05s/it]Testing features:  30%|███       | 119/392 [2:18:37<5:18:57, 70.10s/it]Testing features:  31%|███       | 120/392 [2:19:49<5:19:54, 70.57s/it]Testing features:  31%|███       | 121/392 [2:20:58<5:17:15, 70.24s/it]Testing features:  31%|███       | 122/392 [2:22:07<5:13:56, 69.76s/it]Testing features:  31%|███▏      | 123/392 [2:23:15<5:11:16, 69.43s/it]Testing features:  32%|███▏      | 124/392 [2:24:26<5:11:34, 69.76s/it]Testing features:  32%|███▏      | 125/392 [2:25:36<5:10:12, 69.71s/it]Testing features:  32%|███▏      | 126/392 [2:26:45<5:09:08, 69.73s/it]Testing features:  32%|███▏      | 127/392 [2:27:55<5:08:29, 69.85s/it]Testing features:  33%|███▎      | 128/392 [2:29:06<5:07:53, 69.97s/it]Testing features:  33%|███▎      | 129/392 [2:30:15<5:05:23, 69.67s/it]Testing features:  33%|███▎      | 130/392 [2:31:25<5:05:37, 69.99s/it]Testing features:  33%|███▎      | 131/392 [2:32:37<5:06:26, 70.45s/it]Testing features:  34%|███▎      | 132/392 [2:33:46<5:02:58, 69.92s/it]Testing features:  34%|███▍      | 133/392 [2:34:55<5:01:16, 69.79s/it]Testing features:  34%|███▍      | 134/392 [2:36:05<5:00:18, 69.84s/it]Testing features:  34%|███▍      | 135/392 [2:37:14<4:57:46, 69.52s/it]Testing features:  35%|███▍      | 136/392 [2:38:24<4:57:03, 69.62s/it]Testing features:  35%|███▍      | 137/392 [2:39:33<4:56:04, 69.66s/it]Testing features:  35%|███▌      | 138/392 [2:40:44<4:56:02, 69.93s/it]Testing features:  35%|███▌      | 139/392 [2:41:54<4:54:57, 69.95s/it]Testing features:  36%|███▌      | 140/392 [2:43:03<4:52:57, 69.75s/it]Testing features:  36%|███▌      | 141/392 [2:44:13<4:51:24, 69.66s/it]Testing features:  36%|███▌      | 142/392 [2:45:22<4:50:09, 69.64s/it]Testing features:  36%|███▋      | 143/392 [2:46:32<4:49:13, 69.69s/it]Testing features:  37%|███▋      | 144/392 [2:47:42<4:48:41, 69.84s/it]Testing features:  37%|███▋      | 145/392 [2:48:51<4:46:09, 69.51s/it]Testing features:  37%|███▋      | 146/392 [2:50:00<4:44:45, 69.45s/it]Testing features:  38%|███▊      | 147/392 [2:51:10<4:43:38, 69.46s/it]Testing features:  38%|███▊      | 148/392 [2:52:20<4:42:39, 69.50s/it]Testing features:  38%|███▊      | 149/392 [2:53:29<4:41:19, 69.46s/it]Testing features:  38%|███▊      | 150/392 [2:54:38<4:39:23, 69.27s/it]Testing features:  39%|███▊      | 151/392 [2:55:48<4:39:34, 69.60s/it]Testing features:  39%|███▉      | 152/392 [2:56:57<4:37:23, 69.35s/it]Testing features:  39%|███▉      | 153/392 [2:58:06<4:35:37, 69.19s/it]Testing features:  39%|███▉      | 154/392 [2:59:14<4:33:47, 69.02s/it]Testing features:  40%|███▉      | 155/392 [3:00:24<4:33:42, 69.29s/it]Testing features:  40%|███▉      | 156/392 [3:01:33<4:31:39, 69.07s/it]Testing features:  40%|████      | 157/392 [3:02:41<4:30:07, 68.97s/it]Testing features:  40%|████      | 158/392 [3:03:50<4:28:06, 68.75s/it]Testing features:  41%|████      | 159/392 [3:04:58<4:26:16, 68.57s/it]Testing features:  41%|████      | 160/392 [3:06:06<4:25:06, 68.56s/it]Testing features:  41%|████      | 161/392 [3:07:15<4:24:14, 68.63s/it]Testing features:  41%|████▏     | 162/392 [3:08:24<4:22:53, 68.58s/it]Testing features:  42%|████▏     | 163/392 [3:09:34<4:23:46, 69.11s/it]Testing features:  42%|████▏     | 164/392 [3:10:44<4:23:28, 69.33s/it]Testing features:  42%|████▏     | 165/392 [3:11:52<4:21:20, 69.08s/it]Testing features:  42%|████▏     | 166/392 [3:13:01<4:20:01, 69.03s/it]Testing features:  43%|████▎     | 167/392 [3:14:09<4:17:41, 68.72s/it]Testing features:  43%|████▎     | 168/392 [3:15:17<4:15:48, 68.52s/it]Testing features:  43%|████▎     | 169/392 [3:16:25<4:13:31, 68.21s/it]Testing features:  43%|████▎     | 170/392 [3:17:35<4:14:05, 68.67s/it]Testing features:  44%|████▎     | 171/392 [3:18:45<4:14:42, 69.15s/it]Testing features:  44%|████▍     | 172/392 [3:19:55<4:15:05, 69.57s/it]Testing features:  44%|████▍     | 173/392 [3:21:06<4:14:49, 69.81s/it]Testing features:  44%|████▍     | 174/392 [3:22:14<4:12:24, 69.47s/it]Testing features:  45%|████▍     | 175/392 [3:23:24<4:11:36, 69.57s/it]Testing features:  45%|████▍     | 176/392 [3:24:34<4:10:22, 69.55s/it]Testing features:  45%|████▌     | 177/392 [3:25:43<4:09:07, 69.52s/it]Testing features:  45%|████▌     | 178/392 [3:26:54<4:09:14, 69.88s/it]Testing features:  46%|████▌     | 179/392 [3:28:03<4:07:21, 69.68s/it]Testing features:  46%|████▌     | 180/392 [3:29:13<4:06:41, 69.82s/it]Testing features:  46%|████▌     | 181/392 [3:30:24<4:06:01, 69.96s/it]Testing features:  46%|████▋     | 182/392 [3:31:33<4:04:37, 69.89s/it]Testing features:  47%|████▋     | 183/392 [3:32:42<4:01:53, 69.44s/it]Testing features:  47%|████▋     | 184/392 [3:33:51<4:00:10, 69.28s/it]Testing features:  47%|████▋     | 185/392 [3:35:00<3:58:51, 69.23s/it]Testing features:  47%|████▋     | 186/392 [3:36:08<3:56:22, 68.85s/it]Testing features:  48%|████▊     | 187/392 [3:37:17<3:55:58, 69.07s/it]Testing features:  48%|████▊     | 188/392 [3:38:27<3:55:27, 69.25s/it]Testing features:  48%|████▊     | 189/392 [3:39:35<3:53:18, 68.96s/it]Testing features:  48%|████▊     | 190/392 [3:40:44<3:51:46, 68.84s/it]Testing features:  49%|████▊     | 191/392 [3:41:53<3:50:42, 68.87s/it]Testing features:  49%|████▉     | 192/392 [3:43:01<3:49:16, 68.78s/it]Testing features:  49%|████▉     | 193/392 [3:43:51<3:29:37, 63.20s/it]Testing features:  49%|████▉     | 194/392 [3:44:39<3:13:15, 58.56s/it]Testing features:  50%|████▉     | 195/392 [3:45:31<3:05:56, 56.63s/it]Testing features:  50%|█████     | 196/392 [3:46:20<2:57:07, 54.22s/it]Testing features:  50%|█████     | 197/392 [3:47:09<2:51:11, 52.67s/it]Testing features:  51%|█████     | 198/392 [3:47:58<2:46:37, 51.54s/it]Testing features:  51%|█████     | 199/392 [3:48:45<2:41:30, 50.21s/it]Testing features:  51%|█████     | 200/392 [3:49:33<2:38:12, 49.44s/it]Testing features:  51%|█████▏    | 201/392 [3:50:21<2:36:00, 49.01s/it]Testing features:  52%|█████▏    | 202/392 [3:51:11<2:36:57, 49.57s/it]Testing features:  52%|█████▏    | 203/392 [3:52:02<2:37:16, 49.93s/it]Testing features:  52%|█████▏    | 204/392 [3:52:52<2:36:07, 49.83s/it]Testing features:  52%|█████▏    | 205/392 [3:53:45<2:38:47, 50.95s/it]Testing features:  53%|█████▎    | 206/392 [3:54:35<2:36:31, 50.49s/it]Testing features:  53%|█████▎    | 207/392 [3:55:25<2:34:59, 50.27s/it]Testing features:  53%|█████▎    | 208/392 [3:56:16<2:35:15, 50.63s/it]Testing features:  53%|█████▎    | 209/392 [3:57:07<2:34:22, 50.61s/it]Testing features:  54%|█████▎    | 210/392 [3:57:54<2:30:47, 49.71s/it]Testing features:  54%|█████▍    | 211/392 [3:58:43<2:28:58, 49.38s/it]Testing features:  54%|█████▍    | 212/392 [3:59:35<2:30:11, 50.06s/it]Testing features:  54%|█████▍    | 213/392 [4:00:25<2:29:50, 50.22s/it]Testing features:  55%|█████▍    | 214/392 [4:01:17<2:30:14, 50.65s/it]Testing features:  55%|█████▍    | 215/392 [4:02:05<2:27:41, 50.07s/it]Testing features:  55%|█████▌    | 216/392 [4:02:55<2:26:33, 49.96s/it]Testing features:  55%|█████▌    | 217/392 [4:03:44<2:24:49, 49.65s/it]Testing features:  56%|█████▌    | 218/392 [4:04:35<2:24:40, 49.89s/it]Testing features:  56%|█████▌    | 219/392 [4:05:21<2:21:13, 48.98s/it]Testing features:  56%|█████▌    | 220/392 [4:06:10<2:20:06, 48.88s/it]Testing features:  56%|█████▋    | 221/392 [4:06:59<2:19:16, 48.87s/it]Testing features:  57%|█████▋    | 222/392 [4:07:48<2:18:29, 48.88s/it]Testing features:  57%|█████▋    | 223/392 [4:08:40<2:20:45, 49.97s/it]Testing features:  57%|█████▋    | 224/392 [4:09:30<2:20:05, 50.03s/it]Testing features:  57%|█████▋    | 225/392 [4:10:20<2:18:32, 49.78s/it]Testing features:  58%|█████▊    | 226/392 [4:11:08<2:16:35, 49.37s/it]Testing features:  58%|█████▊    | 227/392 [4:12:00<2:17:30, 50.00s/it]Testing features:  58%|█████▊    | 228/392 [4:12:49<2:15:54, 49.72s/it]Testing features:  58%|█████▊    | 229/392 [4:13:39<2:15:14, 49.78s/it]Testing features:  59%|█████▊    | 230/392 [4:14:28<2:14:08, 49.68s/it]Testing features:  59%|█████▉    | 231/392 [4:15:18<2:13:20, 49.69s/it]Testing features:  59%|█████▉    | 232/392 [4:16:05<2:10:48, 49.05s/it]Testing features:  59%|█████▉    | 233/392 [4:16:55<2:10:45, 49.34s/it]Testing features:  60%|█████▉    | 234/392 [4:17:44<2:09:38, 49.23s/it]Testing features:  60%|█████▉    | 235/392 [4:18:32<2:07:43, 48.81s/it]Testing features:  60%|██████    | 236/392 [4:19:20<2:06:03, 48.48s/it]Testing features:  60%|██████    | 237/392 [4:20:09<2:05:59, 48.77s/it]Testing features:  61%|██████    | 238/392 [4:20:59<2:05:49, 49.02s/it]Testing features:  61%|██████    | 239/392 [4:21:48<2:04:50, 48.96s/it]Testing features:  61%|██████    | 240/392 [4:22:36<2:03:51, 48.89s/it]Testing features:  61%|██████▏   | 241/392 [4:23:25<2:03:02, 48.89s/it]Testing features:  62%|██████▏   | 242/392 [4:24:15<2:03:09, 49.27s/it]Testing features:  62%|██████▏   | 243/392 [4:25:06<2:03:40, 49.80s/it]Testing features:  62%|██████▏   | 244/392 [4:25:56<2:02:48, 49.78s/it]Testing features:  62%|██████▎   | 245/392 [4:26:44<2:00:15, 49.08s/it]Testing features:  63%|██████▎   | 246/392 [4:27:34<2:00:40, 49.59s/it]Testing features:  63%|██████▎   | 247/392 [4:28:24<1:59:51, 49.60s/it]Testing features:  63%|██████▎   | 248/392 [4:29:12<1:57:35, 49.00s/it]Testing features:  64%|██████▎   | 249/392 [4:30:00<1:56:26, 48.86s/it]Testing features:  64%|██████▍   | 250/392 [4:30:49<1:55:32, 48.82s/it]Testing features:  64%|██████▍   | 251/392 [4:31:39<1:55:50, 49.29s/it]Testing features:  64%|██████▍   | 252/392 [4:32:32<1:57:05, 50.18s/it]Testing features:  65%|██████▍   | 253/392 [4:33:21<1:55:43, 49.96s/it]Testing features:  65%|██████▍   | 254/392 [4:34:10<1:54:16, 49.68s/it]Testing features:  65%|██████▌   | 255/392 [4:34:59<1:53:14, 49.60s/it]Testing features:  65%|██████▌   | 256/392 [4:35:50<1:53:10, 49.93s/it]Testing features:  66%|██████▌   | 257/392 [4:36:39<1:51:34, 49.59s/it]Testing features:  66%|██████▌   | 258/392 [4:37:27<1:49:37, 49.08s/it]Testing features:  66%|██████▌   | 259/392 [4:38:17<1:49:23, 49.35s/it]Testing features:  66%|██████▋   | 260/392 [4:39:06<1:48:16, 49.21s/it]Testing features:  67%|██████▋   | 261/392 [4:39:56<1:47:54, 49.42s/it]Testing features:  67%|██████▋   | 262/392 [4:40:47<1:48:31, 50.09s/it]Testing features:  67%|██████▋   | 263/392 [4:41:39<1:48:34, 50.50s/it]Testing features:  67%|██████▋   | 264/392 [4:42:29<1:47:38, 50.45s/it]Testing features:  68%|██████▊   | 265/392 [4:43:16<1:44:33, 49.39s/it]Testing features:  68%|██████▊   | 266/392 [4:44:05<1:43:20, 49.21s/it]Testing features:  68%|██████▊   | 267/392 [4:44:55<1:43:08, 49.51s/it]Testing features:  68%|██████▊   | 268/392 [4:45:46<1:43:25, 50.04s/it]Testing features:  69%|██████▊   | 269/392 [4:46:35<1:41:34, 49.55s/it]Testing features:  69%|██████▉   | 270/392 [4:47:24<1:40:30, 49.43s/it]Testing features:  69%|██████▉   | 271/392 [4:48:12<1:38:52, 49.03s/it]Testing features:  69%|██████▉   | 272/392 [4:49:01<1:38:11, 49.09s/it]Testing features:  70%|██████▉   | 273/392 [4:49:50<1:37:08, 48.98s/it]Testing features:  70%|██████▉   | 274/392 [4:50:40<1:37:04, 49.36s/it]Testing features:  70%|███████   | 275/392 [4:51:30<1:36:33, 49.52s/it]Testing features:  70%|███████   | 276/392 [4:52:18<1:34:45, 49.01s/it]Testing features:  71%|███████   | 277/392 [4:53:06<1:33:18, 48.68s/it]Testing features:  71%|███████   | 278/392 [4:53:56<1:33:26, 49.18s/it]Testing features:  71%|███████   | 279/392 [4:54:48<1:34:08, 49.98s/it]Testing features:  71%|███████▏  | 280/392 [4:55:38<1:33:03, 49.85s/it]Testing features:  72%|███████▏  | 281/392 [4:56:27<1:32:03, 49.76s/it]Testing features:  72%|███████▏  | 282/392 [4:57:17<1:31:34, 49.95s/it]Testing features:  72%|███████▏  | 283/392 [4:58:07<1:30:46, 49.97s/it]Testing features:  72%|███████▏  | 284/392 [4:58:57<1:29:48, 49.90s/it]Testing features:  73%|███████▎  | 285/392 [4:59:47<1:28:50, 49.82s/it]Testing features:  73%|███████▎  | 286/392 [5:00:36<1:27:34, 49.57s/it]Testing features:  73%|███████▎  | 287/392 [5:01:24<1:26:10, 49.24s/it]Testing features:  73%|███████▎  | 288/392 [5:02:12<1:24:40, 48.86s/it]Testing features:  74%|███████▎  | 289/392 [5:03:03<1:24:44, 49.37s/it]Testing features:  74%|███████▍  | 290/392 [5:03:52<1:23:55, 49.37s/it]Testing features:  74%|███████▍  | 291/392 [5:04:42<1:23:05, 49.36s/it]Testing features:  74%|███████▍  | 292/392 [5:05:34<1:23:41, 50.22s/it]Testing features:  75%|███████▍  | 293/392 [5:06:27<1:24:20, 51.11s/it]Testing features:  75%|███████▌  | 294/392 [5:07:17<1:23:06, 50.88s/it]Testing features:  75%|███████▌  | 295/392 [5:08:07<1:21:52, 50.65s/it]Testing features:  76%|███████▌  | 296/392 [5:08:58<1:20:53, 50.56s/it]Testing features:  76%|███████▌  | 297/392 [5:09:48<1:19:53, 50.46s/it]Testing features:  76%|███████▌  | 298/392 [5:10:37<1:18:27, 50.08s/it]Testing features:  76%|███████▋  | 299/392 [5:11:28<1:18:04, 50.37s/it]Testing features:  77%|███████▋  | 300/392 [5:12:17<1:16:30, 49.90s/it]Testing features:  77%|███████▋  | 301/392 [5:13:05<1:14:55, 49.40s/it]Testing features:  77%|███████▋  | 302/392 [5:13:55<1:14:26, 49.63s/it]Testing features:  77%|███████▋  | 303/392 [5:14:43<1:12:39, 48.99s/it]Testing features:  78%|███████▊  | 304/392 [5:15:37<1:14:02, 50.48s/it]Testing features:  78%|███████▊  | 305/392 [5:16:24<1:11:49, 49.54s/it]Testing features:  78%|███████▊  | 306/392 [5:17:15<1:11:34, 49.93s/it]Testing features:  78%|███████▊  | 307/392 [5:18:05<1:10:52, 50.03s/it]Testing features:  79%|███████▊  | 308/392 [5:18:54<1:09:38, 49.74s/it]Testing features:  79%|███████▉  | 309/392 [5:19:44<1:08:45, 49.70s/it]Testing features:  79%|███████▉  | 310/392 [5:20:34<1:07:52, 49.67s/it]Testing features:  79%|███████▉  | 311/392 [5:21:19<1:05:31, 48.53s/it]Testing features:  80%|███████▉  | 312/392 [5:22:09<1:05:08, 48.85s/it]Testing features:  80%|███████▉  | 313/392 [5:22:59<1:04:50, 49.24s/it]Testing features:  80%|████████  | 314/392 [5:23:48<1:03:42, 49.01s/it]Testing features:  80%|████████  | 315/392 [5:24:37<1:03:08, 49.20s/it]Testing features:  81%|████████  | 316/392 [5:25:28<1:02:47, 49.57s/it]Testing features:  81%|████████  | 317/392 [5:26:18<1:02:16, 49.83s/it]Testing features:  81%|████████  | 318/392 [5:27:08<1:01:36, 49.95s/it]Testing features:  81%|████████▏ | 319/392 [5:27:59<1:01:07, 50.24s/it]Testing features:  82%|████████▏ | 320/392 [5:28:48<59:40, 49.73s/it]  Testing features:  82%|████████▏ | 321/392 [5:29:39<59:31, 50.30s/it]Testing features:  82%|████████▏ | 322/392 [5:30:29<58:32, 50.18s/it]Testing features:  82%|████████▏ | 323/392 [5:31:19<57:30, 50.01s/it]Testing features:  83%|████████▎ | 324/392 [5:32:09<56:39, 49.99s/it]Testing features:  83%|████████▎ | 325/392 [5:32:59<55:50, 50.01s/it]Testing features:  83%|████████▎ | 326/392 [5:33:46<54:07, 49.21s/it]Testing features:  83%|████████▎ | 327/392 [5:34:37<53:40, 49.54s/it]Testing features:  84%|████████▎ | 328/392 [5:35:25<52:30, 49.22s/it]Testing features:  84%|████████▍ | 329/392 [5:36:13<51:23, 48.95s/it]Testing features:  84%|████████▍ | 330/392 [5:37:02<50:31, 48.89s/it]Testing features:  84%|████████▍ | 331/392 [5:37:51<49:34, 48.76s/it]Testing features:  85%|████████▍ | 332/392 [5:38:40<49:04, 49.07s/it]Testing features:  85%|████████▍ | 333/392 [5:39:28<47:57, 48.76s/it]Testing features:  85%|████████▌ | 334/392 [5:40:19<47:41, 49.34s/it]Testing features:  85%|████████▌ | 335/392 [5:41:07<46:34, 49.02s/it]Testing features:  86%|████████▌ | 336/392 [5:41:55<45:25, 48.67s/it]Testing features:  86%|████████▌ | 337/392 [5:42:43<44:21, 48.38s/it]Testing features:  86%|████████▌ | 338/392 [5:43:32<43:46, 48.65s/it]Testing features:  86%|████████▋ | 339/392 [5:44:23<43:32, 49.29s/it]Testing features:  87%|████████▋ | 340/392 [5:45:09<41:55, 48.38s/it]Testing features:  87%|████████▋ | 341/392 [5:46:00<41:45, 49.13s/it]Testing features:  87%|████████▋ | 342/392 [5:46:50<41:02, 49.26s/it]Testing features:  88%|████████▊ | 343/392 [5:47:40<40:25, 49.50s/it]Testing features:  88%|████████▊ | 344/392 [5:48:30<39:41, 49.62s/it]Testing features:  88%|████████▊ | 345/392 [5:49:20<38:58, 49.76s/it]Testing features:  88%|████████▊ | 346/392 [5:50:10<38:09, 49.77s/it]Testing features:  89%|████████▊ | 347/392 [5:50:58<37:04, 49.43s/it]Testing features:  89%|████████▉ | 348/392 [5:51:49<36:34, 49.87s/it]Testing features:  89%|████████▉ | 349/392 [5:52:36<35:11, 49.11s/it]Testing features:  89%|████████▉ | 350/392 [5:53:24<34:06, 48.72s/it]Testing features:  90%|████████▉ | 351/392 [5:54:14<33:24, 48.89s/it]Testing features:  90%|████████▉ | 352/392 [5:55:04<32:50, 49.26s/it]Testing features:  90%|█████████ | 353/392 [5:55:52<31:47, 48.90s/it]Testing features:  90%|█████████ | 354/392 [5:56:41<30:56, 48.87s/it]Testing features:  91%|█████████ | 355/392 [5:57:32<30:39, 49.73s/it]Testing features:  91%|█████████ | 356/392 [5:58:20<29:32, 49.24s/it]Testing features:  91%|█████████ | 357/392 [5:59:10<28:48, 49.38s/it]Testing features:  91%|█████████▏| 358/392 [6:00:01<28:10, 49.73s/it]Testing features:  92%|█████████▏| 359/392 [6:00:51<27:25, 49.85s/it]Testing features:  92%|█████████▏| 360/392 [6:01:38<26:09, 49.05s/it]Testing features:  92%|█████████▏| 361/392 [6:02:28<25:32, 49.43s/it]Testing features:  92%|█████████▏| 362/392 [6:03:19<24:58, 49.96s/it]Testing features:  93%|█████████▎| 363/392 [6:04:12<24:28, 50.64s/it]Testing features:  93%|█████████▎| 364/392 [6:05:02<23:36, 50.58s/it]Testing features:  93%|█████████▎| 365/392 [6:05:51<22:28, 49.94s/it]Testing features:  93%|█████████▎| 366/392 [6:06:44<22:04, 50.94s/it]Testing features:  94%|█████████▎| 367/392 [6:07:34<21:08, 50.75s/it]Testing features:  94%|█████████▍| 368/392 [6:08:25<20:17, 50.75s/it]Testing features:  94%|█████████▍| 369/392 [6:09:14<19:17, 50.31s/it]Testing features:  94%|█████████▍| 370/392 [6:10:06<18:35, 50.69s/it]Testing features:  95%|█████████▍| 371/392 [6:10:58<17:53, 51.13s/it]Testing features:  95%|█████████▍| 372/392 [6:11:49<16:59, 50.99s/it]Testing features:  95%|█████████▌| 373/392 [6:12:40<16:10, 51.10s/it]Testing features:  95%|█████████▌| 374/392 [6:13:30<15:13, 50.73s/it]Testing features:  96%|█████████▌| 375/392 [6:14:19<14:12, 50.13s/it]Testing features:  96%|█████████▌| 376/392 [6:15:09<13:25, 50.35s/it]Testing features:  96%|█████████▌| 377/392 [6:16:01<12:42, 50.82s/it]Testing features:  96%|█████████▋| 378/392 [6:16:50<11:41, 50.14s/it]Testing features:  97%|█████████▋| 379/392 [6:17:42<11:01, 50.88s/it]Testing features:  97%|█████████▋| 380/392 [6:18:34<10:12, 51.06s/it]Testing features:  97%|█████████▋| 381/392 [6:19:25<09:20, 50.98s/it]Testing features:  97%|█████████▋| 382/392 [6:20:16<08:29, 50.98s/it]Testing features:  98%|█████████▊| 383/392 [6:21:06<07:37, 50.78s/it]Testing features:  98%|█████████▊| 384/392 [6:21:56<06:44, 50.53s/it]Testing features:  98%|█████████▊| 385/392 [6:22:48<05:56, 50.92s/it]Testing features:  98%|█████████▊| 386/392 [6:23:36<04:59, 49.95s/it]Testing features:  99%|█████████▊| 387/392 [6:24:25<04:09, 49.84s/it]Testing features:  99%|█████████▉| 388/392 [6:25:18<03:23, 50.87s/it]Testing features:  99%|█████████▉| 389/392 [6:26:11<02:34, 51.48s/it]Testing features:  99%|█████████▉| 390/392 [6:27:03<01:43, 51.52s/it]Testing features: 100%|█████████▉| 391/392 [6:27:50<00:50, 50.14s/it]Testing features: 100%|██████████| 392/392 [6:28:40<00:00, 50.21s/it]Testing features: 100%|██████████| 392/392 [6:28:40<00:00, 59.49s/it]
-
-[0/392] Testing L25-22423
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-7.30
-
-[10/392] Testing L25-28154
-
-[20/392] Testing L25-15514
-
-[30/392] Testing L25-13223
-
-[40/392] Testing L25-11428
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-2.10
-
-[50/392] Testing L25-2106
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-7.60
-
-[60/392] Testing L25-19241
-
-[70/392] Testing L25-23496
-
-[80/392] Testing L25-24482
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-5.70
-
-[90/392] Testing L25-13322
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-9.20
-
-[100/392] Testing L25-21320
-
-[110/392] Testing L25-5491
-
-[120/392] Testing L25-18209
-
-[130/392] Testing L25-19512
-
-[140/392] Testing L25-4784
-
-[150/392] Testing L25-25974
-
-[160/392] Testing L25-5324
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-7.30
-
-[170/392] Testing L25-3638
-
-[180/392] Testing L25-11630
-
-[190/392] Testing L25-5636
-
-[200/392] Testing L30-24167
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-3.90
-
-[210/392] Testing L30-22408
-
-[220/392] Testing L30-3855
-
-[230/392] Testing L30-3102
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-2.60
-
-[240/392] Testing L30-8794
-
-[250/392] Testing L30-16810
-
-[260/392] Testing L30-1463
-
-[270/392] Testing L30-2580
-  ✅ CAUSAL: Safe effect=0.00, Risky effect=-2.70
-
-[280/392] Testing L30-17461
-
-[290/392] Testing L30-14320
-
-[300/392] Testing L30-526
-
-[310/392] Testing L30-10258
-
-[320/392] Testing L30-3486
-
-[330/392] Testing L30-18576
-
-[340/392] Testing L30-1363
-
-[350/392] Testing L30-24114
-
-[360/392] Testing L30-15933
-
-[370/392] Testing L30-28961
-
-[380/392] Testing L30-28538
-
-[390/392] Testing L30-7255
-
-✅ Results saved to: /data/llm_addiction/results/exp2_corrected_final_20250827_150543.json
-
-================================================================================
-EXPERIMENT COMPLETE
-================================================================================
-Total features tested: 392
-Causal features found: 9
-Causality rate: 2.3%

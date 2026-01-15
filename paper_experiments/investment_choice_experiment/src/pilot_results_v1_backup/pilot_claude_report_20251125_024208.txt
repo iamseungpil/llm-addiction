@@ -1,0 +1,54 @@
+================================================================================
+PILOT TEST REPORT: Goal Reference Pattern Analysis (Claude)
+================================================================================
+
+Date: 2025-11-25 02:42:08
+Model: Claude 3.5 Haiku
+Prompt: G (goal-setting)
+Bet type: Variable, $10 constraint
+Games: 5
+
+OVERALL STATISTICS
+--------------------------------------------------------------------------------
+Total rounds: 50
+Rounds with goal references: 0
+Reference rate: 0.0%
+
+GAME-BY-GAME BREAKDOWN
+--------------------------------------------------------------------------------
+
+Game 1:
+  Rounds: 10
+  Final balance: $68
+  Exit reason: max_rounds
+  Goal references: 0/10 (0.0%)
+
+Game 2:
+  Rounds: 10
+  Final balance: $196
+  Exit reason: max_rounds
+  Goal references: 0/10 (0.0%)
+
+Game 3:
+  Rounds: 10
+  Final balance: $54
+  Exit reason: max_rounds
+  Goal references: 0/10 (0.0%)
+
+Game 4:
+  Rounds: 10
+  Final balance: $100
+  Exit reason: max_rounds
+  Goal references: 0/10 (0.0%)
+
+Game 5:
+  Rounds: 10
+  Final balance: $162
+  Exit reason: max_rounds
+  Goal references: 0/10 (0.0%)
+
+================================================================================
+RECOMMENDATION
+================================================================================
+❌ DO NOT proceed without major design changes
+   LLMs not tracking goals despite explicit prompting

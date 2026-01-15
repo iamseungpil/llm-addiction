@@ -1,0 +1,24 @@
+================================================================================
+PILOT TEST REPORT: Goal Reference Pattern Analysis (Claude)
+================================================================================
+
+Date: 2025-11-25 03:18:22
+Model: Claude 3.5 Haiku
+Prompt: G (goal-setting)
+Bet type: Variable, $10 constraint
+Games: 0
+
+OVERALL STATISTICS
+--------------------------------------------------------------------------------
+Total rounds: 0
+Rounds with goal references: 0
+Reference rate: 0.0%
+
+GAME-BY-GAME BREAKDOWN
+--------------------------------------------------------------------------------
+
+================================================================================
+RECOMMENDATION
+================================================================================
+❌ DO NOT proceed without major design changes
+   LLMs not tracking goals despite explicit prompting

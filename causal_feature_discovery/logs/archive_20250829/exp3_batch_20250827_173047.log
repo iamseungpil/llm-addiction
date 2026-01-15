@@ -1,117 +1,0 @@
-/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-================================================================================
-BATCH DONOR-BASED PATCHING EXPERIMENT
-================================================================================
-Testing 8 causal features simultaneously
-Trials per condition: 50
-Conditions: baseline, safe_patch, moderate_patch, risky_patch
-
-Loading models...
-Loading LLaMA model...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:03,  1.17s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.15s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:03<00:01,  1.13s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.07it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.01s/it]
-Loading SAE Layer 25...
-✅ Loading WORKING SAE for Layer 25
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
-   Dataset norm: 31.625
-   Norm factor: 2.023715
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ All models loaded successfully
-Step 1: Extracting donor activations for all 8 features...
---------------------------------------------------
-Donor activation means:
-  Feature 5324: Safe=0.008, Moderate=0.011, Risky=0.000
-  Feature 24482: Safe=0.013, Moderate=0.057, Risky=0.000
-  Feature 28260: Safe=0.000, Moderate=0.000, Risky=0.000
-  Feature 29148: Safe=0.071, Moderate=0.077, Risky=0.141
-  Feature 15691: Safe=0.188, Moderate=0.159, Risky=0.000
-  Feature 16481: Safe=0.000, Moderate=0.000, Risky=0.000
-  Feature 24754: Safe=0.100, Moderate=0.143, Risky=0.067
-  Feature 12371: Safe=0.000, Moderate=0.000, Risky=0.000
-
-Step 2: Testing conditions with batch patching...
---------------------------------------------------
-
-Testing baseline...
-  baseline:   0%|          | 0/50 [00:00<?, ?it/s]  baseline:   2%|▏         | 1/50 [00:02<01:55,  2.36s/it]  baseline:   4%|▍         | 2/50 [00:02<00:56,  1.17s/it]  baseline:   6%|▌         | 3/50 [00:02<00:32,  1.46it/s]  baseline:   8%|▊         | 4/50 [00:03<00:25,  1.82it/s]  baseline:  10%|█         | 5/50 [00:03<00:21,  2.11it/s]  baseline:  12%|█▏        | 6/50 [00:03<00:18,  2.33it/s]  baseline:  14%|█▍        | 7/50 [00:04<00:17,  2.50it/s]  baseline:  16%|█▌        | 8/50 [00:04<00:16,  2.62it/s]  baseline:  18%|█▊        | 9/50 [00:04<00:15,  2.63it/s]  baseline:  20%|██        | 10/50 [00:05<00:15,  2.60it/s]  baseline:  22%|██▏       | 11/50 [00:05<00:15,  2.58it/s]  baseline:  24%|██▍       | 12/50 [00:06<00:14,  2.57it/s]  baseline:  26%|██▌       | 13/50 [00:06<00:13,  2.65it/s]  baseline:  28%|██▊       | 14/50 [00:06<00:13,  2.73it/s]  baseline:  30%|███       | 15/50 [00:07<00:12,  2.78it/s]  baseline:  32%|███▏      | 16/50 [00:07<00:12,  2.82it/s]  baseline:  34%|███▍      | 17/50 [00:07<00:11,  2.85it/s]  baseline:  36%|███▌      | 18/50 [00:08<00:11,  2.88it/s]  baseline:  38%|███▊      | 19/50 [00:08<00:10,  2.89it/s]  baseline:  40%|████      | 20/50 [00:08<00:08,  3.66it/s]  baseline:  42%|████▏     | 21/50 [00:08<00:08,  3.40it/s]  baseline:  44%|████▍     | 22/50 [00:09<00:08,  3.24it/s]  baseline:  46%|████▌     | 23/50 [00:09<00:06,  4.03it/s]  baseline:  48%|████▊     | 24/50 [00:09<00:07,  3.59it/s]  baseline:  50%|█████     | 25/50 [00:09<00:05,  4.41it/s]  baseline:  52%|█████▏    | 26/50 [00:10<00:06,  3.81it/s]  baseline:  54%|█████▍    | 27/50 [00:10<00:06,  3.48it/s]  baseline:  56%|█████▌    | 28/50 [00:10<00:06,  3.29it/s]  baseline:  58%|█████▊    | 29/50 [00:11<00:06,  3.14it/s]  baseline:  60%|██████    | 30/50 [00:11<00:06,  2.93it/s]  baseline:  62%|██████▏   | 31/50 [00:11<00:06,  2.83it/s]  baseline:  64%|██████▍   | 32/50 [00:12<00:06,  2.77it/s]  baseline:  68%|██████▊   | 34/50 [00:12<00:04,  3.30it/s]  baseline:  70%|███████   | 35/50 [00:13<00:04,  3.20it/s]  baseline:  72%|███████▏  | 36/50 [00:13<00:03,  3.88it/s]  baseline:  74%|███████▍  | 37/50 [00:13<00:02,  4.64it/s]  baseline:  76%|███████▌  | 38/50 [00:13<00:02,  4.01it/s]  baseline:  78%|███████▊  | 39/50 [00:14<00:03,  3.65it/s]  baseline:  80%|████████  | 40/50 [00:14<00:02,  3.42it/s]  baseline:  82%|████████▏ | 41/50 [00:14<00:02,  3.28it/s]  baseline:  84%|████████▍ | 42/50 [00:15<00:02,  3.18it/s]  baseline:  86%|████████▌ | 43/50 [00:15<00:02,  3.11it/s]  baseline:  88%|████████▊ | 44/50 [00:15<00:01,  3.07it/s]  baseline:  90%|█████████ | 45/50 [00:15<00:01,  3.85it/s]  baseline:  92%|█████████▏| 46/50 [00:16<00:01,  3.54it/s]  baseline:  94%|█████████▍| 47/50 [00:16<00:00,  3.34it/s]  baseline:  96%|█████████▌| 48/50 [00:16<00:00,  3.22it/s]  baseline:  98%|█████████▊| 49/50 [00:16<00:00,  4.02it/s]  baseline: 100%|██████████| 50/50 [00:17<00:00,  3.63it/s]  baseline: 100%|██████████| 50/50 [00:17<00:00,  2.89it/s]
-  Results: Risk Score=0.270, Choices: 1=64.0%, 2=18.0%, 3=18.0%
-
-Testing safe_patch...
-  safe_patch:   0%|          | 0/50 [00:00<?, ?it/s]  safe_patch:   0%|          | 0/50 [00:00<?, ?it/s]
-Traceback (most recent call last):
-  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_3_batch_donor_patching.py", line 395, in <module>
-    experiment.run_experiment()
-  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_3_batch_donor_patching.py", line 329, in run_experiment
-    response = self.generate_with_batch_patching(self.choice_prompt, patch_values)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_3_batch_donor_patching.py", line 182, in generate_with_batch_patching
-    outputs = self.model.generate(
-              ^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/generation/utils.py", line 2625, in generate
-    result = self._sample(
-             ^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/generation/utils.py", line 3606, in _sample
-    outputs = self(**model_inputs, return_dict=True)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
-    output = func(self, *args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 553, in forward
-    outputs: BaseModelOutputWithPast = self.model(
-                                       ^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/generic.py", line 943, in wrapper
-    output = func(self, *args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 441, in forward
-    layer_outputs = decoder_layer(
-                    ^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/modeling_layers.py", line 83, in __call__
-    return super().__call__(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 290, in forward
-    hidden_states, self_attn_weights = self.self_attn(
-                                       ^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 231, in forward
-    query_states = self.q_proj(hidden_states).view(hidden_shape).transpose(1, 2)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/torch/nn/modules/linear.py", line 125, in forward
-    return F.linear(input, self.weight, self.bias)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: expected mat1 and mat2 to have the same dtype, but got: float != c10::Half

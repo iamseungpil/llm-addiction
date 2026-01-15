@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "/home/ubuntu/llm_addiction/gpt_experiments/src/gpt_multiround_experiment.py", line 465, in <module>
-    main()
-  File "/home/ubuntu/llm_addiction/gpt_experiments/src/gpt_multiround_experiment.py", line 460, in main
-    experiment = GPTMultiRoundExperiment()
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ubuntu/llm_addiction/gpt_experiments/src/gpt_multiround_experiment.py", line 100, in __init__
-    raise ValueError("OPENAI_API_KEY environment variable is required. Set it with: export OPENAI_API_KEY=your_key_here")
-ValueError: OPENAI_API_KEY environment variable is required. Set it with: export OPENAI_API_KEY=your_key_here

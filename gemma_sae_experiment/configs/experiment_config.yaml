@@ -1,0 +1,74 @@
+# Gemma Base SAE Analysis Pipeline Configuration
+# =============================================================================
+# Version 1: Mechanistic Interpretability (3rd Person Observation)
+# =============================================================================
+
+# Model Configuration
+model:
+  name: "gemma_base"
+  model_id: "google/gemma-2-9b"  # Base model (NOT instruction-tuned)
+  d_model: 3584
+  n_layers: 42
+  use_chat_template: false  # Base model doesn't use chat template
+
+# SAE Configuration
+sae:
+  release: "gemma-scope-9b-pt-res-canonical"
+  width: "16k"
+  d_sae: 16384
+
+# Data Paths
+data:
+  experiment_data: "/data/llm_addiction/experiment_0_gemma_corrected/final_gemma_20251004_172426.json"
+  output_dir: "/data/llm_addiction/gemma_sae_experiment"
+
+# Target Layers (후반부 22개: semantic features 집중)
+target_layers: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+
+# Phase 1: Feature Extraction
+phase1:
+  checkpoint_frequency: 100
+  batch_size: 8
+
+# Phase 2: Correlation Analysis
+phase2:
+  fdr_alpha: 0.05
+  min_cohens_d: 0.3
+  min_samples: 10
+
+# Phase 3: Steering Vector Extraction
+phase3:
+  max_samples_per_group: 500
+
+# Phase 4: SAE Interpretation
+phase4:
+  top_k_features: 50
+
+# Phase 5: Steering Experiment
+phase5:
+  alpha_values: [-2.0, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0]
+  n_trials: 50
+  behavioral_metric: "stop_probability"
+
+# Phase 0: SAE Boost (Residual SAE) - MUST run before Phase 1 if using boost
+phase0:
+  residual_sae_features: 4096
+  sparsity_lambda: 0.001
+  learning_rate: 0.0001
+  n_epochs: 10
+  batch_size: 32
+  max_samples: 1000  # Max hidden states for training
+
+# Generation Settings
+generation:
+  max_new_tokens: 100
+  min_new_tokens: 10
+  temperature: 0.7
+  do_sample: true
+  top_p: 0.9
+
+# Technical Settings
+random_seed: 42
+log_level: "INFO"
+clear_cache_frequency: 50
+enable_checkpoints: true

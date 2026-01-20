@@ -1,0 +1,39 @@
+# LR Classification Experiment Configuration
+
+# Data paths
+data:
+  root: "/mnt/c/Users/oollccddss/git/data/llm-addiction"
+  gemma: "slot_machine/gemma/final_gemma_20251004_172426.json"
+  llama: "slot_machine/llama/final_llama_20251004_021106.json"
+
+# Model configurations
+models:
+  gemma:
+    model_id: "google/gemma-2-9b"
+    n_layers: 42
+    d_model: 3584
+  llama:
+    model_id: "meta-llama/Llama-3.1-8B"
+    n_layers: 32
+    d_model: 4096
+
+# Experiment settings
+experiment:
+  # Target layers for analysis (subset for quick runs)
+  target_layers_quick: [15, 20, 25, 30, 35]
+  # All layers for full analysis
+  target_layers_full: "all"
+
+  # Batch size for hidden state extraction
+  batch_size: 8
+
+  # LR settings
+  lr:
+    max_iter: 1000
+    solver: "lbfgs"
+    class_weight: "balanced"
+    test_size: 0.2
+    random_state: 42
+
+# Output directory
+output_dir: "/mnt/c/Users/oollccddss/git/data/llm-addiction/lr_classification_results"

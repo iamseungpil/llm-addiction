@@ -1,18 +1,19 @@
 # Paper Experiments - ICLR 2026 Submission
 
-## 📄 Corresponding Paper: "Addictions on LLM"
+## Corresponding Paper: "Can Large Language Models Develop Gambling Addiction?"
 
-This folder contains all the experimental code used to generate the results presented in our ICLR 2026 paper submission.
+This folder contains **only** the experimental code used to generate the results presented in our ICLR 2026 paper submission.
 
-## 🗂️ Experiment Structure
+> **Note**: 추가 실험들은 `additional_experiments/` 폴더에 있습니다.
+
+## Experiment Structure
 
 ```
 paper_experiments/
 ├── slot_machine_6models/        # Section 3a: 6-model slot machine experiments
 ├── investment_choice_experiment/ # Section 3b: Investment choice alternative paradigm
-├── llama_sae_analysis/          # Section 4: LLaMA SAE & activation patching  
-├── pathway_token_analysis/      # Section 5: Temporal & linguistic analysis
-└── steering_vector_analysis/    # Latest: Steering vector experiments (outside this folder)
+├── llama_sae_analysis/          # Section 4: LLaMA SAE & activation patching
+└── pathway_token_analysis/      # Section 5: Temporal & linguistic analysis
 ```
 
 ## 📊 **Experiment 1a: Slot Machine 6-Models** (Section 3a)

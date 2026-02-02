@@ -4,6 +4,50 @@
 
 ---
 
+## ⚠️ 중요: 분석의 성격과 한계
+
+### 이 분석은 관찰 연구(Observational Study)이다
+
+본 분석에서 사용된 모든 통계 기법(t-test, ANOVA, effect size 계산)은 **상관관계(correlation)**를 측정하는 방법이다. 이는 다음을 의미한다:
+
+- **발견 가능한 것**: "어떤 SAE feature가 조건/결과와 강하게 연관되어 있는가"
+- **발견 불가능한 것**: "그 feature가 행동을 유발하는가, 아니면 결과를 사후 표시하는가"
+
+### 인과 방향의 불확실성
+
+예를 들어, Gemma에서 특정 feature가 파산 게임에서 50배 높게 활성화된다는 발견은 두 가지로 해석 가능하다:
+
+1. **인과적 해석(Causal)**: Feature 활성화 → 위험 추구 결정 → 파산
+   - 이 feature가 위험한 결정을 **유발**한다
+
+2. **결과 표시 해석(Epiphenomenal)**: 위험 추구 결정 → 파산 → Feature 활성화
+   - 이 feature는 파산이라는 결과를 **사후 기록**할 뿐이다
+
+### 인과성 검증을 위한 후속 실험
+
+인과 관계를 확립하려면 다음 방법이 필요하다:
+
+1. **Causal Patching/Ablation** (논문 Section 4)
+   - 해당 feature를 제거하거나 조작했을 때 파산율이 변하는지 확인
+   - 변하면 인과적, 변하지 않으면 사후 표시
+
+2. **시간적 순서 분석** (논문 Section 5: Pathway Token Analysis)
+   - Feature 활성화가 결정 시점 **이전**에 발생하는지 확인
+   - 결정 후에만 나타나면 사후 표시일 가능성 높음
+
+3. **Steering/Intervention 실험**
+   - Feature를 인위적으로 높이면 파산율이 증가하는지 확인
+
+### 본 분석의 가치
+
+비록 인과성을 증명하지는 못하지만, 이 관찰 연구는 다음에서 중요하다:
+
+- **탐색적 발견(Exploratory Finding)**: 어떤 feature가 중요한지 식별 → 후속 인과 실험의 후보 선정
+- **비교 신경과학(Comparative Neuroscience)**: LLaMA와 Gemma가 동일한 행동에서 다른 표상 전략 사용
+- **가설 생성(Hypothesis Generation)**: "LLaMA는 환경을 인코딩, Gemma는 결과를 인코딩"이라는 가설 제시
+
+---
+
 ## Figure 1: Four-Way SAE Feature Activation Heatmap
 
 **파일**: `fig1_four_way_heatmap.png` (LLaMA), `fig1_four_way_heatmap_gemma.png` (Gemma)

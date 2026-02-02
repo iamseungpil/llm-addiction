@@ -405,6 +405,84 @@ class StatisticalAnalyzer:
         return rejected, corrected_p
 
 
+def load_prompt_metadata(json_file: str, game_ids: np.ndarray) -> Dict[str, np.ndarray]:
+    """
+    Load prompt_combo metadata and parse into component indicators.
+
+    Args:
+        json_file: Path to experiment JSON file
+        game_ids: Array of game IDs (0-3199 for slot machine experiment)
+
+    Returns:
+        Dictionary with keys:
+            - 'prompt_combos': array of full combo strings (e.g., 'BASE', 'GM', 'GMRWP')
+            - 'has_G': binary array indicating Goal-setting component
+            - 'has_M': binary array indicating Maximize component
+            - 'has_R': binary array indicating Risk/patterns component
+            - 'has_W': binary array indicating Win multiplier component
+            - 'has_P': binary array indicating Probability/win rate component
+            - 'complexity': int array (0-5) indicating number of components
+
+    Example:
+        >>> metadata = load_prompt_metadata(json_file, game_ids)
+        >>> # Group by Goal-setting component
+        >>> has_G = metadata['has_G']
+        >>> group1 = features[has_G]  # Games with Goal-setting
+        >>> group2 = features[~has_G]  # Games without Goal-setting
+    """
+    with open(json_file) as f:
+        data = json.load(f)
+
+    results = data.get('results', data)
+
+    metadata = {
+        'prompt_combos': [],
+        'has_G': [],
+        'has_M': [],
+        'has_R': [],
+        'has_W': [],
+        'has_P': [],
+        'complexity': []
+    }
+
+    for gid in game_ids:
+        combo = results[int(gid)]['prompt_combo']
+        metadata['prompt_combos'].append(combo)
+
+        # Parse components (BASE has no components)
+        # Note: 'G' appears in many combos, so we check it's not just 'G' substring
+        metadata['has_G'].append('G' in combo and combo != 'BASE')
+        metadata['has_M'].append('M' in combo)
+        metadata['has_R'].append('R' in combo)
+        metadata['has_W'].append('W' in combo)
+        metadata['has_P'].append('P' in combo)
+
+        # Calculate complexity
+        if combo == 'BASE':
+            complexity = 0
+        else:
+            # Count unique components
+            complexity = sum([
+                'G' in combo,
+                'M' in combo,
+                'R' in combo,
+                'W' in combo,
+                'P' in combo
+            ])
+        metadata['complexity'].append(complexity)
+
+    # Convert to numpy arrays
+    return {
+        'prompt_combos': np.array(metadata['prompt_combos'], dtype=str),
+        'has_G': np.array(metadata['has_G'], dtype=bool),
+        'has_M': np.array(metadata['has_M'], dtype=bool),
+        'has_R': np.array(metadata['has_R'], dtype=bool),
+        'has_W': np.array(metadata['has_W'], dtype=bool),
+        'has_P': np.array(metadata['has_P'], dtype=bool),
+        'complexity': np.array(metadata['complexity'], dtype=int)
+    }
+
+
 def save_results(results: dict, output_path: Path):
     """Save results to JSON file"""
     output_path.parent.mkdir(parents=True, exist_ok=True)

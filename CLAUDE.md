@@ -6,6 +6,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Research project (ICLR 2026 submission) studying addictive-like gambling behaviors in LLMs using slot machine and investment choice paradigms. Analyzes decision patterns across models (LLaMA-3.1-8B, Gemma-2-9B, GPT-4o-mini, GPT-4.1-mini, Claude-3.5-Haiku, Gemini-2.5-Flash) and uses Sparse Autoencoder (SAE) interpretability + activation patching to identify causal neural features driving risk-taking.
 
+**Repository location**: `/mnt/c/Users/oollccddss/git/llm-addiction/` (WSL2 environment)
+**Main branch**: `master` (use this for PRs)
+**Data location**: `/mnt/c/Users/oollccddss/git/data/llm-addiction/` (separate from code repo)
+
+**Key Research Findings:**
+1. Self-regulation failure: Betting aggressiveness (I_BA), extreme betting (I_EC), loss chasing (I_LC)
+2. Goal dysregulation: Goal escalation after achievement (20% → 50% in addicted models)
+3. **Autonomy effect** (Finding 3): Variable betting → +3.3% bankruptcy rate vs Fixed betting
+4. **Neural mechanisms**: LLaMA encodes betting conditions (L12-15), Gemma encodes outcomes (L26-40)
+5. **Causal validation**: SAE feature patching changes behavior (+29.6% stopping rate)
+
 ## Repository Structure
 
 ```
@@ -19,6 +30,7 @@ paper_experiments/              # Publication-ready experiments (4 paper section
 steering_vector_analysis/       # CAA-based steering vector experiments (5-phase pipeline)
 gemma_sae_experiment/           # Gemma-specific SAE with domain boost (6-phase pipeline)
 lr_classification_experiment/   # Hidden state → logistic regression classification
+alternative_paradigms/          # Alternative benchmarks (IGT, Loot Box, Near-Miss)
 additional_experiments/         # Post-submission extensions (e.g., sae_condition_comparison)
 
 legacy/                         # Archived experiments and analysis code
@@ -35,10 +47,22 @@ Config (YAML) → Phase Scripts (Python) → Results (JSON/NPZ/JSONL)
 Each experiment directory uses: `src/` (phase implementations), `configs/` (YAML settings), `scripts/` (shell launchers), `results/` and `logs/` (outputs). Phases are independently resumable via checkpoint files.
 
 **Key architectural patterns:**
-- All paths and hyperparameters externalized to YAML configs
+- All paths and hyperparameters externalized to YAML configs (or CLI args for alternative paradigms)
 - GPU memory explicitly managed with `clear_gpu_memory()` calls between phases
 - Models loaded in bf16 (not float16 or quantized—alters activations and breaks reproducibility)
 - Open-weight models (LLaMA, Gemma) run locally; API models (GPT, Claude, Gemini) use client libraries
+- Reproducibility: `set_random_seed(42)` called before experiments; fixed seeds across runs
+
+**Model inference patterns:**
+- Local models: Load once, run multiple forward passes, clear GPU between experiments
+- API models: Rate limiting handled automatically, retry logic for transient failures
+- Hidden state extraction: Always use `output_hidden_states=True` in model forward pass
+- Prompt reconstruction: Must exactly match original experiments for reproducibility (critical for LR classification)
+
+**Phase resumability:**
+- Experiments support checkpoint-based resumption to handle GPU interruptions
+- Phase scripts check for existing outputs before re-running expensive operations
+- NPZ files store intermediate hidden states; JSON files store game results
 
 ## Environment Setup
 
@@ -55,7 +79,22 @@ conda activate llama_sae_env
 # - openai, anthropic, google-generativeai for API models
 ```
 
-**Note**: There is no centralized package manager (pdm/pip) configuration. Dependencies are managed per-experiment basis through the conda environment.
+**Note**: There is no centralized package manager (pip/pdm/poetry) configuration. All dependencies are managed through the conda environment `llama_sae_env`. The AGENTS.md file contains outdated references to `pdm` and should be disregarded.
+
+## Research Workflow
+
+**Standard experiment pipeline:**
+1. **Behavioral data collection** (paper_experiments/slot_machine_6models/) → JSON files
+2. **SAE feature extraction** (paper_experiments/llama_sae_analysis/phase1) → NPZ files with hidden states
+3. **Statistical analysis** (phase2-3) → Identify significant features (FDR corrected)
+4. **Causal validation** (phase4) → Activation patching to verify feature → behavior causality
+5. **Token-level analysis** (pathway_token_analysis/) → Temporal/linguistic patterns
+
+**Post-hoc analyses:**
+- Steering vectors: CAA-based directional control (steering_vector_analysis/)
+- Classification: Hidden states → bankruptcy prediction (lr_classification_experiment/)
+- Condition comparison: Variable vs Fixed neural differences (additional_experiments/sae_condition_comparison/)
+- Domain generalization: IGT, Loot Box, Near-Miss tasks (alternative_paradigms/)
 
 ## Running Experiments
 
@@ -95,6 +134,11 @@ python gemma_sae_experiment/run_pipeline.py --gpu 0 --phases all --use-boost
 
 # Post-submission additional experiments (CPU-only statistical analysis)
 python -m additional_experiments.sae_condition_comparison.src.condition_comparison --model llama
+
+# Alternative paradigms (domain generalization validation)
+python alternative_paradigms/src/igt/run_experiment.py --model llama --gpu 0 --quick
+python alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick
+python alternative_paradigms/src/nearmiss/run_experiment.py --model qwen --gpu 0 --bet-type variable --quick
 ```
 
 ## Code Style and Conventions
@@ -105,9 +149,10 @@ python -m additional_experiments.sae_condition_comparison.src.condition_comparis
 - **String quotes**: Double quotes
 - **Naming**: snake_case for modules/functions, PascalCase for classes
 - **Paths**: Always use YAML configs or CLI flags, never hard-code paths
-- **File extensions**: `.log` for logs, `.json` for data, `.npz` for hidden states
+- **File extensions**: `.log` for logs, `.json` for data, `.npz` for hidden states, `.jsonl` for streaming outputs
 - **Type hints**: Required on shared utilities, optional on experiment scripts
 - **Documentation**: Korean is acceptable for READMEs and design docs (bilingual project)
+- **Reproducibility**: Always use `set_random_seed(42)` before experiments; `clear_gpu_memory()` between phases
 
 ## Data Locations
 
@@ -160,10 +205,120 @@ SAE models from HuggingFace: LlamaScope (`fnlp/Llama3_1-8B-Base-LXR-8x`), GemmaS
 - Activation patching experiments require pre-extracted features from Phase 1
 - FDR correction (Benjamini-Hochberg) applied for multiple comparisons
 
+### SAE Condition Comparison (additional_experiments/)
+- **CRITICAL**: Sparse features (activation rate < 1%) cause interaction analysis artifacts
+- Before using interaction results, apply minimum activation threshold filtering:
+  - `min_activation_rate = 0.01` (1% of samples must be active)
+  - `min_mean = 0.001` (minimum mean activation)
+- Analysis 1 (Variable vs Fixed t-test) and Analysis 2 (Four-Way ANOVA) are reliable
+- Analysis 3 (Interaction) requires sparse filtering before interpretation
+- See `additional_experiments/sae_condition_comparison/ANALYSIS_ISSUES_REPORT.md` and `INTERACTION_ETA_PROBLEM_EXPLAINED.md` for detailed explanations
+- **Known issue**: 92% of features show interaction_eta ≈ 1.0 due to extreme sparsity (4 active games out of 3,200)
+- **Trust hierarchy**: Analysis 1 > Analysis 2 > Analysis 3 (in order of statistical reliability)
+
 ### Multi-GPU Experiments
 - Use `CUDA_VISIBLE_DEVICES` to assign specific GPUs
 - Steering vector analysis has 4-GPU launcher script
 - Single experiments can specify `--gpu N` flag
+
+### Alternative Paradigms (Domain Generalization)
+Three additional gambling tasks beyond slot machines:
+1. **Iowa Gambling Task (IGT)**: Experience-based learning with 4 decks (100 fixed trials)
+   - Focus: Learning curve analysis, Net Score = (C+D selections) - (A+B selections)
+   - Variable vs Fixed deck manipulation optional (conflicts with learning mechanism)
+   - Run: `python alternative_paradigms/src/igt/run_experiment.py --model llama --gpu 0 --quick`
+2. **Loot Box Mechanics**: Game item rewards (Basic box: 100 coins, Premium box: 500 coins)
+   - Focus: Non-monetary rewards, strongest autonomy effect expected (+17% bankruptcy)
+   - Variable vs Fixed box manipulation mirrors slot machine design
+   - Run: `python alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick`
+3. **Near-Miss Slot Machine**: Visual near-miss feedback (🍒🍒🍋 = "almost won")
+   - Focus: Illusion of control amplification, 30% near-miss rate
+   - Expected autonomy effect: +8% bankruptcy (133% amplification vs standard slot)
+   - Run: `python alternative_paradigms/src/nearmiss/run_experiment.py --model qwen --gpu 0 --bet-type variable --quick`
+
+**Design principle**: All tasks measure autonomy effects via Variable vs Fixed conditions to validate domain generalization of "choice freedom → increased risk-taking" (paper Finding 3)
+
+**Common CLI flags for alternative paradigms:**
+- `--model`: Model to use (llama, gemma, qwen, gpt4o-mini, etc.)
+- `--gpu`: GPU device ID (0, 1, etc.)
+- `--quick`: Quick test mode with fewer iterations
+- `--bet-type` (Near-Miss only): variable or fixed
+- `--output-dir`: Custom output directory
+- All experiments save results to `{output_dir}/{task_name}_{model}_{timestamp}.json`
+
+## Common Utilities
+
+Shared utility functions are located in experiment-specific `utils.py` files:
+- `alternative_paradigms/src/common/utils.py`: Common utilities for alternative paradigms (IGT, Loot Box, Near-Miss)
+  - Functions: `setup_logger()`, `save_json()`, `load_json()`, `clear_gpu_memory()`, `set_random_seed()`, `get_timestamp()`
+  - Statistical functions: `two_way_anova_simple()` (line 294-391) - simplified ANOVA for computational efficiency
+- Individual experiment `utils.py` files may exist in each experiment's `src/` directory
+
+**CRITICAL**: Do not create duplicate utility files. If utilities are needed across experiments, check if they already exist in these locations.
+
+## Visualization and Analysis
+
+Most experiments generate visualization scripts alongside results:
+
+```bash
+# SAE condition comparison visualizations
+python additional_experiments/sae_condition_comparison/scripts/visualize_results_improved.py
+
+# Pathway token analysis figures
+cd paper_experiments/pathway_token_analysis/scripts
+# Individual phase visualization scripts are in the scripts/ directory
+```
+
+**Visualization patterns:**
+- Figures saved to `results/` or `figures/` subdirectories
+- Common formats: PNG (publication-ready), PDF (vector graphics for paper)
+- Naming convention: `fig{N}_{description}_{model}.png`
+- Analysis guides often accompany complex figures (e.g., `SAE_Figure_Analysis_Guide.md`)
+
+## Statistical Analysis Patterns
+
+### Two-Way ANOVA Implementation
+- Current implementation in `alternative_paradigms/src/common/utils.py` (line 294-391) uses a **simplified approach** for computational efficiency
+- Main effects calculated via separate one-way ANOVAs
+- Interaction estimated via "difference of differences" approximation
+- For publication-critical features (top 100), validate with statsmodels `ols()` + `anova_lm()` for exact F-statistics
+
+### Sparse Feature Handling
+- SAE features are inherently sparse (L1 penalty design)
+- Always check activation rate before complex statistical tests
+- Minimum thresholds: activation_rate ≥ 1%, mean_activation ≥ 0.001
+- Sparse features (<1% active) cause interaction analysis artifacts (eta ≈ 1.0)
+
+## Debugging and Common Issues
+
+### CUDA Out of Memory
+- Ensure `clear_gpu_memory()` is called between phases
+- LLaMA-3.1-8B requires ~19GB VRAM in bf16
+- Gemma-2-9B requires ~22GB VRAM in bf16
+- Use `torch.cuda.empty_cache()` and `torch.cuda.synchronize()` if custom clearing needed
+
+### NPZ ↔ JSON Mapping Issues
+- Game IDs in NPZ files must match JSON indices (1:1 correspondence)
+- Verify with `outcomes` field matching before analysis
+- Example: `lr_classification_experiment` requires exact prompt reconstruction
+
+### SAE Loading Errors
+- LlamaScope: `fnlp/Llama3_1-8B-Base-LXR-8x` (only layers 25-31 available)
+- GemmaScope: `google/gemma-scope` (all layers, 131K features/layer)
+- Wrong layer numbers will fail silently or produce zeros
+
+### Activation Patching Dependencies
+- Phase 1 (feature extraction) must complete before Phase 4 (causal patching)
+- Missing checkpoint files will cause silent failures
+- Check for `*_features.npz` existence before patching
+
+## Important Files to Reference
+
+- **CLAUDE.md** (this file): Primary guidance for Claude Code - most comprehensive and up-to-date
+- **AGENTS.md**: Contains **outdated** information (references to `pdm`, old structure) - should be disregarded in favor of this file
+- **ANALYSIS_ISSUES_REPORT.md**: Critical statistical analysis caveats for SAE condition comparison
+- **INTERACTION_ETA_PROBLEM_EXPLAINED.md**: Detailed explanation of sparse feature artifacts
+- Individual experiment READMEs: Task-specific documentation in each experiment folder
 
 ## Notes
 
@@ -171,3 +326,5 @@ SAE models from HuggingFace: LlamaScope (`fnlp/Llama3_1-8B-Base-LXR-8x`), GemmaS
 - `.gitignore` excludes all experiment outputs; actual data stored in `/mnt/c/Users/oollccddss/git/data/llm-addiction/`
 - No formal test suite - experiments include validation within their pipelines
 - Legacy folder contains archived experiments from iterative development process
+- **Recent analysis issues documented in**: `additional_experiments/sae_condition_comparison/ANALYSIS_ISSUES_REPORT.md`
+- The project is actively being developed for ICLR 2026 submission - expect frequent updates to analysis code

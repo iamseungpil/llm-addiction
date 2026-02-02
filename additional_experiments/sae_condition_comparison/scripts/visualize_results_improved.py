@@ -147,12 +147,14 @@ def create_improved_heatmap(data, n_features=20, model_name='LLaMA-3.1-8B', mode
     ax.set_xlabel('Condition', fontsize=13, fontweight='bold')
     ax.set_ylabel('SAE Feature (ranked by η²)', fontsize=13, fontweight='bold')
     ax.set_title(f'SAE Feature Activation Patterns ({model_name})',
-                 fontsize=14, fontweight='bold', pad=40)
+                 fontsize=14, fontweight='bold', pad=35)
 
-    # Add Variable/Fixed labels BELOW the title, ABOVE the heatmap
-    ax.text(0.5, -2.0, 'Variable Betting', ha='center', fontsize=12,
+    # Add Variable/Fixed labels below title, above heatmap
+    # Using negative y values to position above the heatmap (row 0)
+    # More negative = higher up (closer to title), less negative = lower (closer to heatmap)
+    ax.text(0.5, -0.9, 'Variable Betting', ha='center', fontsize=12,
             fontweight='bold', color='darkblue', va='center')
-    ax.text(2.5, -2.0, 'Fixed Betting', ha='center', fontsize=12,
+    ax.text(2.5, -0.9, 'Fixed Betting', ha='center', fontsize=12,
             fontweight='bold', color='darkred', va='center')
 
     # Add colorbar with clear labeling

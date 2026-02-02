@@ -166,18 +166,19 @@ def parse_choice(response: str, valid_choices: list) -> Optional[str]:
     Returns:
         Parsed choice or None if parsing fails
     """
+    import re
     response = response.upper().strip()
 
-    # Direct match
+    # Pattern 1: "Choice: X", "Deck X", "Select X", etc.
     for choice in valid_choices:
-        if choice in response[:10]:  # Check first 10 chars
+        pattern = rf'(?:choice|deck|select|option|choose)[:\s]+{choice}\b'
+        if re.search(pattern, response, re.IGNORECASE):
             return choice
 
-    # Pattern: "Choice: X" or "Select X"
-    import re
+    # Pattern 2: Standalone letter with word boundary
     for choice in valid_choices:
-        pattern = rf'(?:choice|select|choose|option|deck)[:\s]+{choice}'
-        if re.search(pattern, response, re.IGNORECASE):
+        pattern = rf'\b{choice}\b'
+        if re.search(pattern, response[:50]):  # Check first 50 chars
             return choice
 
     return None

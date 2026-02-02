@@ -19,22 +19,32 @@ Research project (ICLR 2026 submission) studying addictive-like gambling behavio
 
 ## Repository Structure
 
+**NEW (Feb 2, 2026)**: Exploratory experiments have been reorganized into `exploratory_experiments/` for clarity.
+
 ```
-paper_experiments/              # Publication-ready experiments (4 paper sections)
-├── slot_machine_6models/       # Section 3a: 6-model gambling behavior comparison
-├── investment_choice_experiment/ # Section 3b: Structured 3-option choice paradigm
+paper_experiments/              # 📄 PAPER: Publication experiments (4 paper sections)
+├── slot_machine_6models/       # Section 3.1: 6-model gambling behavior (Findings 1-5)
+├── investment_choice_experiment/ # Section 3.1: Ablation study (goal/betting effects)
 │   └── src/{analysis,models,irrationality_evaluation}/  # nested subdirectories
-├── llama_sae_analysis/         # Section 4: SAE feature extraction + causal patching
-└── pathway_token_analysis/     # Section 5: Temporal/linguistic token-level analysis
+├── llama_sae_analysis/         # Section 3.2: Neural mechanisms (112 causal features)
+└── pathway_token_analysis/     # Section 5: Token-level temporal analysis
 
-steering_vector_analysis/       # CAA-based steering vector experiments (5-phase pipeline)
-gemma_sae_experiment/           # Gemma-specific SAE with domain boost (6-phase pipeline)
-lr_classification_experiment/   # Hidden state → logistic regression classification
-alternative_paradigms/          # Alternative benchmarks (IGT, Loot Box, Near-Miss)
-additional_experiments/         # Post-submission extensions (e.g., sae_condition_comparison)
+exploratory_experiments/        # 🔬 EXPLORATORY: Non-paper experiments
+├── steering_vector_analysis/   # CAA-based steering vectors (5-phase pipeline)
+├── gemma_sae_experiment/       # Gemma SAE with domain boost (6-phase pipeline)
+├── lr_classification_experiment/ # Hidden state → bankruptcy prediction
+├── alternative_paradigms/      # Domain generalization (IGT, Loot Box, Near-Miss)
+│   ├── src/igt/                # Iowa Gambling Task
+│   ├── src/lootbox/            # Loot Box mechanics
+│   └── src/nearmiss/           # Near-miss slot machine
+└── additional_experiments/     # Post-submission extensions
+    └── sae_condition_comparison/ # Variable vs Fixed neural differences
 
-legacy/                         # Archived experiments and analysis code
+legacy/                         # 🗄️ LEGACY: Archived experiments
 ```
+
+**See `STRUCTURE.md` for detailed repository organization guide.**
+**See `exploratory_experiments/README.md` for exploratory experiments documentation.**
 
 ## Architecture
 
@@ -90,11 +100,11 @@ conda activate llama_sae_env
 4. **Causal validation** (phase4) → Activation patching to verify feature → behavior causality
 5. **Token-level analysis** (pathway_token_analysis/) → Temporal/linguistic patterns
 
-**Post-hoc analyses:**
-- Steering vectors: CAA-based directional control (steering_vector_analysis/)
-- Classification: Hidden states → bankruptcy prediction (lr_classification_experiment/)
-- Condition comparison: Variable vs Fixed neural differences (additional_experiments/sae_condition_comparison/)
-- Domain generalization: IGT, Loot Box, Near-Miss tasks (alternative_paradigms/)
+**Exploratory analyses (not in paper):**
+- Steering vectors: CAA-based directional control (exploratory_experiments/steering_vector_analysis/)
+- Classification: Hidden states → bankruptcy prediction (exploratory_experiments/lr_classification_experiment/)
+- Condition comparison: Variable vs Fixed neural differences (exploratory_experiments/additional_experiments/sae_condition_comparison/)
+- Domain generalization: IGT, Loot Box, Near-Miss tasks (exploratory_experiments/alternative_paradigms/)
 
 ## Running Experiments
 
@@ -117,28 +127,28 @@ python paper_experiments/llama_sae_analysis/src/phase4_causal_pilot_v2.py
 bash paper_experiments/pathway_token_analysis/scripts/launch_all_phases_sequential.sh
 ```
 
-### Additional Research Experiments
+### Exploratory Research Experiments (not in paper)
 
 ```bash
 # Steering vector analysis (multi-GPU, CAA-based 5-phase pipeline)
-bash steering_vector_analysis/scripts/launch_full_analysis_4gpu.sh
-python steering_vector_analysis/src/extract_steering_vectors.py --config configs/experiment_config.yaml
+bash exploratory_experiments/steering_vector_analysis/scripts/launch_full_analysis_4gpu.sh
+python exploratory_experiments/steering_vector_analysis/src/extract_steering_vectors.py --config configs/experiment_config.yaml
 
 # LR classification experiment (hidden state → bankruptcy prediction)
-python lr_classification_experiment/run_experiment.py --model gemma --option B --gpu 0
-python lr_classification_experiment/run_experiment.py --model all --option B --gpu 0 --baselines-only
-python lr_classification_experiment/run_experiment.py --model gemma --option B --gpu 0 --quick
+python exploratory_experiments/lr_classification_experiment/run_experiment.py --model gemma --option B --gpu 0
+python exploratory_experiments/lr_classification_experiment/run_experiment.py --model all --option B --gpu 0 --baselines-only
+python exploratory_experiments/lr_classification_experiment/run_experiment.py --model gemma --option B --gpu 0 --quick
 
 # Gemma SAE experiment (6-phase pipeline with optional domain boost)
-python gemma_sae_experiment/run_pipeline.py --gpu 0 --phases all --use-boost
+python exploratory_experiments/gemma_sae_experiment/run_pipeline.py --gpu 0 --phases all --use-boost
 
 # Post-submission additional experiments (CPU-only statistical analysis)
-python -m additional_experiments.sae_condition_comparison.src.condition_comparison --model llama
+python -m exploratory_experiments.additional_experiments.sae_condition_comparison.src.condition_comparison --model llama
 
 # Alternative paradigms (domain generalization validation)
-python alternative_paradigms/src/igt/run_experiment.py --model llama --gpu 0 --quick
-python alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick
-python alternative_paradigms/src/nearmiss/run_experiment.py --model qwen --gpu 0 --bet-type variable --quick
+python exploratory_experiments/alternative_paradigms/src/igt/run_experiment.py --model llama --gpu 0 --quick
+python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick
+python exploratory_experiments/alternative_paradigms/src/nearmiss/run_experiment.py --model qwen --gpu 0 --bet-type variable --quick
 ```
 
 ## Code Style and Conventions
@@ -205,14 +215,14 @@ SAE models from HuggingFace: LlamaScope (`fnlp/Llama3_1-8B-Base-LXR-8x`), GemmaS
 - Activation patching experiments require pre-extracted features from Phase 1
 - FDR correction (Benjamini-Hochberg) applied for multiple comparisons
 
-### SAE Condition Comparison (additional_experiments/)
+### SAE Condition Comparison (exploratory_experiments/additional_experiments/)
 - **CRITICAL**: Sparse features (activation rate < 1%) cause interaction analysis artifacts
 - Before using interaction results, apply minimum activation threshold filtering:
   - `min_activation_rate = 0.01` (1% of samples must be active)
   - `min_mean = 0.001` (minimum mean activation)
 - Analysis 1 (Variable vs Fixed t-test) and Analysis 2 (Four-Way ANOVA) are reliable
 - Analysis 3 (Interaction) requires sparse filtering before interpretation
-- See `additional_experiments/sae_condition_comparison/ANALYSIS_ISSUES_REPORT.md` and `INTERACTION_ETA_PROBLEM_EXPLAINED.md` for detailed explanations
+- See `exploratory_experiments/additional_experiments/sae_condition_comparison/ANALYSIS_ISSUES_REPORT.md` and `INTERACTION_ETA_PROBLEM_EXPLAINED.md` for detailed explanations
 - **Known issue**: 92% of features show interaction_eta ≈ 1.0 due to extreme sparsity (4 active games out of 3,200)
 - **Trust hierarchy**: Analysis 1 > Analysis 2 > Analysis 3 (in order of statistical reliability)
 
@@ -221,20 +231,20 @@ SAE models from HuggingFace: LlamaScope (`fnlp/Llama3_1-8B-Base-LXR-8x`), GemmaS
 - Steering vector analysis has 4-GPU launcher script
 - Single experiments can specify `--gpu N` flag
 
-### Alternative Paradigms (Domain Generalization)
+### Alternative Paradigms (Domain Generalization) - exploratory_experiments/
 Three additional gambling tasks beyond slot machines:
 1. **Iowa Gambling Task (IGT)**: Experience-based learning with 4 decks (100 fixed trials)
    - Focus: Learning curve analysis, Net Score = (C+D selections) - (A+B selections)
    - Variable vs Fixed deck manipulation optional (conflicts with learning mechanism)
-   - Run: `python alternative_paradigms/src/igt/run_experiment.py --model llama --gpu 0 --quick`
+   - Run: `python exploratory_experiments/alternative_paradigms/src/igt/run_experiment.py --model llama --gpu 0 --quick`
 2. **Loot Box Mechanics**: Game item rewards (Basic box: 100 coins, Premium box: 500 coins)
    - Focus: Non-monetary rewards, strongest autonomy effect expected (+17% bankruptcy)
    - Variable vs Fixed box manipulation mirrors slot machine design
-   - Run: `python alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick`
+   - Run: `python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick`
 3. **Near-Miss Slot Machine**: Visual near-miss feedback (🍒🍒🍋 = "almost won")
    - Focus: Illusion of control amplification, 30% near-miss rate
    - Expected autonomy effect: +8% bankruptcy (133% amplification vs standard slot)
-   - Run: `python alternative_paradigms/src/nearmiss/run_experiment.py --model qwen --gpu 0 --bet-type variable --quick`
+   - Run: `python exploratory_experiments/alternative_paradigms/src/nearmiss/run_experiment.py --model qwen --gpu 0 --bet-type variable --quick`
 
 **Design principle**: All tasks measure autonomy effects via Variable vs Fixed conditions to validate domain generalization of "choice freedom → increased risk-taking" (paper Finding 3)
 
@@ -249,7 +259,7 @@ Three additional gambling tasks beyond slot machines:
 ## Common Utilities
 
 Shared utility functions are located in experiment-specific `utils.py` files:
-- `alternative_paradigms/src/common/utils.py`: Common utilities for alternative paradigms (IGT, Loot Box, Near-Miss)
+- `exploratory_experiments/alternative_paradigms/src/common/utils.py`: Common utilities for alternative paradigms (IGT, Loot Box, Near-Miss)
   - Functions: `setup_logger()`, `save_json()`, `load_json()`, `clear_gpu_memory()`, `set_random_seed()`, `get_timestamp()`
   - Statistical functions: `two_way_anova_simple()` (line 294-391) - simplified ANOVA for computational efficiency
 - Individual experiment `utils.py` files may exist in each experiment's `src/` directory
@@ -262,7 +272,7 @@ Most experiments generate visualization scripts alongside results:
 
 ```bash
 # SAE condition comparison visualizations
-python additional_experiments/sae_condition_comparison/scripts/visualize_results_improved.py
+python exploratory_experiments/additional_experiments/sae_condition_comparison/scripts/visualize_results_improved.py
 
 # Pathway token analysis figures
 cd paper_experiments/pathway_token_analysis/scripts
@@ -278,7 +288,7 @@ cd paper_experiments/pathway_token_analysis/scripts
 ## Statistical Analysis Patterns
 
 ### Two-Way ANOVA Implementation
-- Current implementation in `alternative_paradigms/src/common/utils.py` (line 294-391) uses a **simplified approach** for computational efficiency
+- Current implementation in `exploratory_experiments/alternative_paradigms/src/common/utils.py` (line 294-391) uses a **simplified approach** for computational efficiency
 - Main effects calculated via separate one-way ANOVAs
 - Interaction estimated via "difference of differences" approximation
 - For publication-critical features (top 100), validate with statsmodels `ols()` + `anova_lm()` for exact F-statistics
@@ -315,9 +325,11 @@ cd paper_experiments/pathway_token_analysis/scripts
 ## Important Files to Reference
 
 - **CLAUDE.md** (this file): Primary guidance for Claude Code - most comprehensive and up-to-date
+- **STRUCTURE.md**: Repository organization guide - distinguishes paper vs exploratory experiments
+- **exploratory_experiments/README.md**: Detailed guide for all non-paper experiments
 - **AGENTS.md**: Contains **outdated** information (references to `pdm`, old structure) - should be disregarded in favor of this file
-- **ANALYSIS_ISSUES_REPORT.md**: Critical statistical analysis caveats for SAE condition comparison
-- **INTERACTION_ETA_PROBLEM_EXPLAINED.md**: Detailed explanation of sparse feature artifacts
+- **exploratory_experiments/additional_experiments/sae_condition_comparison/ANALYSIS_ISSUES_REPORT.md**: Critical statistical analysis caveats
+- **exploratory_experiments/additional_experiments/sae_condition_comparison/INTERACTION_ETA_PROBLEM_EXPLAINED.md**: Sparse feature artifacts explanation
 - Individual experiment READMEs: Task-specific documentation in each experiment folder
 
 ## Notes
@@ -326,5 +338,6 @@ cd paper_experiments/pathway_token_analysis/scripts
 - `.gitignore` excludes all experiment outputs; actual data stored in `/mnt/c/Users/oollccddss/git/data/llm-addiction/`
 - No formal test suite - experiments include validation within their pipelines
 - Legacy folder contains archived experiments from iterative development process
-- **Recent analysis issues documented in**: `additional_experiments/sae_condition_comparison/ANALYSIS_ISSUES_REPORT.md`
+- **Recent analysis issues documented in**: `exploratory_experiments/additional_experiments/sae_condition_comparison/ANALYSIS_ISSUES_REPORT.md`
 - The project is actively being developed for ICLR 2026 submission - expect frequent updates to analysis code
+- **Repository restructured Feb 2, 2026**: Exploratory experiments moved to `exploratory_experiments/` for clarity

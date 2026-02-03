@@ -259,6 +259,47 @@ class StatisticalAnalyzer:
         return ss_between / ss_total
 
     @staticmethod
+    def filter_sparse_features(
+        features: np.ndarray,
+        min_activation_rate: float = 0.01,
+        min_mean_activation: float = 0.001
+    ) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Filter out extremely sparse SAE features before statistical analysis.
+
+        SAE features are inherently sparse (L1 penalty design), but features
+        with <1% activation rate cause numerical instability in ANOVA.
+        This filtering step removes features that are active in less than 1%
+        of samples, which typically cause interaction_eta ≈ 1.0 artifacts.
+
+        Args:
+            features: (n_samples, n_features) array of SAE activations
+            min_activation_rate: Minimum proportion of non-zero activations (default: 0.01 = 1%)
+            min_mean_activation: Minimum mean activation value (default: 0.001)
+
+        Returns:
+            Tuple of (filtered_features, valid_feature_indices)
+            - filtered_features: (n_samples, n_valid_features) array
+            - valid_feature_indices: Array of indices of retained features
+
+        Example:
+            >>> features = np.random.rand(1000, 131072)  # 1000 samples, 131K features
+            >>> filtered, indices = StatisticalAnalyzer.filter_sparse_features(features)
+            >>> print(f"Retained {len(indices)}/{features.shape[1]} features")
+        """
+        n_samples = features.shape[0]
+
+        # Calculate activation metrics
+        activation_rate = np.count_nonzero(features, axis=0) / n_samples
+        mean_activation = np.mean(features, axis=0)
+
+        # Create validity mask
+        valid_mask = (activation_rate >= min_activation_rate) & (mean_activation >= min_mean_activation)
+        valid_indices = np.where(valid_mask)[0]
+
+        return features[:, valid_mask], valid_indices
+
+    @staticmethod
     def welch_ttest(group1: np.ndarray, group2: np.ndarray) -> Tuple[float, float]:
         """Perform Welch's t-test"""
         if len(group1) < 2 or len(group2) < 2:

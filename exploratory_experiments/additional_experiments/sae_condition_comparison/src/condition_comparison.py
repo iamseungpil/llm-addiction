@@ -164,10 +164,22 @@ class ConditionComparisonAnalyzer:
         features, outcomes, bet_types = result
         n_features = features.shape[1]
 
+        # Apply sparse feature filtering (critical for interaction analysis)
+        filtered_features, valid_indices = self.stats.filter_sparse_features(
+            features,
+            min_activation_rate=0.01,  # 1% minimum
+            min_mean_activation=0.001
+        )
+
+        self.logger.info(
+            f"Layer {layer}: Filtered {len(valid_indices)}/{n_features} features "
+            f"({100 * len(valid_indices) / n_features:.1f}% retained)"
+        )
+
         results = []
 
-        for feature_id in range(n_features):
-            feat_vals = features[:, feature_id]
+        for i, feature_id in enumerate(valid_indices):
+            feat_vals = filtered_features[:, i]
 
             # 2-way ANOVA
             main_bet, main_outcome, interaction, group_means = self.stats.two_way_anova_simple(
@@ -176,7 +188,7 @@ class ConditionComparisonAnalyzer:
 
             results.append({
                 'layer': layer,
-                'feature_id': feature_id,
+                'feature_id': int(feature_id),  # Original feature index
                 'bet_type_f': main_bet['f'],
                 'bet_type_p': main_bet['p'],
                 'bet_type_eta': main_bet['eta_squared'],
@@ -408,6 +420,113 @@ class ConditionComparisonAnalyzer:
         self.logger.info(f"Results saved to: {output_dir}")
 
         return results
+
+    def validate_top_features_with_statsmodels(
+        self,
+        features: np.ndarray,
+        bet_types: np.ndarray,
+        outcomes: np.ndarray,
+        top_features: List[dict],
+        max_features: int = 100
+    ) -> List[dict]:
+        """
+        Validate top features with exact statsmodels 2-way ANOVA.
+
+        Current two_way_anova_simple() uses approximation (separate one-way ANOVAs).
+        This method re-computes interaction effects for top features using
+        statsmodels ols() + anova_lm() for exact F-statistics.
+
+        Args:
+            features: (n_samples, n_features) array
+            bet_types: (n_samples,) array of bet types
+            outcomes: (n_samples,) array of outcomes
+            top_features: List of feature dicts sorted by interaction_eta
+            max_features: Maximum number of features to validate
+
+        Returns:
+            List of feature dicts with added statsmodels fields:
+            - statsmodels_validated: bool
+            - statsmodels_interaction_f: float
+            - statsmodels_interaction_p: float
+            - statsmodels_interaction_eta: float
+
+        Example:
+            >>> top_100 = sorted(results, key=lambda x: x['interaction_eta'], reverse=True)[:100]
+            >>> validated = self.validate_top_features_with_statsmodels(
+            ...     features, bet_types, outcomes, top_100, max_features=100
+            ... )
+        """
+        try:
+            import pandas as pd
+            from statsmodels.formula.api import ols
+            from statsmodels.stats.anova import anova_lm
+        except ImportError:
+            self.logger.warning("statsmodels not available, skipping validation")
+            return top_features
+
+        self.logger.info(f"\nValidating top {min(len(top_features), max_features)} features with statsmodels")
+
+        for i, feat in enumerate(top_features[:max_features]):
+            if i % 20 == 0:
+                self.logger.info(f"  Progress: {i}/{min(len(top_features), max_features)}")
+
+            layer = feat['layer']
+            feature_id = feat['feature_id']
+
+            # Get feature activations
+            feat_vals = features[:, feature_id]
+
+            # Create DataFrame
+            df = pd.DataFrame({
+                'activation': feat_vals,
+                'bet_type': bet_types,
+                'outcome': outcomes
+            })
+
+            # Fit 2-way ANOVA model
+            try:
+                model = ols('activation ~ C(bet_type) * C(outcome)', data=df).fit()
+                anova_table = anova_lm(model, typ=2)
+
+                # Extract interaction statistics
+                interaction_row = anova_table.loc['C(bet_type):C(outcome)', :]
+                interaction_f = float(interaction_row['F'])
+                interaction_p = float(interaction_row['PR(>F)'])
+
+                # Calculate eta-squared for interaction
+                ss_interaction = float(interaction_row['sum_sq'])
+                ss_total = float(anova_table['sum_sq'].sum())
+                interaction_eta = ss_interaction / ss_total if ss_total > 0 else 0.0
+
+                # Add to feature dict
+                feat['statsmodels_validated'] = True
+                feat['statsmodels_interaction_f'] = interaction_f
+                feat['statsmodels_interaction_p'] = interaction_p
+                feat['statsmodels_interaction_eta'] = interaction_eta
+
+                # Compare with approximation
+                original_f = feat['interaction_f']
+                original_eta = feat['interaction_eta']
+                f_diff = abs(interaction_f - original_f) / (original_f + 1e-10)
+                eta_diff = abs(interaction_eta - original_eta) / (original_eta + 1e-10)
+
+                feat['f_relative_error'] = f_diff
+                feat['eta_relative_error'] = eta_diff
+
+            except Exception as e:
+                self.logger.warning(f"    Failed to validate L{layer}-{feature_id}: {e}")
+                feat['statsmodels_validated'] = False
+
+        # Log summary of differences
+        validated = [f for f in top_features[:max_features] if f.get('statsmodels_validated', False)]
+        if validated:
+            avg_f_error = np.mean([f['f_relative_error'] for f in validated])
+            avg_eta_error = np.mean([f['eta_relative_error'] for f in validated])
+            self.logger.info(f"\nValidation summary ({len(validated)} features):")
+            self.logger.info(f"  Average F-stat relative error: {avg_f_error:.2%}")
+            self.logger.info(f"  Average eta^2 relative error: {avg_eta_error:.2%}")
+
+        return top_features
 
 
 def main():

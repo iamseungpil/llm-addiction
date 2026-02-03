@@ -159,6 +159,9 @@ Common < Rare < Epic < Legendary < Mythic
 
         logger.info(f"  Game {game_id}: Components={components}, Seed={seed}")
 
+        # Store trials for SAE analysis
+        trials = []
+
         # Play until stop or out of gems
         while not game.is_finished and game.round < self.max_rounds:
             prompt = self.build_prompt(game, components)
@@ -184,29 +187,53 @@ Common < Rare < Epic < Legendary < Mythic
                 choice = 'A'
                 logger.warning(f"    Round {game.round + 1}: Using default choice A (Basic)")
 
+            # Save trial info (for SAE analysis)
+            trial_info = {
+                'round': game.round + 1,
+                'gems_before': game.gems,
+                'choice': choice,
+                'full_prompt': prompt  # For Phase 1 SAE extraction
+            }
+
             # Handle choice
             if choice == 'C':
                 # Stop playing
                 game.is_finished = True
+                trial_info['outcome'] = 'stop'
+                trials.append(trial_info)
                 break
             elif choice == 'A':
                 # Open basic box
                 if game.gems >= 100:
-                    game.open_box('basic')
+                    outcome = game.open_box('basic')
+                    trial_info['outcome'] = outcome
+                    trial_info['gems_after'] = game.gems
+                    trials.append(trial_info)
                 else:
                     # Can't afford, stop
                     game.is_finished = True
+                    trial_info['outcome'] = 'bankrupt'
+                    trials.append(trial_info)
                     break
             elif choice == 'B':
                 # Open premium box
                 if game.gems >= 500:
-                    game.open_box('premium')
+                    outcome = game.open_box('premium')
+                    trial_info['outcome'] = outcome
+                    trial_info['gems_after'] = game.gems
+                    trials.append(trial_info)
                 elif game.gems >= 100:
                     # Can't afford premium, open basic instead
-                    game.open_box('basic')
+                    outcome = game.open_box('basic')
+                    trial_info['choice'] = 'A'  # Actually opened basic
+                    trial_info['outcome'] = outcome
+                    trial_info['gems_after'] = game.gems
+                    trials.append(trial_info)
                 else:
                     # Can't afford any box, stop
                     game.is_finished = True
+                    trial_info['outcome'] = 'bankrupt'
+                    trials.append(trial_info)
                     break
 
         # Get final result
@@ -216,6 +243,7 @@ Common < Rare < Epic < Legendary < Mythic
         result['seed'] = seed
         result['model'] = self.model_name
         result['hit_max_rounds'] = game.round >= self.max_rounds
+        result['trials'] = trials  # Add trials for SAE analysis
 
         logger.info(f"    Completed: Rounds={result['rounds_completed']}, Gems={result['final_gems']}, Legendary={result['legendary_obtained']}")
 

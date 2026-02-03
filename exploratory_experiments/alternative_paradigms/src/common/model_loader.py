@@ -158,6 +158,81 @@ class ModelLoader:
 
         return generated_text.strip()
 
+    def generate_with_hidden_states(
+        self,
+        prompt: str,
+        max_new_tokens: int = 100,
+        temperature: float = 0.7,
+        top_p: float = 0.9,
+        do_sample: bool = True
+    ) -> Tuple[str, torch.Tensor]:
+        """
+        Generate text and extract hidden states (for SAE analysis).
+
+        Args:
+            prompt: Input prompt
+            max_new_tokens: Maximum new tokens to generate
+            temperature: Sampling temperature
+            top_p: Nucleus sampling parameter
+            do_sample: Whether to use sampling
+
+        Returns:
+            Tuple of (generated_text, hidden_states)
+            hidden_states: Tensor of shape (1, hidden_dim) from last token of last layer
+        """
+        if self.model is None or self.tokenizer is None:
+            raise RuntimeError("Model not loaded. Call load() first.")
+
+        # Apply chat template if available
+        if self.config['chat_template']:
+            messages = [{"role": "user", "content": prompt}]
+            formatted_prompt = self.tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True
+            )
+        else:
+            formatted_prompt = prompt
+
+        # Tokenize
+        inputs = self.tokenizer(
+            formatted_prompt,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=2048
+        ).to(self.device)
+
+        # Generate with hidden states
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                top_p=top_p,
+                do_sample=do_sample,
+                pad_token_id=self.tokenizer.eos_token_id,
+                eos_token_id=self.tokenizer.eos_token_id,
+                output_hidden_states=True,
+                return_dict_in_generate=True
+            )
+
+        # Extract generated text
+        generated_text = self.tokenizer.decode(
+            outputs.sequences[0][inputs['input_ids'].shape[1]:],
+            skip_special_tokens=True
+        )
+
+        # Extract hidden states from last token of last generation step
+        # outputs.hidden_states is a tuple of tuples: (step1, step2, ..., stepN)
+        # Each step contains (layer0, layer1, ..., layerN)
+        # We want the last step, last layer, last token
+        last_step_hidden = outputs.hidden_states[-1]  # Last generation step
+        last_layer_hidden = last_step_hidden[-1]  # Last layer
+        last_token_hidden = last_layer_hidden[:, -1, :]  # Last token: (batch_size, hidden_dim)
+
+        return generated_text.strip(), last_token_hidden.cpu()
+
     def unload(self):
         """Unload model and free GPU memory"""
         if self.model is not None:

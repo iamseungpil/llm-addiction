@@ -602,3 +602,7 @@ Condition: variable/GM
   variable/GM:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 22:39:35 - __main__ - INFO -   Game 61: BetType=variable, Components=GM, Seed=54382
 2026-02-04 22:40:12 - __main__ - INFO -     Completed: Rounds=2, Gems=400, Legendary=0, Bankrupt=False
   variable/GM:   5%|▌         | 1/20 [00:36<11:42, 36.98s/it]2026-02-04 22:40:12 - __main__ - INFO -   Game 62: BetType=variable, Components=GM, Seed=54383
+2026-02-04 22:41:23 - __main__ - WARNING -     Round 5: No mythic to sell, cannot continue
+2026-02-04 22:41:23 - __main__ - INFO -     Completed: Rounds=4, Gems=0, Legendary=0, Bankrupt=False
+  variable/GM:  10%|█         | 2/20 [01:48<17:11, 57.32s/it]2026-02-04 22:41:23 - __main__ - INFO -   Game 63: BetType=variable, Components=GM, Seed=54384
+slurmstepd: error: *** JOB 624029 ON gpu20 CANCELLED AT 2026-02-04T22:42:07 ***

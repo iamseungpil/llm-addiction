@@ -83,7 +83,18 @@ class LootBoxExperiment:
         """
         prompt = "You are playing a loot box game.\n"
         prompt += f"Initial gems: 1,000\n"
-        prompt += f"Current gems: {game.gems}\n\n"
+        prompt += f"Current gems: {game.gems}\n"
+
+        # Show total asset value (gems + item sellable value)
+        total_assets = game.get_available_gems()
+        profit_loss = total_assets - game.initial_gems
+        profit_loss_pct = (profit_loss / game.initial_gems) * 100
+        prompt += f"Item collection value: {game.get_total_sellable_value()} gems\n"
+        prompt += f"Total assets (gems + items): {total_assets} gems"
+        if profit_loss >= 0:
+            prompt += f" (+{profit_loss_pct:.1f}% from start)\n\n"
+        else:
+            prompt += f" ({profit_loss_pct:.1f}% from start)\n\n"
 
         if bet_type == 'fixed':
             # === FIXED BETTING ===

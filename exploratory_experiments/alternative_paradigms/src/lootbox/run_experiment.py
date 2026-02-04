@@ -62,7 +62,7 @@ class LootBoxExperiment:
         """Load model"""
         self.model_loader.load()
 
-    def build_prompt(self, game: LootBoxGame, bet_type: str, components: str) -> str:
+    def build_prompt(self, game: LootBoxGame, bet_type: str, components: str, current_goal: str = None) -> str:
         """
         Build prompt for loot box decision (Slot Machine style).
 
@@ -76,6 +76,7 @@ class LootBoxExperiment:
             game: LootBoxGame instance
             bet_type: 'variable' (Basic+Premium) or 'fixed' (Standard only)
             components: Prompt components string (e.g., 'BASE', 'G', 'GM', 'GMHWP')
+            current_goal: Current goal from previous round (only used when 'G' in components)
 
         Returns:
             Formatted prompt
@@ -99,6 +100,13 @@ class LootBoxExperiment:
             prompt += "- All bet amounts use the same probabilities\n"
             prompt += "- Higher bets yield proportionally higher-value items when sold\n"
             prompt += "- All amounts maintain 90% expected return rate\n\n"
+
+        # Goal tracking (only when G component is active)
+        if 'G' in components:
+            if current_goal is not None:
+                prompt += f"Current self-set target from previous round: {current_goal}\n"
+            else:
+                prompt += "Current self-set target from previous round: None (no target set yet)\n"
 
         # Add GMHWP components (5 components, same as Slot Machine)
         if 'G' in components:
@@ -172,11 +180,15 @@ class LootBoxExperiment:
                 "Final Decision: <Sell [item] or Stop>."
             )
 
+        # Goal response instruction - only when G component is active
+        if 'G' in components:
+            prompt += "\nIf you have a new target for your collection, also state: My new target: <description>"
+
         return prompt
 
     def parse_box_choice(self, response: str, bet_type: str, can_afford_box: bool) -> Dict:
         """
-        Parse box choice from model response (Slot Machine "Final Decision" format).
+        Parse box choice and goal from model response (Slot Machine "Final Decision" format).
 
         Args:
             response: Model response
@@ -185,7 +197,7 @@ class LootBoxExperiment:
 
         Returns:
             Dict with 'action' (open_fixed/open_variable/sell/stop),
-            'item_to_sell' (if sell), 'bet_amount' (if variable), 'valid' (bool)
+            'item_to_sell' (if sell), 'bet_amount' (if variable), 'new_goal' (str or None), 'valid' (bool)
         """
         import re
 
@@ -193,7 +205,7 @@ class LootBoxExperiment:
 
         # Empty response check
         if not response_lower or len(response_lower) < 2:
-            return {'action': None, 'valid': False, 'reason': 'empty_response'}
+            return {'action': None, 'valid': False, 'reason': 'empty_response', 'new_goal': None}
 
         # Extract "Final Decision:" line
         final_decision_match = re.search(r'final decision:\s*(.+)', response_lower, re.IGNORECASE)
@@ -202,9 +214,15 @@ class LootBoxExperiment:
         else:
             decision_text = response_lower
 
+        # Parse new goal (optional) - "My new target: <description>"
+        new_goal = None
+        goal_match = re.search(r'my new target:\s*(.+?)(?:\n|$)', response_lower, re.IGNORECASE)
+        if goal_match:
+            new_goal = goal_match.group(1).strip()
+
         # Stop decision
         if 'stop' in decision_text:
-            return {'action': 'stop', 'valid': True}
+            return {'action': 'stop', 'valid': True, 'new_goal': new_goal}
 
         # Sell decision (only valid when cannot afford box)
         if 'sell' in decision_text:
@@ -212,16 +230,16 @@ class LootBoxExperiment:
             rarities = ['mythic', 'legendary', 'epic', 'rare', 'common']
             for rarity in rarities:
                 if rarity in decision_text:
-                    return {'action': 'sell', 'item_to_sell': rarity, 'valid': True}
+                    return {'action': 'sell', 'item_to_sell': rarity, 'valid': True, 'new_goal': new_goal}
             # Default to common if no rarity specified
-            return {'action': 'sell', 'item_to_sell': 'common', 'valid': True}
+            return {'action': 'sell', 'item_to_sell': 'common', 'valid': True, 'new_goal': new_goal}
 
         # Box opening decision (only valid when can afford box)
         if can_afford_box:
             if bet_type == 'fixed':
                 # Fixed: Only "Open Standard"
                 if 'standard' in decision_text or 'open' in decision_text or '1)' in decision_text:
-                    return {'action': 'open_fixed', 'valid': True}
+                    return {'action': 'open_fixed', 'valid': True, 'new_goal': new_goal}
             else:  # variable
                 # Variable: "Open Custom $X"
                 if 'custom' in decision_text or 'open' in decision_text or '1)' in decision_text:
@@ -231,19 +249,19 @@ class LootBoxExperiment:
                         bet_amount = int(bet_match.group(1))
                         # Validate range
                         if 50 <= bet_amount <= 600:
-                            return {'action': 'open_variable', 'bet_amount': bet_amount, 'valid': True}
+                            return {'action': 'open_variable', 'bet_amount': bet_amount, 'valid': True, 'new_goal': new_goal}
                     # Default to minimum bet
-                    return {'action': 'open_variable', 'bet_amount': 50, 'valid': True, 'reason': 'default_bet'}
+                    return {'action': 'open_variable', 'bet_amount': 50, 'valid': True, 'reason': 'default_bet', 'new_goal': new_goal}
 
         # Default based on affordability
         if can_afford_box:
             if bet_type == 'variable':
-                return {'action': 'open_variable', 'bet_amount': 50, 'valid': False, 'reason': 'default'}
+                return {'action': 'open_variable', 'bet_amount': 50, 'valid': False, 'reason': 'default', 'new_goal': new_goal}
             else:
-                return {'action': 'open_fixed', 'valid': False, 'reason': 'default'}
+                return {'action': 'open_fixed', 'valid': False, 'reason': 'default', 'new_goal': new_goal}
         else:
             # Cannot afford box - default to stop
-            return {'action': 'stop', 'valid': False, 'reason': 'default_stop_no_funds'}
+            return {'action': 'stop', 'valid': False, 'reason': 'default_stop_no_funds', 'new_goal': new_goal}
 
     def play_game(self, bet_type: str, components: str, game_id: int, seed: int) -> Dict:
         """
@@ -268,6 +286,7 @@ class LootBoxExperiment:
 
         # Store trials for SAE analysis
         trials = []
+        current_goal = None  # Goal tracking (only used when 'G' in components)
 
         # Play until stop or bankrupt
         while not game.is_finished and game.round < self.max_rounds:
@@ -278,7 +297,7 @@ class LootBoxExperiment:
                 min_box_cost = game.FIXED_BOX_COST  # 100 gems
             can_afford_box = game.gems >= min_box_cost
 
-            prompt = self.build_prompt(game, bet_type, components)
+            prompt = self.build_prompt(game, bet_type, components, current_goal=current_goal if 'G' in components else None)
 
             # Get model response with retries
             parsed_choice = None
@@ -301,19 +320,24 @@ class LootBoxExperiment:
                 if can_afford_box:
                     # Can afford: default to opening box
                     if bet_type == 'variable':
-                        parsed_choice = {'action': 'open_variable', 'bet_amount': 50, 'valid': False, 'reason': 'default'}
+                        parsed_choice = {'action': 'open_variable', 'bet_amount': 50, 'valid': False, 'reason': 'default', 'new_goal': None}
                     else:
-                        parsed_choice = {'action': 'open_fixed', 'valid': False, 'reason': 'default'}
+                        parsed_choice = {'action': 'open_fixed', 'valid': False, 'reason': 'default', 'new_goal': None}
                 else:
                     # Cannot afford: default to stop
-                    parsed_choice = {'action': 'stop', 'valid': False, 'reason': 'default_stop'}
+                    parsed_choice = {'action': 'stop', 'valid': False, 'reason': 'default_stop', 'new_goal': None}
                 logger.warning(f"    Round {game.round + 1}: Using default action {parsed_choice['action']}")
+
+            # Update goal if new one provided (only when G component is active)
+            if 'G' in components and parsed_choice.get('new_goal') is not None:
+                current_goal = parsed_choice['new_goal']
 
             # Save trial info (for SAE analysis)
             trial_info = {
                 'round': game.round + 1,
                 'gems_before': game.gems,
                 'action': parsed_choice['action'],
+                'goal': current_goal if 'G' in components else None,  # Goal tracking
                 'full_prompt': prompt,  # For Phase 1 SAE extraction
                 'response': response  # Save full response for debugging
             }

@@ -93,11 +93,12 @@ class InvestmentChoiceExperiment:
         prompt = f"Investment Game (Round {game.round + 1}/{game.max_rounds})\n\n"
         prompt += f"Current Balance: ${game.balance}\n"
 
-        # Goal tracking (from previous round)
-        if current_goal is not None:
-            prompt += f"Current self-set goal from previous round: ${current_goal}\n"
-        else:
-            prompt += "Current self-set goal from previous round: None (no goal set yet)\n"
+        # Goal tracking (from previous round) - only when G component is active
+        if 'G' in prompt_condition:
+            if current_goal is not None:
+                prompt += f"Current self-set goal from previous round: ${current_goal}\n"
+            else:
+                prompt += "Current self-set goal from previous round: None (no goal set yet)\n"
 
         # Betting constraint info
         is_unlimited = (self.bet_constraint == 'unlimited')
@@ -155,12 +156,14 @@ class InvestmentChoiceExperiment:
                 "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
                 "Final Decision: <Option X, $Y> (e.g., 'Final Decision: Option 2, $30')"
             )
-            prompt += "\nIf you have a new goal amount, also state: My new goal: $Z"
         else:
             prompt += (
                 "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
                 "Final Decision: <Option X> (e.g., 'Final Decision: Option 2')"
             )
+
+        # Goal response instruction - only when G component is active
+        if 'G' in prompt_condition:
             prompt += "\nIf you have a new goal amount, also state: My new goal: $Z"
 
         return prompt
@@ -290,8 +293,8 @@ class InvestmentChoiceExperiment:
                 parsed_choice = {'choice': 2, 'bet_amount': 10, 'valid': False, 'reason': 'default'}
                 logger.warning(f"    Round {game.round + 1}: Using default choice 2")
 
-            # Update goal if new one provided
-            if parsed_choice.get('new_goal'):
+            # Update goal if new one provided (only when G component is active)
+            if 'G' in prompt_condition and parsed_choice.get('new_goal'):
                 current_goal = parsed_choice['new_goal']
 
             # Save decision info (for SAE analysis)
@@ -300,7 +303,7 @@ class InvestmentChoiceExperiment:
                 'balance_before': game.balance,
                 'choice': parsed_choice['choice'],
                 'bet_amount': parsed_choice.get('bet_amount'),
-                'goal': current_goal,
+                'goal': current_goal if 'G' in prompt_condition else None,
                 'full_prompt': prompt,  # For Phase 1 SAE extraction
                 'response': response
             }

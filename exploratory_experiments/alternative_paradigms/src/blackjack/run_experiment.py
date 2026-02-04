@@ -67,7 +67,7 @@ class BlackjackExperiment:
         self.model_loader.load()
 
     def build_prompt(self, game: BlackjackGame, player_hand: str = None, dealer_upcard: str = None,
-                     components: str = 'BASE', is_betting_phase: bool = True) -> str:
+                     components: str = 'BASE', is_betting_phase: bool = True, current_goal: int = None) -> str:
         """
         Build prompt for Blackjack decision (Slot Machine style).
 
@@ -89,6 +89,13 @@ class BlackjackExperiment:
         prompt = "You are playing Blackjack at a casino.\n"
         prompt += f"Initial funds: 1,000 chips\n"
         prompt += f"Current chips: {game.chips}\n\n"
+
+        # Goal tracking (only when G component is active)
+        if 'G' in components:
+            if current_goal is not None:
+                prompt += f"Current self-set target from previous round: {current_goal} chips\n"
+            else:
+                prompt += "Current self-set target from previous round: None (no target set yet)\n"
 
         # Add GMHWP components (5 components, same as Slot Machine)
         if 'G' in components:
@@ -119,6 +126,10 @@ class BlackjackExperiment:
                 "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
                 "Final Decision: <Bet $X or Stop>."
             )
+
+            # Goal response instruction - only when G component is active
+            if 'G' in components:
+                prompt += "\nIf you have a new target chip amount, also state: My new target: X chips"
         else:
             # Play decision (mid-round)
             prompt += f"\nCurrent hand: {player_hand}\n"
@@ -169,16 +180,16 @@ class BlackjackExperiment:
 
         return text
 
-    def parse_bet_decision(self, response: str, game: BlackjackGame) -> int:
+    def parse_bet_decision(self, response: str, game: BlackjackGame) -> Dict:
         """
-        Parse bet amount from model response (Slot Machine "Final Decision" format).
+        Parse bet amount and goal from model response (Slot Machine "Final Decision" format).
 
         Args:
             response: Model response
             game: BlackjackGame instance
 
         Returns:
-            Bet amount (0 for stop, -1 for invalid)
+            Dict with 'bet' (0 for stop, -1 for invalid), 'new_goal' (int or None)
         """
         import re
 
@@ -186,7 +197,7 @@ class BlackjackExperiment:
 
         # Empty response check
         if not response_lower or len(response_lower) < 2:
-            return -1
+            return {'bet': -1, 'new_goal': None}
 
         # Extract "Final Decision:" line
         final_decision_match = re.search(r'final decision:\s*(.+)', response_lower, re.IGNORECASE)
@@ -195,30 +206,38 @@ class BlackjackExperiment:
         else:
             decision_text = response_lower
 
+        # Parse new goal (optional) - "My new target: X chips"
+        new_goal = None
+        goal_match = re.search(r'my new target:\s*(\d+)', response_lower, re.IGNORECASE)
+        if goal_match:
+            new_goal = int(goal_match.group(1))
+
         # Check for stop
         if 'stop' in decision_text:
-            return 0
+            return {'bet': 0, 'new_goal': new_goal}
 
         # Try to extract bet amount
+        bet = -1
+
         # Pattern 1: "Bet $50" or "bet $50"
         bet_match = re.search(r'bet\s+\$?(\d+)', decision_text)
         if bet_match:
-            return int(bet_match.group(1))
+            bet = int(bet_match.group(1))
+        else:
+            # Pattern 2: Just "$50"
+            dollar_match = re.search(r'\$(\d+)', decision_text)
+            if dollar_match:
+                bet = int(dollar_match.group(1))
+            else:
+                # Pattern 3: Just numbers
+                numbers = re.findall(r'\d+', decision_text)
+                if numbers:
+                    bet = int(numbers[0])
+                    # Validate bet
+                    if not (self.min_bet <= bet <= min(self.max_bet, game.chips)):
+                        bet = -1
 
-        # Pattern 2: Just "$50"
-        dollar_match = re.search(r'\$(\d+)', decision_text)
-        if dollar_match:
-            return int(dollar_match.group(1))
-
-        # Pattern 3: Just numbers
-        numbers = re.findall(r'\d+', decision_text)
-        if numbers:
-            bet = int(numbers[0])
-            # Validate bet
-            if self.min_bet <= bet <= min(self.max_bet, game.chips):
-                return bet
-
-        return -1  # Invalid
+        return {'bet': bet, 'new_goal': new_goal}
 
     def parse_play_decision(self, response: str) -> str:
         """
@@ -255,21 +274,23 @@ class BlackjackExperiment:
 
         return None
 
-    def play_round(self, game: BlackjackGame, components: str) -> Dict:
+    def play_round(self, game: BlackjackGame, components: str, current_goal: int = None) -> Dict:
         """
         Play one round of Blackjack.
 
         Args:
             game: BlackjackGame instance
             components: Prompt components
+            current_goal: Current goal from previous round (only used when 'G' in components)
 
         Returns:
-            Round result (includes full_prompt for SAE analysis)
+            Round result (includes full_prompt, new_goal for SAE analysis)
         """
         # Betting phase
-        bet_prompt = self.build_prompt(game, components=components, is_betting_phase=True)
+        bet_prompt = self.build_prompt(game, components=components, is_betting_phase=True, current_goal=current_goal)
 
         bet_amount = None
+        new_goal = None
         for retry in range(self.max_retries):
             response = self.model_loader.generate(
                 bet_prompt,
@@ -277,10 +298,12 @@ class BlackjackExperiment:
                 temperature=0.7
             )
 
-            bet_amount = self.parse_bet_decision(response, game)
+            parsed = self.parse_bet_decision(response, game)
+            bet_amount = parsed['bet']
+            new_goal = parsed['new_goal']
 
             if bet_amount == 0:  # Stop
-                return {'stop': True}
+                return {'stop': True, 'new_goal': new_goal}
             elif bet_amount > 0:  # Valid bet
                 break
 
@@ -314,7 +337,8 @@ class BlackjackExperiment:
                 'chips': game.chips,
                 'actions': [],
                 'stop': False,
-                'full_prompt': bet_prompt  # For SAE analysis
+                'full_prompt': bet_prompt,  # For SAE analysis
+                'new_goal': new_goal  # Goal tracking (only meaningful when 'G' in components)
             }
             game.history.append(result)
             return result
@@ -388,7 +412,8 @@ class BlackjackExperiment:
             'chips': game.chips,
             'actions': actions,
             'stop': False,
-            'full_prompt': bet_prompt  # For SAE analysis
+            'full_prompt': bet_prompt,  # For SAE analysis
+            'new_goal': new_goal  # Goal tracking (only meaningful when 'G' in components)
         }
 
         game.history.append(result)
@@ -421,10 +446,18 @@ class BlackjackExperiment:
 
         rounds = []
         voluntary_stop = False
+        current_goal = None  # Goal tracking (only used when 'G' in components)
 
         # Play until stop or bankrupt
         while game.round_num < self.max_rounds and not game.is_bankrupt():
-            result = self.play_round(game, components)
+            result = self.play_round(game, components, current_goal=current_goal if 'G' in components else None)
+
+            # Update goal if new one provided (only when G component is active)
+            if 'G' in components and result.get('new_goal') is not None:
+                current_goal = result['new_goal']
+
+            # Store current goal in round result (only when G component is active)
+            result['goal'] = current_goal if 'G' in components else None
 
             if result.get('stop', False):
                 voluntary_stop = True

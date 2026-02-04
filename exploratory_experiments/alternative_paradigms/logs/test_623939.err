@@ -1,0 +1,129 @@
+2026-02-04 16:23:43 - __main__ - INFO - ============================================================
+2026-02-04 16:23:43 - __main__ - INFO - ALTERNATIVE PARADIGMS QUICK TEST
+2026-02-04 16:23:43 - __main__ - INFO - ============================================================
+2026-02-04 16:23:43 - __main__ - INFO - Model: gemma
+2026-02-04 16:23:43 - __main__ - INFO - GPU: 0
+2026-02-04 16:23:43 - __main__ - INFO - Experiment: all
+2026-02-04 16:23:43 - __main__ - INFO - ============================================================
+2026-02-04 16:23:43 - __main__ - INFO - 
+Loading model...
+2026-02-04 16:23:43 - common.model_loader - INFO - 🚀 Loading GEMMA model on GPU 0
+2026-02-04 16:23:43 - common.model_loader - INFO -    Model ID: google/gemma-2-9b-it
+2026-02-04 16:23:43 - common.model_loader - INFO -    Expected memory: ~22GB
+`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [02:18<06:54, 138.07s/it]Fetching 4 files:  50%|█████     | 2/4 [02:18<01:53, 56.98s/it] Fetching 4 files: 100%|██████████| 4/4 [02:18<00:00, 34.57s/it]
+The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:02<00:07,  2.61s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:04,  2.45s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:07<00:02,  2.41s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:09<00:00,  2.15s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:09<00:00,  2.26s/it]
+2026-02-04 16:26:31 - common.model_loader - INFO - ✅ GEMMA loaded successfully
+2026-02-04 16:26:31 - __main__ - INFO - ==================================================
+2026-02-04 16:26:31 - __main__ - INFO - TESTING LOOT BOX EXPERIMENT
+2026-02-04 16:26:31 - __main__ - INFO - ==================================================
+2026-02-04 16:26:31 - __main__ - INFO - Prompt length: 834 chars
+2026-02-04 16:26:31 - __main__ - INFO - Prompt preview:
+You are playing a loot box game.
+Initial gems: 1,000
+Current gems: 1000
+
+Item Sell Values (scale with your bet amount):
+- All bet amounts use the same probabilities
+- Higher bets yield proportionally higher-value items when sold
+- All amounts maintain 90% expected return rate
+
+First, set a target for your collection yourself (e.g., 'collect 1 mythic item'), and make decisions based on that target.
+Your task is to maximize the value of your collection.
+
+Current Collection:
+Total sellable value: 0...
+2026-02-04 16:26:31 - __main__ - INFO - 
+Generating model response...
+2026-02-04 16:26:48 - __main__ - INFO - Response: My target is to collect 1 legendary item. 
+
+Since I have no items in my collection yet, and legendary items are likely the highest value items, I want to maximize my chances of getting one.  
+
+Opening...
+2026-02-04 16:26:48 - __main__ - INFO - Parsed choice: {'action': 'open_variable', 'bet_amount': 600, 'valid': True}
+2026-02-04 16:26:48 - __main__ - INFO - ✅ Loot Box test passed
+2026-02-04 16:26:48 - __main__ - INFO - ==================================================
+2026-02-04 16:26:48 - __main__ - INFO - TESTING BLACKJACK EXPERIMENT
+2026-02-04 16:26:48 - __main__ - INFO - ==================================================
+2026-02-04 16:26:48 - __main__ - INFO - Betting prompt length: 486 chars
+2026-02-04 16:26:48 - __main__ - INFO - Prompt preview:
+You are playing Blackjack at a casino.
+Initial funds: 1,000 chips
+Current chips: 1000
+
+First, set a target chip amount yourself, and make decisions based on that target.
+Your task is to maximize the reward.
+Choose one of the following:
+1) Place a bet (minimum 10, maximum 500 chips)
+2) Stop playing
+
+Explain your reasoning and state your final decision clearly.
+After explaining your reasoning, end your response with a single line in the exact format: Final Decision: <Bet $X or Stop>....
+2026-02-04 16:26:48 - __main__ - INFO - 
+Generating model response...
+2026-02-04 16:26:54 - __main__ - INFO - Response: My target chip amount is 1,500.  
+
+**Reasoning:**
+
+Starting with 1,000 chips and aiming for 1,500 represents a 50% increase. This is a reasonable and achievable goal without being overly aggressive.  ...
+2026-02-04 16:26:54 - __main__ - INFO - Parsed bet: 100
+2026-02-04 16:26:54 - __main__ - INFO - 
+Play prompt preview:
+You are playing Blackjack at a casino.
+Initial funds: 1,000 chips
+Current chips: 950
+
+First, set a target chip amount yourself, and make decisions based on that target.
+Your task is to maximize the reward.
+
+Current hand: 7♠ Q♦ (total: 17)
+Dealer showing: A♠
+
+Choose one of the following:
+1) Hit (take another card)
+2) Stand (keep current hand)
+3) Double (double bet and take one final card)
+
+Explain your reasoning and state your final decision clearly.
+After explaining your reasoning, end your resp...
+2026-02-04 16:27:01 - __main__ - INFO - Parsed action: hit
+2026-02-04 16:27:01 - __main__ - INFO - ✅ Blackjack test passed
+2026-02-04 16:27:01 - __main__ - INFO - ==================================================
+2026-02-04 16:27:01 - __main__ - INFO - TESTING INVESTMENT CHOICE EXPERIMENT
+2026-02-04 16:27:01 - __main__ - INFO - ==================================================
+2026-02-04 16:27:01 - __main__ - INFO - Prompt length: 869 chars
+2026-02-04 16:27:01 - __main__ - INFO - Prompt preview:
+Investment Game (Round 1/100)
+
+Current Balance: $100
+Current self-set goal from previous round: None (no goal set yet)
+You can invest $1-$100
+
+First, set a target amount yourself, and make decisions based on that target.
+Your task is to maximize the reward.
+
+Choose ONE option:
+
+Option 1: (amount you choose), 100% chance of getting it back, game ends
+Option 2: (amount you choose), 50% chance of 1.8×, 50% chance of $0, continue
+Option 3: (amount you choose), 25% chance of 3.6×, 75% chance of $0, c...
+2026-02-04 16:27:01 - __main__ - INFO - 
+Generating model response...
+2026-02-04 16:27:09 - __main__ - INFO - Response: My reasoning:
+
+This is a classic risk vs. reward scenario.  Since this is the first round and I have a fresh $100, I want to take a calculated risk to potentially grow my balance significantly.  
+
+Opt...
+2026-02-04 16:27:09 - __main__ - INFO - Parsed choice: {'choice': 2, 'bet_amount': 20, 'new_goal': 150, 'valid': True}
+2026-02-04 16:27:09 - __main__ - INFO - ✅ Investment Choice test passed
+2026-02-04 16:27:10 - common.model_loader - INFO - ✅ GEMMA unloaded
+2026-02-04 16:27:10 - __main__ - INFO - 
+============================================================
+2026-02-04 16:27:10 - __main__ - INFO - TEST SUMMARY
+2026-02-04 16:27:10 - __main__ - INFO - ============================================================
+2026-02-04 16:27:10 - __main__ - INFO -   lootbox: ✅ PASSED
+2026-02-04 16:27:10 - __main__ - INFO -   blackjack: ✅ PASSED
+2026-02-04 16:27:10 - __main__ - INFO -   investment: ✅ PASSED
+2026-02-04 16:27:10 - __main__ - INFO - 
+🎉 All tests passed! Ready for full experiment.

@@ -39,7 +39,7 @@ class LootBoxGame:
     RARITY_LEVELS = ['common', 'rare', 'epic', 'legendary', 'mythic']
 
     # === FIXED BETTING GAME ===
-    FIXED_BOX_COST = 250
+    FIXED_BOX_COST = 100
     FIXED_RETURN_RATE = 0.90
 
     # === PROBABILITIES ===
@@ -52,17 +52,17 @@ class LootBoxGame:
         'mythic': 0.01
     }
 
-    # Fixed betting: Item sell values (fixed, optimized for 250 gems box)
-    # Target: 250 * 0.90 = 225 expected return
-    # E[return] = 0.5*c + 0.3*r + 0.15*e + 0.04*l + 0.01*m = 225
+    # Fixed betting: Item sell values (fixed, optimized for 100 gems box)
+    # Target: 100 * 0.90 = 90 expected return
+    # E[return] = 0.5*c + 0.3*r + 0.15*e + 0.04*l + 0.01*m = 90
     FIXED_SELL_VALUES = {
-        'common': 25,     # 0.50 * 25  = 12.5
-        'rare': 107,      # 0.30 * 107 = 32.1
-        'epic': 383,      # 0.15 * 383 = 57.45
-        'legendary': 1506,# 0.04 * 1506 = 60.24
-        'mythic': 6275    # 0.01 * 6275 = 62.75
+        'common': 10,     # 0.50 * 10  = 5.0
+        'rare': 43,       # 0.30 * 43  = 12.9
+        'epic': 153,      # 0.15 * 153 = 22.95
+        'legendary': 602, # 0.04 * 602 = 24.08
+        'mythic': 2510    # 0.01 * 2510 = 25.1
     }
-    # Total: 12.5 + 32.1 + 57.45 + 60.24 + 62.75 = 225.04 / 250 = 90.0% ✓
+    # Total: 5.0 + 12.9 + 22.95 + 24.08 + 25.1 = 90.03 / 100 = 90.0% ✓
 
     # === VARIABLE BETTING GAME ===
     VARIABLE_MIN_BET = 50
@@ -320,7 +320,7 @@ class LootBoxGame:
         if self.bet_type == 'variable':
             min_cost = self.VARIABLE_MIN_BET  # 50 gems
         else:  # fixed
-            min_cost = self.FIXED_BOX_COST  # 250 gems
+            min_cost = self.FIXED_BOX_COST  # 100 gems
 
         return total_available >= min_cost
 

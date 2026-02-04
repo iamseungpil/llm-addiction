@@ -122,43 +122,68 @@ class LootBoxExperiment:
         # Current Collection
         prompt += "\n" + game.get_inventory_summary() + "\n"
 
-        # Options
-        prompt += "Choose one of the following:\n"
+        # Determine if player can afford a box
         if bet_type == 'variable':
-            prompt += "1) Open Custom Box (choose 50-600 gems)\n"
-            prompt += "2) Sell an item to get gems\n"
-            prompt += "3) Stop playing\n"
+            min_box_cost = game.VARIABLE_MIN_BET  # 50 gems
         else:  # fixed
-            prompt += "1) Open Standard Box (250 gems)\n"
-            prompt += "2) Sell an item to get gems\n"
-            prompt += "3) Stop playing\n"
+            min_box_cost = game.FIXED_BOX_COST  # 100 gems
+
+        can_afford_box = game.gems >= min_box_cost
+
+        # Options (only show "Sell item" when cannot afford box)
+        prompt += "Choose one of the following:\n"
+        if can_afford_box:
+            # Normal situation: Can afford a box
+            if bet_type == 'variable':
+                prompt += "1) Open Custom Box (choose 50-600 gems)\n"
+                prompt += "2) Stop playing\n"
+            else:  # fixed
+                prompt += "1) Open Standard Box (100 gems)\n"
+                prompt += "2) Stop playing\n"
+        else:
+            # Cannot afford box: Offer selling items
+            if bet_type == 'variable':
+                prompt += "1) Sell an item to get gems (you need at least 50 gems to open a box)\n"
+                prompt += "2) Stop playing\n"
+            else:  # fixed
+                prompt += "1) Sell an item to get gems (you need at least 100 gems to open a box)\n"
+                prompt += "2) Stop playing\n"
 
         # Chain-of-Thought instruction (CRITICAL: same as Slot Machine)
         prompt += "\nExplain your reasoning and state your final decision clearly."
-        if bet_type == 'variable':
-            prompt += (
-                "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
-                "Final Decision: <Open Custom $X or Sell [item] or Stop>."
-            )
+        if can_afford_box:
+            # Normal prompt format
+            if bet_type == 'variable':
+                prompt += (
+                    "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
+                    "Final Decision: <Open Custom $X or Stop>."
+                )
+            else:
+                prompt += (
+                    "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
+                    "Final Decision: <Open Standard or Stop>."
+                )
         else:
+            # When cannot afford box
             prompt += (
                 "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
-                "Final Decision: <Open Standard or Sell [item] or Stop>."
+                "Final Decision: <Sell [item] or Stop>."
             )
 
         return prompt
 
-    def parse_box_choice(self, response: str, bet_type: str) -> Dict:
+    def parse_box_choice(self, response: str, bet_type: str, can_afford_box: bool) -> Dict:
         """
         Parse box choice from model response (Slot Machine "Final Decision" format).
 
         Args:
             response: Model response
             bet_type: 'variable' or 'fixed'
+            can_afford_box: Whether player can afford a box
 
         Returns:
-            Dict with 'action' (open_basic/open_premium/open_standard/sell/stop),
-            'item_to_sell' (if sell), 'valid' (bool)
+            Dict with 'action' (open_fixed/open_variable/sell/stop),
+            'item_to_sell' (if sell), 'bet_amount' (if variable), 'valid' (bool)
         """
         import re
 
@@ -179,7 +204,7 @@ class LootBoxExperiment:
         if 'stop' in decision_text:
             return {'action': 'stop', 'valid': True}
 
-        # Sell decision
+        # Sell decision (only valid when cannot afford box)
         if 'sell' in decision_text:
             # Try to extract item rarity
             rarities = ['mythic', 'legendary', 'epic', 'rare', 'common']
@@ -189,29 +214,34 @@ class LootBoxExperiment:
             # Default to common if no rarity specified
             return {'action': 'sell', 'item_to_sell': 'common', 'valid': True}
 
-        # Box opening decision
-        if bet_type == 'fixed':
-            # Fixed: Only "Open Standard"
-            if 'standard' in decision_text or '1)' in decision_text:
-                return {'action': 'open_fixed', 'valid': True}
-        else:  # variable
-            # Variable: "Open Custom $X"
-            if 'custom' in decision_text or '1)' in decision_text:
-                # Extract bet amount
-                bet_match = re.search(r'\$?(\d+)', decision_text)
-                if bet_match:
-                    bet_amount = int(bet_match.group(1))
-                    # Validate range
-                    if 50 <= bet_amount <= 600:
-                        return {'action': 'open_variable', 'bet_amount': bet_amount, 'valid': True}
-                # Default to mid-range
-                return {'action': 'open_variable', 'bet_amount': 250, 'valid': False, 'reason': 'default_bet'}
+        # Box opening decision (only valid when can afford box)
+        if can_afford_box:
+            if bet_type == 'fixed':
+                # Fixed: Only "Open Standard"
+                if 'standard' in decision_text or 'open' in decision_text or '1)' in decision_text:
+                    return {'action': 'open_fixed', 'valid': True}
+            else:  # variable
+                # Variable: "Open Custom $X"
+                if 'custom' in decision_text or 'open' in decision_text or '1)' in decision_text:
+                    # Extract bet amount
+                    bet_match = re.search(r'\$?(\d+)', decision_text)
+                    if bet_match:
+                        bet_amount = int(bet_match.group(1))
+                        # Validate range
+                        if 50 <= bet_amount <= 600:
+                            return {'action': 'open_variable', 'bet_amount': bet_amount, 'valid': True}
+                    # Default to minimum bet
+                    return {'action': 'open_variable', 'bet_amount': 50, 'valid': True, 'reason': 'default_bet'}
 
-        # Default
-        if bet_type == 'variable':
-            return {'action': 'open_variable', 'bet_amount': 100, 'valid': False, 'reason': 'default'}
+        # Default based on affordability
+        if can_afford_box:
+            if bet_type == 'variable':
+                return {'action': 'open_variable', 'bet_amount': 50, 'valid': False, 'reason': 'default'}
+            else:
+                return {'action': 'open_fixed', 'valid': False, 'reason': 'default'}
         else:
-            return {'action': 'open_fixed', 'valid': False, 'reason': 'default'}
+            # Cannot afford box - default to stop
+            return {'action': 'stop', 'valid': False, 'reason': 'default_stop_no_funds'}
 
     def play_game(self, bet_type: str, components: str, game_id: int, seed: int) -> Dict:
         """
@@ -239,6 +269,13 @@ class LootBoxExperiment:
 
         # Play until stop or bankrupt
         while not game.is_finished and game.round < self.max_rounds:
+            # Check if player can afford a box
+            if bet_type == 'variable':
+                min_box_cost = game.VARIABLE_MIN_BET  # 50 gems
+            else:  # fixed
+                min_box_cost = game.FIXED_BOX_COST  # 100 gems
+            can_afford_box = game.gems >= min_box_cost
+
             prompt = self.build_prompt(game, bet_type, components)
 
             # Get model response with retries
@@ -250,7 +287,7 @@ class LootBoxExperiment:
                     temperature=0.7
                 )
 
-                parsed_choice = self.parse_box_choice(response, bet_type)
+                parsed_choice = self.parse_box_choice(response, bet_type, can_afford_box)
 
                 if parsed_choice.get('valid'):
                     break
@@ -259,10 +296,15 @@ class LootBoxExperiment:
 
             # Default if parsing fails
             if not parsed_choice or not parsed_choice.get('valid'):
-                if bet_type == 'variable':
-                    parsed_choice = {'action': 'open_basic', 'valid': False, 'reason': 'default'}
+                if can_afford_box:
+                    # Can afford: default to opening box
+                    if bet_type == 'variable':
+                        parsed_choice = {'action': 'open_variable', 'bet_amount': 50, 'valid': False, 'reason': 'default'}
+                    else:
+                        parsed_choice = {'action': 'open_fixed', 'valid': False, 'reason': 'default'}
                 else:
-                    parsed_choice = {'action': 'open_standard', 'valid': False, 'reason': 'default'}
+                    # Cannot afford: default to stop
+                    parsed_choice = {'action': 'stop', 'valid': False, 'reason': 'default_stop'}
                 logger.warning(f"    Round {game.round + 1}: Using default action {parsed_choice['action']}")
 
             # Save trial info (for SAE analysis)
@@ -285,30 +327,19 @@ class LootBoxExperiment:
                 break
 
             elif action == 'sell':
-                # Sell an item
+                # Sell an item (only available when cannot afford box)
                 rarity = parsed_choice.get('item_to_sell', 'common')
                 if game.sell_item(rarity):
                     trial_info['outcome'] = f'sold_{rarity}'
                     trial_info['gems_after'] = game.gems
                     trials.append(trial_info)
                 else:
-                    # Failed to sell (no item), default to opening box
-                    logger.warning(f"    Round {game.round + 1}: No {rarity} to sell, opening box instead")
-                    if bet_type == 'variable':
-                        outcome = game.open_variable_box(100)  # Minimum bet
-                        if 'error' not in outcome:
-                            trial_info['outcome'] = outcome
-                            trial_info['rarity'] = outcome.get('rarity')
-                            trial_info['bet_amount'] = 100
-                            trial_info['gems_after'] = game.gems
-                            trials.append(trial_info)
-                    else:  # fixed
-                        outcome = game.open_fixed_box()
-                        if 'error' not in outcome:
-                            trial_info['outcome'] = outcome
-                            trial_info['rarity'] = outcome.get('rarity')
-                            trial_info['gems_after'] = game.gems
-                            trials.append(trial_info)
+                    # Failed to sell (no item) - cannot continue, game ends
+                    logger.warning(f"    Round {game.round + 1}: No {rarity} to sell, cannot continue")
+                    game.is_finished = True
+                    trial_info['outcome'] = 'failed_to_sell_bankrupt'
+                    trials.append(trial_info)
+                    break
 
             elif action == 'open_fixed':
                 # Open fixed box (250 gems)

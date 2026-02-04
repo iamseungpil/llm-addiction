@@ -330,6 +330,7 @@ class InvestmentChoiceExperiment:
         result = game.get_game_result()
         result['game_id'] = game_id
         result['model'] = self.model_name
+        result['bet_type'] = self.bet_type
         result['prompt_condition'] = prompt_condition
         result['seed'] = seed
         result['decisions'] = decisions  # Add decisions for SAE analysis
@@ -343,66 +344,72 @@ class InvestmentChoiceExperiment:
         Run full Investment Choice experiment.
 
         Args:
-            quick_mode: If True, run reduced experiment (4 conditions × 20 reps = 80 games)
+            quick_mode: If True, run reduced experiment (2 × 4 conditions × 20 reps = 160 games)
         """
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         constraint_label = self.bet_constraint if self.bet_constraint == 'unlimited' else f'c{self.bet_constraint}'
-        output_file = self.results_dir / f"{self.model_name}_investment_{constraint_label}_{self.bet_type}_{timestamp}.json"
+        output_file = self.results_dir / f"{self.model_name}_investment_{constraint_label}_{timestamp}.json"
+
+        # Determine conditions
+        bet_types = ['variable', 'fixed']
+
+        if quick_mode:
+            # Quick mode: 2 bet types × 4 conditions × 20 reps = 160 games
+            prompt_conditions = ['BASE', 'G', 'M', 'GM']
+            repetitions = 20
+        else:
+            # Full mode: 2 bet types × 4 conditions × 50 reps = 400 games
+            prompt_conditions = ['BASE', 'G', 'M', 'GM']
+            repetitions = 50
+
+        total_games = len(bet_types) * len(prompt_conditions) * repetitions
 
         logger.info("=" * 70)
         logger.info("INVESTMENT CHOICE EXPERIMENT")
         logger.info("=" * 70)
         logger.info(f"Model: {self.model_name.upper()}")
         logger.info(f"GPU: {self.gpu_id}")
-        logger.info(f"Bet Type: {self.bet_type}")
+        logger.info(f"Bet Types: {len(bet_types)} (variable, fixed)")
         logger.info(f"Bet Constraint: {self.bet_constraint}")
         logger.info(f"Quick mode: {quick_mode}")
+        logger.info(f"Prompt conditions: {len(prompt_conditions)}")
+        logger.info(f"Repetitions per condition: {repetitions}")
+        logger.info(f"Total games: {total_games}")
         logger.info(f"Output: {output_file}")
         logger.info("=" * 70)
 
         # Load model
         self.load_model()
 
-        # Determine conditions
-        if quick_mode:
-            # Quick mode: 4 conditions × 20 reps = 80 games
-            prompt_conditions = ['BASE', 'G', 'M', 'GM']
-            repetitions = 20
-        else:
-            # Full mode: 4 conditions × 50 reps = 200 games
-            prompt_conditions = ['BASE', 'G', 'M', 'GM']
-            repetitions = 50
-
-        total_games = len(prompt_conditions) * repetitions
-
-        logger.info(f"Prompt conditions: {len(prompt_conditions)}")
-        logger.info(f"Repetitions per condition: {repetitions}")
-        logger.info(f"Total games: {total_games}")
-        logger.info("=" * 70)
-
         # Run experiments
         results = []
         game_id = 0
 
-        for condition in prompt_conditions:
+        for bet_type in bet_types:
+            # Update bet type for this iteration
+            self.bet_type = bet_type
+
             logger.info(f"\n{'='*70}")
-            logger.info(f"CONDITION: {condition}")
+            logger.info(f"BET TYPE: {bet_type.upper()}")
             logger.info(f"{'='*70}")
 
-            for rep in tqdm(range(repetitions), desc=f"  {condition}"):
-                game_id += 1
-                seed = game_id + 99999  # Different seed base
+            for condition in prompt_conditions:
+                logger.info(f"\nCondition: {bet_type}/{condition}")
 
-                try:
-                    result = self.play_game(condition, game_id, seed)
-                    results.append(result)
+                for rep in tqdm(range(repetitions), desc=f"  {bet_type}/{condition}"):
+                    game_id += 1
+                    seed = game_id + 99999  # Different seed base
 
-                except Exception as e:
-                    logger.error(f"  Game {game_id} failed: {e}")
-                    continue
+                    try:
+                        result = self.play_game(condition, game_id, seed)
+                        results.append(result)
 
-                # Save checkpoint every 50 games
-                if game_id % 50 == 0:
+                    except Exception as e:
+                        logger.error(f"  Game {game_id} failed: {e}")
+                        continue
+
+                # Save checkpoint every 100 games
+                if game_id % 100 == 0:
                     checkpoint_file = self.results_dir / f"{self.model_name}_investment_checkpoint_{game_id}.json"
                     save_json({'results': results, 'completed': game_id, 'total': total_games}, checkpoint_file)
                     logger.info(f"  Checkpoint saved: {checkpoint_file}")
@@ -415,7 +422,7 @@ class InvestmentChoiceExperiment:
             'config': {
                 'initial_balance': self.initial_balance,
                 'max_rounds': self.max_rounds,
-                'bet_type': self.bet_type,
+                'bet_types': bet_types,
                 'bet_constraint': self.bet_constraint,
                 'quick_mode': quick_mode,
                 'total_games': total_games,
@@ -437,45 +444,55 @@ class InvestmentChoiceExperiment:
         self.print_summary(results)
 
     def print_summary(self, results: List[Dict]):
-        """Print summary statistics"""
+        """Print summary statistics by bet type"""
         logger.info("\n" + "=" * 70)
         logger.info("SUMMARY STATISTICS")
         logger.info("=" * 70)
 
         import numpy as np
 
-        # Overall statistics
-        rounds = [r['rounds_completed'] for r in results]
-        balances = [r['final_balance'] for r in results]
-        balance_changes = [r['balance_change'] for r in results]
+        for bet_type in ['variable', 'fixed']:
+            # Filter results by bet_type
+            subset = [r for r in results if r.get('bet_type') == bet_type]
+            if not subset:
+                continue
 
-        logger.info(f"\nRounds: Mean={np.mean(rounds):.2f}, SD={np.std(rounds):.2f}")
-        logger.info(f"Final Balance: Mean=${np.mean(balances):.2f}, SD=${np.std(balances):.2f}")
-        logger.info(f"Balance Change: Mean=${np.mean(balance_changes):.2f}, SD=${np.std(balance_changes):.2f}")
+            logger.info(f"\n{bet_type.upper()} BET TYPE:")
+            logger.info("-" * 70)
 
-        # Outcome counts
-        voluntary_stops = sum(1 for r in results if r['stopped_voluntarily'])
-        bankruptcies = sum(1 for r in results if r['bankruptcy'])
-        max_rounds = sum(1 for r in results if r['max_rounds_reached'])
+            # Overall statistics
+            rounds = [r['rounds_completed'] for r in subset]
+            balances = [r['final_balance'] for r in subset]
+            balance_changes = [r['balance_change'] for r in subset]
 
-        logger.info(f"\nOutcomes:")
-        logger.info(f"  Voluntary Stop: {voluntary_stops}/{len(results)} ({(voluntary_stops/len(results))*100:.1f}%)")
-        logger.info(f"  Bankruptcy: {bankruptcies}/{len(results)} ({(bankruptcies/len(results))*100:.1f}%)")
-        logger.info(f"  Max Rounds: {max_rounds}/{len(results)} ({(max_rounds/len(results))*100:.1f}%)")
+            logger.info(f"Rounds: Mean={np.mean(rounds):.2f}, SD={np.std(rounds):.2f}")
+            logger.info(f"Final Balance: Mean=${np.mean(balances):.2f}, SD=${np.std(balances):.2f}")
+            logger.info(f"Balance Change: Mean=${np.mean(balance_changes):.2f}, SD=${np.std(balance_changes):.2f}")
 
-        # Choice distribution
-        all_choice_counts = {1: 0, 2: 0, 3: 0, 4: 0}
-        for r in results:
-            for choice, count in r['choice_counts'].items():
-                all_choice_counts[int(choice)] += count
+            # Outcome counts
+            voluntary_stops = sum(1 for r in subset if r['stopped_voluntarily'])
+            bankruptcies = sum(1 for r in subset if r['bankruptcy'])
+            max_rounds = sum(1 for r in subset if r['max_rounds_reached'])
 
-        total_choices = sum(all_choice_counts.values())
-        logger.info(f"\nChoice Distribution:")
-        for choice in [1, 2, 3, 4]:
-            count = all_choice_counts[choice]
-            logger.info(f"  Option {choice}: {count} ({(count/total_choices)*100:.1f}%)")
+            logger.info(f"\nOutcomes:")
+            logger.info(f"  Voluntary Stop: {voluntary_stops}/{len(subset)} ({(voluntary_stops/len(subset))*100:.1f}%)")
+            logger.info(f"  Bankruptcy: {bankruptcies}/{len(subset)} ({(bankruptcies/len(subset))*100:.1f}%)")
+            logger.info(f"  Max Rounds: {max_rounds}/{len(subset)} ({(max_rounds/len(subset))*100:.1f}%)")
 
-        logger.info("=" * 70)
+            # Choice distribution
+            all_choice_counts = {1: 0, 2: 0, 3: 0, 4: 0}
+            for r in subset:
+                for choice, count in r['choice_counts'].items():
+                    all_choice_counts[int(choice)] += count
+
+            total_choices = sum(all_choice_counts.values())
+            if total_choices > 0:
+                logger.info(f"\nChoice Distribution:")
+                for choice in [1, 2, 3, 4]:
+                    count = all_choice_counts[choice]
+                    logger.info(f"  Option {choice}: {count} ({(count/total_choices)*100:.1f}%)")
+
+        logger.info("\n" + "=" * 70)
 
 
 def main():

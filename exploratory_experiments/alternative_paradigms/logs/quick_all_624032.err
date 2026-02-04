@@ -1,0 +1,239 @@
+2026-02-04 20:35:37 - __main__ - INFO - ======================================================================
+2026-02-04 20:35:37 - __main__ - INFO - INVESTMENT CHOICE EXPERIMENT
+2026-02-04 20:35:37 - __main__ - INFO - ======================================================================
+2026-02-04 20:35:37 - __main__ - INFO - Model: LLAMA
+2026-02-04 20:35:37 - __main__ - INFO - GPU: 0
+2026-02-04 20:35:37 - __main__ - INFO - Bet Types: 2 (variable, fixed)
+2026-02-04 20:35:37 - __main__ - INFO - Bet Constraint: unlimited
+2026-02-04 20:35:37 - __main__ - INFO - Quick mode: True
+2026-02-04 20:35:37 - __main__ - INFO - Prompt conditions: 4
+2026-02-04 20:35:37 - __main__ - INFO - Repetitions per condition: 20
+2026-02-04 20:35:37 - __main__ - INFO - Total games: 160
+2026-02-04 20:35:37 - __main__ - INFO - Output: /scratch/x3415a02/data/llm-addiction/investment_choice/llama_investment_unlimited_20260204_203537.json
+2026-02-04 20:35:37 - __main__ - INFO - ======================================================================
+2026-02-04 20:35:37 - common.model_loader - INFO - 🚀 Loading LLAMA model on GPU 0
+2026-02-04 20:35:37 - common.model_loader - INFO -    Model ID: meta-llama/Llama-3.1-8B
+2026-02-04 20:35:37 - common.model_loader - INFO -    Expected memory: ~19GB
+`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [02:01<06:05, 121.81s/it]Fetching 4 files: 100%|██████████| 4/4 [02:01<00:00, 30.45s/it] 
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:02<00:07,  2.37s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:04,  2.36s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:07<00:02,  2.35s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.63s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:07<00:00,  1.90s/it]
+2026-02-04 20:37:54 - common.model_loader - INFO - ✅ LLAMA loaded successfully
+2026-02-04 20:37:54 - __main__ - INFO - 
+======================================================================
+2026-02-04 20:37:54 - __main__ - INFO - BET TYPE: VARIABLE
+2026-02-04 20:37:54 - __main__ - INFO - ======================================================================
+2026-02-04 20:37:54 - __main__ - INFO - 
+Condition: variable/BASE
+  variable/BASE:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 20:37:54 - __main__ - INFO -   Game 1: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100000
+2026-02-04 20:38:23 - __main__ - INFO -     Completed: Rounds=3, Balance=$260, Outcome=voluntary_stop
+  variable/BASE:   5%|▌         | 1/20 [00:29<09:20, 29.52s/it]2026-02-04 20:38:23 - __main__ - INFO -   Game 2: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100001
+2026-02-04 20:38:25 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): .
+
+This is a game of chance and you will not be ab
+2026-02-04 20:38:34 - __main__ - INFO -     Completed: Rounds=1, Balance=$0, Outcome=bankrupt
+  variable/BASE:  10%|█         | 2/20 [00:39<05:29, 18.28s/it]2026-02-04 20:38:34 - __main__ - INFO -   Game 3: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100002
+2026-02-04 20:38:52 - __main__ - INFO -     Completed: Rounds=2, Balance=$70, Outcome=voluntary_stop
+  variable/BASE:  15%|█▌        | 3/20 [00:57<05:08, 18.15s/it]2026-02-04 20:38:52 - __main__ - INFO -   Game 4: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100003
+2026-02-04 20:39:01 - __main__ - WARNING -     Round 2: Failed to parse (attempt 1/5): 
+2026-02-04 20:39:58 - __main__ - WARNING -     Round 8: Failed to parse (attempt 1/5): .
+
+Once all users have responded, I will post the 
+2026-02-04 20:40:17 - __main__ - INFO -     Completed: Rounds=9, Balance=$18, Outcome=voluntary_stop
+  variable/BASE:  20%|██        | 4/20 [02:23<11:54, 44.66s/it]2026-02-04 20:40:17 - __main__ - INFO -   Game 5: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100004
+2026-02-04 20:40:26 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/BASE:  25%|██▌       | 5/20 [02:32<07:57, 31.83s/it]2026-02-04 20:40:26 - __main__ - INFO -   Game 6: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100005
+2026-02-04 20:40:44 - __main__ - WARNING -     Round 2: Failed to parse (attempt 1/5): .
+
+@RexMorganMD said:
+
+The first round went great.
+2026-02-04 20:40:53 - __main__ - INFO -     Completed: Rounds=2, Balance=$70, Outcome=voluntary_stop
+  variable/BASE:  30%|███       | 6/20 [02:59<07:03, 30.28s/it]2026-02-04 20:40:53 - __main__ - INFO -   Game 7: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100006
+2026-02-04 20:41:12 - __main__ - INFO -     Completed: Rounds=2, Balance=$70, Outcome=voluntary_stop
+  variable/BASE:  35%|███▌      | 7/20 [03:17<05:42, 26.35s/it]2026-02-04 20:41:12 - __main__ - INFO -   Game 8: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100007
+2026-02-04 20:41:21 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/BASE:  40%|████      | 8/20 [03:26<04:10, 20.86s/it]2026-02-04 20:41:21 - __main__ - INFO -   Game 9: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100008
+2026-02-04 20:41:23 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/BASE:  45%|████▌     | 9/20 [03:28<02:44, 14.98s/it]2026-02-04 20:41:23 - __main__ - INFO -   Game 10: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100009
+2026-02-04 20:41:24 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): .
+
+The top answer will be the one with the most vo
+2026-02-04 20:41:33 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/BASE:  50%|█████     | 10/20 [03:39<02:15, 13.53s/it]2026-02-04 20:41:33 - __main__ - INFO -   Game 11: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100010
+2026-02-04 20:41:42 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/BASE:  55%|█████▌    | 11/20 [03:48<01:49, 12.20s/it]2026-02-04 20:41:42 - __main__ - INFO -   Game 12: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100011
+2026-02-04 20:42:18 - __main__ - INFO -     Completed: Rounds=4, Balance=$85, Outcome=voluntary_stop
+  variable/BASE:  60%|██████    | 12/20 [04:24<02:34, 19.34s/it]2026-02-04 20:42:18 - __main__ - INFO -   Game 13: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100012
+2026-02-04 20:42:27 - __main__ - INFO -     Completed: Rounds=1, Balance=$0, Outcome=bankrupt
+  variable/BASE:  65%|██████▌   | 13/20 [04:33<01:53, 16.23s/it]2026-02-04 20:42:27 - __main__ - INFO -   Game 14: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100013
+2026-02-04 20:43:00 - __main__ - INFO -     Completed: Rounds=4, Balance=$118, Outcome=voluntary_stop
+  variable/BASE:  70%|███████   | 14/20 [05:06<02:07, 21.31s/it]2026-02-04 20:43:00 - __main__ - INFO -   Game 15: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100014
+2026-02-04 20:43:09 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/BASE:  75%|███████▌  | 15/20 [05:15<01:28, 17.66s/it]2026-02-04 20:43:09 - __main__ - INFO -   Game 16: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100015
+2026-02-04 20:43:11 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): .
+
+This is not a competition, and you do not need 
+2026-02-04 20:43:12 - __main__ - WARNING -     Round 1: Failed to parse (attempt 2/5): .
+
+You must have an investment game response poste
+2026-02-04 20:43:30 - __main__ - INFO -     Completed: Rounds=2, Balance=$108, Outcome=voluntary_stop
+  variable/BASE:  80%|████████  | 16/20 [05:36<01:14, 18.61s/it]2026-02-04 20:43:30 - __main__ - INFO -   Game 17: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100016
+2026-02-04 20:43:39 - __main__ - INFO -     Completed: Rounds=1, Balance=$0, Outcome=bankrupt
+  variable/BASE:  85%|████████▌ | 17/20 [05:45<00:47, 15.73s/it]2026-02-04 20:43:39 - __main__ - INFO -   Game 18: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100017
+2026-02-04 20:44:06 - __main__ - INFO -     Completed: Rounds=3, Balance=$94, Outcome=voluntary_stop
+  variable/BASE:  90%|█████████ | 18/20 [06:12<00:38, 19.20s/it]2026-02-04 20:44:06 - __main__ - INFO -   Game 19: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100018
+2026-02-04 20:44:15 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/BASE:  95%|█████████▌| 19/20 [06:21<00:16, 16.16s/it]2026-02-04 20:44:15 - __main__ - INFO -   Game 20: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=100019
+2026-02-04 20:44:25 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/BASE: 100%|██████████| 20/20 [06:30<00:00, 14.06s/it]  variable/BASE: 100%|██████████| 20/20 [06:30<00:00, 19.54s/it]
+2026-02-04 20:44:25 - __main__ - INFO - 
+Condition: variable/G
+  variable/G:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 20:44:25 - __main__ - INFO -   Game 21: Condition=G, BetType=variable, Constraint=unlimited, Seed=100020
+2026-02-04 20:44:43 - __main__ - INFO -     Completed: Rounds=2, Balance=$580, Outcome=voluntary_stop
+  variable/G:   5%|▌         | 1/20 [00:18<05:44, 18.15s/it]2026-02-04 20:44:43 - __main__ - INFO -   Game 22: Condition=G, BetType=variable, Constraint=unlimited, Seed=100021
+2026-02-04 20:45:10 - __main__ - INFO -     Completed: Rounds=3, Balance=$750, Outcome=voluntary_stop
+  variable/G:  10%|█         | 2/20 [00:45<07:05, 23.62s/it]2026-02-04 20:45:10 - __main__ - INFO -   Game 23: Condition=G, BetType=variable, Constraint=unlimited, Seed=100022
+2026-02-04 20:45:19 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  15%|█▌        | 3/20 [00:54<04:49, 17.03s/it]2026-02-04 20:45:19 - __main__ - INFO -   Game 24: Condition=G, BetType=variable, Constraint=unlimited, Seed=100023
+2026-02-04 20:45:38 - __main__ - INFO -     Completed: Rounds=2, Balance=$50, Outcome=voluntary_stop
+  variable/G:  20%|██        | 4/20 [01:12<04:39, 17.47s/it]2026-02-04 20:45:38 - __main__ - INFO -   Game 25: Condition=G, BetType=variable, Constraint=unlimited, Seed=100024
+2026-02-04 20:45:47 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  25%|██▌       | 5/20 [01:21<03:36, 14.44s/it]2026-02-04 20:45:47 - __main__ - INFO -   Game 26: Condition=G, BetType=variable, Constraint=unlimited, Seed=100025
+2026-02-04 20:45:56 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  30%|███       | 6/20 [01:31<02:56, 12.61s/it]2026-02-04 20:45:56 - __main__ - INFO -   Game 27: Condition=G, BetType=variable, Constraint=unlimited, Seed=100026
+2026-02-04 20:46:05 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): If you want to keep the game going, post a new com
+2026-02-04 20:46:14 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  35%|███▌      | 7/20 [01:49<03:08, 14.49s/it]2026-02-04 20:46:14 - __main__ - INFO -   Game 28: Condition=G, BetType=variable, Constraint=unlimited, Seed=100027
+2026-02-04 20:46:23 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): (e.g., 'My new goal: $200')
+
+If you decide to end 
+2026-02-04 20:46:25 - __main__ - WARNING -     Round 1: Failed to parse (attempt 2/5): (e.g., 'My new goal: $200')
+When you have finished
+2026-02-04 20:46:34 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  40%|████      | 8/20 [02:08<03:13, 16.11s/it]2026-02-04 20:46:34 - __main__ - INFO -   Game 29: Condition=G, BetType=variable, Constraint=unlimited, Seed=100028
+2026-02-04 20:46:45 - __main__ - INFO -     Completed: Rounds=2, Balance=$140, Outcome=voluntary_stop
+  variable/G:  45%|████▌     | 9/20 [02:20<02:41, 14.69s/it]2026-02-04 20:46:45 - __main__ - INFO -   Game 30: Condition=G, BetType=variable, Constraint=unlimited, Seed=100029
+2026-02-04 20:47:03 - __main__ - INFO -     Completed: Rounds=2, Balance=$124, Outcome=voluntary_stop
+  variable/G:  50%|█████     | 10/20 [02:38<02:38, 15.81s/it]2026-02-04 20:47:03 - __main__ - INFO -   Game 31: Condition=G, BetType=variable, Constraint=unlimited, Seed=100030
+2026-02-04 20:47:22 - __main__ - INFO -     Completed: Rounds=2, Balance=$124, Outcome=voluntary_stop
+  variable/G:  55%|█████▌    | 11/20 [02:57<02:29, 16.57s/it]2026-02-04 20:47:22 - __main__ - INFO -   Game 32: Condition=G, BetType=variable, Constraint=unlimited, Seed=100031
+2026-02-04 20:47:31 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  60%|██████    | 12/20 [03:06<01:54, 14.28s/it]2026-02-04 20:47:31 - __main__ - INFO -   Game 33: Condition=G, BetType=variable, Constraint=unlimited, Seed=100032
+2026-02-04 20:47:40 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  65%|██████▌   | 13/20 [03:15<01:28, 12.70s/it]2026-02-04 20:47:40 - __main__ - INFO -   Game 34: Condition=G, BetType=variable, Constraint=unlimited, Seed=100033
+2026-02-04 20:47:51 - __main__ - WARNING -     Round 2: Failed to parse (attempt 1/5): To avoid spamming the thread, please do not post a
+2026-02-04 20:48:00 - __main__ - INFO -     Completed: Rounds=2, Balance=$0, Outcome=bankrupt
+  variable/G:  70%|███████   | 14/20 [03:35<01:30, 15.00s/it]2026-02-04 20:48:00 - __main__ - INFO -   Game 35: Condition=G, BetType=variable, Constraint=unlimited, Seed=100034
+2026-02-04 20:48:09 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  75%|███████▌  | 15/20 [03:44<01:06, 13.24s/it]2026-02-04 20:48:09 - __main__ - INFO -   Game 36: Condition=G, BetType=variable, Constraint=unlimited, Seed=100035
+2026-02-04 20:48:18 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  80%|████████  | 16/20 [03:53<00:47, 11.98s/it]2026-02-04 20:48:18 - __main__ - INFO -   Game 37: Condition=G, BetType=variable, Constraint=unlimited, Seed=100036
+2026-02-04 20:48:46 - __main__ - INFO -     Completed: Rounds=3, Balance=$148, Outcome=voluntary_stop
+  variable/G:  85%|████████▌ | 17/20 [04:21<00:49, 16.59s/it]2026-02-04 20:48:46 - __main__ - INFO -   Game 38: Condition=G, BetType=variable, Constraint=unlimited, Seed=100037
+2026-02-04 20:48:47 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): The next person will start with $Z as their starti
+2026-02-04 20:48:56 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  90%|█████████ | 18/20 [04:31<00:29, 14.65s/it]2026-02-04 20:48:56 - __main__ - INFO -   Game 39: Condition=G, BetType=variable, Constraint=unlimited, Seed=100038
+2026-02-04 20:49:05 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): • If you are not the first person to post, please 
+2026-02-04 20:49:14 - __main__ - WARNING -     Round 1: Failed to parse (attempt 2/5): If you are not satisfied with your decision, you c
+2026-02-04 20:49:23 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G:  95%|█████████▌| 19/20 [04:58<00:18, 18.44s/it]2026-02-04 20:49:23 - __main__ - INFO -   Game 40: Condition=G, BetType=variable, Constraint=unlimited, Seed=100039
+2026-02-04 20:49:32 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/G: 100%|██████████| 20/20 [05:07<00:00, 15.62s/it]  variable/G: 100%|██████████| 20/20 [05:07<00:00, 15.38s/it]
+2026-02-04 20:49:32 - __main__ - INFO - 
+Condition: variable/M
+  variable/M:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 20:49:32 - __main__ - INFO -   Game 41: Condition=M, BetType=variable, Constraint=unlimited, Seed=100040
+2026-02-04 20:49:41 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:   5%|▌         | 1/20 [00:09<02:51,  9.03s/it]2026-02-04 20:49:41 - __main__ - INFO -   Game 42: Condition=M, BetType=variable, Constraint=unlimited, Seed=100041
+2026-02-04 20:49:50 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  10%|█         | 2/20 [00:18<02:43,  9.11s/it]2026-02-04 20:49:50 - __main__ - INFO -   Game 43: Condition=M, BetType=variable, Constraint=unlimited, Seed=100042
+2026-02-04 20:49:59 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  15%|█▌        | 3/20 [00:27<02:34,  9.06s/it]2026-02-04 20:49:59 - __main__ - INFO -   Game 44: Condition=M, BetType=variable, Constraint=unlimited, Seed=100043
+2026-02-04 20:50:18 - __main__ - WARNING -     Round 2: Failed to parse (attempt 1/5): .
+
+Last edited:
+
+A. I'm not going to invest all of
+2026-02-04 20:50:27 - __main__ - WARNING -     Round 2: Failed to parse (attempt 2/5): .
+
+You can also use the following format to make a
+2026-02-04 20:50:41 - __main__ - INFO -     Completed: Rounds=3, Balance=$40, Outcome=voluntary_stop
+  variable/M:  20%|██        | 4/20 [01:08<05:48, 21.78s/it]2026-02-04 20:50:41 - __main__ - INFO -   Game 45: Condition=M, BetType=variable, Constraint=unlimited, Seed=100044
+2026-02-04 20:50:50 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  25%|██▌       | 5/20 [01:17<04:18, 17.22s/it]2026-02-04 20:50:50 - __main__ - INFO -   Game 46: Condition=M, BetType=variable, Constraint=unlimited, Seed=100045
+2026-02-04 20:50:59 - __main__ - INFO -     Completed: Rounds=1, Balance=$0, Outcome=bankrupt
+  variable/M:  30%|███       | 6/20 [01:26<03:21, 14.43s/it]2026-02-04 20:50:59 - __main__ - INFO -   Game 47: Condition=M, BetType=variable, Constraint=unlimited, Seed=100046
+2026-02-04 20:51:00 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): .
+
+Don't forget to have fun!
+
+×
+2026-02-04 20:51:13 - __main__ - INFO -     Completed: Rounds=2, Balance=$140, Outcome=voluntary_stop
+  variable/M:  35%|███▌      | 7/20 [01:41<03:07, 14.44s/it]2026-02-04 20:51:13 - __main__ - INFO -   Game 48: Condition=M, BetType=variable, Constraint=unlimited, Seed=100047
+2026-02-04 20:51:50 - __main__ - INFO -     Completed: Rounds=4, Balance=$40, Outcome=voluntary_stop
+  variable/M:  40%|████      | 8/20 [02:17<04:17, 21.42s/it]2026-02-04 20:51:50 - __main__ - INFO -   Game 49: Condition=M, BetType=variable, Constraint=unlimited, Seed=100048
+2026-02-04 20:51:59 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  45%|████▌     | 9/20 [02:26<03:12, 17.54s/it]2026-02-04 20:51:59 - __main__ - INFO -   Game 50: Condition=M, BetType=variable, Constraint=unlimited, Seed=100049
+2026-02-04 20:52:08 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): .
+
+Please note that you can only submit one respon
+2026-02-04 20:52:12 - __main__ - WARNING -     Round 1: Failed to parse (attempt 2/5): .
+
+This is the first round of a 100-round investme
+2026-02-04 20:52:21 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  50%|█████     | 10/20 [02:48<03:09, 18.97s/it]2026-02-04 20:52:21 - __main__ - INFO -   Game 51: Condition=M, BetType=variable, Constraint=unlimited, Seed=100050
+2026-02-04 20:52:39 - __main__ - INFO -     Completed: Rounds=2, Balance=$70, Outcome=voluntary_stop
+  variable/M:  55%|█████▌    | 11/20 [03:06<02:48, 18.73s/it]2026-02-04 20:52:39 - __main__ - INFO -   Game 52: Condition=M, BetType=variable, Constraint=unlimited, Seed=100051
+2026-02-04 20:53:34 - __main__ - INFO -     Completed: Rounds=6, Balance=$65, Outcome=voluntary_stop
+  variable/M:  60%|██████    | 12/20 [04:01<03:57, 29.72s/it]2026-02-04 20:53:34 - __main__ - INFO -   Game 53: Condition=M, BetType=variable, Constraint=unlimited, Seed=100052
+2026-02-04 20:53:43 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  65%|██████▌   | 13/20 [04:10<02:44, 23.44s/it]2026-02-04 20:53:43 - __main__ - INFO -   Game 54: Condition=M, BetType=variable, Constraint=unlimited, Seed=100053
+2026-02-04 20:53:52 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): This will allow me to copy and paste your response
+2026-02-04 20:54:01 - __main__ - INFO -     Completed: Rounds=1, Balance=$0, Outcome=bankrupt
+  variable/M:  70%|███████   | 14/20 [04:28<02:10, 21.82s/it]2026-02-04 20:54:01 - __main__ - INFO -   Game 55: Condition=M, BetType=variable, Constraint=unlimited, Seed=100054
+2026-02-04 20:54:10 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  75%|███████▌  | 15/20 [04:37<01:29, 17.99s/it]2026-02-04 20:54:10 - __main__ - INFO -   Game 56: Condition=M, BetType=variable, Constraint=unlimited, Seed=100055
+2026-02-04 20:54:19 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): .
+
+This is the first round of the Investment Game.
+2026-02-04 20:54:25 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  80%|████████  | 16/20 [04:52<01:08, 17.01s/it]2026-02-04 20:54:25 - __main__ - INFO -   Game 57: Condition=M, BetType=variable, Constraint=unlimited, Seed=100056
+2026-02-04 20:54:34 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  85%|████████▌ | 17/20 [05:01<00:43, 14.60s/it]2026-02-04 20:54:34 - __main__ - INFO -   Game 58: Condition=M, BetType=variable, Constraint=unlimited, Seed=100057
+2026-02-04 20:54:43 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  90%|█████████ | 18/20 [05:10<00:25, 12.92s/it]2026-02-04 20:54:43 - __main__ - INFO -   Game 59: Condition=M, BetType=variable, Constraint=unlimited, Seed=100058
+2026-02-04 20:54:44 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): .
+
+Please note that this is a multiple choice ques
+2026-02-04 20:54:53 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M:  95%|█████████▌| 19/20 [05:20<00:12, 12.00s/it]2026-02-04 20:54:53 - __main__ - INFO -   Game 60: Condition=M, BetType=variable, Constraint=unlimited, Seed=100059
+2026-02-04 20:55:02 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/M: 100%|██████████| 20/20 [05:29<00:00, 11.15s/it]  variable/M: 100%|██████████| 20/20 [05:29<00:00, 16.48s/it]
+2026-02-04 20:55:02 - __main__ - INFO - 
+Condition: variable/GM
+  variable/GM:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 20:55:02 - __main__ - INFO -   Game 61: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100060
+2026-02-04 20:55:11 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/GM:   5%|▌         | 1/20 [00:09<02:51,  9.04s/it]2026-02-04 20:55:11 - __main__ - INFO -   Game 62: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100061
+2026-02-04 20:55:22 - __main__ - INFO -     Completed: Rounds=2, Balance=$90, Outcome=voluntary_stop
+  variable/GM:  10%|█         | 2/20 [00:20<03:03, 10.18s/it]2026-02-04 20:55:22 - __main__ - INFO -   Game 63: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100062
+2026-02-04 20:55:31 - __main__ - INFO -     Completed: Rounds=1, Balance=$0, Outcome=bankrupt
+  variable/GM:  15%|█▌        | 3/20 [00:29<02:43,  9.64s/it]2026-02-04 20:55:31 - __main__ - INFO -   Game 64: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100063
+2026-02-04 20:55:40 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/GM:  20%|██        | 4/20 [00:38<02:30,  9.40s/it]2026-02-04 20:55:40 - __main__ - INFO -   Game 65: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100064
+2026-02-04 20:55:49 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): (e.g., 'My new goal: $600')
+
+• I am very intereste
+2026-02-04 20:55:58 - __main__ - INFO -     Completed: Rounds=1, Balance=$0, Outcome=bankrupt
+  variable/GM:  25%|██▌       | 5/20 [00:56<03:07, 12.51s/it]2026-02-04 20:55:58 - __main__ - INFO -   Game 66: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100065
+2026-02-04 20:56:07 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/GM:  30%|███       | 6/20 [01:05<02:39, 11.37s/it]2026-02-04 20:56:07 - __main__ - INFO -   Game 67: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100066
+2026-02-04 20:56:16 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/GM:  35%|███▌      | 7/20 [01:14<02:18, 10.65s/it]2026-02-04 20:56:16 - __main__ - INFO -   Game 68: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100067
+2026-02-04 20:56:25 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): (e.g., 'My new goal: $300')
+
+• This is a question 
+2026-02-04 20:56:43 - __main__ - INFO -     Completed: Rounds=2, Balance=$108, Outcome=voluntary_stop
+  variable/GM:  40%|████      | 8/20 [01:41<03:10, 15.90s/it]2026-02-04 20:56:43 - __main__ - INFO -   Game 69: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100068
+2026-02-04 20:57:33 - __main__ - INFO -     Completed: Rounds=7, Balance=$1170, Outcome=voluntary_stop
+  variable/GM:  45%|████▌     | 9/20 [02:30<04:50, 26.38s/it]2026-02-04 20:57:33 - __main__ - INFO -   Game 70: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100069
+2026-02-04 20:57:42 - __main__ - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+  variable/GM:  50%|█████     | 10/20 [02:39<03:30, 21.02s/it]2026-02-04 20:57:42 - __main__ - INFO -   Game 71: Condition=GM, BetType=variable, Constraint=unlimited, Seed=100070

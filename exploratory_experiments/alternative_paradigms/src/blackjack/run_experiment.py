@@ -491,32 +491,37 @@ class BlackjackExperiment:
         Run full Blackjack experiment (REDESIGNED 2026-02-03).
 
         New design:
+        - 2 bet types: variable (10-500), fixed (10-50)
         - GMHWP 5 components (same as Slot Machine)
         - Slot Machine prompt format with Chain-of-Thought
         - "Final Decision: <X>" format
 
         Args:
-            quick_mode: If True, run reduced experiment (8 conditions × 20 reps = 160 games)
+            quick_mode: If True, run reduced experiment (2 × 8 conditions × 20 reps = 320 games)
         """
         # Determine conditions
+        bet_types = ['variable', 'fixed']
+
         if quick_mode:
-            # Quick mode: 8 conditions × 20 reps = 160 games
+            # Quick mode: 2 bet types × 8 conditions × 20 reps = 320 games
             component_variants = ['BASE', 'G', 'M', 'GM', 'H', 'W', 'P', 'GMHWP']
             n_reps = 20
         else:
-            # Full mode: 32 conditions × 50 reps = 1,600 games
+            # Full mode: 2 bet types × 32 conditions × 50 reps = 3,200 games
             component_variants = PromptBuilder.get_all_combinations()
             n_reps = 50
+
+        total_games = len(bet_types) * len(component_variants) * n_reps
 
         logger.info(f"\n{'='*70}")
         logger.info(f"BLACKJACK GAMBLING EXPERIMENT (REDESIGNED)")
         logger.info(f"{'='*70}")
         logger.info(f"Model: {self.model_name.upper()}")
-        logger.info(f"Bet Type: {self.bet_type.upper()}")
         logger.info(f"Quick mode: {quick_mode}")
+        logger.info(f"Bet types: {len(bet_types)} (variable, fixed)")
         logger.info(f"Conditions: {len(component_variants)}")
         logger.info(f"Repetitions: {n_reps}")
-        logger.info(f"Total games: {len(component_variants) * n_reps}")
+        logger.info(f"Total games: {total_games}")
         logger.info(f"{'='*70}\n")
 
         # Load model
@@ -526,29 +531,44 @@ class BlackjackExperiment:
         all_results = []
         game_id = 0
 
-        for components in component_variants:
-            logger.info(f"\nComponent variant: '{components}' ({n_reps} games)")
+        for bet_type in bet_types:
+            # Update bet settings for this bet type
+            self.bet_type = bet_type
+            self.max_bet = 500 if bet_type == 'variable' else 50
 
-            for rep in tqdm(range(n_reps), desc=f"  {components or 'baseline'}"):
-                seed = game_id * 1000
-                result = self.play_game(components, game_id, seed)
-                all_results.append(result)
-                game_id += 1
+            logger.info(f"\n{'='*70}")
+            logger.info(f"BET TYPE: {bet_type.upper()} (max_bet: {self.max_bet})")
+            logger.info(f"{'='*70}")
+
+            for components in component_variants:
+                logger.info(f"\nCondition: {bet_type}/{components}")
+
+                for rep in tqdm(range(n_reps), desc=f"  {bet_type}/{components}"):
+                    seed = game_id * 1000
+                    result = self.play_game(components, game_id, seed)
+                    all_results.append(result)
+                    game_id += 1
+
+                # Save checkpoint every 100 games
+                if game_id % 100 == 0:
+                    checkpoint_file = self.results_dir / f"{self.model_name}_blackjack_checkpoint_{game_id}.json"
+                    save_json({'results': all_results, 'completed': game_id, 'total': total_games}, checkpoint_file)
+                    logger.info(f"  Checkpoint saved: {checkpoint_file}")
 
         # Save results
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        output_file = self.results_dir / f'blackjack_{self.model_name}_{self.bet_type}_{timestamp}.json'
+        output_file = self.results_dir / f'blackjack_{self.model_name}_{timestamp}.json'
 
         save_json({
             'experiment': 'blackjack_gambling_redesigned',
             'model': self.model_name,
-            'bet_type': self.bet_type,
             'timestamp': timestamp,
             'n_games': len(all_results),
             'quick_mode': quick_mode,
+            'bet_types': bet_types,
             'component_variants': component_variants,
-            'redesign_date': '2026-02-03',
-            'changes': 'Slot Machine prompt format, GMHWP components, Chain-of-Thought',
+            'redesign_date': '2026-02-04',
+            'changes': 'Added both bet types (variable/fixed), Slot Machine prompt format, GMHWP components, Chain-of-Thought',
             'games': all_results
         }, output_file)
 
@@ -558,13 +578,45 @@ class BlackjackExperiment:
         logger.info(f"Total games: {len(all_results)}")
         logger.info(f"Results saved to: {output_file}")
 
-        # Print summary
-        bankrupt_count = sum(1 for g in all_results if g['outcome'] == 'bankrupt')
-        logger.info(f"\nSummary:")
-        logger.info(f"  Bankruptcy rate: {100 * bankrupt_count / len(all_results):.1f}%")
-        logger.info(f"  Voluntary stop rate: {100 * (1 - bankrupt_count / len(all_results)):.1f}%")
+        # Print summary by bet type
+        self.print_summary(all_results)
 
         return all_results
+
+    def print_summary(self, results: List[Dict]):
+        """Print summary statistics by bet type"""
+        logger.info(f"\n{'='*70}")
+        logger.info("SUMMARY STATISTICS")
+        logger.info(f"{'='*70}")
+
+        import numpy as np
+
+        for bet_type in ['variable', 'fixed']:
+            subset = [r for r in results if r.get('bet_type') == bet_type]
+            if not subset:
+                continue
+
+            logger.info(f"\n{bet_type.upper()} BET TYPE:")
+            logger.info("-" * 70)
+
+            # Overall statistics
+            rounds = [r['total_rounds'] for r in subset]
+            final_chips = [r['final_chips'] for r in subset]
+
+            logger.info(f"Rounds: Mean={np.mean(rounds):.2f}, SD={np.std(rounds):.2f}")
+            logger.info(f"Final Chips: Mean={np.mean(final_chips):.2f}, SD={np.std(final_chips):.2f}")
+
+            # Outcome counts
+            bankruptcies = sum(1 for r in subset if r['outcome'] == 'bankrupt')
+            voluntary_stops = sum(1 for r in subset if r['outcome'] == 'voluntary_stop')
+            max_rounds = sum(1 for r in subset if r['outcome'] == 'max_rounds')
+
+            logger.info(f"\nOutcomes:")
+            logger.info(f"  Bankruptcy: {bankruptcies}/{len(subset)} ({(bankruptcies/len(subset))*100:.1f}%)")
+            logger.info(f"  Voluntary Stop: {voluntary_stops}/{len(subset)} ({(voluntary_stops/len(subset))*100:.1f}%)")
+            logger.info(f"  Max Rounds: {max_rounds}/{len(subset)} ({(max_rounds/len(subset))*100:.1f}%)")
+
+        logger.info(f"\n{'='*70}")
 
 
 def main():

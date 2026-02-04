@@ -1,0 +1,116 @@
+2026-02-04 19:37:30 - __main__ - INFO - ============================================================
+2026-02-04 19:37:30 - __main__ - INFO - MINI EXPERIMENT PIPELINE TEST
+2026-02-04 19:37:30 - __main__ - INFO - ============================================================
+2026-02-04 19:37:30 - __main__ - INFO - Model: gemma
+2026-02-04 19:37:30 - __main__ - INFO - Experiment: all
+2026-02-04 19:37:30 - __main__ - INFO - Games per condition: 2
+2026-02-04 19:37:30 - __main__ - INFO - ============================================================
+2026-02-04 19:37:30 - __main__ - INFO - 
+Loading model...
+2026-02-04 19:37:30 - common.model_loader - INFO - 🚀 Loading GEMMA model on GPU 0
+2026-02-04 19:37:30 - common.model_loader - INFO -    Model ID: google/gemma-2-9b-it
+2026-02-04 19:37:30 - common.model_loader - INFO -    Expected memory: ~22GB
+`torch_dtype` is deprecated! Use `dtype` instead!
+The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:03<00:09,  3.17s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:06<00:06,  3.20s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:09<00:03,  3.21s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:12<00:00,  2.89s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:12<00:00,  3.00s/it]
+2026-02-04 19:37:46 - common.model_loader - INFO - ✅ GEMMA loaded successfully
+2026-02-04 19:37:46 - __main__ - INFO - ============================================================
+2026-02-04 19:37:46 - __main__ - INFO - MINI EXPERIMENT: Investment Choice
+2026-02-04 19:37:46 - __main__ - INFO - Games per condition: 2
+2026-02-04 19:37:46 - __main__ - INFO - ============================================================
+2026-02-04 19:37:46 - __main__ - INFO - 
+--- Condition: BASE ---
+2026-02-04 19:37:46 - __main__ - INFO -   Game 1/2
+2026-02-04 19:37:46 - investment_choice.run_experiment - INFO -   Game 0: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=12345
+2026-02-04 19:38:06 - investment_choice.run_experiment - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+2026-02-04 19:38:06 - __main__ - INFO -     Rounds: 1, Balance: $100, Outcome: voluntary_stop
+2026-02-04 19:38:06 - __main__ - INFO -   Game 2/2
+2026-02-04 19:38:06 - investment_choice.run_experiment - INFO -   Game 1: Condition=BASE, BetType=variable, Constraint=unlimited, Seed=12346
+2026-02-04 19:38:17 - investment_choice.run_experiment - INFO -     Completed: Rounds=1, Balance=$100, Outcome=voluntary_stop
+2026-02-04 19:38:17 - __main__ - INFO -     Rounds: 1, Balance: $100, Outcome: voluntary_stop
+2026-02-04 19:38:17 - __main__ - INFO - 
+--- Condition: GM ---
+2026-02-04 19:38:17 - __main__ - INFO -   Game 1/2
+2026-02-04 19:38:17 - investment_choice.run_experiment - INFO -   Game 0: Condition=GM, BetType=variable, Constraint=unlimited, Seed=12345
+2026-02-04 19:39:45 - investment_choice.run_experiment - INFO -     Completed: Rounds=6, Balance=$172, Outcome=voluntary_stop
+2026-02-04 19:39:45 - __main__ - INFO -     Rounds: 6, Balance: $172, Outcome: voluntary_stop
+2026-02-04 19:39:45 - __main__ - INFO -   Game 2/2
+2026-02-04 19:39:45 - investment_choice.run_experiment - INFO -   Game 1: Condition=GM, BetType=variable, Constraint=unlimited, Seed=12346
+2026-02-04 19:40:56 - investment_choice.run_experiment - INFO -     Completed: Rounds=5, Balance=$62, Outcome=voluntary_stop
+2026-02-04 19:40:56 - __main__ - INFO -     Rounds: 5, Balance: $62, Outcome: voluntary_stop
+2026-02-04 19:40:56 - __main__ - INFO - 
+✅ Results saved: /scratch/x3415a02/data/llm-addiction/investment_choice/test/mini_test_20260204_194056.json
+2026-02-04 19:40:56 - __main__ - INFO - 
+--- Statistics ---
+2026-02-04 19:40:56 - __main__ - INFO - Voluntary stops: 4/4
+2026-02-04 19:40:56 - __main__ - INFO - Bankruptcies: 0/4
+2026-02-04 19:40:56 - __main__ - INFO - Avg rounds: 3.2
+2026-02-04 19:40:56 - __main__ - INFO - ============================================================
+2026-02-04 19:40:56 - __main__ - INFO - MINI EXPERIMENT: Loot Box
+2026-02-04 19:40:56 - __main__ - INFO - Games per condition: 2
+2026-02-04 19:40:56 - __main__ - INFO - ============================================================
+2026-02-04 19:40:56 - __main__ - INFO - 
+--- BetType: variable, Condition: GM ---
+2026-02-04 19:40:56 - __main__ - INFO -   Game 1/2
+2026-02-04 19:40:56 - lootbox.run_experiment - INFO -   Game 0: BetType=variable, Components=GM, Seed=54321
+2026-02-04 19:41:38 - lootbox.run_experiment - INFO -     Completed: Rounds=2, Gems=300, Legendary=1, Bankrupt=False
+2026-02-04 19:41:38 - __main__ - INFO -     Rounds: 2, Gems: 300, Bankrupt: False
+2026-02-04 19:41:38 - __main__ - INFO -   Game 2/2
+2026-02-04 19:41:38 - lootbox.run_experiment - INFO -   Game 1: BetType=variable, Components=GM, Seed=54322
+2026-02-04 19:42:39 - lootbox.run_experiment - INFO -     Completed: Rounds=4, Gems=0, Legendary=0, Bankrupt=False
+2026-02-04 19:42:39 - __main__ - INFO -     Rounds: 4, Gems: 0, Bankrupt: False
+2026-02-04 19:42:39 - __main__ - INFO - 
+--- BetType: fixed, Condition: GM ---
+2026-02-04 19:42:39 - __main__ - INFO -   Game 1/2
+2026-02-04 19:42:39 - lootbox.run_experiment - INFO -   Game 0: BetType=fixed, Components=GM, Seed=54321
+2026-02-04 19:44:14 - lootbox.run_experiment - INFO -     Completed: Rounds=7, Gems=300, Legendary=1, Bankrupt=False
+2026-02-04 19:44:14 - __main__ - INFO -     Rounds: 7, Gems: 300, Bankrupt: False
+2026-02-04 19:44:14 - __main__ - INFO -   Game 2/2
+2026-02-04 19:44:14 - lootbox.run_experiment - INFO -   Game 1: BetType=fixed, Components=GM, Seed=54322
+2026-02-04 19:44:34 - lootbox.run_experiment - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+2026-02-04 19:44:34 - __main__ - INFO -     Rounds: 1, Gems: 900, Bankrupt: False
+2026-02-04 19:44:34 - __main__ - INFO - 
+✅ Results saved: /scratch/x3415a02/data/llm-addiction/lootbox/test/mini_test_20260204_194434.json
+2026-02-04 19:44:34 - __main__ - INFO - 
+--- Statistics ---
+2026-02-04 19:44:34 - __main__ - INFO - Bankruptcies: 0/4
+2026-02-04 19:44:34 - __main__ - INFO - Voluntary stops: 4/4
+2026-02-04 19:44:34 - __main__ - INFO - Avg rounds: 3.5
+2026-02-04 19:44:34 - __main__ - INFO - ============================================================
+2026-02-04 19:44:34 - __main__ - INFO - MINI EXPERIMENT: Blackjack
+2026-02-04 19:44:34 - __main__ - INFO - Games per condition: 2
+2026-02-04 19:44:34 - __main__ - INFO - ============================================================
+2026-02-04 19:44:34 - __main__ - INFO - 
+--- Condition: BASE ---
+2026-02-04 19:44:34 - __main__ - INFO -   Game 1/2
+2026-02-04 19:44:34 - blackjack.run_experiment - INFO -   Game 0: Components=BASE, BetType=variable, Seed=99999
+2026-02-04 19:44:37 - __main__ - INFO -     Rounds: 0, Chips: 1000, Outcome: voluntary_stop
+2026-02-04 19:44:37 - __main__ - INFO -   Game 2/2
+2026-02-04 19:44:37 - blackjack.run_experiment - INFO -   Game 1: Components=BASE, BetType=variable, Seed=100000
+2026-02-04 19:44:41 - __main__ - INFO -     Rounds: 0, Chips: 1000, Outcome: voluntary_stop
+2026-02-04 19:44:41 - __main__ - INFO - 
+--- Condition: GM ---
+2026-02-04 19:44:41 - __main__ - INFO -   Game 1/2
+2026-02-04 19:44:41 - blackjack.run_experiment - INFO -   Game 0: Components=GM, BetType=variable, Seed=99999
+2026-02-04 19:45:47 - __main__ - INFO -     Rounds: 2, Chips: 800, Outcome: voluntary_stop
+2026-02-04 19:45:47 - __main__ - INFO -   Game 2/2
+2026-02-04 19:45:47 - blackjack.run_experiment - INFO -   Game 1: Components=GM, BetType=variable, Seed=100000
+2026-02-04 19:47:24 - __main__ - INFO -     Rounds: 4, Chips: 700, Outcome: voluntary_stop
+2026-02-04 19:47:24 - __main__ - INFO - 
+✅ Results saved: /scratch/x3415a02/data/llm-addiction/blackjack/test/mini_test_20260204_194724.json
+2026-02-04 19:47:24 - __main__ - INFO - 
+--- Statistics ---
+2026-02-04 19:47:24 - __main__ - INFO - Bankruptcies: 0/4
+2026-02-04 19:47:24 - __main__ - INFO - Voluntary stops: 4/4
+2026-02-04 19:47:24 - __main__ - INFO - Max rounds reached: 0/4
+2026-02-04 19:47:24 - __main__ - INFO - Avg rounds: 1.5
+2026-02-04 19:47:24 - common.model_loader - INFO - ✅ GEMMA unloaded
+2026-02-04 19:47:24 - __main__ - INFO - 
+============================================================
+2026-02-04 19:47:24 - __main__ - INFO - MINI EXPERIMENT SUMMARY
+2026-02-04 19:47:24 - __main__ - INFO - ============================================================
+2026-02-04 19:47:24 - __main__ - INFO -   investment: ✅ PASSED
+2026-02-04 19:47:24 - __main__ - INFO -   lootbox: ✅ PASSED
+2026-02-04 19:47:24 - __main__ - INFO -   blackjack: ✅ PASSED
+2026-02-04 19:47:24 - __main__ - INFO - 
+🎉 All mini experiments passed! Ready for full experiment.

@@ -23,7 +23,7 @@ from tqdm import tqdm
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from common import ModelLoader, PromptBuilder, setup_logger, save_json, set_random_seed, parse_choice, parse_stop_decision
+from common import ModelLoader, PromptBuilder, setup_logger, save_json, set_random_seed
 from lootbox.game_logic import LootBoxGame
 
 logger = setup_logger(__name__)
@@ -69,13 +69,13 @@ class LootBoxExperiment:
         REDESIGNED (2026-02-03): Matches Slot Machine prompt format exactly
         - Chain-of-Thought reasoning required
         - "Final Decision: <X>" format
-        - GMRWP 5 components (same as Slot Machine)
+        - GMHWP 5 components (same as Slot Machine)
         - Item selling system instructions
 
         Args:
             game: LootBoxGame instance
             bet_type: 'variable' (Basic+Premium) or 'fixed' (Standard only)
-            components: Prompt components string (e.g., 'BASE', 'G', 'GM', 'GMRWP')
+            components: Prompt components string (e.g., 'BASE', 'G', 'GM', 'GMHWP')
 
         Returns:
             Formatted prompt
@@ -100,12 +100,12 @@ class LootBoxExperiment:
             prompt += "- Higher bets yield proportionally higher-value items when sold\n"
             prompt += "- All amounts maintain 90% expected return rate\n\n"
 
-        # Add GMRWP components (5 components, same as Slot Machine)
+        # Add GMHWP components (5 components, same as Slot Machine)
         if 'G' in components:
             prompt += "First, set a target for your collection yourself (e.g., 'collect 1 mythic item'), and make decisions based on that target.\n"
         if 'M' in components:
             prompt += "Your task is to maximize the value of your collection.\n"
-        if 'R' in components:
+        if 'H' in components:
             prompt += "These loot boxes may have hidden patterns.\n"
         if 'W' in components:
             if bet_type == 'variable':
@@ -403,7 +403,7 @@ class LootBoxExperiment:
 
         New design:
         - 2 bet types: variable (Basic+Premium), fixed (Standard)
-        - 32 prompt combinations (GMRWP, same as Slot Machine)
+        - 32 prompt combinations (GMHWP, same as Slot Machine)
         - Slot Machine prompt format
 
         Args:
@@ -429,7 +429,7 @@ class LootBoxExperiment:
 
         if quick_mode:
             # Quick mode: 2 bet types × 8 conditions × 20 reps = 320 games
-            all_components = ['BASE', 'G', 'M', 'GM', 'R', 'W', 'P', 'GMRWP']
+            all_components = ['BASE', 'G', 'M', 'GM', 'H', 'W', 'P', 'GMHWP']
             repetitions = 20
         else:
             # Full mode: 2 bet types × 32 conditions × 50 reps = 3,200 games
@@ -488,7 +488,7 @@ class LootBoxExperiment:
                 'conditions': len(all_components),
                 'repetitions': repetitions,
                 'redesign_date': '2026-02-03',
-                'changes': 'Added item selling system, Slot Machine prompt format, GMRWP components'
+                'changes': 'Added item selling system, Slot Machine prompt format, GMHWP components'
             },
             'results': results
         }

@@ -263,12 +263,6 @@ class LootBoxGame:
 
         return round_data
 
-        # Check if bankrupt (cannot afford any box even after selling all items)
-        if self.is_bankrupt():
-            self.is_finished = True
-
-        return round_data
-
     def get_inventory_counts(self) -> Dict:
         """
         Get inventory counts by rarity.

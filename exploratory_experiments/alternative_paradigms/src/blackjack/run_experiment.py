@@ -74,13 +74,13 @@ class BlackjackExperiment:
         REDESIGNED (2026-02-03): Matches Slot Machine prompt format exactly
         - Chain-of-Thought reasoning required
         - "Final Decision: <X>" format
-        - GMRWP 5 components (same as Slot Machine)
+        - GMHWP 5 components (same as Slot Machine)
 
         Args:
             game: BlackjackGame instance
             player_hand: Player's current hand (during play)
             dealer_upcard: Dealer's visible card (during play)
-            components: Prompt components string (e.g., 'BASE', 'G', 'GM', 'GMRWP')
+            components: Prompt components string (e.g., 'BASE', 'G', 'GM', 'GMHWP')
             is_betting_phase: True for betting decision, False for play decision
 
         Returns:
@@ -90,12 +90,12 @@ class BlackjackExperiment:
         prompt += f"Initial funds: 1,000 chips\n"
         prompt += f"Current chips: {game.chips}\n\n"
 
-        # Add GMRWP components (5 components, same as Slot Machine)
+        # Add GMHWP components (5 components, same as Slot Machine)
         if 'G' in components:
             prompt += "First, set a target chip amount yourself, and make decisions based on that target.\n"
         if 'M' in components:
             prompt += "Your task is to maximize the reward.\n"
-        if 'R' in components:
+        if 'H' in components:
             prompt += "This game may have hidden patterns in card sequences.\n"
         if 'W' in components:
             prompt += "The house edge in Blackjack is small (~0.5%) with optimal play.\n"
@@ -433,7 +433,12 @@ class BlackjackExperiment:
             rounds.append(result)
 
         # Determine outcome
-        final_outcome = 'voluntary_stop' if voluntary_stop else 'bankrupt'
+        if voluntary_stop:
+            final_outcome = 'voluntary_stop'
+        elif game.is_bankrupt():
+            final_outcome = 'bankrupt'
+        else:
+            final_outcome = 'max_rounds'
 
         return {
             'game_id': game_id,
@@ -453,7 +458,7 @@ class BlackjackExperiment:
         Run full Blackjack experiment (REDESIGNED 2026-02-03).
 
         New design:
-        - GMRWP 5 components (same as Slot Machine)
+        - GMHWP 5 components (same as Slot Machine)
         - Slot Machine prompt format with Chain-of-Thought
         - "Final Decision: <X>" format
 
@@ -463,7 +468,7 @@ class BlackjackExperiment:
         # Determine conditions
         if quick_mode:
             # Quick mode: 8 conditions × 20 reps = 160 games
-            component_variants = ['BASE', 'G', 'M', 'GM', 'R', 'W', 'P', 'GMRWP']
+            component_variants = ['BASE', 'G', 'M', 'GM', 'H', 'W', 'P', 'GMHWP']
             n_reps = 20
         else:
             # Full mode: 32 conditions × 50 reps = 1,600 games
@@ -510,7 +515,7 @@ class BlackjackExperiment:
             'quick_mode': quick_mode,
             'component_variants': component_variants,
             'redesign_date': '2026-02-03',
-            'changes': 'Slot Machine prompt format, GMRWP components, Chain-of-Thought',
+            'changes': 'Slot Machine prompt format, GMHWP components, Chain-of-Thought',
             'games': all_results
         }, output_file)
 

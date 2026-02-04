@@ -32,7 +32,9 @@ logger = setup_logger(__name__)
 class BlackjackExperiment:
     """Blackjack Gambling Experiment with LLMs"""
 
-    def __init__(self, model_name: str, gpu_id: int, bet_type: str = 'variable'):
+    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/blackjack'
+
+    def __init__(self, model_name: str, gpu_id: int, bet_type: str = 'variable', output_dir: str = None):
         """
         Initialize Blackjack experiment.
 
@@ -40,13 +42,14 @@ class BlackjackExperiment:
             model_name: Model name ("llama", "gemma", or "qwen")
             gpu_id: GPU ID
             bet_type: 'variable' or 'fixed'
+            output_dir: Output directory (optional, uses DEFAULT_OUTPUT_DIR if not specified)
         """
         self.model_name = model_name
         self.gpu_id = gpu_id
         self.bet_type = bet_type
 
         # Results directory
-        self.results_dir = Path('/mnt/c/Users/oollccddss/git/data/llm-addiction/alternative_paradigms/blackjack')
+        self.results_dir = Path(output_dir) if output_dir else Path(self.DEFAULT_OUTPUT_DIR)
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
         # Game settings
@@ -536,6 +539,8 @@ def main():
                         help='Betting type (variable: 10-500 chips, fixed: 10-50 chips)')
     parser.add_argument('--quick', action='store_true',
                         help='Quick mode (8 conditions × 20 reps = 160 games)')
+    parser.add_argument('--output-dir', type=str, default=None,
+                        help='Output directory (default: /scratch/x3415a02/data/llm-addiction/blackjack)')
 
     args = parser.parse_args()
 
@@ -543,7 +548,8 @@ def main():
     experiment = BlackjackExperiment(
         model_name=args.model,
         gpu_id=args.gpu,
-        bet_type=args.bet_type
+        bet_type=args.bet_type,
+        output_dir=args.output_dir
     )
 
     # Run experiment

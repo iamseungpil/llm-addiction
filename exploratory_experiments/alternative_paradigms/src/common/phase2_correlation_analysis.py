@@ -33,13 +33,15 @@ logger = setup_logger(__name__)
 class ParadigmCorrelationAnalyzer:
     """Analyze correlation between SAE features and outcomes"""
 
+    DEFAULT_DATA_DIR = '/scratch/x3415a02/data/llm-addiction'
+
     def __init__(
         self,
         paradigm: str,
         model_name: str,
         fdr_alpha: float = 0.05,
         min_cohens_d: float = 0.3,
-        data_dir: str = "/mnt/c/Users/oollccddss/git/data/llm-addiction/alternative_paradigms"
+        data_dir: str = None
     ):
         """
         Initialize correlation analyzer.
@@ -56,7 +58,8 @@ class ParadigmCorrelationAnalyzer:
         self.fdr_alpha = fdr_alpha
         self.min_cohens_d = min_cohens_d
 
-        self.features_dir = Path(data_dir) / paradigm / 'sae_features'
+        base_dir = Path(data_dir) if data_dir else Path(self.DEFAULT_DATA_DIR)
+        self.features_dir = base_dir / paradigm / 'sae_features'
         self.output_dir = self.features_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -310,9 +313,8 @@ def main():
                         help='FDR alpha level')
     parser.add_argument('--min-cohens-d', type=float, default=0.3,
                         help='Minimum Cohen\'s d threshold')
-    parser.add_argument('--data-dir', type=str,
-                        default='/mnt/c/Users/oollccddss/git/data/llm-addiction/alternative_paradigms',
-                        help='Data directory')
+    parser.add_argument('--data-dir', type=str, default=None,
+                        help='Data directory (default: /scratch/x3415a02/data/llm-addiction)')
 
     args = parser.parse_args()
 

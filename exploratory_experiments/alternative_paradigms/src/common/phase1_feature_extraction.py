@@ -91,12 +91,14 @@ class SAELoader:
 class AlternativeParadigmFeatureExtractor:
     """Extract SAE features from alternative paradigm experiments"""
 
+    DEFAULT_DATA_DIR = '/scratch/x3415a02/data/llm-addiction'
+
     def __init__(
         self,
         paradigm: str,
         model_name: str,
         gpu_id: int = 0,
-        data_dir: str = "/mnt/c/Users/oollccddss/git/data/llm-addiction/alternative_paradigms"
+        data_dir: str = None
     ):
         """
         Initialize feature extractor.
@@ -112,7 +114,8 @@ class AlternativeParadigmFeatureExtractor:
         self.gpu_id = gpu_id
         self.device = f'cuda:{gpu_id}'
 
-        self.data_dir = Path(data_dir) / paradigm
+        base_dir = Path(data_dir) if data_dir else Path(self.DEFAULT_DATA_DIR)
+        self.data_dir = base_dir / paradigm
         self.output_dir = self.data_dir / 'sae_features'
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -350,9 +353,8 @@ def main():
                         help='Model type')
     parser.add_argument('--gpu', type=int, default=0,
                         help='GPU ID')
-    parser.add_argument('--data-dir', type=str,
-                        default='/mnt/c/Users/oollccddss/git/data/llm-addiction/alternative_paradigms',
-                        help='Data directory')
+    parser.add_argument('--data-dir', type=str, default=None,
+                        help='Data directory (default: /scratch/x3415a02/data/llm-addiction)')
 
     args = parser.parse_args()
 

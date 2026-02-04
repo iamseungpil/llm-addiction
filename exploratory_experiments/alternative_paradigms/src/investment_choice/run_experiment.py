@@ -32,12 +32,15 @@ logger = setup_logger(__name__)
 class InvestmentChoiceExperiment:
     """Investment Choice Experiment with LLMs"""
 
+    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/investment_choice'
+
     def __init__(
         self,
         model_name: str,
         gpu_id: int,
         bet_type: str = 'variable',
-        bet_constraint: str = 'unlimited'
+        bet_constraint: str = 'unlimited',
+        output_dir: str = None
     ):
         """
         Initialize Investment Choice experiment.
@@ -47,6 +50,7 @@ class InvestmentChoiceExperiment:
             gpu_id: GPU ID
             bet_type: 'fixed' or 'variable'
             bet_constraint: '10', '30', '50', '70', or 'unlimited'
+            output_dir: Output directory (optional, uses DEFAULT_OUTPUT_DIR if not specified)
         """
         self.model_name = model_name
         self.gpu_id = gpu_id
@@ -54,7 +58,7 @@ class InvestmentChoiceExperiment:
         self.bet_constraint = bet_constraint
 
         # Results directory
-        self.results_dir = Path('/mnt/c/Users/oollccddss/git/data/llm-addiction/alternative_paradigms/investment_choice')
+        self.results_dir = Path(output_dir) if output_dir else Path(self.DEFAULT_OUTPUT_DIR)
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
         # Game settings
@@ -482,6 +486,8 @@ def main():
                         help='Bet constraint: 10, 30, 50, 70, or unlimited (default: unlimited)')
     parser.add_argument('--quick', action='store_true',
                         help='Quick mode (4 conditions × 20 reps = 80 games)')
+    parser.add_argument('--output-dir', type=str, default=None,
+                        help='Output directory (default: /scratch/x3415a02/data/llm-addiction/investment_choice)')
 
     args = parser.parse_args()
 
@@ -489,7 +495,8 @@ def main():
         args.model,
         args.gpu,
         args.bet_type,
-        args.constraint
+        args.constraint,
+        output_dir=args.output_dir
     )
     experiment.run_experiment(quick_mode=args.quick)
 

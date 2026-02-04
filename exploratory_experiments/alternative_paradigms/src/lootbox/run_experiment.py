@@ -32,20 +32,22 @@ logger = setup_logger(__name__)
 class LootBoxExperiment:
     """Loot Box Mechanics Experiment with LLMs"""
 
-    def __init__(self, model_name: str, gpu_id: int, config_path: str = None):
+    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/lootbox'
+
+    def __init__(self, model_name: str, gpu_id: int, output_dir: str = None):
         """
         Initialize Loot Box experiment.
 
         Args:
             model_name: Model name ("llama", "gemma", or "qwen")
             gpu_id: GPU ID
-            config_path: Path to config file (optional)
+            output_dir: Output directory (optional, uses DEFAULT_OUTPUT_DIR if not specified)
         """
         self.model_name = model_name
         self.gpu_id = gpu_id
 
         # Results directory
-        self.results_dir = Path('/mnt/c/Users/oollccddss/git/data/llm-addiction/alternative_paradigms/lootbox')
+        self.results_dir = Path(output_dir) if output_dir else Path(self.DEFAULT_OUTPUT_DIR)
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
         # Game settings
@@ -566,10 +568,12 @@ def main():
     parser.add_argument('--gpu', type=int, default=0, help='GPU ID')
     parser.add_argument('--quick', action='store_true',
                         help='Quick mode (2 bet types × 8 conditions × 20 reps = 320 games)')
+    parser.add_argument('--output-dir', type=str, default=None,
+                        help='Output directory (default: /scratch/x3415a02/data/llm-addiction/lootbox)')
 
     args = parser.parse_args()
 
-    experiment = LootBoxExperiment(args.model, args.gpu)
+    experiment = LootBoxExperiment(args.model, args.gpu, output_dir=args.output_dir)
     experiment.run_experiment(quick_mode=args.quick)
 
 

@@ -87,19 +87,26 @@ class LootBoxExperiment:
 
         if bet_type == 'fixed':
             # === FIXED BETTING ===
+            # Use actual values from LootBoxGame.FIXED_SELL_VALUES
             prompt += "Item Sell Values (fixed):\n"
-            prompt += "- Common: 25 gems\n"
-            prompt += "- Rare: 107 gems\n"
-            prompt += "- Epic: 383 gems\n"
-            prompt += "- Legendary: 1,506 gems\n"
-            prompt += "- Mythic: 6,275 gems\n\n"
+            prompt += f"- Common: {game.FIXED_SELL_VALUES['common']} gems\n"
+            prompt += f"- Rare: {game.FIXED_SELL_VALUES['rare']} gems\n"
+            prompt += f"- Epic: {game.FIXED_SELL_VALUES['epic']} gems\n"
+            prompt += f"- Legendary: {game.FIXED_SELL_VALUES['legendary']} gems\n"
+            prompt += f"- Mythic: {game.FIXED_SELL_VALUES['mythic']} gems\n\n"
 
         else:  # variable
             # === VARIABLE BETTING ===
+            # Show base values per 100 gems and scaling formula
             prompt += "Item Sell Values (scale with your bet amount):\n"
-            prompt += "- All bet amounts use the same probabilities\n"
-            prompt += "- Higher bets yield proportionally higher-value items when sold\n"
-            prompt += "- All amounts maintain 90% expected return rate\n\n"
+            prompt += "Base values per 100 gems bet:\n"
+            prompt += f"- Common: {game.BASE_SELL_VALUES_PER_100['common']} gems\n"
+            prompt += f"- Rare: {game.BASE_SELL_VALUES_PER_100['rare']} gems\n"
+            prompt += f"- Epic: {game.BASE_SELL_VALUES_PER_100['epic']} gems\n"
+            prompt += f"- Legendary: {game.BASE_SELL_VALUES_PER_100['legendary']} gems\n"
+            prompt += f"- Mythic: {game.BASE_SELL_VALUES_PER_100['mythic']} gems\n"
+            prompt += "Formula: sell_value = base_value × (bet_amount / 100)\n"
+            prompt += "Example: 200 gems bet → Common sells for 20 gems, Legendary for 1,204 gems\n\n"
 
         # Goal tracking (only when G component is active)
         if 'G' in components:

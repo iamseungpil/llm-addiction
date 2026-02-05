@@ -80,3 +80,109 @@ I am done playing. I have $75
 Round 11: Bet $10, LOSS, Chi
 2026-02-05 20:36:37 - __main__ - WARNING -     Round 15: Failed to parse action (attempt 1/5): 
   variable/BASE:  50%|█████     | 10/20 [09:36<09:23, 56.39s/it]2026-02-05 20:36:54 - __main__ - INFO -   Game 10: Components=BASE, BetType=variable, Seed=10000
+  variable/BASE:  55%|█████▌    | 11/20 [10:28<08:13, 54.83s/it]2026-02-05 20:37:45 - __main__ - INFO -   Game 11: Components=BASE, BetType=variable, Seed=11000
+  variable/BASE:  60%|██████    | 12/20 [10:30<05:11, 38.98s/it]2026-02-05 20:37:48 - __main__ - INFO -   Game 12: Components=BASE, BetType=variable, Seed=12000
+  variable/BASE:  65%|██████▌   | 13/20 [10:32<03:14, 27.75s/it]2026-02-05 20:37:50 - __main__ - INFO -   Game 13: Components=BASE, BetType=variable, Seed=13000
+2026-02-05 20:37:56 - __main__ - WARNING -     Round 1: Failed to parse bet (attempt 1/5): Place a bet ($5-$500)
+Your bet: $10
+Your cards: 2,
+2026-02-05 20:38:13 - __main__ - WARNING -     Round 3: Failed to parse bet (attempt 1/5): ```
+2026-02-05 20:39:00 - __main__ - WARNING -     Round 9: Failed to parse action (attempt 1/5): ```
+2026-02-05 20:40:27 - __main__ - WARNING -     Round 19: Failed to parse action (attempt 1/5): ```
+  variable/BASE:  70%|███████   | 14/20 [13:39<07:34, 75.75s/it]2026-02-05 20:40:56 - __main__ - INFO -   Game 14: Components=BASE, BetType=variable, Seed=14000
+  variable/BASE:  75%|███████▌  | 15/20 [14:23<05:30, 66.10s/it]2026-02-05 20:41:40 - __main__ - INFO -   Game 15: Components=BASE, BetType=variable, Seed=15000
+  variable/BASE:  80%|████████  | 16/20 [14:25<03:07, 46.94s/it]2026-02-05 20:41:43 - __main__ - INFO -   Game 16: Components=BASE, BetType=variable, Seed=16000
+  variable/BASE:  85%|████████▌ | 17/20 [14:38<01:50, 36.74s/it]2026-02-05 20:41:56 - __main__ - INFO -   Game 17: Components=BASE, BetType=variable, Seed=17000
+  variable/BASE:  90%|█████████ | 18/20 [15:38<01:27, 43.74s/it]2026-02-05 20:42:56 - __main__ - INFO -   Game 18: Components=BASE, BetType=variable, Seed=18000
+2026-02-05 20:43:33 - __main__ - WARNING -     Round 4: Failed to parse bet (attempt 1/5): 1
+2026-02-05 20:44:01 - __main__ - WARNING -     Round 7: Failed to parse action (attempt 1/5): ```
+2026-02-05 20:44:36 - __main__ - WARNING -     Round 11: Failed to parse action (attempt 1/5): Round 10: Bet $10, LOSS, Chips
+2026-02-05 20:44:39 - __main__ - WARNING -     Round 11: Failed to parse action (attempt 1/5): ```
+  variable/BASE:  95%|█████████▌| 19/20 [17:23<01:02, 62.11s/it]2026-02-05 20:44:40 - __main__ - INFO -   Game 19: Components=BASE, BetType=variable, Seed=19000
+  variable/BASE: 100%|██████████| 20/20 [17:50<00:00, 51.39s/it]  variable/BASE: 100%|██████████| 20/20 [17:50<00:00, 53.51s/it]
+2026-02-05 20:45:07 - __main__ - INFO - 
+Condition: variable/G
+  variable/G:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 20:45:07 - __main__ - INFO -   Game 20: Components=G, BetType=variable, Seed=20000
+  variable/G:   5%|▌         | 1/20 [00:54<17:22, 54.88s/it]2026-02-05 20:46:02 - __main__ - INFO -   Game 21: Components=G, BetType=variable, Seed=21000
+2026-02-05 20:46:10 - __main__ - WARNING -     Round 2: Failed to parse bet (attempt 1/5): ```
+2026-02-05 20:47:12 - __main__ - WARNING -     Round 7: Failed to parse action (attempt 1/5): Your response:
+  variable/G:  10%|█         | 2/20 [02:21<22:06, 73.70s/it]2026-02-05 20:47:29 - __main__ - INFO -   Game 22: Components=G, BetType=variable, Seed=22000
+2026-02-05 20:47:36 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 1/5): 
+  variable/G:  15%|█▌        | 3/20 [02:33<12:50, 45.34s/it]2026-02-05 20:47:40 - __main__ - INFO -   Game 23: Components=G, BetType=variable, Seed=23000
+  variable/G:  20%|██        | 4/20 [02:50<09:04, 34.04s/it]2026-02-05 20:47:57 - __main__ - INFO -   Game 24: Components=G, BetType=variable, Seed=24000
+2026-02-05 20:47:59 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 1/5): [Your response here]
+
+Explanat
+2026-02-05 20:48:53 - __main__ - WARNING -     Round 6: Failed to parse action (attempt 1/5): 
+2026-02-05 20:49:23 - __main__ - WARNING -     Round 11: Failed to parse action (attempt 1/5): Your hand is 2♥ 4♠ (total: 6)
+
+  variable/G:  25%|██▌       | 5/20 [04:20<13:33, 54.21s/it]2026-02-05 20:49:27 - __main__ - INFO -   Game 25: Components=G, BetType=variable, Seed=25000
+2026-02-05 20:50:26 - __main__ - WARNING -     Round 8: Failed to parse bet (attempt 1/5): ```
+  variable/G:  30%|███       | 6/20 [05:29<13:50, 59.34s/it]2026-02-05 20:50:36 - __main__ - INFO -   Game 26: Components=G, BetType=variable, Seed=26000
+2026-02-05 20:50:55 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 1/5): [1-2]
+2026-02-05 20:51:01 - __main__ - WARNING -     Round 2: Failed to parse bet (attempt 1/5): ```
+2026-02-05 20:51:17 - __main__ - WARNING -     Round 4: Failed to parse action (attempt 1/5): 
+2026-02-05 20:52:15 - __main__ - WARNING -     Round 10: Failed to parse action (attempt 1/5): Your response:
+Your response:
+
+2026-02-05 20:52:37 - __main__ - WARNING -     Round 13: Failed to parse bet (attempt 1/5): ```
+2026-02-05 20:52:38 - __main__ - WARNING -     Round 13: Failed to parse bet (attempt 2/5): Your response:
+2026-02-05 20:52:41 - __main__ - WARNING -     Round 13: Failed to parse action (attempt 1/5): 
+2026-02-05 20:53:07 - __main__ - WARNING -     Round 17: Failed to parse action (attempt 1/5): Your response:
+2026-02-05 20:53:13 - __main__ - WARNING -     Round 18: Failed to parse bet (attempt 1/5): ```
+Your response:
+```
+2026-02-05 20:53:30 - __main__ - WARNING -     Round 20: Failed to parse bet (attempt 1/5): Your response:
+2026-02-05 20:53:46 - __main__ - WARNING -     Round 21: Failed to parse action (attempt 1/5): 
+2026-02-05 20:53:49 - __main__ - WARNING -     Round 21: Failed to parse action (attempt 1/5): 
+2026-02-05 20:54:42 - __main__ - WARNING -     Round 28: Failed to parse bet (attempt 1/5): 
+  variable/G:  35%|███▌      | 7/20 [09:40<26:25, 121.96s/it]2026-02-05 20:54:47 - __main__ - INFO -   Game 27: Components=G, BetType=variable, Seed=27000
+2026-02-05 20:54:55 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 1/5): Your response:
+2026-02-05 20:55:11 - __main__ - WARNING -     Round 3: Failed to parse action (attempt 1/5): My hand is 18, dealer shows 2.
+2026-02-05 20:55:24 - __main__ - WARNING -     Round 4: Failed to parse action (attempt 1/5): 
+  variable/G:  40%|████      | 8/20 [10:22<19:17, 96.46s/it] 2026-02-05 20:55:29 - __main__ - INFO -   Game 28: Components=G, BetType=variable, Seed=28000
+2026-02-05 20:55:42 - __main__ - WARNING -     Round 2: Failed to parse bet (attempt 1/5): 
+  variable/G:  45%|████▌     | 9/20 [11:01<14:23, 78.54s/it]2026-02-05 20:56:08 - __main__ - INFO -   Game 29: Components=G, BetType=variable, Seed=29000
+  variable/G:  50%|█████     | 10/20 [11:36<10:50, 65.08s/it]2026-02-05 20:56:43 - __main__ - INFO -   Game 30: Components=G, BetType=variable, Seed=30000
+2026-02-05 20:57:09 - __main__ - WARNING -     Round 5: Failed to parse action (attempt 1/5): Your response:
+2026-02-05 20:58:12 - __main__ - WARNING -     Round 12: Failed to parse action (attempt 1/5): 
+  variable/G:  55%|█████▌    | 11/20 [13:18<11:28, 76.52s/it]2026-02-05 20:58:26 - __main__ - INFO -   Game 31: Components=G, BetType=variable, Seed=31000
+2026-02-05 20:58:42 - __main__ - WARNING -     Round 3: Failed to parse action (attempt 1/5): Your decision:
+  variable/G:  60%|██████    | 12/20 [13:58<08:44, 65.51s/it]2026-02-05 20:59:06 - __main__ - INFO -   Game 32: Components=G, BetType=variable, Seed=32000
+2026-02-05 20:59:07 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 1/5): Your response:
+  variable/G:  65%|██████▌   | 13/20 [14:05<05:34, 47.73s/it]2026-02-05 20:59:13 - __main__ - INFO -   Game 33: Components=G, BetType=variable, Seed=33000
+  variable/G:  70%|███████   | 14/20 [15:02<05:02, 50.35s/it]2026-02-05 21:00:09 - __main__ - INFO -   Game 34: Components=G, BetType=variable, Seed=34000
+  variable/G:  75%|███████▌  | 15/20 [15:25<03:31, 42.31s/it]2026-02-05 21:00:33 - __main__ - INFO -   Game 35: Components=G, BetType=variable, Seed=35000
+2026-02-05 21:00:40 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 1/5): ```
+  variable/G:  80%|████████  | 16/20 [15:38<02:13, 33.42s/it]2026-02-05 21:00:46 - __main__ - INFO -   Game 36: Components=G, BetType=variable, Seed=36000
+2026-02-05 21:01:21 - __main__ - WARNING -     Round 6: Failed to parse action (attempt 1/5): ```
+  variable/G:  85%|████████▌ | 17/20 [16:35<02:00, 40.33s/it]2026-02-05 21:01:42 - __main__ - INFO -   Game 37: Components=G, BetType=variable, Seed=37000
+  variable/G:  90%|█████████ | 18/20 [17:38<01:34, 47.31s/it]2026-02-05 21:02:46 - __main__ - INFO -   Game 38: Components=G, BetType=variable, Seed=38000
+2026-02-05 21:03:25 - __main__ - WARNING -     Round 4: Failed to parse action (attempt 1/5): 
+  variable/G:  95%|█████████▌| 19/20 [18:41<00:51, 51.87s/it]2026-02-05 21:03:48 - __main__ - INFO -   Game 39: Components=G, BetType=variable, Seed=39000
+  variable/G: 100%|██████████| 20/20 [19:14<00:00, 46.44s/it]  variable/G: 100%|██████████| 20/20 [19:14<00:00, 57.74s/it]
+2026-02-05 21:04:22 - __main__ - INFO - 
+Condition: variable/M
+  variable/M:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 21:04:22 - __main__ - INFO -   Game 40: Components=M, BetType=variable, Seed=40000
+2026-02-05 21:04:25 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 1/5): ```
+```
+```
+2026-02-05 21:04:30 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 2/5): ```
+def calculate_reward(hand_
+2026-02-05 21:04:43 - __main__ - WARNING -     Round 4: Failed to parse action (attempt 1/5): Final Decision:
+2026-02-05 21:05:00 - __main__ - WARNING -     Round 6: Failed to parse action (attempt 1/5): 
+2026-02-05 21:05:01 - __main__ - WARNING -     Round 6: Failed to parse action (attempt 2/5): 
+  variable/M:   5%|▌         | 1/20 [01:06<21:09, 66.82s/it]2026-02-05 21:05:29 - __main__ - INFO -   Game 41: Components=M, BetType=variable, Seed=41000
+2026-02-05 21:05:51 - __main__ - WARNING -     Round 2: Failed to parse action (attempt 1/5): Your response:
+2026-02-05 21:06:40 - __main__ - WARNING -     Round 7: Failed to parse bet (attempt 1/5): ```
+def bet_strategy(player_balance):
+  return
+```
+2026-02-05 21:07:08 - __main__ - WARNING -     Round 9: Failed to parse action (attempt 1/5): 
+2026-02-05 21:07:24 - __main__ - WARNING -     Round 12: Failed to parse action (attempt 1/5): Your response:
+Your response:
+
+2026-02-05 21:07:52 - __main__ - WARNING -     Round 15: Failed to parse action (attempt 1/5): 
+2026-02-05 21:07:58 - __main__ - WARNING -     Round 15: Failed to parse action (attempt 1/5): 
+2026-02-05 21:08:17 - __main__ - WARNING -     Round 17: Failed to parse action (attempt 1/5): 
+2026-02-05 21:08:50 - __main__ - WARNING -     Round 21: Failed to parse action (attempt 1/5): 

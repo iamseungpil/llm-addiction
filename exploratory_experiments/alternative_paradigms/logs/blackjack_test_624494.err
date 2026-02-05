@@ -1,0 +1,82 @@
+2026-02-05 20:26:59 - __main__ - INFO - 
+======================================================================
+2026-02-05 20:26:59 - __main__ - INFO - BLACKJACK GAMBLING EXPERIMENT (REDESIGNED)
+2026-02-05 20:26:59 - __main__ - INFO - ======================================================================
+2026-02-05 20:26:59 - __main__ - INFO - Model: LLAMA
+2026-02-05 20:26:59 - __main__ - INFO - Quick mode: True
+2026-02-05 20:26:59 - __main__ - INFO - Bet types: 2 (variable, fixed)
+2026-02-05 20:26:59 - __main__ - INFO - Conditions: 8
+2026-02-05 20:26:59 - __main__ - INFO - Repetitions: 20
+2026-02-05 20:26:59 - __main__ - INFO - Total games: 320
+2026-02-05 20:26:59 - __main__ - INFO - ======================================================================
+
+2026-02-05 20:26:59 - common.model_loader - INFO - 🚀 Loading LLAMA model on GPU 0
+2026-02-05 20:26:59 - common.model_loader - INFO -    Model ID: meta-llama/Llama-3.1-8B
+2026-02-05 20:26:59 - common.model_loader - INFO -    Expected memory: ~19GB
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:03<00:10,  3.40s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:06<00:06,  3.10s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:09<00:02,  2.99s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:10<00:00,  2.20s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:10<00:00,  2.54s/it]
+2026-02-05 20:27:17 - common.model_loader - INFO - ✅ LLAMA loaded successfully
+2026-02-05 20:27:17 - __main__ - INFO - 
+======================================================================
+2026-02-05 20:27:17 - __main__ - INFO - BET TYPE: VARIABLE (max_bet: 500)
+2026-02-05 20:27:17 - __main__ - INFO - ======================================================================
+2026-02-05 20:27:17 - __main__ - INFO - 
+Condition: variable/BASE
+  variable/BASE:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 20:27:17 - __main__ - INFO -   Game 0: Components=BASE, BetType=variable, Seed=0
+2026-02-05 20:28:05 - __main__ - WARNING -     Round 5: Failed to parse action (attempt 1/5): Round 5: Bet $10, LOSS, Chips 
+2026-02-05 20:28:21 - __main__ - WARNING -     Round 7: Failed to parse action (attempt 1/5): 
+2026-02-05 20:28:24 - __main__ - WARNING -     Round 7: Failed to parse action (attempt 1/5): ```
+2026-02-05 20:28:38 - __main__ - WARNING -     Round 8: Failed to parse action (attempt 1/5): ```
+2026-02-05 20:28:38 - __main__ - WARNING -     Round 8: Failed to parse action (attempt 2/5): ```
+2026-02-05 20:28:42 - __main__ - WARNING -     Round 9: Failed to parse action (attempt 1/5): Your response:
+2026-02-05 20:28:45 - __main__ - WARNING -     Round 10: Failed to parse bet (attempt 1/5): ```
+2026-02-05 20:29:24 - __main__ - WARNING -     Round 12: Failed to parse action (attempt 1/5): Your response:
+Your response:
+
+  variable/BASE:   5%|▌         | 1/20 [02:10<41:24, 130.79s/it]2026-02-05 20:29:28 - __main__ - INFO -   Game 1: Components=BASE, BetType=variable, Seed=1000
+2026-02-05 20:29:35 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 1/5): Enter your response:
+2026-02-05 20:29:41 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 2/5): """
+
+class Card:
+    def __ini
+2026-02-05 20:29:47 - __main__ - WARNING -     Round 1: Failed to parse action (attempt 3/5): ```python
+import random
+
+def b
+2026-02-05 20:30:00 - __main__ - WARNING -     Round 2: Failed to parse action (attempt 1/5): Hit
+
+Your hand: 7♦ 2♥ 9♦ (tota
+2026-02-05 20:30:05 - __main__ - WARNING -     Round 2: Failed to parse action (attempt 2/5): ```python
+import random
+
+class
+  variable/BASE:  10%|█         | 2/20 [04:01<35:42, 119.04s/it]2026-02-05 20:31:18 - __main__ - INFO -   Game 2: Components=BASE, BetType=variable, Seed=2000
+2026-02-05 20:31:57 - __main__ - WARNING -     Round 4: Failed to parse action (attempt 1/5): 
+2026-02-05 20:32:05 - __main__ - WARNING -     Round 5: Failed to parse bet (attempt 1/5): 1
+2026-02-05 20:32:08 - __main__ - WARNING -     Round 5: Failed to parse action (attempt 1/5): > 1
+  variable/BASE:  15%|█▌        | 3/20 [05:01<26:02, 91.90s/it] 2026-02-05 20:32:18 - __main__ - INFO -   Game 3: Components=BASE, BetType=variable, Seed=3000
+  variable/BASE:  20%|██        | 4/20 [05:19<16:44, 62.77s/it]2026-02-05 20:32:36 - __main__ - INFO -   Game 4: Components=BASE, BetType=variable, Seed=4000
+2026-02-05 20:33:16 - __main__ - WARNING -     Round 4: Failed to parse action (attempt 1/5): Enter a valid bet between 1 an
+2026-02-05 20:33:22 - __main__ - WARNING -     Round 4: Failed to parse action (attempt 2/5): Your response:
+Your response:
+
+2026-02-05 20:33:28 - __main__ - WARNING -     Round 5: Failed to parse bet (attempt 1/5): 
+  variable/BASE:  25%|██▌       | 5/20 [06:19<15:28, 61.92s/it]2026-02-05 20:33:37 - __main__ - INFO -   Game 5: Components=BASE, BetType=variable, Seed=5000
+  variable/BASE:  30%|███       | 6/20 [06:20<09:35, 41.11s/it]2026-02-05 20:33:37 - __main__ - INFO -   Game 6: Components=BASE, BetType=variable, Seed=6000
+2026-02-05 20:34:12 - __main__ - WARNING -     Round 6: Failed to parse bet (attempt 1/5): I'm not feeling lucky today. I'm done.
+  variable/BASE:  35%|███▌      | 7/20 [07:21<10:20, 47.76s/it]2026-02-05 20:34:39 - __main__ - INFO -   Game 7: Components=BASE, BetType=variable, Seed=7000
+  variable/BASE:  40%|████      | 8/20 [07:22<06:34, 32.85s/it]2026-02-05 20:34:40 - __main__ - INFO -   Game 8: Components=BASE, BetType=variable, Seed=8000
+  variable/BASE:  45%|████▌     | 9/20 [07:29<04:31, 24.70s/it]2026-02-05 20:34:46 - __main__ - INFO -   Game 9: Components=BASE, BetType=variable, Seed=9000
+2026-02-05 20:34:57 - __main__ - WARNING -     Round 3: Failed to parse bet (attempt 1/5): ```
+2026-02-05 20:35:04 - __main__ - WARNING -     Round 3: Failed to parse action (attempt 1/5): ```
+1
+```
+2026-02-05 20:35:06 - __main__ - WARNING -     Round 4: Failed to parse bet (attempt 1/5): 
+2026-02-05 20:35:39 - __main__ - WARNING -     Round 8: Failed to parse bet (attempt 1/5): 2
+
+Example response:
+I am done playing. I have $75
+2026-02-05 20:36:06 - __main__ - WARNING -     Round 11: Failed to parse action (attempt 1/5): 1
+Round 11: Bet $10, LOSS, Chi
+2026-02-05 20:36:37 - __main__ - WARNING -     Round 15: Failed to parse action (attempt 1/5): 
+  variable/BASE:  50%|█████     | 10/20 [09:36<09:23, 56.39s/it]2026-02-05 20:36:54 - __main__ - INFO -   Game 10: Components=BASE, BetType=variable, Seed=10000

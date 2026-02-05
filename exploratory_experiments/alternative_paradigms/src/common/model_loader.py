@@ -94,16 +94,62 @@ class ModelLoader:
 
         logger.info(f"✅ {self.model_name.upper()} loaded successfully")
 
+    # Invalid response patterns for Base models
+    INVALID_PATTERNS = [
+        'do not include',
+        'do not use',
+        'do not type',
+        'do not end',
+        'no other information',
+        'no other text',
+        'no other formatting',
+        'this will be used',
+        'this will help',
+        'this line will',
+        'you will be graded',
+        'you will receive',
+        'you will not receive',
+        'you must do this',
+        'your response will',
+        'your response must',
+        'your response should',
+        'if you do not',
+        'if you have any questions',
+        '(optional)',
+        '(e.g.,',
+        'where x is',
+    ]
+
+    def _is_invalid_response(self, text: str) -> bool:
+        """Check if response matches known invalid patterns (Base model artifacts)."""
+        text_lower = text.lower().strip()
+
+        # Empty or too short
+        if len(text_lower) < 3:
+            return True
+
+        # Just punctuation
+        if text_lower in ['.', '..', '...', ',', '!', '?']:
+            return True
+
+        # Starts with invalid patterns (prompt continuation)
+        for pattern in self.INVALID_PATTERNS:
+            if text_lower.startswith(pattern):
+                return True
+
+        return False
+
     def generate(
         self,
         prompt: str,
         max_new_tokens: int = 100,
         temperature: float = 0.7,
         top_p: float = 0.9,
-        do_sample: bool = True
+        do_sample: bool = True,
+        max_retries: int = 3
     ) -> str:
         """
-        Generate text from prompt.
+        Generate text from prompt with automatic retry for invalid responses.
 
         Args:
             prompt: Input prompt
@@ -111,6 +157,7 @@ class ModelLoader:
             temperature: Sampling temperature
             top_p: Nucleus sampling parameter
             do_sample: Whether to use sampling
+            max_retries: Maximum retries for invalid responses (Base model)
 
         Returns:
             Generated text
@@ -138,25 +185,38 @@ class ModelLoader:
             max_length=2048
         ).to(self.device)
 
-        # Generate
-        with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature,
-                top_p=top_p,
-                do_sample=do_sample,
-                pad_token_id=self.tokenizer.eos_token_id,
-                eos_token_id=self.tokenizer.eos_token_id
-            )
+        # Generate with retry for invalid responses
+        for attempt in range(max_retries):
+            with torch.no_grad():
+                # Increase temperature slightly on retries for diversity
+                current_temp = temperature + (attempt * 0.1)
 
-        # Decode
-        generated_text = self.tokenizer.decode(
-            outputs[0][inputs['input_ids'].shape[1]:],
-            skip_special_tokens=True
-        )
+                outputs = self.model.generate(
+                    **inputs,
+                    max_new_tokens=max_new_tokens,
+                    temperature=min(current_temp, 1.0),
+                    top_p=top_p,
+                    do_sample=do_sample,
+                    pad_token_id=self.tokenizer.eos_token_id,
+                    eos_token_id=self.tokenizer.eos_token_id
+                )
 
-        return generated_text.strip()
+            # Decode
+            generated_text = self.tokenizer.decode(
+                outputs[0][inputs['input_ids'].shape[1]:],
+                skip_special_tokens=True
+            ).strip()
+
+            # Check if valid response (skip check for Instruct models)
+            if self.config['chat_template'] or not self._is_invalid_response(generated_text):
+                return generated_text
+
+            # Log retry for Base models
+            if attempt < max_retries - 1:
+                logger.debug(f"Invalid response (attempt {attempt + 1}), retrying: {generated_text[:30]}...")
+
+        # Return last attempt even if invalid
+        return generated_text
 
     def generate_with_hidden_states(
         self,

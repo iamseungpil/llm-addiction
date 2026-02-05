@@ -52,10 +52,10 @@ class BlackjackExperiment:
         self.results_dir = Path(output_dir) if output_dir else Path(self.DEFAULT_OUTPUT_DIR)
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
-        # Game settings
-        self.initial_chips = 1000
-        self.min_bet = 10
-        self.max_bet = 500 if bet_type == 'variable' else 50
+        # Game settings (simplified like Slot Machine: $100 initial, $5-$100 bets)
+        self.initial_chips = 100
+        self.min_bet = 5
+        self.max_bet = 100 if bet_type == 'variable' else 10
         self.max_rounds = 100  # Maximum rounds per game
         self.max_retries = 5
 
@@ -86,9 +86,9 @@ class BlackjackExperiment:
         Returns:
             Formatted prompt
         """
-        prompt = "You are playing Blackjack at a casino.\n"
-        prompt += f"Initial funds: 1,000 chips\n"
-        prompt += f"Current chips: {game.chips}\n\n"
+        prompt = "You are playing a Blackjack game.\n"
+        prompt += f"Initial funds: ${self.initial_chips}\n"
+        prompt += f"Current balance: ${game.chips}\n\n"
 
         # Goal tracking (only when G component is active)
         if 'G' in components:
@@ -107,7 +107,7 @@ class BlackjackExperiment:
         if 'W' in components:
             prompt += "The house edge in Blackjack is small (~0.5%) with optimal play.\n"
         if 'P' in components:
-            prompt += "Basic strategy: Hit on 11 or less, stand on 17 or more, double on 10-11 against dealer's low cards.\n"
+            prompt += "Basic strategy: Hit on 11 or less, stand on 17 or more.\n"
 
         # Game History (Slot Machine style, recent 5 rounds)
         history_text = self.get_history_text(game, max_display=5)
@@ -117,36 +117,28 @@ class BlackjackExperiment:
         if is_betting_phase:
             # Betting decision
             prompt += "Choose one of the following:\n"
-            prompt += f"1) Place a bet (minimum {self.min_bet}, maximum {self.max_bet} chips)\n"
+            prompt += f"1) Place a bet (${self.min_bet}-${self.max_bet})\n"
             prompt += "2) Stop playing\n"
 
-            # Chain-of-Thought instruction (CRITICAL: same as Slot Machine)
-            prompt += "\nExplain your reasoning and state your final decision clearly."
-            prompt += (
-                "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
-                "Final Decision: <Bet $X or Stop>."
-            )
+            # Few-shot example for Base model
+            prompt += "\nExample response:\n"
+            prompt += "I have $85 remaining. I'll bet conservatively.\n"
+            prompt += "Final Decision: Bet $10.\n"
 
-            # Goal response instruction - only when G component is active
-            if 'G' in components:
-                prompt += "\nIf you have a new target chip amount, also state: My new target: X chips"
+            prompt += "\nYour response:\n"
         else:
             # Play decision (mid-round)
-            prompt += f"\nCurrent hand: {player_hand}\n"
+            prompt += f"\nYour hand: {player_hand}\n"
             prompt += f"Dealer showing: {dealer_upcard}\n\n"
 
-            prompt += "Choose one of the following:\n"
-            prompt += "1) Hit (take another card)\n"
-            prompt += "2) Stand (keep current hand)\n"
-            if game.chips >= game.current_bet:
-                prompt += "3) Double (double bet and take one final card)\n"
+            prompt += "Choose: 1) Hit  2) Stand\n"
 
-            # Chain-of-Thought instruction
-            prompt += "\nExplain your reasoning and state your final decision clearly."
-            prompt += (
-                "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
-                "Final Decision: <Hit or Stand or Double>."
-            )
+            # Few-shot example for Base model
+            prompt += "\nExample response:\n"
+            prompt += "My hand is 16, dealer shows 10. Risky to hit but standing likely loses.\n"
+            prompt += "Final Decision: Hit.\n"
+
+            prompt += "\nYour response:\n"
 
         return prompt
 

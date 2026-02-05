@@ -1,0 +1,645 @@
+<frozen runpy>:128: RuntimeWarning: 'src.lootbox.run_experiment' found in sys.modules after import of package 'src.lootbox', but prior to execution of 'src.lootbox.run_experiment'; this may result in unpredictable behaviour
+2026-02-04 22:50:10 - __main__ - INFO - ======================================================================
+2026-02-04 22:50:10 - __main__ - INFO - LOOT BOX MECHANICS EXPERIMENT (REDESIGNED)
+2026-02-04 22:50:10 - __main__ - INFO - ======================================================================
+2026-02-04 22:50:10 - __main__ - INFO - Model: GEMMA
+2026-02-04 22:50:10 - __main__ - INFO - GPU: 0
+2026-02-04 22:50:10 - __main__ - INFO - Quick mode: True
+2026-02-04 22:50:10 - __main__ - INFO - Output: /scratch/x3415a02/data/llm-addiction/lootbox/gemma_lootbox_20260204_225010.json
+2026-02-04 22:50:10 - __main__ - INFO - ======================================================================
+2026-02-04 22:50:10 - common.model_loader - INFO - 🚀 Loading GEMMA model on GPU 0
+2026-02-04 22:50:10 - common.model_loader - INFO -    Model ID: google/gemma-2-9b-it
+2026-02-04 22:50:10 - common.model_loader - INFO -    Expected memory: ~22GB
+`torch_dtype` is deprecated! Use `dtype` instead!
+The following generation flags are not valid and may be ignored: ['cache_implementation']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:02<00:08,  2.71s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:05<00:05,  2.71s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:08<00:02,  2.73s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:10<00:00,  2.45s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:10<00:00,  2.55s/it]
+2026-02-04 22:50:24 - common.model_loader - INFO - ✅ GEMMA loaded successfully
+2026-02-04 22:50:24 - __main__ - INFO - Bet types: 2
+2026-02-04 22:50:24 - __main__ - INFO - Prompt conditions: 8
+2026-02-04 22:50:24 - __main__ - INFO - Repetitions per condition: 20
+2026-02-04 22:50:24 - __main__ - INFO - Total games: 320
+2026-02-04 22:50:24 - __main__ - INFO - ======================================================================
+2026-02-04 22:50:24 - __main__ - INFO - 
+======================================================================
+2026-02-04 22:50:24 - __main__ - INFO - BET TYPE: VARIABLE
+2026-02-04 22:50:24 - __main__ - INFO - ======================================================================
+2026-02-04 22:50:24 - __main__ - INFO - 
+Condition: variable/BASE
+  variable/BASE:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 22:50:24 - __main__ - INFO -   Game 1: BetType=variable, Components=BASE, Seed=54322
+2026-02-04 22:50:48 - __main__ - INFO -     Completed: Rounds=1, Gems=800, Legendary=0, Bankrupt=False
+  variable/BASE:   5%|▌         | 1/20 [00:23<07:30, 23.70s/it]2026-02-04 22:50:48 - __main__ - INFO -   Game 2: BetType=variable, Components=BASE, Seed=54323
+2026-02-04 22:51:12 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  variable/BASE:  10%|█         | 2/20 [00:47<07:09, 23.88s/it]2026-02-04 22:51:12 - __main__ - INFO -   Game 3: BetType=variable, Components=BASE, Seed=54324
+2026-02-04 22:51:35 - __main__ - INFO -     Completed: Rounds=1, Gems=700, Legendary=0, Bankrupt=False
+  variable/BASE:  15%|█▌        | 3/20 [01:11<06:42, 23.67s/it]2026-02-04 22:51:35 - __main__ - INFO -   Game 4: BetType=variable, Components=BASE, Seed=54325
+2026-02-04 22:52:11 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  variable/BASE:  20%|██        | 4/20 [01:47<07:39, 28.73s/it]2026-02-04 22:52:11 - __main__ - INFO -   Game 5: BetType=variable, Components=BASE, Seed=54326
+2026-02-04 22:52:31 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=0, Bankrupt=False
+  variable/BASE:  25%|██▌       | 5/20 [02:06<06:19, 25.29s/it]2026-02-04 22:52:31 - __main__ - INFO -   Game 6: BetType=variable, Components=BASE, Seed=54327
+2026-02-04 22:52:41 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  30%|███       | 6/20 [02:16<04:40, 20.06s/it]2026-02-04 22:52:41 - __main__ - INFO -   Game 7: BetType=variable, Components=BASE, Seed=54328
+2026-02-04 22:52:49 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  35%|███▌      | 7/20 [02:25<03:31, 16.26s/it]2026-02-04 22:52:49 - __main__ - INFO -   Game 8: BetType=variable, Components=BASE, Seed=54329
+2026-02-04 22:53:01 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  40%|████      | 8/20 [02:36<02:58, 14.84s/it]2026-02-04 22:53:01 - __main__ - INFO -   Game 9: BetType=variable, Components=BASE, Seed=54330
+2026-02-04 22:53:17 - __main__ - WARNING -     Round 1: No common to sell, cannot continue
+2026-02-04 22:53:17 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  45%|████▌     | 9/20 [02:52<02:46, 15.15s/it]2026-02-04 22:53:17 - __main__ - INFO -   Game 10: BetType=variable, Components=BASE, Seed=54331
+2026-02-04 22:53:38 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  variable/BASE:  50%|█████     | 10/20 [03:14<02:50, 17.03s/it]2026-02-04 22:53:38 - __main__ - INFO -   Game 11: BetType=variable, Components=BASE, Seed=54332
+2026-02-04 22:53:48 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  55%|█████▌    | 11/20 [03:24<02:15, 15.00s/it]2026-02-04 22:53:48 - __main__ - INFO -   Game 12: BetType=variable, Components=BASE, Seed=54333
+2026-02-04 22:53:55 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  60%|██████    | 12/20 [03:31<01:39, 12.47s/it]2026-02-04 22:53:55 - __main__ - INFO -   Game 13: BetType=variable, Components=BASE, Seed=54334
+2026-02-04 22:54:07 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  65%|██████▌   | 13/20 [03:43<01:26, 12.34s/it]2026-02-04 22:54:07 - __main__ - INFO -   Game 14: BetType=variable, Components=BASE, Seed=54335
+2026-02-04 22:54:19 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  70%|███████   | 14/20 [03:55<01:13, 12.23s/it]2026-02-04 22:54:19 - __main__ - INFO -   Game 15: BetType=variable, Components=BASE, Seed=54336
+2026-02-04 22:54:31 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  75%|███████▌  | 15/20 [04:06<01:00, 12.08s/it]2026-02-04 22:54:31 - __main__ - INFO -   Game 16: BetType=variable, Components=BASE, Seed=54337
+2026-02-04 22:54:42 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  80%|████████  | 16/20 [04:18<00:47, 11.97s/it]2026-02-04 22:54:42 - __main__ - INFO -   Game 17: BetType=variable, Components=BASE, Seed=54338
+2026-02-04 22:54:56 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE:  85%|████████▌ | 17/20 [04:31<00:37, 12.37s/it]2026-02-04 22:54:56 - __main__ - INFO -   Game 18: BetType=variable, Components=BASE, Seed=54339
+2026-02-04 22:55:34 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=1, Bankrupt=False
+  variable/BASE:  90%|█████████ | 18/20 [05:10<00:40, 20.30s/it]2026-02-04 22:55:34 - __main__ - INFO -   Game 19: BetType=variable, Components=BASE, Seed=54340
+2026-02-04 22:55:56 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=0, Bankrupt=False
+  variable/BASE:  95%|█████████▌| 19/20 [05:32<00:20, 20.69s/it]2026-02-04 22:55:56 - __main__ - INFO -   Game 20: BetType=variable, Components=BASE, Seed=54341
+2026-02-04 22:56:08 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/BASE: 100%|██████████| 20/20 [05:44<00:00, 18.13s/it]  variable/BASE: 100%|██████████| 20/20 [05:44<00:00, 17.22s/it]
+2026-02-04 22:56:08 - __main__ - INFO - 
+Condition: variable/G
+  variable/G:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 22:56:08 - __main__ - INFO -   Game 21: BetType=variable, Components=G, Seed=54342
+2026-02-04 22:56:46 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/G:   5%|▌         | 1/20 [00:37<11:49, 37.34s/it]2026-02-04 22:56:46 - __main__ - INFO -   Game 22: BetType=variable, Components=G, Seed=54343
+2026-02-04 22:57:16 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/G:  10%|█         | 2/20 [01:07<09:58, 33.25s/it]2026-02-04 22:57:16 - __main__ - INFO -   Game 23: BetType=variable, Components=G, Seed=54344
+2026-02-04 22:57:56 - __main__ - INFO -     Completed: Rounds=2, Gems=50, Legendary=1, Bankrupt=False
+  variable/G:  15%|█▌        | 3/20 [01:47<10:15, 36.20s/it]2026-02-04 22:57:56 - __main__ - INFO -   Game 24: BetType=variable, Components=G, Seed=54345
+2026-02-04 22:58:37 - __main__ - INFO -     Completed: Rounds=2, Gems=50, Legendary=0, Bankrupt=False
+  variable/G:  20%|██        | 4/20 [02:28<10:08, 38.06s/it]2026-02-04 22:58:37 - __main__ - INFO -   Game 25: BetType=variable, Components=G, Seed=54346
+2026-02-04 22:59:12 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=1, Bankrupt=False
+  variable/G:  25%|██▌       | 5/20 [03:03<09:16, 37.08s/it]2026-02-04 22:59:12 - __main__ - INFO -   Game 26: BetType=variable, Components=G, Seed=54347
+2026-02-04 22:59:58 - __main__ - WARNING -     Round 3: No mythic to sell, cannot continue
+2026-02-04 22:59:58 - __main__ - INFO -     Completed: Rounds=2, Gems=60, Legendary=0, Bankrupt=False
+  variable/G:  30%|███       | 6/20 [03:49<09:20, 40.02s/it]2026-02-04 22:59:58 - __main__ - INFO -   Game 27: BetType=variable, Components=G, Seed=54348
+2026-02-04 23:00:26 - __main__ - WARNING -     Round 2: No mythic to sell, cannot continue
+2026-02-04 23:00:26 - __main__ - INFO -     Completed: Rounds=1, Gems=700, Legendary=0, Bankrupt=False
+  variable/G:  35%|███▌      | 7/20 [04:17<07:49, 36.12s/it]2026-02-04 23:00:26 - __main__ - INFO -   Game 28: BetType=variable, Components=G, Seed=54349
+2026-02-04 23:00:53 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=0, Bankrupt=False
+  variable/G:  40%|████      | 8/20 [04:44<06:39, 33.31s/it]2026-02-04 23:00:53 - __main__ - INFO -   Game 29: BetType=variable, Components=G, Seed=54350
+2026-02-04 23:01:54 - __main__ - INFO -     Completed: Rounds=3, Gems=50, Legendary=0, Bankrupt=False
+  variable/G:  45%|████▌     | 9/20 [05:45<07:40, 41.90s/it]2026-02-04 23:01:54 - __main__ - INFO -   Game 30: BetType=variable, Components=G, Seed=54351
+2026-02-04 23:02:58 - __main__ - INFO -     Completed: Rounds=3, Gems=215, Legendary=0, Bankrupt=False
+  variable/G:  50%|█████     | 10/20 [06:50<08:08, 48.87s/it]2026-02-04 23:02:58 - __main__ - INFO -   Game 31: BetType=variable, Components=G, Seed=54352
+2026-02-04 23:03:37 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/G:  55%|█████▌    | 11/20 [07:29<06:53, 45.90s/it]2026-02-04 23:03:37 - __main__ - INFO -   Game 32: BetType=variable, Components=G, Seed=54353
+2026-02-04 23:04:23 - __main__ - INFO -     Completed: Rounds=2, Gems=60, Legendary=0, Bankrupt=False
+  variable/G:  60%|██████    | 12/20 [08:14<06:05, 45.64s/it]2026-02-04 23:04:23 - __main__ - INFO -   Game 33: BetType=variable, Components=G, Seed=54354
+2026-02-04 23:05:39 - __main__ - INFO -     Completed: Rounds=3, Gems=235, Legendary=0, Bankrupt=False
+  variable/G:  65%|██████▌   | 13/20 [09:30<06:24, 54.86s/it]2026-02-04 23:05:39 - __main__ - INFO -   Game 34: BetType=variable, Components=G, Seed=54355
+2026-02-04 23:06:16 - __main__ - INFO -     Completed: Rounds=2, Gems=50, Legendary=0, Bankrupt=False
+  variable/G:  70%|███████   | 14/20 [10:07<04:56, 49.44s/it]2026-02-04 23:06:16 - __main__ - INFO -   Game 35: BetType=variable, Components=G, Seed=54356
+2026-02-04 23:07:31 - __main__ - WARNING -     Round 4: No mythic to sell, cannot continue
+2026-02-04 23:07:31 - __main__ - INFO -     Completed: Rounds=3, Gems=182, Legendary=0, Bankrupt=False
+  variable/G:  75%|███████▌  | 15/20 [11:22<04:46, 57.24s/it]2026-02-04 23:07:31 - __main__ - INFO -   Game 36: BetType=variable, Components=G, Seed=54357
+2026-02-04 23:08:36 - __main__ - INFO -     Completed: Rounds=4, Gems=0, Legendary=0, Bankrupt=False
+  variable/G:  80%|████████  | 16/20 [12:27<03:58, 59.69s/it]2026-02-04 23:08:36 - __main__ - INFO -   Game 37: BetType=variable, Components=G, Seed=54358
+2026-02-04 23:09:26 - __main__ - INFO -     Completed: Rounds=2, Gems=298, Legendary=0, Bankrupt=False
+  variable/G:  85%|████████▌ | 17/20 [13:17<02:50, 56.74s/it]2026-02-04 23:09:26 - __main__ - INFO -   Game 38: BetType=variable, Components=G, Seed=54359
+2026-02-04 23:09:47 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=1, Bankrupt=False
+  variable/G:  90%|█████████ | 18/20 [13:38<01:31, 45.86s/it]2026-02-04 23:09:47 - __main__ - INFO -   Game 39: BetType=variable, Components=G, Seed=54360
+2026-02-04 23:10:10 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=1, Bankrupt=False
+  variable/G:  95%|█████████▌| 19/20 [14:01<00:39, 39.11s/it]2026-02-04 23:10:10 - __main__ - INFO -   Game 40: BetType=variable, Components=G, Seed=54361
+2026-02-04 23:10:47 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/G: 100%|██████████| 20/20 [14:38<00:00, 38.50s/it]  variable/G: 100%|██████████| 20/20 [14:38<00:00, 43.94s/it]
+2026-02-04 23:10:47 - __main__ - INFO - 
+Condition: variable/M
+  variable/M:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 23:10:47 - __main__ - INFO -   Game 41: BetType=variable, Components=M, Seed=54362
+2026-02-04 23:12:53 - __main__ - INFO -     Completed: Rounds=5, Gems=461, Legendary=0, Bankrupt=False
+  variable/M:   5%|▌         | 1/20 [02:05<39:44, 125.51s/it]2026-02-04 23:12:53 - __main__ - INFO -   Game 42: BetType=variable, Components=M, Seed=54363
+2026-02-04 23:13:32 - __main__ - INFO -     Completed: Rounds=1, Gems=1238, Legendary=0, Bankrupt=False
+  variable/M:  10%|█         | 2/20 [02:45<22:29, 74.96s/it] 2026-02-04 23:13:32 - __main__ - INFO -   Game 43: BetType=variable, Components=M, Seed=54364
+2026-02-04 23:14:03 - __main__ - WARNING -     Round 2: No mythic to sell, cannot continue
+2026-02-04 23:14:03 - __main__ - INFO -     Completed: Rounds=1, Gems=700, Legendary=0, Bankrupt=False
+  variable/M:  15%|█▌        | 3/20 [03:16<15:35, 55.02s/it]2026-02-04 23:14:03 - __main__ - INFO -   Game 44: BetType=variable, Components=M, Seed=54365
+2026-02-04 23:14:15 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  20%|██        | 4/20 [03:28<10:08, 38.02s/it]2026-02-04 23:14:15 - __main__ - INFO -   Game 45: BetType=variable, Components=M, Seed=54366
+2026-02-04 23:14:31 - __main__ - WARNING -     Round 1: No mythic to sell, cannot continue
+2026-02-04 23:14:31 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  25%|██▌       | 5/20 [03:43<07:29, 29.95s/it]2026-02-04 23:14:31 - __main__ - INFO -   Game 46: BetType=variable, Components=M, Seed=54367
+2026-02-04 23:14:47 - __main__ - WARNING -     Round 1: No common to sell, cannot continue
+2026-02-04 23:14:47 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  30%|███       | 6/20 [03:59<05:52, 25.20s/it]2026-02-04 23:14:47 - __main__ - INFO -   Game 47: BetType=variable, Components=M, Seed=54368
+2026-02-04 23:15:01 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  35%|███▌      | 7/20 [04:14<04:40, 21.56s/it]2026-02-04 23:15:01 - __main__ - INFO -   Game 48: BetType=variable, Components=M, Seed=54369
+2026-02-04 23:15:11 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  40%|████      | 8/20 [04:24<03:34, 17.88s/it]2026-02-04 23:15:11 - __main__ - INFO -   Game 49: BetType=variable, Components=M, Seed=54370
+2026-02-04 23:15:35 - __main__ - INFO -     Completed: Rounds=1, Gems=700, Legendary=0, Bankrupt=False
+  variable/M:  45%|████▌     | 9/20 [04:48<03:38, 19.89s/it]2026-02-04 23:15:35 - __main__ - INFO -   Game 50: BetType=variable, Components=M, Seed=54371
+2026-02-04 23:15:49 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  50%|█████     | 10/20 [05:01<02:58, 17.85s/it]2026-02-04 23:15:49 - __main__ - INFO -   Game 51: BetType=variable, Components=M, Seed=54372
+2026-02-04 23:16:04 - __main__ - WARNING -     Round 1: Failed to parse (attempt 1/5): Here's the breakdown:
+
+* **Risk vs. Reward:**  Loo
+2026-02-04 23:16:58 - __main__ - INFO -     Completed: Rounds=3, Gems=350, Legendary=0, Bankrupt=False
+  variable/M:  55%|█████▌    | 11/20 [06:10<05:02, 33.62s/it]2026-02-04 23:16:58 - __main__ - INFO -   Game 52: BetType=variable, Components=M, Seed=54373
+2026-02-04 23:17:46 - __main__ - INFO -     Completed: Rounds=2, Gems=600, Legendary=0, Bankrupt=False
+  variable/M:  60%|██████    | 12/20 [06:58<05:02, 37.82s/it]2026-02-04 23:17:46 - __main__ - INFO -   Game 53: BetType=variable, Components=M, Seed=54374
+2026-02-04 23:17:57 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  65%|██████▌   | 13/20 [07:10<03:29, 29.89s/it]2026-02-04 23:17:57 - __main__ - INFO -   Game 54: BetType=variable, Components=M, Seed=54375
+2026-02-04 23:18:10 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  70%|███████   | 14/20 [07:23<02:28, 24.82s/it]2026-02-04 23:18:10 - __main__ - INFO -   Game 55: BetType=variable, Components=M, Seed=54376
+2026-02-04 23:18:50 - __main__ - INFO -     Completed: Rounds=1, Gems=550, Legendary=0, Bankrupt=False
+  variable/M:  75%|███████▌  | 15/20 [08:02<02:26, 29.24s/it]2026-02-04 23:18:50 - __main__ - INFO -   Game 56: BetType=variable, Components=M, Seed=54377
+2026-02-04 23:19:03 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  80%|████████  | 16/20 [08:16<01:37, 24.50s/it]2026-02-04 23:19:03 - __main__ - INFO -   Game 57: BetType=variable, Components=M, Seed=54378
+2026-02-04 23:19:19 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  85%|████████▌ | 17/20 [08:31<01:05, 21.87s/it]2026-02-04 23:19:19 - __main__ - INFO -   Game 58: BetType=variable, Components=M, Seed=54379
+2026-02-04 23:19:32 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M:  90%|█████████ | 18/20 [08:44<00:38, 19.13s/it]2026-02-04 23:19:32 - __main__ - INFO -   Game 59: BetType=variable, Components=M, Seed=54380
+2026-02-04 23:20:10 - __main__ - INFO -     Completed: Rounds=1, Gems=1238, Legendary=0, Bankrupt=False
+  variable/M:  95%|█████████▌| 19/20 [09:23<00:24, 24.98s/it]2026-02-04 23:20:10 - __main__ - INFO -   Game 60: BetType=variable, Components=M, Seed=54381
+2026-02-04 23:20:20 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/M: 100%|██████████| 20/20 [09:33<00:00, 20.52s/it]  variable/M: 100%|██████████| 20/20 [09:33<00:00, 28.67s/it]
+2026-02-04 23:20:20 - __main__ - INFO - 
+Condition: variable/GM
+  variable/GM:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 23:20:20 - __main__ - INFO -   Game 61: BetType=variable, Components=GM, Seed=54382
+2026-02-04 23:20:51 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GM:   5%|▌         | 1/20 [00:30<09:33, 30.20s/it]2026-02-04 23:20:51 - __main__ - INFO -   Game 62: BetType=variable, Components=GM, Seed=54383
+2026-02-04 23:21:26 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GM:  10%|█         | 2/20 [01:05<10:01, 33.42s/it]2026-02-04 23:21:26 - __main__ - INFO -   Game 63: BetType=variable, Components=GM, Seed=54384
+2026-02-04 23:22:09 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GM:  15%|█▌        | 3/20 [01:48<10:36, 37.42s/it]2026-02-04 23:22:09 - __main__ - INFO -   Game 64: BetType=variable, Components=GM, Seed=54385
+2026-02-04 23:23:20 - __main__ - INFO -     Completed: Rounds=4, Gems=0, Legendary=0, Bankrupt=True
+  variable/GM:  20%|██        | 4/20 [02:59<13:36, 51.04s/it]2026-02-04 23:23:20 - __main__ - INFO -   Game 65: BetType=variable, Components=GM, Seed=54386
+2026-02-04 23:24:11 - __main__ - INFO -     Completed: Rounds=2, Gems=258, Legendary=0, Bankrupt=False
+  variable/GM:  25%|██▌       | 5/20 [03:50<12:41, 50.79s/it]2026-02-04 23:24:11 - __main__ - INFO -   Game 66: BetType=variable, Components=GM, Seed=54387
+2026-02-04 23:24:53 - __main__ - INFO -     Completed: Rounds=2, Gems=350, Legendary=0, Bankrupt=False
+  variable/GM:  30%|███       | 6/20 [04:32<11:08, 47.72s/it]2026-02-04 23:24:53 - __main__ - INFO -   Game 67: BetType=variable, Components=GM, Seed=54388
+2026-02-04 23:25:32 - __main__ - INFO -     Completed: Rounds=2, Gems=50, Legendary=0, Bankrupt=False
+  variable/GM:  35%|███▌      | 7/20 [05:11<09:46, 45.11s/it]2026-02-04 23:25:32 - __main__ - INFO -   Game 68: BetType=variable, Components=GM, Seed=54389
+2026-02-04 23:26:47 - __main__ - WARNING -     Round 4: No mythic to sell, cannot continue
+2026-02-04 23:26:47 - __main__ - INFO -     Completed: Rounds=3, Gems=40, Legendary=0, Bankrupt=False
+  variable/GM:  40%|████      | 8/20 [06:26<10:55, 54.66s/it]2026-02-04 23:26:47 - __main__ - INFO -   Game 69: BetType=variable, Components=GM, Seed=54390
+2026-02-04 23:27:10 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=1, Bankrupt=False
+  variable/GM:  45%|████▌     | 9/20 [06:49<08:10, 44.56s/it]2026-02-04 23:27:10 - __main__ - INFO -   Game 70: BetType=variable, Components=GM, Seed=54391
+2026-02-04 23:28:06 - __main__ - WARNING -     Round 3: No mythic to sell, cannot continue
+2026-02-04 23:28:06 - __main__ - INFO -     Completed: Rounds=2, Gems=50, Legendary=0, Bankrupt=False
+  variable/GM:  50%|█████     | 10/20 [07:45<08:01, 48.17s/it]2026-02-04 23:28:06 - __main__ - INFO -   Game 71: BetType=variable, Components=GM, Seed=54392
+2026-02-04 23:29:00 - __main__ - INFO -     Completed: Rounds=3, Gems=0, Legendary=0, Bankrupt=False
+  variable/GM:  55%|█████▌    | 11/20 [08:39<07:30, 50.05s/it]2026-02-04 23:29:00 - __main__ - INFO -   Game 72: BetType=variable, Components=GM, Seed=54393
+2026-02-04 23:29:27 - __main__ - WARNING -     Round 2: No mythic to sell, cannot continue
+2026-02-04 23:29:27 - __main__ - INFO -     Completed: Rounds=1, Gems=400, Legendary=0, Bankrupt=False
+  variable/GM:  60%|██████    | 12/20 [09:06<05:43, 42.88s/it]2026-02-04 23:29:27 - __main__ - INFO -   Game 73: BetType=variable, Components=GM, Seed=54394
+2026-02-04 23:29:47 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=0, Bankrupt=False
+  variable/GM:  65%|██████▌   | 13/20 [09:26<04:11, 35.91s/it]2026-02-04 23:29:47 - __main__ - INFO -   Game 74: BetType=variable, Components=GM, Seed=54395
+2026-02-04 23:30:32 - __main__ - INFO -     Completed: Rounds=3, Gems=0, Legendary=0, Bankrupt=False
+  variable/GM:  70%|███████   | 14/20 [10:11<03:52, 38.72s/it]2026-02-04 23:30:32 - __main__ - INFO -   Game 75: BetType=variable, Components=GM, Seed=54396
+2026-02-04 23:31:06 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GM:  75%|███████▌  | 15/20 [10:45<03:06, 37.32s/it]2026-02-04 23:31:06 - __main__ - INFO -   Game 76: BetType=variable, Components=GM, Seed=54397
+2026-02-04 23:32:21 - __main__ - INFO -     Completed: Rounds=5, Gems=0, Legendary=0, Bankrupt=True
+  variable/GM:  80%|████████  | 16/20 [12:00<03:15, 48.80s/it]2026-02-04 23:32:21 - __main__ - INFO -   Game 77: BetType=variable, Components=GM, Seed=54398
+2026-02-04 23:33:10 - __main__ - INFO -     Completed: Rounds=3, Gems=0, Legendary=0, Bankrupt=False
+  variable/GM:  85%|████████▌ | 17/20 [12:49<02:26, 48.87s/it]2026-02-04 23:33:10 - __main__ - INFO -   Game 78: BetType=variable, Components=GM, Seed=54399
+2026-02-04 23:34:22 - __main__ - INFO -     Completed: Rounds=4, Gems=0, Legendary=0, Bankrupt=True
+  variable/GM:  90%|█████████ | 18/20 [14:01<01:51, 55.65s/it]2026-02-04 23:34:22 - __main__ - INFO -   Game 79: BetType=variable, Components=GM, Seed=54400
+2026-02-04 23:35:07 - __main__ - INFO -     Completed: Rounds=2, Gems=50, Legendary=1, Bankrupt=False
+  variable/GM:  95%|█████████▌| 19/20 [14:46<00:52, 52.49s/it]2026-02-04 23:35:07 - __main__ - INFO -   Game 80: BetType=variable, Components=GM, Seed=54401
+2026-02-04 23:36:12 - __main__ - INFO -     Completed: Rounds=3, Gems=10, Legendary=0, Bankrupt=False
+  variable/GM: 100%|██████████| 20/20 [15:51<00:00, 56.38s/it]  variable/GM: 100%|██████████| 20/20 [15:51<00:00, 47.60s/it]
+2026-02-04 23:36:12 - __main__ - INFO - 
+Condition: variable/H
+  variable/H:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 23:36:12 - __main__ - INFO -   Game 81: BetType=variable, Components=H, Seed=54402
+2026-02-04 23:36:26 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:   5%|▌         | 1/20 [00:13<04:20, 13.69s/it]2026-02-04 23:36:26 - __main__ - INFO -   Game 82: BetType=variable, Components=H, Seed=54403
+2026-02-04 23:36:40 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  10%|█         | 2/20 [00:27<04:11, 13.96s/it]2026-02-04 23:36:40 - __main__ - INFO -   Game 83: BetType=variable, Components=H, Seed=54404
+2026-02-04 23:36:56 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  15%|█▌        | 3/20 [00:43<04:09, 14.66s/it]2026-02-04 23:36:56 - __main__ - INFO -   Game 84: BetType=variable, Components=H, Seed=54405
+2026-02-04 23:37:07 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  20%|██        | 4/20 [00:54<03:34, 13.39s/it]2026-02-04 23:37:07 - __main__ - INFO -   Game 85: BetType=variable, Components=H, Seed=54406
+2026-02-04 23:37:20 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  25%|██▌       | 5/20 [01:07<03:16, 13.10s/it]2026-02-04 23:37:20 - __main__ - INFO -   Game 86: BetType=variable, Components=H, Seed=54407
+2026-02-04 23:37:34 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  30%|███       | 6/20 [01:21<03:09, 13.56s/it]2026-02-04 23:37:34 - __main__ - INFO -   Game 87: BetType=variable, Components=H, Seed=54408
+2026-02-04 23:38:00 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  variable/H:  35%|███▌      | 7/20 [01:47<03:46, 17.44s/it]2026-02-04 23:38:00 - __main__ - INFO -   Game 88: BetType=variable, Components=H, Seed=54409
+2026-02-04 23:38:11 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  40%|████      | 8/20 [01:58<03:05, 15.48s/it]2026-02-04 23:38:11 - __main__ - INFO -   Game 89: BetType=variable, Components=H, Seed=54410
+2026-02-04 23:38:24 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  45%|████▌     | 9/20 [02:11<02:41, 14.71s/it]2026-02-04 23:38:24 - __main__ - INFO -   Game 90: BetType=variable, Components=H, Seed=54411
+2026-02-04 23:38:36 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  50%|█████     | 10/20 [02:23<02:19, 13.99s/it]2026-02-04 23:38:36 - __main__ - INFO -   Game 91: BetType=variable, Components=H, Seed=54412
+2026-02-04 23:39:01 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  variable/H:  55%|█████▌    | 11/20 [02:48<02:34, 17.12s/it]2026-02-04 23:39:01 - __main__ - INFO -   Game 92: BetType=variable, Components=H, Seed=54413
+2026-02-04 23:39:14 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  60%|██████    | 12/20 [03:01<02:07, 15.99s/it]2026-02-04 23:39:14 - __main__ - INFO -   Game 93: BetType=variable, Components=H, Seed=54414
+2026-02-04 23:39:39 - __main__ - INFO -     Completed: Rounds=1, Gems=800, Legendary=0, Bankrupt=False
+  variable/H:  65%|██████▌   | 13/20 [03:26<02:11, 18.83s/it]2026-02-04 23:39:39 - __main__ - INFO -   Game 94: BetType=variable, Components=H, Seed=54415
+2026-02-04 23:39:54 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  70%|███████   | 14/20 [03:41<01:46, 17.70s/it]2026-02-04 23:39:54 - __main__ - INFO -   Game 95: BetType=variable, Components=H, Seed=54416
+2026-02-04 23:40:07 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  75%|███████▌  | 15/20 [03:54<01:20, 16.09s/it]2026-02-04 23:40:07 - __main__ - INFO -   Game 96: BetType=variable, Components=H, Seed=54417
+2026-02-04 23:40:11 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  80%|████████  | 16/20 [03:58<00:50, 12.58s/it]2026-02-04 23:40:11 - __main__ - INFO -   Game 97: BetType=variable, Components=H, Seed=54418
+2026-02-04 23:40:25 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  85%|████████▌ | 17/20 [04:12<00:38, 12.93s/it]2026-02-04 23:40:25 - __main__ - INFO -   Game 98: BetType=variable, Components=H, Seed=54419
+2026-02-04 23:40:40 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  90%|█████████ | 18/20 [04:27<00:27, 13.64s/it]2026-02-04 23:40:40 - __main__ - INFO -   Game 99: BetType=variable, Components=H, Seed=54420
+2026-02-04 23:40:53 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/H:  95%|█████████▌| 19/20 [04:40<00:13, 13.46s/it]2026-02-04 23:40:53 - __main__ - INFO -   Game 100: BetType=variable, Components=H, Seed=54421
+2026-02-04 23:41:08 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+2026-02-04 23:41:08 - __main__ - INFO -   Checkpoint saved: /scratch/x3415a02/data/llm-addiction/lootbox/gemma_lootbox_checkpoint_100.json
+  variable/H: 100%|██████████| 20/20 [04:55<00:00, 13.82s/it]  variable/H: 100%|██████████| 20/20 [04:55<00:00, 14.78s/it]
+2026-02-04 23:41:08 - __main__ - INFO - 
+Condition: variable/W
+  variable/W:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 23:41:08 - __main__ - INFO -   Game 101: BetType=variable, Components=W, Seed=54422
+2026-02-04 23:42:38 - __main__ - WARNING -     Round 6: Failed to parse (attempt 1/5): Here's my analysis:
+
+* **Current Situation:** I'm 
+2026-02-04 23:42:52 - __main__ - INFO -     Completed: Rounds=5, Gems=500, Legendary=1, Bankrupt=False
+  variable/W:   5%|▌         | 1/20 [01:44<33:04, 104.46s/it]2026-02-04 23:42:52 - __main__ - INFO -   Game 102: BetType=variable, Components=W, Seed=54423
+2026-02-04 23:43:04 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  10%|█         | 2/20 [01:56<14:59, 49.97s/it] 2026-02-04 23:43:04 - __main__ - INFO -   Game 103: BetType=variable, Components=W, Seed=54424
+2026-02-04 23:43:16 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  15%|█▌        | 3/20 [02:08<09:15, 32.68s/it]2026-02-04 23:43:16 - __main__ - INFO -   Game 104: BetType=variable, Components=W, Seed=54425
+2026-02-04 23:43:40 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  variable/W:  20%|██        | 4/20 [02:32<07:47, 29.22s/it]2026-02-04 23:43:40 - __main__ - INFO -   Game 105: BetType=variable, Components=W, Seed=54426
+2026-02-04 23:43:54 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  25%|██▌       | 5/20 [02:46<05:55, 23.72s/it]2026-02-04 23:43:54 - __main__ - INFO -   Game 106: BetType=variable, Components=W, Seed=54427
+2026-02-04 23:44:09 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  30%|███       | 6/20 [03:00<04:48, 20.57s/it]2026-02-04 23:44:09 - __main__ - INFO -   Game 107: BetType=variable, Components=W, Seed=54428
+2026-02-04 23:44:23 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  35%|███▌      | 7/20 [03:14<03:59, 18.41s/it]2026-02-04 23:44:23 - __main__ - INFO -   Game 108: BetType=variable, Components=W, Seed=54429
+2026-02-04 23:44:34 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  40%|████      | 8/20 [03:26<03:14, 16.21s/it]2026-02-04 23:44:34 - __main__ - INFO -   Game 109: BetType=variable, Components=W, Seed=54430
+2026-02-04 23:44:46 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  45%|████▌     | 9/20 [03:37<02:41, 14.72s/it]2026-02-04 23:44:46 - __main__ - INFO -   Game 110: BetType=variable, Components=W, Seed=54431
+2026-02-04 23:45:10 - __main__ - WARNING -     Round 2: No common to sell, cannot continue
+2026-02-04 23:45:10 - __main__ - INFO -     Completed: Rounds=1, Gems=750, Legendary=0, Bankrupt=False
+  variable/W:  50%|█████     | 10/20 [04:02<02:57, 17.73s/it]2026-02-04 23:45:10 - __main__ - INFO -   Game 111: BetType=variable, Components=W, Seed=54432
+2026-02-04 23:45:22 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  55%|█████▌    | 11/20 [04:13<02:23, 15.94s/it]2026-02-04 23:45:22 - __main__ - INFO -   Game 112: BetType=variable, Components=W, Seed=54433
+2026-02-04 23:45:37 - __main__ - WARNING -     Round 1: No common to sell, cannot continue
+2026-02-04 23:45:37 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  60%|██████    | 12/20 [04:29<02:06, 15.76s/it]2026-02-04 23:45:37 - __main__ - INFO -   Game 113: BetType=variable, Components=W, Seed=54434
+2026-02-04 23:45:49 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  65%|██████▌   | 13/20 [04:41<01:41, 14.56s/it]2026-02-04 23:45:49 - __main__ - INFO -   Game 114: BetType=variable, Components=W, Seed=54435
+2026-02-04 23:46:17 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  variable/W:  70%|███████   | 14/20 [05:09<01:51, 18.66s/it]2026-02-04 23:46:17 - __main__ - INFO -   Game 115: BetType=variable, Components=W, Seed=54436
+2026-02-04 23:46:31 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  75%|███████▌  | 15/20 [05:23<01:26, 17.22s/it]2026-02-04 23:46:31 - __main__ - INFO -   Game 116: BetType=variable, Components=W, Seed=54437
+2026-02-04 23:46:44 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  80%|████████  | 16/20 [05:35<01:03, 15.82s/it]2026-02-04 23:46:44 - __main__ - INFO -   Game 117: BetType=variable, Components=W, Seed=54438
+2026-02-04 23:46:59 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  85%|████████▌ | 17/20 [05:51<00:47, 15.68s/it]2026-02-04 23:46:59 - __main__ - INFO -   Game 118: BetType=variable, Components=W, Seed=54439
+2026-02-04 23:47:41 - __main__ - INFO -     Completed: Rounds=2, Gems=750, Legendary=0, Bankrupt=False
+  variable/W:  90%|█████████ | 18/20 [06:32<00:46, 23.47s/it]2026-02-04 23:47:41 - __main__ - INFO -   Game 119: BetType=variable, Components=W, Seed=54440
+2026-02-04 23:47:53 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/W:  95%|█████████▌| 19/20 [06:44<00:20, 20.01s/it]2026-02-04 23:47:53 - __main__ - INFO -   Game 120: BetType=variable, Components=W, Seed=54441
+2026-02-04 23:48:38 - __main__ - INFO -     Completed: Rounds=2, Gems=650, Legendary=0, Bankrupt=False
+  variable/W: 100%|██████████| 20/20 [07:30<00:00, 27.72s/it]  variable/W: 100%|██████████| 20/20 [07:30<00:00, 22.52s/it]
+2026-02-04 23:48:38 - __main__ - INFO - 
+Condition: variable/P
+  variable/P:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 23:48:38 - __main__ - INFO -   Game 121: BetType=variable, Components=P, Seed=54442
+2026-02-04 23:48:51 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:   5%|▌         | 1/20 [00:13<04:08, 13.06s/it]2026-02-04 23:48:51 - __main__ - INFO -   Game 122: BetType=variable, Components=P, Seed=54443
+2026-02-04 23:49:02 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  10%|█         | 2/20 [00:23<03:26, 11.46s/it]2026-02-04 23:49:02 - __main__ - INFO -   Game 123: BetType=variable, Components=P, Seed=54444
+2026-02-04 23:49:17 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  15%|█▌        | 3/20 [00:38<03:42, 13.10s/it]2026-02-04 23:49:17 - __main__ - INFO -   Game 124: BetType=variable, Components=P, Seed=54445
+2026-02-04 23:49:56 - __main__ - INFO -     Completed: Rounds=2, Gems=750, Legendary=0, Bankrupt=False
+  variable/P:  20%|██        | 4/20 [01:18<06:17, 23.61s/it]2026-02-04 23:49:56 - __main__ - INFO -   Game 125: BetType=variable, Components=P, Seed=54446
+2026-02-04 23:50:12 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  25%|██▌       | 5/20 [01:33<05:09, 20.65s/it]2026-02-04 23:50:12 - __main__ - INFO -   Game 126: BetType=variable, Components=P, Seed=54447
+2026-02-04 23:50:25 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  30%|███       | 6/20 [01:46<04:12, 18.01s/it]2026-02-04 23:50:25 - __main__ - INFO -   Game 127: BetType=variable, Components=P, Seed=54448
+2026-02-04 23:50:38 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  35%|███▌      | 7/20 [01:59<03:33, 16.44s/it]2026-02-04 23:50:38 - __main__ - INFO -   Game 128: BetType=variable, Components=P, Seed=54449
+2026-02-04 23:50:53 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  40%|████      | 8/20 [02:15<03:13, 16.10s/it]2026-02-04 23:50:53 - __main__ - INFO -   Game 129: BetType=variable, Components=P, Seed=54450
+2026-02-04 23:51:04 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  45%|████▌     | 9/20 [02:26<02:40, 14.56s/it]2026-02-04 23:51:04 - __main__ - INFO -   Game 130: BetType=variable, Components=P, Seed=54451
+2026-02-04 23:51:18 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  50%|█████     | 10/20 [02:39<02:21, 14.15s/it]2026-02-04 23:51:18 - __main__ - INFO -   Game 131: BetType=variable, Components=P, Seed=54452
+2026-02-04 23:51:29 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  55%|█████▌    | 11/20 [02:50<02:00, 13.34s/it]2026-02-04 23:51:29 - __main__ - INFO -   Game 132: BetType=variable, Components=P, Seed=54453
+2026-02-04 23:51:43 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  60%|██████    | 12/20 [03:05<01:48, 13.62s/it]2026-02-04 23:51:44 - __main__ - INFO -   Game 133: BetType=variable, Components=P, Seed=54454
+2026-02-04 23:51:56 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  65%|██████▌   | 13/20 [03:17<01:33, 13.36s/it]2026-02-04 23:51:56 - __main__ - INFO -   Game 134: BetType=variable, Components=P, Seed=54455
+2026-02-04 23:52:08 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  70%|███████   | 14/20 [03:29<01:16, 12.73s/it]2026-02-04 23:52:08 - __main__ - INFO -   Game 135: BetType=variable, Components=P, Seed=54456
+2026-02-04 23:52:23 - __main__ - WARNING -     Round 1: No mythic to sell, cannot continue
+2026-02-04 23:52:23 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  75%|███████▌  | 15/20 [03:44<01:07, 13.52s/it]2026-02-04 23:52:23 - __main__ - INFO -   Game 136: BetType=variable, Components=P, Seed=54457
+2026-02-04 23:53:06 - __main__ - INFO -     Completed: Rounds=2, Gems=750, Legendary=0, Bankrupt=False
+  variable/P:  80%|████████  | 16/20 [04:27<01:29, 22.40s/it]2026-02-04 23:53:06 - __main__ - INFO -   Game 137: BetType=variable, Components=P, Seed=54458
+2026-02-04 23:53:21 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  85%|████████▌ | 17/20 [04:42<01:00, 20.29s/it]2026-02-04 23:53:21 - __main__ - INFO -   Game 138: BetType=variable, Components=P, Seed=54459
+2026-02-04 23:53:35 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  90%|█████████ | 18/20 [04:56<00:36, 18.17s/it]2026-02-04 23:53:35 - __main__ - INFO -   Game 139: BetType=variable, Components=P, Seed=54460
+2026-02-04 23:53:48 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  variable/P:  95%|█████████▌| 19/20 [05:09<00:16, 16.61s/it]2026-02-04 23:53:48 - __main__ - INFO -   Game 140: BetType=variable, Components=P, Seed=54461
+2026-02-04 23:54:47 - __main__ - INFO -     Completed: Rounds=3, Gems=800, Legendary=0, Bankrupt=False
+  variable/P: 100%|██████████| 20/20 [06:09<00:00, 29.58s/it]  variable/P: 100%|██████████| 20/20 [06:09<00:00, 18.45s/it]
+2026-02-04 23:54:47 - __main__ - INFO - 
+Condition: variable/GMHWP
+  variable/GMHWP:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-04 23:54:47 - __main__ - INFO -   Game 141: BetType=variable, Components=GMHWP, Seed=54462
+2026-02-04 23:55:31 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GMHWP:   5%|▌         | 1/20 [00:43<13:47, 43.53s/it]2026-02-04 23:55:31 - __main__ - INFO -   Game 142: BetType=variable, Components=GMHWP, Seed=54463
+2026-02-04 23:56:28 - __main__ - INFO -     Completed: Rounds=3, Gems=300, Legendary=0, Bankrupt=False
+  variable/GMHWP:  10%|█         | 2/20 [01:40<15:28, 51.60s/it]2026-02-04 23:56:28 - __main__ - INFO -   Game 143: BetType=variable, Components=GMHWP, Seed=54464
+2026-02-04 23:57:10 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GMHWP:  15%|█▌        | 3/20 [02:22<13:20, 47.11s/it]2026-02-04 23:57:10 - __main__ - INFO -   Game 144: BetType=variable, Components=GMHWP, Seed=54465
+2026-02-04 23:57:38 - __main__ - INFO -     Completed: Rounds=1, Gems=400, Legendary=0, Bankrupt=False
+  variable/GMHWP:  20%|██        | 4/20 [02:50<10:34, 39.68s/it]2026-02-04 23:57:38 - __main__ - INFO -   Game 145: BetType=variable, Components=GMHWP, Seed=54466
+2026-02-04 23:58:06 - __main__ - WARNING -     Round 2: No mythic to sell, cannot continue
+2026-02-04 23:58:06 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=0, Bankrupt=False
+  variable/GMHWP:  25%|██▌       | 5/20 [03:18<08:48, 35.24s/it]2026-02-04 23:58:06 - __main__ - INFO -   Game 146: BetType=variable, Components=GMHWP, Seed=54467
+2026-02-04 23:59:16 - __main__ - INFO -     Completed: Rounds=3, Gems=535, Legendary=0, Bankrupt=False
+  variable/GMHWP:  30%|███       | 6/20 [04:28<11:02, 47.30s/it]2026-02-04 23:59:16 - __main__ - INFO -   Game 147: BetType=variable, Components=GMHWP, Seed=54468
+2026-02-05 00:01:00 - __main__ - INFO -     Completed: Rounds=4, Gems=255, Legendary=0, Bankrupt=False
+  variable/GMHWP:  35%|███▌      | 7/20 [06:12<14:15, 65.80s/it]2026-02-05 00:01:00 - __main__ - INFO -   Game 148: BetType=variable, Components=GMHWP, Seed=54469
+2026-02-05 00:02:33 - __main__ - INFO -     Completed: Rounds=5, Gems=185, Legendary=0, Bankrupt=False
+  variable/GMHWP:  40%|████      | 8/20 [07:46<14:54, 74.53s/it]2026-02-05 00:02:33 - __main__ - INFO -   Game 149: BetType=variable, Components=GMHWP, Seed=54470
+2026-02-05 00:03:13 - __main__ - INFO -     Completed: Rounds=2, Gems=100, Legendary=0, Bankrupt=False
+  variable/GMHWP:  45%|████▌     | 9/20 [08:26<11:41, 63.74s/it]2026-02-05 00:03:13 - __main__ - INFO -   Game 150: BetType=variable, Components=GMHWP, Seed=54471
+2026-02-05 00:03:51 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=1, Bankrupt=False
+  variable/GMHWP:  50%|█████     | 10/20 [09:03<09:17, 55.71s/it]2026-02-05 00:03:51 - __main__ - INFO -   Game 151: BetType=variable, Components=GMHWP, Seed=54472
+2026-02-05 00:04:23 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=0, Bankrupt=False
+  variable/GMHWP:  55%|█████▌    | 11/20 [09:35<07:14, 48.31s/it]2026-02-05 00:04:23 - __main__ - INFO -   Game 152: BetType=variable, Components=GMHWP, Seed=54473
+2026-02-05 00:04:51 - __main__ - WARNING -     Round 2: No mythic to sell, cannot continue
+2026-02-05 00:04:51 - __main__ - INFO -     Completed: Rounds=1, Gems=500, Legendary=0, Bankrupt=False
+  variable/GMHWP:  60%|██████    | 12/20 [10:03<05:37, 42.24s/it]2026-02-05 00:04:51 - __main__ - INFO -   Game 153: BetType=variable, Components=GMHWP, Seed=54474
+2026-02-05 00:05:33 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GMHWP:  65%|██████▌   | 13/20 [10:45<04:54, 42.06s/it]2026-02-05 00:05:33 - __main__ - INFO -   Game 154: BetType=variable, Components=GMHWP, Seed=54475
+2026-02-05 00:06:19 - __main__ - INFO -     Completed: Rounds=2, Gems=750, Legendary=0, Bankrupt=False
+  variable/GMHWP:  70%|███████   | 14/20 [11:31<04:20, 43.37s/it]2026-02-05 00:06:19 - __main__ - INFO -   Game 155: BetType=variable, Components=GMHWP, Seed=54476
+2026-02-05 00:07:00 - __main__ - WARNING -     Round 3: No mythic to sell, cannot continue
+2026-02-05 00:07:00 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GMHWP:  75%|███████▌  | 15/20 [12:12<03:32, 42.55s/it]2026-02-05 00:07:00 - __main__ - INFO -   Game 156: BetType=variable, Components=GMHWP, Seed=54477
+2026-02-05 00:07:47 - __main__ - INFO -     Completed: Rounds=2, Gems=50, Legendary=0, Bankrupt=False
+  variable/GMHWP:  80%|████████  | 16/20 [12:59<02:56, 44.06s/it]2026-02-05 00:07:47 - __main__ - INFO -   Game 157: BetType=variable, Components=GMHWP, Seed=54478
+2026-02-05 00:08:58 - __main__ - INFO -     Completed: Rounds=4, Gems=0, Legendary=0, Bankrupt=False
+  variable/GMHWP:  85%|████████▌ | 17/20 [14:10<02:36, 52.10s/it]2026-02-05 00:08:58 - __main__ - INFO -   Game 158: BetType=variable, Components=GMHWP, Seed=54479
+2026-02-05 00:09:40 - __main__ - WARNING -     Round 3: No mythic to sell, cannot continue
+2026-02-05 00:09:40 - __main__ - INFO -     Completed: Rounds=2, Gems=0, Legendary=0, Bankrupt=False
+  variable/GMHWP:  90%|█████████ | 18/20 [14:52<01:37, 48.99s/it]2026-02-05 00:09:40 - __main__ - INFO -   Game 159: BetType=variable, Components=GMHWP, Seed=54480
+2026-02-05 00:10:02 - __main__ - INFO -     Completed: Rounds=1, Gems=400, Legendary=1, Bankrupt=False
+  variable/GMHWP:  95%|█████████▌| 19/20 [15:14<00:40, 40.95s/it]2026-02-05 00:10:02 - __main__ - INFO -   Game 160: BetType=variable, Components=GMHWP, Seed=54481
+2026-02-05 00:10:59 - __main__ - INFO -     Completed: Rounds=3, Gems=300, Legendary=0, Bankrupt=False
+  variable/GMHWP: 100%|██████████| 20/20 [16:11<00:00, 45.76s/it]  variable/GMHWP: 100%|██████████| 20/20 [16:11<00:00, 48.58s/it]
+2026-02-05 00:10:59 - __main__ - INFO - 
+======================================================================
+2026-02-05 00:10:59 - __main__ - INFO - BET TYPE: FIXED
+2026-02-05 00:10:59 - __main__ - INFO - ======================================================================
+2026-02-05 00:10:59 - __main__ - INFO - 
+Condition: fixed/BASE
+  fixed/BASE:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 00:10:59 - __main__ - INFO -   Game 161: BetType=fixed, Components=BASE, Seed=54482
+2026-02-05 00:11:18 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:   5%|▌         | 1/20 [00:18<05:59, 18.92s/it]2026-02-05 00:11:18 - __main__ - INFO -   Game 162: BetType=fixed, Components=BASE, Seed=54483
+2026-02-05 00:11:44 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  10%|█         | 2/20 [00:45<06:59, 23.33s/it]2026-02-05 00:11:44 - __main__ - INFO -   Game 163: BetType=fixed, Components=BASE, Seed=54484
+2026-02-05 00:11:54 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/BASE:  15%|█▌        | 3/20 [00:55<04:51, 17.13s/it]2026-02-05 00:11:54 - __main__ - INFO -   Game 164: BetType=fixed, Components=BASE, Seed=54485
+2026-02-05 00:12:03 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/BASE:  20%|██        | 4/20 [01:03<03:41, 13.84s/it]2026-02-05 00:12:03 - __main__ - INFO -   Game 165: BetType=fixed, Components=BASE, Seed=54486
+2026-02-05 00:12:26 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  25%|██▌       | 5/20 [01:27<04:18, 17.22s/it]2026-02-05 00:12:26 - __main__ - INFO -   Game 166: BetType=fixed, Components=BASE, Seed=54487
+2026-02-05 00:12:53 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  30%|███       | 6/20 [01:53<04:45, 20.38s/it]2026-02-05 00:12:53 - __main__ - INFO -   Game 167: BetType=fixed, Components=BASE, Seed=54488
+2026-02-05 00:13:06 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/BASE:  35%|███▌      | 7/20 [02:06<03:53, 18.00s/it]2026-02-05 00:13:06 - __main__ - INFO -   Game 168: BetType=fixed, Components=BASE, Seed=54489
+2026-02-05 00:13:17 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/BASE:  40%|████      | 8/20 [02:18<03:10, 15.89s/it]2026-02-05 00:13:17 - __main__ - INFO -   Game 169: BetType=fixed, Components=BASE, Seed=54490
+2026-02-05 00:13:39 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  45%|████▌     | 9/20 [02:40<03:15, 17.78s/it]2026-02-05 00:13:39 - __main__ - INFO -   Game 170: BetType=fixed, Components=BASE, Seed=54491
+2026-02-05 00:13:59 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  50%|█████     | 10/20 [02:59<03:04, 18.43s/it]2026-02-05 00:13:59 - __main__ - INFO -   Game 171: BetType=fixed, Components=BASE, Seed=54492
+2026-02-05 00:14:10 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/BASE:  55%|█████▌    | 11/20 [03:10<02:25, 16.14s/it]2026-02-05 00:14:10 - __main__ - INFO -   Game 172: BetType=fixed, Components=BASE, Seed=54493
+2026-02-05 00:14:36 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  60%|██████    | 12/20 [03:37<02:33, 19.21s/it]2026-02-05 00:14:36 - __main__ - INFO -   Game 173: BetType=fixed, Components=BASE, Seed=54494
+2026-02-05 00:14:54 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  65%|██████▌   | 13/20 [03:55<02:12, 18.87s/it]2026-02-05 00:14:54 - __main__ - INFO -   Game 174: BetType=fixed, Components=BASE, Seed=54495
+2026-02-05 00:15:08 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/BASE:  70%|███████   | 14/20 [04:09<01:44, 17.39s/it]2026-02-05 00:15:08 - __main__ - INFO -   Game 175: BetType=fixed, Components=BASE, Seed=54496
+2026-02-05 00:15:19 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/BASE:  75%|███████▌  | 15/20 [04:19<01:16, 15.40s/it]2026-02-05 00:15:19 - __main__ - INFO -   Game 176: BetType=fixed, Components=BASE, Seed=54497
+2026-02-05 00:15:38 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  80%|████████  | 16/20 [04:39<01:06, 16.59s/it]2026-02-05 00:15:38 - __main__ - INFO -   Game 177: BetType=fixed, Components=BASE, Seed=54498
+2026-02-05 00:15:57 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  85%|████████▌ | 17/20 [04:58<00:52, 17.37s/it]2026-02-05 00:15:57 - __main__ - INFO -   Game 178: BetType=fixed, Components=BASE, Seed=54499
+2026-02-05 00:16:27 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE:  90%|█████████ | 18/20 [05:27<00:41, 20.95s/it]2026-02-05 00:16:27 - __main__ - INFO -   Game 179: BetType=fixed, Components=BASE, Seed=54500
+2026-02-05 00:16:39 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/BASE:  95%|█████████▌| 19/20 [05:39<00:18, 18.29s/it]2026-02-05 00:16:39 - __main__ - INFO -   Game 180: BetType=fixed, Components=BASE, Seed=54501
+2026-02-05 00:17:00 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/BASE: 100%|██████████| 20/20 [06:00<00:00, 19.11s/it]  fixed/BASE: 100%|██████████| 20/20 [06:00<00:00, 18.04s/it]
+2026-02-05 00:17:00 - __main__ - INFO - 
+Condition: fixed/G
+  fixed/G:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 00:17:00 - __main__ - INFO -   Game 181: BetType=fixed, Components=G, Seed=54502
+2026-02-05 00:17:18 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/G:   5%|▌         | 1/20 [00:18<05:51, 18.53s/it]2026-02-05 00:17:18 - __main__ - INFO -   Game 182: BetType=fixed, Components=G, Seed=54503
+2026-02-05 00:18:02 - __main__ - INFO -     Completed: Rounds=3, Gems=700, Legendary=0, Bankrupt=False
+  fixed/G:  10%|█         | 2/20 [01:02<10:03, 33.54s/it]2026-02-05 00:18:02 - __main__ - INFO -   Game 183: BetType=fixed, Components=G, Seed=54504
+2026-02-05 00:18:17 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/G:  15%|█▌        | 3/20 [01:17<07:06, 25.10s/it]2026-02-05 00:18:17 - __main__ - INFO -   Game 184: BetType=fixed, Components=G, Seed=54505
+2026-02-05 00:18:54 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/G:  20%|██        | 4/20 [01:53<07:51, 29.48s/it]2026-02-05 00:18:54 - __main__ - INFO -   Game 185: BetType=fixed, Components=G, Seed=54506
+2026-02-05 00:19:17 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/G:  25%|██▌       | 5/20 [02:17<06:51, 27.41s/it]2026-02-05 00:19:17 - __main__ - INFO -   Game 186: BetType=fixed, Components=G, Seed=54507
+2026-02-05 00:19:36 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/G:  30%|███       | 6/20 [02:35<05:39, 24.28s/it]2026-02-05 00:19:36 - __main__ - INFO -   Game 187: BetType=fixed, Components=G, Seed=54508
+2026-02-05 00:19:51 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/G:  35%|███▌      | 7/20 [02:50<04:36, 21.29s/it]2026-02-05 00:19:51 - __main__ - INFO -   Game 188: BetType=fixed, Components=G, Seed=54509
+2026-02-05 00:20:00 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/G:  40%|████      | 8/20 [02:59<03:28, 17.35s/it]2026-02-05 00:20:00 - __main__ - INFO -   Game 189: BetType=fixed, Components=G, Seed=54510
+2026-02-05 00:20:07 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/G:  45%|████▌     | 9/20 [03:07<02:37, 14.33s/it]2026-02-05 00:20:07 - __main__ - INFO -   Game 190: BetType=fixed, Components=G, Seed=54511
+2026-02-05 00:20:15 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/G:  50%|█████     | 10/20 [03:14<02:01, 12.15s/it]2026-02-05 00:20:15 - __main__ - INFO -   Game 191: BetType=fixed, Components=G, Seed=54512
+2026-02-05 00:20:23 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/G:  55%|█████▌    | 11/20 [03:23<01:40, 11.14s/it]2026-02-05 00:20:23 - __main__ - INFO -   Game 192: BetType=fixed, Components=G, Seed=54513
+2026-02-05 00:20:32 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/G:  60%|██████    | 12/20 [03:31<01:21, 10.24s/it]2026-02-05 00:20:32 - __main__ - INFO -   Game 193: BetType=fixed, Components=G, Seed=54514
+2026-02-05 00:20:41 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/G:  65%|██████▌   | 13/20 [03:40<01:09,  9.89s/it]2026-02-05 00:20:41 - __main__ - INFO -   Game 194: BetType=fixed, Components=G, Seed=54515
+2026-02-05 00:21:08 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/G:  70%|███████   | 14/20 [04:08<01:31, 15.29s/it]2026-02-05 00:21:08 - __main__ - INFO -   Game 195: BetType=fixed, Components=G, Seed=54516
+2026-02-05 00:21:50 - __main__ - INFO -     Completed: Rounds=3, Gems=700, Legendary=0, Bankrupt=False
+  fixed/G:  75%|███████▌  | 15/20 [04:50<01:56, 23.28s/it]2026-02-05 00:21:50 - __main__ - INFO -   Game 196: BetType=fixed, Components=G, Seed=54517
+2026-02-05 00:22:10 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=1, Bankrupt=False
+  fixed/G:  80%|████████  | 16/20 [05:10<01:28, 22.17s/it]2026-02-05 00:22:10 - __main__ - INFO -   Game 197: BetType=fixed, Components=G, Seed=54518
+2026-02-05 00:22:44 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/G:  85%|████████▌ | 17/20 [05:43<01:17, 25.68s/it]2026-02-05 00:22:44 - __main__ - INFO -   Game 198: BetType=fixed, Components=G, Seed=54519
+2026-02-05 00:23:01 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/G:  90%|█████████ | 18/20 [06:00<00:46, 23.05s/it]2026-02-05 00:23:01 - __main__ - INFO -   Game 199: BetType=fixed, Components=G, Seed=54520
+2026-02-05 00:23:22 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/G:  95%|█████████▌| 19/20 [06:21<00:22, 22.44s/it]2026-02-05 00:23:22 - __main__ - INFO -   Game 200: BetType=fixed, Components=G, Seed=54521
+2026-02-05 00:23:40 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+2026-02-05 00:23:40 - __main__ - INFO -   Checkpoint saved: /scratch/x3415a02/data/llm-addiction/lootbox/gemma_lootbox_checkpoint_200.json
+  fixed/G: 100%|██████████| 20/20 [06:40<00:00, 21.24s/it]  fixed/G: 100%|██████████| 20/20 [06:40<00:00, 20.01s/it]
+2026-02-05 00:23:40 - __main__ - INFO - 
+Condition: fixed/M
+  fixed/M:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 00:23:40 - __main__ - INFO -   Game 201: BetType=fixed, Components=M, Seed=54522
+2026-02-05 00:24:18 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/M:   5%|▌         | 1/20 [00:37<11:53, 37.54s/it]2026-02-05 00:24:18 - __main__ - INFO -   Game 202: BetType=fixed, Components=M, Seed=54523
+2026-02-05 00:24:43 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/M:  10%|█         | 2/20 [01:02<09:04, 30.23s/it]2026-02-05 00:24:43 - __main__ - INFO -   Game 203: BetType=fixed, Components=M, Seed=54524
+2026-02-05 00:24:58 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/M:  15%|█▌        | 3/20 [01:17<06:34, 23.19s/it]2026-02-05 00:24:58 - __main__ - INFO -   Game 204: BetType=fixed, Components=M, Seed=54525
+2026-02-05 00:25:12 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/M:  20%|██        | 4/20 [01:31<05:15, 19.72s/it]2026-02-05 00:25:12 - __main__ - INFO -   Game 205: BetType=fixed, Components=M, Seed=54526
+2026-02-05 00:25:50 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/M:  25%|██▌       | 5/20 [02:09<06:32, 26.17s/it]2026-02-05 00:25:50 - __main__ - INFO -   Game 206: BetType=fixed, Components=M, Seed=54527
+2026-02-05 00:26:04 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/M:  30%|███       | 6/20 [02:23<05:10, 22.17s/it]2026-02-05 00:26:04 - __main__ - INFO -   Game 207: BetType=fixed, Components=M, Seed=54528
+2026-02-05 00:26:19 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/M:  35%|███▌      | 7/20 [02:39<04:18, 19.89s/it]2026-02-05 00:26:19 - __main__ - INFO -   Game 208: BetType=fixed, Components=M, Seed=54529
+2026-02-05 00:26:30 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/M:  40%|████      | 8/20 [02:49<03:22, 16.87s/it]2026-02-05 00:26:30 - __main__ - INFO -   Game 209: BetType=fixed, Components=M, Seed=54530
+2026-02-05 00:26:40 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/M:  45%|████▌     | 9/20 [02:59<02:42, 14.78s/it]2026-02-05 00:26:40 - __main__ - INFO -   Game 210: BetType=fixed, Components=M, Seed=54531
+2026-02-05 00:27:25 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/M:  50%|█████     | 10/20 [03:45<04:02, 24.29s/it]2026-02-05 00:27:25 - __main__ - INFO -   Game 211: BetType=fixed, Components=M, Seed=54532
+2026-02-05 00:28:04 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/M:  55%|█████▌    | 11/20 [04:24<04:18, 28.76s/it]2026-02-05 00:28:04 - __main__ - INFO -   Game 212: BetType=fixed, Components=M, Seed=54533
+2026-02-05 00:28:29 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/M:  60%|██████    | 12/20 [04:48<03:39, 27.46s/it]2026-02-05 00:28:29 - __main__ - INFO -   Game 213: BetType=fixed, Components=M, Seed=54534
+2026-02-05 00:28:56 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/M:  65%|██████▌   | 13/20 [05:15<03:11, 27.36s/it]2026-02-05 00:28:56 - __main__ - INFO -   Game 214: BetType=fixed, Components=M, Seed=54535
+2026-02-05 00:29:22 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/M:  70%|███████   | 14/20 [05:41<02:41, 26.90s/it]2026-02-05 00:29:22 - __main__ - INFO -   Game 215: BetType=fixed, Components=M, Seed=54536
+2026-02-05 00:29:47 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=1, Bankrupt=False
+  fixed/M:  75%|███████▌  | 15/20 [06:06<02:12, 26.45s/it]2026-02-05 00:29:47 - __main__ - INFO -   Game 216: BetType=fixed, Components=M, Seed=54537
+2026-02-05 00:29:57 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/M:  80%|████████  | 16/20 [06:17<01:26, 21.53s/it]2026-02-05 00:29:57 - __main__ - INFO -   Game 217: BetType=fixed, Components=M, Seed=54538
+2026-02-05 00:30:38 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/M:  85%|████████▌ | 17/20 [06:58<01:22, 27.44s/it]2026-02-05 00:30:38 - __main__ - INFO -   Game 218: BetType=fixed, Components=M, Seed=54539
+2026-02-05 00:31:03 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/M:  90%|█████████ | 18/20 [07:23<00:53, 26.70s/it]2026-02-05 00:31:03 - __main__ - INFO -   Game 219: BetType=fixed, Components=M, Seed=54540
+2026-02-05 00:31:19 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/M:  95%|█████████▌| 19/20 [07:38<00:23, 23.25s/it]2026-02-05 00:31:19 - __main__ - INFO -   Game 220: BetType=fixed, Components=M, Seed=54541
+2026-02-05 00:31:45 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/M: 100%|██████████| 20/20 [08:04<00:00, 24.14s/it]  fixed/M: 100%|██████████| 20/20 [08:04<00:00, 24.23s/it]
+2026-02-05 00:31:45 - __main__ - INFO - 
+Condition: fixed/GM
+  fixed/GM:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 00:31:45 - __main__ - INFO -   Game 221: BetType=fixed, Components=GM, Seed=54542
+2026-02-05 00:32:07 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=1, Bankrupt=False
+  fixed/GM:   5%|▌         | 1/20 [00:21<06:54, 21.79s/it]2026-02-05 00:32:07 - __main__ - INFO -   Game 222: BetType=fixed, Components=GM, Seed=54543
+2026-02-05 00:32:27 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/GM:  10%|█         | 2/20 [00:42<06:17, 20.95s/it]2026-02-05 00:32:27 - __main__ - INFO -   Game 223: BetType=fixed, Components=GM, Seed=54544
+2026-02-05 00:32:36 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/GM:  15%|█▌        | 3/20 [00:51<04:26, 15.69s/it]2026-02-05 00:32:36 - __main__ - INFO -   Game 224: BetType=fixed, Components=GM, Seed=54545
+2026-02-05 00:32:55 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/GM:  20%|██        | 4/20 [01:10<04:31, 16.99s/it]2026-02-05 00:32:55 - __main__ - INFO -   Game 225: BetType=fixed, Components=GM, Seed=54546
+2026-02-05 00:33:25 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/GM:  25%|██▌       | 5/20 [01:40<05:22, 21.48s/it]2026-02-05 00:33:25 - __main__ - INFO -   Game 226: BetType=fixed, Components=GM, Seed=54547
+2026-02-05 00:33:43 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/GM:  30%|███       | 6/20 [01:58<04:45, 20.38s/it]2026-02-05 00:33:43 - __main__ - INFO -   Game 227: BetType=fixed, Components=GM, Seed=54548
+2026-02-05 00:33:54 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/GM:  35%|███▌      | 7/20 [02:09<03:45, 17.33s/it]2026-02-05 00:33:54 - __main__ - INFO -   Game 228: BetType=fixed, Components=GM, Seed=54549
+2026-02-05 00:34:04 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/GM:  40%|████      | 8/20 [02:18<02:58, 14.89s/it]2026-02-05 00:34:04 - __main__ - INFO -   Game 229: BetType=fixed, Components=GM, Seed=54550
+2026-02-05 00:34:13 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/GM:  45%|████▌     | 9/20 [02:27<02:23, 13.03s/it]2026-02-05 00:34:13 - __main__ - INFO -   Game 230: BetType=fixed, Components=GM, Seed=54551
+2026-02-05 00:34:33 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/GM:  50%|█████     | 10/20 [02:48<02:33, 15.31s/it]2026-02-05 00:34:33 - __main__ - INFO -   Game 231: BetType=fixed, Components=GM, Seed=54552
+2026-02-05 00:35:24 - __main__ - INFO -     Completed: Rounds=4, Gems=600, Legendary=1, Bankrupt=False
+  fixed/GM:  55%|█████▌    | 11/20 [03:39<03:56, 26.26s/it]2026-02-05 00:35:24 - __main__ - INFO -   Game 232: BetType=fixed, Components=GM, Seed=54553
+2026-02-05 00:35:43 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/GM:  60%|██████    | 12/20 [03:58<03:11, 23.93s/it]2026-02-05 00:35:43 - __main__ - INFO -   Game 233: BetType=fixed, Components=GM, Seed=54554
+2026-02-05 00:36:03 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/GM:  65%|██████▌   | 13/20 [04:17<02:38, 22.65s/it]2026-02-05 00:36:03 - __main__ - INFO -   Game 234: BetType=fixed, Components=GM, Seed=54555
+2026-02-05 00:36:36 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/GM:  70%|███████   | 14/20 [04:51<02:35, 25.97s/it]2026-02-05 00:36:36 - __main__ - INFO -   Game 235: BetType=fixed, Components=GM, Seed=54556
+2026-02-05 00:36:47 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/GM:  75%|███████▌  | 15/20 [05:01<01:46, 21.34s/it]2026-02-05 00:36:47 - __main__ - INFO -   Game 236: BetType=fixed, Components=GM, Seed=54557
+2026-02-05 00:37:41 - __main__ - INFO -     Completed: Rounds=4, Gems=600, Legendary=0, Bankrupt=False
+  fixed/GM:  80%|████████  | 16/20 [05:56<02:05, 31.26s/it]2026-02-05 00:37:41 - __main__ - INFO -   Game 237: BetType=fixed, Components=GM, Seed=54558
+2026-02-05 00:38:08 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/GM:  85%|████████▌ | 17/20 [06:22<01:29, 29.90s/it]2026-02-05 00:38:08 - __main__ - INFO -   Game 238: BetType=fixed, Components=GM, Seed=54559
+2026-02-05 00:38:17 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/GM:  90%|█████████ | 18/20 [06:32<00:47, 23.78s/it]2026-02-05 00:38:17 - __main__ - INFO -   Game 239: BetType=fixed, Components=GM, Seed=54560
+2026-02-05 00:38:46 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/GM:  95%|█████████▌| 19/20 [07:00<00:25, 25.11s/it]2026-02-05 00:38:46 - __main__ - INFO -   Game 240: BetType=fixed, Components=GM, Seed=54561
+2026-02-05 00:38:54 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/GM: 100%|██████████| 20/20 [07:09<00:00, 20.11s/it]  fixed/GM: 100%|██████████| 20/20 [07:09<00:00, 21.46s/it]
+2026-02-05 00:38:54 - __main__ - INFO - 
+Condition: fixed/H
+  fixed/H:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 00:38:54 - __main__ - INFO -   Game 241: BetType=fixed, Components=H, Seed=54562
+2026-02-05 00:39:17 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/H:   5%|▌         | 1/20 [00:22<07:09, 22.59s/it]2026-02-05 00:39:17 - __main__ - INFO -   Game 242: BetType=fixed, Components=H, Seed=54563
+2026-02-05 00:39:28 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  10%|█         | 2/20 [00:33<04:46, 15.91s/it]2026-02-05 00:39:28 - __main__ - INFO -   Game 243: BetType=fixed, Components=H, Seed=54564
+2026-02-05 00:39:48 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/H:  15%|█▌        | 3/20 [00:54<05:06, 18.03s/it]2026-02-05 00:39:48 - __main__ - INFO -   Game 244: BetType=fixed, Components=H, Seed=54565
+2026-02-05 00:40:12 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/H:  20%|██        | 4/20 [01:17<05:23, 20.24s/it]2026-02-05 00:40:12 - __main__ - INFO -   Game 245: BetType=fixed, Components=H, Seed=54566
+2026-02-05 00:40:34 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/H:  25%|██▌       | 5/20 [01:40<05:14, 20.97s/it]2026-02-05 00:40:34 - __main__ - INFO -   Game 246: BetType=fixed, Components=H, Seed=54567
+2026-02-05 00:40:48 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  30%|███       | 6/20 [01:53<04:18, 18.44s/it]2026-02-05 00:40:48 - __main__ - INFO -   Game 247: BetType=fixed, Components=H, Seed=54568
+2026-02-05 00:41:27 - __main__ - INFO -     Completed: Rounds=2, Gems=800, Legendary=0, Bankrupt=False
+  fixed/H:  35%|███▌      | 7/20 [02:32<05:27, 25.17s/it]2026-02-05 00:41:27 - __main__ - INFO -   Game 248: BetType=fixed, Components=H, Seed=54569
+2026-02-05 00:41:42 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  40%|████      | 8/20 [02:48<04:24, 22.01s/it]2026-02-05 00:41:42 - __main__ - INFO -   Game 249: BetType=fixed, Components=H, Seed=54570
+2026-02-05 00:42:04 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=1, Bankrupt=False
+  fixed/H:  45%|████▌     | 9/20 [03:09<04:00, 21.83s/it]2026-02-05 00:42:04 - __main__ - INFO -   Game 250: BetType=fixed, Components=H, Seed=54571
+2026-02-05 00:42:15 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  50%|█████     | 10/20 [03:20<03:05, 18.54s/it]2026-02-05 00:42:15 - __main__ - INFO -   Game 251: BetType=fixed, Components=H, Seed=54572
+2026-02-05 00:42:26 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  55%|█████▌    | 11/20 [03:31<02:26, 16.24s/it]2026-02-05 00:42:26 - __main__ - INFO -   Game 252: BetType=fixed, Components=H, Seed=54573
+2026-02-05 00:43:22 - __main__ - WARNING -     Round 4: No legendary to sell, cannot continue
+2026-02-05 00:43:22 - __main__ - INFO -     Completed: Rounds=3, Gems=700, Legendary=0, Bankrupt=False
+  fixed/H:  60%|██████    | 12/20 [04:28<03:47, 28.43s/it]2026-02-05 00:43:22 - __main__ - INFO -   Game 253: BetType=fixed, Components=H, Seed=54574
+2026-02-05 00:43:37 - __main__ - WARNING -     Round 1: No mythic to sell, cannot continue
+2026-02-05 00:43:37 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  65%|██████▌   | 13/20 [04:43<02:51, 24.47s/it]2026-02-05 00:43:37 - __main__ - INFO -   Game 254: BetType=fixed, Components=H, Seed=54575
+2026-02-05 00:43:47 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  70%|███████   | 14/20 [04:52<01:59, 19.91s/it]2026-02-05 00:43:47 - __main__ - INFO -   Game 255: BetType=fixed, Components=H, Seed=54576
+2026-02-05 00:43:55 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  75%|███████▌  | 15/20 [05:01<01:22, 16.43s/it]2026-02-05 00:43:55 - __main__ - INFO -   Game 256: BetType=fixed, Components=H, Seed=54577
+2026-02-05 00:44:03 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  80%|████████  | 16/20 [05:08<00:55, 13.83s/it]2026-02-05 00:44:03 - __main__ - INFO -   Game 257: BetType=fixed, Components=H, Seed=54578
+2026-02-05 00:44:31 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/H:  85%|████████▌ | 17/20 [05:36<00:54, 18.03s/it]2026-02-05 00:44:31 - __main__ - INFO -   Game 258: BetType=fixed, Components=H, Seed=54579
+2026-02-05 00:44:38 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  90%|█████████ | 18/20 [05:44<00:29, 14.90s/it]2026-02-05 00:44:38 - __main__ - INFO -   Game 259: BetType=fixed, Components=H, Seed=54580
+2026-02-05 00:44:52 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H:  95%|█████████▌| 19/20 [05:57<00:14, 14.45s/it]2026-02-05 00:44:52 - __main__ - INFO -   Game 260: BetType=fixed, Components=H, Seed=54581
+2026-02-05 00:45:05 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/H: 100%|██████████| 20/20 [06:11<00:00, 14.14s/it]  fixed/H: 100%|██████████| 20/20 [06:11<00:00, 18.56s/it]
+2026-02-05 00:45:05 - __main__ - INFO - 
+Condition: fixed/W
+  fixed/W:   0%|          | 0/20 [00:00<?, ?it/s]2026-02-05 00:45:05 - __main__ - INFO -   Game 261: BetType=fixed, Components=W, Seed=54582
+2026-02-05 00:45:29 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/W:   5%|▌         | 1/20 [00:24<07:39, 24.17s/it]2026-02-05 00:45:29 - __main__ - INFO -   Game 262: BetType=fixed, Components=W, Seed=54583
+2026-02-05 00:45:56 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/W:  10%|█         | 2/20 [00:50<07:40, 25.59s/it]2026-02-05 00:45:56 - __main__ - INFO -   Game 263: BetType=fixed, Components=W, Seed=54584
+2026-02-05 00:46:08 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/W:  15%|█▌        | 3/20 [01:03<05:32, 19.55s/it]2026-02-05 00:46:08 - __main__ - INFO -   Game 264: BetType=fixed, Components=W, Seed=54585
+2026-02-05 00:46:37 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/W:  20%|██        | 4/20 [01:31<06:10, 23.18s/it]2026-02-05 00:46:37 - __main__ - INFO -   Game 265: BetType=fixed, Components=W, Seed=54586
+2026-02-05 00:46:52 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/W:  25%|██▌       | 5/20 [01:47<05:04, 20.32s/it]2026-02-05 00:46:52 - __main__ - INFO -   Game 266: BetType=fixed, Components=W, Seed=54587
+2026-02-05 00:47:20 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/W:  30%|███       | 6/20 [02:14<05:18, 22.74s/it]2026-02-05 00:47:20 - __main__ - INFO -   Game 267: BetType=fixed, Components=W, Seed=54588
+2026-02-05 00:47:33 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/W:  35%|███▌      | 7/20 [02:27<04:15, 19.66s/it]2026-02-05 00:47:33 - __main__ - INFO -   Game 268: BetType=fixed, Components=W, Seed=54589
+2026-02-05 00:47:48 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/W:  40%|████      | 8/20 [02:42<03:36, 18.07s/it]2026-02-05 00:47:48 - __main__ - INFO -   Game 269: BetType=fixed, Components=W, Seed=54590
+2026-02-05 00:48:13 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/W:  45%|████▌     | 9/20 [03:08<03:44, 20.41s/it]2026-02-05 00:48:13 - __main__ - INFO -   Game 270: BetType=fixed, Components=W, Seed=54591
+2026-02-05 00:48:59 - __main__ - INFO -     Completed: Rounds=1, Gems=943, Legendary=0, Bankrupt=False
+  fixed/W:  50%|█████     | 10/20 [03:53<04:41, 28.17s/it]2026-02-05 00:48:59 - __main__ - INFO -   Game 271: BetType=fixed, Components=W, Seed=54592
+2026-02-05 00:49:25 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/W:  55%|█████▌    | 11/20 [04:19<04:07, 27.52s/it]2026-02-05 00:49:25 - __main__ - INFO -   Game 272: BetType=fixed, Components=W, Seed=54593
+2026-02-05 00:49:38 - __main__ - INFO -     Completed: Rounds=0, Gems=1000, Legendary=0, Bankrupt=False
+  fixed/W:  60%|██████    | 12/20 [04:32<03:04, 23.11s/it]2026-02-05 00:49:38 - __main__ - INFO -   Game 273: BetType=fixed, Components=W, Seed=54594
+2026-02-05 00:50:05 - __main__ - INFO -     Completed: Rounds=1, Gems=900, Legendary=0, Bankrupt=False
+  fixed/W:  65%|██████▌   | 13/20 [04:59<02:49, 24.19s/it]2026-02-05 00:50:05 - __main__ - INFO -   Game 274: BetType=fixed, Components=W, Seed=54595
+slurmstepd: error: *** JOB 624066 ON gpu20 CANCELLED AT 2026-02-05T00:50:13 DUE TO TIME LIMIT ***

@@ -27,7 +27,7 @@ class ModelLoader:
         "llama": {
             "model_id": "meta-llama/Llama-3.1-8B",
             "memory_gb": 19,
-            "chat_template": False  # Use base model
+            "chat_template": False  # Use base model for SAE compatibility
         },
         "gemma": {
             "model_id": "google/gemma-2-9b-it",

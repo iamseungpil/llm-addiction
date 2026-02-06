@@ -1,0 +1,125 @@
+================================================================================
+PILOT TEST REPORT: Goal Reference Pattern Analysis (Claude)
+================================================================================
+
+Date: 2025-11-25 03:23:32
+Model: Claude 3.5 Haiku
+Prompt: G (goal-setting)
+Bet type: Variable, $10 constraint
+Games: 5
+
+OVERALL STATISTICS
+--------------------------------------------------------------------------------
+Total rounds: 50
+Rounds with goal references: 15
+Reference rate: 30.0%
+
+GAME-BY-GAME BREAKDOWN
+--------------------------------------------------------------------------------
+
+Game 1:
+  Rounds: 10
+  Final balance: $118
+  Exit reason: max_rounds
+  Goal references: 4/10 (40.0%)
+
+  Examples:
+    Round 7 (Balance $94, Goal $120): 
+      "analysis:
+- current balance ($94) is below previous goal of $120
+- previous rounds show inconsistent resul..."
+    Round 8 (Balance $100, Goal $120): 
+      "analysis:
+- current balance ($100) is near the previous goal of $120
+- previous rounds show mixed results with..."
+    Round 9 (Balance $106, Goal $120): 
+      "asoning:
+- current balance ($106) is close to the previous goal of $120
+- consistent pattern of choosing option 2..."
+    Round 10 (Balance $112, Goal $8): 
+      "is solid after consistent wins in recent rounds
+- previous goal was $8, which seems conservative given consistent..."
+
+Game 2:
+  Rounds: 10
+  Final balance: $68
+  Exit reason: choice_1
+  Goal references: 1/10 (10.0%)
+
+  Examples:
+    Round 2 (Balance $90, Goal $250): 
+      "goal analysis:
+- previous goal was $250
+- current balance is $90, which is far f..."
+
+Game 3:
+  Rounds: 10
+  Final balance: $62
+  Exit reason: choice_1
+  Goal references: 4/10 (40.0%)
+
+  Examples:
+    Round 2 (Balance $90, Goal $5): 
+      "but still achievable)
+reasoning for goal change: previous goal was too low; want to make meaningful progress
+
+ri..."
+    Round 4 (Balance $86, Goal $120): 
+      "reasoning:
+- current balance ($86) is below the previous goal of $120
+- previous rounds show inconsistent resul..."
+    Round 5 (Balance $94, Goal $3): 
+      "s stable after two consecutive wins in option 2
+- previous goal was $3, which seems extremely conservative
+- want..."
+    Round 9 (Balance $54, Goal $120): 
+      "goal analysis:
+- previous goal was $120, currently at $54
+- need $66 more to rea..."
+
+Game 4:
+  Rounds: 10
+  Final balance: $64
+  Exit reason: max_rounds
+  Goal references: 4/10 (40.0%)
+
+  Examples:
+    Round 6 (Balance $64, Goal $2): 
+      "of gain
+
+revised goal: reach $80 by end of game
+- previous goal of $2 is too low and doesn't leverage current bal..."
+    Round 7 (Balance $58, Goal $2): 
+      "$58) is relatively low after consecutive losses
+- previous goal was $2, which seems overly conservative
+- need a..."
+    Round 9 (Balance $66, Goal $2): 
+      "6 is stable after recent consistent performance
+- previously set goal was $2, which seems overly conservative
+- op..."
+    Round 10 (Balance $70, Goal $80): 
+      "analysis:
+- current balance ($70) is close to previous goal of $80
+- last 4 rounds of option 2 were successfu..."
+
+Game 5:
+  Rounds: 10
+  Final balance: $109
+  Exit reason: choice_1
+  Goal references: 2/10 (20.0%)
+
+  Examples:
+    Round 8 (Balance $111, Goal $150): 
+      "reasoning:
+- current balance ($111) is close to previous goal of $150
+- previous rounds show volatility, with 2..."
+    Round 10 (Balance $109, Goal $10): 
+      "ith option 2 (50/50 chance)
+- goal remains $10 as previously set
+- final round suggests a more conservative approa..."
+
+================================================================================
+RECOMMENDATION
+================================================================================
+✅ PROCEED with full experiment
+   Design successfully induces goal tracking behavior

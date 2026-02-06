@@ -1,1635 +1,0 @@
-/data/miniforge3/lib/python3.10/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-================================================================================
-🚀 MULTILAYER PATCHING EXPERIMENT L7-L8
-   GPU: 0, Process: gpu4_L7_8
-   Trials per condition: 50
-================================================================================
-🚀 Loading models on GPU 0
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.34s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.34s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.37s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.04it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.10s/it]
-✅ LLaMA loaded successfully
-🔧 SAEs will be loaded on-demand
-🔍 Loading L1-31 features from /data/llm_addiction/experiment_1_L1_31_extraction/L1_31_features_FINAL_20250930_220003.json
-Layer 7: 1859 significant -> selecting top 300
-Layer 8: 1957 significant -> selecting top 300
-
-✅ Loaded 600 features total
-📊 Layer distribution: {7: 300, 8: 300}
-
-🧪 Testing 600 features...
-Testing features:   0%|          | 0/600 [00:00<?, ?it/s]
-🧪 Testing L7-1270
-   Cohen's d: -1.138
-   Safe mean: 0.012749, Risky mean: 0.002186
-🔧 Loading SAE Layer 7...
-🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L7R-8x/hyperparams.json
-✅ Loading WORKING SAE for Layer 7
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L7R-8x/hyperparams.json
-   Dataset norm: 5.90625
-   Norm factor: 10.835979
-   Using ReLU instead of JumpReLU (threshold=0.0)
-🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L7R-8x/checkpoints/final.safetensors
-   File size: 512.1 MB
-🔧 Initializing SAE model...
-🔧 Loading checkpoint weights (CPU)...
-✅ Loaded safetensors file
-🔧 Processing checkpoint weights...
-   Loading W_E (encoder.weight)... converted... ✅ (torch.Size([4096, 32768]))
-   Loading b_E (encoder.bias)... converted... ✅ (torch.Size([32768]))
-   Loading W_D (decoder.weight)... converted... ✅ (torch.Size([32768, 4096]))
-   Loading b_D (decoder.bias)... converted... Testing features:   0%|          | 1/600 [34:21<343:02:40, 2061.70s/it]Testing features:   0%|          | 2/600 [1:08:32<341:26:53, 2055.54s/it]Testing features:   0%|          | 3/600 [1:42:50<340:59:47, 2056.26s/it]Testing features:   1%|          | 4/600 [2:16:50<339:25:28, 2050.22s/it]Testing features:   1%|          | 5/600 [2:50:43<337:46:57, 2043.73s/it]Testing features:   1%|          | 6/600 [3:25:21<339:10:09, 2055.57s/it]Testing features:   1%|          | 7/600 [4:00:30<341:26:17, 2072.81s/it]Testing features:   1%|▏         | 8/600 [4:35:24<341:58:04, 2079.54s/it]Testing features:   2%|▏         | 9/600 [5:09:10<338:39:16, 2062.87s/it]Testing features:   2%|▏         | 10/600 [5:44:35<341:13:05, 2082.01s/it]Testing features:   2%|▏         | 11/600 [6:17:47<336:09:03, 2054.57s/it]Testing features:   2%|▏         | 12/600 [6:51:53<335:09:36, 2052.00s/it]Testing features:   2%|▏         | 13/600 [7:26:52<336:55:08, 2066.28s/it]Testing features:   2%|▏         | 14/600 [8:01:08<335:48:10, 2062.95s/it]Testing features:   2%|▎         | 15/600 [8:35:39<335:38:57, 2065.53s/it]Testing features:   3%|▎         | 16/600 [9:10:38<336:42:09, 2075.56s/it]Testing features:   3%|▎         | 17/600 [9:45:18<336:20:41, 2076.91s/it]Testing features:   3%|▎         | 18/600 [10:19:31<334:35:36, 2069.65s/it]Testing features:   3%|▎         | 19/600 [10:54:02<334:05:01, 2070.05s/it]Testing features:   3%|▎         | 20/600 [11:28:53<334:31:58, 2076.41s/it]Testing features:   4%|▎         | 21/600 [12:04:02<335:31:11, 2086.13s/it]Testing features:   4%|▎         | 22/600 [12:38:24<333:48:03, 2079.04s/it]Testing features:   4%|▍         | 23/600 [13:12:24<331:20:53, 2067.34s/it]Testing features:   4%|▍         | 24/600 [13:47:10<331:40:53, 2073.01s/it]Testing features:   4%|▍         | 25/600 [14:21:41<330:59:05, 2072.25s/it]Testing features:   4%|▍         | 26/600 [14:56:30<331:13:12, 2077.34s/it]Testing features:   4%|▍         | 27/600 [15:30:44<329:30:15, 2070.18s/it]Testing features:   5%|▍         | 28/600 [16:05:14<328:57:20, 2070.35s/it]Testing features:   5%|▍         | 29/600 [16:40:52<331:34:22, 2090.48s/it]Testing features:   5%|▌         | 30/600 [17:15:28<330:19:51, 2086.30s/it]Testing features:   5%|▌         | 31/600 [17:50:36<330:46:40, 2092.79s/it]Testing features:   5%|▌         | 32/600 [18:25:36<330:30:56, 2094.82s/it]Testing features:   6%|▌         | 33/600 [19:01:03<331:27:58, 2104.55s/it]Testing features:   6%|▌         | 34/600 [19:35:21<328:42:14, 2090.70s/it]Testing features:   6%|▌         | 35/600 [20:09:18<325:33:28, 2074.35s/it]Testing features:   6%|▌         | 36/600 [20:43:34<324:07:52, 2068.92s/it]Testing features:   6%|▌         | 37/600 [21:18:26<324:38:50, 2075.90s/it]Testing features:   6%|▋         | 38/600 [21:53:11<324:29:11, 2078.56s/it]Testing features:   6%|▋         | 39/600 [22:28:08<324:45:52, 2084.05s/it]Testing features:   7%|▋         | 40/600 [23:02:14<322:26:29, 2072.84s/it]Testing features:   7%|▋         | 41/600 [23:36:51<322:01:27, 2073.86s/it]Testing features:   7%|▋         | 42/600 [24:11:30<321:43:10, 2075.61s/it]Testing features:   7%|▋         | 43/600 [24:45:58<320:46:37, 2073.24s/it]Testing features:   7%|▋         | 44/600 [25:20:40<320:36:32, 2075.89s/it]Testing features:   8%|▊         | 45/600 [25:55:06<319:33:32, 2072.81s/it]Testing features:   8%|▊         | 46/600 [26:29:07<317:32:37, 2063.46s/it]Testing features:   8%|▊         | 47/600 [27:03:03<315:39:44, 2054.95s/it]Testing features:   8%|▊         | 48/600 [27:37:58<316:58:29, 2067.23s/it]Testing features:   8%|▊         | 49/600 [28:11:55<314:58:55, 2057.96s/it]Testing features:   8%|▊         | 50/600 [28:46:20<314:45:39, 2060.25s/it]Testing features:   8%|▊         | 51/600 [29:20:45<314:23:37, 2061.60s/it]Testing features:   9%|▊         | 52/600 [29:55:00<313:30:28, 2059.54s/it]Testing features:   9%|▉         | 53/600 [30:29:01<312:05:25, 2053.98s/it]Testing features:   9%|▉         | 54/600 [31:03:10<311:18:07, 2052.54s/it]Testing features:   9%|▉         | 55/600 [31:37:40<311:31:44, 2057.81s/it]Testing features:   9%|▉         | 56/600 [32:11:49<310:34:30, 2055.28s/it]Testing features:  10%|▉         | 57/600 [32:45:27<308:17:59, 2043.98s/it]Testing features:  10%|▉         | 58/600 [33:20:04<309:13:47, 2053.92s/it]Testing features:  10%|▉         | 59/600 [33:54:38<309:32:53, 2059.84s/it]Testing features:  10%|█         | 60/600 [34:28:39<308:07:45, 2054.19s/it]Testing features:  10%|█         | 61/600 [35:02:51<307:26:35, 2053.42s/it]Testing features:  10%|█         | 62/600 [35:36:57<306:32:24, 2051.20s/it]Testing features:  10%|█         | 63/600 [36:11:58<308:13:01, 2066.26s/it]Testing features:  11%|█         | 64/600 [36:46:27<307:46:24, 2067.14s/it]Testing features:  11%|█         | 65/600 [37:20:09<305:09:48, 2053.44s/it]Testing features:  11%|█         | 66/600 [37:55:02<306:21:57, 2065.39s/it]Testing features:  11%|█         | 67/600 [38:29:15<305:15:43, 2061.81s/it]Testing features:  11%|█▏        | 68/600 [39:04:46<307:43:35, 2082.36s/it]Testing features:  12%|█▏        | 69/600 [39:38:29<304:32:17, 2064.67s/it]Testing features:  12%|█▏        | 70/600 [40:13:07<304:34:07, 2068.77s/it]Testing features:  12%|█▏        | 71/600 [40:47:29<303:41:50, 2066.75s/it]Testing features:  12%|█▏        | 72/600 [41:21:47<302:42:33, 2063.93s/it]Testing features:  12%|█▏        | 73/600 [41:56:15<302:20:14, 2065.30s/it]Testing features:  12%|█▏        | 74/600 [42:31:36<304:12:26, 2082.03s/it]Testing features:  12%|█▎        | 75/600 [43:06:30<304:09:24, 2085.65s/it]Testing features:  13%|█▎        | 76/600 [43:40:37<301:52:33, 2073.96s/it]Testing features:  13%|█▎        | 77/600 [44:15:10<301:16:09, 2073.75s/it]Testing features:  13%|█▎        | 78/600 [44:49:50<300:57:21, 2075.56s/it]Testing features:  13%|█▎        | 79/600 [45:23:39<298:20:53, 2061.52s/it]Testing features:  13%|█▎        | 80/600 [45:58:00<297:45:07, 2061.36s/it]Testing features:  14%|█▎        | 81/600 [46:31:37<295:15:47, 2048.07s/it]Testing features:  14%|█▎        | 82/600 [47:05:49<294:51:26, 2049.20s/it]Testing features:  14%|█▍        | 83/600 [47:41:18<297:44:22, 2073.23s/it]Testing features:  14%|█▍        | 84/600 [48:15:04<295:07:09, 2058.97s/it]Testing features:  14%|█▍        | 85/600 [48:49:29<294:49:50, 2060.95s/it]Testing features:  14%|█▍        | 86/600 [49:22:57<291:57:31, 2044.85s/it]Testing features:  14%|█▍        | 87/600 [49:57:05<291:33:15, 2046.00s/it]Testing features:  15%|█▍        | 88/600 [50:31:05<290:43:13, 2044.13s/it]✅ (torch.Size([4096]))
-🔧 Clearing checkpoint from memory...
-🔧 Loading state dict to model...
-🔧 Moving model to cuda...
-✅ OPTIMIZED SAE loaded successfully!
-   Layer: 7
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-   Memory optimizations: ENABLED
-✅ SAE Layer 7 loaded
-
-🧪 Testing L7-190
-   Cohen's d: 1.134
-   Safe mean: 0.044098, Risky mean: 0.057922
-
-🧪 Testing L7-3967
-   Cohen's d: -1.104
-   Safe mean: 0.111694, Risky mean: 0.102600
-
-🧪 Testing L7-3406
-   Cohen's d: -1.086
-   Safe mean: 0.112671, Risky mean: 0.099304
-
-🧪 Testing L7-1852
-   Cohen's d: 1.065
-   Safe mean: -0.089233, Risky mean: -0.078491
-
-🧪 Testing L7-1051
-   Cohen's d: -1.063
-   Safe mean: 0.012451, Risky mean: 0.004494
-
-🧪 Testing L7-110
-   Cohen's d: 1.060
-   Safe mean: -0.069763, Risky mean: -0.062134
-
-🧪 Testing L7-81
-   Cohen's d: 1.057
-   Safe mean: -0.032104, Risky mean: -0.019669
-
-🧪 Testing L7-1275
-   Cohen's d: 1.056
-   Safe mean: -0.085449, Risky mean: -0.072083
-
-🧪 Testing L7-1829
-   Cohen's d: 1.051
-   Safe mean: 0.052063, Risky mean: 0.062561
-
-🧪 Testing L7-3196
-   Cohen's d: 1.039
-   Safe mean: 0.031555, Risky mean: 0.041351
-
-🧪 Testing L7-2109
-   Cohen's d: -1.031
-   Safe mean: 0.029343, Risky mean: 0.018509
-
-🧪 Testing L7-269
-   Cohen's d: 1.026
-   Safe mean: 0.019241, Risky mean: 0.024979
-
-🧪 Testing L7-3561
-   Cohen's d: -1.016
-   Safe mean: -0.026703, Risky mean: -0.037933
-
-🧪 Testing L7-3186
-   Cohen's d: 1.015
-   Safe mean: -0.031433, Risky mean: -0.022049
-
-🧪 Testing L7-4065
-   Cohen's d: -1.015
-   Safe mean: -0.008301, Risky mean: -0.018005
-
-🧪 Testing L7-3989
-   Cohen's d: 1.013
-   Safe mean: -0.028519, Risky mean: -0.014923
-
-🧪 Testing L7-3697
-   Cohen's d: 1.007
-   Safe mean: -0.010056, Risky mean: 0.002625
-
-🧪 Testing L7-751
-   Cohen's d: 1.006
-   Safe mean: -0.081238, Risky mean: -0.069824
-
-🧪 Testing L7-1024
-   Cohen's d: 1.003
-   Safe mean: 0.078247, Risky mean: 0.089417
-
-🧪 Testing L7-481
-   Cohen's d: -1.002
-   Safe mean: 0.122375, Risky mean: 0.108704
-
-🧪 Testing L7-3658
-   Cohen's d: -0.998
-   Safe mean: 0.037720, Risky mean: 0.025864
-
-🧪 Testing L7-3704
-   Cohen's d: -0.992
-   Safe mean: 0.011093, Risky mean: -0.000203
-
-🧪 Testing L7-3330
-   Cohen's d: -0.988
-   Safe mean: 0.155151, Risky mean: 0.140747
-
-🧪 Testing L7-3808
-   Cohen's d: 0.987
-   Safe mean: -0.038849, Risky mean: -0.029190
-
-🧪 Testing L7-2927
-   Cohen's d: 0.987
-   Safe mean: 0.010033, Risky mean: 0.019119
-
-🧪 Testing L7-3357
-   Cohen's d: -0.985
-   Safe mean: 0.030319, Risky mean: 0.019562
-
-🧪 Testing L7-551
-   Cohen's d: 0.983
-   Safe mean: 0.027786, Risky mean: 0.040527
-
-🧪 Testing L7-15
-   Cohen's d: 0.982
-   Safe mean: 0.008896, Risky mean: 0.019257
-
-🧪 Testing L7-3206
-   Cohen's d: 0.976
-   Safe mean: -0.009865, Risky mean: -0.002901
-
-🧪 Testing L7-1750
-   Cohen's d: 0.973
-   Safe mean: -0.081360, Risky mean: -0.069336
-
-🧪 Testing L7-604
-   Cohen's d: 0.965
-   Safe mean: 0.040039, Risky mean: 0.050018
-
-🧪 Testing L7-68
-   Cohen's d: 0.964
-   Safe mean: -0.043701, Risky mean: -0.035980
-
-🧪 Testing L7-1857
-   Cohen's d: -0.963
-   Safe mean: -0.012772, Risky mean: -0.024765
-
-🧪 Testing L7-295
-   Cohen's d: -0.962
-   Safe mean: 0.062927, Risky mean: 0.049255
-
-🧪 Testing L7-3600
-   Cohen's d: 0.960
-   Safe mean: 0.026825, Risky mean: 0.039764
-
-🧪 Testing L7-2526
-   Cohen's d: 0.954
-   Safe mean: -0.081116, Risky mean: -0.066956
-
-🧪 Testing L7-628
-   Cohen's d: -0.954
-   Safe mean: -0.067749, Risky mean: -0.072388
-
-🧪 Testing L7-166
-   Cohen's d: -0.948
-   Safe mean: 0.034515, Risky mean: 0.024704
-
-🧪 Testing L7-1846
-   Cohen's d: -0.948
-   Safe mean: 0.160034, Risky mean: 0.142090
-
-🧪 Testing L7-88
-   Cohen's d: -0.946
-   Safe mean: 0.084045, Risky mean: 0.072937
-
-🧪 Testing L7-2473
-   Cohen's d: 0.946
-   Safe mean: -0.107178, Risky mean: -0.096985
-
-🧪 Testing L7-3916
-   Cohen's d: -0.944
-   Safe mean: 0.055450, Risky mean: 0.044128
-
-🧪 Testing L7-2998
-   Cohen's d: -0.939
-   Safe mean: -0.028870, Risky mean: -0.040344
-
-🧪 Testing L7-2267
-   Cohen's d: -0.938
-   Safe mean: -0.010803, Risky mean: -0.022919
-
-🧪 Testing L7-1458
-   Cohen's d: -0.936
-   Safe mean: -0.044434, Risky mean: -0.056213
-
-🧪 Testing L7-2955
-   Cohen's d: -0.935
-   Safe mean: -0.015274, Risky mean: -0.025955
-
-🧪 Testing L7-2303
-   Cohen's d: -0.932
-   Safe mean: -0.276367, Risky mean: -0.312012
-
-🧪 Testing L7-1779
-   Cohen's d: -0.930
-   Safe mean: -0.006939, Risky mean: -0.019363
-
-🧪 Testing L7-333
-   Cohen's d: 0.926
-   Safe mean: 0.003786, Risky mean: 0.012253
-💾 Checkpoint saved: /data/llm_addiction/experiment_2_multilayer_patching/checkpoint_L7_8_gpu4_L7_8_20251004_014517.json
-
-🧪 Testing L7-1990
-   Cohen's d: -0.924
-   Safe mean: -0.027145, Risky mean: -0.032959
-
-🧪 Testing L7-3130
-   Cohen's d: -0.918
-   Safe mean: 0.102539, Risky mean: 0.094788
-
-🧪 Testing L7-1721
-   Cohen's d: -0.917
-   Safe mean: -0.051270, Risky mean: -0.064453
-
-🧪 Testing L7-3753
-   Cohen's d: 0.917
-   Safe mean: 0.010277, Risky mean: 0.017746
-
-🧪 Testing L7-1175
-   Cohen's d: 0.915
-   Safe mean: -0.138550, Risky mean: -0.123413
-
-🧪 Testing L7-421
-   Cohen's d: -0.913
-   Safe mean: 0.078247, Risky mean: 0.067993
-
-🧪 Testing L7-2360
-   Cohen's d: -0.911
-   Safe mean: -0.056824, Risky mean: -0.064514
-
-🧪 Testing L7-2939
-   Cohen's d: 0.910
-   Safe mean: -0.072693, Risky mean: -0.062469
-
-🧪 Testing L7-171
-   Cohen's d: 0.905
-   Safe mean: -0.027756, Risky mean: -0.020340
-
-🧪 Testing L7-2454
-   Cohen's d: 0.904
-   Safe mean: 0.001295, Risky mean: 0.009590
-
-🧪 Testing L7-3733
-   Cohen's d: 0.904
-   Safe mean: 0.001585, Risky mean: 0.010857
-
-🧪 Testing L7-4061
-   Cohen's d: -0.901
-   Safe mean: 0.085938, Risky mean: 0.076599
-
-🧪 Testing L7-2375
-   Cohen's d: -0.900
-   Safe mean: 0.047241, Risky mean: 0.039642
-
-🧪 Testing L7-3996
-   Cohen's d: -0.900
-   Safe mean: 0.047272, Risky mean: 0.036011
-
-🧪 Testing L7-1084
-   Cohen's d: 0.896
-   Safe mean: -0.172363, Risky mean: -0.161133
-
-🧪 Testing L7-349
-   Cohen's d: 0.896
-   Safe mean: -0.007298, Risky mean: 0.000458
-
-🧪 Testing L7-2856
-   Cohen's d: -0.891
-   Safe mean: 0.019089, Risky mean: 0.007271
-
-🧪 Testing L7-3663
-   Cohen's d: -0.891
-   Safe mean: -0.006718, Risky mean: -0.014061
-
-🧪 Testing L7-1423
-   Cohen's d: -0.890
-   Safe mean: 0.111389, Risky mean: 0.101562
-
-🧪 Testing L7-396
-   Cohen's d: 0.890
-   Safe mean: -0.087219, Risky mean: -0.074219
-
-🧪 Testing L7-2701
-   Cohen's d: 0.890
-   Safe mean: -0.046661, Risky mean: -0.037292
-
-🧪 Testing L7-1961
-   Cohen's d: -0.889
-   Safe mean: -0.036102, Risky mean: -0.046356
-
-🧪 Testing L7-1695
-   Cohen's d: 0.888
-   Safe mean: -0.073730, Risky mean: -0.064514
-
-🧪 Testing L7-2415
-   Cohen's d: -0.887
-   Safe mean: -0.018661, Risky mean: -0.027756
-
-🧪 Testing L7-1188
-   Cohen's d: 0.886
-   Safe mean: -0.062988, Risky mean: -0.052887
-
-🧪 Testing L7-3091
-   Cohen's d: 0.886
-   Safe mean: 0.005798, Risky mean: 0.013718
-
-🧪 Testing L7-2545
-   Cohen's d: -0.885
-   Safe mean: 0.007912, Risky mean: 0.001109
-
-🧪 Testing L7-2172
-   Cohen's d: -0.882
-   Safe mean: -0.109070, Risky mean: -0.118225
-
-🧪 Testing L7-2547
-   Cohen's d: -0.880
-   Safe mean: -0.027420, Risky mean: -0.034668
-
-🧪 Testing L7-3399
-   Cohen's d: -0.879
-   Safe mean: 0.038483, Risky mean: 0.027512
-
-🧪 Testing L7-3085
-   Cohen's d: -0.879
-   Safe mean: 0.099182, Risky mean: 0.092896
-
-🧪 Testing L7-2567
-   Cohen's d: -0.877
-   Safe mean: -0.014679, Risky mean: -0.024933
-
-🧪 Testing L7-2606
-   Cohen's d: 0.875
-   Safe mean: -0.055481, Risky mean: -0.044891
-
-🧪 Testing L7-2534
-   Cohen's d: -0.874
-   Safe mean: -0.010353, Risky mean: -0.027069
-
-🧪 Testing L7-1412
-   Cohen's d: -0.872
-   Safe mean: 0.038513, Risky mean: 0.028244
-
-🧪 Testing L7-2494
-   Cohen's d: -0.871
-   Safe mean: -0.040833, Risky mean: -0.056610
-
-🧪 Testing L7-530
-   Cohen's d: 0.865
-   Safe mean: 0.008286, Risky mean: 0.017365
-
-🧪 Testing L7-804
-   Cohen's d: 0.861
-   Safe mean: -0.018219, Risky mean: -0.010681
-
-🧪 Testing L7-3004
-   Cohen's d: -0.860
-Testing features:  15%|█▍        | 89/600 [51:05:10<290:11:38, 2044.42s/it]Testing features:  15%|█▌        | 90/600 [51:40:08<291:53:45, 2060.44s/it]Testing features:  15%|█▌        | 91/600 [52:14:43<291:56:03, 2064.76s/it]Testing features:  15%|█▌        | 92/600 [52:48:31<289:49:33, 2053.88s/it]Testing features:  16%|█▌        | 93/600 [53:22:59<289:51:11, 2058.13s/it]Testing features:  16%|█▌        | 94/600 [53:58:01<291:06:38, 2071.14s/it]Testing features:  16%|█▌        | 95/600 [54:32:01<289:14:43, 2061.95s/it]Testing features:  16%|█▌        | 96/600 [55:06:42<289:26:30, 2067.44s/it]Testing features:  16%|█▌        | 97/600 [55:41:38<290:03:44, 2075.99s/it]Testing features:  16%|█▋        | 98/600 [56:14:55<286:12:06, 2052.44s/it]Testing features:  16%|█▋        | 99/600 [56:49:20<286:08:06, 2056.06s/it]Testing features:  17%|█▋        | 100/600 [57:23:58<286:31:00, 2062.92s/it]Testing features:  17%|█▋        | 101/600 [57:58:49<287:04:54, 2071.13s/it]Testing features:  17%|█▋        | 102/600 [58:33:08<286:00:44, 2067.56s/it]Testing features:  17%|█▋        | 103/600 [59:07:40<285:38:06, 2068.99s/it]Testing features:  17%|█▋        | 104/600 [59:41:49<284:12:23, 2062.79s/it]Testing features:  18%|█▊        | 105/600 [60:15:36<282:09:42, 2052.09s/it]Testing features:  18%|█▊        | 106/600 [60:50:44<283:54:53, 2069.02s/it]Testing features:  18%|█▊        | 107/600 [61:25:21<283:38:45, 2071.25s/it]Testing features:  18%|█▊        | 108/600 [61:59:30<282:10:02, 2064.64s/it]Testing features:  18%|█▊        | 109/600 [62:32:46<278:47:09, 2044.05s/it]Testing features:  18%|█▊        | 110/600 [63:06:44<277:58:25, 2042.26s/it]Testing features:  18%|█▊        | 111/600 [63:40:57<277:50:40, 2045.48s/it]Testing features:  19%|█▊        | 112/600 [64:15:07<277:28:14, 2046.92s/it]Testing features:  19%|█▉        | 113/600 [64:49:57<278:37:13, 2059.62s/it]Testing features:  19%|█▉        | 114/600 [65:24:02<277:28:15, 2055.34s/it]Testing features:  19%|█▉        | 115/600 [65:58:11<276:38:15, 2053.39s/it]Testing features:  19%|█▉        | 116/600 [66:32:48<277:01:07, 2060.47s/it]Testing features:  20%|█▉        | 117/600 [67:07:01<276:09:40, 2058.35s/it]Testing features:  20%|█▉        | 118/600 [67:41:05<275:01:27, 2054.12s/it]Testing features:  20%|█▉        | 119/600 [68:15:04<273:49:53, 2049.47s/it]Testing features:  20%|██        | 120/600 [68:49:13<273:14:57, 2049.37s/it]Testing features:  20%|██        | 121/600 [69:23:18<272:30:10, 2048.04s/it]Testing features:  20%|██        | 122/600 [69:58:07<273:34:44, 2060.43s/it]Testing features:  20%|██        | 123/600 [70:33:33<275:34:39, 2079.83s/it]Testing features:  21%|██        | 124/600 [71:08:33<275:49:23, 2086.06s/it]Testing features:  21%|██        | 125/600 [71:43:20<275:16:23, 2086.28s/it]Testing features:  21%|██        | 126/600 [72:18:14<275:00:12, 2088.63s/it]Testing features:  21%|██        | 127/600 [72:53:18<275:01:40, 2093.24s/it]Testing features:  21%|██▏       | 128/600 [73:27:41<273:15:25, 2084.16s/it]Testing features:  22%|██▏       | 129/600 [74:01:42<270:58:56, 2071.20s/it]Testing features:  22%|██▏       | 130/600 [74:35:57<269:46:14, 2066.33s/it]Testing features:  22%|██▏       | 131/600 [75:10:45<270:03:26, 2072.93s/it]Testing features:  22%|██▏       | 132/600 [75:44:23<267:20:39, 2056.49s/it]Testing features:  22%|██▏       | 133/600 [76:18:39<266:43:27, 2056.12s/it]Testing features:  22%|██▏       | 134/600 [76:53:14<266:53:39, 2061.84s/it]Testing features:  22%|██▎       | 135/600 [77:27:37<266:22:50, 2062.30s/it]Testing features:  23%|██▎       | 136/600 [78:02:31<267:02:07, 2071.83s/it]Testing features:  23%|██▎       | 137/600 [78:36:39<265:32:08, 2064.64s/it]Testing features:  23%|██▎       | 138/600 [79:10:54<264:35:19, 2061.73s/it]Testing features:  23%|██▎       | 139/600 [79:44:58<263:20:52, 2056.51s/it]Testing features:  23%|██▎       | 140/600 [80:19:26<263:12:57, 2059.95s/it]Testing features:  24%|██▎       | 141/600 [80:53:13<261:22:55, 2050.06s/it]Testing features:  24%|██▎       | 142/600 [81:28:21<262:59:55, 2067.24s/it]Testing features:  24%|██▍       | 143/600 [82:02:20<261:20:53, 2058.76s/it]Testing features:  24%|██▍       | 144/600 [82:37:32<262:47:53, 2074.72s/it]Testing features:  24%|██▍       | 145/600 [83:12:07<262:15:25, 2075.00s/it]Testing features:  24%|██▍       | 146/600 [83:46:50<261:58:06, 2077.28s/it]Testing features:  24%|██▍       | 147/600 [84:20:40<259:36:34, 2063.12s/it]Testing features:  25%|██▍       | 148/600 [84:55:53<260:56:04, 2078.24s/it]Testing features:  25%|██▍       | 149/600 [85:29:38<258:20:15, 2062.12s/it]Testing features:  25%|██▌       | 150/600 [86:04:43<259:23:09, 2075.09s/it]Testing features:  25%|██▌       | 151/600 [86:39:42<259:42:34, 2082.30s/it]Testing features:  25%|██▌       | 152/600 [87:13:43<257:35:06, 2069.88s/it]Testing features:  26%|██▌       | 153/600 [87:48:00<256:30:00, 2065.77s/it]Testing features:  26%|██▌       | 154/600 [88:22:51<256:53:04, 2073.51s/it]Testing features:  26%|██▌       | 155/600 [88:57:23<256:14:44, 2073.00s/it]Testing features:  26%|██▌       | 156/600 [89:30:47<253:06:23, 2052.21s/it]Testing features:  26%|██▌       | 157/600 [90:05:43<254:10:51, 2065.58s/it]Testing features:  26%|██▋       | 158/600 [90:40:22<254:05:37, 2069.54s/it]Testing features:  26%|██▋       | 159/600 [91:14:09<251:56:34, 2056.68s/it]Testing features:  27%|██▋       | 160/600 [91:48:24<251:19:28, 2056.29s/it]Testing features:  27%|██▋       | 161/600 [92:22:37<250:37:05, 2055.18s/it]Testing features:  27%|██▋       | 162/600 [92:56:59<250:17:53, 2057.25s/it]Testing features:  27%|██▋       | 163/600 [93:31:45<250:47:10, 2065.97s/it]Testing features:  27%|██▋       | 164/600 [94:06:03<249:54:27, 2063.46s/it]Testing features:  28%|██▊       | 165/600 [94:40:31<249:30:58, 2064.96s/it]Testing features:  28%|██▊       | 166/600 [95:15:36<250:22:25, 2076.83s/it]Testing features:  28%|██▊       | 167/600 [95:49:54<249:07:16, 2071.21s/it]Testing features:  28%|██▊       | 168/600 [96:24:20<248:20:52, 2069.57s/it]Testing features:  28%|██▊       | 169/600 [96:59:18<248:48:46, 2078.25s/it]Testing features:  28%|██▊       | 170/600 [97:33:40<247:38:39, 2073.30s/it]Testing features:  28%|██▊       | 171/600 [98:07:55<246:25:51, 2067.95s/it]Testing features:  29%|██▊       | 172/600 [98:42:36<246:18:33, 2071.76s/it]Testing features:  29%|██▉       | 173/600 [99:17:39<246:50:11, 2081.06s/it]Testing features:  29%|██▉       | 174/600 [99:52:22<246:19:21, 2081.60s/it]Testing features:  29%|██▉       | 175/600 [100:26:52<245:20:01, 2078.12s/it]Testing features:  29%|██▉       | 176/600 [101:01:38<245:02:24, 2080.53s/it]Testing features:  30%|██▉       | 177/600 [101:36:44<245:21:23, 2088.14s/it]Testing features:  30%|██▉       | 178/600 [102:10:31<242:37:51, 2069.84s/it]   Safe mean: -0.015533, Risky mean: -0.025116
-
-🧪 Testing L7-3371
-   Cohen's d: -0.859
-   Safe mean: 0.073853, Risky mean: 0.055481
-
-🧪 Testing L7-1902
-   Cohen's d: 0.858
-   Safe mean: -0.144409, Risky mean: -0.135010
-
-🧪 Testing L7-1408
-   Cohen's d: 0.858
-   Safe mean: -0.018417, Risky mean: -0.003233
-
-🧪 Testing L7-2341
-   Cohen's d: -0.856
-   Safe mean: -0.025238, Risky mean: -0.034210
-
-🧪 Testing L7-1139
-   Cohen's d: 0.854
-   Safe mean: -0.090454, Risky mean: -0.083435
-
-🧪 Testing L7-3350
-   Cohen's d: 0.852
-   Safe mean: 0.050964, Risky mean: 0.060852
-
-🧪 Testing L7-1486
-   Cohen's d: 0.852
-   Safe mean: 0.011345, Risky mean: 0.022644
-
-🧪 Testing L7-50
-   Cohen's d: 0.850
-   Safe mean: 0.045593, Risky mean: 0.058441
-
-🧪 Testing L7-1626
-   Cohen's d: -0.849
-   Safe mean: -0.002367, Risky mean: -0.011238
-
-🧪 Testing L7-2875
-   Cohen's d: 0.849
-   Safe mean: -0.096436, Risky mean: -0.086365
-
-🧪 Testing L7-3172
-   Cohen's d: 0.848
-   Safe mean: -0.089050, Risky mean: -0.079590
-💾 Checkpoint saved: /data/llm_addiction/experiment_2_multilayer_patching/checkpoint_L7_8_gpu4_L7_8_20251005_062255.json
-
-🧪 Testing L7-436
-   Cohen's d: 0.845
-   Safe mean: 0.051086, Risky mean: 0.058685
-
-🧪 Testing L7-3281
-   Cohen's d: -0.844
-   Safe mean: 0.041870, Risky mean: 0.031586
-
-🧪 Testing L7-3185
-   Cohen's d: 0.844
-   Safe mean: -0.035461, Risky mean: -0.026932
-
-🧪 Testing L7-4028
-   Cohen's d: -0.844
-   Safe mean: -0.057739, Risky mean: -0.066101
-
-🧪 Testing L7-3334
-   Cohen's d: 0.842
-   Safe mean: 0.002321, Risky mean: 0.014488
-
-🧪 Testing L7-3793
-   Cohen's d: 0.841
-   Safe mean: 0.044281, Risky mean: 0.051971
-
-🧪 Testing L7-2953
-   Cohen's d: -0.840
-   Safe mean: 0.103027, Risky mean: 0.095764
-
-🧪 Testing L7-882
-   Cohen's d: -0.839
-   Safe mean: -0.014893, Risky mean: -0.028214
-
-🧪 Testing L7-3840
-   Cohen's d: -0.837
-   Safe mean: 0.040070, Risky mean: 0.027588
-
-🧪 Testing L7-1602
-   Cohen's d: 0.834
-   Safe mean: 0.003027, Risky mean: 0.014038
-
-🧪 Testing L7-3583
-   Cohen's d: 0.832
-   Safe mean: -0.014153, Risky mean: -0.004333
-
-🧪 Testing L7-4064
-   Cohen's d: 0.832
-   Safe mean: -0.035339, Risky mean: -0.028641
-
-🧪 Testing L7-1109
-   Cohen's d: 0.830
-   Safe mean: 0.229614, Risky mean: 0.240967
-
-🧪 Testing L7-447
-   Cohen's d: 0.829
-   Safe mean: -0.087463, Risky mean: -0.082336
-
-🧪 Testing L7-3322
-   Cohen's d: -0.828
-   Safe mean: -0.007282, Risky mean: -0.012970
-
-🧪 Testing L7-1406
-   Cohen's d: 0.824
-   Safe mean: 0.059509, Risky mean: 0.067200
-
-🧪 Testing L7-1015
-   Cohen's d: -0.823
-   Safe mean: 0.090942, Risky mean: 0.080627
-
-🧪 Testing L7-1799
-   Cohen's d: -0.823
-   Safe mean: 0.043518, Risky mean: 0.032379
-
-🧪 Testing L7-1168
-   Cohen's d: -0.820
-   Safe mean: 0.085022, Risky mean: 0.068298
-
-🧪 Testing L7-408
-   Cohen's d: 0.818
-   Safe mean: -0.048126, Risky mean: -0.042328
-
-🧪 Testing L7-1312
-   Cohen's d: -0.816
-   Safe mean: -0.005630, Risky mean: -0.013954
-
-🧪 Testing L7-1481
-   Cohen's d: -0.816
-   Safe mean: -0.062561, Risky mean: -0.070557
-
-🧪 Testing L7-1202
-   Cohen's d: -0.815
-   Safe mean: -0.032776, Risky mean: -0.043945
-
-🧪 Testing L7-4002
-   Cohen's d: -0.815
-   Safe mean: 0.169678, Risky mean: 0.162354
-
-🧪 Testing L7-2573
-   Cohen's d: 0.815
-   Safe mean: -0.086548, Risky mean: -0.078613
-
-🧪 Testing L7-126
-   Cohen's d: 0.813
-   Safe mean: 0.024811, Risky mean: 0.034637
-
-🧪 Testing L7-401
-   Cohen's d: 0.813
-   Safe mean: -0.045746, Risky mean: -0.034088
-
-🧪 Testing L7-416
-   Cohen's d: -0.811
-   Safe mean: 0.019363, Risky mean: 0.011230
-
-🧪 Testing L7-3291
-   Cohen's d: 0.811
-   Safe mean: 0.078247, Risky mean: 0.089844
-
-🧪 Testing L7-1752
-   Cohen's d: 0.810
-   Safe mean: -0.024078, Risky mean: -0.014259
-
-🧪 Testing L7-2657
-   Cohen's d: 0.810
-   Safe mean: -0.025116, Risky mean: -0.013069
-
-🧪 Testing L7-2876
-   Cohen's d: 0.810
-   Safe mean: 0.074768, Risky mean: 0.081360
-
-🧪 Testing L7-2294
-   Cohen's d: 0.809
-   Safe mean: -0.046204, Risky mean: -0.032990
-
-🧪 Testing L7-3701
-   Cohen's d: -0.807
-   Safe mean: 0.042999, Risky mean: 0.034576
-
-🧪 Testing L7-1107
-   Cohen's d: 0.806
-   Safe mean: -0.089417, Risky mean: -0.083313
-
-🧪 Testing L7-1607
-   Cohen's d: 0.806
-   Safe mean: -0.052826, Risky mean: -0.046936
-
-🧪 Testing L7-284
-   Cohen's d: 0.805
-   Safe mean: 0.046326, Risky mean: 0.056091
-
-🧪 Testing L7-2994
-   Cohen's d: -0.804
-   Safe mean: -0.076904, Risky mean: -0.083374
-
-🧪 Testing L7-3173
-   Cohen's d: -0.804
-   Safe mean: -0.071777, Risky mean: -0.078064
-
-🧪 Testing L7-264
-   Cohen's d: 0.803
-   Safe mean: -0.021652, Risky mean: -0.008980
-
-🧪 Testing L7-2614
-   Cohen's d: 0.803
-   Safe mean: -0.028473, Risky mean: -0.019928
-
-🧪 Testing L7-2845
-   Cohen's d: 0.802
-   Safe mean: 0.070312, Risky mean: 0.077881
-
-🧪 Testing L7-3002
-   Cohen's d: 0.799
-   Safe mean: -0.026077, Risky mean: -0.016953
-
-🧪 Testing L7-3791
-   Cohen's d: -0.798
-   Safe mean: 0.101074, Risky mean: 0.093994
-
-🧪 Testing L7-3841
-   Cohen's d: 0.797
-   Safe mean: -0.022873, Risky mean: -0.013374
-
-🧪 Testing L7-3926
-   Cohen's d: -0.796
-   Safe mean: -0.061249, Risky mean: -0.072266
-
-🧪 Testing L7-3220
-   Cohen's d: -0.796
-   Safe mean: -0.021606, Risky mean: -0.031647
-
-🧪 Testing L7-1009
-   Cohen's d: 0.794
-   Safe mean: -0.001366, Risky mean: 0.007393
-
-🧪 Testing L7-364
-   Cohen's d: 0.794
-   Safe mean: -0.005150, Risky mean: 0.004295
-
-🧪 Testing L7-3800
-   Cohen's d: 0.793
-   Safe mean: -0.064880, Risky mean: -0.053864
-💾 Checkpoint saved: /data/llm_addiction/experiment_2_multilayer_patching/checkpoint_L7_8_gpu4_L7_8_20251006_110340.json
-
-🧪 Testing L7-1286
-   Cohen's d: -0.792
-   Safe mean: 0.114685, Risky mean: 0.106201
-
-🧪 Testing L7-2298
-   Cohen's d: 0.792
-   Safe mean: -0.059967, Risky mean: -0.053345
-
-🧪 Testing L7-1257
-   Cohen's d: 0.792
-   Safe mean: -0.020111, Risky mean: -0.013710
-
-🧪 Testing L7-1226
-   Cohen's d: 0.791
-   Safe mean: 0.060211, Risky mean: 0.068359
-
-🧪 Testing L7-2080
-   Cohen's d: -0.791
-   Safe mean: -0.027466, Risky mean: -0.040100
-
-🧪 Testing L7-1778
-   Cohen's d: 0.791
-   Safe mean: -0.013863, Risky mean: -0.001637
-
-🧪 Testing L7-917
-   Cohen's d: 0.790
-   Safe mean: -0.068176, Risky mean: -0.058228
-
-🧪 Testing L7-3358
-   Cohen's d: -0.787
-   Safe mean: 0.087524, Risky mean: 0.079407
-
-🧪 Testing L7-898
-   Cohen's d: -0.787
-   Safe mean: -0.064087, Risky mean: -0.073059
-
-🧪 Testing L7-3921
-   Cohen's d: 0.786
-   Safe mean: -0.025330, Risky mean: -0.017120
-
-🧪 Testing L7-108
-   Cohen's d: 0.785
-   Safe mean: 0.050842, Risky mean: 0.059845
-
-🧪 Testing L7-3047
-   Cohen's d: 0.785
-   Safe mean: 0.069824, Risky mean: 0.084229
-
-🧪 Testing L7-3212
-   Cohen's d: -0.783
-   Safe mean: 0.094788, Risky mean: 0.088806
-
-🧪 Testing L7-3559
-   Cohen's d: 0.783
-   Safe mean: -0.050446, Risky mean: -0.035950
-
-🧪 Testing L7-1368
-   Cohen's d: -0.782
-   Safe mean: -0.016357, Risky mean: -0.023514
-
-🧪 Testing L7-1422
-   Cohen's d: -0.780
-   Safe mean: -0.020325, Risky mean: -0.030304
-
-🧪 Testing L7-450
-   Cohen's d: 0.779
-   Safe mean: -0.048859, Risky mean: -0.040436
-
-🧪 Testing L7-2937
-   Cohen's d: -0.779
-   Safe mean: 0.116394, Risky mean: 0.107178
-
-🧪 Testing L7-3232
-   Cohen's d: -0.779
-   Safe mean: -0.039520, Risky mean: -0.051361
-
-🧪 Testing L7-1850
-   Cohen's d: 0.779
-   Safe mean: -0.030075, Risky mean: -0.022171
-
-🧪 Testing L7-3286
-   Cohen's d: -0.777
-   Safe mean: 0.002457, Risky mean: -0.003448
-
-🧪 Testing L7-2816
-   Cohen's d: 0.776
-   Safe mean: -0.013474, Risky mean: -0.003326
-
-🧪 Testing L7-3105
-   Cohen's d: -0.775
-   Safe mean: -0.067444, Risky mean: -0.074158
-
-🧪 Testing L7-2134
-   Cohen's d: 0.775
-   Safe mean: 0.018539, Risky mean: 0.025574
-
-🧪 Testing L7-3555
-   Cohen's d: 0.773
-   Safe mean: -0.077576, Risky mean: -0.069885
-
-🧪 Testing L7-2632
-   Cohen's d: -0.773
-   Safe mean: -0.042786, Risky mean: -0.053070
-
-🧪 Testing L7-748
-   Cohen's d: 0.772
-   Safe mean: -0.055603, Risky mean: -0.048035
-
-🧪 Testing L7-2942
-   Cohen's d: -0.772
-   Safe mean: -0.062134, Risky mean: -0.074585
-
-🧪 Testing L7-2639
-Testing features:  30%|██▉       | 179/600 [102:44:36<241:11:05, 2062.39s/it]Testing features:  30%|███       | 180/600 [103:19:16<241:14:28, 2067.78s/it]Testing features:  30%|███       | 181/600 [103:53:26<240:01:21, 2062.25s/it]Testing features:  30%|███       | 182/600 [104:28:25<240:44:02, 2073.31s/it]Testing features:  30%|███       | 183/600 [105:02:14<238:38:40, 2060.24s/it]Testing features:  31%|███       | 184/600 [105:37:19<239:36:27, 2073.53s/it]Testing features:  31%|███       | 185/600 [106:12:00<239:16:54, 2075.70s/it]Testing features:  31%|███       | 186/600 [106:46:40<238:52:16, 2077.14s/it]Testing features:  31%|███       | 187/600 [107:21:17<238:16:48, 2077.02s/it]Testing features:  31%|███▏      | 188/600 [107:56:16<238:28:35, 2083.77s/it]Testing features:  32%|███▏      | 189/600 [108:31:26<238:45:56, 2091.38s/it]Testing features:  32%|███▏      | 190/600 [109:06:14<238:04:41, 2090.44s/it]Testing features:  32%|███▏      | 191/600 [109:40:19<235:56:53, 2076.81s/it]Testing features:  32%|███▏      | 192/600 [110:15:07<235:44:49, 2080.12s/it]Testing features:  32%|███▏      | 193/600 [110:49:23<234:21:26, 2072.94s/it]Testing features:  32%|███▏      | 194/600 [111:24:02<233:58:24, 2074.64s/it]Testing features:  32%|███▎      | 195/600 [111:58:18<232:46:28, 2069.11s/it]Testing features:  33%|███▎      | 196/600 [112:32:38<231:55:03, 2066.59s/it]Testing features:  33%|███▎      | 197/600 [113:07:20<231:50:34, 2071.05s/it]Testing features:  33%|███▎      | 198/600 [113:41:04<229:42:14, 2057.05s/it]Testing features:  33%|███▎      | 199/600 [114:15:55<230:15:20, 2067.13s/it]Testing features:  33%|███▎      | 200/600 [114:49:55<228:46:45, 2059.01s/it]Testing features:  34%|███▎      | 201/600 [115:24:46<229:16:53, 2068.71s/it]Testing features:  34%|███▎      | 202/600 [115:59:08<228:29:19, 2066.73s/it]Testing features:  34%|███▍      | 203/600 [116:33:46<228:15:43, 2069.88s/it]Testing features:  34%|███▍      | 204/600 [117:08:09<227:28:24, 2067.94s/it]Testing features:  34%|███▍      | 205/600 [117:42:34<226:47:29, 2066.96s/it]Testing features:  34%|███▍      | 206/600 [118:16:27<225:07:00, 2056.91s/it]Testing features:  34%|███▍      | 207/600 [118:50:39<224:21:50, 2055.24s/it]Testing features:  35%|███▍      | 208/600 [119:24:56<223:52:22, 2055.98s/it]Testing features:  35%|███▍      | 209/600 [119:58:45<222:25:47, 2047.95s/it]Testing features:  35%|███▌      | 210/600 [120:33:50<223:41:13, 2064.80s/it]Testing features:  35%|███▌      | 211/600 [121:08:15<223:07:28, 2064.91s/it]Testing features:  35%|███▌      | 212/600 [121:41:49<220:55:04, 2049.75s/it]Testing features:  36%|███▌      | 213/600 [122:16:38<221:36:52, 2061.53s/it]Testing features:  36%|███▌      | 214/600 [122:50:56<220:55:46, 2060.48s/it]Testing features:  36%|███▌      | 215/600 [123:24:47<219:23:22, 2051.44s/it]Testing features:  36%|███▌      | 216/600 [123:59:52<220:33:15, 2067.70s/it]Testing features:  36%|███▌      | 217/600 [124:34:31<220:21:03, 2071.18s/it]Testing features:  36%|███▋      | 218/600 [125:09:25<220:29:17, 2077.90s/it]Testing features:  36%|███▋      | 219/600 [125:44:15<220:16:43, 2081.37s/it]Testing features:  37%|███▋      | 220/600 [126:18:46<219:23:40, 2078.48s/it]Testing features:  37%|███▋      | 221/600 [126:53:22<218:43:17, 2077.57s/it]Testing features:  37%|███▋      | 222/600 [127:27:32<217:18:00, 2069.53s/it]Testing features:  37%|███▋      | 223/600 [128:01:09<215:02:55, 2053.52s/it]Testing features:  37%|███▋      | 224/600 [128:35:14<214:12:37, 2050.95s/it]Testing features:  38%|███▊      | 225/600 [129:09:41<214:09:55, 2055.99s/it]Testing features:  38%|███▊      | 226/600 [129:44:49<215:12:02, 2071.45s/it]Testing features:  38%|███▊      | 227/600 [130:19:07<214:12:59, 2067.50s/it]Testing features:  38%|███▊      | 228/600 [130:53:44<213:56:13, 2070.36s/it]Testing features:  38%|███▊      | 229/600 [131:28:29<213:47:59, 2074.61s/it]Testing features:  38%|███▊      | 230/600 [132:02:47<212:43:25, 2069.75s/it]Testing features:  38%|███▊      | 231/600 [132:37:19<212:12:49, 2070.38s/it]Testing features:  39%|███▊      | 232/600 [133:12:54<213:36:27, 2089.64s/it]Testing features:  39%|███▉      | 233/600 [133:47:17<212:14:16, 2081.90s/it]Testing features:  39%|███▉      | 234/600 [134:22:09<211:57:40, 2084.87s/it]Testing features:  39%|███▉      | 235/600 [134:56:13<210:08:52, 2072.69s/it]Testing features:  39%|███▉      | 236/600 [135:30:54<209:48:07, 2074.97s/it]Testing features:  40%|███▉      | 237/600 [136:05:28<209:12:03, 2074.72s/it]Testing features:  40%|███▉      | 238/600 [136:39:15<207:11:38, 2060.49s/it]Testing features:  40%|███▉      | 239/600 [137:13:51<207:04:13, 2064.97s/it]Testing features:  40%|████      | 240/600 [137:48:05<206:11:18, 2061.89s/it]Testing features:  40%|████      | 241/600 [138:22:18<205:20:28, 2059.13s/it]Testing features:  40%|████      | 242/600 [138:56:37<204:45:11, 2058.97s/it]Testing features:  40%|████      | 243/600 [139:30:28<203:21:45, 2050.72s/it]Testing features:  41%|████      | 244/600 [140:04:59<203:24:26, 2056.93s/it]Testing features:  41%|████      | 245/600 [140:39:20<202:57:05, 2058.10s/it]Testing features:  41%|████      | 246/600 [141:14:06<203:11:15, 2066.32s/it]Testing features:  41%|████      | 247/600 [141:48:22<202:18:45, 2063.25s/it]Testing features:  41%|████▏     | 248/600 [142:22:05<200:33:43, 2051.20s/it]Testing features:  42%|████▏     | 249/600 [142:56:39<200:38:54, 2057.93s/it]Testing features:  42%|████▏     | 250/600 [143:30:39<199:33:50, 2052.66s/it]Testing features:  42%|████▏     | 251/600 [144:04:37<198:33:49, 2048.22s/it]Testing features:  42%|████▏     | 252/600 [144:39:19<198:59:27, 2058.53s/it]Testing features:  42%|████▏     | 253/600 [145:14:47<200:24:12, 2079.11s/it]Testing features:  42%|████▏     | 254/600 [145:49:20<199:39:56, 2077.45s/it]Testing features:  42%|████▎     | 255/600 [146:23:30<198:17:30, 2069.13s/it]Testing features:  43%|████▎     | 256/600 [146:57:23<196:41:10, 2058.34s/it]Testing features:  43%|████▎     | 257/600 [147:32:03<196:43:57, 2064.83s/it]Testing features:  43%|████▎     | 258/600 [148:06:13<195:44:32, 2060.45s/it]Testing features:  43%|████▎     | 259/600 [148:41:25<196:37:20, 2075.78s/it]Testing features:  43%|████▎     | 260/600 [149:15:58<195:59:07, 2075.14s/it]Testing features:  44%|████▎     | 261/600 [149:51:25<196:51:50, 2090.59s/it]Testing features:  44%|████▎     | 262/600 [150:25:41<195:17:58, 2080.11s/it]Testing features:  44%|████▍     | 263/600 [151:00:10<194:25:37, 2076.97s/it]Testing features:  44%|████▍     | 264/600 [151:35:56<195:47:15, 2097.72s/it]Testing features:  44%|████▍     | 265/600 [152:10:37<194:42:52, 2092.46s/it]Testing features:  44%|████▍     | 266/600 [152:46:11<195:17:59, 2105.03s/it]Testing features:  44%|████▍     | 267/600 [153:20:37<193:37:18, 2093.21s/it]Testing features:  45%|████▍     | 268/600 [153:55:22<192:50:07, 2090.99s/it]   Cohen's d: 0.771
-   Safe mean: -0.104309, Risky mean: -0.089844
-
-🧪 Testing L7-1933
-   Cohen's d: 0.771
-   Safe mean: 0.001922, Risky mean: 0.010139
-
-🧪 Testing L7-763
-   Cohen's d: -0.769
-   Safe mean: 0.079712, Risky mean: 0.072083
-
-🧪 Testing L7-1960
-   Cohen's d: 0.768
-   Safe mean: -0.093323, Risky mean: -0.085388
-
-🧪 Testing L7-157
-   Cohen's d: -0.767
-   Safe mean: 0.019653, Risky mean: 0.010666
-
-🧪 Testing L7-627
-   Cohen's d: -0.767
-   Safe mean: 0.003862, Risky mean: -0.004097
-
-🧪 Testing L7-1457
-   Cohen's d: -0.766
-   Safe mean: 0.055328, Risky mean: 0.046967
-
-🧪 Testing L7-2900
-   Cohen's d: 0.766
-   Safe mean: 0.084534, Risky mean: 0.091736
-
-🧪 Testing L7-3370
-   Cohen's d: -0.764
-   Safe mean: -0.053864, Risky mean: -0.058716
-
-🧪 Testing L7-3932
-   Cohen's d: -0.763
-   Safe mean: -0.051880, Risky mean: -0.059448
-
-🧪 Testing L7-1884
-   Cohen's d: 0.761
-   Safe mean: 0.077087, Risky mean: 0.087585
-
-🧪 Testing L7-2519
-   Cohen's d: 0.761
-   Safe mean: 0.004562, Risky mean: 0.011818
-
-🧪 Testing L7-1097
-   Cohen's d: -0.760
-   Safe mean: -0.066345, Risky mean: -0.075623
-
-🧪 Testing L7-1219
-   Cohen's d: -0.760
-   Safe mean: -0.010178, Risky mean: -0.016785
-
-🧪 Testing L7-186
-   Cohen's d: -0.759
-   Safe mean: 0.005932, Risky mean: -0.005798
-
-🧪 Testing L7-3652
-   Cohen's d: -0.759
-   Safe mean: -0.102478, Risky mean: -0.109558
-
-🧪 Testing L7-1885
-   Cohen's d: -0.758
-   Safe mean: 0.048523, Risky mean: 0.037781
-
-🧪 Testing L7-2237
-   Cohen's d: -0.758
-   Safe mean: 0.020996, Risky mean: 0.015404
-
-🧪 Testing L7-3080
-   Cohen's d: -0.758
-   Safe mean: 0.039062, Risky mean: 0.028671
-
-🧪 Testing L7-1204
-   Cohen's d: 0.757
-   Safe mean: -0.002460, Risky mean: 0.005398
-
-🧪 Testing L7-3632
-   Cohen's d: -0.757
-   Safe mean: 0.012512, Risky mean: 0.004723
-
-🧪 Testing L7-2708
-   Cohen's d: -0.756
-   Safe mean: -0.030396, Risky mean: -0.035919
-💾 Checkpoint saved: /data/llm_addiction/experiment_2_multilayer_patching/checkpoint_L7_8_gpu4_L7_8_20251007_154851.json
-
-🧪 Testing L7-1389
-   Cohen's d: -0.755
-   Safe mean: 0.017746, Risky mean: 0.007160
-
-🧪 Testing L7-4008
-   Cohen's d: 0.755
-   Safe mean: 0.008537, Risky mean: 0.020401
-
-🧪 Testing L7-658
-   Cohen's d: 0.754
-   Safe mean: 0.005730, Risky mean: 0.014267
-
-🧪 Testing L7-1593
-   Cohen's d: 0.752
-   Safe mean: -0.039490, Risky mean: -0.032166
-
-🧪 Testing L7-3745
-   Cohen's d: -0.752
-   Safe mean: -0.022293, Risky mean: -0.031250
-
-🧪 Testing L7-2959
-   Cohen's d: -0.752
-   Safe mean: 0.093750, Risky mean: 0.084229
-
-🧪 Testing L7-78
-   Cohen's d: -0.751
-   Safe mean: 0.031113, Risky mean: 0.024017
-
-🧪 Testing L7-690
-   Cohen's d: 0.750
-   Safe mean: 0.032532, Risky mean: 0.040894
-
-🧪 Testing L7-903
-   Cohen's d: -0.750
-   Safe mean: 0.010918, Risky mean: 0.001931
-
-🧪 Testing L7-2234
-   Cohen's d: -0.750
-   Safe mean: 0.025635, Risky mean: 0.016373
-
-🧪 Testing L7-579
-   Cohen's d: -0.749
-   Safe mean: 0.060455, Risky mean: 0.054718
-
-🧪 Testing L7-2064
-   Cohen's d: 0.749
-   Safe mean: -0.064392, Risky mean: -0.053711
-
-🧪 Testing L7-2633
-   Cohen's d: 0.749
-   Safe mean: -0.089172, Risky mean: -0.078308
-
-🧪 Testing L7-403
-   Cohen's d: -0.748
-   Safe mean: -0.019592, Risky mean: -0.030975
-
-🧪 Testing L7-3385
-   Cohen's d: 0.748
-   Safe mean: 0.049591, Risky mean: 0.056519
-
-🧪 Testing L7-4074
-   Cohen's d: -0.748
-   Safe mean: 0.045837, Risky mean: 0.037231
-
-🧪 Testing L7-3874
-   Cohen's d: 0.747
-   Safe mean: -0.055054, Risky mean: -0.046478
-
-🧪 Testing L7-1473
-   Cohen's d: -0.746
-   Safe mean: 0.037720, Risky mean: 0.029999
-
-🧪 Testing L7-3585
-   Cohen's d: 0.746
-   Safe mean: 0.314453, Risky mean: 0.325195
-
-🧪 Testing L7-2068
-   Cohen's d: -0.744
-   Safe mean: 0.023193, Risky mean: 0.015381
-
-🧪 Testing L7-2630
-   Cohen's d: 0.742
-   Safe mean: 0.053040, Risky mean: 0.059875
-
-🧪 Testing L7-3355
-   Cohen's d: 0.742
-   Safe mean: 0.046906, Risky mean: 0.054108
-
-🧪 Testing L7-1743
-   Cohen's d: 0.742
-   Safe mean: -0.000920, Risky mean: 0.007664
-
-🧪 Testing L7-2362
-   Cohen's d: -0.742
-   Safe mean: -0.059723, Risky mean: -0.069580
-
-🧪 Testing L7-707
-   Cohen's d: -0.741
-   Safe mean: -0.012665, Risky mean: -0.018326
-
-🧪 Testing L7-2823
-   Cohen's d: -0.740
-   Safe mean: 0.040588, Risky mean: 0.032623
-
-🧪 Testing L7-3758
-   Cohen's d: 0.740
-   Safe mean: -0.085938, Risky mean: -0.077087
-
-🧪 Testing L7-2616
-   Cohen's d: -0.739
-   Safe mean: -0.024872, Risky mean: -0.031952
-
-🧪 Testing L7-367
-   Cohen's d: 0.739
-   Safe mean: -0.014153, Risky mean: -0.004715
-
-🧪 Testing L7-3498
-   Cohen's d: 0.739
-   Safe mean: 0.054840, Risky mean: 0.068115
-
-🧪 Testing L7-3709
-   Cohen's d: -0.739
-   Safe mean: 0.005276, Risky mean: -0.003925
-
-🧪 Testing L7-245
-   Cohen's d: -0.737
-   Safe mean: 0.035950, Risky mean: 0.026993
-
-🧪 Testing L7-3925
-   Cohen's d: -0.737
-   Safe mean: 0.119507, Risky mean: 0.114319
-
-🧪 Testing L7-700
-   Cohen's d: 0.736
-   Safe mean: 0.011497, Risky mean: 0.020554
-
-🧪 Testing L7-797
-   Cohen's d: -0.735
-   Safe mean: 0.023834, Risky mean: 0.016861
-
-🧪 Testing L7-2201
-   Cohen's d: 0.735
-   Safe mean: 0.021805, Risky mean: 0.027405
-
-🧪 Testing L7-2383
-   Cohen's d: 0.735
-   Safe mean: 0.046967, Risky mean: 0.057861
-
-🧪 Testing L7-3664
-   Cohen's d: 0.734
-   Safe mean: 0.001145, Risky mean: 0.009926
-
-🧪 Testing L7-2936
-   Cohen's d: 0.733
-   Safe mean: 0.120850, Risky mean: 0.131592
-
-🧪 Testing L7-3786
-   Cohen's d: -0.730
-   Safe mean: -0.053131, Risky mean: -0.064331
-
-🧪 Testing L7-3171
-   Cohen's d: -0.729
-   Safe mean: -0.066772, Risky mean: -0.074524
-
-🧪 Testing L7-3480
-   Cohen's d: -0.729
-   Safe mean: 0.056488, Risky mean: 0.049805
-
-🧪 Testing L7-3008
-   Cohen's d: 0.729
-   Safe mean: 0.319580, Risky mean: 0.333496
-
-🧪 Testing L7-985
-   Cohen's d: 0.728
-   Safe mean: 0.033142, Risky mean: 0.039886
-
-🧪 Testing L7-2634
-   Cohen's d: 0.728
-   Safe mean: 0.013901, Risky mean: 0.029449
-
-🧪 Testing L7-2589
-   Cohen's d: 0.727
-   Safe mean: -0.047058, Risky mean: -0.037628
-
-🧪 Testing L7-1354
-   Cohen's d: 0.727
-   Safe mean: 0.039093, Risky mean: 0.051331
-
-🧪 Testing L7-193
-   Cohen's d: -0.725
-   Safe mean: 0.045868, Risky mean: 0.034882
-
-🧪 Testing L7-3155
-   Cohen's d: -0.725
-   Safe mean: -0.017410, Risky mean: -0.026917
-
-🧪 Testing L7-3654
-   Cohen's d: 0.724
-   Safe mean: 0.034332, Risky mean: 0.043579
-💾 Checkpoint saved: /data/llm_addiction/experiment_2_multilayer_patching/checkpoint_L7_8_gpu4_L7_8_20251008_202935.json
-
-🧪 Testing L7-601
-   Cohen's d: 0.724
-   Safe mean: -0.107300, Risky mean: -0.101990
-
-🧪 Testing L7-3398
-   Cohen's d: -0.722
-   Safe mean: -0.029266, Risky mean: -0.040070
-
-🧪 Testing L7-71
-   Cohen's d: -0.721
-   Safe mean: 0.070190, Risky mean: 0.064209
-
-🧪 Testing L7-703
-   Cohen's d: -0.720
-   Safe mean: 0.068054, Risky mean: 0.060059
-
-🧪 Testing L7-552
-   Cohen's d: -0.720
-   Safe mean: 0.065369, Risky mean: 0.058899
-
-🧪 Testing L7-2038
-   Cohen's d: 0.720
-   Safe mean: -0.066406, Risky mean: -0.052368
-
-🧪 Testing L7-2862
-   Cohen's d: 0.719
-   Safe mean: -0.006710, Risky mean: -0.000590
-
-🧪 Testing L7-1348
-   Cohen's d: 0.718
-   Safe mean: -0.052246, Risky mean: -0.042572
-
-🧪 Testing L7-2638
-   Cohen's d: -0.717
-   Safe mean: 0.058899, Risky mean: 0.053589
-
-🧪 Testing L7-4030
-   Cohen's d: 0.717
-   Safe mean: -0.094055, Risky mean: -0.084839
-
-🧪 Testing L7-1154
-   Cohen's d: 0.717
-   Safe mean: 0.007919, Risky mean: 0.018204
-
-🧪 Testing L7-134
-   Cohen's d: 0.714
-   Safe mean: -0.013939, Risky mean: -0.009697
-
-🧪 Testing L7-928
-   Cohen's d: 0.714
-   Safe mean: -0.089050, Risky mean: -0.078308
-
-🧪 Testing L7-1047
-   Cohen's d: -0.714
-   Safe mean: 0.032166, Risky mean: 0.026276
-
-🧪 Testing L7-2607
-   Cohen's d: -0.714
-   Safe mean: -0.052704, Risky mean: -0.060913
-
-🧪 Testing L7-1863
-   Cohen's d: -0.714
-   Safe mean: 0.040314, Risky mean: 0.034180
-
-🧪 Testing L7-2727
-   Cohen's d: 0.713
-   Safe mean: -0.006920, Risky mean: -0.000100
-
-🧪 Testing L7-2732
-   Cohen's d: 0.713
-   Safe mean: -0.025238, Risky mean: -0.018784
-
-🧪 Testing L7-1054
-   Cohen's d: -0.712
-Testing features:  45%|████▍     | 269/600 [154:29:58<191:49:10, 2086.25s/it]Testing features:  45%|████▌     | 270/600 [155:04:25<190:42:27, 2080.45s/it]Testing features:  45%|████▌     | 271/600 [155:38:39<189:24:57, 2072.64s/it]Testing features:  45%|████▌     | 272/600 [156:12:49<188:12:36, 2065.72s/it]Testing features:  46%|████▌     | 273/600 [156:46:48<186:55:21, 2057.86s/it]Testing features:  46%|████▌     | 274/600 [157:21:15<186:36:21, 2060.68s/it]Testing features:  46%|████▌     | 275/600 [157:56:18<187:10:38, 2073.35s/it]Testing features:  46%|████▌     | 276/600 [158:30:25<185:53:35, 2065.48s/it]Testing features:  46%|████▌     | 277/600 [159:04:33<184:49:56, 2060.05s/it]Testing features:  46%|████▋     | 278/600 [159:39:19<184:57:57, 2067.94s/it]Testing features:  46%|████▋     | 279/600 [160:14:06<184:53:36, 2073.57s/it]Testing features:  47%|████▋     | 280/600 [160:48:39<184:18:19, 2073.44s/it]Testing features:  47%|████▋     | 281/600 [161:23:01<183:26:13, 2070.14s/it]Testing features:  47%|████▋     | 282/600 [161:56:45<181:37:48, 2056.19s/it]Testing features:  47%|████▋     | 283/600 [162:30:57<180:57:11, 2054.99s/it]Testing features:  47%|████▋     | 284/600 [163:05:48<181:19:28, 2065.72s/it]Testing features:  48%|████▊     | 285/600 [163:39:46<180:01:54, 2057.50s/it]Testing features:  48%|████▊     | 286/600 [164:15:03<181:00:49, 2075.32s/it]Testing features:  48%|████▊     | 287/600 [164:49:55<180:51:39, 2080.19s/it]Testing features:  48%|████▊     | 288/600 [165:24:18<179:50:51, 2075.16s/it]Testing features:  48%|████▊     | 289/600 [165:58:45<179:02:48, 2072.57s/it]Testing features:  48%|████▊     | 290/600 [166:33:48<179:15:33, 2081.72s/it]Testing features:  48%|████▊     | 291/600 [167:07:46<177:33:59, 2068.74s/it]Testing features:  49%|████▊     | 292/600 [167:42:17<177:03:21, 2069.49s/it]Testing features:  49%|████▉     | 293/600 [168:16:37<176:13:06, 2066.41s/it]Testing features:  49%|████▉     | 294/600 [168:50:38<175:00:25, 2058.91s/it]Testing features:  49%|████▉     | 295/600 [169:24:48<174:12:54, 2056.31s/it]Testing features:  49%|████▉     | 296/600 [169:58:24<172:37:29, 2044.24s/it]Testing features:  50%|████▉     | 297/600 [170:32:42<172:23:18, 2048.18s/it]Testing features:  50%|████▉     | 298/600 [171:07:05<172:11:25, 2052.60s/it]Testing features:  50%|████▉     | 299/600 [171:41:55<172:33:54, 2063.90s/it]Testing features:  50%|█████     | 300/600 [172:16:10<171:46:10, 2061.24s/it]   Safe mean: 0.042755, Risky mean: 0.036133
-
-🧪 Testing L7-2784
-   Cohen's d: -0.711
-   Safe mean: -0.002817, Risky mean: -0.010178
-
-🧪 Testing L7-3935
-   Cohen's d: 0.711
-   Safe mean: 0.046844, Risky mean: 0.053619
-
-🧪 Testing L7-2825
-   Cohen's d: -0.710
-   Safe mean: 0.045776, Risky mean: 0.035736
-
-🧪 Testing L7-3795
-   Cohen's d: 0.709
-   Safe mean: -0.053162, Risky mean: -0.042999
-
-🧪 Testing L7-1121
-   Cohen's d: 0.709
-   Safe mean: -0.130859, Risky mean: -0.122742
-
-🧪 Testing L7-2022
-   Cohen's d: 0.707
-   Safe mean: -0.040375, Risky mean: -0.032684
-
-🧪 Testing L7-3844
-   Cohen's d: -0.706
-   Safe mean: 0.035065, Risky mean: 0.026871
-
-🧪 Testing L7-1290
-   Cohen's d: -0.706
-   Safe mean: 0.001529, Risky mean: -0.010223
-
-🧪 Testing L7-2835
-   Cohen's d: -0.706
-   Safe mean: -0.044037, Risky mean: -0.051361
-
-🧪 Testing L7-2580
-   Cohen's d: -0.705
-   Safe mean: 0.034454, Risky mean: 0.028458
-
-🧪 Testing L7-169
-   Cohen's d: 0.705
-   Safe mean: 0.081238, Risky mean: 0.091858
-
-🧪 Testing L7-1032
-   Cohen's d: 0.703
-   Safe mean: 0.011452, Risky mean: 0.017471
-
-🧪 Testing L7-163
-   Cohen's d: 0.703
-   Safe mean: -0.085083, Risky mean: -0.076050
-
-🧪 Testing L7-1353
-   Cohen's d: -0.703
-   Safe mean: 0.007576, Risky mean: -0.002605
-
-🧪 Testing L7-702
-   Cohen's d: 0.702
-   Safe mean: 0.004940, Risky mean: 0.012657
-
-🧪 Testing L7-867
-   Cohen's d: 0.701
-   Safe mean: -0.037872, Risky mean: -0.030441
-
-🧪 Testing L7-3721
-   Cohen's d: 0.701
-   Safe mean: -0.011322, Risky mean: -0.003668
-
-🧪 Testing L7-3675
-   Cohen's d: 0.701
-   Safe mean: -0.019592, Risky mean: -0.012001
-
-🧪 Testing L7-744
-   Cohen's d: 0.700
-   Safe mean: 0.023926, Risky mean: 0.032135
-
-🧪 Testing L7-621
-   Cohen's d: -0.699
-   Safe mean: 0.002357, Risky mean: -0.006706
-
-🧪 Testing L7-1810
-   Cohen's d: 0.699
-   Safe mean: 0.018158, Risky mean: 0.028687
-
-🧪 Testing L7-1980
-   Cohen's d: -0.698
-   Safe mean: 0.078491, Risky mean: 0.068726
-
-🧪 Testing L7-745
-   Cohen's d: -0.697
-   Safe mean: -0.001580, Risky mean: -0.008804
-
-🧪 Testing L7-4075
-   Cohen's d: -0.697
-   Safe mean: -0.082886, Risky mean: -0.088562
-
-🧪 Testing L7-3774
-   Cohen's d: 0.696
-   Safe mean: -0.007107, Risky mean: 0.002029
-
-🧪 Testing L7-16
-   Cohen's d: 0.696
-   Safe mean: 0.049408, Risky mean: 0.056793
-
-🧪 Testing L7-844
-   Cohen's d: 0.695
-   Safe mean: -0.067932, Risky mean: -0.057831
-
-🧪 Testing L7-1580
-   Cohen's d: -0.695
-   Safe mean: 0.003338, Risky mean: -0.006649
-
-🧪 Testing L7-2167
-   Cohen's d: 0.695
-   Safe mean: 0.005634, Risky mean: 0.011604
-
-🧪 Testing L7-3347
-   Cohen's d: -0.695
-   Safe mean: 0.035614, Risky mean: 0.025223
-
-🧪 Testing L7-3116
-   Cohen's d: -0.693
-   Safe mean: 0.024292, Risky mean: 0.018265
-💾 Checkpoint saved: /data/llm_addiction/experiment_2_multilayer_patching/checkpoint_L7_8_gpu4_L7_8_20251010_011506.json
-
-🧪 Testing L8-1397
-   Cohen's d: -1.255
-   Safe mean: 0.032532, Risky mean: 0.017868
-🔧 Loading SAE Layer 8...
-🔧 Loading config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/hyperparams.json
-✅ Loading WORKING SAE for Layer 8
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/hyperparams.json
-   Dataset norm: 6.3125
-   Norm factor: 10.138614
-   Using ReLU instead of JumpReLU (threshold=0.0)
-🔧 Loading checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L8R-8x/checkpoints/final.safetensors
-   File size: 512.1 MB
-🔧 Initializing SAE model...
-🔧 Loading checkpoint weights (CPU)...
-✅ Loaded safetensors file
-🔧 Processing checkpoint weights...
-   Loading W_E (encoder.weight)... converted... ✅ (torch.Size([4096, 32768]))
-   Loading b_E (encoder.bias)... converted... ✅ (torch.Size([32768]))
-   Loading W_D (decoder.weight)... converted... ✅ (torch.Size([32768, 4096]))
-   Loading b_D (decoder.bias)... converted... Testing features:  50%|█████     | 301/600 [172:50:32<171:13:20, 2061.54s/it]Testing features:  50%|█████     | 302/600 [173:24:04<169:24:20, 2046.51s/it]Testing features:  50%|█████     | 303/600 [173:57:29<167:48:38, 2034.07s/it]Testing features:  51%|█████     | 304/600 [174:31:08<166:52:28, 2029.55s/it]Testing features:  51%|█████     | 305/600 [175:04:56<166:17:19, 2029.29s/it]Testing features:  51%|█████     | 306/600 [175:38:29<165:19:44, 2024.44s/it]Testing features:  51%|█████     | 307/600 [176:12:54<165:44:24, 2036.40s/it]Testing features:  51%|█████▏    | 308/600 [176:46:40<164:55:55, 2033.41s/it]Testing features:  52%|█████▏    | 309/600 [177:21:11<165:16:46, 2044.69s/it]Testing features:  52%|█████▏    | 310/600 [177:55:21<164:50:25, 2046.29s/it]Testing features:  52%|█████▏    | 311/600 [178:29:51<164:49:42, 2053.23s/it]Testing features:  52%|█████▏    | 312/600 [179:04:40<165:06:51, 2063.93s/it]Testing features:  52%|█████▏    | 313/600 [179:38:52<164:15:44, 2060.43s/it]Testing features:  52%|█████▏    | 314/600 [180:13:48<164:32:22, 2071.13s/it]Testing features:  52%|█████▎    | 315/600 [180:47:26<162:42:20, 2055.23s/it]Testing features:  53%|█████▎    | 316/600 [181:22:02<162:38:06, 2061.57s/it]Testing features:  53%|█████▎    | 317/600 [181:54:53<159:55:37, 2034.41s/it]Testing features:  53%|█████▎    | 318/600 [182:28:00<158:14:52, 2020.18s/it]Testing features:  53%|█████▎    | 319/600 [183:02:47<159:13:50, 2039.97s/it]Testing features:  53%|█████▎    | 320/600 [183:37:17<159:22:05, 2049.02s/it]Testing features:  54%|█████▎    | 321/600 [184:10:02<156:51:38, 2024.01s/it]Testing features:  54%|█████▎    | 322/600 [184:44:09<156:49:18, 2030.79s/it]Testing features:  54%|█████▍    | 323/600 [185:17:45<155:54:21, 2026.22s/it]Testing features:  54%|█████▍    | 324/600 [185:52:07<156:11:14, 2037.23s/it]Testing features:  54%|█████▍    | 325/600 [186:25:26<154:44:09, 2025.63s/it]Testing features:  54%|█████▍    | 326/600 [187:00:08<155:27:41, 2042.56s/it]Testing features:  55%|█████▍    | 327/600 [187:33:29<153:56:44, 2030.05s/it]Testing features:  55%|█████▍    | 328/600 [188:08:04<154:23:51, 2043.50s/it]Testing features:  55%|█████▍    | 329/600 [188:42:30<154:20:42, 2050.34s/it]Testing features:  55%|█████▌    | 330/600 [189:16:49<153:58:11, 2052.93s/it]Testing features:  55%|█████▌    | 331/600 [189:51:03<153:25:20, 2053.23s/it]Testing features:  55%|█████▌    | 332/600 [190:23:53<150:59:43, 2028.30s/it]Testing features:  56%|█████▌    | 333/600 [190:58:20<151:17:24, 2039.87s/it]Testing features:  56%|█████▌    | 334/600 [191:32:45<151:17:21, 2047.53s/it]Testing features:  56%|█████▌    | 335/600 [192:07:28<151:29:34, 2058.02s/it]Testing features:  56%|█████▌    | 336/600 [192:41:47<150:56:14, 2058.24s/it]Testing features:  56%|█████▌    | 337/600 [193:15:23<149:27:19, 2045.78s/it]Testing features:  56%|█████▋    | 338/600 [193:49:40<149:07:30, 2049.05s/it]Testing features:  56%|█████▋    | 339/600 [194:23:05<147:35:23, 2035.72s/it]Testing features:  57%|█████▋    | 340/600 [194:57:29<147:38:18, 2044.22s/it]Testing features:  57%|█████▋    | 341/600 [195:31:01<146:22:31, 2034.56s/it]Testing features:  57%|█████▋    | 342/600 [196:05:09<146:06:01, 2038.61s/it]Testing features:  57%|█████▋    | 343/600 [196:39:02<145:25:32, 2037.09s/it]Testing features:  57%|█████▋    | 344/600 [197:13:21<145:19:17, 2043.58s/it]Testing features:  57%|█████▊    | 345/600 [197:46:36<143:42:52, 2028.91s/it]Testing features:  58%|█████▊    | 346/600 [198:20:36<143:23:42, 2032.37s/it]Testing features:  58%|█████▊    | 347/600 [198:54:31<142:53:24, 2033.22s/it]Testing features:  58%|█████▊    | 348/600 [199:28:29<142:24:55, 2034.50s/it]Testing features:  58%|█████▊    | 349/600 [200:02:07<141:30:56, 2029.71s/it]Testing features:  58%|█████▊    | 350/600 [200:36:17<141:22:12, 2035.73s/it]Testing features:  58%|█████▊    | 351/600 [201:10:20<140:57:35, 2037.97s/it]Testing features:  59%|█████▊    | 352/600 [201:44:23<140:28:45, 2039.21s/it]Testing features:  59%|█████▉    | 353/600 [202:17:50<139:15:36, 2029.70s/it]Testing features:  59%|█████▉    | 354/600 [202:51:27<138:25:44, 2025.79s/it]Testing features:  59%|█████▉    | 355/600 [203:24:53<137:27:59, 2019.92s/it]Testing features:  59%|█████▉    | 356/600 [203:59:41<138:17:10, 2040.29s/it]Testing features:  60%|█████▉    | 357/600 [204:33:42<137:44:40, 2040.66s/it]Testing features:  60%|█████▉    | 358/600 [205:07:30<136:54:27, 2036.64s/it]Testing features:  60%|█████▉    | 359/600 [205:42:25<137:31:15, 2054.25s/it]Testing features:  60%|██████    | 360/600 [206:15:53<136:01:51, 2040.47s/it]Testing features:  60%|██████    | 361/600 [206:49:53<135:27:10, 2040.29s/it]Testing features:  60%|██████    | 362/600 [207:23:46<134:44:19, 2038.06s/it]Testing features:  60%|██████    | 363/600 [207:57:46<134:13:01, 2038.74s/it]Testing features:  61%|██████    | 364/600 [208:32:05<134:02:55, 2044.81s/it]Testing features:  61%|██████    | 365/600 [209:05:25<132:35:33, 2031.21s/it]Testing features:  61%|██████    | 366/600 [209:39:54<132:46:46, 2042.76s/it]Testing features:  61%|██████    | 367/600 [210:14:09<132:26:07, 2046.21s/it]Testing features:  61%|██████▏   | 368/600 [210:47:40<131:11:58, 2035.85s/it]Testing features:  62%|██████▏   | 369/600 [211:22:17<131:25:10, 2048.10s/it]Testing features:  62%|██████▏   | 370/600 [211:56:36<131:03:17, 2051.29s/it]Testing features:  62%|██████▏   | 371/600 [212:30:09<129:45:59, 2040.00s/it]Testing features:  62%|██████▏   | 372/600 [213:04:21<129:24:45, 2043.36s/it]Testing features:  62%|██████▏   | 373/600 [213:37:55<128:18:11, 2034.76s/it]Testing features:  62%|██████▏   | 374/600 [214:11:39<127:31:21, 2031.33s/it]Testing features:  62%|██████▎   | 375/600 [214:46:09<127:41:29, 2043.06s/it]Testing features:  63%|██████▎   | 376/600 [215:19:31<126:20:48, 2030.57s/it]Testing features:  63%|██████▎   | 377/600 [215:53:15<125:40:10, 2028.75s/it]Testing features:  63%|██████▎   | 378/600 [216:27:07<125:10:27, 2029.85s/it]Testing features:  63%|██████▎   | 379/600 [217:01:00<124:39:51, 2030.73s/it]Testing features:  63%|██████▎   | 380/600 [217:34:45<123:59:31, 2028.96s/it]Testing features:  64%|██████▎   | 381/600 [218:08:37<123:28:54, 2029.84s/it]Testing features:  64%|██████▎   | 382/600 [218:43:07<123:38:35, 2041.82s/it]Testing features:  64%|██████▍   | 383/600 [219:16:53<122:47:55, 2037.21s/it]Testing features:  64%|██████▍   | 384/600 [219:51:20<122:46:05, 2046.14s/it]Testing features:  64%|██████▍   | 385/600 [220:25:23<122:08:07, 2045.06s/it]Testing features:  64%|██████▍   | 386/600 [220:59:12<121:17:03, 2040.30s/it]Testing features:  64%|██████▍   | 387/600 [221:33:02<120:31:42, 2037.10s/it]Testing features:  65%|██████▍   | 388/600 [222:06:35<119:33:03, 2030.11s/it]Testing features:  65%|██████▍   | 389/600 [222:41:17<119:54:02, 2045.70s/it]✅ (torch.Size([4096]))
-🔧 Clearing checkpoint from memory...
-🔧 Loading state dict to model...
-🔧 Moving model to cuda...
-✅ OPTIMIZED SAE loaded successfully!
-   Layer: 8
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-   Memory optimizations: ENABLED
-✅ SAE Layer 8 loaded
-
-🧪 Testing L8-3091
-   Cohen's d: 1.240
-   Safe mean: -0.070129, Risky mean: -0.049469
-
-🧪 Testing L8-842
-   Cohen's d: 1.203
-   Safe mean: -0.099487, Risky mean: -0.083923
-
-🧪 Testing L8-128
-   Cohen's d: 1.171
-   Safe mean: 0.046112, Risky mean: 0.063293
-
-🧪 Testing L8-1846
-   Cohen's d: -1.167
-   Safe mean: 0.213379, Risky mean: 0.190796
-
-🧪 Testing L8-3867
-   Cohen's d: -1.161
-   Safe mean: 0.001768, Risky mean: -0.012794
-
-🧪 Testing L8-3140
-   Cohen's d: -1.129
-   Safe mean: 0.061646, Risky mean: 0.046661
-
-🧪 Testing L8-2257
-   Cohen's d: -1.124
-   Safe mean: 0.099304, Risky mean: 0.084045
-
-🧪 Testing L8-3313
-   Cohen's d: -1.111
-   Safe mean: -0.015976, Risky mean: -0.029800
-
-🧪 Testing L8-1240
-   Cohen's d: 1.091
-   Safe mean: -0.043304, Risky mean: -0.028015
-
-🧪 Testing L8-27
-   Cohen's d: -1.069
-   Safe mean: 0.012383, Risky mean: -0.004166
-
-🧪 Testing L8-3745
-   Cohen's d: -1.069
-   Safe mean: -0.020706, Risky mean: -0.034760
-
-🧪 Testing L8-1837
-   Cohen's d: -1.066
-   Safe mean: 0.096558, Risky mean: 0.078369
-
-🧪 Testing L8-4003
-   Cohen's d: -1.066
-   Safe mean: 0.053467, Risky mean: 0.036133
-
-🧪 Testing L8-3800
-   Cohen's d: 1.062
-   Safe mean: -0.057373, Risky mean: -0.031891
-
-🧪 Testing L8-1582
-   Cohen's d: 1.060
-   Safe mean: -0.152954, Risky mean: -0.135986
-
-🧪 Testing L8-2565
-   Cohen's d: -1.058
-   Safe mean: -0.071594, Risky mean: -0.086853
-
-🧪 Testing L8-3603
-   Cohen's d: 1.051
-   Safe mean: 0.008095, Risky mean: 0.025558
-
-🧪 Testing L8-3330
-   Cohen's d: -1.046
-   Safe mean: 0.127686, Risky mean: 0.104431
-
-🧪 Testing L8-1844
-   Cohen's d: -1.043
-   Safe mean: 0.001891, Risky mean: -0.009727
-
-🧪 Testing L8-477
-   Cohen's d: 1.037
-   Safe mean: -0.042938, Risky mean: -0.031006
-
-🧪 Testing L8-2959
-   Cohen's d: -1.037
-   Safe mean: 0.145508, Risky mean: 0.126343
-
-🧪 Testing L8-2360
-   Cohen's d: -1.033
-   Safe mean: 0.025131, Risky mean: 0.008736
-
-🧪 Testing L8-2896
-   Cohen's d: 1.029
-   Safe mean: -0.057526, Risky mean: -0.048065
-
-🧪 Testing L8-1486
-   Cohen's d: 1.028
-   Safe mean: 0.044464, Risky mean: 0.055237
-
-🧪 Testing L8-1275
-   Cohen's d: 1.026
-   Safe mean: -0.099609, Risky mean: -0.080200
-
-🧪 Testing L8-349
-   Cohen's d: 1.019
-   Safe mean: 0.039062, Risky mean: 0.049957
-
-🧪 Testing L8-605
-   Cohen's d: 1.017
-   Safe mean: -0.120178, Risky mean: -0.105896
-
-🧪 Testing L8-1058
-   Cohen's d: -1.016
-   Safe mean: 0.054840, Risky mean: 0.039307
-
-🧪 Testing L8-2847
-   Cohen's d: -0.999
-   Safe mean: 0.053345, Risky mean: 0.033539
-
-🧪 Testing L8-3583
-   Cohen's d: 0.997
-   Safe mean: -0.013596, Risky mean: 0.003359
-
-🧪 Testing L8-481
-   Cohen's d: -0.995
-   Safe mean: 0.097168, Risky mean: 0.078735
-
-🧪 Testing L8-3809
-   Cohen's d: 0.994
-   Safe mean: 0.017944, Risky mean: 0.031708
-
-🧪 Testing L8-2170
-   Cohen's d: 0.994
-   Safe mean: 0.015839, Risky mean: 0.027374
-
-🧪 Testing L8-807
-   Cohen's d: 0.990
-   Safe mean: 0.036255, Risky mean: 0.051453
-
-🧪 Testing L8-1357
-   Cohen's d: 0.986
-   Safe mean: -0.089966, Risky mean: -0.078003
-
-🧪 Testing L8-303
-   Cohen's d: 0.983
-   Safe mean: -0.066895, Risky mean: -0.052307
-
-🧪 Testing L8-3838
-   Cohen's d: -0.981
-   Safe mean: 0.116028, Risky mean: 0.104492
-
-🧪 Testing L8-2488
-   Cohen's d: 0.973
-   Safe mean: -0.061859, Risky mean: -0.048737
-
-🧪 Testing L8-1869
-   Cohen's d: -0.969
-   Safe mean: -0.141846, Risky mean: -0.167969
-
-🧪 Testing L8-402
-   Cohen's d: -0.964
-   Safe mean: -0.017563, Risky mean: -0.035065
-
-🧪 Testing L8-684
-   Cohen's d: 0.963
-   Safe mean: 0.039948, Risky mean: 0.051392
-
-🧪 Testing L8-3796
-   Cohen's d: -0.963
-   Safe mean: -0.076294, Risky mean: -0.086914
-
-🧪 Testing L8-831
-   Cohen's d: -0.962
-   Safe mean: 0.027008, Risky mean: 0.012001
-
-🧪 Testing L8-1702
-   Cohen's d: 0.962
-   Safe mean: -0.024246, Risky mean: -0.012894
-
-🧪 Testing L8-3844
-   Cohen's d: -0.961
-   Safe mean: -0.015373, Risky mean: -0.031830
-
-🧪 Testing L8-2276
-   Cohen's d: 0.960
-   Safe mean: 0.023346, Risky mean: 0.035248
-
-🧪 Testing L8-2671
-   Cohen's d: 0.957
-   Safe mean: -0.332275, Risky mean: -0.322998
-
-🧪 Testing L8-3002
-   Cohen's d: 0.943
-   Safe mean: -0.079468, Risky mean: -0.064514
-
-🧪 Testing L8-2184
-   Cohen's d: 0.942
-   Safe mean: -0.044434, Risky mean: -0.030396
-💾 Checkpoint saved: /data/llm_addiction/experiment_2_multilayer_patching/checkpoint_L7_8_gpu4_L7_8_20251011_053513.json
-
-🧪 Testing L8-544
-   Cohen's d: -0.942
-   Safe mean: 0.019348, Risky mean: 0.010307
-
-🧪 Testing L8-210
-   Cohen's d: -0.940
-   Safe mean: -0.088135, Risky mean: -0.099609
-
-🧪 Testing L8-2942
-   Cohen's d: -0.940
-   Safe mean: 0.017792, Risky mean: 0.000875
-
-🧪 Testing L8-1592
-   Cohen's d: -0.937
-   Safe mean: 0.143433, Risky mean: 0.128174
-
-🧪 Testing L8-367
-   Cohen's d: 0.936
-   Safe mean: -0.074219, Risky mean: -0.063049
-
-🧪 Testing L8-1910
-   Cohen's d: 0.936
-   Safe mean: -0.102844, Risky mean: -0.090881
-
-🧪 Testing L8-2829
-   Cohen's d: -0.934
-   Safe mean: 0.070618, Risky mean: 0.055481
-
-🧪 Testing L8-3425
-   Cohen's d: 0.934
-   Safe mean: -0.037872, Risky mean: -0.024597
-
-🧪 Testing L8-2475
-   Cohen's d: -0.932
-   Safe mean: 0.055450, Risky mean: 0.040527
-
-🧪 Testing L8-976
-   Cohen's d: 0.926
-   Safe mean: 0.038818, Risky mean: 0.052582
-
-🧪 Testing L8-1423
-   Cohen's d: -0.924
-   Safe mean: 0.146362, Risky mean: 0.130859
-
-🧪 Testing L8-3109
-   Cohen's d: 0.924
-   Safe mean: -0.064026, Risky mean: -0.047424
-
-🧪 Testing L8-3711
-   Cohen's d: -0.924
-   Safe mean: 0.058929, Risky mean: 0.046692
-
-🧪 Testing L8-316
-   Cohen's d: 0.923
-   Safe mean: 0.036621, Risky mean: 0.046509
-
-🧪 Testing L8-1699
-   Cohen's d: -0.922
-   Safe mean: 0.065430, Risky mean: 0.048462
-
-🧪 Testing L8-1971
-   Cohen's d: 0.921
-   Safe mean: 0.014641, Risky mean: 0.029251
-
-🧪 Testing L8-1196
-   Cohen's d: -0.920
-   Safe mean: -0.075073, Risky mean: -0.089172
-
-🧪 Testing L8-342
-   Cohen's d: 0.920
-   Safe mean: -0.073425, Risky mean: -0.055725
-
-🧪 Testing L8-1092
-   Cohen's d: -0.920
-   Safe mean: 0.078918, Risky mean: 0.066406
-
-🧪 Testing L8-1270
-   Cohen's d: -0.916
-   Safe mean: -0.016922, Risky mean: -0.035461
-
-🧪 Testing L8-928
-   Cohen's d: 0.915
-   Safe mean: -0.008034, Risky mean: 0.004551
-
-🧪 Testing L8-2664
-   Cohen's d: -0.914
-   Safe mean: -0.046753, Risky mean: -0.059692
-
-🧪 Testing L8-714
-   Cohen's d: 0.911
-   Safe mean: 0.081909, Risky mean: 0.092407
-
-🧪 Testing L8-2505
-   Cohen's d: -0.911
-   Safe mean: 0.027664, Risky mean: 0.012924
-
-🧪 Testing L8-891
-   Cohen's d: -0.905
-   Safe mean: 0.128784, Risky mean: 0.116821
-
-🧪 Testing L8-307
-   Cohen's d: 0.905
-   Safe mean: 0.069214, Risky mean: 0.087891
-
-🧪 Testing L8-401
-   Cohen's d: 0.904
-   Safe mean: -0.076416, Risky mean: -0.059357
-
-🧪 Testing L8-3188
-   Cohen's d: 0.901
-   Safe mean: 0.013100, Risky mean: 0.027130
-
-🧪 Testing L8-3895
-   Cohen's d: -0.901
-   Safe mean: 0.069702, Risky mean: 0.055908
-
-🧪 Testing L8-42
-   Cohen's d: 0.899
-   Safe mean: 0.280518, Risky mean: 0.294922
-
-🧪 Testing L8-1457
-   Cohen's d: -0.899
-   Safe mean: 0.052002, Risky mean: 0.038391
-
-🧪 Testing L8-1458
-   Cohen's d: -0.897
-   Safe mean: -0.051849, Risky mean: -0.069519
-
-🧪 Testing L8-1024
-   Cohen's d: 0.892
-   Safe mean: 0.001347, Risky mean: 0.014145
-
-🧪 Testing L8-2361
-   Cohen's d: -0.892
-   Safe mean: 0.044617, Risky mean: 0.030975
-
-🧪 Testing L8-3414
-   Cohen's d: -0.892
-   Safe mean: -0.014389, Risky mean: -0.027573
-
-🧪 Testing L8-860
-   Cohen's d: 0.891
-   Safe mean: -0.061493, Risky mean: -0.042572
-
-🧪 Testing L8-3150
-   Cohen's d: 0.890
-   Safe mean: 0.026321, Risky mean: 0.041168
-
-🧪 Testing L8-2778
-   Cohen's d: -0.889
-   Safe mean: -0.019058, Risky mean: -0.038177
-
-🧪 Testing L8-1607
-   Cohen's d: 0.887
-   Safe mean: -0.080811, Risky mean: -0.065063
-Testing features:  65%|██████▌   | 390/600 [223:15:25<119:22:22, 2046.40s/it]Testing features:  65%|██████▌   | 391/600 [223:49:56<119:13:07, 2053.53s/it]Testing features:  65%|██████▌   | 392/600 [224:24:29<118:59:49, 2059.56s/it]Testing features:  66%|██████▌   | 393/600 [224:57:45<117:19:35, 2040.46s/it]Testing features:  66%|██████▌   | 394/600 [225:30:58<115:56:48, 2026.26s/it]Testing features:  66%|██████▌   | 395/600 [226:05:38<116:18:07, 2042.38s/it]Testing features:  66%|██████▌   | 396/600 [226:39:50<115:54:05, 2045.32s/it]Testing features:  66%|██████▌   | 397/600 [227:14:29<115:53:29, 2055.22s/it]Testing features:  66%|██████▋   | 398/600 [227:48:48<115:23:30, 2056.49s/it]Testing features:  66%|██████▋   | 399/600 [228:22:52<114:36:37, 2052.73s/it]Testing features:  67%|██████▋   | 400/600 [228:57:00<113:57:46, 2051.33s/it]Testing features:  67%|██████▋   | 401/600 [229:31:49<114:00:47, 2062.55s/it]Testing features:  67%|██████▋   | 402/600 [230:06:14<113:29:14, 2063.41s/it]Testing features:  67%|██████▋   | 403/600 [230:40:06<112:23:45, 2053.93s/it]Testing features:  67%|██████▋   | 404/600 [231:14:08<111:37:51, 2050.37s/it]Testing features:  68%|██████▊   | 405/600 [231:48:12<110:57:17, 2048.40s/it]Testing features:  68%|██████▊   | 406/600 [232:22:12<110:15:25, 2046.01s/it]Testing features:  68%|██████▊   | 407/600 [232:56:24<109:47:05, 2047.80s/it]Testing features:  68%|██████▊   | 408/600 [233:30:19<109:00:20, 2043.86s/it]Testing features:  68%|██████▊   | 409/600 [234:04:12<108:15:45, 2040.55s/it]Testing features:  68%|██████▊   | 410/600 [234:37:46<107:16:32, 2032.59s/it]Testing features:  68%|██████▊   | 411/600 [235:10:44<105:51:30, 2016.35s/it]Testing features:  69%|██████▊   | 412/600 [235:44:25<105:22:12, 2017.73s/it]Testing features:  69%|██████▉   | 413/600 [236:18:07<104:52:39, 2019.03s/it]Testing features:  69%|██████▉   | 414/600 [236:51:45<104:18:03, 2018.73s/it]Testing features:  69%|██████▉   | 415/600 [237:25:45<104:04:07, 2025.12s/it]Testing features:  69%|██████▉   | 416/600 [237:59:29<103:29:21, 2024.79s/it]Testing features:  70%|██████▉   | 417/600 [238:32:51<102:34:09, 2017.76s/it]Testing features:  70%|██████▉   | 418/600 [239:07:12<102:40:17, 2030.86s/it]Testing features:  70%|██████▉   | 419/600 [239:40:31<101:37:00, 2021.11s/it]Testing features:  70%|███████   | 420/600 [240:14:30<101:19:46, 2026.59s/it]Testing features:  70%|███████   | 421/600 [240:48:22<100:50:26, 2028.08s/it]Testing features:  70%|███████   | 422/600 [241:22:20<100:26:16, 2031.33s/it]Testing features:  70%|███████   | 423/600 [241:56:21<100:00:08, 2033.95s/it]Testing features:  71%|███████   | 424/600 [242:30:24<99:34:58, 2036.93s/it] Testing features:  71%|███████   | 425/600 [243:04:49<99:25:24, 2045.28s/it]Testing features:  71%|███████   | 426/600 [243:38:00<98:04:08, 2029.01s/it]Testing features:  71%|███████   | 427/600 [244:11:03<96:50:24, 2015.17s/it]Testing features:  71%|███████▏  | 428/600 [244:45:22<96:54:21, 2028.27s/it]Testing features:  72%|███████▏  | 429/600 [245:18:41<95:55:20, 2019.42s/it]Testing features:  72%|███████▏  | 430/600 [245:52:08<95:11:23, 2015.78s/it]Testing features:  72%|███████▏  | 431/600 [246:26:27<95:14:24, 2028.78s/it]Testing features:  72%|███████▏  | 432/600 [247:00:01<94:27:47, 2024.21s/it]Testing features:  72%|███████▏  | 433/600 [247:33:37<93:47:51, 2021.99s/it]Testing features:  72%|███████▏  | 434/600 [248:08:00<93:47:55, 2034.19s/it]Testing features:  72%|███████▎  | 435/600 [248:41:56<93:15:33, 2034.75s/it]Testing features:  73%|███████▎  | 436/600 [249:14:48<91:49:51, 2015.80s/it]Testing features:  73%|███████▎  | 437/600 [249:48:22<91:15:09, 2015.39s/it]Testing features:  73%|███████▎  | 438/600 [250:22:45<91:20:19, 2029.75s/it]Testing features:  73%|███████▎  | 439/600 [250:57:04<91:09:24, 2038.29s/it]Testing features:  73%|███████▎  | 440/600 [251:31:37<91:03:07, 2048.67s/it]Testing features:  74%|███████▎  | 441/600 [252:05:22<90:10:14, 2041.60s/it]Testing features:  74%|███████▎  | 442/600 [252:38:57<89:15:47, 2033.84s/it]Testing features:  74%|███████▍  | 443/600 [253:12:45<88:37:07, 2032.02s/it]Testing features:  74%|███████▍  | 444/600 [253:46:38<88:04:01, 2032.32s/it]Testing features:  74%|███████▍  | 445/600 [254:20:56<87:49:41, 2039.88s/it]Testing features:  74%|███████▍  | 446/600 [254:54:45<87:07:16, 2036.60s/it]Testing features:  74%|███████▍  | 447/600 [255:29:22<87:04:30, 2048.83s/it]Testing features:  75%|███████▍  | 448/600 [256:03:40<86:37:03, 2051.47s/it]Testing features:  75%|███████▍  | 449/600 [256:38:06<86:14:20, 2056.03s/it]Testing features:  75%|███████▌  | 450/600 [257:11:43<85:10:30, 2044.21s/it]

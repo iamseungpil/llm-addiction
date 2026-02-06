@@ -1,0 +1,89 @@
+2026-02-04 16:19:50 - __main__ - INFO - ============================================================
+2026-02-04 16:19:50 - __main__ - INFO - ALTERNATIVE PARADIGMS QUICK TEST
+2026-02-04 16:19:50 - __main__ - INFO - ============================================================
+2026-02-04 16:19:50 - __main__ - INFO - Model: gemma
+2026-02-04 16:19:50 - __main__ - INFO - GPU: 0
+2026-02-04 16:19:50 - __main__ - INFO - Experiment: all
+2026-02-04 16:19:50 - __main__ - INFO - ============================================================
+2026-02-04 16:19:50 - __main__ - INFO - 
+Loading model...
+2026-02-04 16:19:50 - common.model_loader - INFO - 🚀 Loading GEMMA model on GPU 0
+2026-02-04 16:19:50 - common.model_loader - INFO -    Model ID: google/gemma-2-9b-it
+2026-02-04 16:19:50 - common.model_loader - INFO -    Expected memory: ~22GB
+Traceback (most recent call last):
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 403, in hf_raise_for_status
+    response.raise_for_status()
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://huggingface.co/google/gemma-2-9b-it/resolve/main/config.json
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/transformers/utils/hub.py", line 479, in cached_files
+    hf_hub_download(
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1007, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1114, in _hf_hub_download_to_cache_dir
+    _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1655, in _raise_on_head_call_error
+    raise head_call_error
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1543, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1460, in get_hf_file_metadata
+    r = _request_wrapper(
+        ^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 283, in _request_wrapper
+    response = _request_wrapper(
+               ^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 307, in _request_wrapper
+    hf_raise_for_status(response)
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 420, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-6982f319-5cab5dc60869892e7a76e3ad;4794314a-26d5-458b-b3f3-fe3ae23ac0e4)
+
+Cannot access gated repo for url https://huggingface.co/google/gemma-2-9b-it/resolve/main/config.json.
+Access to model google/gemma-2-9b-it is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/test_quick.py", line 227, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/test_quick.py", line 192, in main
+    model_loader.load()
+  File "/scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src/common/model_loader.py", line 73, in load
+    self.tokenizer = AutoTokenizer.from_pretrained(self.config['model_id'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py", line 1109, in from_pretrained
+    config = AutoConfig.from_pretrained(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/transformers/models/auto/configuration_auto.py", line 1332, in from_pretrained
+    config_dict, unused_kwargs = PretrainedConfig.get_config_dict(pretrained_model_name_or_path, **kwargs)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/transformers/configuration_utils.py", line 662, in get_config_dict
+    config_dict, kwargs = cls._get_config_dict(pretrained_model_name_or_path, **kwargs)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/transformers/configuration_utils.py", line 721, in _get_config_dict
+    resolved_config_file = cached_file(
+                           ^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/transformers/utils/hub.py", line 322, in cached_file
+    file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home01/x3415a02/.conda/envs/llm-addiction/lib/python3.11/site-packages/transformers/utils/hub.py", line 543, in cached_files
+    raise OSError(
+OSError: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/google/gemma-2-9b-it.
+401 Client Error. (Request ID: Root=1-6982f319-5cab5dc60869892e7a76e3ad;4794314a-26d5-458b-b3f3-fe3ae23ac0e4)
+
+Cannot access gated repo for url https://huggingface.co/google/gemma-2-9b-it/resolve/main/config.json.
+Access to model google/gemma-2-9b-it is restricted. You must have access to it and be authenticated to access it. Please log in.

@@ -1,0 +1,115 @@
+# =============================================================================
+# LR Classification Experiment Configuration
+# =============================================================================
+# This config file contains all settings for the LR classification experiment.
+# Modify paths and parameters as needed for your environment.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Data Paths
+# -----------------------------------------------------------------------------
+data:
+  # Root directory for experiment data
+  root: "/mnt/c/Users/oollccddss/git/data/llm-addiction"
+
+  # Model-specific data files (relative to root)
+  gemma: "slot_machine/gemma/final_gemma_20251004_172426.json"
+  llama: "slot_machine/llama/final_llama_20251004_021106.json"
+
+# -----------------------------------------------------------------------------
+# Model Configurations
+# -----------------------------------------------------------------------------
+models:
+  gemma:
+    model_id: "google/gemma-2-9b"
+    n_layers: 42          # Total number of layers
+    d_model: 3584         # Hidden state dimension
+    memory_gb: 22         # Approximate GPU memory needed (bf16)
+
+  llama:
+    model_id: "meta-llama/Llama-3.1-8B"
+    n_layers: 32          # Total number of layers
+    d_model: 4096         # Hidden state dimension
+    memory_gb: 19         # Approximate GPU memory needed (bf16)
+
+# -----------------------------------------------------------------------------
+# Experiment Settings
+# -----------------------------------------------------------------------------
+experiment:
+  # Target layers for quick analysis (subset)
+  # These are mid-to-late layers where task-relevant information is expected
+  target_layers_quick: [15, 20, 25, 30, 35]
+
+  # Full analysis layers (set to "all" to use all layers)
+  # Or specify explicit list: [0, 2, 4, ..., n_layers-1]
+  target_layers_full: "all"
+
+  # Batch size for hidden state extraction
+  # Reduce if OOM errors occur
+  batch_size: 8
+
+  # Position for hidden state extraction
+  # 'last' = last token, 'mean' = mean over all tokens
+  position: "last"
+
+  # Maximum sequence length for tokenization
+  max_seq_length: 512
+
+  # -----------------------------------------------------------------------------
+  # Logistic Regression Settings
+  # -----------------------------------------------------------------------------
+  lr:
+    # Maximum iterations for LR optimization
+    max_iter: 1000
+
+    # Solver: 'lbfgs' (default), 'liblinear', 'saga'
+    # 'lbfgs' is fast and works well for most cases
+    solver: "lbfgs"
+
+    # Class weighting: 'balanced' adjusts for class imbalance
+    class_weight: "balanced"
+
+    # Test set proportion
+    test_size: 0.2
+
+    # Random seed for reproducibility
+    random_state: 42
+
+    # Number of cross-validation folds
+    n_cv_folds: 5
+
+  # -----------------------------------------------------------------------------
+  # Baseline Settings
+  # -----------------------------------------------------------------------------
+  baselines:
+    # TF-IDF baseline
+    tfidf_max_features: 1000
+
+    # Random projection baseline
+    random_projection_dim: 100
+
+# -----------------------------------------------------------------------------
+# Output Settings
+# -----------------------------------------------------------------------------
+# Directory for saving results
+output_dir: "/mnt/c/Users/oollccddss/git/data/llm-addiction/lr_classification_results"
+
+# =============================================================================
+# Expected Data Statistics (for reference)
+# =============================================================================
+# Gemma:
+#   - Total games: 3,200
+#   - bet_types: fixed (1,600), variable (1,600)
+#   - prompt_combos: 32 types (BASE + 31 combinations)
+#   - Bankruptcy rate: ~20.9%
+#
+# LLaMA:
+#   - Total games: 3,200
+#   - bet_types: fixed (1,600), variable (1,600)
+#   - prompt_combos: 32 types
+#   - Bankruptcy rate: TBD
+#
+# Option A: ~3,200 samples (one per game, start point)
+# Option B: ~3,200 samples (one per game, end point - CORE)
+# Option C: ~32,000+ samples (all rounds)
+# =============================================================================

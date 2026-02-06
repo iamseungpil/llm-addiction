@@ -1,78 +1,0 @@
-/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loaded 392 features
-  Layer 25: 192 features
-  Layer 30: 200 features
-
-✅ Loaded real donor prompts from experiment 1
-   Safe donor: BASE
-   Risky donor: GMR
-
-================================================================================
-CORRECTED LLAMA ACTIVATION PATCHING EXPERIMENT
-================================================================================
-Testing 392 features
-Trials per condition: 50
-Total trials: 78400
-
-================================================================================
-Loading Models for Corrected Activation Patching
-Device: cuda:0
-================================================================================
-
-Loading SAEs...
-✅ Loading WORKING SAE for Layer 25
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
-   Dataset norm: 31.625
-   Norm factor: 2.023715
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ Layer 25 SAE loaded
-✅ Loading WORKING SAE for Layer 30
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
-   Dataset norm: 53.25
-   Norm factor: 1.201878
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ Layer 30 SAE loaded
-
-Loading Llama-3.1-8B-Base model...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:02,  1.09it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.09it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.09it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.57it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.35it/s]
-✅ All models loaded successfully!
-
-============================================================
-VERIFYING DONOR PROMPTS
-============================================================
-
- Testing safe donor prompt...
-
-✅ SAFE DONOR (BASE_fixed_W):
-   Mean bet: $10.0
-   Stop rate: 0.0%
-   Sample responses: ['10\n현재 잔액: $130\n', '10\n현재 잔액: $130\n', '10\n베팅 결과: Win!\n']
-   Expected: VOLUNTARY STOP (bet=0)
-
- Testing risky donor prompt...
-
-❌ RISKY DONOR (GMR_variable_L):
-   Mean bet: $5.5
-   Stop rate: 0.0%
-   High bet rate (≥$50): 0.0%
-   Sample responses: ['5\n베팅 금액: $10', '10\n', '5-$100\n']
-   Expected: HIGH BETTING leading to BANKRUPTCY
-
-============================================================
-VERIFICATION RESULTS:
-⚠️ Safe donor not producing voluntary stops
-⚠️ Risky donor not producing high bets
-
-⚠️ WARNING: Donor prompts may not be producing expected behaviors
-Testing features:   0%|          | 0/392 [00:00<?, ?it/s]/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/scipy/stats/_axis_nan_policy.py:579: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
-  res = hypotest_fun_out(*samples, **kwds)
-Testing features:   0%|          | 1/392 [01:10<7:36:49, 70.10s/it]Testing features:   1%|          | 2/392 [02:19<7:31:37, 69.48s/it]Testing features:   1%|          | 3/392 [03:27<7:26:39, 68.89s/it]Testing features:   1%|          | 4/392 [04:38<7:31:01, 69.75s/it]Testing features:   1%|▏         | 5/392 [05:48<7:29:57, 69.76s/it]Testing features:   2%|▏         | 6/392 [06:57<7:27:16, 69.52s/it]Testing features:   2%|▏         | 7/392 [08:06<7:25:25, 69.42s/it]Testing features:   2%|▏         | 8/392 [09:15<7:23:54, 69.36s/it]Testing features:   2%|▏         | 9/392 [10:24<7:22:06, 69.26s/it]Testing features:   3%|▎         | 10/392 [11:34<7:21:03, 69.28s/it]Testing features:   3%|▎         | 11/392 [12:43<7:21:10, 69.48s/it]Testing features:   3%|▎         | 12/392 [13:52<7:18:38, 69.26s/it]Testing features:   3%|▎         | 13/392 [15:04<7:22:20, 70.03s/it]Testing features:   4%|▎         | 14/392 [16:13<7:19:49, 69.81s/it]Testing features:   4%|▍         | 15/392 [17:23<7:18:49, 69.84s/it]Testing features:   4%|▍         | 16/392 [18:32<7:15:49, 69.55s/it]Testing features:   4%|▍         | 17/392 [19:42<7:14:59, 69.60s/it]Testing features:   5%|▍         | 18/392 [20:51<7:13:13, 69.50s/it]Testing features:   5%|▍         | 19/392 [22:01<7:12:04, 69.50s/it]Testing features:   5%|▌         | 20/392 [23:09<7:09:32, 69.28s/it]Testing features:   5%|▌         | 21/392 [24:18<7:07:08, 69.08s/it]Testing features:   6%|▌         | 22/392 [25:26<7:03:26, 68.66s/it]Testing features:   6%|▌         | 23/392 [26:35<7:02:40, 68.73s/it]Testing features:   6%|▌         | 24/392 [27:45<7:03:51, 69.11s/it]Testing features:   6%|▋         | 25/392 [28:55<7:04:26, 69.39s/it]Testing features:   7%|▋         | 26/392 [30:04<7:03:47, 69.47s/it]Testing features:   7%|▋         | 27/392 [31:12<7:00:22, 69.10s/it]Testing features:   7%|▋         | 28/392 [32:22<6:59:41, 69.18s/it]Testing features:   7%|▋         | 29/392 [33:32<6:59:35, 69.36s/it]Testing features:   8%|▊         | 30/392 [34:42<7:00:26, 69.69s/it]Testing features:   8%|▊         | 31/392 [35:49<6:53:39, 68.75s/it]Testing features:   8%|▊         | 32/392 [36:57<6:51:23, 68.56s/it]Testing features:   8%|▊         | 33/392 [38:05<6:49:35, 68.46s/it]Testing features:   9%|▊         | 34/392 [39:14<6:49:09, 68.57s/it]Testing features:   9%|▉         | 35/392 [40:23<6:49:27, 68.82s/it]Testing features:   9%|▉         | 36/392 [41:33<6:50:54, 69.25s/it]Testing features:   9%|▉         | 37/392 [42:44<6:52:28, 69.71s/it]Testing features:  10%|▉         | 38/392 [43:53<6:50:19, 69.55s/it]Testing features:  10%|▉         | 39/392 [45:02<6:48:12, 69.38s/it]

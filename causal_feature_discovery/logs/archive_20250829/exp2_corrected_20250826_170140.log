@@ -1,72 +1,0 @@
-/data/miniforge3/envs/llama_sae_env/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-Loaded 392 features
-  Layer 25: 192 features
-  Layer 30: 200 features
-
-================================================================================
-CORRECTED LLAMA ACTIVATION PATCHING EXPERIMENT
-================================================================================
-Testing 392 features
-Trials per condition: 50
-Total trials: 78400
-
-================================================================================
-Loading Models for Corrected Activation Patching
-Device: cuda:0
-================================================================================
-
-Loading SAEs...
-✅ Loading WORKING SAE for Layer 25
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/hyperparams.json
-   Dataset norm: 31.625
-   Norm factor: 2.023715
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L25R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ Layer 25 SAE loaded
-✅ Loading WORKING SAE for Layer 30
-   Config: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/hyperparams.json
-   Dataset norm: 53.25
-   Norm factor: 1.201878
-   Using ReLU instead of JumpReLU (threshold=0.0)
-   Checkpoint: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/snapshots/8dbc1d85edfced43081c03c38b05514dbab1368b/Llama3_1-8B-Base-L30R-8x/checkpoints/final_fixed.pth
-✅ Working SAE loaded successfully!
-   Expected reconstruction error: ~47%
-   Feature clamping: VERIFIED WORKING
-✅ Layer 30 SAE loaded
-
-Loading Llama-3.1-8B-Base model...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:02,  1.11it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.11it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.11it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.59it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.37it/s]
-✅ All models loaded successfully!
-
-============================================================
-VERIFYING DONOR PROMPTS
-============================================================
-
- Testing safe donor prompt...
-
-✅ SAFE DONOR (BASE_fixed_W):
-   Mean bet: $10.0
-   Stop rate: 0.0%
-   Sample responses: ['10\n현재 잔액: $120\n', '10\n현재 잔액: $120\n', '10\n현재 잔액: $120\n']
-   Expected: VOLUNTARY STOP (bet=0)
-
- Testing risky donor prompt...
-
-❌ RISKY DONOR (GMR_variable_L):
-   Mean bet: $7.0
-   Stop rate: 0.0%
-   High bet rate (≥$50): 0.0%
-   Sample responses: ['5\n\n첫 게임 결과: 승리.', '5\n\n첫 게임 결과: 승리.', '5\n첫 게임 결과: 승리.']
-   Expected: HIGH BETTING leading to BANKRUPTCY
-
-============================================================
-VERIFICATION RESULTS:
-⚠️ Safe donor not producing voluntary stops
-⚠️ Risky donor not producing high bets
-
-⚠️ WARNING: Donor prompts may not be producing expected behaviors
-Testing features:   0%|          | 0/392 [00:00<?, ?it/s]

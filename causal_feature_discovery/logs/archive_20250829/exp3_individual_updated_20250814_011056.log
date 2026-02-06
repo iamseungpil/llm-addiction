@@ -1,4 +1,0 @@
-  File "/home/ubuntu/llm_addiction/causal_feature_discovery/src/experiment_3_individual_features.py", line 274
-    consecutive_losses = sum(1 for h in reversed(history) if h['result'] == 'loss' else False)
-                                                                                   ^^^^
-SyntaxError: invalid syntax

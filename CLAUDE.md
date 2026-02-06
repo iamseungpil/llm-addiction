@@ -1,154 +1,147 @@
-# LLM Addiction Research Project Status
+# CLAUDE.md
 
-## 실험 개요 (2025-12-16 업데이트)
+This file provides guidance to Claude Code when working with this repository.
 
-### 현재 상태 요약
+## Project Overview
 
-| 모델 | 실험 수 | 파산율 | 데이터 위치 |
-|------|--------|--------|-------------|
-| LLaMA 3.1-8B | 3,200 | 4.69% | `/data/llm_addiction/experiment_0_llama_corrected/` |
-| Gemma 2-9B | 3,200 | 20.94% | `/data/llm_addiction/experiment_0_gemma_corrected/` |
-| GPT-4o-mini | 3,200 | Variable별 상이 | `/data/llm_addiction/gpt_results_fixed_parsing/` |
+Research project (ICLR 2026 submission) studying addictive-like gambling behaviors in LLMs using slot machine and investment choice paradigms. Analyzes decision patterns across models (LLaMA-3.1-8B, Gemma-2-9B, GPT-4o-mini, GPT-4.1-mini, Claude-3.5-Haiku, Gemini-2.5-Flash) and uses Sparse Autoencoder (SAE) interpretability + activation patching to identify causal neural features driving risk-taking.
 
----
+## Environment Configuration
 
-## 🆕 새 실험 계획: Steering Vector Analysis
+| Setting | Value |
+|---------|-------|
+| **Repository** | `/scratch/x3415a02/projects/llm-addiction/` |
+| **Data Directory** | `/scratch/x3415a02/data/llm-addiction/` |
+| **Main Branch** | `main` |
+| **Platform** | HPC Cluster (Lustre filesystem, 100TB scratch) |
+| **Conda Environment** | `llama_sae_env` |
+| **Python Version** | 3.11 |
 
-### 목표
-CAA(Contrastive Activation Addition) 기반 steering vector로 gambling behavior 조작 및 SAE 해석
+### Storage Layout
 
-### Phase 1: Steering Vector 추출 (데이터 준비 완료)
-
-**데이터 소스**:
-- LLaMA: 3,200 games, 150 bankruptcy (4.69%), 3,050 voluntary_stop
-- Gemma: 3,200 games, 670 bankruptcy (20.94%), 2,530 voluntary_stop
-
-**Steering Vector 계산**:
-```python
-# 각 모델별로 계산
-steering_vector[layer] = mean(bankrupt_hidden_states) - mean(safe_hidden_states)
+```
+/scratch/x3415a02/
+├── projects/llm-addiction/    # Code repository (~280MB)
+└── data/llm-addiction/        # Experiment outputs (NPZ, JSON, logs)
+    ├── investment_choice/     # Investment choice experiment data
+    ├── blackjack/             # Blackjack experiment data
+    ├── lootbox/               # Loot box experiment data
+    └── slot_machine/          # Slot machine experiment data
 ```
 
-**Target Layers**: 10, 15, 20, 25, 30 (중간~후반 layers)
+## Key Research Findings
 
-### Phase 2: Steering 실험
+1. **Self-regulation failure**: Betting aggressiveness (I_BA), extreme betting (I_EC), loss chasing (I_LC)
+2. **Goal dysregulation**: Goal escalation after achievement (20% → 50% in addicted models)
+3. **Autonomy effect**: Variable betting → +3.3% bankruptcy rate vs Fixed betting
+4. **Neural mechanisms**: LLaMA encodes betting conditions (L12-15), Gemma encodes outcomes (L26-40)
+5. **Causal validation**: SAE feature patching changes behavior (+29.6% stopping rate)
 
-**조건**:
-- Steering 강도: [-2.0, -1.0, -0.5, 0, 0.5, 1.0, 2.0]
-- 양방향: safe→risky, risky→safe
-- 각 조건당 50 trials
+## Repository Structure
 
-**측정 변수**:
-- 파산율 변화
-- 평균 베팅 금액
-- Stop 결정 비율
+```
+paper_experiments/              # Publication experiments (ICLR 2026)
+├── slot_machine_6models/       # Section 3.1: 6-model gambling behavior
+├── investment_choice_experiment/ # Section 3.1: Ablation study
+├── llama_sae_analysis/         # Section 3.2: Neural mechanisms (112 causal features)
+└── pathway_token_analysis/     # Section 5: Token-level temporal analysis
 
-### Phase 3: SAE 해석
+exploratory_experiments/        # Non-paper experiments
+├── steering_vector_analysis/   # CAA-based steering vectors
+├── gemma_sae_experiment/       # Gemma SAE with domain boost
+├── lr_classification_experiment/ # Hidden state → bankruptcy prediction
+├── alternative_paradigms/      # Domain generalization (IGT, Loot Box, Near-Miss)
+└── additional_experiments/     # Post-submission extensions
 
-**목표**: Steering vector가 어떤 SAE features를 활성화하는지 분석
-
-```python
-# Steering vector를 SAE feature space로 변환
-feature_contributions = sae.encode(steering_vector)
-top_features = argsort(abs(feature_contributions))[-50:]
+legacy/                         # Archived experiments
 ```
 
-**SAE 모델**:
-- LLaMA: LlamaScope (L1-31, 32K features/layer)
-- Gemma: GemmaScope (sae_lens 6.5.1 설치됨)
+## Architecture
 
----
+All experiments follow a **phase-based pipeline** pattern:
 
-## 주요 데이터 파일
-
-### 실험 0 (LLaMA/Gemma 3,200 games)
 ```
-/data/llm_addiction/experiment_0_llama_corrected/final_llama_20251004_021106.json
-/data/llm_addiction/experiment_0_gemma_corrected/final_gemma_20251004_172426.json
+Config (YAML) → Phase Scripts (Python) → Results (JSON/NPZ/JSONL)
 ```
 
-### 실험 코드
-```
-/home/ubuntu/llm_addiction/experiment_0_llama_gemma_restart/experiment_0_restart_corrected.py
-```
+**Key patterns:**
+- Paths externalized to YAML configs or CLI args
+- GPU memory managed with `clear_gpu_memory()` between phases
+- Models loaded in **bf16** (not float16 or quantized)
+- Reproducibility: `set_random_seed(42)` before experiments
 
-### 논문/분석
-```
-/home/ubuntu/llm_addiction/writing/
-/home/ubuntu/llm_addiction/rebuttal_analysis/
-```
+**Output file conventions:**
+- `.json` - Game results, behavioral data
+- `.npz` - Hidden states, SAE activations
+- `.jsonl` - Streaming outputs
+- `.log` - Experiment logs
 
----
+## Running Experiments
 
-## 데이터 무결성 검증 (2025-12-16 완료)
+### Local Models (GPU required)
 
-### LLaMA 데이터
-- ✅ 3,200 실험 (64 conditions × 50 reps)
-- ✅ 중복 없음
-- ✅ 잔고 계산 정확
-- ✅ 승률 30.87% (예상 30%)
-- ⚠️ 47% empty history (즉시 stop - 정상 동작)
-
-### Gemma 데이터
-- ✅ 3,200 실험 (64 conditions × 50 reps)
-- ✅ 중복 없음
-- ✅ 잔고 계산 정확
-- ✅ 승률 29.36% (예상 30%)
-- ⚠️ 17% empty history
-
----
-
-## 환경 설정
-
-### Conda Environment
 ```bash
-# LLaMA/Gemma SAE 분석용
-conda activate llama_sae_env
+# Slot machine experiments
+python paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py
 
-# 설치된 패키지
-- sae_lens 6.5.1 (GemmaScope 지원)
-- torch 2.7.1
-- transformers 4.53.3
+# SAE analysis pipeline
+python paper_experiments/llama_sae_analysis/src/phase1_feature_extraction.py
+python paper_experiments/llama_sae_analysis/src/phase4_causal_pilot_v2.py
+
+# Alternative paradigms
+python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick
 ```
 
-### SAE 모델 경로
-```
-LlamaScope: /data/.cache/huggingface/hub/models--fnlp--Llama3_1-8B-Base-LXR-8x/
-GemmaScope: huggingface (google/gemma-scope)
-```
+### API Models
 
----
-
-## 파일 구조
-
-```
-/home/ubuntu/llm_addiction/
-├── CLAUDE.md                           # 이 파일
-├── AGENTS.md                           # 코드 스타일 가이드
-├── experiment_0_llama_gemma_restart/   # 실험 0 코드
-├── experiment_2_multilayer_patching_L1_31/  # SAE patching
-├── experiment_pathway_token_analysis/  # Pathway 분석
-├── writing/                            # 논문
-├── rebuttal_analysis/                  # Rebuttal figures
-├── 1216_legacy_code/                   # 정리된 레거시 파일
-└── ARCHIVE_*/                          # 아카이브
-
-/data/llm_addiction/
-├── experiment_0_llama_corrected/       # LLaMA 3,200 games
-├── experiment_0_gemma_corrected/       # Gemma 3,200 games
-├── gpt_results_fixed_parsing/          # GPT 실험
-└── 1216_legacy_data/                   # 정리된 레거시 데이터
+```bash
+python paper_experiments/slot_machine_6models/src/run_gpt5_experiment.py
+python paper_experiments/slot_machine_6models/src/run_claude_experiment.py
+python paper_experiments/slot_machine_6models/src/run_gemini_experiment.py
 ```
 
----
+## GPU Requirements
 
-## 다음 단계
+- LLaMA-3.1-8B: ~19GB VRAM (bf16)
+- Gemma-2-9B: ~22GB VRAM (bf16)
+- Use `CUDA_VISIBLE_DEVICES` for multi-GPU experiments
 
-1. **Steering Vector 구현**: LLaMA/Gemma hidden state 추출 및 steering vector 계산
-2. **Steering 실험 실행**: 7개 강도 × 2방향 × 50 trials
-3. **SAE 해석**: Steering vector의 feature-level 분해
-4. **비교 분석**: LLaMA vs Gemma steering 효과 차이
+## Code Style
 
----
+- **Indentation**: 4 spaces
+- **Line length**: 120 characters
+- **String quotes**: Double quotes
+- **Naming**: snake_case (functions), PascalCase (classes)
+- **Documentation**: Korean acceptable (bilingual project)
 
-*마지막 업데이트: 2025-12-16*
+## Key Dependencies
+
+- `sae_lens` 6.5.1 - SAE analysis
+- `transformers` - Model loading
+- `torch` - GPU computation
+- `openai`, `anthropic`, `google-generativeai` - API models
+
+## SAE Resources
+
+- LlamaScope: `fnlp/Llama3_1-8B-Base-LXR-8x` (Layers 25-31)
+- GemmaScope: `google/gemma-scope` (all layers, 131K features/layer)
+
+## Common Issues
+
+### CUDA Out of Memory
+- Call `clear_gpu_memory()` between phases
+- Use `torch.cuda.empty_cache()` if needed
+
+### NPZ ↔ JSON Mapping
+- Game IDs must match between NPZ and JSON files
+- Verify with `outcomes` field before analysis
+
+### SAE Loading
+- Wrong layer numbers fail silently
+- LlamaScope only has layers 25-31
+
+## Notes
+
+- `.gitignore` excludes experiment outputs
+- No formal test suite - validation within pipelines
+- Active development for ICLR 2026 submission

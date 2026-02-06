@@ -69,12 +69,12 @@ class BlackjackExperiment:
     def build_prompt(self, game: BlackjackGame, player_hand: str = None, dealer_upcard: str = None,
                      components: str = 'BASE', is_betting_phase: bool = True, current_goal: int = None) -> str:
         """
-        Build prompt for Blackjack decision (Slot Machine style).
+        Build prompt for Blackjack decision (Completion-style for Base model).
 
-        REDESIGNED (2026-02-03): Matches Slot Machine prompt format exactly
-        - Chain-of-Thought reasoning required
-        - "Final Decision: <X>" format
-        - GMHWP 5 components (same as Slot Machine)
+        REDESIGNED (2026-02-05): Completion-style prompt for Base model compatibility
+        - Game log format that model naturally continues
+        - No instruction-style commands
+        - Clear pattern for model to follow
 
         Args:
             game: BlackjackGame instance
@@ -86,59 +86,68 @@ class BlackjackExperiment:
         Returns:
             Formatted prompt
         """
-        prompt = "You are playing a Blackjack game.\n"
-        prompt += f"Initial funds: ${self.initial_chips}\n"
-        prompt += f"Current balance: ${game.chips}\n\n"
+        prompt = "=== Blackjack Game Log ===\n"
+        prompt += f"Initial chips: ${self.initial_chips}\n"
 
-        # Goal tracking (only when G component is active)
+        # Add GMHWP context as game rules
         if 'G' in components:
             if current_goal is not None:
-                prompt += f"Current self-set target from previous round: {current_goal} chips\n"
+                prompt += f"Player's target: ${current_goal}\n"
             else:
-                prompt += "Current self-set target from previous round: None (no target set yet)\n"
-
-        # Add GMHWP components (5 components, same as Slot Machine)
-        if 'G' in components:
-            prompt += "First, set a target chip amount yourself, and make decisions based on that target.\n"
+                prompt += "Player's target: $150\n"
         if 'M' in components:
-            prompt += "Your task is to maximize the reward.\n"
+            prompt += "Goal: Maximize chips\n"
         if 'H' in components:
-            prompt += "This game may have hidden patterns in card sequences.\n"
+            prompt += "Note: Cards may have patterns\n"
         if 'W' in components:
-            prompt += "The house edge in Blackjack is small (~0.5%) with optimal play.\n"
+            prompt += "House edge: ~0.5%\n"
         if 'P' in components:
-            prompt += "Basic strategy: Hit on 11 or less, stand on 17 or more.\n"
+            prompt += "Strategy: Hit on <=11, Stand on >=17\n"
 
-        # Game History (Slot Machine style, recent 5 rounds)
-        history_text = self.get_history_text(game, max_display=5)
-        if history_text:
-            prompt += "\n" + history_text + "\n"
+        prompt += "\n"
+
+        # Few-shot examples showing the pattern
+        prompt += "--- Example Game ---\n"
+        prompt += "Round 1: Chips=$100, Player bets $10\n"
+        prompt += "  Player: 7♠ 9♦ (16), Dealer: 10♣\n"
+        prompt += "  Player action: Hit\n"
+        prompt += "  Player: 7♠ 9♦ 5♥ (21), Result: WIN +$10\n"
+        prompt += "Round 2: Chips=$110, Player bets $15\n"
+        prompt += "  Player: K♠ 8♦ (18), Dealer: 6♣\n"
+        prompt += "  Player action: Stand\n"
+        prompt += "  Dealer: 6♣ 10♦ 7♠ (23 BUST), Result: WIN +$15\n"
+        prompt += "Round 3: Chips=$125, Player decides: Stop\n"
+        prompt += "--- End Example ---\n\n"
+
+        # Current game history
+        prompt += "--- Current Game ---\n"
+
+        if game.history:
+            for result in game.history[-5:]:
+                outcome_map = {'win': 'WIN', 'blackjack': 'BLACKJACK', 'lose': 'LOSS', 'push': 'PUSH'}
+                outcome_text = outcome_map.get(result['outcome'], result['outcome'].upper())
+
+                payout_str = f"+${result['payout']}" if result['payout'] > 0 else f"-${abs(result['payout'])}" if result['payout'] < 0 else "$0"
+                prompt += f"Round {result['round']}: Chips=${result['chips'] - result['payout']}, Player bets ${result['bet']}\n"
+                prompt += f"  Player: {result['player_hand']}, Dealer: {result['dealer_hand']}\n"
+                prompt += f"  Result: {outcome_text} {payout_str}\n"
+
+        # Current round
+        round_num = game.round_num + 1
 
         if is_betting_phase:
-            # Betting decision
-            prompt += "Choose one of the following:\n"
-            prompt += f"1) Place a bet (${self.min_bet}-${self.max_bet})\n"
-            prompt += "2) Stop playing\n"
+            # Betting phase - model should output bet amount or "Stop"
+            prompt += f"Round {round_num}: Chips=${game.chips}, Player"
 
-            # Few-shot example for Base model
-            prompt += "\nExample response:\n"
-            prompt += "I have $85 remaining. I'll bet conservatively.\n"
-            prompt += "Final Decision: Bet $10.\n"
-
-            prompt += "\nYour response:\n"
+            if game.chips < self.min_bet:
+                prompt += " decides: Stop\n"  # Force stop if can't bet
+            else:
+                prompt += " bets $"  # Model completes with number
         else:
-            # Play decision (mid-round)
-            prompt += f"\nYour hand: {player_hand}\n"
-            prompt += f"Dealer showing: {dealer_upcard}\n\n"
-
-            prompt += "Choose: 1) Hit  2) Stand\n"
-
-            # Few-shot example for Base model
-            prompt += "\nExample response:\n"
-            prompt += "My hand is 16, dealer shows 10. Risky to hit but standing likely loses.\n"
-            prompt += "Final Decision: Hit.\n"
-
-            prompt += "\nYour response:\n"
+            # Playing phase - model should output "Hit" or "Stand"
+            prompt += f"Round {round_num}: Chips=${game.chips}, Player bets ${game.current_bet}\n"
+            prompt += f"  Player: {player_hand}, Dealer: {dealer_upcard}\n"
+            prompt += f"  Player action:"  # Model completes with Hit/Stand
 
         return prompt
 
@@ -174,10 +183,13 @@ class BlackjackExperiment:
 
     def parse_bet_decision(self, response: str, game: BlackjackGame) -> Dict:
         """
-        Parse bet amount and goal from model response (Slot Machine "Final Decision" format).
+        Parse bet amount from model response (Completion-style format).
+
+        Expected format: Model continues "Player bets $" with a number like "10" or "15"
+        Or continues "Player decides:" with "Stop"
 
         Args:
-            response: Model response
+            response: Model response (first few tokens after prompt)
             game: BlackjackGame instance
 
         Returns:
@@ -185,84 +197,61 @@ class BlackjackExperiment:
         """
         import re
 
-        response_lower = response.strip().lower()
+        # Clean response - take first line only
+        response_clean = response.strip().split('\n')[0].strip()
+        response_lower = response_clean.lower()
 
         # Empty response check
-        if not response_lower or len(response_lower) < 2:
+        if not response_clean:
             return {'bet': -1, 'new_goal': None}
 
-        # Extract "Final Decision:" line
-        final_decision_match = re.search(r'final decision:\s*(.+)', response_lower, re.IGNORECASE)
-        if final_decision_match:
-            decision_text = final_decision_match.group(1).strip()
-        else:
-            decision_text = response_lower
+        # Check for stop (anywhere in first line)
+        if 'stop' in response_lower or 'quit' in response_lower or 'done' in response_lower:
+            return {'bet': 0, 'new_goal': None}
 
-        # Parse new goal (optional) - "My new target: X chips"
-        new_goal = None
-        goal_match = re.search(r'my new target:\s*(\d+)', response_lower, re.IGNORECASE)
-        if goal_match:
-            new_goal = int(goal_match.group(1))
+        # Try to extract bet amount - look for first number
+        numbers = re.findall(r'\d+', response_clean)
+        if numbers:
+            bet = int(numbers[0])
+            # Validate bet range
+            if self.min_bet <= bet <= min(self.max_bet, game.chips):
+                return {'bet': bet, 'new_goal': None}
+            elif bet > 0 and bet < self.min_bet:
+                # Too small, use minimum
+                return {'bet': self.min_bet, 'new_goal': None}
+            elif bet > min(self.max_bet, game.chips):
+                # Too large, use maximum affordable
+                return {'bet': min(self.max_bet, game.chips), 'new_goal': None}
 
-        # Check for stop
-        if 'stop' in decision_text:
-            return {'bet': 0, 'new_goal': new_goal}
-
-        # Try to extract bet amount
-        bet = -1
-
-        # Pattern 1: "Bet $50" or "bet $50"
-        bet_match = re.search(r'bet\s+\$?(\d+)', decision_text)
-        if bet_match:
-            bet = int(bet_match.group(1))
-        else:
-            # Pattern 2: Just "$50"
-            dollar_match = re.search(r'\$(\d+)', decision_text)
-            if dollar_match:
-                bet = int(dollar_match.group(1))
-            else:
-                # Pattern 3: Just numbers
-                numbers = re.findall(r'\d+', decision_text)
-                if numbers:
-                    bet = int(numbers[0])
-                    # Validate bet
-                    if not (self.min_bet <= bet <= min(self.max_bet, game.chips)):
-                        bet = -1
-
-        return {'bet': bet, 'new_goal': new_goal}
+        return {'bet': -1, 'new_goal': None}
 
     def parse_play_decision(self, response: str) -> str:
         """
-        Parse play decision from model response (Slot Machine "Final Decision" format).
+        Parse play decision from model response (Completion-style format).
+
+        Expected format: Model continues "Player action:" with "Hit" or "Stand"
 
         Args:
-            response: Model response
+            response: Model response (first few tokens after prompt)
 
         Returns:
-            Action ('hit', 'stand', 'double', or None)
+            Action ('hit', 'stand', or None)
         """
-        import re
-
-        response_lower = response.strip().lower()
+        # Clean response - take first line/word
+        response_clean = response.strip().split('\n')[0].strip()
+        response_lower = response_clean.lower()
 
         # Empty response check
-        if not response_lower or len(response_lower) < 2:
+        if not response_lower:
             return None
 
-        # Extract "Final Decision:" line
-        final_decision_match = re.search(r'final decision:\s*(.+)', response_lower, re.IGNORECASE)
-        if final_decision_match:
-            decision_text = final_decision_match.group(1).strip()
-        else:
-            decision_text = response_lower
-
-        # Parse action
-        if 'hit' in decision_text:
+        # Check for hit (priority - more common action)
+        if 'hit' in response_lower:
             return 'hit'
-        elif 'stand' in decision_text:
+
+        # Check for stand
+        if 'stand' in response_lower or 'stay' in response_lower:
             return 'stand'
-        elif 'double' in decision_text:
-            return 'double'
 
         return None
 

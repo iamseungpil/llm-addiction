@@ -275,9 +275,12 @@ class BlackjackExperiment:
         for retry in range(self.max_retries):
             response = self.model_loader.generate(
                 bet_prompt,
-                max_new_tokens=200,  # Increased for Chain-of-Thought
+                max_new_tokens=30,  # Short for completion-style (just need a number or "Stop")
                 temperature=0.7
             )
+
+            # Debug logging
+            logger.debug(f"    Bet response: {response[:50]}")
 
             parsed = self.parse_bet_decision(response, game)
             bet_amount = parsed['bet']
@@ -339,9 +342,12 @@ class BlackjackExperiment:
             for retry in range(self.max_retries):
                 response = self.model_loader.generate(
                     play_prompt,
-                    max_new_tokens=150,  # Increased for Chain-of-Thought
+                    max_new_tokens=20,  # Short for completion-style (just need "Hit" or "Stand")
                     temperature=0.7
                 )
+
+                # Debug logging
+                logger.debug(f"    Action response: {response[:30]}")
 
                 action = self.parse_play_decision(response)
 

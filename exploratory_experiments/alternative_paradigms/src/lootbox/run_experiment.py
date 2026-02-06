@@ -269,9 +269,12 @@ class LootBoxExperiment:
             for retry in range(self.max_retries):
                 response = self.model_loader.generate(
                     prompt,
-                    max_new_tokens=200,  # Increased for Chain-of-Thought
+                    max_new_tokens=30,  # Short for completion-style (just need a number or action)
                     temperature=0.7
                 )
+
+                # Debug logging
+                logger.debug(f"    Response: {response[:50]}")
 
                 parsed_choice = self.parse_box_choice(response, bet_type, can_afford_box, game.gems)
 

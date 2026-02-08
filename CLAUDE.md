@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code when working with this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
@@ -26,7 +26,28 @@ Research project (ICLR 2026 submission) studying addictive-like gambling behavio
     ├── investment_choice/     # Investment choice experiment data
     ├── blackjack/             # Blackjack experiment data
     ├── lootbox/               # Loot box experiment data
-    └── slot_machine/          # Slot machine experiment data
+    ├── slot_machine/          # Slot machine experiment data
+    └── logs/                  # SLURM job logs (.out, .err)
+```
+
+## Quick Start
+
+```bash
+# 1. Navigate to repository
+cd /scratch/x3415a02/projects/llm-addiction
+
+# 2. Activate environment
+conda activate llama_sae_env
+
+# 3. Run a quick test (5 min, 50 trials)
+python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py \
+  --model gemma --gpu 0 --quick
+
+# 4. Check results
+ls -lh /scratch/x3415a02/data/llm-addiction/lootbox/
+
+# 5. Interactive GPU session for development
+srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
 ```
 
 ## Key Research Findings
@@ -73,38 +94,137 @@ Config (YAML) → Phase Scripts (Python) → Results (JSON/NPZ/JSONL)
 **Output file conventions:**
 - `.json` - Game results, behavioral data
 - `.npz` - Hidden states, SAE activations
-- `.jsonl` - Streaming outputs
+- `.jsonl` - Streaming outputs (raw model responses)
 - `.log` - Experiment logs
+
+### Alternative Paradigms Structure
+
+The `exploratory_experiments/alternative_paradigms/` experiments use a modular architecture:
+
+```
+alternative_paradigms/
+├── src/
+│   ├── common/              # Shared utilities (ALL paradigms use these)
+│   │   ├── model_loader.py  # ModelLoader class (llama/gemma/qwen)
+│   │   ├── prompt_builder.py # PromptBuilder class
+│   │   ├── utils.py          # clear_gpu_memory, set_random_seed, etc.
+│   │   └── phase*.py         # Shared SAE pipeline phases
+│   ├── lootbox/             # Loot box mechanics
+│   ├── blackjack/           # Blackjack (near-miss effects)
+│   └── investment_choice/   # Investment choice task
+```
+
+Each paradigm has:
+- `game_logic.py` - Game state management
+- `run_experiment.py` - Main entry point
+- `phase1_feature_extraction.py` - Optional SAE analysis
+
+**Import pattern**: `from common import ModelLoader, PromptBuilder, setup_logger, ...`
 
 ## Running Experiments
 
 ### Local Models (GPU required)
 
 ```bash
-# Slot machine experiments
+# Activate conda environment
+conda activate llama_sae_env
+
+# Slot machine experiments (Section 3.1)
 python paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py
 
-# SAE analysis pipeline
+# SAE analysis pipeline (Section 3.2)
 python paper_experiments/llama_sae_analysis/src/phase1_feature_extraction.py
+python paper_experiments/llama_sae_analysis/src/phase2_correlation_analysis.py
 python paper_experiments/llama_sae_analysis/src/phase4_causal_pilot_v2.py
 
-# Alternative paradigms
+# Investment choice experiment (Section 3.1 ablation)
+python paper_experiments/investment_choice_experiment/src/run_experiment.py --model llama --gpu 0
+
+# Alternative paradigms (exploratory)
 python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick
+python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py --model llama --gpu 0
+python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py --model gemma --gpu 0
 ```
 
 ### API Models
 
+**Requires environment variables**: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_API_KEY`
+
 ```bash
+# Export API keys (add to ~/.bashrc for persistence)
+export OPENAI_API_KEY="your-key-here"
+export ANTHROPIC_API_KEY="your-key-here"
+export GOOGLE_API_KEY="your-key-here"
+
+# Run API-based experiments
 python paper_experiments/slot_machine_6models/src/run_gpt5_experiment.py
 python paper_experiments/slot_machine_6models/src/run_claude_experiment.py
 python paper_experiments/slot_machine_6models/src/run_gemini_experiment.py
 ```
 
+### SLURM Batch Jobs (HPC Cluster)
+
+For long-running experiments, use SLURM job submission:
+
+```bash
+# Interactive GPU session (2 hours, V100)
+srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
+
+# Submit batch job
+sbatch scripts/run_experiment.sh
+
+# Monitor jobs
+squeue -u $USER
+
+# Check logs
+tail -f /scratch/x3415a02/data/llm-addiction/logs/experiment_<JOBID>.out
+```
+
+See `SLURM_GUIDE.md` for detailed SLURM usage and partition information.
+
 ## GPU Requirements
 
 - LLaMA-3.1-8B: ~19GB VRAM (bf16)
 - Gemma-2-9B: ~22GB VRAM (bf16)
+- Qwen models: Similar to LLaMA (~19GB)
 - Use `CUDA_VISIBLE_DEVICES` for multi-GPU experiments
+- Recommended: V100 32GB or A100 40GB GPUs
+
+## Typical Experiment Workflow
+
+### 1. Behavioral Experiment (Slot Machine)
+```bash
+# Run 3,200 games (64 conditions × 50 reps)
+python paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py
+
+# Output: /scratch/x3415a02/data/llm-addiction/slot_machine/
+#   - final_llama_YYYYMMDD_HHMMSS.json  # Game results
+#   - activations_llama_*.npz            # Hidden states (if extracted)
+```
+
+### 2. SAE Feature Extraction
+```bash
+# Phase 1: Extract SAE activations
+python paper_experiments/llama_sae_analysis/src/phase1_feature_extraction.py
+
+# Output: feature_activations_L{layer}.npz (per layer)
+```
+
+### 3. Correlation Analysis
+```bash
+# Phase 2: Find features correlated with behavior
+python paper_experiments/llama_sae_analysis/src/phase2_correlation_analysis.py
+
+# Output: correlation_results.json (FDR-corrected features)
+```
+
+### 4. Causal Validation (Activation Patching)
+```bash
+# Phase 4: Test if features causally change behavior
+python paper_experiments/llama_sae_analysis/src/phase4_causal_pilot_v2.py
+
+# Output: patching_results.json (behavior changes)
+```
 
 ## Code Style
 
@@ -117,31 +237,146 @@ python paper_experiments/slot_machine_6models/src/run_gemini_experiment.py
 ## Key Dependencies
 
 - `sae_lens` 6.5.1 - SAE analysis
-- `transformers` - Model loading
+- `transformers` - Model loading (use bf16, not float16/quantized)
 - `torch` - GPU computation
 - `openai`, `anthropic`, `google-generativeai` - API models
+- `numpy` - Data handling
+- `scipy` - Statistical analysis
+- `tqdm` - Progress bars
+
+No formal package requirements file exists. Install dependencies as needed.
 
 ## SAE Resources
 
 - LlamaScope: `fnlp/Llama3_1-8B-Base-LXR-8x` (Layers 25-31)
 - GemmaScope: `google/gemma-scope` (all layers, 131K features/layer)
 
+## Shared Utilities
+
+All experiments use common utility functions:
+
+```python
+from common.utils import clear_gpu_memory, set_random_seed, setup_logger, save_json, load_json
+
+# GPU memory management (call between phases)
+clear_gpu_memory()
+
+# Reproducibility (call before experiments)
+set_random_seed(42)
+
+# Logging
+logger = setup_logger(__name__)
+```
+
+**Location**: `exploratory_experiments/alternative_paradigms/src/common/utils.py` (canonical)
+
+## Debugging & Monitoring
+
+```bash
+# Check GPU usage
+nvidia-smi
+
+# Watch GPU in real-time
+watch -n 1 nvidia-smi
+
+# Check running processes
+ps aux | grep python
+
+# Monitor experiment logs
+tail -f /scratch/x3415a02/data/llm-addiction/logs/*.log
+
+# Check SLURM job status
+squeue -u $USER
+
+# Detailed job info
+scontrol show job <JOBID>
+```
+
 ## Common Issues
 
 ### CUDA Out of Memory
 - Call `clear_gpu_memory()` between phases
 - Use `torch.cuda.empty_cache()` if needed
+- Verify model loaded in bf16 (not float16)
+- Check `nvidia-smi` for memory leaks
 
 ### NPZ ↔ JSON Mapping
 - Game IDs must match between NPZ and JSON files
 - Verify with `outcomes` field before analysis
+- NPZ files contain hidden states, JSON contains game results
 
 ### SAE Loading
 - Wrong layer numbers fail silently
-- LlamaScope only has layers 25-31
+- LlamaScope only has layers 25-31 (`fnlp/Llama3_1-8B-Base-LXR-8x`)
+- GemmaScope has all 42 layers (`google/gemma-scope`)
+- Use 131K width for Gemma (lowest reconstruction error)
+
+### Response Parsing Failures
+- Variable bet experiments may have parsing issues
+- Check `.jsonl` logs for raw model outputs
+- Phase 4 v2 improved parsing from 86% UNKNOWN to <10%
+
+## Analysis Scripts
+
+Post-experiment analysis typically involves:
+1. Loading JSON results from `/scratch/x3415a02/data/llm-addiction/`
+2. Computing behavioral metrics (bankruptcy rate, bet patterns, loss chasing)
+3. Statistical tests (FDR correction, Cohen's d, effect sizes)
+4. Visualization (matplotlib/seaborn)
+
+Analysis scripts are embedded in phase files (e.g., `phase2_correlation_analysis.py`).
+
+## File Naming Conventions
+
+**Game results**: `final_{model}_{YYYYMMDD_HHMMSS}.json`
+- Example: `final_llama_20251004_021106.json`
+
+**Hidden states**: `activations_{model}_L{layer}_{timestamp}.npz`
+- Example: `activations_llama_L25_20251004.npz`
+
+**SAE activations**: `feature_activations_L{layer}.npz`
+- Contains: `activations` (N×K), `game_ids`, `trial_indices`
+
+**Logs**: `{experiment}_{JOBID}.out` / `{experiment}_{JOBID}.err`
+- SLURM output in `/scratch/x3415a02/data/llm-addiction/logs/`
+
+## Important Behavioral Metrics
+
+Key indicators of gambling addiction-like behavior:
+- **I_BA** (Betting Aggressiveness): Bet size / balance ratio
+- **I_EC** (Extreme Choice): Binary indicator for max bets
+- **I_LC** (Loss Chasing): Increased betting after losses
+- **Bankruptcy rate**: Proportion of games ending with $0
+- **Goal escalation**: Increasing target goals after achievement
+
+## Configuration Files
+
+Experiments use YAML configs in `configs/` directories:
+- `analysis_config.yaml` - SAE analysis parameters
+- `experiment_config.yaml` - Model, layers, paths
+
+**Key config fields**:
+```yaml
+data:
+  experiment_file: /path/to/game_results.json
+  output_dir: /path/to/output/
+
+models:
+  llama:
+    name: meta-llama/Llama-3.1-8B
+    layers: [25, 26, 27, 28, 29, 30, 31]  # LlamaScope layers
+
+correlation:
+  fdr_alpha: 0.05                   # FDR threshold
+  min_cohens_d: 0.3                 # Effect size threshold
+```
 
 ## Notes
 
-- `.gitignore` excludes experiment outputs
+- `.gitignore` excludes experiment outputs (JSON, NPZ, logs)
 - No formal test suite - validation within pipelines
 - Active development for ICLR 2026 submission
+- Bilingual project (Korean/English) - both acceptable in code/docs
+- Always run `clear_gpu_memory()` between phases to avoid OOM errors
+- Use `set_random_seed(42)` for reproducible results
+- Models must be loaded in bf16 (matches original experiments)

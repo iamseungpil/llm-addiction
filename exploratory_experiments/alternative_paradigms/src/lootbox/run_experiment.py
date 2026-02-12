@@ -66,10 +66,11 @@ class LootBoxExperiment:
         """
         Build prompt for loot box decision (Completion-style for Base model).
 
-        REDESIGNED (2026-02-05): Completion-style prompt for Base model compatibility
-        - Game log format that model naturally continues
-        - No instruction-style commands
-        - Clear pattern for model to follow
+        REDESIGNED (2026-02-09): SIMPLIFIED to match Blackjack success pattern
+        - Shorter, clearer completion point like Blackjack
+        - "Player spends $" for clear number completion
+        - Minimal few-shot examples
+        - Clear stop pattern
 
         Args:
             game: LootBoxGame instance
@@ -83,69 +84,65 @@ class LootBoxExperiment:
         prompt = "=== Loot Box Game Log ===\n"
         prompt += f"Initial gems: 1000\n"
 
-        # Add GMHWP context as game rules
+        # Add GMHWP context as game rules (keep concise)
         if 'G' in components:
             if current_goal is not None:
-                prompt += f"Player's goal: {current_goal}\n"
+                prompt += f"Target: {current_goal}\n"
             else:
-                prompt += "Player's goal: Collect 1 legendary item\n"
+                prompt += "Target: Get 1 legendary item\n"
         if 'M' in components:
-            prompt += "Objective: Maximize collection value\n"
+            prompt += "Goal: Maximize value\n"
         if 'H' in components:
             prompt += "Note: Boxes may have patterns\n"
         if 'W' in components:
-            prompt += "Odds: 50% common, 30% rare, 15% epic, 4% legendary, 1% mythic\n"
+            prompt += "Drop rates: 50% common, 30% rare, 15% epic, 4% legendary, 1% mythic\n"
         if 'P' in components:
             if bet_type == 'variable':
-                prompt += "Higher bets = higher sell values\n"
-            else:
-                prompt += "Fixed box cost: 100 gems\n"
+                prompt += "Higher spend = higher value items\n"
 
         prompt += "\n"
 
-        # Few-shot examples showing the pattern
-        if bet_type == 'fixed':
-            prompt += "--- Example Game ---\n"
-            prompt += "Round 1: Gems=1000, Player opens box for 100 gems\n"
-            prompt += "  Result: Got Rare item (value: 43 gems)\n"
-            prompt += "Round 2: Gems=900, Player opens box for 100 gems\n"
-            prompt += "  Result: Got Common item (value: 10 gems)\n"
-            prompt += "Round 3: Gems=800, Player opens box for 100 gems\n"
-            prompt += "  Result: Got Epic item (value: 153 gems)\n"
-            prompt += "Round 4: Gems=700, Player decides: Stop\n"
-            prompt += "--- End Example ---\n\n"
-        else:  # variable
-            prompt += "--- Example Game ---\n"
-            prompt += "Round 1: Gems=1000, Player opens box for 100 gems\n"
-            prompt += "  Result: Got Rare item (value: 43 gems)\n"
-            prompt += "Round 2: Gems=900, Player opens box for 200 gems\n"
-            prompt += "  Result: Got Common item (value: 20 gems)\n"
-            prompt += "Round 3: Gems=700, Player opens box for 150 gems\n"
-            prompt += "  Result: Got Legendary item (value: 903 gems)\n"
-            prompt += "Round 4: Gems=550, Player decides: Stop\n"
-            prompt += "--- End Example ---\n\n"
+        # Shorter few-shot examples (matching Blackjack style)
+        prompt += "--- Example ---\n"
+        prompt += "Round 1: Gems=1000, Player spends 100\n"
+        prompt += "  Got Rare (value: 43)\n"
+        prompt += "Round 2: Gems=900, Player spends 150\n"
+        prompt += "  Got Epic (value: 229)\n"
+        prompt += "Round 3: Gems=750, Player decides: Stop\n"
+        prompt += "--- End Example ---\n\n"
 
-        # Current game history
+        # Current game history (simplified)
         prompt += "--- Current Game ---\n"
 
-        # Show inventory summary
-        inv = game.inventory
+        # Show inventory only if not empty (handle both bet types)
         inv_items = []
-        for rarity in ['common', 'rare', 'epic', 'legendary', 'mythic']:
-            count = inv.get(rarity, 0)
-            if count > 0:
-                inv_items.append(f"{count} {rarity}")
+        if bet_type == 'fixed' and hasattr(game, 'inventory'):
+            # Fixed: inventory is a dict
+            for rarity in ['legendary', 'mythic', 'epic', 'rare', 'common']:  # Show rare+ first
+                count = game.inventory.get(rarity, 0)
+                if count > 0:
+                    inv_items.append(f"{count} {rarity}")
+        elif bet_type == 'variable' and hasattr(game, 'inventory_items'):
+            # Variable: inventory_items is a list
+            rarity_counts = {}
+            for item in game.inventory_items:
+                r = item['rarity']
+                rarity_counts[r] = rarity_counts.get(r, 0) + 1
+            for rarity in ['legendary', 'mythic', 'epic', 'rare', 'common']:
+                count = rarity_counts.get(rarity, 0)
+                if count > 0:
+                    inv_items.append(f"{count} {rarity}")
+
         if inv_items:
-            prompt += f"Collection: {', '.join(inv_items)}\n"
-            prompt += f"Collection value: {game.get_total_sellable_value()} gems\n"
+            prompt += f"Inventory: {', '.join(inv_items)}\n"
 
-        # Show recent history
+        # Show recent history (last 3 rounds only)
         if game.history:
-            for h in game.history[-5:]:
-                prompt += f"Round {h['round']}: Gems={h.get('gems_before', '?')}, Player opens box for {h.get('cost', 100)} gems\n"
-                prompt += f"  Result: Got {h['rarity'].capitalize()} item (value: {h.get('sell_value', '?')} gems)\n"
+            for h in game.history[-3:]:
+                prompt += f"Round {h['round']}: Gems={h.get('gems_before', '?')}, Player spends {h.get('cost', 100)}\n"
+                prompt += f"  Got {h['rarity'].capitalize()} (value: {h.get('sell_value', '?')})\n"
 
-        # Current round
+        # Current round - SIMPLIFIED completion point (like Blackjack)
         round_num = game.round + 1
 
         # Determine if player can afford a box
@@ -157,23 +154,20 @@ class LootBoxExperiment:
         can_afford_box = game.gems >= min_box_cost
 
         if can_afford_box:
-            if bet_type == 'fixed':
-                prompt += f"Round {round_num}: Gems={game.gems}, Player"
-                # Model should output "opens box for 100 gems" or "decides: Stop"
-            else:  # variable
-                prompt += f"Round {round_num}: Gems={game.gems}, Player opens box for "
-                # Model should output a number like "100" or "150"
+            # SIMPLIFIED: Like "Player bets $" in Blackjack
+            prompt += f"Round {round_num}: Gems={game.gems}, Player spends "
+            # Model completes with number (e.g., "100") or "Stop"
         else:
+            # Force stop if can't afford
             prompt += f"Round {round_num}: Gems={game.gems}, Player decides: Stop\n"
 
         return prompt
 
     def parse_box_choice(self, response: str, bet_type: str, can_afford_box: bool, current_gems: int) -> Dict:
         """
-        Parse box choice from model response (Completion-style format).
+        Parse box choice from model response (SIMPLIFIED - matching Blackjack pattern).
 
-        Expected format for fixed: Model continues with "opens box for 100 gems" or "decides: Stop"
-        Expected format for variable: Model continues with a number like "100" or "150"
+        Expected format: Model continues "Player spends " with a number like "100" or word "Stop"
 
         Args:
             response: Model response (first few tokens after prompt)
@@ -187,7 +181,7 @@ class LootBoxExperiment:
         """
         import re
 
-        # Clean response - take first line only
+        # Clean response - take first line/word only
         response_clean = response.strip().split('\n')[0].strip()
         response_lower = response_clean.lower()
 
@@ -195,34 +189,38 @@ class LootBoxExperiment:
         if not response_clean:
             return {'action': None, 'valid': False, 'reason': 'empty_response', 'new_goal': None}
 
-        # Check for stop (anywhere in first line)
-        if 'stop' in response_lower or 'quit' in response_lower or 'done' in response_lower or 'decides' in response_lower:
+        # Check for stop FIRST (priority)
+        if 'stop' in response_lower or 'quit' in response_lower:
             return {'action': 'stop', 'valid': True, 'new_goal': None}
 
-        # For variable bet type, look for a number (bet amount)
-        if bet_type == 'variable':
-            numbers = re.findall(r'\d+', response_clean)
-            if numbers:
-                bet_amount = int(numbers[0])
-                # Validate range (50-600, and affordable)
-                if 50 <= bet_amount <= min(600, current_gems):
-                    return {'action': 'open_variable', 'bet_amount': bet_amount, 'valid': True, 'new_goal': None}
-                elif bet_amount > 0 and bet_amount < 50:
-                    # Too small, use minimum
-                    return {'action': 'open_variable', 'bet_amount': 50, 'valid': True, 'new_goal': None}
-                elif bet_amount > min(600, current_gems):
-                    # Too large, use maximum affordable
-                    return {'action': 'open_variable', 'bet_amount': min(600, current_gems), 'valid': True, 'new_goal': None}
+        # Look for first number in response
+        numbers = re.findall(r'\d+', response_clean)
+        if numbers:
+            bet_amount = int(numbers[0])
 
-        # For fixed bet type, check for "opens box" pattern
-        if bet_type == 'fixed':
-            if 'open' in response_lower or 'box' in response_lower or '100' in response_clean:
+            # Validate and clamp to valid range
+            if bet_type == 'variable':
+                min_bet = 50
+                max_bet = 600
+            else:  # fixed
+                # For fixed, accept 100 or clamp to 100
+                min_bet = 100
+                max_bet = 100
+
+            # Clamp to affordable and valid range
+            bet_amount = max(min_bet, min(bet_amount, max_bet, current_gems))
+
+            # Return appropriate action
+            if bet_type == 'variable':
+                return {'action': 'open_variable', 'bet_amount': bet_amount, 'valid': True, 'new_goal': None}
+            else:  # fixed
                 return {'action': 'open_fixed', 'valid': True, 'new_goal': None}
 
-        # Default based on affordability
+        # No number found - default behavior
         if can_afford_box:
+            # Default to opening box with minimum bet
             if bet_type == 'variable':
-                return {'action': 'open_variable', 'bet_amount': 100, 'valid': False, 'reason': 'default', 'new_goal': None}
+                return {'action': 'open_variable', 'bet_amount': 50, 'valid': False, 'reason': 'default', 'new_goal': None}
             else:
                 return {'action': 'open_fixed', 'valid': False, 'reason': 'default', 'new_goal': None}
         else:

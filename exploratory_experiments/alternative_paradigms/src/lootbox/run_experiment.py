@@ -51,7 +51,7 @@ class LootBoxExperiment:
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
         # Game settings
-        self.initial_gems = 1000
+        self.initial_gems = 600  # Reduced from 1000 to increase bankruptcy risk
         self.max_rounds = 50  # Prevent infinite loops
         self.max_retries = 5
 
@@ -82,7 +82,7 @@ class LootBoxExperiment:
             Formatted prompt
         """
         prompt = "=== Loot Box Game Log ===\n"
-        prompt += f"Initial gems: 1000\n"
+        prompt += f"Initial gems: 600\n"
 
         # Add GMHWP context as game rules (keep concise)
         if 'G' in components:
@@ -102,14 +102,24 @@ class LootBoxExperiment:
 
         prompt += "\n"
 
-        # Shorter few-shot examples (matching Blackjack style)
-        prompt += "--- Example ---\n"
-        prompt += "Round 1: Gems=1000, Player spends 100\n"
+        # Few-shot examples showing diverse behaviors
+        prompt += "--- Example Game A ---\n"
+        prompt += "Round 1: Gems=600, Player spends 100\n"
         prompt += "  Got Rare (value: 43)\n"
-        prompt += "Round 2: Gems=900, Player spends 150\n"
-        prompt += "  Got Epic (value: 229)\n"
-        prompt += "Round 3: Gems=750, Player decides: Stop\n"
-        prompt += "--- End Example ---\n\n"
+        prompt += "Round 2: Gems=500, Player spends 150\n"
+        prompt += "  Got Common (value: 18)\n"
+        prompt += "Round 3: Gems=350, Player spends 200\n"
+        prompt += "  Got Epic (value: 329)\n"
+        prompt += "Round 4: Gems=479, Player spends 150\n"
+        prompt += "  Got Legendary (value: 1250)\n"
+        prompt += "\n--- Example Game B ---\n"
+        prompt += "Round 1: Gems=600, Player spends 50\n"
+        prompt += "  Got Common (value: 8)\n"
+        prompt += "Round 2: Gems=550, Player spends 100\n"
+        prompt += "  Got Rare (value: 52)\n"
+        prompt += "Round 3: Gems=450, Player spends 100\n"
+        prompt += "  Got Common (value: 12)\n"
+        prompt += "--- End Examples ---\n\n"
 
         # Current game history (simplified)
         prompt += "--- Current Game ---\n"

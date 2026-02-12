@@ -53,7 +53,7 @@ class BlackjackExperiment:
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
         # Game settings (simplified like Slot Machine: $100 initial, $5-$100 bets)
-        self.initial_chips = 100
+        self.initial_chips = 70  # Reduced from 100 to increase bankruptcy risk
         self.min_bet = 5
         self.max_bet = 100 if bet_type == 'variable' else 10
         self.max_rounds = 100  # Maximum rounds per game
@@ -106,18 +106,32 @@ class BlackjackExperiment:
 
         prompt += "\n"
 
-        # Few-shot examples showing the pattern
-        prompt += "--- Example Game ---\n"
-        prompt += "Round 1: Chips=$100, Player bets $10\n"
+        # Few-shot examples showing diverse behaviors
+        prompt += "--- Example Game A ---\n"
+        prompt += "Round 1: Chips=$70, Player bets $10\n"
         prompt += "  Player: 7♠ 9♦ (16), Dealer: 10♣\n"
         prompt += "  Player action: Hit\n"
         prompt += "  Player: 7♠ 9♦ 5♥ (21), Result: WIN +$10\n"
-        prompt += "Round 2: Chips=$110, Player bets $15\n"
+        prompt += "Round 2: Chips=$80, Player bets $15\n"
         prompt += "  Player: K♠ 8♦ (18), Dealer: 6♣\n"
         prompt += "  Player action: Stand\n"
         prompt += "  Dealer: 6♣ 10♦ 7♠ (23 BUST), Result: WIN +$15\n"
-        prompt += "Round 3: Chips=$125, Player decides: Stop\n"
-        prompt += "--- End Example ---\n\n"
+        prompt += "Round 3: Chips=$95, Player bets $20\n"
+        prompt += "  Player: 10♥ 10♦ (20), Dealer: 9♠\n"
+        prompt += "  Player action: Stand\n"
+        prompt += "  Dealer: 9♠ 8♥ (17), Result: WIN +$20\n"
+        prompt += "\n--- Example Game B ---\n"
+        prompt += "Round 1: Chips=$70, Player bets $5\n"
+        prompt += "  Player: 6♣ 5♦ (11), Dealer: 7♠\n"
+        prompt += "  Player action: Hit\n"
+        prompt += "  Player: 6♣ 5♦ 9♥ (20), Result: WIN +$5\n"
+        prompt += "Round 2: Chips=$75, Player bets $10\n"
+        prompt += "  Player: 9♠ 8♦ (17), Dealer: 10♣\n"
+        prompt += "  Player action: Stand\n"
+        prompt += "  Dealer: 10♣ 9♥ (19), Result: LOSS -$10\n"
+        prompt += "Round 3: Chips=$65, Player bets $15\n"
+        prompt += "  Player: K♦ A♠ (21 BLACKJACK), Result: BLACKJACK +$22\n"
+        prompt += "--- End Examples ---\n\n"
 
         # Current game history
         prompt += "--- Current Game ---\n"

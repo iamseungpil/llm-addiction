@@ -322,12 +322,16 @@ class LootBoxGame:
         """
         Check if player is bankrupt.
 
-        Bankruptcy: Cannot afford any box even after selling all items.
+        Bankruptcy: gems < minimum bet (regardless of sellable items).
+        Changed 2026-02-12: Simplified to match slot machine paper definition.
 
         Returns:
             True if bankrupt
         """
-        return not self.can_afford_any_box()
+        if self.bet_type == 'variable':
+            return self.gems < self.VARIABLE_MIN_BET  # 50 gems
+        else:
+            return self.gems < self.FIXED_BOX_COST  # 100 gems
 
     def sell_item(self, rarity: str) -> bool:
         """

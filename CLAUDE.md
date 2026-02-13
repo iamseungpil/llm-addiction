@@ -14,7 +14,7 @@ Research project (ICLR 2026 submission) studying addictive-like gambling behavio
 | **Data Directory** | `/scratch/x3415a02/data/llm-addiction/` |
 | **Main Branch** | `main` |
 | **Platform** | HPC Cluster (Lustre filesystem, 100TB scratch) |
-| **Conda Environment** | `llama_sae_env` |
+| **Conda Environment** | `llm-addiction` |
 | **Python Version** | 3.11 |
 
 ### Storage Layout
@@ -37,7 +37,7 @@ Research project (ICLR 2026 submission) studying addictive-like gambling behavio
 cd /scratch/x3415a02/projects/llm-addiction
 
 # 2. Activate environment
-conda activate llama_sae_env
+conda activate llm-addiction
 
 # 3. Run a quick test (5 min, 50 trials)
 python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py \
@@ -127,7 +127,7 @@ Each paradigm has:
 
 ```bash
 # Activate conda environment
-conda activate llama_sae_env
+conda activate llm-addiction
 
 # Slot machine experiments (Section 3.1)
 python paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py
@@ -181,6 +181,18 @@ tail -f /scratch/x3415a02/data/llm-addiction/logs/experiment_<JOBID>.out
 ```
 
 See `SLURM_GUIDE.md` for detailed SLURM usage and partition information.
+
+**Available GPU Partitions:**
+- `cas_v100_4` - V100 32GB (recommended for LLaMA/Gemma)
+- `cas_v100_2`, `cas_v100nv_4`, `cas_v100nv_8` - Other V100 variants
+- `amd_a100_4`, `amd_a100nv_8` - A100 80GB (large models)
+- `amd_h200nv_8` - H200 141GB (very large models)
+
+**SLURM job template:** Always set output/error logs to `/scratch/x3415a02/data/llm-addiction/logs/` and activate conda environment with:
+```bash
+source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
+conda activate llm-addiction
+```
 
 ## GPU Requirements
 
@@ -371,6 +383,33 @@ correlation:
   min_cohens_d: 0.3                 # Effect size threshold
 ```
 
+## SLURM Job Script Template
+
+When writing SLURM batch scripts, **always include** the conda initialization block:
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=experiment-name
+#SBATCH --partition=cas_v100_4
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G
+#SBATCH --time=04:00:00
+#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/%x_%j.out
+#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/%x_%j.err
+
+# REQUIRED: Conda initialization on HPC cluster
+source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
+conda activate llm-addiction
+
+# Navigate to repository
+cd /scratch/x3415a02/projects/llm-addiction
+
+# Run experiment
+python your_experiment.py --gpu 0
+```
+
+**Note**: This conda initialization is only required in SLURM scripts. Interactive sessions already have conda initialized.
+
 ## Notes
 
 - `.gitignore` excludes experiment outputs (JSON, NPZ, logs)
@@ -380,3 +419,4 @@ correlation:
 - Always run `clear_gpu_memory()` between phases to avoid OOM errors
 - Use `set_random_seed(42)` for reproducible results
 - Models must be loaded in bf16 (matches original experiments)
+- **AGENTS.md is outdated** - ignore it and use CLAUDE.md instead (see STRUCTURE.md)

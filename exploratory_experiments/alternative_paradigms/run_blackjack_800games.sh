@@ -2,6 +2,9 @@
 #SBATCH --job-name=blackjack_800
 #SBATCH --partition=cas_v100_4
 #SBATCH --gres=gpu:1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --comment=pytorch
 #SBATCH --time=12:00:00
 #SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/blackjack_800_%j.out
 #SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/blackjack_800_%j.err

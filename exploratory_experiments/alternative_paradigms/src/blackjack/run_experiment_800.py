@@ -490,36 +490,29 @@ class BlackjackExperiment:
 
     def run_experiment(self, quick_mode: bool = False):
         """
-        Run full Blackjack experiment (REDESIGNED 2026-02-03).
+        Run Blackjack experiment with 800 games (MODIFIED FOR 800 GAMES).
 
         New design:
         - 2 bet types: variable (10-500), fixed (10-50)
-        - GMHWP 5 components (same as Slot Machine)
+        - 8 components (BASE, G, M, GM, H, W, P, GMHWP)
         - Slot Machine prompt format with Chain-of-Thought
         - "Final Decision: <X>" format
 
         Args:
-            quick_mode: If True, run reduced experiment (2 × 8 conditions × 20 reps = 320 games)
+            quick_mode: Ignored - always runs 800 games (2 × 8 conditions × 50 reps)
         """
-        # Determine conditions
+        # Fixed configuration for 800 games
         bet_types = ['variable', 'fixed']
-
-        if quick_mode:
-            # Quick mode: 2 bet types × 8 conditions × 20 reps = 320 games
-            component_variants = ['BASE', 'G', 'M', 'GM', 'H', 'W', 'P', 'GMHWP']
-            n_reps = 20
-        else:
-            # Full mode: 2 bet types × 32 conditions × 50 reps = 3,200 games
-            component_variants = PromptBuilder.get_all_combinations()
-            n_reps = 50
+        component_variants = ['BASE', 'G', 'M', 'GM', 'H', 'W', 'P', 'GMHWP']
+        n_reps = 50  # 2 × 8 × 50 = 800 games
 
         total_games = len(bet_types) * len(component_variants) * n_reps
 
         logger.info(f"\n{'='*70}")
-        logger.info(f"BLACKJACK GAMBLING EXPERIMENT (REDESIGNED)")
+        logger.info(f"BLACKJACK GAMBLING EXPERIMENT - 800 GAMES")
         logger.info(f"{'='*70}")
         logger.info(f"Model: {self.model_name.upper()}")
-        logger.info(f"Quick mode: {quick_mode}")
+        logger.info(f"Configuration: 2 bet types × 8 conditions × 50 reps")
         logger.info(f"Bet types: {len(bet_types)} (variable, fixed)")
         logger.info(f"Conditions: {len(component_variants)}")
         logger.info(f"Repetitions: {n_reps}")
@@ -562,15 +555,16 @@ class BlackjackExperiment:
         output_file = self.results_dir / f'blackjack_{self.model_name}_{timestamp}.json'
 
         save_json({
-            'experiment': 'blackjack_gambling_redesigned',
+            'experiment': 'blackjack_gambling_800games',
             'model': self.model_name,
             'timestamp': timestamp,
             'n_games': len(all_results),
-            'quick_mode': quick_mode,
+            'n_reps': n_reps,
             'bet_types': bet_types,
             'component_variants': component_variants,
             'redesign_date': '2026-02-04',
-            'changes': 'Added both bet types (variable/fixed), Slot Machine prompt format, GMHWP components, Chain-of-Thought',
+            'test_date': '2026-02-13',
+            'changes': '800 games test (2×8×50): Evaluating game length and behavioral patterns',
             'games': all_results
         }, output_file)
 
@@ -622,30 +616,26 @@ class BlackjackExperiment:
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Blackjack Gambling Experiment (REDESIGNED 2026-02-03)')
+    parser = argparse.ArgumentParser(description='Blackjack Gambling Experiment - 800 Games (2×8×50)')
     parser.add_argument('--model', type=str, required=True, choices=['llama', 'gemma', 'qwen'],
                         help='Model to use')
     parser.add_argument('--gpu', type=int, default=0,
                         help='GPU ID')
-    parser.add_argument('--bet-type', type=str, default='variable', choices=['variable', 'fixed'],
-                        help='Betting type (variable: 10-500 chips, fixed: 10-50 chips)')
-    parser.add_argument('--quick', action='store_true',
-                        help='Quick mode (8 conditions × 20 reps = 160 games)')
     parser.add_argument('--output-dir', type=str, default=None,
                         help='Output directory (default: /scratch/x3415a02/data/llm-addiction/blackjack)')
 
     args = parser.parse_args()
 
-    # Setup experiment
+    # Setup experiment (bet_type is handled internally for both conditions)
     experiment = BlackjackExperiment(
         model_name=args.model,
         gpu_id=args.gpu,
-        bet_type=args.bet_type,
+        bet_type='variable',  # Will be changed internally for each condition
         output_dir=args.output_dir
     )
 
-    # Run experiment
-    experiment.run_experiment(quick_mode=args.quick)
+    # Run experiment (always 800 games)
+    experiment.run_experiment(quick_mode=False)
 
 
 if __name__ == '__main__':

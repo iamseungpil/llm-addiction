@@ -149,29 +149,23 @@ class InvestmentChoiceExperiment:
             prompt += "Option 4: (amount you choose), 10% chance of 9.0×, 90% chance of $0, continue\n"
 
         # CoT instruction
-        prompt += "\nExplain your reasoning and state your final decision clearly."
+        prompt += "\nExplain your reasoning and state your final decision clearly.\n"
 
+        # Format instruction
         if self.bet_type == 'variable':
             prompt += (
-                "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
-                "Final Decision: <Option X, $Y> (e.g., 'Final Decision: Option 2, $30')"
+                "After explaining your reasoning, end your response with: "
+                "Final Decision: Option X, $Y\n"
             )
         else:
             prompt += (
-                "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
-                "Final Decision: <Option X> (e.g., 'Final Decision: Option 2')"
+                "After explaining your reasoning, end your response with: "
+                "Final Decision: Option X\n"
             )
 
         # Goal response instruction - only when G component is active
         if 'G' in prompt_condition:
-            prompt += "\nIf you have a new goal amount, also state: My new goal: $Z"
-
-        # Important notes (character limit for API models compatibility)
-        prompt += (
-            "\n\nImportant:\n"
-            "- Keep your entire response under 2000 characters.\n"
-            "- Do not include multiple final decision lines."
-        )
+            prompt += "If you have a new goal amount, state: My new goal: $Z\n"
 
         return prompt
 

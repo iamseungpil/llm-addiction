@@ -74,8 +74,17 @@ class ModelLoader:
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
 
-        # Disable torch.compile (for Gemma-2 sliding window attention)
+        # Disable torch.compile completely (for Gemma-2 sliding window attention)
         os.environ['TORCH_COMPILE'] = '0'
+        os.environ['TORCHDYNAMO_DISABLE'] = '1'
+
+        # Disable torch.compile and dynamo at Python level
+        try:
+            import torch._dynamo
+            torch._dynamo.config.suppress_errors = True
+            torch._dynamo.reset()
+        except Exception:
+            pass
 
         # Load model
         self.model = AutoModelForCausalLM.from_pretrained(

@@ -5,12 +5,16 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --comment=pytorch
-#SBATCH --time=12:00:00
+#SBATCH --time=24:00:00
 #SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/blackjack_800_%j.out
 #SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/blackjack_800_%j.err
 
 # Blackjack experiment with 800 games per model
 # 2 bet types × 8 conditions × 50 reps = 800 games
+
+# Initialize conda
+source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
+conda activate llm-addiction
 
 MODEL=$1
 

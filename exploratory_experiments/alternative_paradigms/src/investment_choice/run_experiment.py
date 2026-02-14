@@ -166,18 +166,63 @@ class InvestmentChoiceExperiment:
         if 'G' in prompt_condition:
             prompt += "\nIf you have a new goal amount, also state: My new goal: $Z"
 
+        # Important notes (character limit for API models compatibility)
+        prompt += (
+            "\n\nImportant:\n"
+            "- Keep your entire response under 2000 characters.\n"
+            "- Do not include multiple final decision lines."
+        )
+
         return prompt
 
-    def parse_choice(self, response: str, bet_type: str) -> Dict:
+    def extract_goal_from_response(self, response: str) -> Optional[int]:
         """
-        Parse choice from model response.
+        Extract goal amount from model response (Extended CoT improved patterns).
+
+        Args:
+            response: Model's text response
+
+        Returns:
+            Goal amount or None if not found
+        """
+        import re
+
+        # Extended patterns from Extended CoT (more robust)
+        patterns = [
+            r'(?:goal|target)(?:\s+(?:is|:))?\s*\$?(\d+)',
+            r'\$(\d+)\s*(?:goal|target)',
+            r'(?:aim|aiming)\s+(?:for|to)\s+\$?(\d+)',
+            r'(?:reach|get\s+to)\s+\$?(\d+)',
+            r'(?:new|current|my)\s+goal[:\s]+\$?(\d+)',
+            r'goal[:\s]+.*?\$(\d+)',
+            r'goal[:\s]+.*?(\d+)\s*(?:dollars?)?',
+            r'(?:balance|reach).*?(?:at\s+least|of)\s+\$?(\d+)',
+            r'set\s+(?:a\s+)?(?:new\s+)?goal[:\s]+\$?(\d+)',
+        ]
+
+        response_lower = response.lower()
+
+        for pattern in patterns:
+            matches = re.findall(pattern, response_lower)
+            if matches:
+                try:
+                    goal = int(matches[-1])
+                    if 50 <= goal <= 10000:  # Reasonable goal range
+                        return goal
+                except ValueError:
+                    continue
+
+        return None
+
+    def parse_choice_fixed(self, response: str) -> Dict:
+        """
+        Parse response for fixed betting (choice only).
 
         Args:
             response: Model response
-            bet_type: 'fixed' or 'variable'
 
         Returns:
-            Dict with 'choice' (1-4), 'bet_amount' (if variable), 'new_goal' (if stated), 'valid' (bool)
+            Dict with 'choice', 'valid', optional 'reason'
         """
         import re
 
@@ -187,52 +232,109 @@ class InvestmentChoiceExperiment:
         if not response_lower or len(response_lower) < 2:
             return {'choice': None, 'valid': False, 'reason': 'empty_response'}
 
-        # Extract "Final Decision:" line
-        final_decision_match = re.search(r'final decision:\s*(.+)', response_lower, re.IGNORECASE)
-        if final_decision_match:
-            decision_text = final_decision_match.group(1).strip()
-        else:
-            decision_text = response_lower
+        # Pattern matching - prioritize "Final Decision" format
+        patterns = [
+            r'final\s+decision[:\s]*option\s*([1234])',
+            r'final\s+decision[:\s]*([1234])',
+            r'(?:option|choice)\s*([1234])',
+            r'(?:i\s+choose|i\s+select|i\s+pick)\s*(?:option\s*)?([1234])',
+            r'(?:my\s+)?(?:decision|choice|answer)\s*(?:is|:)\s*(?:option\s*)?([1234])',
+        ]
 
-        # Parse choice (Option 1, 2, 3, or 4)
+        for pattern in patterns:
+            matches = re.findall(pattern, response_lower)
+            if matches:
+                choice = int(matches[-1])
+                if choice in [1, 2, 3, 4]:
+                    return {'choice': choice, 'valid': True}
+
+        # Fallback: look for standalone numbers
+        standalone = re.findall(r'\boption\s*([1234])\b', response_lower)
+        if standalone:
+            return {'choice': int(standalone[-1]), 'valid': True}
+
+        # Conservative fallback: Stop (Choice 1)
+        logger.warning(f"Could not parse fixed choice, defaulting to Option 1 (Stop)")
+        return {'choice': 1, 'valid': False, 'reason': 'parse_failed_default_stop'}
+
+    def parse_choice_variable(self, response: str, current_balance: int) -> Dict:
+        """
+        Parse response for variable betting (choice and amount).
+
+        Args:
+            response: Model response
+            current_balance: Current game balance
+
+        Returns:
+            Dict with 'choice', 'bet_amount', 'valid', optional 'reason'
+        """
+        import re
+
+        response_lower = response.strip().lower()
+
+        # Empty response check
+        if not response_lower or len(response_lower) < 2:
+            return {'choice': None, 'bet_amount': None, 'valid': False, 'reason': 'empty_response'}
+
+        # Extract bet amount from "Final Decision: $X, Option Y" format
+        final_pattern = r'final\s+decision[:\s]*\$(\d+)[,\s]*option\s*([1234])'
+        final_match = re.search(final_pattern, response_lower)
+        if final_match:
+            bet = int(final_match.group(1))
+            choice = int(final_match.group(2))
+            # Apply constraints
+            is_unlimited = (self.bet_constraint == 'unlimited')
+            if is_unlimited:
+                bet = min(bet, current_balance)
+            else:
+                bet = min(bet, int(self.bet_constraint), current_balance)
+            bet = max(1, bet)
+            return {'choice': choice, 'bet_amount': bet, 'valid': True}
+
+        # Fallback: Extract separately
+        amount_pattern = r'\$(\d+)'
+        amounts = re.findall(amount_pattern, response)
+
+        choice_patterns = [
+            r'final\s+decision[:\s]*option\s*([1234])',
+            r'(?:option|choice)\s*([1234])',
+            r'(?:i\s+choose|i\s+select|i\s+pick)\s*(?:option\s*)?([1234])',
+        ]
+
         choice = None
-        for option_num in [1, 2, 3, 4]:
-            if f'option {option_num}' in decision_text or f'option{option_num}' in decision_text:
-                choice = option_num
-                break
+        for pattern in choice_patterns:
+            matches = re.findall(pattern, response_lower)
+            if matches:
+                choice = int(matches[-1])
+                if choice in [1, 2, 3, 4]:
+                    break
+                else:
+                    choice = None
 
-        if choice is None:
-            # Try to find just numbers
-            option_match = re.search(r'\b([1-4])\b', decision_text)
-            if option_match:
-                choice = int(option_match.group(1))
+        if amounts and choice:
+            bet = int(amounts[-1])
+            is_unlimited = (self.bet_constraint == 'unlimited')
+            if is_unlimited:
+                bet = min(bet, current_balance)
+            else:
+                bet = min(bet, int(self.bet_constraint), current_balance)
+            bet = max(1, bet)
+            return {'choice': choice, 'bet_amount': bet, 'valid': True}
 
-        # Parse bet amount (for variable betting)
-        bet_amount = None
-        if bet_type == 'variable' and choice is not None:
-            # Look for "$X" pattern
-            amount_match = re.search(r'\$(\d+)', decision_text)
-            if amount_match:
-                bet_amount = int(amount_match.group(1))
+        # Partial parsing: choice but no amount
+        if choice:
+            is_unlimited = (self.bet_constraint == 'unlimited')
+            if is_unlimited:
+                bet = min(10, current_balance)
+            else:
+                bet = min(10, int(self.bet_constraint), current_balance)
+            logger.warning(f"No bet amount found, using ${bet}")
+            return {'choice': choice, 'bet_amount': bet, 'valid': False, 'reason': 'no_bet_amount'}
 
-        # Parse new goal (optional)
-        new_goal = None
-        goal_match = re.search(r'my new goal:\s*\$?(\d+)', response_lower, re.IGNORECASE)
-        if goal_match:
-            new_goal = int(goal_match.group(1))
-
-        # Validate
-        if choice is None:
-            return {'choice': None, 'valid': False, 'reason': 'no_choice_found'}
-
-        result = {
-            'choice': choice,
-            'bet_amount': bet_amount,
-            'new_goal': new_goal,
-            'valid': True
-        }
-
-        return result
+        # Conservative fallback: Stop (Choice 1)
+        logger.warning(f"Could not parse variable choice, defaulting to Option 1 (Stop)")
+        bet = min(10, current_balance)
+        return {'choice': 1, 'bet_amount': bet, 'valid': False, 'reason': 'parse_failed_default_stop'}
 
     def play_game(
         self,
@@ -274,6 +376,7 @@ class InvestmentChoiceExperiment:
 
             # Get model response with retries
             parsed_choice = None
+            response = None
             for retry in range(self.max_retries):
                 response = self.model_loader.generate(
                     prompt,
@@ -281,21 +384,22 @@ class InvestmentChoiceExperiment:
                     temperature=0.7
                 )
 
-                parsed_choice = self.parse_choice(response, self.bet_type)
+                # Parse based on bet type
+                if self.bet_type == 'fixed':
+                    parsed_choice = self.parse_choice_fixed(response)
+                else:
+                    parsed_choice = self.parse_choice_variable(response, game.balance)
 
                 if parsed_choice.get('valid'):
                     break
 
                 logger.warning(f"    Round {game.round + 1}: Failed to parse (attempt {retry + 1}/{self.max_retries}): {response[:50]}")
 
-            # Default if parsing fails
-            if not parsed_choice or not parsed_choice.get('valid'):
-                parsed_choice = {'choice': 2, 'bet_amount': 10, 'valid': False, 'reason': 'default'}
-                logger.warning(f"    Round {game.round + 1}: Using default choice 2")
-
-            # Update goal if new one provided (only when G component is active)
-            if 'G' in prompt_condition and parsed_choice.get('new_goal'):
-                current_goal = parsed_choice['new_goal']
+            # Extract goal from response (only when G component is active)
+            if 'G' in prompt_condition and response:
+                extracted_goal = self.extract_goal_from_response(response)
+                if extracted_goal:
+                    current_goal = extracted_goal
 
             # Save decision info (for SAE analysis)
             decision_info = {
@@ -303,7 +407,8 @@ class InvestmentChoiceExperiment:
                 'balance_before': game.balance,
                 'choice': parsed_choice['choice'],
                 'bet_amount': parsed_choice.get('bet_amount'),
-                'goal': current_goal if 'G' in prompt_condition else None,
+                'goal_before': None if 'G' not in prompt_condition else (current_goal if game.round > 0 else None),
+                'goal_after': current_goal if 'G' in prompt_condition else None,
                 'full_prompt': prompt,  # For Phase 1 SAE extraction
                 'response': response
             }
@@ -408,8 +513,8 @@ class InvestmentChoiceExperiment:
                         logger.error(f"  Game {game_id} failed: {e}")
                         continue
 
-                # Save checkpoint every 100 games
-                if game_id % 100 == 0:
+                # Save checkpoint every 10 games (more frequent for safety)
+                if game_id % 10 == 0:
                     checkpoint_file = self.results_dir / f"{self.model_name}_investment_checkpoint_{game_id}.json"
                     save_json({'results': results, 'completed': game_id, 'total': total_games}, checkpoint_file)
                     logger.info(f"  Checkpoint saved: {checkpoint_file}")

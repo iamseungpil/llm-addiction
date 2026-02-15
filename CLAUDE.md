@@ -25,7 +25,6 @@ Research project (ICLR 2026 submission) studying addictive-like gambling behavio
 └── data/llm-addiction/        # Experiment outputs (NPZ, JSON, logs)
     ├── investment_choice/     # Investment choice experiment data
     ├── blackjack/             # Blackjack experiment data
-    ├── lootbox/               # Loot box experiment data
     ├── slot_machine/          # Slot machine experiment data
     └── logs/                  # SLURM job logs (.out, .err)
 ```
@@ -40,11 +39,11 @@ cd /scratch/x3415a02/projects/llm-addiction
 conda activate llm-addiction
 
 # 3. Run a quick test (5 min, 50 trials)
-python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py \
+python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
   --model gemma --gpu 0 --quick
 
 # 4. Check results
-ls -lh /scratch/x3415a02/data/llm-addiction/lootbox/
+ls -lh /scratch/x3415a02/data/llm-addiction/blackjack/
 
 # 5. Interactive GPU session for development
 srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
@@ -71,7 +70,7 @@ exploratory_experiments/        # Non-paper experiments
 ├── steering_vector_analysis/   # CAA-based steering vectors
 ├── gemma_sae_experiment/       # Gemma SAE with domain boost
 ├── lr_classification_experiment/ # Hidden state → bankruptcy prediction
-├── alternative_paradigms/      # Domain generalization (IGT, Loot Box, Near-Miss)
+├── alternative_paradigms/      # Domain generalization (IGT, Near-Miss)
 └── additional_experiments/     # Post-submission extensions
 
 legacy/                         # Archived experiments
@@ -109,7 +108,6 @@ alternative_paradigms/
 │   │   ├── prompt_builder.py # PromptBuilder class
 │   │   ├── utils.py          # clear_gpu_memory, set_random_seed, etc.
 │   │   └── phase*.py         # Shared SAE pipeline phases
-│   ├── lootbox/             # Loot box mechanics
 │   ├── blackjack/           # Blackjack (near-miss effects)
 │   └── investment_choice/   # Investment choice task
 ```
@@ -141,7 +139,6 @@ python paper_experiments/llama_sae_analysis/src/phase4_causal_pilot_v2.py
 python paper_experiments/investment_choice_experiment/src/run_experiment.py --model llama --gpu 0
 
 # Alternative paradigms (exploratory)
-python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py --model gemma --gpu 0 --quick
 python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py --model llama --gpu 0
 python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py --model gemma --gpu 0
 ```
@@ -409,6 +406,120 @@ python your_experiment.py --gpu 0
 ```
 
 **Note**: This conda initialization is only required in SLURM scripts. Interactive sessions already have conda initialized.
+
+## Session Management (Important!)
+
+To maintain context across sessions and avoid losing work, **always follow these practices**:
+
+### Session Naming Convention
+
+When starting a new session or switching tasks, **immediately name the session** using this format:
+
+```
+llm-addiction-{paradigm}-{model/phase}-{purpose}
+```
+
+**Examples:**
+- `llm-addiction-blackjack-llama-behavioral`
+- `llm-addiction-blackjack-gemma-sae-extraction`
+- `llm-addiction-investment-choice-debugging`
+- `llm-addiction-sae-phase2-correlation`
+- `llm-addiction-paper-slot-machine-6models`
+- `llm-addiction-debugging-parsing-errors`
+
+**Command to use:**
+```
+> /rename llm-addiction-[appropriate-name]
+```
+
+### Session Start Checklist
+
+**Every time you start a new session, Claude should:**
+
+1. **Check if resuming an existing session:**
+   - If continuing previous work, use: `claude --resume [session-name]`
+   - If starting fresh, name the session immediately with `/rename`
+
+2. **Verify environment context:**
+   - Confirm working directory: `/scratch/x3415a02/projects/llm-addiction`
+   - Confirm conda environment: `llm-addiction`
+   - Check git status if relevant
+
+3. **Review auto memory:**
+   - Check `~/.claude/projects/-scratch-x3415a02-projects-llm-addiction/memory/MEMORY.md` for patterns learned from previous sessions
+
+### Session End Checklist
+
+**Before ending a session, Claude should:**
+
+1. **Ensure session is named:**
+   - If not named yet, use `/rename` with appropriate name
+
+2. **Save important discoveries to auto memory:**
+   ```
+   > Remember: [key pattern or finding]
+   ```
+
+   **Examples:**
+   - `Remember: Gemma layers 26-28 encode near-miss patterns in blackjack`
+   - `Remember: Always check .jsonl logs when response parsing fails`
+   - `Remember: LlamaScope has layers 25-31 only, GemmaScope has all 42 layers`
+
+3. **Summarize session outcomes:**
+   - List files modified
+   - Note experiments completed or in progress
+   - State next steps clearly
+
+### Auto Memory Usage
+
+Claude should **proactively save** to auto memory when discovering:
+- Recurring error patterns and their solutions
+- HPC cluster-specific behaviors (GPU memory, SLURM quirks)
+- Model-specific patterns (layer encodings, parsing issues)
+- File path patterns and data locations
+- Successful debugging approaches
+
+**DO NOT save to memory:**
+- Session-specific temporary state
+- Information already in CLAUDE.md
+- Incomplete or unverified findings
+
+### Resuming Previous Sessions
+
+**To resume a session:**
+
+```bash
+# Command line
+claude --resume llm-addiction-blackjack-experiment
+
+# Or interactively
+claude --resume  # Opens session picker
+
+# Continue most recent
+claude --continue
+```
+
+**In session picker (keyboard shortcuts):**
+- `↑`/`↓`: Navigate sessions
+- `P`: Preview session content
+- `R`: Rename session
+- `/`: Search/filter sessions
+- `Enter`: Open selected session
+
+### Context Management
+
+**To keep sessions focused:**
+- Use `/clear` when switching to unrelated investigation
+- Use subagents for exploratory research (keeps main context clean)
+- Create separate sessions for distinct experiments/debugging tasks
+
+### Recovery from Lost Sessions
+
+If you forgot to name a session:
+1. Use `claude --resume` to open session picker
+2. Use `P` (preview) to find the right session by content
+3. Use `R` (rename) to give it a proper name
+4. Resume that session
 
 ## Notes
 

@@ -11,7 +11,7 @@
 
 # Mini experiment test - full pipeline verification
 # Usage: sbatch scripts/test_mini.sh [experiment] [model] [n_games]
-#   experiment: investment, lootbox, blackjack, all (default: all)
+#   experiment: investment, blackjack, all (default: all)
 #   model: gemma, llama, qwen (default: gemma)
 #   n_games: games per condition (default: 2)
 

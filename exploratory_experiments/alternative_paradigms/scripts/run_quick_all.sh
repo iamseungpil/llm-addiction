@@ -9,8 +9,8 @@
 #SBATCH --mem=32G
 #SBATCH --comment pytorch
 
-# Quick mode experiment - all 3 experiments
-# Total games: 160 + 320 + 320 = 800 games
+# Quick mode experiment - all experiments
+# Total games: 160 + 320 = 480 games
 
 MODEL=${1:-gemma}
 
@@ -41,13 +41,7 @@ python -m src.investment_choice.run_experiment --model $MODEL --gpu 0 --quick
 
 echo ""
 echo "=========================================="
-echo "2. LOOT BOX (Quick: 320 games)"
-echo "=========================================="
-python -m src.lootbox.run_experiment --model $MODEL --gpu 0 --quick
-
-echo ""
-echo "=========================================="
-echo "3. BLACKJACK (Quick: 320 games)"
+echo "2. BLACKJACK (Quick: 320 games)"
 echo "=========================================="
 python -m src.blackjack.run_experiment --model $MODEL --gpu 0 --quick
 

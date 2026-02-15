@@ -10,7 +10,6 @@ Tests:
 
 Usage:
     python test_mini_experiment.py --experiment investment --model gemma --n-games 3
-    python test_mini_experiment.py --experiment lootbox --model gemma --n-games 3
     python test_mini_experiment.py --experiment blackjack --model gemma --n-games 3
     python test_mini_experiment.py --all --model gemma --n-games 2
 """
@@ -99,75 +98,7 @@ def test_investment_mini(model_loader, n_games: int = 3):
     return True
 
 
-def test_lootbox_mini(model_loader, n_games: int = 3):
-    """Run mini Loot Box experiment"""
-    from lootbox.game_logic import LootBoxGame
-    from lootbox.run_experiment import LootBoxExperiment
-
-    logger.info("=" * 60)
-    logger.info("MINI EXPERIMENT: Loot Box")
-    logger.info(f"Games per condition: {n_games}")
-    logger.info("=" * 60)
-
-    # Create experiment
-    output_dir = Path('/scratch/x3415a02/data/llm-addiction/lootbox/test')
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    exp = LootBoxExperiment(
-        model_name=model_loader.model_name,
-        gpu_id=0,
-        output_dir=str(output_dir)
-    )
-    exp.model_loader = model_loader
-
-    # Test conditions
-    bet_types = ['variable', 'fixed']
-    conditions = ['GM']
-    results = []
-
-    for bet_type in bet_types:
-        for condition in conditions:
-            logger.info(f"\n--- BetType: {bet_type}, Condition: {condition} ---")
-            for game_id in range(n_games):
-                seed = game_id + 54321
-                logger.info(f"  Game {game_id + 1}/{n_games}")
-
-                try:
-                    result = exp.play_game(bet_type, condition, game_id, seed)
-                    results.append(result)
-                    logger.info(f"    Rounds: {result['rounds_completed']}, "
-                               f"Gems: {result['final_gems']}, "
-                               f"Bankrupt: {result['bankruptcy']}")
-                except Exception as e:
-                    logger.error(f"    Error: {e}")
-                    import traceback
-                    traceback.print_exc()
-                    return False
-
-    # Save results
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = output_dir / f"mini_test_{timestamp}.json"
-
-    save_json({
-        'experiment': 'lootbox_mini_test',
-        'model': model_loader.model_name,
-        'n_games': len(results),
-        'results': results
-    }, output_file)
-
-    logger.info(f"\n✅ Results saved: {output_file}")
-
-    # Print statistics
-    logger.info("\n--- Statistics ---")
-    bankrupt = sum(1 for r in results if r['bankruptcy'])
-    voluntary = sum(1 for r in results if r['stopped_voluntarily'])
-    avg_rounds = sum(r['rounds_completed'] for r in results) / len(results)
-
-    logger.info(f"Bankruptcies: {bankrupt}/{len(results)}")
-    logger.info(f"Voluntary stops: {voluntary}/{len(results)}")
-    logger.info(f"Avg rounds: {avg_rounds:.1f}")
-
-    return True
+# Lootbox experiment removed
 
 
 def test_blackjack_mini(model_loader, n_games: int = 3):
@@ -246,7 +177,7 @@ def test_blackjack_mini(model_loader, n_games: int = 3):
 def main():
     parser = argparse.ArgumentParser(description='Mini experiment test')
     parser.add_argument('--experiment', type=str,
-                        choices=['investment', 'lootbox', 'blackjack', 'all'],
+                        choices=['investment', 'blackjack', 'all'],
                         default='investment', help='Which experiment to test')
     parser.add_argument('--model', type=str, choices=['llama', 'gemma', 'qwen'],
                         default='gemma', help='Model to use')
@@ -274,9 +205,6 @@ def main():
     try:
         if args.experiment in ['investment', 'all']:
             results['investment'] = test_investment_mini(model_loader, args.n_games)
-
-        if args.experiment in ['lootbox', 'all']:
-            results['lootbox'] = test_lootbox_mini(model_loader, args.n_games)
 
         if args.experiment in ['blackjack', 'all']:
             results['blackjack'] = test_blackjack_mini(model_loader, args.n_games)

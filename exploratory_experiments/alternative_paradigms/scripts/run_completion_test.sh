@@ -9,7 +9,7 @@
 #SBATCH --mem=32G
 #SBATCH --comment pytorch
 
-# Test completion-style prompts for both Blackjack and Lootbox
+# Test completion-style prompts for Blackjack
 # Using LLaMA Base model with new prompt format
 
 MODEL=${1:-llama}
@@ -35,21 +35,14 @@ mkdir -p logs
 
 echo ""
 echo "=========================================="
-echo "1. BLACKJACK TEST (Quick: 320 games)"
+echo "BLACKJACK TEST (Quick: 320 games)"
 echo "   New: Completion-style prompts"
 echo "=========================================="
 python -m src.blackjack.run_experiment --model $MODEL --gpu 0 --quick
 
 echo ""
 echo "=========================================="
-echo "2. LOOTBOX TEST (Quick: 320 games)"
-echo "   New: Completion-style prompts"
-echo "=========================================="
-python -m src.lootbox.run_experiment --model $MODEL --gpu 0 --quick
-
-echo ""
-echo "=========================================="
-echo "ALL EXPERIMENTS COMPLETED"
+echo "EXPERIMENT COMPLETED"
 echo "End time: $(date)"
 echo "=========================================="
 
@@ -57,7 +50,3 @@ echo "=========================================="
 echo ""
 echo "Blackjack output files:"
 ls -la /scratch/x3415a02/data/llm-addiction/blackjack/ | tail -5
-
-echo ""
-echo "Lootbox output files:"
-ls -la /scratch/x3415a02/data/llm-addiction/lootbox/ | tail -5

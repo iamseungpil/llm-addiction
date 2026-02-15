@@ -6,7 +6,7 @@ Identifies risky/safe SAE features from Phase 1 extracted features.
 Follows same structure as paper_experiments/llama_sae_analysis/phase2_correlation_analysis.py
 
 Usage:
-    python src/common/phase2_correlation_analysis.py --paradigm lootbox --model llama
+    python src/common/phase2_correlation_analysis.py --paradigm blackjack --model llama
     python src/common/phase2_correlation_analysis.py --paradigm blackjack --model gemma
 """
 
@@ -47,7 +47,7 @@ class ParadigmCorrelationAnalyzer:
         Initialize correlation analyzer.
 
         Args:
-            paradigm: 'lootbox' or 'blackjack'
+            paradigm: 'blackjack'
             model_name: 'llama' or 'gemma'
             fdr_alpha: FDR alpha level
             min_cohens_d: Minimum Cohen's d threshold
@@ -305,7 +305,7 @@ class ParadigmCorrelationAnalyzer:
 
 def main():
     parser = argparse.ArgumentParser(description='Phase 2: Correlation Analysis')
-    parser.add_argument('--paradigm', type=str, required=True, choices=['lootbox', 'blackjack'],
+    parser.add_argument('--paradigm', type=str, required=True, choices=['blackjack'],
                         help='Paradigm to analyze')
     parser.add_argument('--model', type=str, required=True, choices=['llama', 'gemma'],
                         help='Model type')

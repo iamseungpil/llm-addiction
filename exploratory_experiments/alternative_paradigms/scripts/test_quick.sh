@@ -12,7 +12,7 @@
 # Quick test script for alternative paradigms experiments
 # Usage: sbatch scripts/test_quick.sh [model] [experiment]
 #   model: llama, gemma, qwen (default: gemma)
-#   experiment: lootbox, blackjack, investment, all (default: all)
+#   experiment: blackjack, investment, all (default: all)
 
 MODEL=${1:-gemma}
 EXPERIMENT=${2:-all}

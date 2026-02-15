@@ -2,11 +2,11 @@
 """
 Phase 1: SAE Feature Extraction for Alternative Paradigms
 
-Extracts SAE features from gambling experiments (Loot Box, Blackjack).
+Extracts SAE features from gambling experiments (Blackjack).
 Follows the same structure as paper_experiments/llama_sae_analysis/phase1_feature_extraction.py
 
 Usage:
-    python src/common/phase1_feature_extraction.py --paradigm lootbox --model llama --gpu 0
+    python src/common/phase1_feature_extraction.py --paradigm blackjack --model llama --gpu 0
     python src/common/phase1_feature_extraction.py --paradigm blackjack --model gemma --gpu 0
 """
 
@@ -104,7 +104,7 @@ class AlternativeParadigmFeatureExtractor:
         Initialize feature extractor.
 
         Args:
-            paradigm: 'lootbox' or 'blackjack'
+            paradigm: 'blackjack'
             model_name: 'llama' or 'gemma'
             gpu_id: GPU ID
             data_dir: Data directory
@@ -168,10 +168,7 @@ class AlternativeParadigmFeatureExtractor:
             game_outcome = game['outcome']
 
             # Extract trials/rounds
-            if self.paradigm == 'lootbox':
-                trials = game.get('trials', [])
-            else:  # blackjack
-                trials = game.get('rounds', [])
+            trials = game.get('rounds', [])
 
             # Get final trial (last decision point before outcome)
             if trials:
@@ -347,7 +344,7 @@ class AlternativeParadigmFeatureExtractor:
 
 def main():
     parser = argparse.ArgumentParser(description='Phase 1: SAE Feature Extraction')
-    parser.add_argument('--paradigm', type=str, required=True, choices=['lootbox', 'blackjack'],
+    parser.add_argument('--paradigm', type=str, required=True, choices=['blackjack'],
                         help='Paradigm to extract features from')
     parser.add_argument('--model', type=str, required=True, choices=['llama', 'gemma'],
                         help='Model type')

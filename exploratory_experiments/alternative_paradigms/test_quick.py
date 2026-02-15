@@ -4,7 +4,6 @@ Quick test script for alternative paradigms experiments.
 Runs minimal tests to verify everything works before full experiment.
 
 Usage:
-    python test_quick.py --experiment lootbox --model gemma
     python test_quick.py --experiment blackjack --model gemma
     python test_quick.py --experiment investment --model gemma
     python test_quick.py --all --model gemma
@@ -23,47 +22,7 @@ from common import ModelLoader, setup_logger, set_random_seed
 logger = setup_logger(__name__)
 
 
-def test_lootbox(model_loader, n_games: int = 2):
-    """Test Loot Box experiment with minimal games"""
-    from lootbox.game_logic import LootBoxGame
-    from lootbox.run_experiment import LootBoxExperiment
-
-    logger.info("=" * 50)
-    logger.info("TESTING LOOT BOX EXPERIMENT")
-    logger.info("=" * 50)
-
-    # Create experiment instance but don't run full experiment
-    # Instead, manually test key components
-
-    set_random_seed(42)
-
-    # Test game logic
-    game = LootBoxGame(initial_gems=1000, bet_type='variable')
-
-    # Test prompt building
-    exp = LootBoxExperiment.__new__(LootBoxExperiment)
-    exp.model_name = model_loader.model_name
-    exp.model_loader = model_loader
-    exp.initial_gems = 1000
-    exp.max_rounds = 10
-    exp.max_retries = 3
-
-    prompt = exp.build_prompt(game, bet_type='variable', components='GM')
-    logger.info(f"Prompt length: {len(prompt)} chars")
-    logger.info(f"Prompt preview:\n{prompt[:500]}...")
-
-    # Test model response
-    logger.info("\nGenerating model response...")
-    response = model_loader.generate(prompt, max_new_tokens=150, temperature=0.7)
-    logger.info(f"Response: {response[:200]}...")
-
-    # Test parsing
-    can_afford = game.gems >= 50
-    parsed = exp.parse_box_choice(response, 'variable', can_afford)
-    logger.info(f"Parsed choice: {parsed}")
-
-    logger.info("✅ Loot Box test passed")
-    return True
+# Lootbox experiment removed
 
 
 def test_blackjack(model_loader, n_games: int = 2):
@@ -170,7 +129,7 @@ def test_investment(model_loader, n_games: int = 2):
 
 def main():
     parser = argparse.ArgumentParser(description='Quick test for alternative paradigms')
-    parser.add_argument('--experiment', type=str, choices=['lootbox', 'blackjack', 'investment', 'all'],
+    parser.add_argument('--experiment', type=str, choices=['blackjack', 'investment', 'all'],
                         default='all', help='Which experiment to test')
     parser.add_argument('--model', type=str, choices=['llama', 'gemma', 'qwen'],
                         default='gemma', help='Model to use')
@@ -194,9 +153,6 @@ def main():
     results = {}
 
     try:
-        if args.experiment in ['lootbox', 'all']:
-            results['lootbox'] = test_lootbox(model_loader)
-
         if args.experiment in ['blackjack', 'all']:
             results['blackjack'] = test_blackjack(model_loader)
 

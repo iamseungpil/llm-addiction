@@ -432,6 +432,31 @@ llm-addiction-{paradigm}-{model/phase}-{purpose}
 > /rename llm-addiction-[appropriate-name]
 ```
 
+**IMPORTANT - Natural Language Session Naming:**
+
+When the user says any of the following:
+- "세션 이름 저장해줘" / "세션 저장해줘"
+- "세션 이름 적절히 지어줘" / "이름 지어줘"
+- "Save session name" / "Name this session"
+- Or any similar request to save/name the session
+
+**You MUST:**
+1. Immediately use the `/rename` command
+2. Generate an appropriate session name based on:
+   - Current work context (what files were modified, what we discussed)
+   - Experiment type (blackjack, investment-choice, sae-analysis, etc.)
+   - Model being used (llama, gemma, etc.)
+   - Phase or purpose (debugging, feature-extraction, analysis, etc.)
+3. Follow the naming format: `llm-addiction-{context-based-name}`
+
+**Example:**
+```
+User: "세션 이름 적절히 저장해둬"
+Claude: > /rename llm-addiction-blackjack-gemma-debugging
+```
+
+Do NOT ask the user what name to use - automatically generate an appropriate name from context.
+
 ### Session Start Checklist
 
 **Every time you start a new session, Claude should:**

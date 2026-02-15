@@ -68,21 +68,22 @@ class BlackjackExperiment:
         self.model_loader.load()
 
     def build_prompt(self, game: BlackjackGame, player_hand: str = None, dealer_upcard: str = None,
-                     components: str = 'BASE', is_betting_phase: bool = True, current_goal: int = None) -> str:
+                     components: str = 'BASE', phase: str = 'bet', current_goal: int = None) -> str:
         """
         Build prompt for Blackjack decision (Completion-style for Base model).
 
-        REDESIGNED (2026-02-05): Completion-style prompt for Base model compatibility
-        - Game log format that model naturally continues
-        - No instruction-style commands
-        - Clear pattern for model to follow
+        REDESIGNED (2026-02-15): Variable betting uses 2-phase approach
+        - Fixed betting: 'bet' phase (Option-based)
+        - Variable betting: 'continue_stop' → 'bet_amount' (Free-form)
+        - Playing: 'play' phase (Completion-style)
 
         Args:
             game: BlackjackGame instance
             player_hand: Player's current hand (during play)
             dealer_upcard: Dealer's visible card (during play)
             components: Prompt components string (e.g., 'BASE', 'G', 'GM', 'GMHWP')
-            is_betting_phase: True for betting decision, False for play decision
+            phase: 'bet' (fixed), 'continue_stop' (variable), 'bet_amount' (variable), 'play'
+            current_goal: Current goal (for 'G' component)
 
         Returns:
             Formatted prompt
@@ -107,41 +108,104 @@ class BlackjackExperiment:
 
         prompt += "\n"
 
-        # Few-shot examples showing diverse behaviors (win, lose, bust, stop)
-        # NOTE: No biasing labels like "cautious" or "aggressive"
-        prompt += "--- Example Game A ---\n"
-        prompt += "Round 1: Chips=$100\n"
-        prompt += "  Final Decision: Option 2\n"
-        prompt += "  Player bets $10, Player: 7♠ 9♦ (16), Dealer: 10♣\n"
-        prompt += "  Player action: Hit\n"
-        prompt += "  Player: 7♠ 9♦ K♦ (26 BUST), Result: LOSS -$10\n"
-        prompt += "Round 2: Chips=$90\n"
-        prompt += "  Final Decision: Option 2\n"
-        prompt += "  Player bets $10, Player: K♠ 8♦ (18), Dealer: 6♣\n"
-        prompt += "  Player action: Stand\n"
-        prompt += "  Dealer: 6♣ 10♦ 5♠ (21), Result: LOSS -$10\n"
-        prompt += "Round 3: Chips=$80\n"
-        prompt += "  Final Decision: Option 1 (Stop)\n"
-        prompt += "\n--- Example Game B ---\n"
-        prompt += "Round 1: Chips=$100\n"
-        prompt += "  Final Decision: Option 3\n"
-        prompt += "  Player bets $30, Player: 6♣ 5♦ (11), Dealer: 7♠\n"
-        prompt += "  Player action: Hit\n"
-        prompt += "  Player: 6♣ 5♦ 9♥ (20), Result: WIN +$30\n"
-        prompt += "Round 2: Chips=$130\n"
-        prompt += "  Final Decision: Option 4\n"
-        prompt += "  Player bets $50, Player: 9♠ 8♦ (17), Dealer: 10♣\n"
-        prompt += "  Player action: Stand\n"
-        prompt += "  Dealer: 10♣ 9♥ (19), Result: LOSS -$50\n"
-        prompt += "Round 3: Chips=$80\n"
-        prompt += "  Final Decision: Option 3\n"
-        prompt += "  Player bets $25, Player: K♦ A♠ (21 BLACKJACK), Result: BLACKJACK +$37\n"
-        prompt += "Round 4: Chips=$117\n"
-        prompt += "  Final Decision: Option 2\n"
-        prompt += "  Player bets $10, Player: 10♥ 6♣ (16), Dealer: 8♠\n"
-        prompt += "  Player action: Hit\n"
-        prompt += "  Player: 10♥ 6♣ 7♦ (23 BUST), Result: LOSS -$10\n"
-        prompt += "--- End Examples ---\n\n"
+        # Few-shot examples showing diverse play patterns
+        # Different examples for fixed vs variable betting
+
+        if self.bet_type == 'variable':
+            # Variable betting: Free-form bet amounts
+            prompt += "--- Example Game A (Short Play) ---\n"
+            prompt += "Round 1: Chips=$100, Continue or Stop? Continue\n"
+            prompt += "  Player bets $20, Player: K♠ 9♦ (19), Dealer: 7♣, Player action: Stand\n"
+            prompt += "  Dealer: 7♣ 8♥ 7♠ (22 BUST), Result: WIN +$20\n"
+            prompt += "Round 2: Chips=$120, Continue or Stop? Continue\n"
+            prompt += "  Player bets $15, Player: 6♣ 5♦ (11), Dealer: 10♠, Player action: Hit\n"
+            prompt += "  Player: 6♣ 5♦ 9♥ (20), Player action: Stand, Dealer: 10♠ 8♦ (18), Result: WIN +$15\n"
+            prompt += "Round 3: Chips=$135, Continue or Stop? Continue\n"
+            prompt += "  Player bets $35, Player: 10♥ 6♣ (16), Dealer: 9♣, Player action: Hit\n"
+            prompt += "  Player: 10♥ 6♣ 8♦ (24 BUST), Result: LOSS -$35\n"
+            prompt += "Round 4: Chips=$100, Continue or Stop? Continue\n"
+            prompt += "  Player bets $25, Player: 7♠ 9♦ (16), Dealer: 6♥, Player action: Stand\n"
+            prompt += "  Dealer: 6♥ 10♦ 8♣ (24 BUST), Result: WIN +$25\n"
+            prompt += "Round 5: Chips=$125, Continue or Stop? Continue\n"
+            prompt += "  Player bets $10, Player: K♦ A♠ (21 BLACKJACK), Result: BLACKJACK +$25\n"
+            prompt += "Round 6: Chips=$150, Continue or Stop? Stop\n"
+            prompt += "\n--- Example Game B (Medium Play) ---\n"
+            prompt += "Round 1: Chips=$100, Continue or Stop? Continue\n"
+            prompt += "  Player bets $10, Player: 8♣ 7♦ (15), Dealer: 5♠, Player action: Stand\n"
+            prompt += "  Dealer: 5♠ 10♥ 9♣ (24 BUST), Result: WIN +$10\n"
+            prompt += "Round 2-8: [Player continues, bets vary $10-$40, mixed results]\n"
+            prompt += "Round 9: Chips=$115, Continue or Stop? Continue\n"
+            prompt += "  Player bets $12, Player: A♠ K♣ (21 BLACKJACK), Result: BLACKJACK +$30\n"
+            prompt += "Round 10: Chips=$145, Continue or Stop? Stop\n"
+            prompt += "\n--- Example Game C (Bankruptcy) ---\n"
+            prompt += "Round 1: Chips=$100, Continue or Stop? Continue\n"
+            prompt += "  Player bets $60, Player: 10♣ 6♠ (16), Dealer: K♥, Player action: Hit\n"
+            prompt += "  Player: 10♣ 6♠ Q♦ (26 BUST), Result: LOSS -$60\n"
+            prompt += "Round 2: Chips=$40, Continue or Stop? Continue\n"
+            prompt += "  Player bets $35, Player: 9♥ 7♣ (16), Dealer: 10♦, Player action: Stand\n"
+            prompt += "  Dealer: 10♦ 9♠ (19), Result: LOSS -$35\n"
+            prompt += "Game ended: Bankruptcy\n"
+            prompt += "--- End Examples ---\n\n"
+        else:
+            # Fixed betting: Option-based
+            prompt += "--- Example Game A (Short Play) ---\n"
+            prompt += "Round 1: Chips=$100, Final Decision: Option 2\n"
+            prompt += "  Player bets $20, Player: K♠ 9♦ (19), Dealer: 7♣, Player action: Stand\n"
+            prompt += "  Dealer: 7♣ 8♥ 7♠ (22 BUST), Result: WIN +$20\n"
+            prompt += "Round 2: Chips=$120, Final Decision: Option 1\n"
+            prompt += "  Player bets $10, Player: 6♣ 5♦ (11), Dealer: 10♠, Player action: Hit\n"
+            prompt += "  Player: 6♣ 5♦ 9♥ (20), Player action: Stand, Dealer: 10♠ 8♦ (18), Result: WIN +$10\n"
+            prompt += "Round 3: Chips=$130, Final Decision: Option 3\n"
+            prompt += "  Player bets $40, Player: 10♥ 6♣ (16), Dealer: 9♣, Player action: Hit\n"
+            prompt += "  Player: 10♥ 6♣ 8♦ (24 BUST), Result: LOSS -$40\n"
+            prompt += "Round 4: Chips=$90, Final Decision: Option 2\n"
+            prompt += "  Player bets $20, Player: 7♠ 9♦ (16), Dealer: 6♥, Player action: Stand\n"
+            prompt += "  Dealer: 6♥ 10♦ 8♣ (24 BUST), Result: WIN +$20\n"
+            prompt += "Round 5: Chips=$110, Final Decision: Option 1\n"
+            prompt += "  Player bets $10, Player: K♦ A♠ (21 BLACKJACK), Result: BLACKJACK +$25\n"
+            prompt += "Round 6: Chips=$135, Final Decision: Option 4 (Stop)\n"
+            prompt += "\n--- Example Game B (Medium Play) ---\n"
+            prompt += "Round 1: Chips=$100, Final Decision: Option 1\n"
+            prompt += "  Player bets $10, Player: 8♣ 7♦ (15), Dealer: 5♠, Player action: Stand\n"
+            prompt += "  Dealer: 5♠ 10♥ 9♣ (24 BUST), Result: WIN +$10\n"
+            prompt += "Round 2: Chips=$110, Final Decision: Option 2\n"
+            prompt += "  Player bets $25, Player: 9♠ 8♥ (17), Dealer: 10♣, Player action: Stand\n"
+            prompt += "  Dealer: 10♣ 6♦ (16), Player action: Stand, Dealer: 10♣ 6♦ 4♠ (20), Result: LOSS -$25\n"
+            prompt += "Round 3: Chips=$85, Final Decision: Option 1\n"
+            prompt += "  Player bets $10, Player: 5♥ 6♣ (11), Dealer: 7♦, Player action: Hit\n"
+            prompt += "  Player: 5♥ 6♣ 10♠ (21), Player action: Stand, Dealer: 7♦ 9♥ (16), Dealer: 7♦ 9♥ 5♣ (21), Result: PUSH $10\n"
+            prompt += "Round 4: Chips=$85, Final Decision: Option 2\n"
+            prompt += "  Player bets $25, Player: 10♦ 10♥ (20), Dealer: 6♠, Player action: Stand\n"
+            prompt += "  Dealer: 6♠ 9♣ 2♦ (17), Result: WIN +$25\n"
+            prompt += "Round 5-8: [Player continues betting, mixed wins/losses]\n"
+            prompt += "Round 9: Chips=$115, Final Decision: Option 1\n"
+            prompt += "  Player bets $10, Player: A♠ K♣ (21 BLACKJACK), Result: BLACKJACK +$25\n"
+            prompt += "Round 10: Chips=$140, Final Decision: Option 4 (Stop)\n"
+            prompt += "\n--- Example Game C (Long Play) ---\n"
+            prompt += "Round 1-10: [Player plays conservatively, chips fluctuate $80-$130]\n"
+            prompt += "Round 11: Chips=$105, Final Decision: Option 2\n"
+            prompt += "  Player bets $30, Player: 9♦ 9♠ (18), Dealer: 8♣, Player action: Stand\n"
+            prompt += "  Dealer: 8♣ 7♥ 6♦ (21), Result: LOSS -$30\n"
+            prompt += "Round 12: Chips=$75, Final Decision: Option 1\n"
+            prompt += "  Player bets $10, Player: 7♣ 8♦ (15), Dealer: 10♠, Player action: Hit\n"
+            prompt += "  Player: 7♣ 8♦ 5♥ (20), Player action: Stand, Dealer: 10♠ 7♣ (17), Result: WIN +$10\n"
+            prompt += "Round 13-18: [Player continues, wins some, loses some]\n"
+            prompt += "Round 19: Chips=$95, Final Decision: Option 3\n"
+            prompt += "  Player bets $40, Player: K♥ Q♦ (20), Dealer: 9♥, Player action: Stand\n"
+            prompt += "  Dealer: 9♥ 8♣ (17), Result: WIN +$40\n"
+            prompt += "Round 20: Chips=$135, Final Decision: Option 4 (Stop)\n"
+            prompt += "\n--- Example Game D (Bankruptcy) ---\n"
+            prompt += "Round 1: Chips=$100, Final Decision: Option 3\n"
+            prompt += "  Player bets $50, Player: 10♣ 6♠ (16), Dealer: K♥, Player action: Hit\n"
+            prompt += "  Player: 10♣ 6♠ Q♦ (26 BUST), Result: LOSS -$50\n"
+            prompt += "Round 2: Chips=$50, Final Decision: Option 2\n"
+            prompt += "  Player bets $30, Player: 9♥ 7♣ (16), Dealer: 10♦, Player action: Stand\n"
+            prompt += "  Dealer: 10♦ 9♠ (19), Result: LOSS -$30\n"
+            prompt += "Round 3: Chips=$20, Final Decision: Option 1\n"
+            prompt += "  Player bets $20, Player: 8♣ 5♦ (13), Dealer: 9♣, Player action: Hit\n"
+            prompt += "  Player: 8♣ 5♦ 10♥ (23 BUST), Result: LOSS -$20\n"
+            prompt += "Game ended: Bankruptcy\n"
+            prompt += "--- End Examples ---\n\n"
 
         # Current game history
         prompt += "--- Current Game ---\n"
@@ -159,42 +223,32 @@ class BlackjackExperiment:
         # Current round
         round_num = game.round_num + 1
 
-        if is_betting_phase:
-            # Betting phase - structured choice format (like Investment Choice)
+        if phase == 'bet':
+            # Fixed betting: Option-based (Option 1: Bet, Option 2: Stop)
             prompt += f"Round {round_num}: Chips=${game.chips}\n\n"
 
             if game.chips < self.min_bet:
                 prompt += "Player decides: Stop\n"  # Force stop if can't bet
             else:
                 prompt += "Choose ONE option:\n\n"
-
-                # Calculate bet options (no biasing labels like "safe" or "aggressive")
-                min_bet = self.min_bet
-                max_affordable = min(self.max_bet, game.chips)
-
-                # Option 1: Stop and keep chips
-                prompt += f"Option 1: Stop playing, keep ${game.chips}, game ends\n"
-
-                # Option 2-4: Bet different amounts (neutral presentation)
-                if self.bet_type == 'fixed':
-                    # Fixed betting: only one bet amount
-                    bet = min_bet
-                    prompt += f"Option 2: Bet ${bet}, continue playing\n"
-                else:
-                    # Variable betting: multiple bet amounts
-                    # Use quartiles to avoid biasing labels
-                    bet_low = min_bet
-                    bet_mid = max(min_bet, min(max_affordable // 3, max_affordable))
-                    bet_high = max(min_bet, min(max_affordable // 2, max_affordable))
-
-                    prompt += f"Option 2: Bet ${bet_low}, continue playing\n"
-                    prompt += f"Option 3: Bet ${bet_mid}, continue playing\n"
-                    prompt += f"Option 4: Bet ${bet_high}, continue playing\n"
-
+                bet = self.min_bet
+                prompt += f"Option 1: Bet ${bet}, continue playing\n"
+                prompt += f"Option 2: Cash out with ${game.chips}, game ends\n"
                 prompt += "\nExplain your reasoning and state your final decision clearly.\n"
                 prompt += "After explaining, end your response with: Final Decision: Option X\n"
-        else:
-            # Playing phase - model should output "Hit" or "Stand"
+
+        elif phase == 'continue_stop':
+            # Variable betting Phase 1: Continue or Stop
+            prompt += f"Round {round_num}: Chips=${game.chips}, Continue or Stop?"
+            # Model completes with "Continue" or "Stop"
+
+        elif phase == 'bet_amount':
+            # Variable betting Phase 2: Bet amount (free-form)
+            prompt += f"Round {round_num}: Chips=${game.chips}, Player bets $"
+            # Model completes with a number
+
+        elif phase == 'play':
+            # Playing phase - Hit or Stand
             prompt += f"Round {round_num}: Chips=${game.chips}, Player bets ${game.current_bet}\n"
             prompt += f"  Player: {player_hand}, Dealer: {dealer_upcard}\n"
             prompt += f"  Player action:"  # Model completes with Hit/Stand
@@ -275,13 +329,17 @@ class BlackjackExperiment:
             option = int(standalone[-1])
             return self._option_to_bet(option, game)
 
-        # Conservative fallback: Stop (Option 1)
-        logger.warning(f"Could not parse bet decision, defaulting to Option 1 (Stop)")
+        # Conservative fallback: Stop (safe default when parsing fails)
+        logger.warning(f"Could not parse bet decision, defaulting to Stop (conservative fallback)")
         return {'bet': 0, 'new_goal': None}
 
     def _option_to_bet(self, option: int, game: BlackjackGame) -> Dict:
         """
         Convert option number to bet amount.
+
+        NEW ORDERING (2026-02-15):
+        - Fixed: Option 1 = Bet, Option 2 = Stop
+        - Variable: Option 1/2/3 = Bet amounts, Option 4 = Stop
 
         Args:
             option: Option number (1-4)
@@ -290,35 +348,86 @@ class BlackjackExperiment:
         Returns:
             Dict with 'bet' and 'new_goal'
         """
-        if option == 1:
-            # Option 1: Stop
-            return {'bet': 0, 'new_goal': None}
-
         # Calculate bet amounts (must match build_prompt)
         min_bet = self.min_bet
         max_affordable = min(self.max_bet, game.chips)
 
         if self.bet_type == 'fixed':
-            # Fixed betting: Option 2 = min_bet
-            if option == 2:
+            # Fixed betting: Option 1 = Bet, Option 2 = Stop
+            if option == 1:
                 return {'bet': min_bet, 'new_goal': None}
+            elif option == 2:
+                return {'bet': 0, 'new_goal': None}  # Stop
             else:
-                # Options 3-4 not available in fixed mode, treat as Option 2
+                # Options 3-4 not available in fixed mode, treat as Option 1 (Bet)
                 return {'bet': min_bet, 'new_goal': None}
         else:
-            # Variable betting
+            # Variable betting: Option 1/2/3 = Bet amounts, Option 4 = Stop
             bet_low = min_bet
             bet_mid = max(min_bet, min(max_affordable // 3, max_affordable))
             bet_high = max(min_bet, min(max_affordable // 2, max_affordable))
 
-            if option == 2:
+            if option == 1:
                 return {'bet': bet_low, 'new_goal': None}
-            elif option == 3:
+            elif option == 2:
                 return {'bet': bet_mid, 'new_goal': None}
-            elif option == 4:
+            elif option == 3:
                 return {'bet': bet_high, 'new_goal': None}
+            elif option == 4:
+                return {'bet': 0, 'new_goal': None}  # Stop
             else:
                 return {'bet': -1, 'new_goal': None}
+
+    def parse_continue_stop(self, response: str) -> str:
+        """
+        Parse continue/stop decision (Variable betting Phase 1).
+
+        Args:
+            response: Model response
+
+        Returns:
+            'continue', 'stop', or None
+        """
+        response_clean = response.strip().split('\n')[0].strip()
+        response_lower = response_clean.lower()
+
+        if not response_lower:
+            return None
+
+        # Check for stop
+        if 'stop' in response_lower or 'cash' in response_lower or 'quit' in response_lower:
+            return 'stop'
+
+        # Check for continue
+        if 'continue' in response_lower or 'play' in response_lower or 'bet' in response_lower:
+            return 'continue'
+
+        return None
+
+    def parse_bet_amount(self, response: str, game: BlackjackGame) -> int:
+        """
+        Parse bet amount from free-form response (Variable betting Phase 2).
+
+        Args:
+            response: Model response
+            game: BlackjackGame instance
+
+        Returns:
+            Bet amount (or -1 if invalid)
+        """
+        import re
+
+        # Extract first number from response
+        numbers = re.findall(r'\d+', response.split('\n')[0])
+
+        if numbers:
+            bet = int(numbers[0])
+
+            # Validate range
+            if self.min_bet <= bet <= min(self.max_bet, game.chips):
+                return bet
+
+        return -1  # Invalid
 
     def parse_play_decision(self, response: str) -> str:
         """
@@ -354,6 +463,10 @@ class BlackjackExperiment:
         """
         Play one round of Blackjack.
 
+        REDESIGNED (2026-02-15): 2-phase for variable betting
+        - Fixed: Option 1/2 → parse_bet_decision()
+        - Variable: Phase 1 (Continue/Stop) → Phase 2 (Bet amount)
+
         Args:
             game: BlackjackGame instance
             components: Prompt components
@@ -362,36 +475,91 @@ class BlackjackExperiment:
         Returns:
             Round result (includes full_prompt, new_goal for SAE analysis)
         """
-        # Betting phase
-        bet_prompt = self.build_prompt(game, components=components, is_betting_phase=True, current_goal=current_goal)
-
         bet_amount = None
         new_goal = None
-        for retry in range(self.max_retries):
-            response = self.model_loader.generate(
-                bet_prompt,
-                max_new_tokens=30,  # Short for completion-style (just need a number or "Stop")
-                temperature=0.7
-            )
 
-            # Debug logging
-            logger.debug(f"    Bet response: {response[:50]}")
+        if self.bet_type == 'fixed':
+            # Fixed betting: Option-based (existing logic)
+            bet_prompt = self.build_prompt(game, components=components, phase='bet', current_goal=current_goal)
 
-            parsed = self.parse_bet_decision(response, game)
-            bet_amount = parsed['bet']
-            new_goal = parsed['new_goal']
+            for retry in range(self.max_retries):
+                response = self.model_loader.generate(
+                    bet_prompt,
+                    max_new_tokens=30,
+                    temperature=0.7
+                )
 
-            if bet_amount == 0:  # Stop
+                logger.debug(f"    Bet response: {response[:50]}")
+
+                parsed = self.parse_bet_decision(response, game)
+                bet_amount = parsed['bet']
+                new_goal = parsed['new_goal']
+
+                if bet_amount == 0:  # Stop
+                    return {'stop': True, 'new_goal': new_goal}
+                elif bet_amount > 0:  # Valid bet
+                    break
+
+                logger.warning(f"    Round {game.round_num + 1}: Failed to parse bet (attempt {retry + 1}/{self.max_retries})")
+
+            # Default to minimum bet if parsing fails
+            if bet_amount is None or bet_amount < 0:
+                bet_amount = self.min_bet
+                logger.warning(f"    Round {game.round_num + 1}: Using default bet {bet_amount}")
+
+        else:
+            # Variable betting: 2-phase approach
+            # Phase 1: Continue or Stop?
+            continue_prompt = self.build_prompt(game, components=components, phase='continue_stop', current_goal=current_goal)
+
+            decision = None
+            for retry in range(self.max_retries):
+                response = self.model_loader.generate(
+                    continue_prompt,
+                    max_new_tokens=10,
+                    temperature=0.7
+                )
+
+                logger.debug(f"    Continue/Stop response: {response[:30]}")
+
+                decision = self.parse_continue_stop(response)
+
+                if decision:
+                    break
+
+                logger.warning(f"    Round {game.round_num + 1}: Failed to parse continue/stop (attempt {retry + 1}/{self.max_retries})")
+
+            # Default to continue if parsing fails
+            if not decision:
+                decision = 'continue'
+                logger.warning(f"    Round {game.round_num + 1}: Defaulting to 'continue'")
+
+            if decision == 'stop':
                 return {'stop': True, 'new_goal': new_goal}
-            elif bet_amount > 0:  # Valid bet
-                break
 
-            logger.warning(f"    Round {game.round_num + 1}: Failed to parse bet (attempt {retry + 1}/{self.max_retries}): {response[:50]}")
+            # Phase 2: Bet amount
+            bet_prompt = self.build_prompt(game, components=components, phase='bet_amount', current_goal=current_goal)
 
-        # Default to minimum bet if parsing fails
-        if bet_amount is None or bet_amount < 0:
-            bet_amount = self.min_bet
-            logger.warning(f"    Round {game.round_num + 1}: Using default bet {bet_amount}")
+            for retry in range(self.max_retries):
+                response = self.model_loader.generate(
+                    bet_prompt,
+                    max_new_tokens=10,
+                    temperature=0.7
+                )
+
+                logger.debug(f"    Bet amount response: {response[:30]}")
+
+                bet_amount = self.parse_bet_amount(response, game)
+
+                if bet_amount > 0:
+                    break
+
+                logger.warning(f"    Round {game.round_num + 1}: Failed to parse bet amount (attempt {retry + 1}/{self.max_retries})")
+
+            # Default to minimum bet if parsing fails
+            if bet_amount is None or bet_amount < 0:
+                bet_amount = self.min_bet
+                logger.warning(f"    Round {game.round_num + 1}: Using default bet {bet_amount}")
 
         # Start round
         game.reset_round()
@@ -430,7 +598,7 @@ class BlackjackExperiment:
                 player_hand=str(game.player_hand),
                 dealer_upcard=str(game.dealer_hand.cards[0]),
                 components=components,
-                is_betting_phase=False
+                phase='play'
             )
 
             action = None
@@ -573,23 +741,23 @@ class BlackjackExperiment:
         Run full Blackjack experiment (REDESIGNED 2026-02-03).
 
         New design:
-        - 2 bet types: variable (10-500), fixed (10-50)
+        - Single bet type per experiment (variable OR fixed, not both)
         - GMHWP 5 components (same as Slot Machine)
         - Slot Machine prompt format with Chain-of-Thought
         - "Final Decision: <X>" format
 
         Args:
-            quick_mode: If True, run reduced experiment (2 × 8 conditions × 20 reps = 320 games)
+            quick_mode: If True, run reduced experiment (1 × 8 conditions × 20 reps = 160 games)
         """
-        # Determine conditions
-        bet_types = ['variable', 'fixed']
+        # Use only the bet_type specified in __init__ (via CLI argument)
+        bet_types = [self.bet_type]
 
         if quick_mode:
-            # Quick mode: 2 bet types × 8 conditions × 20 reps = 320 games
+            # Quick mode: 1 bet type × 8 conditions × 20 reps = 160 games
             component_variants = ['BASE', 'G', 'M', 'GM', 'H', 'W', 'P', 'GMHWP']
             n_reps = 20
         else:
-            # Full mode: 2 bet types × 32 conditions × 50 reps = 3,200 games
+            # Full mode: 1 bet type × 32 conditions × 50 reps = 1,600 games
             component_variants = PromptBuilder.get_all_combinations()
             n_reps = 50
 
@@ -600,7 +768,7 @@ class BlackjackExperiment:
         logger.info(f"{'='*70}")
         logger.info(f"Model: {self.model_name.upper()}")
         logger.info(f"Quick mode: {quick_mode}")
-        logger.info(f"Bet types: {len(bet_types)} (variable, fixed)")
+        logger.info(f"Bet type: {self.bet_type.upper()}")
         logger.info(f"Conditions: {len(component_variants)}")
         logger.info(f"Repetitions: {n_reps}")
         logger.info(f"Total games: {total_games}")

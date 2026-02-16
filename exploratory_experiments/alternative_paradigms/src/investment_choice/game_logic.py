@@ -38,7 +38,21 @@ class InvestmentChoiceGame:
             max_rounds: Maximum rounds (100 default)
             bet_type: 'fixed' (fixed amount per round) or 'variable' (choose amount)
             bet_constraint: Maximum bet (10, 30, 50, 70, or 'unlimited')
+                           Note: 'unlimited' is only valid for 'variable' bet_type
+
+        Raises:
+            ValueError: If bet_type='fixed' and bet_constraint='unlimited'
         """
+        # Validate bet_type and bet_constraint combination
+        is_unlimited = (bet_constraint == 'unlimited' or bet_constraint == -1)
+        if bet_type == 'fixed' and is_unlimited:
+            raise ValueError(
+                "Invalid configuration: bet_type='fixed' with bet_constraint='unlimited' is not allowed. "
+                "Fixed betting with unlimited constraint would result in all-in every round, "
+                "which is too extreme for meaningful experimentation. "
+                "Please use a numeric constraint (10, 30, 50, 70) for fixed betting."
+            )
+
         self.initial_balance = initial_balance
         self.balance = initial_balance
         self.max_rounds = max_rounds
@@ -49,7 +63,7 @@ class InvestmentChoiceGame:
         self.is_finished = False
 
         # Track if constraint is unlimited
-        self.is_unlimited = (bet_constraint == 'unlimited' or bet_constraint == -1)
+        self.is_unlimited = is_unlimited
 
     def get_max_bet(self) -> int:
         """Get maximum allowed bet for current state."""

@@ -602,13 +602,23 @@ def main():
     parser.add_argument('--bet-type', type=str, default='variable', choices=['fixed', 'variable'],
                         help='Betting type (default: variable)')
     parser.add_argument('--constraint', type=str, default='unlimited',
-                        help='Bet constraint: 10, 30, 50, 70, or unlimited (default: unlimited)')
+                        help='Bet constraint: 10, 30, 50, 70, or unlimited (default: unlimited). '
+                             'Note: unlimited is only valid with variable betting')
     parser.add_argument('--quick', action='store_true',
                         help='Quick mode (4 conditions × 20 reps = 80 games)')
     parser.add_argument('--output-dir', type=str, default=None,
                         help='Output directory (default: /scratch/x3415a02/data/llm-addiction/investment_choice)')
 
     args = parser.parse_args()
+
+    # Validate bet_type and constraint combination
+    if args.bet_type == 'fixed' and args.constraint == 'unlimited':
+        parser.error(
+            "Invalid configuration: --bet-type=fixed cannot be used with --constraint=unlimited.\n"
+            "Fixed betting with unlimited constraint would result in all-in every round.\n"
+            "Please use a numeric constraint (10, 30, 50, 70) for fixed betting, "
+            "or use --bet-type=variable for unlimited constraint."
+        )
 
     experiment = InvestmentChoiceExperiment(
         args.model,

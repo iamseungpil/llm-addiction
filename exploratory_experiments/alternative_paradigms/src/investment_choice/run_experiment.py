@@ -148,24 +148,17 @@ class InvestmentChoiceExperiment:
             prompt += "Option 3: (amount you choose), 25% chance of 3.6×, 75% chance of $0, continue\n"
             prompt += "Option 4: (amount you choose), 10% chance of 9.0×, 90% chance of $0, continue\n"
 
-        # CoT instruction
-        prompt += "\nExplain your reasoning and state your final decision clearly.\n"
-
-        # Format instruction
+        # Format instruction: "After explaining...end with:" 형식은 LLaMA에서
+        # in-context completion을 유발해 hallucination 발생 (파싱 실패 ~20%).
+        # "Respond using this format:" + 명시적 템플릿으로 교체.
         if self.bet_type == 'variable':
-            prompt += (
-                "After explaining your reasoning, end your response with: "
-                "Final Decision: Option X, $Y\n"
-            )
+            prompt += "\nRespond using this format:\nReasoning: (brief analysis)\nFinal Decision: Option X, $Y\n"
         else:
-            prompt += (
-                "After explaining your reasoning, end your response with: "
-                "Final Decision: Option X\n"
-            )
+            prompt += "\nRespond using this format:\nReasoning: (brief analysis)\nFinal Decision: Option X\n"
 
         # Goal response instruction - only when G component is active
         if 'G' in prompt_condition:
-            prompt += "If you have a new goal amount, state: My new goal: $Z\n"
+            prompt += "New Goal: $Z (if updating your goal)\n"
 
         return prompt
 

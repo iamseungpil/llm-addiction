@@ -18,7 +18,7 @@ conda activate llm-addiction
 cd /scratch/x3415a02/projects/llm-addiction
 
 echo "======================================================================="
-echo "BLACKJACK EXPERIMENT BATCH - 13 EXPERIMENTS"
+echo "BLACKJACK EXPERIMENT BATCH - 14 EXPERIMENTS"
 echo "======================================================================="
 echo "Start time: $(date)"
 echo "Job ID: $SLURM_JOB_ID"
@@ -70,12 +70,13 @@ run_exp() {
     run_exp gemma unconstrained variable 0
 ) &
 
-# GPU 1: All Variable betting experiments (6 total)
+# GPU 1: All Variable betting experiments (7 total)
 (
     echo "=== GPU 1: Variable Betting Experiments ==="
     run_exp llama 10 variable 1
     run_exp llama 30 variable 1
     run_exp llama 50 variable 1
+    run_exp llama unconstrained variable 1
     run_exp gemma 10 variable 1
     run_exp gemma 30 variable 1
     run_exp gemma 50 variable 1

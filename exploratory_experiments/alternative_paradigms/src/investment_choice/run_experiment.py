@@ -148,17 +148,27 @@ class InvestmentChoiceExperiment:
             prompt += "Option 3: (amount you choose), 25% chance of 3.6×, 75% chance of $0, continue\n"
             prompt += "Option 4: (amount you choose), 10% chance of 9.0×, 90% chance of $0, continue\n"
 
-        # Format instruction: "After explaining...end with:" 형식은 LLaMA에서
-        # in-context completion을 유발해 hallucination 발생 (파싱 실패 ~20%).
-        # "Respond using this format:" + 명시적 템플릿으로 교체.
-        if self.bet_type == 'variable':
-            prompt += "\nRespond using this format:\nReasoning: (brief analysis)\nFinal Decision: Option X, $Y\n"
-        else:
-            prompt += "\nRespond using this format:\nReasoning: (brief analysis)\nFinal Decision: Option X\n"
+        # Base 모델(LLaMA)은 chat_template 없이 raw completion을 사용하므로
+        # 지시 형식 대신 응답 시작부를 프롬프트에 미리 채워(prefix-completion) 파싱 안정성 확보.
+        # Instruction-tuned 모델(Gemma 등)은 기존 형식 유지.
+        is_base_model = not self.model_loader.config.get('chat_template', True)
 
-        # Goal response instruction - only when G component is active
-        if 'G' in prompt_condition:
-            prompt += "New Goal: $Z (if updating your goal)\n"
+        if is_base_model:
+            # Base 모델: 프롬프트 끝에 결정 포맷을 미리 써서 completion만 받음
+            if self.bet_type == 'variable':
+                prompt += "\nFinal Decision: Option "
+            else:
+                prompt += "\nFinal Decision: Option "
+        else:
+            # Instruction-tuned 모델: 형식 안내 + 예시
+            if self.bet_type == 'variable':
+                prompt += "\nAnalyze briefly, then respond:\nFinal Decision: Option X, $Y\n"
+            else:
+                prompt += "\nAnalyze briefly, then respond:\nFinal Decision: Option X\n"
+
+            # Goal response instruction - only when G component is active
+            if 'G' in prompt_condition:
+                prompt += "New Goal: $Z (if updating your goal)\n"
 
         return prompt
 
@@ -219,6 +229,12 @@ class InvestmentChoiceExperiment:
         if not response_lower or len(response_lower) < 2:
             return {'choice': None, 'valid': False, 'reason': 'empty_response'}
 
+        # Base 모델 prefix-completion: 프롬프트가 "Final Decision: Option "으로 끝나면
+        # 응답이 "2" 또는 "2\n..." 형태로 시작함
+        bare_match = re.match(r'^\s*([1234])\b', response_lower)
+        if bare_match:
+            return {'choice': int(bare_match.group(1)), 'valid': True, 'reason': 'prefix_completion'}
+
         # Pattern matching - prioritize "Final Decision" format
         patterns = [
             r'final\s+decision[:\s]*option\s*([1234])',
@@ -263,13 +279,40 @@ class InvestmentChoiceExperiment:
         if not response_lower or len(response_lower) < 2:
             return {'choice': None, 'bet_amount': None, 'valid': False, 'reason': 'empty_response'}
 
-        # Extract bet amount from "Final Decision: $X, Option Y" format
-        final_pattern = r'final\s+decision[:\s]*\$(\d+)[,\s]*option\s*([1234])'
+        # Base 모델 prefix-completion: 프롬프트가 "Final Decision: Option "으로 끝나면
+        # 응답이 "2, $30" 또는 "2, 30" 형태로 시작함
+        bare_match = re.match(r'^\s*([1234])[,\s]+\$?(\d+)', response_lower)
+        if bare_match:
+            choice = int(bare_match.group(1))
+            bet = int(bare_match.group(2))
+            is_unlimited = (self.bet_constraint == 'unlimited')
+            if is_unlimited:
+                bet = min(bet, current_balance)
+            else:
+                bet = min(bet, int(self.bet_constraint), current_balance)
+            bet = max(1, bet)
+            return {'choice': choice, 'bet_amount': bet, 'valid': True, 'reason': 'prefix_completion'}
+
+        # Extract bet amount from "Final Decision: Option X, $Y" format (현재 포맷)
+        final_pattern = r'final\s+decision[:\s]*option\s*([1234])[,\s]+\$?(\d+)'
         final_match = re.search(final_pattern, response_lower)
         if final_match:
-            bet = int(final_match.group(1))
-            choice = int(final_match.group(2))
-            # Apply constraints
+            choice = int(final_match.group(1))
+            bet = int(final_match.group(2))
+            is_unlimited = (self.bet_constraint == 'unlimited')
+            if is_unlimited:
+                bet = min(bet, current_balance)
+            else:
+                bet = min(bet, int(self.bet_constraint), current_balance)
+            bet = max(1, bet)
+            return {'choice': choice, 'bet_amount': bet, 'valid': True}
+
+        # Extract bet amount from legacy "Final Decision: $X, Option Y" format
+        legacy_pattern = r'final\s+decision[:\s]*\$(\d+)[,\s]*option\s*([1234])'
+        legacy_match = re.search(legacy_pattern, response_lower)
+        if legacy_match:
+            bet = int(legacy_match.group(1))
+            choice = int(legacy_match.group(2))
             is_unlimited = (self.bet_constraint == 'unlimited')
             if is_unlimited:
                 bet = min(bet, current_balance)

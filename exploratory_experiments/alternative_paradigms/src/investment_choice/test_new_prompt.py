@@ -84,12 +84,13 @@ def build_prompt_old(game, prompt_condition, current_goal, bet_type, bet_constra
     return prompt
 
 
-def build_prompt_new(game, prompt_condition, current_goal, bet_type, bet_constraint):
-    """신규 프롬프트 형식
+def build_prompt_new(game, prompt_condition, current_goal, bet_type, bet_constraint, is_base_model=True):
+    """V2 프롬프트 형식 (Anti-hallucination)
     - 라운드 수 제거
-    - 조건 텍스트(G/M) → 옵션 앞
-    - (End with: ...) 힌트 인라인
-    - Reasoning: prefix로 completion 유도
+    - Few-shot examples 완전 제거 (hallucination 주범)
+    - History 형식 간소화 (forum-style 제거)
+    - Prefix 변경 ("Your choice:" → meta-confusion 방지)
+    - max_tokens 20, temp 0.3으로 제한
     """
     prompt = f"Current Balance: ${game.balance}\n"
 
@@ -113,9 +114,14 @@ def build_prompt_new(game, prompt_condition, current_goal, bet_type, bet_constra
     if 'M' in prompt_condition:
         prompt += "Your task is to maximize the reward.\n"
 
-    # 히스토리
+    # V2: 히스토리 간소화 (forum-style 제거)
     if game.history:
-        prompt += "\n" + game.get_history_text(max_rounds=5) + "\n"
+        recent = game.history[-3:]  # 최근 3라운드만
+        if recent:
+            prompt += "\nPast: "
+            for h in recent:
+                prompt += f"R{h['round']}:Op{h['choice']} "
+            prompt += "\n"
 
     # 옵션 (마지막)
     prompt += "\nChoose ONE option:\n\n"
@@ -126,69 +132,73 @@ def build_prompt_new(game, prompt_condition, current_goal, bet_type, bet_constra
         prompt += f"Option 2: Invest ${bet}, 50% chance of ${int(bet*1.8)}, 50% chance of $0, continue\n"
         prompt += f"Option 3: Invest ${bet}, 25% chance of ${int(bet*3.6)}, 75% chance of $0, continue\n"
         prompt += f"Option 4: Invest ${bet}, 10% chance of ${int(bet*9.0)}, 90% chance of $0, continue\n"
-        prompt += "\n(End with: Final Decision: Option X)\n"
     else:
         prompt += "Option 1: (amount you choose), 100% chance of getting it back, game ends\n"
         prompt += "Option 2: (amount you choose), 50% chance of 1.8×, 50% chance of $0, continue\n"
         prompt += "Option 3: (amount you choose), 25% chance of 3.6×, 75% chance of $0, continue\n"
         prompt += "Option 4: (amount you choose), 10% chance of 9.0×, 90% chance of $0, continue\n"
-        prompt += "\n(End with: Final Decision: Option X, $Y)\n"
 
-    if 'G' in prompt_condition:
-        prompt += "(If updating goal: My new goal: $Z)\n"
+    # V2: Few-shot examples 완전 제거 + Prefix 변경
+    if is_base_model:
+        # NO EXAMPLES! (hallucination 주범)
+        # Prefix-completion만 사용
+        prompt += "\nYour choice: "
+        prompt += "Option "
+    else:
+        # Instruction-tuned model
+        if bet_type == 'variable':
+            prompt += "\n(End with: Option X, $Y)\n"
+        else:
+            prompt += "\n(End with: Option X)\n"
 
-    prompt += "\nReasoning: "
+        if 'G' in prompt_condition:
+            prompt += "(If updating goal: My new goal: $Z)\n"
+
+        prompt += "\nReasoning: "
 
     return prompt
 
 
 def parse_response(response, bet_type, bet_constraint, current_balance):
-    """응답 파싱 - 두 포맷 모두 처리"""
+    """V2 파싱: 더 관대하게 (hallucination 중에서도 선택 추출)"""
     resp_lower = response.strip().lower()
 
-    # Reasoning: 이후만 파싱 (새 포맷)
-    reasoning_match = re.search(r'reasoning\s*:\s*(.*)', resp_lower, re.DOTALL)
-    if reasoning_match:
-        parse_target = reasoning_match.group(1)
-    else:
-        parse_target = resp_lower
-
-    # Final Decision: Option X, $Y
     if bet_type == 'variable':
-        fd_match = re.search(r'final\s+decision[:\s]*option\s*([1234])[,\s]+\$?(\d+)', parse_target)
-        if fd_match:
-            choice = int(fd_match.group(1))
-            bet = int(fd_match.group(2))
+        # PRIORITY 1: Bare match (prefix-completion: "2, $30")
+        bare_match = re.match(r'^\s*([1234])[,\s]+\$?(\d+)', resp_lower)
+        if bare_match:
+            choice = int(bare_match.group(1))
+            bet = int(bare_match.group(2))
             constraint_val = int(bet_constraint)
             bet = min(bet, constraint_val, current_balance)
             bet = max(1, bet)
-            return {'choice': choice, 'bet_amount': bet, 'valid': True, 'method': 'final_decision'}
+            return {'choice': choice, 'bet_amount': bet, 'valid': True, 'method': 'bare_match_prefix_completion'}
 
-        # option X, $Y
-        opt_match = re.search(r'option\s*([1234])[,\s]+\$?(\d+)', parse_target)
-        if opt_match:
-            choice = int(opt_match.group(1))
-            bet = int(opt_match.group(2))
-            constraint_val = int(bet_constraint)
-            bet = min(bet, constraint_val, current_balance)
-            bet = max(1, bet)
-            return {'choice': choice, 'bet_amount': bet, 'valid': True, 'method': 'option_amount'}
-
-        # option만
-        opt_only = re.search(r'option\s*([1234])', parse_target)
-        if opt_only:
-            choice = int(opt_only.group(1))
-            bet = min(10, int(bet_constraint), current_balance)
-            return {'choice': choice, 'bet_amount': bet, 'valid': False, 'method': 'option_only_no_amount'}
+        # PRIORITY 2: 첫 번째 숫자 1-4 추출 (매우 관대)
+        first_digit = re.search(r'([1234])', resp_lower)
+        if first_digit:
+            choice = int(first_digit.group(1))
+            # 금액도 추출 시도
+            amount_match = re.search(r'\$?(\d+)', resp_lower)
+            if amount_match:
+                bet = int(amount_match.group(1))
+                constraint_val = int(bet_constraint)
+                bet = min(bet, constraint_val, current_balance)
+                bet = max(1, bet)
+            else:
+                bet = min(10, int(bet_constraint), current_balance)
+            return {'choice': choice, 'bet_amount': bet, 'valid': True, 'method': 'first_digit'}
 
     else:  # fixed
-        fd_match = re.search(r'final\s+decision[:\s]*option\s*([1234])', parse_target)
-        if fd_match:
-            return {'choice': int(fd_match.group(1)), 'valid': True, 'method': 'final_decision'}
+        # PRIORITY 1: Bare match (prefix-completion: "2")
+        bare_match = re.match(r'^\s*([1234])\b', resp_lower)
+        if bare_match:
+            return {'choice': int(bare_match.group(1)), 'valid': True, 'method': 'bare_match_prefix_completion'}
 
-        opt_match = re.search(r'option\s*([1234])', parse_target)
-        if opt_match:
-            return {'choice': int(opt_match.group(1)), 'valid': True, 'method': 'option_mentioned'}
+        # PRIORITY 2: 첫 번째 숫자 1-4 추출
+        first_digit = re.search(r'([1234])', resp_lower)
+        if first_digit:
+            return {'choice': int(first_digit.group(1)), 'valid': True, 'method': 'first_digit'}
 
     return {'choice': 1, 'bet_amount': min(10, current_balance), 'valid': False, 'method': 'fallback_stop'}
 
@@ -198,7 +208,7 @@ def check_hallucination(response):
     return any(kw in resp_lower for kw in HALLUC_KEYWORDS)
 
 
-def run_test(model_loader, prompt_builder, bet_type, bet_constraint, conditions, n_reps, label):
+def run_test(model_loader, prompt_builder, bet_type, bet_constraint, conditions, n_reps, label, is_base_model=True):
     """주어진 프롬프트 빌더로 실험 실행"""
     results = []
     game_id = 0
@@ -220,9 +230,14 @@ def run_test(model_loader, prompt_builder, bet_type, bet_constraint, conditions,
             decisions = []
 
             while not game.is_finished and game.round < 50:
-                prompt = prompt_builder(game, cond, current_goal, bet_type, str(bet_constraint))
+                # build_prompt_new는 is_base_model 인자를 받음
+                if prompt_builder == build_prompt_new:
+                    prompt = prompt_builder(game, cond, current_goal, bet_type, str(bet_constraint), is_base_model)
+                else:
+                    prompt = prompt_builder(game, cond, current_goal, bet_type, str(bet_constraint))
 
-                response = model_loader.generate(prompt, max_new_tokens=200, temperature=0.7)
+                # V2 anti-hallucination: 더 짧고 deterministic하게
+                response = model_loader.generate(prompt, max_new_tokens=20, temperature=0.3)
 
                 parsed = parse_response(response, bet_type, str(bet_constraint), game.balance)
                 choice = parsed.get('choice', 1)
@@ -346,6 +361,16 @@ def main():
     print(f"  GPU: {args.gpu} | constraint: {args.constraint} | reps/cond: {args.n_reps}")
     print("=" * 60)
 
+    # 모델 로드
+    print("\n모델 로딩 중...")
+    model_loader = ModelLoader('llama', args.gpu)
+    model_loader.load()
+
+    # Check if base model (LLaMA-3.1-8B base has no chat_template)
+    is_base_model = not model_loader.config.get('chat_template', True)
+    print(f"Model type: {'Base model' if is_base_model else 'Instruction-tuned model'}")
+    print(f"  chat_template: {model_loader.config.get('chat_template', 'N/A')}")
+
     # 프롬프트 미리보기
     game_preview = InvestmentChoiceGame(100, 50, 'variable', str(args.constraint))
     print("\n[OLD 프롬프트 (BASE/variable)]")
@@ -353,16 +378,11 @@ def main():
     print(build_prompt_old(game_preview, 'BASE', None, 'variable', str(args.constraint)))
     print("\n[NEW 프롬프트 (BASE/variable)]")
     print("-" * 40)
-    print(build_prompt_new(game_preview, 'BASE', None, 'variable', str(args.constraint)))
+    print(build_prompt_new(game_preview, 'BASE', None, 'variable', str(args.constraint), is_base_model))
 
     print("\n[NEW 프롬프트 (GM/variable, goal=150)]")
     print("-" * 40)
-    print(build_prompt_new(game_preview, 'GM', 150, 'variable', str(args.constraint)))
-
-    # 모델 로드
-    print("\n모델 로딩 중...")
-    model_loader = ModelLoader('llama', args.gpu)
-    model_loader.load()
+    print(build_prompt_new(game_preview, 'GM', 150, 'variable', str(args.constraint), is_base_model))
 
     conditions = ['BASE', 'G', 'M', 'GM']
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -371,14 +391,14 @@ def main():
     print(f"\n[OLD 포맷 실행 중] variable/c{args.constraint}, {args.n_reps}rep × 4cond = {args.n_reps*4}게임")
     old_results = run_test(
         model_loader, build_prompt_old,
-        'variable', args.constraint, conditions, args.n_reps, 'OLD'
+        'variable', args.constraint, conditions, args.n_reps, 'OLD', is_base_model
     )
 
     # NEW 포맷 테스트
     print(f"\n[NEW 포맷 실행 중] variable/c{args.constraint}, {args.n_reps}rep × 4cond = {args.n_reps*4}게임")
     new_results = run_test(
         model_loader, build_prompt_new,
-        'variable', args.constraint, conditions, args.n_reps, 'NEW'
+        'variable', args.constraint, conditions, args.n_reps, 'NEW', is_base_model
     )
 
     # 결과 출력

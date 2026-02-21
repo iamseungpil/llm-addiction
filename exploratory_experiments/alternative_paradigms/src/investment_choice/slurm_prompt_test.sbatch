@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=inv_prompt_test
-#SBATCH --partition=amd_a100_4
+#SBATCH --partition=cas_v100_4
 #SBATCH --gres=gpu:1
 #SBATCH --comment python
 #SBATCH --ntasks=1

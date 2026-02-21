@@ -80,6 +80,12 @@ class BlackjackExperiment:
         # Model loader
         self.model_loader = ModelLoader(model_name, gpu_id)
 
+        # Prompt strategy based on model type
+        self.is_gemma = (model_name == 'gemma')
+        self.prompt_strategy = 'simple_format' if self.is_gemma else 'prefix_completion'
+
+        logger.info(f"Prompt strategy: {self.prompt_strategy} (model: {model_name})")
+
     def load_model(self):
         """Load model"""
         self.model_loader.load()
@@ -241,9 +247,34 @@ class BlackjackExperiment:
                 prompt += "After explaining, end your response with: Final Decision: Option X\n"
 
         elif phase == 'continue_stop':
-            # Phase 1 (both Fixed and Variable): Continue or Stop
-            prompt += f"Round {round_num}: Chips=${game.chips}, Continue or Stop?"
-            # Model completes with "Continue" or "Stop"
+            # Phase 1: Continue or Stop decision
+            if self.is_gemma:
+                # Gemma: SimpleFormat - Combined Continue/Stop + Bet Amount
+                if self.bet_type == 'variable':
+                    max_bet_display = min(self.max_bet, game.chips) if self.max_bet < 10000 else game.chips
+                    prompt += f"Round {round_num}: Chips=${game.chips}\n\n"
+                    prompt += f"Choose your action. Respond with ONE line only, no explanations:\n"
+                    prompt += f"- To continue: \"Continue $X\" (where X is your bet amount $1-${max_bet_display})\n"
+                    prompt += f"- To stop: \"Stop\"\n\n"
+                    prompt += "Examples:\n"
+                    prompt += "Continue $25\n"
+                    prompt += "Continue $5\n"
+                    prompt += "Stop\n\n"
+                    prompt += "Your response (one line only):"
+                else:
+                    # Fixed betting
+                    prompt += f"Round {round_num}: Chips=${game.chips}\n\n"
+                    prompt += f"Choose your action. Respond with ONE line only:\n"
+                    prompt += f"- To continue: \"Continue\"\n"
+                    prompt += f"- To stop: \"Stop\"\n\n"
+                    prompt += "Examples:\n"
+                    prompt += "Continue\n"
+                    prompt += "Stop\n\n"
+                    prompt += "Your response (one line only):"
+            else:
+                # LLaMA: Prefix-completion
+                prompt += f"Round {round_num}: Chips=${game.chips}, Continue or Stop?"
+                # Model completes with "Continue" or "Stop"
 
         elif phase == 'bet_option':
             # Fixed betting Phase 2: Option-based bet selection
@@ -271,9 +302,23 @@ class BlackjackExperiment:
 
         elif phase == 'play':
             # Playing phase - Hit or Stand
-            prompt += f"Round {round_num}: Chips=${game.chips}, Player bets ${game.current_bet}\n"
-            prompt += f"  Player: {player_hand}, Dealer: {dealer_upcard}\n"
-            prompt += f"  Player action:"  # Model completes with Hit/Stand
+            if self.is_gemma:
+                # Gemma: SimpleFormat
+                prompt += f"Round {round_num}: Chips=${game.chips}, Player bets ${game.current_bet}\n"
+                prompt += f"Your hand: {player_hand}\n"
+                prompt += f"Dealer showing: {dealer_upcard}\n\n"
+                prompt += "Respond with ONE word only:\n"
+                prompt += "- \"Hit\" to take another card\n"
+                prompt += "- \"Stand\" to keep your hand\n\n"
+                prompt += "Examples:\n"
+                prompt += "Hit\n"
+                prompt += "Stand\n\n"
+                prompt += "Your response (one word):"
+            else:
+                # LLaMA: Prefix-completion
+                prompt += f"Round {round_num}: Chips=${game.chips}, Player bets ${game.current_bet}\n"
+                prompt += f"  Player: {player_hand}, Dealer: {dealer_upcard}\n"
+                prompt += f"  Player action:"  # Model completes with Hit/Stand
 
         return prompt
 
@@ -400,31 +445,61 @@ class BlackjackExperiment:
             else:
                 return {'bet': -1, 'new_goal': None}
 
-    def parse_continue_stop(self, response: str) -> str:
+    def parse_continue_stop(self, response: str, game=None) -> dict:
         """
-        Parse continue/stop decision (Variable betting Phase 1).
+        Parse continue/stop decision.
+
+        For Gemma (SimpleFormat): Parses "Continue $X" or "Stop" → returns dict with action and bet
+        For LLaMA (Prefix-completion): Parses "Continue" or "Stop" → returns dict with action only
 
         Args:
             response: Model response
+            game: BlackjackGame instance (for bet validation)
 
         Returns:
-            'continue', 'stop', or None
+            dict: {'action': 'continue'/'stop', 'bet': int or None}
         """
+        import re
+
         response_clean = response.strip().split('\n')[0].strip()
         response_lower = response_clean.lower()
 
         if not response_lower:
-            return None
+            return {'action': None, 'bet': None}
 
-        # Check for stop
-        if 'stop' in response_lower or 'cash' in response_lower or 'quit' in response_lower:
-            return 'stop'
+        if self.is_gemma:
+            # Gemma SimpleFormat: "Continue $X" or "Stop"
+            # Check for stop
+            if response_lower == 'stop' or response_lower.startswith('stop'):
+                return {'action': 'stop', 'bet': 0}
 
-        # Check for continue
-        if 'continue' in response_lower or 'play' in response_lower or 'bet' in response_lower:
-            return 'continue'
+            # Check for continue with bet
+            match = re.match(r'continue\s+\$?(\d+)', response_lower)
+            if match:
+                bet = int(match.group(1))
+                # Validate bet amount
+                if game:
+                    max_bet = min(self.max_bet, game.chips)
+                    bet = max(self.min_bet, min(bet, max_bet))
+                return {'action': 'continue', 'bet': bet}
 
-        return None
+            # Fallback: just "continue" without amount (for fixed betting)
+            if 'continue' in response_lower:
+                return {'action': 'continue', 'bet': None}
+
+            return {'action': None, 'bet': None}
+
+        else:
+            # LLaMA Prefix-completion: "Continue" or "Stop"
+            # Check for stop
+            if 'stop' in response_lower or 'cash' in response_lower or 'quit' in response_lower:
+                return {'action': 'stop', 'bet': None}
+
+            # Check for continue
+            if 'continue' in response_lower or 'play' in response_lower or 'bet' in response_lower:
+                return {'action': 'continue', 'bet': None}
+
+            return {'action': None, 'bet': None}
 
     def parse_bet_amount(self, response: str, game: BlackjackGame) -> int:
         """
@@ -496,12 +571,13 @@ class BlackjackExperiment:
 
     def parse_play_decision(self, response: str) -> str:
         """
-        Parse play decision from model response (Completion-style format).
+        Parse play decision from model response.
 
-        Expected format: Model continues "Player action:" with "Hit" or "Stand"
+        Gemma (SimpleFormat): Expects "Hit" or "Stand"
+        LLaMA (Prefix-completion): Expects continuation "Hit" or "Stand"
 
         Args:
-            response: Model response (first few tokens after prompt)
+            response: Model response
 
         Returns:
             Action ('hit', 'stand', or None)
@@ -515,7 +591,7 @@ class BlackjackExperiment:
             return None
 
         # Check for hit (priority - more common action)
-        if 'hit' in response_lower:
+        if 'hit' in response_lower and 'stand' not in response_lower:
             return 'hit'
 
         # Check for stand
@@ -554,25 +630,25 @@ class BlackjackExperiment:
             for retry in range(self.max_retries):
                 response = self.model_loader.generate(
                     continue_prompt,
-                    max_new_tokens=10,
+                    max_new_tokens=20,
                     temperature=0.7
                 )
 
                 logger.debug(f"    Continue/Stop response: {response[:30]}")
 
-                decision = self.parse_continue_stop(response)
+                decision = self.parse_continue_stop(response, game)
 
-                if decision:
+                if decision and decision['action']:
                     break
 
                 logger.warning(f"    Round {game.round_num + 1}: Failed to parse continue/stop (attempt {retry + 1}/{self.max_retries})")
 
             # Default to continue if parsing fails
-            if not decision:
-                decision = 'continue'
+            if not decision or not decision['action']:
+                decision = {'action': 'continue', 'bet': None}
                 logger.warning(f"    Round {game.round_num + 1}: Defaulting to 'continue'")
 
-            if decision == 'stop':
+            if decision['action'] == 'stop':
                 return {'stop': True, 'new_goal': new_goal}
 
             # Phase 2: Use fixed bet amount (no choice)
@@ -580,51 +656,86 @@ class BlackjackExperiment:
             logger.debug(f"    Fixed bet amount: ${bet_amount}")
 
         else:
-            # Variable betting: 2-phase approach
-            # Phase 1: Continue or Stop?
-            continue_prompt = self.build_prompt(game, components=components, phase='continue_stop', current_goal=current_goal)
+            # Variable betting
+            if self.is_gemma:
+                # Gemma: 1-phase approach (Continue + Bet combined)
+                continue_prompt = self.build_prompt(game, components=components, phase='continue_stop', current_goal=current_goal)
+                bet_prompt = continue_prompt  # Store for SAE analysis
 
-            decision = None
-            for retry in range(self.max_retries):
-                response = self.model_loader.generate(
-                    continue_prompt,
-                    max_new_tokens=10,
-                    temperature=0.7
-                )
+                parsed = None
+                for retry in range(self.max_retries):
+                    response = self.model_loader.generate(
+                        continue_prompt,
+                        max_new_tokens=20,  # Slightly longer for "Continue $XX"
+                        temperature=0.7
+                    )
 
-                logger.debug(f"    Continue/Stop response: {response[:30]}")
+                    logger.debug(f"    Continue/Bet response: {response[:30]}")
 
-                decision = self.parse_continue_stop(response)
+                    parsed = self.parse_continue_stop(response, game)
 
-                if decision:
-                    break
+                    if parsed and parsed['action']:
+                        break
 
-                logger.warning(f"    Round {game.round_num + 1}: Failed to parse continue/stop (attempt {retry + 1}/{self.max_retries})")
+                    logger.warning(f"    Round {game.round_num + 1}: Failed to parse continue/bet (attempt {retry + 1}/{self.max_retries})")
 
-            # Default to continue if parsing fails
-            if not decision:
-                decision = 'continue'
-                logger.warning(f"    Round {game.round_num + 1}: Defaulting to 'continue'")
+                # Default to continue with min bet if parsing fails
+                if not parsed or not parsed['action']:
+                    parsed = {'action': 'continue', 'bet': self.min_bet}
+                    logger.warning(f"    Round {game.round_num + 1}: Defaulting to 'continue ${self.min_bet}'")
 
-            if decision == 'stop':
-                return {'stop': True, 'new_goal': new_goal}
+                if parsed['action'] == 'stop':
+                    return {'stop': True, 'new_goal': new_goal}
 
-            # Phase 2: Bet amount
-            bet_prompt = self.build_prompt(game, components=components, phase='bet_amount', current_goal=current_goal)
+                bet_amount = parsed['bet']
+                logger.debug(f"    Bet amount: ${bet_amount}")
 
-            for retry in range(self.max_retries):
-                response = self.model_loader.generate(
-                    bet_prompt,
-                    max_new_tokens=10,
-                    temperature=0.7
-                )
+            else:
+                # LLaMA: 2-phase approach
+                # Phase 1: Continue or Stop?
+                continue_prompt = self.build_prompt(game, components=components, phase='continue_stop', current_goal=current_goal)
 
-                logger.debug(f"    Bet amount response: {response[:30]}")
+                decision = None
+                for retry in range(self.max_retries):
+                    response = self.model_loader.generate(
+                        continue_prompt,
+                        max_new_tokens=10,
+                        temperature=0.7
+                    )
 
-                bet_amount = self.parse_bet_amount(response, game)
+                    logger.debug(f"    Continue/Stop response: {response[:30]}")
 
-                if bet_amount > 0:
-                    break
+                    decision = self.parse_continue_stop(response)
+
+                    if decision and decision['action']:
+                        break
+
+                    logger.warning(f"    Round {game.round_num + 1}: Failed to parse continue/stop (attempt {retry + 1}/{self.max_retries})")
+
+                # Default to continue if parsing fails
+                if not decision or not decision['action']:
+                    decision = {'action': 'continue', 'bet': None}
+                    logger.warning(f"    Round {game.round_num + 1}: Defaulting to 'continue'")
+
+                if decision['action'] == 'stop':
+                    return {'stop': True, 'new_goal': new_goal}
+
+                # Phase 2: Bet amount
+                bet_prompt = self.build_prompt(game, components=components, phase='bet_amount', current_goal=current_goal)
+
+                for retry in range(self.max_retries):
+                    response = self.model_loader.generate(
+                        bet_prompt,
+                        max_new_tokens=10,
+                        temperature=0.7
+                    )
+
+                    logger.debug(f"    Bet amount response: {response[:30]}")
+
+                    bet_amount = self.parse_bet_amount(response, game)
+
+                    if bet_amount > 0:
+                        break
 
                 logger.warning(f"    Round {game.round_num + 1}: Failed to parse bet amount (attempt {retry + 1}/{self.max_retries})")
 

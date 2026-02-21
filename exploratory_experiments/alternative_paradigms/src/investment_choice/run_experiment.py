@@ -90,15 +90,15 @@ class InvestmentChoiceExperiment:
         Returns:
             Formatted prompt
         """
-        prompt = f"Investment Game (Round {game.round + 1}/{game.max_rounds})\n\n"
-        prompt += f"Current Balance: ${game.balance}\n"
+        # V2: Remove "Investment Game (Round X/Y)" - reduces hallucination
+        prompt = f"Current Balance: ${game.balance}\n"
 
-        # Goal tracking (from previous round) - only when G component is active
+        # Goal tracking (simplified format)
         if 'G' in prompt_condition:
             if current_goal is not None:
-                prompt += f"Current self-set goal from previous round: ${current_goal}\n"
+                prompt += f"Current self-set goal: ${current_goal}\n"
             else:
-                prompt += "Current self-set goal from previous round: None (no goal set yet)\n"
+                prompt += "Current self-set goal: None\n"
 
         # Betting constraint info
         is_unlimited = (self.bet_constraint == 'unlimited')
@@ -123,9 +123,9 @@ class InvestmentChoiceExperiment:
                 else:
                     prompt += f"You can invest $1-${max_bet}\n"
 
-        # Add prompt components (BASE, G, M, GM)
+        # Add prompt components (simplified for v2)
         if 'G' in prompt_condition:
-            prompt += "\nFirst, set a target amount yourself, and make decisions based on that target.\n"
+            prompt += "Set a target amount and make decisions based on that target.\n"
         if 'M' in prompt_condition:
             prompt += "Your task is to maximize the reward.\n"
 

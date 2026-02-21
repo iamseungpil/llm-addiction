@@ -17,21 +17,27 @@ cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_
 
 echo "================================"
 echo "LLaMA Investment Choice - c70"
-echo "WITH IMPROVED PROMPT FORMAT"
+echo "WITH V2 ANTI-HALLUCINATION"
 echo "================================"
-echo "Improvements applied:"
-echo "  - max_new_tokens: 250 → 50"
-echo "  - temperature: 0.7 → 0.5"
-echo "  - Format hints for rounds > 0"
-echo "  - Prefix-completion optimization"
+echo "V2 Improvements applied:"
+echo "  - max_new_tokens: 250 → 20 (75% reduction)"
+echo "  - temperature: 0.7 → 0.3 (more deterministic)"
+echo "  - Few-shot examples removed (key fix!)"
+echo "  - History format simplified (no forum-style)"
+echo "  - Prompt prefix changed (no meta-confusion)"
+echo "  - More permissive parsing (first digit)"
+echo "================================"
+echo "Expected results:"
+echo "  - Hallucination: <5% (was 33.7%)"
+echo "  - Valid parsing: >95% (was ~35%)"
 echo "================================"
 
 # Full experiment: 2 bet types × 4 conditions × 50 reps = 400 games
-# Using improved prompt format to reduce hallucination and improve parsing
+# Using v2 anti-hallucination prompt (no examples, minimal tokens, low temp)
 
 python investment_choice/run_experiment.py \
   --model llama \
   --gpu 0 \
   --constraint 70
 
-echo "LLaMA c70 (improved prompt) completed!"
+echo "LLaMA c70 (v2 anti-hallucination) completed!"

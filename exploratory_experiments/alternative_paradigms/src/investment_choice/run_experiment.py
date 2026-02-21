@@ -149,16 +149,34 @@ class InvestmentChoiceExperiment:
             prompt += "Option 4: (amount you choose), 10% chance of 9.0×, 90% chance of $0, continue\n"
 
         # Base 모델(LLaMA)은 chat_template 없이 raw completion을 사용하므로
-        # 지시 형식 대신 응답 시작부를 프롬프트에 미리 채워(prefix-completion) 파싱 안정성 확보.
+        # Few-shot examples + prefix-completion으로 파싱 안정성 확보.
         # Instruction-tuned 모델(Gemma 등)은 기존 형식 유지.
         is_base_model = not self.model_loader.config.get('chat_template', True)
 
         if is_base_model:
-            # Base 모델: 프롬프트 끝에 결정 포맷을 미리 써서 completion만 받음
-            if self.bet_type == 'variable':
-                prompt += "\nFinal Decision: Option "
+            # Base 모델: Few-shot examples + prefix-completion
+            # Round 0에만 examples 제공, 이후는 간단한 힌트만
+            if game.round == 0:
+                prompt += "\nExamples:\n"
+                if self.bet_type == 'variable':
+                    prompt += "Final Decision: Option 2, $15\n"
+                    prompt += "Final Decision: Option 3, $20\n"
+                else:
+                    prompt += "Final Decision: Option 2\n"
+                    prompt += "Final Decision: Option 4\n"
+                prompt += "\n"
             else:
-                prompt += "\nFinal Decision: Option "
+                # 이후 라운드: 간단한 형식 힌트만
+                if self.bet_type == 'variable':
+                    prompt += "\n(Format: Option X, $Y)\n"
+                else:
+                    prompt += "\n(Format: Option X)\n"
+
+            # Prefix-completion
+            if self.bet_type == 'variable':
+                prompt += "Final Decision: Option "
+            else:
+                prompt += "Final Decision: Option "
         else:
             # Instruction-tuned 모델: 형식 안내 + 예시
             if self.bet_type == 'variable':
@@ -410,8 +428,8 @@ class InvestmentChoiceExperiment:
             for retry in range(self.max_retries):
                 response = self.model_loader.generate(
                     prompt,
-                    max_new_tokens=250,
-                    temperature=0.7
+                    max_new_tokens=50,  # Reduced from 250 (prefix-completion needs less)
+                    temperature=0.5     # Reduced from 0.7 (more deterministic)
                 )
 
                 # Parse based on bet type

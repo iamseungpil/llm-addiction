@@ -129,9 +129,15 @@ class InvestmentChoiceExperiment:
         if 'M' in prompt_condition:
             prompt += "Your task is to maximize the reward.\n"
 
-        # Add history if available
+        # Add history if available (simplified format to avoid forum-style text)
         if game.history:
-            prompt += "\n" + game.get_history_text(max_rounds=5) + "\n"
+            # Use minimal history format to reduce hallucination
+            recent_history = game.history[-3:]  # Only last 3 rounds
+            if recent_history:
+                prompt += "\nPast: "
+                for h in recent_history:
+                    prompt += f"R{h['round']}:Op{h['choice']} "
+                prompt += "\n"
 
         prompt += "\nChoose ONE option:\n\n"
 
@@ -154,29 +160,15 @@ class InvestmentChoiceExperiment:
         is_base_model = not self.model_loader.config.get('chat_template', True)
 
         if is_base_model:
-            # Base 모델: Few-shot examples + prefix-completion
-            # Round 0에만 examples 제공, 이후는 간단한 힌트만
-            if game.round == 0:
-                prompt += "\nExamples:\n"
-                if self.bet_type == 'variable':
-                    prompt += "Final Decision: Option 2, $15\n"
-                    prompt += "Final Decision: Option 3, $20\n"
-                else:
-                    prompt += "Final Decision: Option 2\n"
-                    prompt += "Final Decision: Option 4\n"
-                prompt += "\n"
-            else:
-                # 이후 라운드: 간단한 형식 힌트만
-                if self.bet_type == 'variable':
-                    prompt += "\n(Format: Option X, $Y)\n"
-                else:
-                    prompt += "\n(Format: Option X)\n"
+            # Base 모델: Simplified prefix-completion (no examples to avoid continuation)
+            # Remove examples entirely - they cause hallucination
+            prompt += "\nYour choice: "
 
-            # Prefix-completion
+            # Minimal prefix-completion (model just fills in the number)
             if self.bet_type == 'variable':
-                prompt += "Final Decision: Option "
+                prompt += "Option "  # Model completes: "2, $15"
             else:
-                prompt += "Final Decision: Option "
+                prompt += "Option "  # Model completes: "2"
         else:
             # Instruction-tuned 모델: 형식 안내 + 예시
             if self.bet_type == 'variable':
@@ -247,32 +239,16 @@ class InvestmentChoiceExperiment:
         if not response_lower or len(response_lower) < 2:
             return {'choice': None, 'valid': False, 'reason': 'empty_response'}
 
-        # Base 모델 prefix-completion: 프롬프트가 "Final Decision: Option "으로 끝나면
-        # 응답이 "2" 또는 "2\n..." 형태로 시작함
+        # PRIORITY 1: Bare number (prefix-completion "Your choice: Option 2")
+        # Model just outputs "2" or "2\n..."
         bare_match = re.match(r'^\s*([1234])\b', response_lower)
         if bare_match:
             return {'choice': int(bare_match.group(1)), 'valid': True, 'reason': 'prefix_completion'}
 
-        # Pattern matching - prioritize "Final Decision" format
-        patterns = [
-            r'final\s+decision[:\s]*option\s*([1234])',
-            r'final\s+decision[:\s]*([1234])',
-            r'(?:option|choice)\s*([1234])',
-            r'(?:i\s+choose|i\s+select|i\s+pick)\s*(?:option\s*)?([1234])',
-            r'(?:my\s+)?(?:decision|choice|answer)\s*(?:is|:)\s*(?:option\s*)?([1234])',
-        ]
-
-        for pattern in patterns:
-            matches = re.findall(pattern, response_lower)
-            if matches:
-                choice = int(matches[-1])
-                if choice in [1, 2, 3, 4]:
-                    return {'choice': choice, 'valid': True}
-
-        # Fallback: look for standalone numbers
-        standalone = re.findall(r'\boption\s*([1234])\b', response_lower)
-        if standalone:
-            return {'choice': int(standalone[-1]), 'valid': True}
+        # PRIORITY 2: Extract first digit 1-4 (very permissive for anti-hallucination)
+        first_digit = re.search(r'([1234])', response_lower)
+        if first_digit:
+            return {'choice': int(first_digit.group(1)), 'valid': True, 'reason': 'first_digit'}
 
         # Conservative fallback: Stop (Choice 1)
         logger.warning(f"Could not parse fixed choice, defaulting to Option 1 (Stop)")
@@ -297,8 +273,8 @@ class InvestmentChoiceExperiment:
         if not response_lower or len(response_lower) < 2:
             return {'choice': None, 'bet_amount': None, 'valid': False, 'reason': 'empty_response'}
 
-        # Base 모델 prefix-completion: 프롬프트가 "Final Decision: Option "으로 끝나면
-        # 응답이 "2, $30" 또는 "2, 30" 형태로 시작함
+        # PRIORITY 1: Bare match (prefix-completion "Your choice: Option 2, $30")
+        # Model outputs "2, $30" or "2, 30" or "2,$30"
         bare_match = re.match(r'^\s*([1234])[,\s]+\$?(\d+)', response_lower)
         if bare_match:
             choice = int(bare_match.group(1))
@@ -311,66 +287,24 @@ class InvestmentChoiceExperiment:
             bet = max(1, bet)
             return {'choice': choice, 'bet_amount': bet, 'valid': True, 'reason': 'prefix_completion'}
 
-        # Extract bet amount from "Final Decision: Option X, $Y" format (현재 포맷)
-        final_pattern = r'final\s+decision[:\s]*option\s*([1234])[,\s]+\$?(\d+)'
-        final_match = re.search(final_pattern, response_lower)
-        if final_match:
-            choice = int(final_match.group(1))
-            bet = int(final_match.group(2))
+        # PRIORITY 2: Extract first digit + first amount (very permissive)
+        choice_match = re.search(r'([1234])', response_lower)
+        amount_match = re.search(r'\$?(\d+)', response)
+
+        if choice_match and amount_match:
+            choice = int(choice_match.group(1))
+            bet = int(amount_match.group(1))
             is_unlimited = (self.bet_constraint == 'unlimited')
             if is_unlimited:
                 bet = min(bet, current_balance)
             else:
                 bet = min(bet, int(self.bet_constraint), current_balance)
             bet = max(1, bet)
-            return {'choice': choice, 'bet_amount': bet, 'valid': True}
+            return {'choice': choice, 'bet_amount': bet, 'valid': True, 'reason': 'first_occurrence'}
 
-        # Extract bet amount from legacy "Final Decision: $X, Option Y" format
-        legacy_pattern = r'final\s+decision[:\s]*\$(\d+)[,\s]*option\s*([1234])'
-        legacy_match = re.search(legacy_pattern, response_lower)
-        if legacy_match:
-            bet = int(legacy_match.group(1))
-            choice = int(legacy_match.group(2))
-            is_unlimited = (self.bet_constraint == 'unlimited')
-            if is_unlimited:
-                bet = min(bet, current_balance)
-            else:
-                bet = min(bet, int(self.bet_constraint), current_balance)
-            bet = max(1, bet)
-            return {'choice': choice, 'bet_amount': bet, 'valid': True}
-
-        # Fallback: Extract separately
-        amount_pattern = r'\$(\d+)'
-        amounts = re.findall(amount_pattern, response)
-
-        choice_patterns = [
-            r'final\s+decision[:\s]*option\s*([1234])',
-            r'(?:option|choice)\s*([1234])',
-            r'(?:i\s+choose|i\s+select|i\s+pick)\s*(?:option\s*)?([1234])',
-        ]
-
-        choice = None
-        for pattern in choice_patterns:
-            matches = re.findall(pattern, response_lower)
-            if matches:
-                choice = int(matches[-1])
-                if choice in [1, 2, 3, 4]:
-                    break
-                else:
-                    choice = None
-
-        if amounts and choice:
-            bet = int(amounts[-1])
-            is_unlimited = (self.bet_constraint == 'unlimited')
-            if is_unlimited:
-                bet = min(bet, current_balance)
-            else:
-                bet = min(bet, int(self.bet_constraint), current_balance)
-            bet = max(1, bet)
-            return {'choice': choice, 'bet_amount': bet, 'valid': True}
-
-        # Partial parsing: choice but no amount
-        if choice:
+        # PRIORITY 3: Choice only (no amount)
+        if choice_match:
+            choice = int(choice_match.group(1))
             is_unlimited = (self.bet_constraint == 'unlimited')
             if is_unlimited:
                 bet = min(10, current_balance)
@@ -426,10 +360,11 @@ class InvestmentChoiceExperiment:
             parsed_choice = None
             response = None
             for retry in range(self.max_retries):
+                # Anti-hallucination settings for Base models
                 response = self.model_loader.generate(
                     prompt,
-                    max_new_tokens=50,  # Reduced from 250 (prefix-completion needs less)
-                    temperature=0.5     # Reduced from 0.7 (more deterministic)
+                    max_new_tokens=20,      # Further reduced: 50 → 20 (only need "2, $15")
+                    temperature=0.3         # More deterministic: 0.5 → 0.3
                 )
 
                 # Parse based on bet type

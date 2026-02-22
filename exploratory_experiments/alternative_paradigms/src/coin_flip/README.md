@@ -14,7 +14,7 @@ Simple gambling paradigm for testing Fixed vs Variable betting effects and goal-
 
 ```bash
 # Navigate to alternative_paradigms directory
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
 
 # Quick test (10 games)
 python src/coin_flip/run_experiment.py --model llama --gpu 0 --quick
@@ -108,7 +108,7 @@ Analyze experiment results:
 
 ```bash
 python src/coin_flip/phase2_behavioral_analysis.py \
-    --input /scratch/x3415a02/data/llm-addiction/coin_flip/coin_flip_llama_variable_20260221.json
+    --input /home/jovyan/beomi/llm-addiction-data/coin_flip/coin_flip_llama_variable_20260221.json
 ```
 
 **Metrics Computed**:
@@ -168,7 +168,7 @@ conditions = data['conditions']    # 'BASE_variable', 'G_variable', etc.
 --goal-self-setting Include G_SELF condition
 --allow-goal-escalation  Allow goal escalation after achievement
 --extract-activations    Extract hidden states for SAE analysis
---output-dir        Output directory (default: /scratch/x3415a02/data/llm-addiction/coin_flip)
+--output-dir        Output directory (default: /home/jovyan/beomi/llm-addiction-data/coin_flip)
 --seed              Random seed (default: 42)
 ```
 

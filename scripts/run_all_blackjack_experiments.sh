@@ -1,21 +1,22 @@
 #!/bin/bash
-#SBATCH --job-name=blackjack-all
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:2
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
-#SBATCH --time=06:00:00
-#SBATCH --comment=python
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/blackjack_all_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/blackjack_all_%j.err
+# [SLURM-DISABLED] #SBATCH --job-name=blackjack-all
+# [SLURM-DISABLED] #SBATCH --partition=cas_v100_4
+# [SLURM-DISABLED] #SBATCH --gres=gpu:2
+# [SLURM-DISABLED] #SBATCH --ntasks=1
+# [SLURM-DISABLED] #SBATCH --cpus-per-task=8
+# [SLURM-DISABLED] #SBATCH --mem=64G
+# [SLURM-DISABLED] #SBATCH --time=06:00:00
+# [SLURM-DISABLED] #SBATCH --comment=python
+# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/beomi/llm-addiction-data/logs/blackjack_all_%j.out
+# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/beomi/llm-addiction-data/logs/blackjack_all_%j.err
 
 # REQUIRED: Conda initialization on HPC cluster
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
+# [SLURM-DISABLED] source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
+# [OpenHPC] conda already activated
+# conda activate llm-addiction
 
 # Navigate to repository
-cd /scratch/x3415a02/projects/llm-addiction
+cd /home/jovyan/llm-addiction
 
 echo "======================================================================="
 echo "BLACKJACK EXPERIMENT BATCH - 14 EXPERIMENTS"
@@ -26,7 +27,7 @@ echo "GPUs: $CUDA_VISIBLE_DEVICES"
 echo ""
 
 # Create log directory
-mkdir -p /scratch/x3415a02/data/llm-addiction/logs
+mkdir -p /home/jovyan/beomi/llm-addiction-data/logs
 
 # Function to run experiment with error handling
 run_exp() {
@@ -43,11 +44,11 @@ run_exp() {
     if [ "$constraint" == "unconstrained" ]; then
         CUDA_VISIBLE_DEVICES=$gpu python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
             --model $model --gpu 0 --bet-type $bet_type --quick \
-            2>&1 | tee /scratch/x3415a02/data/llm-addiction/logs/${name}_${SLURM_JOB_ID}.log
+            2>&1 | tee /home/jovyan/beomi/llm-addiction-data/logs/${name}_${SLURM_JOB_ID}.log
     else
         CUDA_VISIBLE_DEVICES=$gpu python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
             --model $model --gpu 0 --bet-type $bet_type --constraint $constraint --quick \
-            2>&1 | tee /scratch/x3415a02/data/llm-addiction/logs/${name}_${SLURM_JOB_ID}.log
+            2>&1 | tee /home/jovyan/beomi/llm-addiction-data/logs/${name}_${SLURM_JOB_ID}.log
     fi
 
     if [ $? -eq 0 ]; then
@@ -91,5 +92,5 @@ echo "ALL EXPERIMENTS COMPLETED"
 echo "======================================================================="
 echo "End time: $(date)"
 echo ""
-echo "Results saved to: /scratch/x3415a02/data/llm-addiction/blackjack/"
-echo "Logs saved to: /scratch/x3415a02/data/llm-addiction/logs/"
+echo "Results saved to: /home/jovyan/beomi/llm-addiction-data/blackjack/"
+echo "Logs saved to: /home/jovyan/beomi/llm-addiction-data/logs/"

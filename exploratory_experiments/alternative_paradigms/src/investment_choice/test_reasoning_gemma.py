@@ -4,7 +4,7 @@ Compare risk-taking behavior with different prompt styles
 """
 
 import sys
-sys.path.insert(0, '/scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src')
+sys.path.insert(0, '/home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src')
 
 from common import ModelLoader, setup_logger, set_random_seed
 from game_logic import InvestmentChoiceGame

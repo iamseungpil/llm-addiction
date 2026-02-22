@@ -237,7 +237,7 @@ python src/stock_trading/run_experiment.py \
 ```
 
 **출력 파일**:
-- `/scratch/x3415a02/data/llm-addiction/stock_trading/llama_stock_YYYYMMDD_HHMMSS.json`
+- `/home/jovyan/beomi/llm-addiction-data/stock_trading/llama_stock_YYYYMMDD_HHMMSS.json`
 - 구조: Investment Choice와 동일 (game_id, decisions, metrics)
 
 ### Phase 4: Analysis

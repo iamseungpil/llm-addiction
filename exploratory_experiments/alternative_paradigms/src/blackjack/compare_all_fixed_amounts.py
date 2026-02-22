@@ -66,9 +66,9 @@ def main():
 
     # File paths (use most recent for each amount)
     files = {
-        10: "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_llama_20260217_182212.json",
-        30: "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_llama_20260217_190727.json",
-        50: "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_llama_20260217_194244.json",
+        10: "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_llama_20260217_182212.json",
+        30: "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_llama_20260217_190727.json",
+        50: "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_llama_20260217_194244.json",
     }
 
     results = {}

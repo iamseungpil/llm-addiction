@@ -279,7 +279,7 @@ def compare_conditions(all_analyses: list):
 
 
 def main():
-    results_file = '/scratch/x3415a02/data/llm-addiction/coin_flip/gemma_bet_conditions_test_20260222_164902.json'
+    results_file = '/home/jovyan/beomi/llm-addiction-data/coin_flip/gemma_bet_conditions_test_20260222_164902.json'
 
     print("="*120)
     print("DETAILED ANALYSIS: NO-BANKRUPTCY CONDITIONS")

@@ -155,7 +155,7 @@ def run_quick_test(gpu=0, constraint=30, n_games=10):
 
     # Save results
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = Path('/scratch/x3415a02/data/llm-addiction/investment_choice')
+    output_dir = Path('/home/jovyan/beomi/llm-addiction-data/investment_choice')
     output_file = output_dir / f"parsing_fix_test_c{constraint}_{timestamp}.json"
 
     output_data = {

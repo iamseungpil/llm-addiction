@@ -211,7 +211,7 @@ def analyze_blackjack(filepath):
     return data
 
 def main():
-    data_dir = Path("/scratch/x3415a02/data/llm-addiction")
+    data_dir = Path("/home/jovyan/beomi/llm-addiction-data")
 
     # Find completed experiments
     print("="*80)

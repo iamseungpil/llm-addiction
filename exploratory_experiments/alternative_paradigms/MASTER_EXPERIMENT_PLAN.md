@@ -26,7 +26,7 @@
 **Purpose**: Validate that new prompt format fixes LLaMA hallucination
 
 ```bash
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
 sbatch investment_choice/slurm_prompt_test.sbatch
 ```
 
@@ -47,7 +47,7 @@ sbatch investment_choice/slurm_prompt_test.sbatch
 **Purpose**: Complete Gemma experiments for fair model comparison
 
 ```bash
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
 sbatch blackjack/slurm_gemma_variable.sbatch
 ```
 
@@ -65,7 +65,7 @@ sbatch blackjack/slurm_gemma_variable.sbatch
 
 #### 2A. Investment Choice - LLaMA c30 (New Prompt)
 ```bash
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
 sbatch investment_choice/slurm_llama_c30_new.sbatch
 ```
 
@@ -137,7 +137,7 @@ python investment_choice/phase2_correlation_analysis.py --model gemma --feature-
 ## 🎯 Quick Start - Execute All Priority 1 Now
 
 ```bash
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
 
 # Priority 1A: New prompt test (CRITICAL)
 sbatch investment_choice/slurm_prompt_test.sbatch
@@ -174,12 +174,12 @@ squeue -u $USER
 squeue -u $USER
 
 # Logs
-tail -f /scratch/x3415a02/data/llm-addiction/logs/inv_prompt_test_*.out
-tail -f /scratch/x3415a02/data/llm-addiction/logs/blackjack_gemma_var_*.out
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/inv_prompt_test_*.out
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/blackjack_gemma_var_*.out
 
 # Results
-ls -lht /scratch/x3415a02/data/llm-addiction/investment_choice/*.json | head
-ls -lht /scratch/x3415a02/data/llm-addiction/blackjack/*.json | head
+ls -lht /home/jovyan/beomi/llm-addiction-data/investment_choice/*.json | head
+ls -lht /home/jovyan/beomi/llm-addiction-data/blackjack/*.json | head
 ```
 
 ---

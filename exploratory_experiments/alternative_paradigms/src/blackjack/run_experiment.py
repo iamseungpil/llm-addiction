@@ -32,7 +32,7 @@ logger = setup_logger(__name__)
 class BlackjackExperiment:
     """Blackjack Gambling Experiment with LLMs"""
 
-    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/blackjack'
+    DEFAULT_OUTPUT_DIR = '/home/jovyan/beomi/llm-addiction-data/blackjack'
 
     def __init__(self, model_name: str, gpu_id: int, bet_type: str = 'variable',
                  bet_constraint: int = None, output_dir: str = None, use_fewshot: bool = True,
@@ -1155,7 +1155,7 @@ def main():
     parser.add_argument('--quick', action='store_true',
                         help='Quick mode (8 conditions × 20 reps = 160 games)')
     parser.add_argument('--output-dir', type=str, default=None,
-                        help='Output directory (default: /scratch/x3415a02/data/llm-addiction/blackjack)')
+                        help='Output directory (default: /home/jovyan/beomi/llm-addiction-data/blackjack)')
     parser.add_argument('--no-fewshot', action='store_true',
                         help='Disable few-shot examples (test for prompt bias)')
     parser.add_argument('--no-examples', action='store_true',

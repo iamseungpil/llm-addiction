@@ -32,7 +32,7 @@ logger = setup_logger(__name__)
 class InvestmentChoiceExperiment:
     """Investment Choice Experiment with LLMs"""
 
-    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/investment_choice'
+    DEFAULT_OUTPUT_DIR = '/home/jovyan/beomi/llm-addiction-data/investment_choice'
 
     def __init__(
         self,
@@ -645,7 +645,7 @@ def main():
     parser.add_argument('--quick', action='store_true',
                         help='Quick mode (4 conditions × 20 reps = 80 games)')
     parser.add_argument('--output-dir', type=str, default=None,
-                        help='Output directory (default: /scratch/x3415a02/data/llm-addiction/investment_choice)')
+                        help='Output directory (default: /home/jovyan/beomi/llm-addiction-data/investment_choice)')
 
     args = parser.parse_args()
 

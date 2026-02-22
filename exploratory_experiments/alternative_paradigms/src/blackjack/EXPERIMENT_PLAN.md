@@ -24,12 +24,12 @@
 **Purpose**: Complete Gemma variable betting to enable fair model comparison
 
 ```bash
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
 sbatch blackjack/slurm_gemma_variable.sbatch
 ```
 
 **Expected output**:
-- File: `/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_gemma_YYYYMMDD_HHMMSS.json`
+- File: `/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_gemma_YYYYMMDD_HHMMSS.json`
 - Size: ~3-5 MB (160 games)
 - Time: ~2-3 hours
 
@@ -39,7 +39,7 @@ sbatch blackjack/slurm_gemma_variable.sbatch
 squeue -u $USER
 
 # Watch logs
-tail -f /scratch/x3415a02/data/llm-addiction/logs/blackjack_gemma_var_*.out
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/blackjack_gemma_var_*.out
 ```
 
 ---
@@ -59,7 +59,7 @@ sbatch blackjack/slurm_sae_llama.sbatch
 - SAE: LlamaScope (`fnlp/Llama3_1-8B-Base-LXR-8x`)
 - Layers: 25-31 (7 layers, 32K features each)
 - Input: Most recent `blackjack_llama_*.json`
-- Output: `/scratch/x3415a02/data/llm-addiction/blackjack/sae_features/llama/`
+- Output: `/home/jovyan/beomi/llm-addiction-data/blackjack/sae_features/llama/`
 
 **Expected output files**:
 ```
@@ -85,7 +85,7 @@ sbatch blackjack/slurm_sae_gemma.sbatch
 - SAE: GemmaScope (`gemma-scope-9b-pt-res-canonical`)
 - Layers: 26, 28, 30, 32, 35, 38, 40 (7 layers, 131K features each)
 - Input: Most recent `blackjack_gemma_*.json` (will use FIXED or VARIABLE depending on timestamp)
-- Output: `/scratch/x3415a02/data/llm-addiction/blackjack/sae_features/gemma/`
+- Output: `/home/jovyan/beomi/llm-addiction-data/blackjack/sae_features/gemma/`
 
 **Time**: ~6-8 hours (7 layers × 160 games, larger SAE)
 
@@ -100,7 +100,7 @@ sbatch blackjack/slurm_sae_gemma.sbatch
 ```bash
 python blackjack/phase2_correlation_analysis.py \
   --model llama \
-  --feature-dir /scratch/x3415a02/data/llm-addiction/blackjack/sae_features/llama/ \
+  --feature-dir /home/jovyan/beomi/llm-addiction-data/blackjack/sae_features/llama/ \
   --fdr 0.05
 ```
 
@@ -109,7 +109,7 @@ python blackjack/phase2_correlation_analysis.py \
 ```bash
 python blackjack/phase2_correlation_analysis.py \
   --model gemma \
-  --feature-dir /scratch/x3415a02/data/llm-addiction/blackjack/sae_features/gemma/ \
+  --feature-dir /home/jovyan/beomi/llm-addiction-data/blackjack/sae_features/gemma/ \
   --fdr 0.05
 ```
 
@@ -161,7 +161,7 @@ python blackjack/phase2_correlation_analysis.py \
 
 ```bash
 # Step 1: Submit Gemma variable experiment
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
 sbatch blackjack/slurm_gemma_variable.sbatch
 
 # Step 2: Check when Gemma completes
@@ -173,10 +173,10 @@ sbatch blackjack/slurm_sae_gemma.sbatch
 
 # Step 4: When SAE extractions complete, run correlation analysis
 python blackjack/phase2_correlation_analysis.py --model llama \
-  --feature-dir /scratch/x3415a02/data/llm-addiction/blackjack/sae_features/llama/
+  --feature-dir /home/jovyan/beomi/llm-addiction-data/blackjack/sae_features/llama/
 
 python blackjack/phase2_correlation_analysis.py --model gemma \
-  --feature-dir /scratch/x3415a02/data/llm-addiction/blackjack/sae_features/gemma/
+  --feature-dir /home/jovyan/beomi/llm-addiction-data/blackjack/sae_features/gemma/
 ```
 
 ---
@@ -204,21 +204,21 @@ squeue -u $USER
 ### View logs
 ```bash
 # Experiment logs
-tail -f /scratch/x3415a02/data/llm-addiction/logs/blackjack_gemma_var_*.out
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/blackjack_gemma_var_*.out
 
 # SAE extraction logs
-tail -f /scratch/x3415a02/data/llm-addiction/logs/blackjack_sae_llama_*.out
-tail -f /scratch/x3415a02/data/llm-addiction/logs/blackjack_sae_gemma_*.out
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/blackjack_sae_llama_*.out
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/blackjack_sae_gemma_*.out
 ```
 
 ### Check outputs
 ```bash
 # List experiment results
-ls -lht /scratch/x3415a02/data/llm-addiction/blackjack/*.json | head
+ls -lht /home/jovyan/beomi/llm-addiction-data/blackjack/*.json | head
 
 # List SAE features
-ls -lh /scratch/x3415a02/data/llm-addiction/blackjack/sae_features/llama/
-ls -lh /scratch/x3415a02/data/llm-addiction/blackjack/sae_features/gemma/
+ls -lh /home/jovyan/beomi/llm-addiction-data/blackjack/sae_features/llama/
+ls -lh /home/jovyan/beomi/llm-addiction-data/blackjack/sae_features/gemma/
 ```
 
 ### GPU usage

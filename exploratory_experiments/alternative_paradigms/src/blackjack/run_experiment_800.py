@@ -32,7 +32,7 @@ logger = setup_logger(__name__)
 class BlackjackExperiment:
     """Blackjack Gambling Experiment with LLMs"""
 
-    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/blackjack'
+    DEFAULT_OUTPUT_DIR = '/home/jovyan/beomi/llm-addiction-data/blackjack'
 
     def __init__(self, model_name: str, gpu_id: int, bet_type: str = 'variable', output_dir: str = None):
         """
@@ -622,7 +622,7 @@ def main():
     parser.add_argument('--gpu', type=int, default=0,
                         help='GPU ID')
     parser.add_argument('--output-dir', type=str, default=None,
-                        help='Output directory (default: /scratch/x3415a02/data/llm-addiction/blackjack)')
+                        help='Output directory (default: /home/jovyan/beomi/llm-addiction-data/blackjack)')
 
     args = parser.parse_args()
 

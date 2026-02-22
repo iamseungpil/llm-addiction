@@ -10,43 +10,57 @@ Research project (ICLR 2026 submission) studying addictive-like gambling behavio
 
 | Setting | Value |
 |---------|-------|
-| **Repository** | `/scratch/x3415a02/projects/llm-addiction/` |
-| **Data Directory** | `/scratch/x3415a02/data/llm-addiction/` |
+| **Repository** | `/home/jovyan/llm-addiction/` |
+| **Data Directory** | `/home/jovyan/beomi/llm-addiction-data/` |
 | **Main Branch** | `main` |
-| **Platform** | HPC Cluster (Lustre filesystem, 100TB scratch) |
-| **Conda Environment** | `llm-addiction` |
-| **Python Version** | 3.11 |
+| **Development Branch** | `openhpc` (OpenHPC environment adaptation) |
+| **Platform** | OpenHPC (Kubernetes/JupyterHub, GPU directly allocated) |
+| **Python Version** | 3.13.11 (Anaconda) |
+| **PyTorch** | 2.8.0+cu128 |
+
+### GPU Hardware
+
+| GPU | Model | VRAM | Status |
+|-----|-------|------|--------|
+| GPU 0 | NVIDIA A100-SXM4-40GB | 39.5GB | Available |
+| GPU 1 | NVIDIA A100-SXM4-40GB | 39.5GB | Available |
+
+**System**: 100 CPU cores, 1TB RAM, CUDA 12.9 (driver) / 12.8 (PyTorch)
 
 ### Storage Layout
 
 ```
-/scratch/x3415a02/
-├── projects/llm-addiction/    # Code repository (~280MB)
-└── data/llm-addiction/        # Experiment outputs (NPZ, JSON, logs)
-    ├── investment_choice/     # Investment choice experiment data
-    ├── blackjack/             # Blackjack experiment data
-    ├── slot_machine/          # Slot machine experiment data
-    └── logs/                  # SLURM job logs (.out, .err)
+/home/jovyan/
+├── llm-addiction/                    # Code repository (this repo)
+└── beomi/llm-addiction-data/         # Experiment outputs (NPZ, JSON, logs)
+    ├── investment_choice/            # Investment choice experiment data
+    ├── blackjack/                    # Blackjack experiment data
+    ├── slot_machine/                 # Slot machine experiment data
+    └── logs/                         # Experiment logs
 ```
+
+### Key Differences from SLURM Environment
+
+- **No SLURM**: GPU is directly allocated, no `sbatch`/`srun`/`squeue` needed
+- **No conda init**: Environment is pre-activated in JupyterHub
+- **Direct execution**: Run `python script.py` directly (no job submission)
+- **A100 40GB × 2**: Upgraded from V100 32GB, can run larger models or parallel experiments
 
 ## Quick Start
 
 ```bash
 # 1. Navigate to repository
-cd /scratch/x3415a02/projects/llm-addiction
+cd /home/jovyan/llm-addiction
 
-# 2. Activate environment
-conda activate llm-addiction
-
-# 3. Run a quick test (5 min, 50 trials)
+# 2. Run a quick test (5 min, 50 trials) - GPU already available
 python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
   --model gemma --gpu 0 --quick
 
-# 4. Check results
-ls -lh /scratch/x3415a02/data/llm-addiction/blackjack/
+# 3. Check results
+ls -lh /home/jovyan/beomi/llm-addiction-data/blackjack/
 
-# 5. Interactive GPU session for development
-srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
+# 4. Use GPU 1 for parallel experiments
+CUDA_VISIBLE_DEVICES=1 python another_experiment.py --gpu 0
 ```
 
 ## Key Research Findings
@@ -159,45 +173,33 @@ python paper_experiments/slot_machine_6models/src/run_claude_experiment.py
 python paper_experiments/slot_machine_6models/src/run_gemini_experiment.py
 ```
 
-### SLURM Batch Jobs (HPC Cluster)
+### Running Long Experiments (OpenHPC)
 
-For long-running experiments, use SLURM job submission:
+GPU is directly allocated - run experiments directly without job submission:
 
 ```bash
-# Interactive GPU session (2 hours, V100)
-srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
+# Run in foreground
+python scripts/run_experiment.py --gpu 0
 
-# Submit batch job
-sbatch scripts/run_experiment.sh
+# Run in background with nohup
+nohup python scripts/run_experiment.py --gpu 0 > /home/jovyan/beomi/llm-addiction-data/logs/experiment.log 2>&1 &
 
-# Monitor jobs
-squeue -u $USER
+# Run on GPU 1 in parallel
+CUDA_VISIBLE_DEVICES=1 nohup python another_experiment.py --gpu 0 > /home/jovyan/beomi/llm-addiction-data/logs/experiment2.log 2>&1 &
 
-# Check logs
-tail -f /scratch/x3415a02/data/llm-addiction/logs/experiment_<JOBID>.out
+# Monitor logs
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/experiment.log
 ```
 
-See `SLURM_GUIDE.md` for detailed SLURM usage and partition information.
-
-**Available GPU Partitions:**
-- `cas_v100_4` - V100 32GB (recommended for LLaMA/Gemma)
-- `cas_v100_2`, `cas_v100nv_4`, `cas_v100nv_8` - Other V100 variants
-- `amd_a100_4`, `amd_a100nv_8` - A100 80GB (large models)
-- `amd_h200nv_8` - H200 141GB (very large models)
-
-**SLURM job template:** Always set output/error logs to `/scratch/x3415a02/data/llm-addiction/logs/` and activate conda environment with:
-```bash
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-```
+**Note**: Shell scripts in `scripts/` have SLURM headers commented out with `[SLURM-DISABLED]` tags. They can still be run with `bash script.sh`.
 
 ## GPU Requirements
 
-- LLaMA-3.1-8B: ~19GB VRAM (bf16)
-- Gemma-2-9B: ~22GB VRAM (bf16)
+- LLaMA-3.1-8B: ~19GB VRAM (bf16) - fits on single A100
+- Gemma-2-9B: ~22GB VRAM (bf16) - fits on single A100
 - Qwen models: Similar to LLaMA (~19GB)
-- Use `CUDA_VISIBLE_DEVICES` for multi-GPU experiments
-- Recommended: V100 32GB or A100 40GB GPUs
+- **Available**: 2× A100 40GB - can run two models simultaneously
+- Use `CUDA_VISIBLE_DEVICES=0` or `CUDA_VISIBLE_DEVICES=1` to select GPU
 
 ## Typical Experiment Workflow
 
@@ -206,7 +208,7 @@ conda activate llm-addiction
 # Run 3,200 games (64 conditions × 50 reps)
 python paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py
 
-# Output: /scratch/x3415a02/data/llm-addiction/slot_machine/
+# Output: /home/jovyan/beomi/llm-addiction-data/slot_machine/
 #   - final_llama_YYYYMMDD_HHMMSS.json  # Game results
 #   - activations_llama_*.npz            # Hidden states (if extracted)
 ```
@@ -292,13 +294,10 @@ watch -n 1 nvidia-smi
 ps aux | grep python
 
 # Monitor experiment logs
-tail -f /scratch/x3415a02/data/llm-addiction/logs/*.log
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/*.log
 
-# Check SLURM job status
-squeue -u $USER
-
-# Detailed job info
-scontrol show job <JOBID>
+# Check background jobs
+jobs -l
 ```
 
 ## Common Issues
@@ -328,7 +327,7 @@ scontrol show job <JOBID>
 ## Analysis Scripts
 
 Post-experiment analysis typically involves:
-1. Loading JSON results from `/scratch/x3415a02/data/llm-addiction/`
+1. Loading JSON results from `/home/jovyan/beomi/llm-addiction-data/`
 2. Computing behavioral metrics (bankruptcy rate, bet patterns, loss chasing)
 3. Statistical tests (FDR correction, Cohen's d, effect sizes)
 4. Visualization (matplotlib/seaborn)
@@ -346,8 +345,8 @@ Analysis scripts are embedded in phase files (e.g., `phase2_correlation_analysis
 **SAE activations**: `feature_activations_L{layer}.npz`
 - Contains: `activations` (N×K), `game_ids`, `trial_indices`
 
-**Logs**: `{experiment}_{JOBID}.out` / `{experiment}_{JOBID}.err`
-- SLURM output in `/scratch/x3415a02/data/llm-addiction/logs/`
+**Logs**: `{experiment}.log`
+- Experiment logs in `/home/jovyan/beomi/llm-addiction-data/logs/`
 
 ## Important Behavioral Metrics
 
@@ -380,32 +379,26 @@ correlation:
   min_cohens_d: 0.3                 # Effect size threshold
 ```
 
-## SLURM Job Script Template
+## Running Experiments (OpenHPC)
 
-When writing SLURM batch scripts, **always include** the conda initialization block:
+In the OpenHPC environment, run experiments directly:
 
 ```bash
-#!/bin/bash
-#SBATCH --job-name=experiment-name
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --time=04:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/%x_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/%x_%j.err
-
-# REQUIRED: Conda initialization on HPC cluster
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-
 # Navigate to repository
-cd /scratch/x3415a02/projects/llm-addiction
+cd /home/jovyan/llm-addiction
 
-# Run experiment
+# Run experiment on GPU 0
 python your_experiment.py --gpu 0
+
+# Run experiment on GPU 1 (parallel)
+CUDA_VISIBLE_DEVICES=1 python your_experiment.py --gpu 0
+
+# Background execution with logging
+nohup python your_experiment.py --gpu 0 \
+  > /home/jovyan/beomi/llm-addiction-data/logs/experiment_$(date +%Y%m%d_%H%M%S).log 2>&1 &
 ```
 
-**Note**: This conda initialization is only required in SLURM scripts. Interactive sessions already have conda initialized.
+**Note**: Legacy SLURM shell scripts (`scripts/*.sh`) have been updated with `[SLURM-DISABLED]` comments. The actual Python commands in them still work when run with `bash script.sh`.
 
 ## Session Management (Important!)
 
@@ -466,12 +459,12 @@ Do NOT ask the user what name to use - automatically generate an appropriate nam
    - If starting fresh, name the session immediately with `/rename`
 
 2. **Verify environment context:**
-   - Confirm working directory: `/scratch/x3415a02/projects/llm-addiction`
-   - Confirm conda environment: `llm-addiction`
+   - Confirm working directory: `/home/jovyan/llm-addiction`
+   - Confirm GPU availability: `nvidia-smi`
    - Check git status if relevant
 
 3. **Review auto memory:**
-   - Check `~/.claude/projects/-scratch-x3415a02-projects-llm-addiction/memory/MEMORY.md` for patterns learned from previous sessions
+   - Check `~/.claude/projects/-home-jovyan-llm-addiction/memory/MEMORY.md` for patterns learned from previous sessions
 
 ### Session End Checklist
 
@@ -499,7 +492,7 @@ Do NOT ask the user what name to use - automatically generate an appropriate nam
 
 Claude should **proactively save** to auto memory when discovering:
 - Recurring error patterns and their solutions
-- HPC cluster-specific behaviors (GPU memory, SLURM quirks)
+- OpenHPC environment-specific behaviors (GPU memory, Kubernetes quirks)
 - Model-specific patterns (layer encodings, parsing issues)
 - File path patterns and data locations
 - Successful debugging approaches

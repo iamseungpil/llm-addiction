@@ -185,4 +185,4 @@ Game 9: 17라운드, $100→$0,   bankrupt (파산)
 
 **실험 완료 시간**: 2026-02-21 23:06
 **소요 시간**: 약 3시간 30분
-**데이터 파일**: `/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_gemma_20260221_230611.json`
+**데이터 파일**: `/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_gemma_20260221_230611.json`

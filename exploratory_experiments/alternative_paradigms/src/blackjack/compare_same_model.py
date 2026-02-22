@@ -94,8 +94,8 @@ def main():
     logger.info("="*60)
 
     # LLaMA comparison
-    llama_fixed_file = "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_llama_20260217_194244.json"
-    llama_variable_file = "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_llama_20260219_005625.json"
+    llama_fixed_file = "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_llama_20260217_194244.json"
+    llama_variable_file = "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_llama_20260219_005625.json"
 
     logger.info("\nLoading LLaMA data...")
     llama_fixed = load_data(llama_fixed_file)

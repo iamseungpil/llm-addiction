@@ -38,7 +38,7 @@ def run_mini_pilot(model_name='llama', gpu_id=0, n_games=5):
     logger.info("=" * 80)
 
     # Create experiment
-    output_dir = Path('/scratch/x3415a02/data/llm-addiction/blackjack')
+    output_dir = Path('/home/jovyan/beomi/llm-addiction-data/blackjack')
     exp = BlackjackExperiment(
         model_name=model_name,
         gpu_id=gpu_id,

@@ -34,7 +34,7 @@ logger = setup_logger(__name__)
 class CoinFlipExperimentZeroShot:
     """Coin Flip Experiment with Zero-shot prompts"""
 
-    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/coin_flip'
+    DEFAULT_OUTPUT_DIR = '/home/jovyan/beomi/llm-addiction-data/coin_flip'
 
     def __init__(self, model_name: str, gpu_id: int, bet_type: str = 'variable',
                  bet_constraint: int = 20, output_dir: str = None):

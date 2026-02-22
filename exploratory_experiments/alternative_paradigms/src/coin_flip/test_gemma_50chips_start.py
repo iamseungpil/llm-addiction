@@ -31,7 +31,7 @@ logger = setup_logger(__name__)
 class Gemma50ChipsTest:
     """Test Gemma with $50 starting chips"""
 
-    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/coin_flip'
+    DEFAULT_OUTPUT_DIR = '/home/jovyan/beomi/llm-addiction-data/coin_flip'
 
     def __init__(self, gpu_id: int, output_dir: str = None):
         """Initialize test"""

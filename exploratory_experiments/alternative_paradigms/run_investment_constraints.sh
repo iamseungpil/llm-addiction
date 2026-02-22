@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH -J investment_constraints
-#SBATCH -p cas_v100_4
-#SBATCH --comment pytorch
-#SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=32G
-#SBATCH --time=12:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/investment_constraints_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/investment_constraints_%j.err
+# [SLURM-DISABLED] #SBATCH -J investment_constraints
+# [SLURM-DISABLED] #SBATCH -p cas_v100_4
+# [SLURM-DISABLED] #SBATCH --comment pytorch
+# [SLURM-DISABLED] #SBATCH --gres=gpu:1
+# [SLURM-DISABLED] #SBATCH --cpus-per-task=4
+# [SLURM-DISABLED] #SBATCH --mem=32G
+# [SLURM-DISABLED] #SBATCH --time=12:00:00
+# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/beomi/llm-addiction-data/logs/investment_constraints_%j.out
+# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/beomi/llm-addiction-data/logs/investment_constraints_%j.err
 
 echo "========================================================================"
 echo "Investment Choice Experiment - Constraint Levels (10, 30, 50, 70)"
@@ -18,11 +18,12 @@ echo "Start time: $(date)"
 echo "========================================================================"
 
 # Activate conda environment
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
+# [SLURM-DISABLED] source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
+# [OpenHPC] conda already activated
+# conda activate llm-addiction
 
 # Navigate to project directory
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
 
 # Check GPU
 echo ""
@@ -82,7 +83,7 @@ done
 echo "======================================================================"
 echo "Output Files:"
 echo "======================================================================"
-ls -lh /scratch/x3415a02/data/llm-addiction/investment_choice/*$(date +%Y%m%d)*.json
+ls -lh /home/jovyan/beomi/llm-addiction-data/investment_choice/*$(date +%Y%m%d)*.json
 
 echo ""
 echo "======================================================================"

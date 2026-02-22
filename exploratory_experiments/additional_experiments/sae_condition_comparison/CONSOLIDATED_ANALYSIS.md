@@ -343,7 +343,7 @@ python scripts/visualize_variable_fixed.py
 - `scripts/visualize_*.py` - Visualization scripts
 
 **Data Locations**:
-- SAE features: `/scratch/x3415a02/data/llm-addiction/`
+- SAE features: `/home/jovyan/beomi/llm-addiction-data/`
 - Game results: `paper_experiments/slot_machine_6models/results/`
 
 ---

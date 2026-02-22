@@ -295,7 +295,7 @@ def main():
     parser.add_argument('--model', type=str, default='llama', choices=['llama', 'gemma', 'qwen'])
     parser.add_argument('--gpu', type=int, default=0)
     parser.add_argument('--num-games', type=int, default=20, help='Games per condition')
-    parser.add_argument('--output-dir', type=str, default='/scratch/x3415a02/data/llm-addiction/coin_flip')
+    parser.add_argument('--output-dir', type=str, default='/home/jovyan/beomi/llm-addiction-data/coin_flip')
 
     args = parser.parse_args()
 

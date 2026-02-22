@@ -21,7 +21,7 @@ from investment_choice.run_experiment import InvestmentChoiceExperiment
 
 logger = setup_logger(__name__)
 
-OUTPUT_DIR = Path('/scratch/x3415a02/data/llm-addiction/investment_choice')
+OUTPUT_DIR = Path('/home/jovyan/beomi/llm-addiction-data/investment_choice')
 
 
 def run_format_test(model_name, gpu_id):

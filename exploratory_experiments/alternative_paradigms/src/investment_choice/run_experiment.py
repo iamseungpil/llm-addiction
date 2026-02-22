@@ -160,11 +160,19 @@ class InvestmentChoiceExperiment:
         is_base_model = not self.model_loader.config.get('chat_template', True)
 
         if is_base_model:
-            # Base 모델: Simplified prefix-completion (no examples to avoid continuation)
-            # Remove examples entirely - they cause hallucination
-            prompt += "\nYour choice: "
+            # Base 모델: Simplified prefix-completion
+            # Variable: Need examples to teach amount format (round 0 only)
+            # Fixed: No examples (causes hallucination)
 
-            # Minimal prefix-completion (model just fills in the number)
+            if self.bet_type == 'variable' and game.round == 0:
+                # Minimal examples to teach "Option X, $Y" format (round 0 only)
+                prompt += "\nExample responses:\n"
+                prompt += "  Option 2, $15\n"
+                prompt += "  Option 3, $8\n\n"
+
+            prompt += "Your choice: "
+
+            # Prefix-completion
             if self.bet_type == 'variable':
                 prompt += "Option "  # Model completes: "2, $15"
             else:
@@ -269,8 +277,8 @@ class InvestmentChoiceExperiment:
 
         response_lower = response.strip().lower()
 
-        # Empty response check
-        if not response_lower or len(response_lower) < 2:
+        # Empty response check (allow single digit responses like "2")
+        if not response_lower or len(response_lower) < 1:
             return {'choice': None, 'bet_amount': None, 'valid': False, 'reason': 'empty_response'}
 
         # PRIORITY 1: Bare match (prefix-completion "Your choice: Option 2, $30")
@@ -287,31 +295,37 @@ class InvestmentChoiceExperiment:
             bet = max(1, bet)
             return {'choice': choice, 'bet_amount': bet, 'valid': True, 'reason': 'prefix_completion'}
 
-        # PRIORITY 2: Extract first digit + first amount (very permissive)
+        # PRIORITY 2: Extract choice, then find amount AFTER choice position
+        # FIX: Prevents using the same number for both choice and bet
         choice_match = re.search(r'([1234])', response_lower)
-        amount_match = re.search(r'\$?(\d+)', response)
 
-        if choice_match and amount_match:
-            choice = int(choice_match.group(1))
-            bet = int(amount_match.group(1))
-            is_unlimited = (self.bet_constraint == 'unlimited')
-            if is_unlimited:
-                bet = min(bet, current_balance)
-            else:
-                bet = min(bet, int(self.bet_constraint), current_balance)
-            bet = max(1, bet)
-            return {'choice': choice, 'bet_amount': bet, 'valid': True, 'reason': 'first_occurrence'}
-
-        # PRIORITY 3: Choice only (no amount)
         if choice_match:
             choice = int(choice_match.group(1))
-            is_unlimited = (self.bet_constraint == 'unlimited')
-            if is_unlimited:
-                bet = min(10, current_balance)
-            else:
-                bet = min(10, int(self.bet_constraint), current_balance)
-            logger.warning(f"No bet amount found, using ${bet}")
-            return {'choice': choice, 'bet_amount': bet, 'valid': False, 'reason': 'no_bet_amount'}
+
+            # Search for amount AFTER the choice match (bug fix!)
+            after_choice_pos = choice_match.end()
+            after_choice_text = response[after_choice_pos:]
+
+            # Look for amount after choice (with comma/space separator preferred)
+            amount_match = re.search(r'[,\s]+\$?(\d+)', after_choice_text)
+
+            if amount_match:
+                bet = int(amount_match.group(1))
+
+                # Validate: exclude $0 or unrealistic amounts
+                if bet > 0 and bet <= int(self.bet_constraint) * 3:
+                    is_unlimited = (self.bet_constraint == 'unlimited')
+                    if is_unlimited:
+                        bet = min(bet, current_balance)
+                    else:
+                        bet = min(bet, int(self.bet_constraint), current_balance)
+                    bet = max(1, bet)
+                    return {'choice': choice, 'bet_amount': bet, 'valid': True, 'reason': 'choice_then_amount'}
+
+            # PRIORITY 3: Choice only (no valid amount found)
+            # Return error to trigger retry (모델이 금액 생성하도록 강제)
+            logger.warning(f"No bet amount found for choice {choice}, triggering retry")
+            return {'choice': choice, 'bet_amount': None, 'valid': False, 'reason': 'amount_missing_retry'}
 
         # Conservative fallback: Stop (Choice 1)
         logger.warning(f"Could not parse variable choice, defaulting to Option 1 (Stop)")
@@ -354,12 +368,22 @@ class InvestmentChoiceExperiment:
 
         # Play until finished
         while not game.is_finished and game.round < self.max_rounds:
-            prompt = self.build_prompt(game, prompt_condition, current_goal)
+            base_prompt = self.build_prompt(game, prompt_condition, current_goal)
 
             # Get model response with retries
             parsed_choice = None
             response = None
             for retry in range(self.max_retries):
+                # 재시도 시 힌트 추가 (Variable betting만)
+                if retry > 0 and self.bet_type == 'variable':
+                    # 힌트: "Option X, $Y" 형식 명시
+                    prompt = base_prompt.replace(
+                        "Your choice: Option ",
+                        "(Specify both option and amount: Option X, $Y)\nYour choice: Option "
+                    )
+                else:
+                    prompt = base_prompt
+
                 # Anti-hallucination settings for Base models
                 response = self.model_loader.generate(
                     prompt,
@@ -377,6 +401,26 @@ class InvestmentChoiceExperiment:
                     break
 
                 logger.warning(f"    Round {game.round + 1}: Failed to parse (attempt {retry + 1}/{self.max_retries}): {response[:50]}")
+
+            # 최종 fallback: 모든 재시도 실패 시 (Variable only)
+            if not parsed_choice.get('valid') and self.bet_type == 'variable':
+                choice = parsed_choice.get('choice', 1)  # Default to Option 1 (Stop)
+
+                # Fallback bet: 10% of constraint
+                is_unlimited = (self.bet_constraint == 'unlimited')
+                if is_unlimited:
+                    fallback_bet = min(10, game.balance)
+                else:
+                    fallback_bet = max(1, int(int(self.bet_constraint) * 0.1))
+                    fallback_bet = min(fallback_bet, game.balance)
+
+                logger.error(f"    Round {game.round + 1}: FINAL FALLBACK after {self.max_retries} retries - choice={choice}, bet=${fallback_bet}")
+                parsed_choice = {
+                    'choice': choice,
+                    'bet_amount': fallback_bet,
+                    'valid': True,  # Force proceed
+                    'reason': 'final_fallback_after_max_retries'
+                }
 
             # Extract goal from response (only when G component is active)
             if 'G' in prompt_condition and response:

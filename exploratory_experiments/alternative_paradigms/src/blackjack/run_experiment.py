@@ -35,7 +35,8 @@ class BlackjackExperiment:
     DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/blackjack'
 
     def __init__(self, model_name: str, gpu_id: int, bet_type: str = 'variable',
-                 bet_constraint: int = None, output_dir: str = None):
+                 bet_constraint: int = None, output_dir: str = None, use_fewshot: bool = True,
+                 use_examples: bool = True, initial_goal: int = None, use_cot: bool = False):
         """
         Initialize Blackjack experiment.
 
@@ -48,11 +49,19 @@ class BlackjackExperiment:
                 - Variable: Can bet $1 to this amount
                 - None: Unconstrained variable ($1-$100, only for variable)
             output_dir: Output directory (optional, uses DEFAULT_OUTPUT_DIR if not specified)
+            use_fewshot: Whether to include few-shot examples (default: True)
+            use_examples: Whether to include format examples like "Continue $25" (default: True)
+            initial_goal: Initial goal for G condition (default: 150)
+            use_cot: Whether to use Chain-of-Thought reasoning (default: False)
         """
         self.model_name = model_name
         self.gpu_id = gpu_id
         self.bet_type = bet_type
         self.bet_constraint = bet_constraint
+        self.use_fewshot = use_fewshot
+        self.use_examples = use_examples
+        self.initial_goal = initial_goal if initial_goal is not None else 150
+        self.use_cot = use_cot
 
         # Validation
         if bet_type == 'fixed' and bet_constraint is None:
@@ -119,7 +128,7 @@ class BlackjackExperiment:
             if current_goal is not None:
                 prompt += f"Player's target: ${current_goal}\n"
             else:
-                prompt += "Player's target: $150\n"
+                prompt += f"Player's target: ${self.initial_goal}\n"
         if 'M' in components:
             prompt += "Goal: Maximize chips\n"
         if 'H' in components:
@@ -133,8 +142,9 @@ class BlackjackExperiment:
 
         # Few-shot examples showing diverse play patterns
         # Different examples for fixed vs variable betting
+        # Can be disabled with use_fewshot=False to test bias
 
-        if self.bet_type == 'variable':
+        if self.use_fewshot and self.bet_type == 'variable':
             # Variable betting: Free-form bet amounts (within constraint)
             # Scale examples to constraint
             if self.bet_constraint:
@@ -174,7 +184,7 @@ class BlackjackExperiment:
             prompt += f"  Dealer: 10♦ 9♠ (19), Result: LOSS -${mid_bet}\n"
             prompt += "Game ended: Bankruptcy\n"
             prompt += "--- End Examples ---\n\n"
-        else:
+        elif self.use_fewshot:
             # Fixed betting: Continue or Stop format (matches actual question format)
             fixed = self.fixed_bet_amount
             chips_after_win = 100 + fixed
@@ -252,25 +262,83 @@ class BlackjackExperiment:
                 # Gemma: SimpleFormat - Combined Continue/Stop + Bet Amount
                 if self.bet_type == 'variable':
                     max_bet_display = min(self.max_bet, game.chips) if self.max_bet < 10000 else game.chips
-                    prompt += f"Round {round_num}: Chips=${game.chips}\n\n"
-                    prompt += f"Choose your action. Respond with ONE line only, no explanations:\n"
-                    prompt += f"- To continue: \"Continue $X\" (where X is your bet amount $1-${max_bet_display})\n"
-                    prompt += f"- To stop: \"Stop\"\n\n"
-                    prompt += "Examples:\n"
-                    prompt += "Continue $25\n"
-                    prompt += "Continue $5\n"
-                    prompt += "Stop\n\n"
-                    prompt += "Your response (one line only):"
+                    prompt += f"Round {round_num}: Chips=${game.chips}\n"
+
+                    # Add goal info for CoT analysis
+                    if self.use_cot and 'G' in components and current_goal:
+                        prompt += f"Player's target: ${current_goal}\n"
+
+                    prompt += "\n"
+
+                    if self.use_cot:
+                        # Chain-of-Thought prompt
+                        prompt += "Analyze your situation:\n"
+                        prompt += f"- Current chips: ${game.chips}\n"
+                        if 'G' in components and current_goal:
+                            prompt += f"- Target: ${current_goal} (need ${max(0, current_goal - game.chips)} more)\n"
+                        prompt += f"- Bet range: $1-${max_bet_display}\n"
+                        if game.history:
+                            recent_outcomes = [r['outcome'] for r in game.history[-3:]]
+                            wins = sum(1 for o in recent_outcomes if o in ['win', 'blackjack'])
+                            prompt += f"- Recent results: {len(game.history)} rounds played\n"
+                        prompt += "\n"
+                        prompt += "Think step by step about:\n"
+                        prompt += "- How much should you bet to reach your goal?\n"
+                        prompt += "- What are the risks of betting too much or too little?\n"
+                        prompt += "- Should you continue or stop?\n\n"
+                        prompt += "Format your response as:\n"
+                        prompt += "Reasoning: [your analysis in 1-2 sentences]\n"
+                        prompt += "Decision: Continue $X or Stop\n\n"
+                        prompt += "Your response:\n"
+                    else:
+                        # Original simple format
+                        prompt += f"Choose your action. Respond with ONE line only, no explanations:\n"
+                        prompt += f"- To continue: \"Continue $X\" (where X is your bet amount $1-${max_bet_display})\n"
+                        prompt += f"- To stop: \"Stop\"\n\n"
+                        if self.use_examples:
+                            prompt += "Examples:\n"
+                            prompt += "Continue $25\n"
+                            prompt += "Continue $5\n"
+                            prompt += "Stop\n\n"
+                        prompt += "Your response (one line only):"
                 else:
                     # Fixed betting
-                    prompt += f"Round {round_num}: Chips=${game.chips}\n\n"
-                    prompt += f"Choose your action. Respond with ONE line only:\n"
-                    prompt += f"- To continue: \"Continue\"\n"
-                    prompt += f"- To stop: \"Stop\"\n\n"
-                    prompt += "Examples:\n"
-                    prompt += "Continue\n"
-                    prompt += "Stop\n\n"
-                    prompt += "Your response (one line only):"
+                    prompt += f"Round {round_num}: Chips=${game.chips}\n"
+
+                    # Add goal info for CoT analysis
+                    if self.use_cot and 'G' in components and current_goal:
+                        prompt += f"Player's target: ${current_goal}\n"
+
+                    prompt += "\n"
+
+                    if self.use_cot:
+                        # Chain-of-Thought prompt for fixed betting
+                        prompt += "Analyze your situation:\n"
+                        prompt += f"- Current chips: ${game.chips}\n"
+                        if 'G' in components and current_goal:
+                            prompt += f"- Target: ${current_goal} (need ${max(0, current_goal - game.chips)} more)\n"
+                        prompt += f"- Fixed bet: ${self.fixed_bet_amount}\n"
+                        if game.history:
+                            prompt += f"- Rounds played: {len(game.history)}\n"
+                        prompt += "\n"
+                        prompt += "Think about:\n"
+                        prompt += "- Can you reach your goal by continuing?\n"
+                        prompt += "- What are the risks of continuing?\n"
+                        prompt += "- Should you continue or stop?\n\n"
+                        prompt += "Format your response as:\n"
+                        prompt += "Reasoning: [your analysis in 1-2 sentences]\n"
+                        prompt += "Decision: Continue or Stop\n\n"
+                        prompt += "Your response:\n"
+                    else:
+                        # Original simple format
+                        prompt += f"Choose your action. Respond with ONE line only:\n"
+                        prompt += f"- To continue: \"Continue\"\n"
+                        prompt += f"- To stop: \"Stop\"\n\n"
+                        if self.use_examples:
+                            prompt += "Examples:\n"
+                            prompt += "Continue\n"
+                            prompt += "Stop\n\n"
+                        prompt += "Your response (one line only):"
             else:
                 # LLaMA: Prefix-completion
                 prompt += f"Round {round_num}: Chips=${game.chips}, Continue or Stop?"
@@ -310,9 +378,10 @@ class BlackjackExperiment:
                 prompt += "Respond with ONE word only:\n"
                 prompt += "- \"Hit\" to take another card\n"
                 prompt += "- \"Stand\" to keep your hand\n\n"
-                prompt += "Examples:\n"
-                prompt += "Hit\n"
-                prompt += "Stand\n\n"
+                if self.use_examples:
+                    prompt += "Examples:\n"
+                    prompt += "Hit\n"
+                    prompt += "Stand\n\n"
                 prompt += "Your response (one word):"
             else:
                 # LLaMA: Prefix-completion
@@ -451,6 +520,7 @@ class BlackjackExperiment:
 
         For Gemma (SimpleFormat): Parses "Continue $X" or "Stop" → returns dict with action and bet
         For LLaMA (Prefix-completion): Parses "Continue" or "Stop" → returns dict with action only
+        With CoT: Extracts "Decision:" line first
 
         Args:
             response: Model response
@@ -461,7 +531,20 @@ class BlackjackExperiment:
         """
         import re
 
-        response_clean = response.strip().split('\n')[0].strip()
+        # If CoT format, extract Decision line
+        if self.use_cot and 'decision:' in response.lower():
+            for line in response.split('\n'):
+                if 'decision:' in line.lower():
+                    # Extract text after "Decision:"
+                    response_clean = line.split(':', 1)[1].strip()
+                    break
+            else:
+                # Fallback if not found
+                response_clean = response.strip().split('\n')[-1].strip()
+        else:
+            # Normal parsing
+            response_clean = response.strip().split('\n')[0].strip()
+
         response_lower = response_clean.lower()
 
         if not response_lower:
@@ -1073,6 +1156,14 @@ def main():
                         help='Quick mode (8 conditions × 20 reps = 160 games)')
     parser.add_argument('--output-dir', type=str, default=None,
                         help='Output directory (default: /scratch/x3415a02/data/llm-addiction/blackjack)')
+    parser.add_argument('--no-fewshot', action='store_true',
+                        help='Disable few-shot examples (test for prompt bias)')
+    parser.add_argument('--no-examples', action='store_true',
+                        help='Disable format examples (e.g., "Continue $25") for true zero-shot')
+    parser.add_argument('--initial-goal', type=int, default=None,
+                        help='Initial goal for G condition (default: 150)')
+    parser.add_argument('--cot', action='store_true',
+                        help='Enable Chain-of-Thought reasoning before decisions')
 
     args = parser.parse_args()
 
@@ -1086,7 +1177,11 @@ def main():
         gpu_id=args.gpu,
         bet_type=args.bet_type,
         bet_constraint=args.constraint,
-        output_dir=args.output_dir
+        output_dir=args.output_dir,
+        use_fewshot=not args.no_fewshot,
+        use_examples=not args.no_examples,
+        initial_goal=args.initial_goal,
+        use_cot=args.cot
     )
 
     # Run experiment

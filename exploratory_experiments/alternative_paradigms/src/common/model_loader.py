@@ -25,9 +25,14 @@ class ModelLoader:
 
     MODEL_CONFIGS = {
         "llama": {
+            "model_id": "meta-llama/Llama-3.1-8B-Instruct",
+            "memory_gb": 19,
+            "chat_template": True  # Use instruct model for better prompting
+        },
+        "llama-base": {
             "model_id": "meta-llama/Llama-3.1-8B",
             "memory_gb": 19,
-            "chat_template": False  # Use base model for SAE compatibility
+            "chat_template": False  # Base model for SAE compatibility (if needed)
         },
         "gemma": {
             "model_id": "google/gemma-2-9b-it",
@@ -155,7 +160,8 @@ class ModelLoader:
         temperature: float = 0.7,
         top_p: float = 0.9,
         do_sample: bool = True,
-        max_retries: int = 3
+        max_retries: int = 3,
+        stop_strings: Optional[list] = None
     ) -> str:
         """
         Generate text from prompt with automatic retry for invalid responses.
@@ -167,6 +173,7 @@ class ModelLoader:
             top_p: Nucleus sampling parameter
             do_sample: Whether to use sampling
             max_retries: Maximum retries for invalid responses (Base model)
+            stop_strings: List of strings to stop generation (e.g., ['\n', 'Round'])
 
         Returns:
             Generated text
@@ -194,21 +201,41 @@ class ModelLoader:
             max_length=2048
         ).to(self.device)
 
+        # Convert stop_strings to token IDs if provided
+        stop_token_ids = None
+        if stop_strings:
+            stop_token_ids = []
+            for stop_str in stop_strings:
+                # Tokenize stop string
+                stop_tokens = self.tokenizer.encode(stop_str, add_special_tokens=False)
+                if stop_tokens:
+                    stop_token_ids.extend(stop_tokens)
+            # Add to eos_token_id
+            if stop_token_ids:
+                stop_token_ids = list(set(stop_token_ids + [self.tokenizer.eos_token_id]))
+
         # Generate with retry for invalid responses
         for attempt in range(max_retries):
             with torch.no_grad():
                 # Increase temperature slightly on retries for diversity
                 current_temp = temperature + (attempt * 0.1)
 
-                outputs = self.model.generate(
+                gen_kwargs = {
                     **inputs,
-                    max_new_tokens=max_new_tokens,
-                    temperature=min(current_temp, 1.0),
-                    top_p=top_p,
-                    do_sample=do_sample,
-                    pad_token_id=self.tokenizer.eos_token_id,
-                    eos_token_id=self.tokenizer.eos_token_id
-                )
+                    'max_new_tokens': max_new_tokens,
+                    'temperature': min(current_temp, 1.0),
+                    'top_p': top_p,
+                    'do_sample': do_sample,
+                    'pad_token_id': self.tokenizer.eos_token_id,
+                }
+
+                # Add stop tokens if provided
+                if stop_token_ids:
+                    gen_kwargs['eos_token_id'] = stop_token_ids
+                else:
+                    gen_kwargs['eos_token_id'] = self.tokenizer.eos_token_id
+
+                outputs = self.model.generate(**gen_kwargs)
 
             # Decode
             generated_text = self.tokenizer.decode(

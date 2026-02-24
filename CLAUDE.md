@@ -539,6 +539,98 @@ If you forgot to name a session:
 3. Use `R` (rename) to give it a proper name
 4. Resume that session
 
+## Response Parsing Guidelines (CRITICAL)
+
+All experiment runners that parse LLM responses **MUST** follow these rules. Violations have caused complete data corruption in past experiments (95% misparsing rate, all data unrecoverable).
+
+### Rule 1: NEVER use `re.search(r'([1234])')` on full CoT response
+
+```python
+# FORBIDDEN — matches first digit in reasoning text, not the decision
+choice = re.search(r'([1234])', response)
+
+# CORRECT — search for explicit decision patterns with LAST match
+matches = list(re.finditer(r'final\s+decision[:\s]+option\s+([1234])', response_lower))
+if matches:
+    choice = int(matches[-1].group(1))  # LAST match = actual decision
+```
+
+**Why**: CoT models write reasoning like `"Option 1 is risky... Option 3 has 50%..."` before stating their decision. `re.search` finds the first `1` in the reasoning, not the actual choice.
+
+### Rule 2: Always parse "Final Decision" line FIRST, use LAST match
+
+Parser priority order for CoT (instruction-tuned) models:
+1. **P0**: Bare number at start (`^\s*([1234])\b`) — only for base model prefix-completion
+2. **P1**: Explicit decision patterns (`Final Decision: Option X`) — use `finditer()[-1]` (LAST match)
+3. **P2**: First digit fallback — **MUST return `valid=False`** for CoT models to trigger retry
+
+### Rule 3: Loose fallback must trigger retry, not return valid data
+
+```python
+# FORBIDDEN — silently records wrong choice for CoT models
+return {'choice': ..., 'valid': True, 'reason': 'first_digit'}
+
+# CORRECT — triggers retry with format hint
+is_base_model = not self.model_loader.config.get('chat_template', True)
+if is_base_model:
+    return {'choice': ..., 'valid': True, 'reason': 'first_digit'}
+else:
+    return {'choice': ..., 'valid': False, 'reason': 'first_digit_cot_retry'}
+```
+
+### Rule 4: Token budget must accommodate CoT reasoning
+
+| Model Type | min max_tokens | Reason |
+|------------|---------------|--------|
+| Base model (prefix-completion) | 100 | Short responses (just the choice) |
+| Instruction-tuned (CoT) | 1024 | Reasoning + Final Decision line |
+| API models (GPT, Claude, Gemini) | 1024 | Standard for all big model experiments |
+
+**Past bug**: `max_tokens=250` caused 62% of Gemma responses to truncate before the "Final Decision" line.
+
+### Rule 5: Retry hints must match model type and bet format
+
+```python
+# Instruction-tuned retry hint:
+if bet_type == 'variable':
+    hint = "IMPORTANT: You MUST end with exactly: Final Decision: Option X, $Y"
+else:
+    hint = "IMPORTANT: You MUST end with exactly: Final Decision: Option X"
+
+# Base model retry hint (modify prefix-completion prompt):
+prompt = base_prompt.replace("Your choice: Option ", "(Option X, $Y)\nYour choice: Option ")
+```
+
+### Rule 6: Prompt format and parser format must match exactly
+
+If the prompt says `"Final Decision: Option X, $Y"`, the parser must match `Option X, $Y` (not `$Y, Option X`). Reference implementations use different orders:
+- **Slot Machine**: `Final Decision: Bet $X or Stop`
+- **V2 Paper**: `Final Decision: $<amount>, Option <1/2/3/4>`
+- **Current alt paradigms**: `Final Decision: Option X, $Y`
+
+### Rule 7: API error fallback must NOT inject silent decisions
+
+```python
+# FORBIDDEN — inflates Option 1 count without any marker
+except Exception:
+    response = "I choose Option 1 (Safe Exit)"
+
+# CORRECT — mark as error, skip round or trigger retry
+except Exception as e:
+    logger.error(f"API error: {e}")
+    continue  # Skip this attempt, retry
+```
+
+### Reference: Big Model Implementation Comparison
+
+| Parameter | Slot Machine | V2 Paper | Current (alt paradigms) |
+|-----------|-------------|----------|------------------------|
+| Parser strategy | 6-stage, last 300 chars, `'retry'` return | `findall[-1]`, always returns value | P0/P1/P1b/P2, `finditer[-1]` |
+| Retry | 3× with hint append | None | 5× with hint (variable OK, fixed needs fix) |
+| max_tokens | 1024 | 1024 | 400 CoT / 100 base |
+| Fallback on parse fail | Force continue, bet=$10 | Option 1, bet=$10 | Skip round |
+| Skip/abort safety | N/A | N/A | 10 consecutive skips → abort |
+
 ## Notes
 
 - `.gitignore` excludes experiment outputs (JSON, NPZ, logs)

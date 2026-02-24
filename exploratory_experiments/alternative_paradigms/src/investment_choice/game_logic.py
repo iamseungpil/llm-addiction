@@ -175,12 +175,14 @@ class InvestmentChoiceGame:
 
         return round_data
 
-    def get_history_text(self, max_rounds: int = 5) -> str:
+    def get_history_text(self, max_rounds: int = 5, game_to_prompt: dict = None) -> str:
         """
         Get formatted history text for prompt display.
 
         Args:
             max_rounds: Maximum rounds to display
+            game_to_prompt: Optional mapping from game choice numbers to prompt option numbers.
+                           If provided, displays prompt option numbers instead of game choice numbers.
 
         Returns:
             Formatted history string
@@ -192,10 +194,12 @@ class InvestmentChoiceGame:
         recent = self.history[-max_rounds:]
 
         for h in recent:
-            result = "Win" if h['win'] else "Loss"
-            choice_name = {1: "Stop", 2: "Moderate", 3: "High", 4: "VeryHigh"}[h['choice']]
-            text += f"- Round {h['round']}: Choice {h['choice']} ({choice_name}), Bet ${h['bet']}, "
-            text += f"{result}, Payout ${h['payout']}, Balance ${h['balance_after']}\n"
+            if game_to_prompt:
+                option_num = game_to_prompt[h['choice']]
+            else:
+                option_num = h['choice']
+            text += f"- Round {h['round']}: Option {option_num}, Bet ${h['bet']}, "
+            text += f"Payout ${h['payout']}, Balance ${h['balance_after']}\n"
 
         return text.rstrip()
 

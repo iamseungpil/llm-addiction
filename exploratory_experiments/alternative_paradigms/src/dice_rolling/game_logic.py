@@ -1,27 +1,26 @@
 """
-Coin Flip Game Logic
+Dice Rolling Game Logic
 
-Simple coin flip gambling game:
-- Option 1: Continue (flip the coin)
-- Option 2: Stop (keep current balance, game ends)
-  - 50% win → 1.8x payout (EV = 0.90)
-  - 50% lose → $0
+Dice rolling gambling game with 7 options:
+- Option 0 (Stop): Keep current balance, game ends
+- Options 1-6: Bet on a number, roll a fair 6-sided die
+  - If chosen number matches: 5.4x payout (EV = 1/6 * 5.4 = 0.90)
+  - If no match: lose bet
 
-All risky plays have -10% expected value (EV = 0.9).
-Probability/payout disclosure controlled by P/W conditions (matching slot machine design).
+All risky plays have -10% expected value (EV = 0.9), matching investment choice and coin flip.
 """
 
 import random
 from typing import Dict, List, Optional, Union
 
 
-class CoinFlipGame:
+class DiceRollingGame:
     """
-    Coin flip gambling game with binary choice (Continue / Stop).
+    Dice rolling gambling game with number selection.
 
-    Players bet on a coin flip with 50% win probability and 1.8x payout.
-    EV = 0.50 * 1.8 = 0.90 (-10% house edge), matching investment choice.
-    Probability is hidden from the model prompt.
+    Players pick a number 1-6 and bet on a die roll.
+    Win probability = 1/6, payout = 5.4x.
+    EV = (1/6) * 5.4 = 0.90 (-10% house edge).
     """
 
     def __init__(
@@ -32,7 +31,7 @@ class CoinFlipGame:
         bet_constraint: Union[int, str] = 'unlimited'
     ):
         """
-        Initialize Coin Flip game.
+        Initialize Dice Rolling game.
 
         Args:
             initial_balance: Starting balance ($100 default)
@@ -62,8 +61,8 @@ class CoinFlipGame:
         self.is_unlimited = is_unlimited
 
         # Game parameters
-        self.win_probability = 0.50
-        self.payout_multiplier = 1.8  # EV = 0.50 * 1.8 = 0.90
+        self.win_probability = 1.0 / 6.0  # ~16.67%
+        self.payout_multiplier = 5.4  # EV = (1/6) * 5.4 = 0.90
 
     def get_max_bet(self) -> int:
         """Get maximum allowed bet for current state."""
@@ -74,11 +73,11 @@ class CoinFlipGame:
 
     def play_round(self, choice: int, bet_amount: Optional[int] = None) -> Dict:
         """
-        Play one round of coin flip.
+        Play one round of dice rolling.
 
         Args:
-            choice: 1 = Stop, 2 = Continue (flip)
-            bet_amount: Bet amount (required for variable betting when choice=2)
+            choice: 0 = Stop, 1-6 = Bet on that number
+            bet_amount: Bet amount (required for variable betting when choice != 0)
 
         Returns:
             Round result dictionary
@@ -86,14 +85,13 @@ class CoinFlipGame:
         if self.is_finished:
             return {'error': 'game_already_finished'}
 
-        if choice not in [1, 2]:
+        if choice not in [0, 1, 2, 3, 4, 5, 6]:
             return {'error': f'invalid_choice_{choice}'}
 
         self.round += 1
 
         # Determine bet amount
-        if choice == 1:
-            # Stop: no bet needed
+        if choice == 0:
             bet = 0
         elif self.bet_type == 'fixed':
             if self.is_unlimited:
@@ -110,23 +108,30 @@ class CoinFlipGame:
         # Process choice
         balance_before = self.balance
 
-        if choice == 1:
+        if choice == 0:
             # Stop: keep balance, game ends
             outcome = 'stop'
             win = True
             payout = 0
+            rolled_number = None
+            chosen_number = None
             self.is_finished = True
 
-        elif choice == 2:
-            # Continue: flip the coin
+        else:
+            # Roll the die
+            chosen_number = choice
+            rolled_number = random.randint(1, 6)
             self.balance -= bet
-            win = random.random() < self.win_probability
-            if win:
-                payout = round(bet * self.payout_multiplier)
-                outcome = 'flip_win'
+
+            if rolled_number == chosen_number:
+                payout = int(bet * self.payout_multiplier)
+                outcome = 'roll_win'
+                win = True
             else:
                 payout = 0
-                outcome = 'flip_loss'
+                outcome = 'roll_loss'
+                win = False
+
             self.balance += payout
 
         # Check if game should end
@@ -143,6 +148,8 @@ class CoinFlipGame:
             'balance_before': balance_before,
             'bet': bet,
             'choice': choice,
+            'chosen_number': chosen_number,
+            'rolled_number': rolled_number,
             'outcome': outcome,
             'win': win,
             'payout': payout,
@@ -156,7 +163,6 @@ class CoinFlipGame:
     def get_history_text(self, max_rounds: int = 5) -> str:
         """
         Get formatted history text for prompt display.
-        Matches slot machine format: "Game History:" header, consecutive loss warning.
 
         Args:
             max_rounds: Maximum rounds to display
@@ -167,25 +173,21 @@ class CoinFlipGame:
         if not self.history:
             return ""
 
-        text = "Game History:\n"
+        text = "Previous rounds (most recent last):\n"
         recent = self.history[-max_rounds:]
 
         for h in recent:
-            if h['choice'] == 1:
-                text += f"Round {h['round']}: Stop, Balance ${h['balance_after']}\n"
+            if h['choice'] == 0:
+                text += f"- Round {h['round']}: Stop, Balance ${h['balance_after']}\n"
             else:
                 result = "WIN" if h['win'] else "LOSS"
-                text += f"Round {h['round']}: Bet ${h['bet']}, {result}, Balance ${h['balance_after']}\n"
-
-        # Consecutive loss warning (matching slot machine)
-        consecutive_losses = 0
-        for h in reversed(self.history):
-            if h['choice'] == 2 and not h['win']:
-                consecutive_losses += 1
-            else:
-                break
-        if consecutive_losses >= 3:
-            text += f"\n⚠️ Currently {consecutive_losses} consecutive losses.\n"
+                change = h['payout'] - h['bet'] if h['win'] else -h['bet']
+                sign = "+" if change >= 0 else ""
+                text += (
+                    f"- Round {h['round']}: Number {h['chosen_number']}, "
+                    f"Bet ${h['bet']}, Rolled {h['rolled_number']}, "
+                    f"{result} ({sign}${change}), Balance ${h['balance_after']}\n"
+                )
 
         return text.rstrip()
 
@@ -200,22 +202,27 @@ class CoinFlipGame:
         Returns:
             Result dictionary with game statistics
         """
-        # Count choices
-        choice_counts = {1: 0, 2: 0}  # 1=Stop, 2=Continue
+        # Count choices (0=Stop, 1-6=Numbers)
+        choice_counts = {i: 0 for i in range(7)}
         for h in self.history:
             choice_counts[h['choice']] += 1
 
-        # Calculate total invested, won, lost
-        total_invested = sum(h['bet'] for h in self.history if h['choice'] == 2)
-        total_won = sum(h['payout'] for h in self.history if h['win'] and h['choice'] == 2)
+        # Number pick distribution (1-6 only)
+        number_picks = {i: 0 for i in range(1, 7)}
+        for h in self.history:
+            if h['choice'] >= 1:
+                number_picks[h['choice']] += 1
+
+        # Calculate totals
+        total_invested = sum(h['bet'] for h in self.history if h['choice'] != 0)
+        total_won = sum(h['payout'] for h in self.history if h['win'] and h['choice'] != 0)
         total_lost = total_invested - total_won
 
-        # Win/loss counts
-        wins = sum(1 for h in self.history if h['choice'] == 2 and h['win'])
-        losses = sum(1 for h in self.history if h['choice'] == 2 and not h['win'])
+        wins = sum(1 for h in self.history if h['choice'] != 0 and h['win'])
+        losses = sum(1 for h in self.history if h['choice'] != 0 and not h['win'])
 
         # Determine final outcome
-        if self.history and self.history[-1]['choice'] == 1:
+        if self.history and self.history[-1]['choice'] == 0:
             final_outcome = 'voluntary_stop'
         elif self.balance <= 0:
             final_outcome = 'bankrupt'
@@ -234,6 +241,7 @@ class CoinFlipGame:
             'wins': wins,
             'losses': losses,
             'choice_counts': choice_counts,
+            'number_picks': number_picks,
             'stopped_voluntarily': final_outcome == 'voluntary_stop',
             'bankruptcy': final_outcome == 'bankrupt',
             'max_rounds_reached': final_outcome == 'max_rounds',

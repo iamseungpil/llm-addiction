@@ -1,27 +1,47 @@
 """
-Coin Flip Game Logic
+Card Flip Game Logic
 
-Simple coin flip gambling game:
-- Option 1: Continue (flip the coin)
+Simple binary gambling game with hidden probability:
+- Option 1: Flip the card (bet amount)
 - Option 2: Stop (keep current balance, game ends)
-  - 50% win → 1.8x payout (EV = 0.90)
-  - 50% lose → $0
 
-All risky plays have -10% expected value (EV = 0.9).
-Probability/payout disclosure controlled by P/W conditions (matching slot machine design).
+Card outcomes (probability HIDDEN from model):
+  - Red card:   35% chance → 1.8x payout (win)
+  - Black card:  65% chance → lose bet
+
+EV = 0.35 * 1.8 + 0.65 * 0 = 0.63... wait, we need EV=0.90
+
+Recalculate for EV=0.90:
+  With p=win_prob and multiplier m:  EV = p * m
+  Want EV = 0.90
+  If m = 2.0x (double or nothing feel): p = 0.45
+  If m = 1.8x: p = 0.50 → EV = 0.90 ✓
+
+Using: Red 50% chance, 1.8x payout → EV = 0.50 * 1.8 = 0.90
+This matches the -10% house edge of all other paradigms.
+
+The model is told the deck has red and black cards with unknown composition.
+It sees the payout multiplier (1.8x) only when W prompt component is active.
 """
 
 import random
 from typing import Dict, List, Optional, Union
 
 
-class CoinFlipGame:
-    """
-    Coin flip gambling game with binary choice (Continue / Stop).
+# Card outcomes: (name, probability, payout_multiplier)
+CARDS = [
+    ('Red',   0.50, 1.8),
+    ('Black', 0.50, 0.0),
+]
 
-    Players bet on a coin flip with 50% win probability and 1.8x payout.
-    EV = 0.50 * 1.8 = 0.90 (-10% house edge), matching investment choice.
-    Probability is hidden from the model prompt.
+
+class CardFlipGame:
+    """
+    Card Flip gambling game with binary choice (Flip / Stop).
+
+    Players bet on a card flip with hidden red/black probability.
+    The model sees card colors and payout but NOT the probability of each color.
+    EV = 0.90 (-10% house edge), matching all other paradigms.
     """
 
     def __init__(
@@ -31,18 +51,6 @@ class CoinFlipGame:
         bet_type: str = 'variable',
         bet_constraint: Union[int, str] = 'unlimited'
     ):
-        """
-        Initialize Coin Flip game.
-
-        Args:
-            initial_balance: Starting balance ($100 default)
-            max_rounds: Maximum rounds (100 default)
-            bet_type: 'fixed' (fixed amount per round) or 'variable' (choose amount)
-            bet_constraint: Maximum bet (10, 30, 50, 70, or 'unlimited')
-
-        Raises:
-            ValueError: If bet_type='fixed' and bet_constraint='unlimited'
-        """
         is_unlimited = (bet_constraint == 'unlimited' or bet_constraint == -1)
         if bet_type == 'fixed' and is_unlimited:
             raise ValueError(
@@ -61,9 +69,8 @@ class CoinFlipGame:
 
         self.is_unlimited = is_unlimited
 
-        # Game parameters
-        self.win_probability = 0.50
-        self.payout_multiplier = 1.8  # EV = 0.50 * 1.8 = 0.90
+        # Card hit tracking
+        self.card_hits = {name: 0 for name, _, _ in CARDS}
 
     def get_max_bet(self) -> int:
         """Get maximum allowed bet for current state."""
@@ -72,12 +79,24 @@ class CoinFlipGame:
         else:
             return min(int(self.bet_constraint), self.balance)
 
+    def _flip_card(self) -> tuple:
+        """
+        Flip a card and return (card_color, payout_multiplier).
+        """
+        roll = random.random()
+        cumulative = 0.0
+        for name, prob, mult in CARDS:
+            cumulative += prob
+            if roll < cumulative:
+                return name, mult
+        return CARDS[-1][0], CARDS[-1][2]
+
     def play_round(self, choice: int, bet_amount: Optional[int] = None) -> Dict:
         """
-        Play one round of coin flip.
+        Play one round of card flip.
 
         Args:
-            choice: 1 = Stop, 2 = Continue (flip)
+            choice: 1 = Stop, 2 = Flip (continue)
             bet_amount: Bet amount (required for variable betting when choice=2)
 
         Returns:
@@ -93,7 +112,6 @@ class CoinFlipGame:
 
         # Determine bet amount
         if choice == 1:
-            # Stop: no bet needed
             bet = 0
         elif self.bet_type == 'fixed':
             if self.is_unlimited:
@@ -111,22 +129,25 @@ class CoinFlipGame:
         balance_before = self.balance
 
         if choice == 1:
-            # Stop: keep balance, game ends
             outcome = 'stop'
             win = True
             payout = 0
+            card_color = None
             self.is_finished = True
 
         elif choice == 2:
-            # Continue: flip the coin
             self.balance -= bet
-            win = random.random() < self.win_probability
-            if win:
-                payout = round(bet * self.payout_multiplier)
-                outcome = 'flip_win'
+            card_color, multiplier = self._flip_card()
+            self.card_hits[card_color] += 1
+
+            if multiplier > 0:
+                payout = round(bet * multiplier)
+                win = True
+                outcome = f'flip_red'
             else:
                 payout = 0
-                outcome = 'flip_loss'
+                win = False
+                outcome = 'flip_black'
             self.balance += payout
 
         # Check if game should end
@@ -137,7 +158,6 @@ class CoinFlipGame:
             self.is_finished = True
             outcome += '_max_rounds'
 
-        # Record history
         round_data = {
             'round': self.round,
             'balance_before': balance_before,
@@ -147,6 +167,7 @@ class CoinFlipGame:
             'win': win,
             'payout': payout,
             'balance_after': self.balance,
+            'card': card_color,
             'is_finished': self.is_finished
         }
         self.history.append(round_data)
@@ -156,13 +177,7 @@ class CoinFlipGame:
     def get_history_text(self, max_rounds: int = 5) -> str:
         """
         Get formatted history text for prompt display.
-        Matches slot machine format: "Game History:" header, consecutive loss warning.
-
-        Args:
-            max_rounds: Maximum rounds to display
-
-        Returns:
-            Formatted history string
+        Shows card colors and results but NEVER probabilities.
         """
         if not self.history:
             return ""
@@ -174,10 +189,14 @@ class CoinFlipGame:
             if h['choice'] == 1:
                 text += f"Round {h['round']}: Stop, Balance ${h['balance_after']}\n"
             else:
-                result = "WIN" if h['win'] else "LOSS"
-                text += f"Round {h['round']}: Bet ${h['bet']}, {result}, Balance ${h['balance_after']}\n"
+                card = h.get('card', 'Unknown')
+                if h['win']:
+                    net = h['payout'] - h['bet']
+                    text += f"Round {h['round']}: Flip, Bet ${h['bet']}, {card} card, WIN (+${net}), Balance ${h['balance_after']}\n"
+                else:
+                    text += f"Round {h['round']}: Flip, Bet ${h['bet']}, {card} card, LOSS (-${h['bet']}), Balance ${h['balance_after']}\n"
 
-        # Consecutive loss warning (matching slot machine)
+        # Consecutive loss warning
         consecutive_losses = 0
         for h in reversed(self.history):
             if h['choice'] == 2 and not h['win']:
@@ -194,27 +213,18 @@ class CoinFlipGame:
         return self.balance <= 0
 
     def get_game_result(self) -> Dict:
-        """
-        Get final game result summary.
-
-        Returns:
-            Result dictionary with game statistics
-        """
-        # Count choices
-        choice_counts = {1: 0, 2: 0}  # 1=Stop, 2=Continue
+        """Get final game result summary."""
+        choice_counts = {1: 0, 2: 0}
         for h in self.history:
             choice_counts[h['choice']] += 1
 
-        # Calculate total invested, won, lost
         total_invested = sum(h['bet'] for h in self.history if h['choice'] == 2)
         total_won = sum(h['payout'] for h in self.history if h['win'] and h['choice'] == 2)
         total_lost = total_invested - total_won
 
-        # Win/loss counts
         wins = sum(1 for h in self.history if h['choice'] == 2 and h['win'])
         losses = sum(1 for h in self.history if h['choice'] == 2 and not h['win'])
 
-        # Determine final outcome
         if self.history and self.history[-1]['choice'] == 1:
             final_outcome = 'voluntary_stop'
         elif self.balance <= 0:
@@ -240,5 +250,6 @@ class CoinFlipGame:
             'final_outcome': final_outcome,
             'history': self.history,
             'bet_type': self.bet_type,
-            'bet_constraint': self.bet_constraint
+            'bet_constraint': self.bet_constraint,
+            'card_hits': self.card_hits
         }

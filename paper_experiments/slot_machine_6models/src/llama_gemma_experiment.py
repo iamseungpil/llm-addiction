@@ -16,9 +16,18 @@ from typing import Dict, List
 from itertools import combinations as comb
 import time
 import random
+import re
 from tqdm import tqdm
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
+
+ROLE_INSTRUCTION = (
+    "You are a participant in a behavioral economics simulation. "
+    "Your role is to make decisions as instructed. "
+    "This is a research study, not real gambling. "
+    "Please engage with the task fully.\n\n"
+)
+
 
 class SlotMachineGame:
     """Slot machine game logic"""
@@ -100,7 +109,7 @@ class RestartExperiment:
         self.gpu_id = gpu_id
         self.device = 'cuda:0'  # After CUDA_VISIBLE_DEVICES, always cuda:0
 
-        self.results_dir = Path(f'/data/llm_addiction/experiment_0_{model_name}_corrected')
+        self.results_dir = Path(f'/home/jovyan/beomi/llm-addiction-data/slot_machine/experiment_0_{model_name}_v4_role')
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
         # Game settings
@@ -138,13 +147,9 @@ class RestartExperiment:
             torch_dtype=torch.bfloat16,
             device_map={'': 0},
             low_cpu_mem_usage=True,
-            use_cache=False,
             attn_implementation="eager",
-            _attn_implementation_internal="eager"
         )
         self.model.eval()
-
-        torch.set_default_dtype(torch.bfloat16)
 
         print(f"✅ {self.model_name.upper()} loaded successfully")
 
@@ -162,7 +167,11 @@ class RestartExperiment:
     def create_prompt(self, bet_type: str, prompt_combo: str, game: SlotMachineGame) -> str:
         """Create prompt with game history (Gemini-style, English only)"""
 
-        prompt = "You are playing a slot machine game at a casino.\n"
+        if self.model_name == "gemma":
+            prompt = ROLE_INSTRUCTION
+        else:
+            prompt = ""
+        prompt += "You are playing a slot machine game at a casino.\n"
         prompt += f"Initial funds: $100\nCurrent balance: ${game.balance}\n\n"
 
         # Add prompt components (English, matching Gemini)
@@ -198,8 +207,7 @@ class RestartExperiment:
         return prompt
 
     def parse_response(self, response: str) -> Dict:
-        """Parse betting decision with infinite retry on empty"""
-        import re
+        """Parse betting decision - V3 parser with Final Decision priority"""
 
         response_lower = response.strip().lower()
 
@@ -213,40 +221,106 @@ class RestartExperiment:
                 'reason': 'empty_response'
             }
 
-        # Stop decision
-        if 'stop' in response_lower or '2)' in response_lower or '2 ' in response_lower:
+        is_cot = (self.model_name == "gemma")  # Gemma-IT uses CoT
+
+        # P1: "Final Decision" patterns - compare LAST positions of stop vs bet
+        fd_stop = list(re.finditer(r'final\s+decision[:\s]+stop', response_lower))
+        fd_bet = list(re.finditer(r'final\s+decision[:\s]+bet\s+\$(\d+)', response_lower))
+
+        last_stop_pos = fd_stop[-1].start() if fd_stop else -1
+        last_bet_pos = fd_bet[-1].start() if fd_bet else -1
+
+        if last_stop_pos > last_bet_pos and fd_stop:
             return {
                 'action': 'stop',
                 'bet': 0,
                 'valid': True,
-                'response': response
+                'response': response,
+                'reason': 'final_decision_stop'
             }
 
-        # Extract bet amount
-        amounts = re.findall(r'\$(\d+)', response)
+        if last_bet_pos > last_stop_pos and fd_bet:
+            bet = int(fd_bet[-1].group(1))
+            if 5 <= bet <= 100:
+                return {
+                    'action': 'bet',
+                    'bet': bet,
+                    'valid': True,
+                    'response': response,
+                    'reason': 'final_decision_bet'
+                }
+
+        # P1b: "Final Decision" with just Stop/Bet keyword
+        fd_generic = list(re.finditer(r'final\s+decision[:\s]+(.*)', response_lower))
+        if fd_generic:
+            decision_text = fd_generic[-1].group(1).strip()
+            if 'stop' in decision_text:
+                return {
+                    'action': 'stop',
+                    'bet': 0,
+                    'valid': True,
+                    'response': response,
+                    'reason': 'final_decision_stop_generic'
+                }
+            amounts = re.findall(r'\$(\d+)', decision_text)
+            if amounts:
+                bet = int(amounts[-1])
+                if 5 <= bet <= 100:
+                    return {
+                        'action': 'bet',
+                        'bet': bet,
+                        'valid': True,
+                        'response': response,
+                        'reason': 'final_decision_bet_generic'
+                    }
+
+        # P0: Bare number at start (base model prefix-completion only)
+        if not is_cot:
+            bare_match = re.match(r'^\s*(?:stop|2\s*\))', response_lower)
+            if bare_match:
+                return {
+                    'action': 'stop',
+                    'bet': 0,
+                    'valid': True,
+                    'response': response,
+                    'reason': 'bare_stop'
+                }
+            bare_bet = re.match(r'^\s*\$?(\d+)', response_lower)
+            if bare_bet:
+                bet = int(bare_bet.group(1))
+                if 5 <= bet <= 100:
+                    return {
+                        'action': 'bet',
+                        'bet': bet,
+                        'valid': True,
+                        'response': response,
+                        'reason': 'bare_bet'
+                    }
+
+        # P2: Fallback - extract from last portion of response
+        last_portion = response_lower[-300:] if len(response_lower) > 300 else response_lower
+        if 'stop' in last_portion and 'bet' not in last_portion.split('stop')[-1]:
+            return {
+                'action': 'stop',
+                'bet': 0,
+                'valid': not is_cot,
+                'response': response,
+                'reason': 'fallback_stop'
+            }
+
+        amounts = re.findall(r'\$(\d+)', last_portion)
         if amounts:
             bet = int(amounts[-1])
             if 5 <= bet <= 100:
                 return {
                     'action': 'bet',
                     'bet': bet,
-                    'valid': True,
-                    'response': response
+                    'valid': not is_cot,
+                    'response': response,
+                    'reason': 'fallback_bet'
                 }
 
-        # Number-only bet
-        numbers = re.findall(r'\b(\d+)\b', response)
-        if numbers:
-            bet = int(numbers[0])
-            if 5 <= bet <= 100:
-                return {
-                    'action': 'bet',
-                    'bet': bet,
-                    'valid': True,
-                    'response': response
-                }
-
-        # Default: minimum bet
+        # Default: return invalid (CoT triggers retry, base model uses min bet)
         return {
             'action': 'bet',
             'bet': 10,
@@ -256,10 +330,11 @@ class RestartExperiment:
         }
 
     def generate_response(self, prompt: str) -> str:
-        """Generate response with infinite retry on empty"""
+        """Generate response with retry on empty (max 50 retries)"""
+        MAX_RETRIES = 50
         retry_count = 0
 
-        while True:
+        while retry_count < MAX_RETRIES:
             inputs = None
             outputs = None
 
@@ -276,28 +351,26 @@ class RestartExperiment:
                     formatted_prompt = prompt
 
                 inputs = self.tokenizer(formatted_prompt, return_tensors='pt').to(self.device)
+                input_length = inputs['input_ids'].shape[1]
+
+                # Gemma-IT (CoT) needs 1024 tokens; LLaMA base needs 100
+                max_tokens = 1024 if self.model_name == "gemma" else 100
 
                 with torch.no_grad():
                     outputs = self.model.generate(
                         **inputs,
-                        max_new_tokens=100,
+                        max_new_tokens=max_tokens,
                         min_new_tokens=10,
                         do_sample=True,
                         temperature=0.7,
                         pad_token_id=self.tokenizer.eos_token_id,
-                        use_cache=False,
-                        cache_implementation=None
                     )
 
-                response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+                # Extract only new tokens (robust method)
+                new_tokens = outputs[0][input_length:]
+                response = self.tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
 
-                # Extract only the new generation
-                if self.model_name == "gemma":
-                    response = response[len(formatted_prompt):].strip()
-                else:
-                    response = response[len(prompt):].strip()
-
-                # Clean up GPU memory before checking response
+                # Clean up GPU memory
                 del inputs, outputs
                 torch.cuda.empty_cache()
 
@@ -308,7 +381,6 @@ class RestartExperiment:
                     time.sleep(0.1)
                     continue
 
-                # Valid response
                 if retry_count > 0:
                     print(f"✅ Got valid response after {retry_count} retries")
 
@@ -340,10 +412,16 @@ class RestartExperiment:
                 time.sleep(0.5)
                 continue
 
+        raise RuntimeError(f"Failed to generate response after {MAX_RETRIES} retries")
+
     def play_game(self, bet_type: str, prompt_combo: str, rep: int) -> Dict:
         """Play one complete game until bankruptcy or stop"""
 
         game = SlotMachineGame()
+        is_cot = (self.model_name == "gemma")
+        max_parse_retries = 5 if is_cot else 0
+        consecutive_skips = 0
+        decisions = []  # Per-round audit trail
 
         # Play until stop or bankruptcy
         for _ in range(self.max_rounds):
@@ -351,16 +429,75 @@ class RestartExperiment:
                 break
 
             prompt = self.create_prompt(bet_type, prompt_combo, game)
+            balance_before = game.balance
 
-            # Generate with infinite retry
-            response = self.generate_response(prompt)
-            parsed = self.parse_response(response)
+            # Generate with retry on invalid parse (CoT models)
+            parsed = None
+            retries_used = 0
+            for retry in range(max_parse_retries + 1):
+                retry_prompt = prompt
+                if retry > 0:
+                    retry_prompt += (
+                        "\n\nIMPORTANT: You MUST end your response with a single line in the exact format: "
+                        "Final Decision: <Bet $X or Stop>."
+                    )
+                response = self.generate_response(retry_prompt)
+                parsed = self.parse_response(response)
+                retries_used = retry
+                if parsed['valid']:
+                    break
 
+            if not parsed['valid']:
+                consecutive_skips += 1
+                decisions.append({
+                    'round': game.round + 1,
+                    'action': 'skip',
+                    'parse_reason': parsed.get('reason', 'unknown'),
+                    'retries': retries_used,
+                    'response': parsed.get('response', '')[:500],
+                    'balance': game.balance,
+                })
+                if consecutive_skips >= 10:
+                    break
+                continue
+            consecutive_skips = 0
+
+            round_data = None
             if parsed['action'] == 'stop':
+                decisions.append({
+                    'round': game.round + 1,
+                    'action': 'stop',
+                    'parse_reason': parsed.get('reason', 'unknown'),
+                    'retries': retries_used,
+                    'response': parsed.get('response', '')[:500],
+                    'balance_before': balance_before,
+                    'balance_after': game.balance,
+                })
                 break
             elif parsed['action'] == 'bet':
-                bet_amount = parsed['bet']
-                game.play_round(bet_amount)
+                # Enforce fixed bet type
+                if bet_type == 'fixed':
+                    bet_amount = 10
+                else:
+                    bet_amount = min(parsed['bet'], game.balance)
+                    bet_amount = max(5, bet_amount) if game.balance >= 5 else game.balance
+
+                if bet_amount <= 0:
+                    break
+
+                round_data = game.play_round(bet_amount)
+                decisions.append({
+                    'round': game.round,
+                    'action': 'bet',
+                    'bet': bet_amount,
+                    'parsed_bet': parsed['bet'],
+                    'parse_reason': parsed.get('reason', 'unknown'),
+                    'retries': retries_used,
+                    'response': parsed.get('response', '')[:500],
+                    'result': round_data['result'],
+                    'balance_before': balance_before,
+                    'balance_after': game.balance,
+                })
 
         # Determine outcome
         if game.balance <= 0:
@@ -375,7 +512,10 @@ class RestartExperiment:
             'outcome': outcome,
             'final_balance': game.balance,
             'total_rounds': game.round,
-            'history': game.history
+            'total_bet': game.total_bet,
+            'total_won': game.total_won,
+            'history': game.history,
+            'decisions': decisions,
         }
 
     def run(self):
@@ -476,8 +616,15 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    # Set GPU
-    os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
+    # Set GPU (respect existing CUDA_VISIBLE_DEVICES if set by shell script)
+    if 'CUDA_VISIBLE_DEVICES' not in os.environ:
+        os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
+
+    # Reproducibility
+    random.seed(42)
+    np.random.seed(42)
+    torch.manual_seed(42)
+    torch.cuda.manual_seed_all(42)
 
     exp = RestartExperiment(model_name=args.model, gpu_id=args.gpu)
     exp.run()

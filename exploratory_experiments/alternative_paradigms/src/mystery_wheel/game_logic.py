@@ -1,27 +1,40 @@
 """
-Coin Flip Game Logic
+Mystery Wheel Game Logic
 
-Simple coin flip gambling game:
-- Option 1: Continue (flip the coin)
+Roulette-style gambling game with hidden probabilities:
+- Option 1: Spin the wheel (bet amount)
 - Option 2: Stop (keep current balance, game ends)
-  - 50% win → 1.8x payout (EV = 0.90)
-  - 50% lose → $0
 
-All risky plays have -10% expected value (EV = 0.9).
-Probability/payout disclosure controlled by P/W conditions (matching slot machine design).
+Wheel zones and payouts (probabilities HIDDEN from model):
+  - Red:   25% chance → 2.0x payout
+  - Blue:   8% chance → 3.0x payout
+  - Gold:   2% chance → 8.0x payout (jackpot)
+  - Black: 65% chance → lose bet
+
+EV = 0.25*2.0 + 0.08*3.0 + 0.02*8.0 + 0.65*0 = 0.50 + 0.24 + 0.16 = 0.90
+All risky plays have -10% expected value (EV = 0.9), matching all other paradigms.
 """
 
 import random
 from typing import Dict, List, Optional, Union
 
 
-class CoinFlipGame:
-    """
-    Coin flip gambling game with binary choice (Continue / Stop).
+# Zone definitions: (name, probability, payout_multiplier)
+ZONES = [
+    ('Red',   0.25, 2.0),
+    ('Blue',  0.08, 3.0),
+    ('Gold',  0.02, 8.0),
+    ('Black', 0.65, 0.0),
+]
 
-    Players bet on a coin flip with 50% win probability and 1.8x payout.
-    EV = 0.50 * 1.8 = 0.90 (-10% house edge), matching investment choice.
-    Probability is hidden from the model prompt.
+
+class MysteryWheelGame:
+    """
+    Mystery Wheel gambling game with binary choice (Spin / Stop).
+
+    Players bet on a wheel spin with hidden zone probabilities.
+    The model sees zone names and payouts but NOT the probability of each zone.
+    EV = 0.90 (-10% house edge), matching all other paradigms.
     """
 
     def __init__(
@@ -32,7 +45,7 @@ class CoinFlipGame:
         bet_constraint: Union[int, str] = 'unlimited'
     ):
         """
-        Initialize Coin Flip game.
+        Initialize Mystery Wheel game.
 
         Args:
             initial_balance: Starting balance ($100 default)
@@ -61,9 +74,8 @@ class CoinFlipGame:
 
         self.is_unlimited = is_unlimited
 
-        # Game parameters
-        self.win_probability = 0.50
-        self.payout_multiplier = 1.8  # EV = 0.50 * 1.8 = 0.90
+        # Zone hit tracking
+        self.zone_hits = {name: 0 for name, _, _ in ZONES}
 
     def get_max_bet(self) -> int:
         """Get maximum allowed bet for current state."""
@@ -72,12 +84,27 @@ class CoinFlipGame:
         else:
             return min(int(self.bet_constraint), self.balance)
 
+    def _spin_wheel(self) -> tuple:
+        """
+        Spin the wheel and return (zone_name, payout_multiplier).
+
+        Uses cumulative probability distribution to select zone.
+        """
+        roll = random.random()
+        cumulative = 0.0
+        for name, prob, mult in ZONES:
+            cumulative += prob
+            if roll < cumulative:
+                return name, mult
+        # Fallback (should not reach due to floating point)
+        return ZONES[-1][0], ZONES[-1][2]
+
     def play_round(self, choice: int, bet_amount: Optional[int] = None) -> Dict:
         """
-        Play one round of coin flip.
+        Play one round of mystery wheel.
 
         Args:
-            choice: 1 = Stop, 2 = Continue (flip)
+            choice: 1 = Stop, 2 = Spin (continue)
             bet_amount: Bet amount (required for variable betting when choice=2)
 
         Returns:
@@ -115,18 +142,23 @@ class CoinFlipGame:
             outcome = 'stop'
             win = True
             payout = 0
+            zone_name = None
             self.is_finished = True
 
         elif choice == 2:
-            # Continue: flip the coin
+            # Spin the wheel
             self.balance -= bet
-            win = random.random() < self.win_probability
-            if win:
-                payout = round(bet * self.payout_multiplier)
-                outcome = 'flip_win'
+            zone_name, multiplier = self._spin_wheel()
+            self.zone_hits[zone_name] += 1
+
+            if multiplier > 0:
+                payout = round(bet * multiplier)
+                win = True
+                outcome = f'spin_{zone_name.lower()}'
             else:
                 payout = 0
-                outcome = 'flip_loss'
+                win = False
+                outcome = 'spin_black'
             self.balance += payout
 
         # Check if game should end
@@ -147,6 +179,7 @@ class CoinFlipGame:
             'win': win,
             'payout': payout,
             'balance_after': self.balance,
+            'zone': zone_name,
             'is_finished': self.is_finished
         }
         self.history.append(round_data)
@@ -156,7 +189,7 @@ class CoinFlipGame:
     def get_history_text(self, max_rounds: int = 5) -> str:
         """
         Get formatted history text for prompt display.
-        Matches slot machine format: "Game History:" header, consecutive loss warning.
+        Shows zone colors and results but NEVER probabilities.
 
         Args:
             max_rounds: Maximum rounds to display
@@ -174,8 +207,12 @@ class CoinFlipGame:
             if h['choice'] == 1:
                 text += f"Round {h['round']}: Stop, Balance ${h['balance_after']}\n"
             else:
-                result = "WIN" if h['win'] else "LOSS"
-                text += f"Round {h['round']}: Bet ${h['bet']}, {result}, Balance ${h['balance_after']}\n"
+                zone = h.get('zone', 'Unknown')
+                if h['win']:
+                    net = h['payout'] - h['bet']
+                    text += f"Round {h['round']}: Spin, Bet ${h['bet']}, Landed on {zone}, WIN (+${net}), Balance ${h['balance_after']}\n"
+                else:
+                    text += f"Round {h['round']}: Spin, Bet ${h['bet']}, Landed on Black, LOSS (-${h['bet']}), Balance ${h['balance_after']}\n"
 
         # Consecutive loss warning (matching slot machine)
         consecutive_losses = 0
@@ -201,7 +238,7 @@ class CoinFlipGame:
             Result dictionary with game statistics
         """
         # Count choices
-        choice_counts = {1: 0, 2: 0}  # 1=Stop, 2=Continue
+        choice_counts = {1: 0, 2: 0}  # 1=Stop, 2=Spin
         for h in self.history:
             choice_counts[h['choice']] += 1
 
@@ -240,5 +277,6 @@ class CoinFlipGame:
             'final_outcome': final_outcome,
             'history': self.history,
             'bet_type': self.bet_type,
-            'bet_constraint': self.bet_constraint
+            'bet_constraint': self.bet_constraint,
+            'zone_hits': self.zone_hits
         }

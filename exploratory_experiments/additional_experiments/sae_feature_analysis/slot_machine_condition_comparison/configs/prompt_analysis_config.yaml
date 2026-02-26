@@ -1,0 +1,111 @@
+# Prompt-based SAE Feature Analysis Configuration
+# Analyzes how prompt components (G/M/R/W/P) affect SAE feature activation
+
+# Data paths - reuse existing extracted features
+data:
+  # Existing SAE feature files (from llama_sae_analysis Phase 1)
+  llama:
+    feature_dir: /mnt/c/Users/oollccddss/git/data/llm-addiction/sae_patching/corrected_sae_analysis/llama
+    experiment_file: /mnt/c/Users/oollccddss/git/data/llm-addiction/slot_machine/llama/final_llama_20251004_021106.json
+  gemma:
+    feature_dir: /mnt/c/Users/oollccddss/git/data/llm-addiction/sae_patching/corrected_sae_analysis/gemma_full_42layers
+    experiment_file: /mnt/c/Users/oollccddss/git/data/llm-addiction/slot_machine/gemma/final_gemma_20251004_172426.json
+
+  # Output directories (organized by analysis type)
+  output_dir: /mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results
+  logs_dir: /mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/logs
+
+# Model configurations
+models:
+  llama:
+    name: meta-llama/Llama-3.1-8B
+    layers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+    n_features: 32768
+  gemma:
+    name: google/gemma-2-9b-it
+    layers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+    n_features: 131072
+
+# Prompt component analysis settings
+prompt_component_analysis:
+  # Components to analyze (5 binary variables)
+  components: ['G', 'M', 'R', 'W', 'P']
+
+  # Component descriptions (for logging and visualization)
+  component_names:
+    G: "Goal-setting"
+    M: "Maximize reward"
+    R: "Hidden patterns"
+    W: "Win multiplier"
+    P: "Win rate (probability)"
+
+  # Statistical thresholds
+  fdr_alpha: 0.05
+  min_eta_squared: 0.01  # Minimum effect size for interaction
+
+  # Sparse feature filtering (from ANALYSIS_ISSUES_REPORT.md)
+  sparse_filter:
+    enabled: true
+    min_activation_rate: 0.01  # 1% of samples must be active
+    min_mean_activation: 0.001  # Minimum mean activation
+
+  # Output settings
+  n_top_features: 50  # Top N features per component
+  save_all_results: true  # Save all results, not just significant ones
+
+# Prompt complexity analysis settings
+prompt_complexity_analysis:
+  # Complexity levels (0 = BASE, 1 = single component, 2-5 = multiple)
+  levels: [0, 1, 2, 3, 4, 5]
+
+  # Statistical thresholds
+  fdr_alpha: 0.05
+  min_eta_squared: 0.01
+
+  # Sparse filter (same as component analysis)
+  sparse_filter:
+    enabled: true
+    min_activation_rate: 0.01
+    min_mean_activation: 0.001
+
+  # Output settings
+  n_top_features: 30
+
+# Visualization settings
+visualization:
+  # Figure output directory
+  figure_dir: /mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/figures
+
+  # Component analysis visualizations
+  component:
+    # Heatmap: Component × Layer × Effect Size
+    heatmap:
+      metric: 'interaction_eta'  # Which metric to visualize
+      top_n: 20  # Top N features per component
+      figsize: [12, 8]
+      cmap: 'RdYlBu_r'
+
+    # Bar plot: Top features per component
+    barplot:
+      n_features: 10  # Top N features to show
+      figsize: [10, 6]
+
+  # Complexity analysis visualizations
+  complexity:
+    # Line plot: Complexity vs Effect Size
+    lineplot:
+      figsize: [10, 6]
+      show_error_bars: true
+
+# Data summary (for reference)
+# Total: 3,200 games
+#   - 32 prompt combos × 2 bet_types × 50 reps
+#   - Each component appears in 16 combos (1,600 games with, 1,600 without)
+#
+# LLaMA bankruptcy rates:
+#   - Fixed: 42/1600 (2.6%)
+#   - Variable: 108/1600 (6.8%)
+#
+# Gemma bankruptcy rates:
+#   - Fixed: 205/1600 (12.8%)
+#   - Variable: 465/1600 (29.1%)

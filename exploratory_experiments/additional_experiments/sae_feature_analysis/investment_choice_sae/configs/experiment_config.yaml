@@ -1,0 +1,140 @@
+# Investment Choice SAE Analysis Configuration
+
+# Data paths
+data:
+  # Investment choice experiment data directory
+  data_dir: /mnt/c/Users/oollccddss/git/data/llm-addiction/investment_choice
+
+  # Specific subdirectories for different experiment variants
+  bet_constraint_dir: ${data.data_dir}/bet_constraint
+  bet_constraint_cot_dir: ${data.data_dir}/bet_constraint_cot
+  extended_cot_dir: ${data.data_dir}/extended_cot
+  initial_dir: ${data.data_dir}/initial
+
+  # Output directory for this analysis
+  output_dir: /mnt/c/Users/oollccddss/git/data/llm-addiction/investment_choice_sae_analysis
+
+# Model configurations
+models:
+  gemma:
+    model_id: google/gemma-2-9b
+    d_model: 3584
+    n_layers: 42
+    sae_release: gemma-scope-9b-pt-res-canonical
+    sae_width: 16k
+    d_sae: 16384
+    # Analyze later layers (semantic features)
+    target_layers: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+
+  llama:
+    model_id: meta-llama/Llama-3.1-8B
+    d_model: 4096
+    n_layers: 32
+    sae_release: fnlp/Llama3_1-8B-Base-LXR-8x
+    d_sae: 32768
+    # Focus on key layers for LLaMA
+    target_layers: [25, 26, 27, 28, 29, 30, 31]
+
+# Phase 1: Feature Extraction
+phase1:
+  # Batch size for processing (lower if GPU memory limited)
+  batch_size: 8
+
+  # Checkpoint frequency (save every N decisions)
+  checkpoint_frequency: 100
+
+  # Token position to analyze
+  token_position: -1  # Last token (right before final decision)
+
+  # Which experiment data to use
+  experiment_variant: bet_constraint  # Options: bet_constraint, bet_constraint_cot, extended_cot, initial
+
+  # Models to include (filter by model name in JSON)
+  # Options: claude_haiku, gemini_flash, gpt4o_mini, gpt41_mini, all
+  include_models: all
+
+  # Bet types to include
+  # Options: fixed, variable, both
+  include_bet_types: both
+
+  # Prompt conditions to include
+  # Options: BASE, G, M, GM, all
+  include_conditions: all
+
+# Phase 2: Correlation Analysis
+phase2:
+  # Statistical thresholds
+  fdr_alpha: 0.05  # FDR correction threshold
+  min_cohens_d: 0.3  # Minimum effect size
+
+  # Analysis types to perform
+  analyses:
+    - binary_classification  # Safe (Option 1) vs Risky (Options 2/3/4)
+    - multiclass_classification  # 4-way: Option 1 vs 2 vs 3 vs 4
+    - prompt_condition_effects  # BASE vs G vs M vs GM
+    - betting_type_effects  # Fixed vs Variable
+
+  # Number of top features to report per analysis
+  n_top_features: 50
+
+# Phase 3: Semantic Analysis
+phase3:
+  # Number of top features to interpret per layer
+  n_features_per_layer: 10
+
+  # Test prompts for feature interpretation
+  test_prompts:
+    - Round 1, high balance
+    - Round 5, medium balance
+    - Round 9, low balance
+    - After consecutive wins
+    - After consecutive losses
+
+  # Token-level analysis
+  analyze_all_tokens: true
+
+# Phase 4: Causal Validation (Activation Patching)
+phase4:
+  # Number of features to test (top safe + top risky)
+  n_safe_features: 5
+  n_risky_features: 5
+
+  # Number of trials per patching condition
+  n_trials_per_condition: 60
+
+  # Alpha values for patching (steering strength)
+  alpha_values: [-0.5, -0.25, -0.1, 0.1, 0.25, 0.5]
+
+  # Test bidirectional effects
+  test_both_directions: true
+
+  # Behavioral metrics to measure
+  metrics:
+    - choice_distribution
+    - average_choice_risk  # 1.0 (safe) to 4.0 (risky)
+    - option1_rate
+    - option4_rate
+    - average_final_balance
+
+# Logging
+logging:
+  log_dir: logs
+  log_level: INFO
+  save_detailed_logs: true
+
+# Computational resources
+compute:
+  # GPU device ID (-1 for CPU)
+  gpu_id: 0
+
+  # Precision (options: fp32, fp16, bf16)
+  precision: bf16
+
+  # Clear GPU memory between phases
+  clear_gpu_between_phases: true
+
+  # Max memory per batch (GB)
+  max_memory_gb: 20
+
+# Reproducibility
+seed: 42

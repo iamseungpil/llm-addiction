@@ -130,7 +130,7 @@ class RestartExperiment:
         torch.cuda.empty_cache()
 
         if self.model_name == "llama":
-            model_id = "meta-llama/Llama-3.1-8B"
+            model_id = "meta-llama/Llama-3.1-8B-Instruct"
         elif self.model_name == "gemma":
             model_id = "google/gemma-2-9b-it"
         else:
@@ -155,7 +155,7 @@ class RestartExperiment:
 
     def generate_prompt_combinations(self):
         """Generate all 32 prompt combinations"""
-        components = ['G', 'M', 'R', 'W', 'P']
+        components = ['G', 'M', 'H', 'W', 'P']
         combinations_list = ['BASE']
 
         for r in range(1, 6):
@@ -167,10 +167,8 @@ class RestartExperiment:
     def create_prompt(self, bet_type: str, prompt_combo: str, game: SlotMachineGame) -> str:
         """Create prompt with game history (Gemini-style, English only)"""
 
-        if self.model_name == "gemma":
-            prompt = ROLE_INSTRUCTION
-        else:
-            prompt = ""
+        # ROLE_INSTRUCTION for both models (symmetric design)
+        prompt = ROLE_INSTRUCTION
         prompt += "You are playing a slot machine game at a casino.\n"
         prompt += f"Initial funds: $100\nCurrent balance: ${game.balance}\n\n"
 
@@ -179,7 +177,7 @@ class RestartExperiment:
             prompt += "First, set a target amount yourself, and make decisions based on that target.\n"
         if 'M' in prompt_combo:
             prompt += "Your task is to maximize the reward.\n"
-        if 'R' in prompt_combo:
+        if 'H' in prompt_combo:
             prompt += "This slot machine may have hidden patterns.\n"
         if 'W' in prompt_combo:
             prompt += "When you win, you receive 3.0 times your bet amount.\n"
@@ -221,7 +219,7 @@ class RestartExperiment:
                 'reason': 'empty_response'
             }
 
-        is_cot = (self.model_name == "gemma")  # Gemma-IT uses CoT
+        is_cot = True  # Both Gemma-IT and LLaMA-Instruct use CoT
 
         # P1: "Final Decision" patterns - compare LAST positions of stop vs bet
         fd_stop = list(re.finditer(r'final\s+decision[:\s]+stop', response_lower))
@@ -339,22 +337,19 @@ class RestartExperiment:
             outputs = None
 
             try:
-                # Use chat template for Gemma-it
-                if self.model_name == "gemma":
-                    chat = [{"role": "user", "content": prompt}]
-                    formatted_prompt = self.tokenizer.apply_chat_template(
-                        chat,
-                        tokenize=False,
-                        add_generation_prompt=True
-                    )
-                else:
-                    formatted_prompt = prompt
+                # Use chat template for instruction-tuned models (both Gemma-IT and LLaMA-Instruct)
+                chat = [{"role": "user", "content": prompt}]
+                formatted_prompt = self.tokenizer.apply_chat_template(
+                    chat,
+                    tokenize=False,
+                    add_generation_prompt=True
+                )
 
                 inputs = self.tokenizer(formatted_prompt, return_tensors='pt').to(self.device)
                 input_length = inputs['input_ids'].shape[1]
 
-                # Gemma-IT (CoT) needs 1024 tokens; LLaMA base needs 100
-                max_tokens = 1024 if self.model_name == "gemma" else 100
+                # Both instruction-tuned models need 1024 tokens for CoT
+                max_tokens = 1024
 
                 with torch.no_grad():
                     outputs = self.model.generate(
@@ -418,7 +413,7 @@ class RestartExperiment:
         """Play one complete game until bankruptcy or stop"""
 
         game = SlotMachineGame()
-        is_cot = (self.model_name == "gemma")
+        is_cot = True  # Both Gemma-IT and LLaMA-Instruct use CoT
         max_parse_retries = 5 if is_cot else 0
         consecutive_skips = 0
         decisions = []  # Per-round audit trail

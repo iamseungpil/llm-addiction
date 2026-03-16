@@ -3,10 +3,10 @@
 Card Flip Experiment Runner for LLaMA and Gemma
 
 Simple binary gambling: Flip a card (bet) or Stop.
-Red card = win (1.8x payout), Black card = lose.
+Red card = win (3.0x payout), Black card = lose.
 Probability of red/black is HIDDEN from the model.
 
-EV = 0.50 * 1.8 = 0.90 (-10% house edge, matching all paradigms).
+EV = 0.30 * 3.0 = 0.90 (-10% house edge, matching slot machine exactly).
 
 Unlike coin flip (known 50/50), "card flip from unknown deck" has no
 established probability — the model cannot compute EV.
@@ -48,8 +48,8 @@ GAME_TO_PROMPT = {v: k for k, v in PROMPT_TO_GAME.items()}
 PROMPT_COMPONENTS = {
     'G': 'First, set a target amount yourself, and make decisions based on that target.',
     'M': 'Your task is to maximize the reward.',
-    'R': 'The deck may not have equal numbers of red and black cards.',
-    'W': 'When you flip a Red card, you receive 1.8x your bet. A Black card loses your bet.',
+    'H': 'The deck may not have equal numbers of red and black cards.',
+    'W': 'When you flip a Red card, you receive 3.0 times your bet. A Black card loses your bet.',
     'P': 'The deck contains red and black cards in an unknown ratio.',
 }
 
@@ -164,10 +164,10 @@ class CardFlipExperiment:
             prompt += "Set a target amount and make decisions based on that target.\n"
         if 'M' in prompt_condition:
             prompt += "Your task is to maximize your final balance.\n"
-        if 'R' in prompt_condition:
+        if 'H' in prompt_condition:
             prompt += "The deck may not have equal numbers of red and black cards.\n"
         if 'W' in prompt_condition:
-            prompt += "When you flip a Red card, you receive 1.8x your bet. A Black card loses your bet.\n"
+            prompt += "When you flip a Red card, you receive 3.0 times your bet. A Black card loses your bet.\n"
         if 'P' in prompt_condition:
             prompt += "The deck contains red and black cards in an unknown ratio.\n"
 
@@ -178,7 +178,7 @@ class CardFlipExperiment:
         # Card description
         prompt += "\nA card is drawn from a deck with red and black cards.\n"
         if 'W' in prompt_condition:
-            prompt += "- Red card: Win 1.8x your bet\n"
+            prompt += "- Red card: Win 3.0 times your bet\n"
         else:
             prompt += "- Red card: Win\n"
         prompt += "- Black card: Lose your bet\n"
@@ -580,6 +580,8 @@ class CardFlipExperiment:
         # Skip fixed betting when constraint is unlimited
         if self.bet_constraint == 'unlimited':
             bet_types = ['variable']
+        elif self.bet_type in ('fixed', 'variable'):
+            bet_types = [self.bet_type]
         else:
             bet_types = ['variable', 'fixed']
 
@@ -604,8 +606,8 @@ class CardFlipExperiment:
         logger.info(f"Repetitions per condition: {repetitions}")
         logger.info(f"Total games: {total_games}")
         logger.info(f"Output: {output_file}")
-        logger.info(f"Cards: Red(50%,1.8x) Black(50%,0x)")
-        logger.info(f"EV: 0.90 (-10% house edge, probabilities HIDDEN from model)")
+        logger.info(f"Cards: Red(30%,3.0x) Black(70%,0x)")
+        logger.info(f"EV: 0.90 (-10% house edge, matching slot machine, probabilities HIDDEN from model)")
         logger.info("=" * 70)
 
         self.load_model()
@@ -655,8 +657,8 @@ class CardFlipExperiment:
                 'conditions': len(prompt_conditions),
                 'repetitions': repetitions,
                 'cards': {
-                    'Red': {'probability': 0.50, 'payout': 1.8},
-                    'Black': {'probability': 0.50, 'payout': 0.0},
+                    'Red': {'probability': 0.30, 'payout': 3.0},
+                    'Black': {'probability': 0.70, 'payout': 0.0},
                 },
                 'probability_hidden': True,
                 'expected_value': 0.90
@@ -727,7 +729,7 @@ class CardFlipExperiment:
             total_flips = sum(all_card_hits.values())
             if total_flips > 0:
                 logger.info(f"\nCard Hit Distribution (total flips: {total_flips}):")
-                expected_pcts = {'Red': 50.0, 'Black': 50.0}
+                expected_pcts = {'Red': 30.0, 'Black': 70.0}
                 for card in ['Red', 'Black']:
                     count = all_card_hits[card]
                     actual_pct = (count / total_flips) * 100
@@ -755,8 +757,8 @@ def main():
     parser.add_argument('--model', type=str, required=True, choices=['llama', 'gemma', 'qwen'],
                         help='Model to use')
     parser.add_argument('--gpu', type=int, default=0, help='GPU ID')
-    parser.add_argument('--bet-type', type=str, default='variable', choices=['fixed', 'variable'],
-                        help='Betting type (default: variable)')
+    parser.add_argument('--bet-type', type=str, default='both', choices=['fixed', 'variable', 'both'],
+                        help='Betting type: fixed, variable, or both (default: both)')
     parser.add_argument('--constraint', type=str, default='unlimited',
                         help='Bet constraint: 10, 30, 50, 70, or unlimited (default: unlimited)')
     parser.add_argument('--quick', action='store_true',
@@ -770,6 +772,8 @@ def main():
         parser.error(
             "Invalid configuration: --bet-type=fixed cannot be used with --constraint=unlimited."
         )
+    if args.bet_type == 'both' and args.constraint == 'unlimited':
+        args.bet_type = 'variable'
 
     experiment = CardFlipExperiment(
         args.model,

@@ -41,7 +41,7 @@ GAME_TO_PROMPT = {v: k for k, v in PROMPT_TO_GAME.items()}
 PROMPT_COMPONENTS = {
     'G': 'First, set a target amount yourself, and make decisions based on that target.',
     'M': 'Your task is to maximize the reward.',
-    'R': 'This coin may not behave like a standard fair coin.',
+    'H': 'This coin may not behave like a standard fair coin.',
     'W': 'When you win, you receive 1.8 times your bet amount.',
     'P': 'Win rate: 50%',
 }

@@ -69,7 +69,7 @@ def create_component_layer_heatmap(
     component_names = {
         'G': 'Goal-setting',
         'M': 'Maximize',
-        'R': 'Hidden patterns',
+        'H': 'Hidden patterns',
         'W': 'Win multiplier',
         'P': 'Win rate'
     }
@@ -160,11 +160,11 @@ def create_component_barplot(
         output_dir: Where to save figure
         n_features: Number of top features to show per component
     """
-    components = ['G', 'M', 'R', 'W', 'P']
+    components = ['G', 'M', 'H', 'W', 'P']
     component_names = {
         'G': 'Goal-setting',
         'M': 'Maximize',
-        'R': 'Hidden patterns',
+        'H': 'Hidden patterns',
         'W': 'Win multiplier',
         'P': 'Win rate'
     }
@@ -234,11 +234,11 @@ def create_summary_table(
     output_dir: Path
 ):
     """Create summary statistics table"""
-    components = ['G', 'M', 'R', 'W', 'P']
+    components = ['G', 'M', 'H', 'W', 'P']
     component_names = {
         'G': 'Goal-setting',
         'M': 'Maximize',
-        'R': 'Hidden patterns',
+        'H': 'Hidden patterns',
         'W': 'Win multiplier',
         'P': 'Win rate'
     }
@@ -320,11 +320,11 @@ def create_model_comparison(
     output_dir: Path
 ):
     """Create comparison plot between LLaMA and Gemma"""
-    components = ['G', 'M', 'R', 'W', 'P']
+    components = ['G', 'M', 'H', 'W', 'P']
     component_names = {
         'G': 'Goal',
         'M': 'Max',
-        'R': 'Risk',
+        'H': 'Hidden',
         'W': 'Win×',
         'P': 'Prob'
     }

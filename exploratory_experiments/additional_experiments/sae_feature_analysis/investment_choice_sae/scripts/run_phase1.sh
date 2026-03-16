@@ -22,10 +22,7 @@ echo "======================================"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_DIR="$( dirname "$SCRIPT_DIR" )"
 
-# Activate conda environment
-echo "Activating conda environment: llama_sae_env"
-eval "$(conda shell.bash hook)"
-conda activate llama_sae_env
+# [SLURM-DISABLED] conda activate not needed in OpenHPC (pre-activated)
 
 # Change to project directory
 cd "$PROJECT_DIR"

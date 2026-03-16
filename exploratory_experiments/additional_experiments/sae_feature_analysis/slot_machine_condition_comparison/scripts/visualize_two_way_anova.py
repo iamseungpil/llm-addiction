@@ -33,7 +33,7 @@ plt.rcParams.update({
 
 def load_results(model_type='llama'):
     """Load Two-Way ANOVA results"""
-    results_dir = Path('/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results')
+    results_dir = Path('/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results')
 
     # Find latest results file
     result_files = sorted(results_dir.glob(f'two_way_anova_{model_type}_*.json'))
@@ -126,7 +126,7 @@ def create_effect_size_comparison(data, model_name='LLaMA-3.1-8B', model_type='l
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/figures/two_way_anova_effect_comparison_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/figures/two_way_anova_effect_comparison_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: {save_file}")
 
@@ -216,7 +216,7 @@ def create_main_effects_scatter(data, model_name='LLaMA-3.1-8B', model_type='lla
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/figures/two_way_anova_main_effects_scatter_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/figures/two_way_anova_main_effects_scatter_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: {save_file}")
 
@@ -287,7 +287,7 @@ def create_interaction_patterns(data, model_name='LLaMA-3.1-8B', model_type='lla
                 fontsize=16, fontweight='bold', y=1.00)
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/figures/two_way_anova_interactions_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/figures/two_way_anova_interactions_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: {save_file}")
 
@@ -353,7 +353,7 @@ def create_layer_wise_effects(data, model_name='LLaMA-3.1-8B', model_type='llama
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/figures/two_way_anova_layer_effects_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/figures/two_way_anova_layer_effects_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: {save_file}")
 

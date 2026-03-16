@@ -9,7 +9,7 @@ Investment Choice SAE Analysis를 빠르게 시작하는 가이드입니다.
 conda activate llama_sae_env
 
 # 프로젝트 디렉토리로 이동
-cd /mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/investment_choice_sae_analysis
+cd /home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/sae_feature_analysis/investment_choice_sae
 ```
 
 ## 2. Config 확인
@@ -19,7 +19,7 @@ cd /mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/investment_c
 ```yaml
 # 데이터 경로가 맞는지 확인
 data:
-  data_dir: /mnt/c/Users/oollccddss/git/data/llm-addiction/investment_choice
+  data_dir: /home/jovyan/beomi/llm-addiction-data/investment_choice
 
 # 분석할 모델 선택
 # Gemma 또는 LLaMA 중 선택
@@ -165,7 +165,7 @@ phase1:
 
 ```bash
 # 데이터 경로 확인
-ls /mnt/c/Users/oollccddss/git/data/llm-addiction/investment_choice/
+ls /home/jovyan/beomi/llm-addiction-data/investment_choice/
 
 # Config 파일에서 data_dir 경로 수정
 ```

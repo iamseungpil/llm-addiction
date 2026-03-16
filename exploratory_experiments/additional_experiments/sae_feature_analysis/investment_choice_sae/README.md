@@ -45,7 +45,7 @@ Phase 4: Causal Validation (GPU, ~2-4시간)
 ## 데이터 요구사항
 
 ### Input Data
-- **Location**: `/mnt/c/Users/oollccddss/git/data/llm-addiction/investment_choice/`
+- **Location**: `/home/jovyan/beomi/llm-addiction-data/investment_choice/`
 - **Format**: JSON files with prompts, responses, choices, outcomes
 - **Structure**:
   ```json
@@ -80,7 +80,7 @@ Phase 4: Causal Validation (GPU, ~2-4시간)
 ### 1. 환경 설정
 ```bash
 conda activate llama_sae_env
-cd /mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/investment_choice_sae_analysis
+cd /home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/sae_feature_analysis/investment_choice_sae
 ```
 
 ### 2. Config 수정

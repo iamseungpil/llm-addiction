@@ -459,7 +459,7 @@ def load_prompt_metadata(json_file: str, game_ids: np.ndarray) -> Dict[str, np.n
             - 'prompt_combos': array of full combo strings (e.g., 'BASE', 'GM', 'GMRWP')
             - 'has_G': binary array indicating Goal-setting component
             - 'has_M': binary array indicating Maximize component
-            - 'has_R': binary array indicating Risk/patterns component
+            - 'has_H': binary array indicating Hidden patterns component
             - 'has_W': binary array indicating Win multiplier component
             - 'has_P': binary array indicating Probability/win rate component
             - 'complexity': int array (0-5) indicating number of components
@@ -480,7 +480,7 @@ def load_prompt_metadata(json_file: str, game_ids: np.ndarray) -> Dict[str, np.n
         'prompt_combos': [],
         'has_G': [],
         'has_M': [],
-        'has_R': [],
+        'has_H': [],
         'has_W': [],
         'has_P': [],
         'complexity': []
@@ -492,9 +492,10 @@ def load_prompt_metadata(json_file: str, game_ids: np.ndarray) -> Dict[str, np.n
 
         # Parse components (BASE has no components)
         # Note: 'G' appears in many combos, so we check it's not just 'G' substring
+        # Support both legacy 'R' and new 'H' for Hidden patterns
         metadata['has_G'].append('G' in combo and combo != 'BASE')
         metadata['has_M'].append('M' in combo)
-        metadata['has_R'].append('R' in combo)
+        metadata['has_H'].append('H' in combo or 'R' in combo)
         metadata['has_W'].append('W' in combo)
         metadata['has_P'].append('P' in combo)
 
@@ -502,11 +503,11 @@ def load_prompt_metadata(json_file: str, game_ids: np.ndarray) -> Dict[str, np.n
         if combo == 'BASE':
             complexity = 0
         else:
-            # Count unique components
+            # Count unique components (support both R and H for Hidden)
             complexity = sum([
                 'G' in combo,
                 'M' in combo,
-                'R' in combo,
+                'H' in combo or 'R' in combo,
                 'W' in combo,
                 'P' in combo
             ])
@@ -517,7 +518,7 @@ def load_prompt_metadata(json_file: str, game_ids: np.ndarray) -> Dict[str, np.n
         'prompt_combos': np.array(metadata['prompt_combos'], dtype=str),
         'has_G': np.array(metadata['has_G'], dtype=bool),
         'has_M': np.array(metadata['has_M'], dtype=bool),
-        'has_R': np.array(metadata['has_R'], dtype=bool),
+        'has_H': np.array(metadata['has_H'], dtype=bool),
         'has_W': np.array(metadata['has_W'], dtype=bool),
         'has_P': np.array(metadata['has_P'], dtype=bool),
         'complexity': np.array(metadata['complexity'], dtype=int)

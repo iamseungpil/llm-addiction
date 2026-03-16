@@ -33,7 +33,7 @@ logger = setup_logger(__name__)
 class ParadigmCorrelationAnalyzer:
     """Analyze correlation between SAE features and outcomes"""
 
-    DEFAULT_DATA_DIR = '/scratch/x3415a02/data/llm-addiction'
+    DEFAULT_DATA_DIR = '/home/jovyan/beomi/llm-addiction-data'
 
     def __init__(
         self,
@@ -314,7 +314,7 @@ def main():
     parser.add_argument('--min-cohens-d', type=float, default=0.3,
                         help='Minimum Cohen\'s d threshold')
     parser.add_argument('--data-dir', type=str, default=None,
-                        help='Data directory (default: /scratch/x3415a02/data/llm-addiction)')
+                        help='Data directory (default: /home/jovyan/beomi/llm-addiction-data)')
 
     args = parser.parse_args()
 

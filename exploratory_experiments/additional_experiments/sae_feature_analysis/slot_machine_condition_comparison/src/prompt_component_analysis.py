@@ -2,7 +2,7 @@
 """
 Prompt Component Analysis for SAE Features
 
-Analyzes how individual prompt components (G/M/R/W/P) affect SAE feature activation
+Analyzes how individual prompt components (G/M/H/W/P) affect SAE feature activation
 in bankruptcy vs safe outcomes.
 
 For each component:
@@ -106,7 +106,7 @@ class PromptComponentAnalyzer:
         Analyze Component × Outcome interaction for a single layer.
 
         Args:
-            component: 'G', 'M', 'R', 'W', or 'P'
+            component: 'G', 'M', 'H', 'W', or 'P'
             layer: Layer number
 
         Returns:
@@ -302,7 +302,7 @@ def main():
     )
     parser.add_argument(
         '--components', type=str, nargs='+', default=None,
-        choices=['G', 'M', 'R', 'W', 'P'],
+        choices=['G', 'M', 'H', 'W', 'P'],
         help='Components to analyze (default: all)'
     )
     parser.add_argument(

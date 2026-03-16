@@ -28,7 +28,7 @@ plt.rcParams.update({
 
 def load_results(model_type='llama'):
     """Load the analysis results"""
-    results_dir = Path('/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results')
+    results_dir = Path('/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results')
 
     # Try summary file first
     summary_files = list(results_dir.glob(f'condition_comparison_summary_{model_type}_*.json'))
@@ -174,7 +174,7 @@ def create_improved_heatmap(data, n_features=20, model_name='LLaMA-3.1-8B', mode
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/fig1_improved_heatmap_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/fig1_improved_heatmap_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: fig1_improved_heatmap_{model_type}.png")
 
@@ -280,7 +280,7 @@ def create_improved_scatter(data, model_name='LLaMA-3.1-8B', model_type='llama')
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/fig3_improved_scatter_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/fig3_improved_scatter_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: fig3_improved_scatter_{model_type}.png")
 

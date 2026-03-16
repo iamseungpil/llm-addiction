@@ -27,7 +27,7 @@ plt.rcParams.update({
 
 def load_results(model_type='llama'):
     """Load the analysis results"""
-    results_dir = Path('/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results')
+    results_dir = Path('/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results')
 
     # Try summary file first
     summary_files = list(results_dir.glob(f'condition_comparison_summary_{model_type}_*.json'))
@@ -172,7 +172,7 @@ def create_four_way_heatmap(data, n_features=20, save_path=None, model_name='LLa
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/fig1_four_way_heatmap_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/fig1_four_way_heatmap_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: fig1_four_way_heatmap_{model_type}.png")
 
@@ -226,7 +226,7 @@ def create_layer_effect_plot(data, save_path=None, model_name='LLaMA-3.1-8B', mo
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/fig2_layer_effect_size_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/fig2_layer_effect_size_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: fig2_layer_effect_size_{model_type}.png")
 
@@ -299,7 +299,7 @@ def create_bet_vs_outcome_scatter(data, save_path=None, model_name='LLaMA-3.1-8B
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/fig3_bet_vs_outcome_scatter_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/fig3_bet_vs_outcome_scatter_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: fig3_bet_vs_outcome_scatter_{model_type}.png")
 
@@ -364,7 +364,7 @@ def create_top_features_bar(data, n_features=15, save_path=None, model_name='LLa
 
     plt.tight_layout()
 
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/fig4_top_features_bar_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/fig4_top_features_bar_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: fig4_top_features_bar_{model_type}.png")
 
@@ -377,7 +377,7 @@ def main(model_type='llama'):
     data = load_results(model_type)
 
     model_name = 'LLaMA-3.1-8B' if model_type == 'llama' else 'Gemma-2-9B-IT'
-    results_dir = '/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results'
+    results_dir = '/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results'
 
     print("\n" + "="*60)
     print(f"Generating Figure 1: Four-Way Heatmap ({model_name})")

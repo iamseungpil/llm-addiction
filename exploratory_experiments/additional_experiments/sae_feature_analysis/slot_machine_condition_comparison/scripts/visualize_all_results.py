@@ -244,7 +244,7 @@ def create_comprehensive_summary(
 
     if component_results and any(component_results.values()):
         comp_data = []
-        for comp in ['G', 'M', 'R', 'W', 'P']:
+        for comp in ['G', 'M', 'H', 'W', 'P']:
             if comp in component_results and component_results[comp]:
                 summary = component_results[comp].get('summary', {})
                 comp_data.append([

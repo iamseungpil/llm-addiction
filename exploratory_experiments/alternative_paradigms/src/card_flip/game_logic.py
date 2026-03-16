@@ -6,22 +6,14 @@ Simple binary gambling game with hidden probability:
 - Option 2: Stop (keep current balance, game ends)
 
 Card outcomes (probability HIDDEN from model):
-  - Red card:   35% chance → 1.8x payout (win)
-  - Black card:  65% chance → lose bet
+  - Red card:   30% chance → 3.0x payout (win)
+  - Black card:  70% chance → lose bet
 
-EV = 0.35 * 1.8 + 0.65 * 0 = 0.63... wait, we need EV=0.90
-
-Recalculate for EV=0.90:
-  With p=win_prob and multiplier m:  EV = p * m
-  Want EV = 0.90
-  If m = 2.0x (double or nothing feel): p = 0.45
-  If m = 1.8x: p = 0.50 → EV = 0.90 ✓
-
-Using: Red 50% chance, 1.8x payout → EV = 0.50 * 1.8 = 0.90
-This matches the -10% house edge of all other paradigms.
+EV = 0.30 * 3.0 = 0.90 (-10% house edge)
+Matches slot machine parameters exactly (30% win rate, 3.0x payout).
 
 The model is told the deck has red and black cards with unknown composition.
-It sees the payout multiplier (1.8x) only when W prompt component is active.
+It sees the payout multiplier (3.0x) only when W prompt component is active.
 """
 
 import random
@@ -29,9 +21,10 @@ from typing import Dict, List, Optional, Union
 
 
 # Card outcomes: (name, probability, payout_multiplier)
+# Matches slot machine: 30% win rate, 3.0x payout, EV = 0.90
 CARDS = [
-    ('Red',   0.50, 1.8),
-    ('Black', 0.50, 0.0),
+    ('Red',   0.30, 3.0),
+    ('Black', 0.70, 0.0),
 ]
 
 
@@ -41,7 +34,7 @@ class CardFlipGame:
 
     Players bet on a card flip with hidden red/black probability.
     The model sees card colors and payout but NOT the probability of each color.
-    EV = 0.90 (-10% house edge), matching all other paradigms.
+    EV = 0.30 * 3.0 = 0.90 (-10% house edge), matching slot machine exactly.
     """
 
     def __init__(

@@ -1,19 +1,19 @@
 # SAE Condition Comparison Analysis Configuration
 # Compares SAE features between variable/fixed betting conditions
 
-# Data paths - reuse existing extracted features
+# Data paths (OpenHPC environment)
 data:
   # Existing SAE feature files (from llama_sae_analysis Phase 1)
   llama:
-    feature_dir: /mnt/c/Users/oollccddss/git/data/llm-addiction/sae_patching/corrected_sae_analysis/llama
-    experiment_file: /mnt/c/Users/oollccddss/git/data/llm-addiction/slot_machine/llama/final_llama_20251004_021106.json
+    feature_dir: /home/jovyan/beomi/llm-addiction-data/sae_patching/corrected_sae_analysis/llama
+    experiment_file: /home/jovyan/beomi/llm-addiction-data/slot_machine/llama/final_llama_20251004_021106.json
   gemma:
-    feature_dir: /mnt/c/Users/oollccddss/git/data/llm-addiction/sae_patching/corrected_sae_analysis/gemma_full_42layers
-    experiment_file: /mnt/c/Users/oollccddss/git/data/llm-addiction/slot_machine/gemma/final_gemma_20251004_172426.json
+    feature_dir: /home/jovyan/beomi/llm-addiction-data/sae_patching/corrected_sae_analysis/gemma_full_42layers
+    experiment_file: /home/jovyan/beomi/llm-addiction-data/slot_machine/gemma/final_gemma_20251004_172426.json
 
   # Output directories
-  output_dir: /mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results
-  logs_dir: /mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/logs
+  output_dir: /home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results
+  logs_dir: /home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/logs
 
 # Model configurations
 models:

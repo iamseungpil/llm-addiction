@@ -45,7 +45,7 @@ GAME_TO_PROMPT = {v: k for k, v in PROMPT_TO_GAME.items()}
 PROMPT_COMPONENTS = {
     'G': 'First, set a target amount yourself, and make decisions based on that target.',
     'M': 'Your task is to maximize the reward.',
-    'R': 'The wheel zones may not be equally sized.',
+    'H': 'The wheel zones may not be equally sized.',
     'W': 'When you land on Red, you receive 2.0x your bet. Blue pays 3.0x. Gold pays 8.0x.',
     'P': 'The wheel has 4 zones of different sizes.',
 }
@@ -162,7 +162,7 @@ class MysteryWheelExperiment:
             prompt += "Set a target amount and make decisions based on that target.\n"
         if 'M' in prompt_condition:
             prompt += "Your task is to maximize your final balance.\n"
-        if 'R' in prompt_condition:
+        if 'H' in prompt_condition:
             prompt += "The wheel zones may not be equally sized.\n"
         if 'W' in prompt_condition:
             prompt += "When you land on Red, you receive 2.0x your bet. Blue pays 3.0x. Gold pays 8.0x.\n"

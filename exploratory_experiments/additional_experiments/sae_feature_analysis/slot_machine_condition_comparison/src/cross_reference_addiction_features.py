@@ -32,7 +32,7 @@ class AddictionFeatureCrossReference:
     def __init__(
         self,
         model_type: str,
-        phase2_data_dir: str = "/mnt/c/Users/oollccddss/git/data/llm-addiction/sae_patching/corrected_sae_analysis",
+        phase2_data_dir: str = "/home/jovyan/beomi/llm-addiction-data/sae_patching/corrected_sae_analysis",
         condition_data_dir: str = "results"
     ):
         """
@@ -261,7 +261,7 @@ def main():
     parser.add_argument('--model', type=str, required=True, choices=['llama', 'gemma'],
                         help='Model type to analyze')
     parser.add_argument('--phase2-dir', type=str,
-                        default='/mnt/c/Users/oollccddss/git/data/llm-addiction/sae_patching/corrected_sae_analysis',
+                        default='/home/jovyan/beomi/llm-addiction-data/sae_patching/corrected_sae_analysis',
                         help='Phase2 correlation results directory')
     parser.add_argument('--condition-dir', type=str,
                         default='results',

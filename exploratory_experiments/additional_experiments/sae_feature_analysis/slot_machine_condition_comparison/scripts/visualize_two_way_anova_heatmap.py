@@ -28,7 +28,7 @@ plt.rcParams.update({
 
 def load_two_way_anova_results(model_type='llama'):
     """Load Two-Way ANOVA results"""
-    results_dir = Path('/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results')
+    results_dir = Path('/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results')
 
     # Find the most recent two-way ANOVA result file
     anova_files = sorted(results_dir.glob(f'two_way_anova_{model_type}_*.json'))
@@ -180,7 +180,7 @@ def create_heatmap_by_ranking(data, ranking_mode='total', n_features=20,
     plt.tight_layout()
 
     # Save
-    save_file = f'/mnt/c/Users/oollccddss/git/llm-addiction/additional_experiments/sae_condition_comparison/results/two_way_anova_heatmap_{ranking_mode}_{model_type}.png'
+    save_file = f'/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/results/two_way_anova_heatmap_{ranking_mode}_{model_type}.png'
     plt.savefig(save_file, dpi=300, bbox_inches='tight', facecolor='white')
     print(f"Saved: {save_file}")
 

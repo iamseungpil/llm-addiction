@@ -3,7 +3,7 @@
 **Models**: Gemma-2-9B-IT (42L, 3584-dim, GemmaScope 131K features) | LLaMA-3.1-8B-Instruct (32L, 4096-dim, LlamaScope 32K features)
 **Paradigms**: Investment Choice (IC, 1600 games), Slot Machine (SM, 3200 games), Mystery Wheel (MW, 3200 games)
 **Data**: Gemma: IC+SM+MW; LLaMA: IC+SM (MW pending extraction)
-**Verified data sources**: `b1_b2_results_20260317_125620.json`, `llama_ic_results_20260317_130655.json`, `gap_filling_20260317_194117.json`, `final_verification_20260317_201024.json`, `llama_symmetric_20260318.json`
+**Verified data sources**: `b1_b2_results_20260317_125620.json`, `llama_ic_results_20260317_130655.json`, `gap_filling_20260317_194117.json`, `final_verification_20260317_201024.json`, `llama_symmetric_20260318.json`, `selfcritique_20260318_114430.json`, `llama_hidden_analyses_20260318_172609.json`
 **Date**: 2026-03-18 (v9.4 — LLaMA hidden states 재추출, Analysis 2/3 대칭 완성)
 
 > **Note on data integrity**: All numerical claims in this report are directly traceable to computed JSON outputs. Unverifiable numbers from previous drafts have been removed or replaced with verified results.
@@ -72,7 +72,9 @@ V8은 L22 단일 layer의 top-50 features만 검사 — 131K features의 0.038%.
 | L30 | 45.3% | 2.5e-19 | *** |
 | L33 | 41.9% | 2.5e-15 | *** |
 
-**Interpretation**: Shallow layers (L10-L12)의 sign-consistency는 **chance level과 유의미한 차이가 없다** (p > 0.05). Deep layers (L18+)에서는 chance를 크게 초과 (p < 5e-3). V8의 결론 — "SAE cross-domain coherence 상실" — 은 분석 범위와 layer 선택의 한계였다. **Deep layers의 cross-domain signal은 통계적으로 robust**하며, 도메인 무관하게 BK를 같은 방향으로 예측하는 features가 존재한다. Shallow layers의 apparent consistency는 해석에 주의 필요.
+![Figure 1: Gemma 3-paradigm sign-consistency with binomial test and strong feature counts](figures/fig1_crossdomain_consistency.png)
+
+**Figure 1 해석**: (a) L10-L12는 chance (25%, red dashed)와 유의미한 차이가 없다 (NS). L18+에서는 chance를 크게 초과 (***). (b) Strong features (d≥0.2) 수는 L30에서 peak (173개). Deep layers의 cross-domain signal은 robust하며, shallow layers의 apparent consistency는 noise.
 
 ---
 
@@ -130,7 +132,9 @@ LLaMA IC: Variable BK=77, Fixed BK=65 — **양쪽 모두 충분한 sample size*
 | Pattern | shallow→deep convergence | **전 layer에서 일관적으로 높음** |
 | Var BK / Fix BK | 14 / 158 (극단적 불균형) | 77 / 65 (균형적) |
 
-**해석**: Gemma IC에서 관찰된 "shallow에서 negative → deep에서 positive"는 **Variable BK=14건의 noisy estimation + Fixed 19.75% vs Variable 1.75%의 극단적 rate 차이의 아티팩트일 가능성**이 높다. LLaMA IC에서 양쪽이 균형적 (77 vs 65)일 때, BK direction은 **모든 layer에서 cos > 0.81**로 높은 수렴을 보인다. **Bet-type에 무관하게 BK representation이 공유된다는 주장은 LLaMA IC에서 더 강하게 지지된다.**
+![Figure 2: BK direction cosine similarity across layers — Gemma vs LLaMA IC](figures/fig2_bk_direction_crossmodel.png)
+
+**Figure 2 해석**: Gemma IC (blue)는 shallow layers에서 negative → deep에서 positive로 수렴하지만, LLaMA IC (orange)는 전 layer에서 cos > 0.81. Gemma의 shallow negative는 Variable BK=14건의 noisy estimation artifact일 가능성이 높다. LLaMA에서 균형적 sample (77 vs 65)일 때, BK direction은 모든 depth에서 수렴.
 
 ### Supplementary: Balance Confound Control (Partial Correlation)
 
@@ -169,7 +173,9 @@ Analysis 2는 방향 유사성을 보여주지만, 개별 neuron의 bet-type 독
 | Interaction-significant (p<0.01) | 448 | 12.5% |
 | **Shared BK neurons** (outcome sig, interaction NOT sig) | **1,182** | **33.0%** |
 
-**Interpretation**: 전체 neuron의 33%가 bet-type에 무관하게 BK를 일관 예측. Shared BK neurons (1,182)가 interaction neurons (448)의 **2.6배**. BK의 neural basis는 조건-특이적보다 조건-무관한 공통 메커니즘에 더 크게 의존한다.
+![Figure 7: Shared vs Interaction BK neurons across models and paradigms](figures/fig7_shared_bk_neurons.png)
+
+**Figure 7 해석**: Gemma IC (33.0%)와 LLaMA IC (36.6%)에서 유사한 비율의 shared BK neurons. LLaMA SM에서는 1.8%로 극히 낮음 — SM에서 BK가 Variable에 집중(72.3%)되어 bet-type-independent 표상이 거의 없음.
 
 ### LLaMA Interaction Regression (New — hidden states 재추출)
 
@@ -227,9 +233,9 @@ Vectorized OLS; t-test per coefficient at p < 0.01
 | Bet-type (Variable vs Fixed), after controlling others | 536 | 92.3% |
 | Paradigm (IC/SM/MW), after controlling others | 580 | 99.8% |
 
-**Permutation validation**: Outcome labels를 100회 shuffle한 null distribution에서 outcome-significant features는 평균 1.0% (max 4.7%). 실제 67.2%는 null의 67배 → **perm_p=0.000**. LLaMA에서도 동일 (71.2% vs null 0.9%, perm_p=0.000).
+![Figure 3: Factor decomposition — BK signal independence validated by permutation test](figures/fig3_factor_decomposition.png)
 
-**Interpretation**: BK 신호의 독립적 존재가 두 모델 모두에서 permutation test로 확인됨. 이는 BK representation이 bet_type·paradigm confound가 아닌 진정한 독립적 축임을 입증.
+**Figure 3 해석**: 두 모델 모두 outcome-significant features가 67-71% (blue/orange bars)로, permutation null (~1%, red dashed)을 67-71배 초과. BK representation의 독립적 존재가 아키텍처 무관하게 확립됨.
 
 ### Supplementary: Within-Bet-Type Cross-Domain SAE Consistency (L22)
 
@@ -287,6 +293,10 @@ For each (train, test) paradigm pair, at layers [18, 22, 26, 30]:
 - **IC→SM transfer는 layer에 따라 크게 달라진다**: L26에서 0.913 (p=0.000)이지만 L22에서 0.499 (NS). 이는 IC와 SM의 BK representation이 specific layer에서만 정렬됨을 시사.
 - **MW→IC: L22에서 0.853** — MW에서 학습한 패턴이 IC BK를 잘 예측하는 놀라운 결과.
 - 모든 유의미한 transfer는 perm_p=0.000 (200 permutation 중 0회 초과).
+
+![Figure 4: Gemma cross-domain transfer AUC heatmap with significance](figures/fig4_transfer_heatmap.png)
+
+**Figure 4 해석**: IC→MW (green, 0.77-0.93)와 SM→MW (0.79-0.87)는 전 layer에서 유의미. IC→SM은 layer-dependent (L26: 0.913***, L22: 0.499 NS). Red cells은 transfer 실패.
 
 ---
 
@@ -353,6 +363,10 @@ LLaMA SM (3,200 games)와 LLaMA IC (1,600 games)에서 SAE features 추출 후 G
 3. **Encoding depth는 다르다**: Gemma는 L20에서 peak (mid-deep), LLaMA는 L8에서 peak (early). BK 정보가 **어디에** 인코딩되는지는 아키텍처에 의존하지만, **정보의 존재**와 **구조** (inhibiting 우세)는 아키텍처 무관.
 
 4. **R1 early prediction**: 게임 시작(Round 1)에서 이미 0.665-0.801로 BK 예측 가능 — 미래 파산의 신호가 게임 시작부터 존재.
+
+![Figure 6: BK classification AUC across layers — cross-model comparison for SM and IC](figures/fig6_classification_auc.png)
+
+**Figure 6 해석**: (a) SM에서 두 모델 모두 AUC > 0.95 (Gemma peak L18-20, LLaMA peak L8). (b) IC에서 Gemma는 L30에서 peak (0.960), LLaMA는 L12 peak (0.954). Encoding depth는 다르지만 예측 성능은 거의 동등.
 
 ### Cross-Model IC BK Rate Asymmetry
 
@@ -551,6 +565,10 @@ SM 3,200 games를 각 component의 유무로 이분. Per-component:
 **W(Warning)의 shallow-specific 효과**: Warning은 초기 처리 단계(L10: 42 amplifying neurons)에서만 BK와 상호작용하고, deep layers에서는 사라진다. Warning이 behavioral level에서만 유효하며 deep semantic level에서는 BK에 영향을 주지 않는다는 것.
 
 **RQ3 답변 (Gemma)**: 프롬프트 조건 G가 BK를 지배적으로 결정하지만, G는 기존 BK 메커니즘을 변조하지 않고 독립적으로 BK를 유발한다.
+
+![Figure 5: Prompt component BK effect — dramatic cross-model difference for G (Goal)](figures/fig5_prompt_components.png)
+
+**Figure 5 해석**: G(Goal) component가 Gemma에서 20.8x BK 증가 (blue, dominant)이지만 LLaMA에서는 1.26x (orange, mild). 같은 prompt가 모델에 따라 16배 다른 행동적 효과. M, W, P는 두 모델 모두에서 약함.
 
 ---
 

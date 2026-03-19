@@ -235,7 +235,7 @@ Vectorized OLS; t-test per coefficient at p < 0.01
 
 ![Figure 3: Factor decomposition — BK signal independence validated by permutation test](figures/fig3_factor_decomposition.png)
 
-**Figure 3 해석**: 두 모델 모두 outcome-significant features가 67-71% (blue/orange bars)로, permutation null (~1%, red dashed)을 67-71배 초과. BK representation의 독립적 존재가 아키텍처 무관하게 확립됨.
+**Figure 3 해석**: 두 모델 모두 outcome-significant features가 65-71% (blue/orange bars)로, permutation null (~1%, red dashed)을 60배+ 초과 (perm_p=0.000). BK representation의 독립적 존재가 아키텍처 무관하게 확립됨. (*Figure의 67.2%/71.2%는 selfcritique rerun 수치; 테이블의 65.2%/69.5%는 원 분석 수치 — union-active features의 경계 차이.)*
 
 ### Supplementary: Within-Bet-Type Cross-Domain SAE Consistency (L22)
 
@@ -380,7 +380,7 @@ LLaMA SM (3,200 games)와 LLaMA IC (1,600 games)에서 SAE features 추출 후 G
 
 Gemma에서 Fixed betting이 11배 더 위험하지만, LLaMA에서는 거의 차이 없다. 이는 두 모델이 IC에서 "고정 금액 투자"를 해석하는 방식이 근본적으로 다름을 의미한다. Gemma는 Fixed에서 항상 최대 투자→파산 경로 고정, LLaMA는 Fixed에서도 보수적 전략 유지.
 
-**이 비대칭은 Analysis 2-3 (Variable/Fixed BK direction)의 cross-model 일반화를 제한한다**: Gemma IC에서 관찰된 "deep layer BK direction convergence"가 LLaMA IC에서도 동일한 의미를 가지는지 직접 비교가 어렵다. (LLaMA IC hidden states 미보존으로 직접 검증 불가.)
+**이 비대칭은 Analysis 2-3 (Variable/Fixed BK direction)의 cross-model 해석을 복잡하게 만든다**: Gemma IC (Fixed 19.75% BK, Variable 1.75%)와 LLaMA IC (Fixed 8.1%, Variable 9.6%)에서 "Variable vs Fixed"의 의미 자체가 다르다. 그러나 Analysis 2에서 LLaMA IC hidden states를 재추출하여 직접 검증한 결과, LLaMA IC에서는 cos > 0.81 (전 layer)로 bet-type convergence가 더 강하게 확인되었다.
 
 ---
 
@@ -408,7 +408,7 @@ Per-feature OLS: feature ~ outcome + bet_type + paradigm
 
 ### Interpretation
 
-**두 모델에서 outcome factor의 독립적 기여가 유사하다** (Gemma 67.2%, LLaMA 71.2%). **Permutation test로 검증: null (outcome shuffled)에서 outcome-significant features는 ~1% → 실제 67-71%는 perm_p=0.000.** "BK representation의 독립적 존재"가 두 모델에서 통계적으로 확립됨.
+**두 모델에서 outcome factor의 독립적 기여가 유사하다** (Gemma 65.2%, LLaMA 69.5%). **Permutation test로 검증 (selfcritique rerun, K=527/1335): null에서 outcome-significant features는 ~1% → 실제 65-71%는 perm_p=0.000.** "BK representation의 독립적 존재"가 두 모델에서 통계적으로 확립됨. (*Note*: Permutation rerun의 K가 원 분석 K와 약간 다름 — union-active threshold 경계 효과. 결론에 영향 없음.)
 
 LLaMA에서 BK-inhibiting features (546)가 BK-promoting (439)보다 많다. 단, 이 패턴은 **L30에서 유의미** (binomial p=0.001)하지만 **L22에서는 유의미하지 않다** (p=0.897).
 
@@ -578,7 +578,7 @@ SM 3,200 games를 각 component의 유무로 이분. Per-component:
 
 Analysis 9에서 Gemma SM의 prompt component를 분석했다. LLaMA SM에도 prompt_conditions이 존재 (G/M/H/W/P combinatorial). 대칭적 cross-model 비교가 필요.
 
-*Note*: LLaMA SM hidden states가 미보존이므로, hidden state neuron이 아닌 **SAE feature level**로 분석. Gemma SM은 hidden state neuron (3,584-dim) 기반, LLaMA SM은 SAE feature (32K, active ~800-1400) 기반이므로 absolute counts가 직접 비교 불가. 비율(%)로 비교.
+*Note*: LLaMA SM hidden states가 v9.4에서 5 layers (L8,12,22,25,30)에 대해 재추출되었으나, Analysis 9b는 SAE feature level로 수행 (32 layers 전체 커버리지). Gemma SM은 hidden state neuron (3,584-dim, 42 layers) 기반. Absolute counts 직접 비교 불가; 비율(%)로 비교.
 
 ### What & How
 

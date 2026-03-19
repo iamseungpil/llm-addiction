@@ -19,7 +19,7 @@ from investment_choice.game_logic import InvestmentChoiceGame
 logger = setup_logger(__name__)
 
 BET_CONSTRAINT = 50
-OUTPUT_DIR = Path('/scratch/x3415a02/data/llm-addiction/investment_choice')
+OUTPUT_DIR = Path('/home/jovyan/beomi/llm-addiction-data/investment_choice')
 
 
 def build_legacy_prompt(game, prompt_condition, current_goal, bet_type, bet_constraint):

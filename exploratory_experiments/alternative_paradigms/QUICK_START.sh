@@ -4,7 +4,7 @@
 
 set -e  # Exit on error
 
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
 
 echo "============================================"
 echo "SUBMITTING PRIORITY 1 EXPERIMENTS"
@@ -39,8 +39,8 @@ echo "Monitor with:"
 echo "  squeue -u \$USER"
 echo ""
 echo "View logs:"
-echo "  tail -f /scratch/x3415a02/data/llm-addiction/logs/inv_prompt_test_${JOB1}.out"
-echo "  tail -f /scratch/x3415a02/data/llm-addiction/logs/blackjack_gemma_var_${JOB2}.out"
+echo "  tail -f /home/jovyan/beomi/llm-addiction-data/logs/inv_prompt_test_${JOB1}.out"
+echo "  tail -f /home/jovyan/beomi/llm-addiction-data/logs/blackjack_gemma_var_${JOB2}.out"
 echo ""
 echo "⏰ Estimated completion: ~3 hours from now"
 echo ""

@@ -39,7 +39,7 @@ def test_investment_mini(model_loader, n_games: int = 3):
     logger.info("=" * 60)
 
     # Create experiment
-    output_dir = Path('/scratch/x3415a02/data/llm-addiction/investment_choice/test')
+    output_dir = Path('/home/jovyan/beomi/llm-addiction-data/investment_choice/test')
     output_dir.mkdir(parents=True, exist_ok=True)
 
     exp = InvestmentChoiceExperiment(
@@ -112,7 +112,7 @@ def test_blackjack_mini(model_loader, n_games: int = 3):
     logger.info("=" * 60)
 
     # Create experiment
-    output_dir = Path('/scratch/x3415a02/data/llm-addiction/blackjack/test')
+    output_dir = Path('/home/jovyan/beomi/llm-addiction-data/blackjack/test')
     output_dir.mkdir(parents=True, exist_ok=True)
 
     exp = BlackjackExperiment(

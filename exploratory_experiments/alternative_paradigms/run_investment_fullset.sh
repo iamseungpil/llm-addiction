@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH -J investment_fullset
-#SBATCH -p cas_v100_4
-#SBATCH --comment pytorch
-#SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=32G
-#SBATCH --time=06:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/investment_fullset_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/investment_fullset_%j.err
+# [SLURM-DISABLED] #SBATCH -J investment_fullset
+# [SLURM-DISABLED] #SBATCH -p cas_v100_4
+# [SLURM-DISABLED] #SBATCH --comment pytorch
+# [SLURM-DISABLED] #SBATCH --gres=gpu:1
+# [SLURM-DISABLED] #SBATCH --cpus-per-task=4
+# [SLURM-DISABLED] #SBATCH --mem=32G
+# [SLURM-DISABLED] #SBATCH --time=06:00:00
+# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/beomi/llm-addiction-data/logs/investment_fullset_%j.out
+# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/beomi/llm-addiction-data/logs/investment_fullset_%j.err
 
 echo "========================================================================"
 echo "Investment Choice Full-Set Experiment"
@@ -22,7 +22,7 @@ source ~/.bashrc
 conda activate llama_sae_env
 
 # Navigate to project directory
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
 
 # Check GPU
 echo ""
@@ -72,7 +72,7 @@ echo ""
 echo "========================================================================"
 echo "Output Files:"
 echo "========================================================================"
-ls -lh /scratch/x3415a02/data/llm-addiction/investment_choice/*$(date +%Y%m%d)*.json
+ls -lh /home/jovyan/beomi/llm-addiction-data/investment_choice/*$(date +%Y%m%d)*.json
 
 echo ""
 echo "========================================================================"

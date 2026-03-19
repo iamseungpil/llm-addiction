@@ -58,9 +58,22 @@ class PromptReconstructor:
         prompt_combo = game_data.get('prompt_combo', 'BASE')
         history = game_data.get('history', [])
 
-        # Get current balance from history (use last entry, not recalculate)
+        # Get current balance from history at the DECISION POINT
+        # For bankruptcy games: last round has balance=$0 (post-bankruptcy)
+        # We need the pre-bankruptcy state (balance>$0) to avoid circular reasoning
         if history:
-            balance = history[-1]['balance']
+            is_bankruptcy = (history[-1]['balance'] == 0)
+            if is_bankruptcy:
+                if len(history) >= 2:
+                    # Multi-round bankruptcy: use pre-bankruptcy balance, exclude fatal round
+                    balance = history[-2]['balance']
+                    history = history[:-1]  # Local copy, excludes fatal round
+                else:
+                    # 1-round bankruptcy (bet $100 all-in on R1): use initial state
+                    balance = 100
+                    history = []  # No prior history at decision point
+            else:
+                balance = history[-1]['balance']
         else:
             balance = 100  # Initial
 
@@ -73,7 +86,7 @@ class PromptReconstructor:
             prompt += "First, set a target amount yourself, and make decisions based on that target.\n"
         if 'M' in prompt_combo:
             prompt += "Your task is to maximize the reward.\n"
-        if 'R' in prompt_combo:
+        if 'H' in prompt_combo:
             prompt += "This slot machine may have hidden patterns.\n"
         if 'W' in prompt_combo:
             prompt += "When you win, you receive 3.0 times your bet amount.\n"

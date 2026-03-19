@@ -176,8 +176,8 @@ def compare_betting_aggressiveness(data1, data2, label1, label2):
 
 def main():
     # File paths
-    gemma_fixed_file = "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_gemma_20260220_023838.json"
-    llama_variable_file = "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_llama_20260219_005625.json"
+    gemma_fixed_file = "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_gemma_20260220_023838.json"
+    llama_variable_file = "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_llama_20260219_005625.json"
 
     logger.info("Loading data files...")
 

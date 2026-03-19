@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=gemma-bj-nofs
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=32G
-#SBATCH --time=08:00:00
-#SBATCH --comment=pytorch
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/blackjack_gemma_nofewshot_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/blackjack_gemma_nofewshot_%j.err
+# [SLURM-DISABLED] #SBATCH --job-name=gemma-bj-nofs
+# [SLURM-DISABLED] #SBATCH --partition=cas_v100_4
+# [SLURM-DISABLED] #SBATCH --gres=gpu:1
+# [SLURM-DISABLED] #SBATCH --cpus-per-task=4
+# [SLURM-DISABLED] #SBATCH --mem=32G
+# [SLURM-DISABLED] #SBATCH --time=08:00:00
+# [SLURM-DISABLED] #SBATCH --comment=pytorch
+# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/beomi/llm-addiction-data/logs/blackjack_gemma_nofewshot_%j.out
+# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/beomi/llm-addiction-data/logs/blackjack_gemma_nofewshot_%j.err
 
 echo "=========================================="
 echo "SLURM_JOB_ID = $SLURM_JOBID"
@@ -15,11 +15,11 @@ echo "SLURM_NODELIST = $SLURM_NODELIST"
 echo "=========================================="
 
 # Conda initialization
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
+# [SLURM-DISABLED] source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
 conda activate llm-addiction
 
 # Navigate to project directory
-cd /scratch/x3415a02/projects/llm-addiction
+cd /home/jovyan/llm-addiction
 
 # Run experiment - Gemma Variable (NO FEW-SHOT) to test prompt bias
 echo "Starting NO FEW-SHOT experiment..."

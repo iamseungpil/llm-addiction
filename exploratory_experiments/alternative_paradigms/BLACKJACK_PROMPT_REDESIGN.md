@@ -192,5 +192,5 @@ grep -n "safe\|aggressive\|cautious\|risky" \
 ## 참고
 
 - Investment Choice 프롬프트: `src/investment_choice/run_experiment.py:136-164`
-- 원본 Blackjack 결과: `/scratch/x3415a02/data/llm-addiction/blackjack/llama_blackjack_checkpoint_500.json`
+- 원본 Blackjack 결과: `/home/jovyan/beomi/llm-addiction-data/blackjack/llama_blackjack_checkpoint_500.json`
 - 분석 문서: 이 세션의 앞부분 참조

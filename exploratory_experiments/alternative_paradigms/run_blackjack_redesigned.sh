@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=blackjack_redesigned
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --comment=pytorch
-#SBATCH --time=48:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/blackjack_redesigned_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/blackjack_redesigned_%j.err
+# [SLURM-DISABLED] #SBATCH --job-name=blackjack_redesigned
+# [SLURM-DISABLED] #SBATCH --partition=cas_v100_4
+# [SLURM-DISABLED] #SBATCH --gres=gpu:1
+# [SLURM-DISABLED] #SBATCH --ntasks=1
+# [SLURM-DISABLED] #SBATCH --cpus-per-task=4
+# [SLURM-DISABLED] #SBATCH --comment=pytorch
+# [SLURM-DISABLED] #SBATCH --time=48:00:00
+# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/beomi/llm-addiction-data/logs/blackjack_redesigned_%j.out
+# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/beomi/llm-addiction-data/logs/blackjack_redesigned_%j.err
 
 # Blackjack experiment with REDESIGNED bet structure
 # Fixed betting: Always $10, $30, $50, $70
@@ -15,8 +15,9 @@
 # Total: 8 bet configs × 8 components × 50 reps = 3,200 games
 
 # Initialize conda
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
+# [SLURM-DISABLED] source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
+# [OpenHPC] conda already activated
+# conda activate llm-addiction
 
 MODEL=$1
 
@@ -40,7 +41,7 @@ echo "Start time: $(date)"
 echo "========================================="
 
 # Navigate to experiment directory
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
 
 # Run experiment
 python src/blackjack/run_experiment_redesigned.py \

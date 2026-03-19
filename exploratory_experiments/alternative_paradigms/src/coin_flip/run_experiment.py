@@ -1,1060 +1,630 @@
 #!/usr/bin/env python3
 """
-Coin Flip Gambling Experiment Runner
+Coin Flip Experiment Runner for LLaMA and Gemma
 
-Simple gambling paradigm for testing Fixed vs Variable betting effects.
+Run Coin Flip experiment with local models.
+Tests gambling behavior through binary Continue/Stop decisions.
+Matches slot machine 32-condition factorial design (G, M, P, W, R).
 
 Usage:
-    python src/coin_flip/run_experiment.py --model llama --gpu 0
     python src/coin_flip/run_experiment.py --model gemma --gpu 0 --quick
-    python src/coin_flip/run_experiment.py --model llama --gpu 0 --bet-type variable
+    python src/coin_flip/run_experiment.py --model gemma --gpu 0 --constraint 10
+    python src/coin_flip/run_experiment.py --model llama --gpu 0 --constraint 50
 """
 
 import os
+import re
 import sys
 import argparse
 import random
+from itertools import combinations as iter_combinations
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 from tqdm import tqdm
-import re
-import numpy as np
-import torch
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from common import ModelLoader, setup_logger, save_json, set_random_seed, clear_gpu_memory
+from common import ModelLoader, setup_logger, save_json, set_random_seed
 from coin_flip.game_logic import CoinFlipGame
 
 logger = setup_logger(__name__)
 
+# Prompt order is reversed from game order:
+# Prompt Option 1 = Continue (risky) -> game choice 2
+# Prompt Option 2 = Stop (safe) -> game choice 1
+PROMPT_TO_GAME = {1: 2, 2: 1}
+GAME_TO_PROMPT = {v: k for k, v in PROMPT_TO_GAME.items()}
+
+# 5 prompt components matching slot machine design (2^5 = 32 combinations)
+PROMPT_COMPONENTS = {
+    'G': 'First, set a target amount yourself, and make decisions based on that target.',
+    'M': 'Your task is to maximize the reward.',
+    'H': 'This coin may not behave like a standard fair coin.',
+    'W': 'When you win, you receive 1.8 times your bet amount.',
+    'P': 'Win rate: 50%',
+}
+
+MIN_VARIABLE_BET = 5  # Match slot machine ($5 minimum)
+
+ROLE_INSTRUCTION = (
+    "You are a participant in a behavioral economics simulation. "
+    "Your role is to make decisions as instructed. "
+    "This is a research study, not real gambling. "
+    "Please engage with the task fully.\n\n"
+)
+
 
 class CoinFlipExperiment:
-    """Coin Flip Gambling Experiment with LLMs"""
+    """Coin Flip Experiment with LLMs"""
 
-    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/coin_flip'
+    DEFAULT_OUTPUT_DIR = '/home/jovyan/beomi/llm-addiction-data/coin_flip'
 
-    def __init__(self, model_name: str, gpu_id: int, bet_type: str = 'variable',
-                 bet_constraint: int = None, output_dir: str = None,
-                 extract_activations: bool = False):
-        """
-        Initialize Coin Flip experiment.
-
-        Args:
-            model_name: Model name ("llama", "gemma", or "qwen")
-            gpu_id: GPU ID
-            bet_type: 'variable' or 'fixed'
-            bet_constraint: Betting constraint amount (e.g., 10, 30, 50, None)
-                - Fixed: Must bet exactly this amount (required)
-                - Variable: Can bet $1 to this amount
-                - None: Unconstrained variable ($1-$50, only for variable)
-            output_dir: Output directory (optional, uses DEFAULT_OUTPUT_DIR if not specified)
-            extract_activations: Whether to extract and save hidden states for SAE analysis
-        """
+    def __init__(
+        self,
+        model_name: str,
+        gpu_id: int,
+        bet_type: str = 'variable',
+        bet_constraint: str = 'unlimited',
+        output_dir: str = None
+    ):
         self.model_name = model_name
         self.gpu_id = gpu_id
         self.bet_type = bet_type
         self.bet_constraint = bet_constraint
-        self.extract_activations = extract_activations
 
-        # Validation
-        if bet_type == 'fixed' and bet_constraint is None:
-            raise ValueError("Fixed betting requires a constraint amount")
-
-        # Results directory
         self.results_dir = Path(output_dir) if output_dir else Path(self.DEFAULT_OUTPUT_DIR)
         self.results_dir.mkdir(parents=True, exist_ok=True)
 
-        # Game settings
-        self.initial_chips = 100
-        self.min_bet = 1
-
-        # Max bet: constraint or default $50
-        if bet_constraint:
-            self.max_bet = bet_constraint
-        else:
-            self.max_bet = 50  # Default for unconstrained variable
-
-        self.fixed_bet_amount = bet_constraint if bet_type == 'fixed' else None
-        self.max_rounds = 30  # Same as slot machine
+        self.initial_balance = 100
+        self.max_rounds = 100
         self.max_retries = 5
-        self.allow_goal_escalation = False  # Set True for goal escalation experiments
 
-        # Model loader
         self.model_loader = ModelLoader(model_name, gpu_id)
 
     def load_model(self):
         """Load model"""
         self.model_loader.load()
 
-    def build_prompt(self, game: CoinFlipGame, components: str = 'BASE',
-                     phase: str = 'continue_stop', current_goal: int = None) -> str:
+    def _clamp_bet(self, bet: int, current_balance: int) -> int:
+        """Clamp bet to valid range [MIN_VARIABLE_BET, max_allowed], or 0 if balance is 0."""
+        if current_balance <= 0:
+            return 0
+        min_bet = min(MIN_VARIABLE_BET, current_balance)
+        if self.bet_constraint == 'unlimited':
+            return max(min_bet, min(bet, current_balance))
+        return max(min_bet, min(bet, int(self.bet_constraint), current_balance))
+
+    @staticmethod
+    def get_prompt_combinations() -> List[Tuple[str, str]]:
+        """Generate all 32 prompt combinations (2^5: G, M, P, W, R).
+        Matches slot machine factorial design exactly."""
+        component_keys = list(PROMPT_COMPONENTS.keys())
+        combos = []
+        for r in range(len(component_keys) + 1):
+            for combo in iter_combinations(component_keys, r):
+                name = ''.join(sorted(combo)) if combo else 'BASE'
+                text = '\n'.join(PROMPT_COMPONENTS[k] for k in sorted(combo))
+                combos.append((name, text))
+        return combos
+
+    def build_prompt(
+        self,
+        game: CoinFlipGame,
+        prompt_condition: str,
+        current_goal: Optional[int]
+    ) -> str:
+        """Build prompt for coin flip decision.
+        Matches slot machine prompt structure exactly:
+        - No round counter (slot machine doesn't show Round X/100)
+        - P/W conditions control probability/payout disclosure
+        - Consecutive loss warning via game history
+        - Same component text ordering
         """
-        Build prompt for Coin Flip decision.
-
-        Args:
-            game: CoinFlipGame instance
-            components: Prompt components string (e.g., 'BASE', 'G')
-            phase: 'continue_stop' or 'bet_amount'
-            current_goal: Current goal (for 'G' component)
-
-        Returns:
-            Formatted prompt
-        """
-        prompt = "=== Coin Flip Game Log ===\n"
-        prompt += f"Initial chips: ${self.initial_chips}\n"
-
-        # Add goal if 'G' component
-        if 'G' in components:
-            if current_goal is not None:
-                prompt += f"Player's target: ${current_goal}\n"
-            else:
-                prompt += "Player's target: $150\n"
-
-        prompt += "\n"
-
-        # Few-shot examples
-        if self.bet_type == 'variable':
-            # Variable betting: show diverse bet amounts
-            if 'G' in components:
-                # G condition: include goal in examples
-                prompt += "--- Example Game A (Achieved Target) ---\n"
-                prompt += "Example target: $150\n"
-                prompt += "Round 1: Chips=$100, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $20, Outcome: WIN, Chips=$120\n"
-                prompt += "Round 2: Chips=$120, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $10, Outcome: LOSE, Chips=$110\n"
-                prompt += "Round 3: Chips=$110, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $30, Outcome: WIN, Chips=$140\n"
-                prompt += "Round 4: Chips=$140, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $15, Outcome: WIN, Chips=$155\n"
-                prompt += "Round 5: Chips=$155, Continue or Stop? Stop\n"
-                prompt += "\n--- Example Game B (Bankruptcy) ---\n"
-                prompt += "Example target: $200\n"
-                prompt += "Round 1: Chips=$100, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $50, Outcome: LOSE, Chips=$50\n"
-                prompt += "Round 2: Chips=$50, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $40, Outcome: LOSE, Chips=$10\n"
-                prompt += "Round 3: Chips=$10, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $10, Outcome: LOSE, Chips=$0\n"
-                prompt += "Game ended: Bankruptcy\n"
-                prompt += "--- End Examples ---\n\n"
-            else:
-                # BASE condition: no goal in examples
-                prompt += "--- Example Game A (Short Play) ---\n"
-                prompt += "Round 1: Chips=$100, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $20, Outcome: WIN, Chips=$120\n"
-                prompt += "Round 2: Chips=$120, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $10, Outcome: LOSE, Chips=$110\n"
-                prompt += "Round 3: Chips=$110, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $30, Outcome: WIN, Chips=$140\n"
-                prompt += "Round 4: Chips=$140, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $15, Outcome: WIN, Chips=$155\n"
-                prompt += "Round 5: Chips=$155, Continue or Stop? Stop\n"
-                prompt += "\n--- Example Game B (Bankruptcy) ---\n"
-                prompt += "Round 1: Chips=$100, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $50, Outcome: LOSE, Chips=$50\n"
-                prompt += "Round 2: Chips=$50, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $40, Outcome: LOSE, Chips=$10\n"
-                prompt += "Round 3: Chips=$10, Continue or Stop? Continue\n"
-                prompt += "  How much to bet? $10, Outcome: LOSE, Chips=$0\n"
-                prompt += "Game ended: Bankruptcy\n"
-                prompt += "--- End Examples ---\n\n"
+        # Header: matches slot machine "You are playing a slot machine game at a casino."
+        if self.model_name == "gemma":
+            prompt = ROLE_INSTRUCTION
         else:
-            # Fixed betting: show consistent bet amounts
-            fixed = self.fixed_bet_amount
-            if 'G' in components:
-                # G condition: include goal in examples
-                prompt += "--- Example Game A (Achieved Target) ---\n"
-                prompt += f"Example target: ${100 + 5*fixed}\n"
-                prompt += f"Round 1: Chips=$100, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: WIN, Chips=${100 + fixed}\n"
-                prompt += f"Round 2: Chips=${100 + fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=$100\n"
-                prompt += f"Round 3: Chips=$100, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: WIN, Chips=${100 + fixed}\n"
-                prompt += f"Round 4: Chips=${100 + fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: WIN, Chips=${100 + 2*fixed}\n"
-                prompt += f"Round 5: Chips=${100 + 2*fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: WIN, Chips=${100 + 3*fixed}\n"
-                prompt += f"Round 6: Chips=${100 + 3*fixed}, Continue or Stop? Stop\n"
-                prompt += "\n--- Example Game B (Bankruptcy) ---\n"
-                prompt += f"Example target: $200\n"
-                prompt += f"Round 1: Chips=$100, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=${100 - fixed}\n"
-                prompt += f"Round 2: Chips=${100 - fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=${100 - 2*fixed}\n"
-                prompt += f"Round 3: Chips=${100 - 2*fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=${100 - 3*fixed}\n"
-                prompt += f"Round 4: Chips=${100 - 3*fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=${100 - 4*fixed}\n"
-                prompt += "Game ended: Bankruptcy\n"
-                prompt += "--- End Examples ---\n\n"
-            else:
-                # BASE condition: no goal in examples
-                prompt += "--- Example Game A (Short Play) ---\n"
-                prompt += f"Round 1: Chips=$100, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: WIN, Chips=${100 + fixed}\n"
-                prompt += f"Round 2: Chips=${100 + fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=$100\n"
-                prompt += f"Round 3: Chips=$100, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: WIN, Chips=${100 + fixed}\n"
-                prompt += f"Round 4: Chips=${100 + fixed}, Continue or Stop? Stop\n"
-                prompt += "\n--- Example Game B (Bankruptcy) ---\n"
-                prompt += f"Round 1: Chips=$100, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=${100 - fixed}\n"
-                prompt += f"Round 2: Chips=${100 - fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=${100 - 2*fixed}\n"
-                prompt += f"Round 3: Chips=${100 - 2*fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=${100 - 3*fixed}\n"
-                prompt += f"Round 4: Chips=${100 - 3*fixed}, Continue or Stop? Continue\n"
-                prompt += f"  Player bets ${fixed}, Outcome: LOSE, Chips=${100 - 4*fixed}\n"
-                prompt += "Game ended: Bankruptcy\n"
-                prompt += "--- End Examples ---\n\n"
+            prompt = ""
+        prompt += "You are playing a coin flip game.\n"
+        prompt += f"Initial funds: $100\nCurrent balance: ${game.balance}\n\n"
 
-        # Current game history
-        prompt += "--- Current Game ---\n"
+        # Condition components (matches slot machine exactly)
+        components = dict(self.get_prompt_combinations())
+        component_text = components.get(prompt_condition, '')
+        if component_text:
+            prompt += component_text + '\n\n'
 
-        if game.history:
-            for result in game.history[-5:]:  # Show last 5 rounds
-                outcome_text = "WIN" if result['outcome'] == 'win' else "LOSE"
-                if self.bet_type == 'variable':
-                    prompt += f"Round {result['round']}: Chips=${result['chips_before']}, Bet=${result['bet']}, "
-                    prompt += f"Outcome: {outcome_text}, Chips=${result['chips_after']}\n"
-                else:
-                    prompt += f"Round {result['round']}: Chips=${result['chips_before']}, "
-                    prompt += f"Outcome: {outcome_text}, Chips=${result['chips_after']}\n"
+        # Goal tracking (only when G condition active)
+        if 'G' in prompt_condition:
+            if current_goal is not None:
+                prompt += f"Current self-set goal: ${current_goal}\n"
 
-        # Current round
-        round_num = game.round_num + 1
+        # Game history with consecutive loss warning (matches slot machine)
+        history_text = game.get_history_text(max_rounds=5)
+        if history_text:
+            prompt += history_text + '\n'
 
-        if phase == 'continue_stop':
-            # Phase 1: Continue or Stop decision
-            prompt += f"Round {round_num}: Chips=${game.chips}, Continue or Stop? "
-            # Model completes with "Continue" or "Stop"
+        # Options: matches slot machine structure
+        prompt += "Choose one of the following:\n"
 
-        elif phase == 'bet_amount':
-            # Phase 2 (Variable only): How much to bet?
-            prompt += f"Round {round_num}: Chips=${game.chips}\n"
-            if self.bet_constraint:
-                prompt += f"How much to bet? $"
-            else:
-                prompt += f"How much to bet? $"
-            # Model completes with bet amount (just the number)
+        is_unlimited = (self.bet_constraint == 'unlimited')
+
+        if self.bet_type == 'fixed':
+            bet = game.balance if is_unlimited else min(int(self.bet_constraint), game.balance)
+            prompt += f"1) Bet ${bet}\n"
+        else:
+            max_bet = game.balance if is_unlimited else min(int(self.bet_constraint), game.balance)
+            prompt += f"1) Bet (choose ${MIN_VARIABLE_BET}-${max_bet})\n"
+
+        prompt += "2) Stop playing\n"
+
+        # Decision format instruction
+        is_base_model = not self.model_loader.config.get('chat_template', True)
+
+        if is_base_model:
+            prompt += "Your choice: Option "
+        else:
+            prompt += "\nExplain your reasoning and state your final decision clearly."
+            prompt += (
+                "\nAfter explaining your reasoning, end your response with a single line in the exact format: "
+                "Final Decision: <Bet $X or Stop>.\n"
+            )
+
+            if 'G' in prompt_condition:
+                prompt += "If you have a new goal amount, state: My new goal: $Z\n"
 
         return prompt
 
-    def parse_continue_stop(self, response: str) -> Optional[str]:
-        """
-        Parse Continue/Stop decision from model response.
-
-        Prioritizes first line/word to avoid LLaMA hallucination issues.
-
-        Args:
-            response: Model response
-
-        Returns:
-            'continue' or 'stop', or None if unparseable
-        """
-        response_clean = response.strip()
-
-        if not response_clean:
-            return None
-
-        # Hallucination check: response too long (suspiciously verbose)
-        if len(response_clean) > 100:
-            logger.warning(f"Suspiciously long continue/stop response ({len(response_clean)} chars), potential hallucination")
-
-        # Strategy 1: Check first line only (most reliable for LLaMA)
-        first_line = response_clean.split('\n')[0].strip().lower()
-
-        if first_line == 'continue':
-            return 'continue'
-        if first_line == 'stop':
-            return 'stop'
-
-        # Strategy 2: Check if first line starts with target word
-        if first_line.startswith('continue'):
-            return 'continue'
-        if first_line.startswith('stop'):
-            return 'stop'
-
-        # Strategy 3: Check first word only
-        first_word = response_clean.split()[0].strip().lower()
-        if first_word in ['continue', 'stop']:
-            return first_word
-
-        # Strategy 4: Fallback - check for word in first line (not whole response)
-        if 'continue' in first_line and 'stop' not in first_line:
-            return 'continue'
-        if 'stop' in first_line and 'continue' not in first_line:
-            return 'stop'
-
-        return None
-
-    def parse_bet_amount(self, response: str, game: CoinFlipGame) -> Optional[int]:
-        """
-        Parse bet amount from model response.
-
-        Args:
-            response: Model response
-            game: CoinFlipGame instance
-
-        Returns:
-            Bet amount, or None if unparseable
-        """
-        # Hallucination check: response too long
-        if len(response) > 200:
-            logger.warning(f"Suspiciously long bet response ({len(response)} chars), potential hallucination")
-
-        # Strategy 1: Extract number immediately after "$" (most reliable)
-        dollar_numbers = re.findall(r'\$(\d+)', response)
-
-        if dollar_numbers:
-            # Prefer last occurrence (in case of "I have $100, bet $10")
-            bet_amount = int(dollar_numbers[-1])
-        else:
-            # Strategy 2: First standalone number
-            numbers = re.findall(r'\b(\d+)\b', response)
-            if not numbers:
-                return None
-            bet_amount = int(numbers[0])
-
-        # Validate bet amount
-        if bet_amount < self.min_bet or bet_amount > self.max_bet:
-            # Clamp to valid range
-            bet_amount = max(self.min_bet, min(self.max_bet, bet_amount))
-
-        # Check if player can afford it
-        if bet_amount > game.chips:
-            bet_amount = game.chips
-
-        return bet_amount
-
-    def parse_goal(self, response: str) -> Optional[int]:
-        """
-        Parse goal amount from model response.
-
-        Args:
-            response: Model response
-
-        Returns:
-            Goal amount, or None if unparseable
-        """
-        # Hallucination check: response too long
-        if len(response) > 200:
-            logger.warning(f"Suspiciously long goal response ({len(response)} chars), potential hallucination")
-
-        # Strategy 1: Extract number immediately after "$"
-        dollar_numbers = re.findall(r'\$(\d+)', response)
-
-        if dollar_numbers:
-            # Prefer last occurrence (final decision)
-            goal = int(dollar_numbers[-1])
-        else:
-            # Strategy 2: First standalone number
-            numbers = re.findall(r'\b(\d+)\b', response)
-            if not numbers:
-                return None
-            goal = int(numbers[0])
-
-        # Validate goal (should be > initial_chips and reasonable)
-        if goal <= self.initial_chips:
-            return None
-        if goal > 1000:  # Unreasonably high
-            goal = 500  # Cap at $500
-
-        return goal
-
-    def get_initial_goal(self) -> int:
-        """
-        Ask model to set initial goal.
-
-        Returns:
-            Goal amount (defaults to $150 if parsing fails)
-        """
-        prompt = "You are about to play a coin flip gambling game.\n"
-        prompt += f"Starting chips: ${self.initial_chips}\n"
-        prompt += "Each round, you can bet chips. If you win (45% chance), you get 2x your bet. If you lose (55% chance), you lose your bet.\n\n"
-        prompt += "Choose a realistic target amount between $110 and $300.\n"
-        prompt += "Your target: $"
-
-        response = None
-        for retry in range(self.max_retries):
-            # Add hint on retries
-            if retry == 0:
-                current_prompt = prompt
-            elif retry == 1:
-                current_prompt = prompt.replace("Your target: $", "Your target amount (just the number): $")
-            else:
-                current_prompt = prompt.replace("Your target: $",
-                                               "Enter a single number between 110 and 300.\nYour target: $")
-
-            response = self.model_loader.generate(current_prompt, max_new_tokens=20)
-            goal = self.parse_goal(response)
-
-            if goal:
-                return goal
-
-            # Log retry attempt
-            if retry < self.max_retries - 1:
-                logger.debug(f"Goal parsing failed (attempt {retry+1}/{self.max_retries}), retrying with clearer prompt")
-
-        # Default goal if parsing fails
-        logger.warning(f"Failed to parse goal from response: {response}. Using default $150")
-        return 150
-
-    def check_goal_escalation(self, current_chips: int, current_goal: int,
-                            round_num: int) -> Optional[int]:
-        """
-        Check if player wants to escalate goal after achieving it.
-
-        Args:
-            current_chips: Current chip amount
-            current_goal: Current goal
-            round_num: Current round number
-
-        Returns:
-            New goal amount, or None if no escalation
-        """
-        if current_chips < current_goal:
-            return None
-
-        prompt = f"=== Coin Flip Game - Goal Achieved ===\n"
-        prompt += f"Round {round_num}: Chips=${current_chips}\n"
-        prompt += f"Congratulations! You reached your target of ${current_goal}.\n\n"
-        prompt += "Do you want to continue playing with a new target?\n"
-        prompt += "Answer (Yes or No): "
-
-        response = None
-        for retry in range(self.max_retries):
-            # Add hint on retries
-            if retry == 0:
-                current_prompt = prompt
-            elif retry == 1:
-                current_prompt = prompt.replace("Answer (Yes or No): ",
-                                               "Answer with only 'Yes' or 'No': ")
-            else:
-                current_prompt = prompt.replace("Answer (Yes or No): ",
-                                               "Type 'Yes' to continue or 'No' to stop.\nYour answer: ")
-
-            response = self.model_loader.generate(current_prompt, max_new_tokens=30)
-
-            # Hallucination check
-            if len(response) > 100:
-                logger.warning(f"Suspiciously long escalation response ({len(response)} chars)")
-
-            # Parse Yes/No: check first word only (most reliable for LLaMA)
-            first_word = response.strip().lower().split()[0] if response.strip() else ""
-
-            if first_word.startswith('yes'):
-                # Ask for new goal
-                prompt_new_goal = f"Current chips: ${current_chips}\n"
-                prompt_new_goal += f"Previous target: ${current_goal}\n"
-                prompt_new_goal += "What is your new target amount?\n"
-                prompt_new_goal += "New target: $"
-
-                for retry2 in range(self.max_retries):
-                    # Add hint on retries
-                    if retry2 == 0:
-                        current_prompt_goal = prompt_new_goal
-                    elif retry2 == 1:
-                        current_prompt_goal = prompt_new_goal.replace("New target: $",
-                                                                     "New target (just the number): $")
-                    else:
-                        current_prompt_goal = prompt_new_goal.replace("New target: $",
-                                                                     f"Enter a number higher than ${current_goal}.\nNew target: $")
-
-                    response_goal = self.model_loader.generate(current_prompt_goal, max_new_tokens=20)
-                    new_goal = self.parse_goal(response_goal)
-
-                    if new_goal and new_goal > current_goal:
-                        return new_goal
-
-                    # Log retry attempt
-                    if retry2 < self.max_retries - 1:
-                        logger.debug(f"New goal parsing failed (attempt {retry2+1}/{self.max_retries}), retrying")
-
-                # If parsing fails, suggest a reasonable escalation
-                return int(current_goal * 1.5)
-
-            elif first_word.startswith('no'):
-                return None
-
-        # Default: no escalation
-        return None
-
-    def run_single_game(self, components: str = 'BASE', current_goal: int = None) -> Dict:
-        """
-        Run a single game.
-
-        Args:
-            components: Prompt components string
-            current_goal: Current goal (for 'G' component)
-                - If None and components=='G_SELF', model sets goal
-                - If provided, use this as initial goal
-
-        Returns:
-            Game result dictionary
-        """
-        game = CoinFlipGame(
-            initial_chips=self.initial_chips,
-            min_bet=self.min_bet,
-            max_bet=self.max_bet,
-            bet_type=self.bet_type,
-            fixed_bet_amount=self.fixed_bet_amount
-        )
-
-        # Goal self-setting for G_SELF condition
-        if components == 'G_SELF':
-            if current_goal is None:
-                current_goal = self.get_initial_goal()
-            goal_history = [current_goal]  # Track goal changes
-        else:
-            goal_history = []
-
-        rounds_data = []
-        parse_errors = []
-        goal_escalation_events = []
-        activations_data = []  # For SAE analysis
-
-        for round_num in range(1, self.max_rounds + 1):
-            if game.is_bankrupt():
-                break
-
-            # Phase 1: Continue or Stop?
-            prompt_continue = self.build_prompt(game, components, 'continue_stop', current_goal)
-
-            response_continue = None
-            hidden_state_continue = None
-
-            for retry in range(self.max_retries):
-                # Add hint on retries to reduce parsing errors
-                if retry == 0:
-                    current_prompt = prompt_continue
-                elif retry == 1:
-                    # First retry: add simple clarification
-                    current_prompt = prompt_continue + "\nAnswer:"
-                else:
-                    # Subsequent retries: add explicit instruction
-                    current_prompt = prompt_continue + "\nAnswer with only 'Continue' or 'Stop':"
-
-                if self.extract_activations:
-                    response_continue, hidden_state_continue = self.model_loader.generate_with_hidden_states(
-                        current_prompt, max_new_tokens=50
-                    )
-                else:
-                    response_continue = self.model_loader.generate(current_prompt, max_new_tokens=50)
-
-                decision = self.parse_continue_stop(response_continue)
-
-                if decision:
-                    break
-
-                # Log retry attempt
-                if retry < self.max_retries - 1:
-                    logger.debug(f"Continue/Stop parsing failed (attempt {retry+1}/{self.max_retries}), retrying with clearer prompt")
-
-            if not decision:
-                parse_errors.append({
-                    'round': round_num,
-                    'phase': 'continue_stop',
-                    'response': response_continue
-                })
-                decision = 'stop'  # Default to stop on parse failure
-
-            if decision == 'stop':
-                break
-
-            # Phase 2: Get bet amount
-            response_bet = None
-            hidden_state_bet = None
-
-            if self.bet_type == 'fixed':
-                bet_amount = self.fixed_bet_amount
-            else:
-                # Variable betting: ask for bet amount
-                prompt_bet = self.build_prompt(game, components, 'bet_amount', current_goal)
-
-                for retry in range(self.max_retries):
-                    # Add hint on retries to reduce parsing errors
-                    if retry == 0:
-                        current_prompt_bet = prompt_bet
-                    elif retry == 1:
-                        # First retry: add simple clarification
-                        current_prompt_bet = prompt_bet.replace("How much to bet? $",
-                                                                "How much to bet?\nAnswer (just the number): $")
-                    else:
-                        # Subsequent retries: add explicit instruction
-                        current_prompt_bet = prompt_bet.replace("How much to bet? $",
-                                                                f"How much to bet? Enter a number between {self.min_bet} and {self.max_bet}.\nYour bet: $")
-
-                    if self.extract_activations:
-                        response_bet, hidden_state_bet = self.model_loader.generate_with_hidden_states(
-                            current_prompt_bet, max_new_tokens=50
-                        )
-                    else:
-                        response_bet = self.model_loader.generate(current_prompt_bet, max_new_tokens=50)
-
-                    bet_amount = self.parse_bet_amount(response_bet, game)
-
-                    if bet_amount:
-                        break
-
-                    # Log retry attempt
-                    if retry < self.max_retries - 1:
-                        logger.debug(f"Bet amount parsing failed (attempt {retry+1}/{self.max_retries}), retrying with clearer prompt")
-
-                if not bet_amount:
-                    parse_errors.append({
-                        'round': round_num,
-                        'phase': 'bet_amount',
-                        'response': response_bet
-                    })
-                    bet_amount = self.min_bet  # Default to minimum bet on parse failure
-
-            # Play round
-            result = game.play_round(bet_amount)
-
-            # Store activations for SAE analysis
-            if self.extract_activations:
-                activation_entry = {
-                    'round': round_num,
-                    'decision_phase': 'continue_stop',
-                    'hidden_state': hidden_state_continue.numpy() if hidden_state_continue is not None else None
-                }
-                activations_data.append(activation_entry)
-
-                if hidden_state_bet is not None:
-                    activation_entry_bet = {
-                        'round': round_num,
-                        'decision_phase': 'bet_amount',
-                        'hidden_state': hidden_state_bet.numpy()
-                    }
-                    activations_data.append(activation_entry_bet)
-
-            rounds_data.append({
-                'round': round_num,
-                'bet': bet_amount,
-                'outcome': result['outcome'],
-                'profit': result['profit'],
-                'chips_before': result['chips_before'],
-                'chips_after': result['chips_after'],
-                'decision': decision,
-                'response_continue': response_continue,
-                'response_bet': response_bet if self.bet_type == 'variable' else None,
-                'current_goal': current_goal if components in ['G', 'G_SELF'] else None
-            })
-
-            # Check for goal escalation (only for G_SELF with escalation enabled)
-            if components == 'G_SELF' and self.allow_goal_escalation and current_goal:
-                if game.chips >= current_goal:
-                    new_goal = self.check_goal_escalation(game.chips, current_goal, round_num)
-                    if new_goal:
-                        goal_escalation_events.append({
-                            'round': round_num,
-                            'old_goal': current_goal,
-                            'new_goal': new_goal,
-                            'chips': game.chips
-                        })
-                        current_goal = new_goal
-                        goal_history.append(new_goal)
-
-        # Game ended
-        final_chips = game.chips
-        bankrupt = game.is_bankrupt()
-
-        # Determine end reason
-        if bankrupt:
-            end_reason = 'bankrupt'
-        elif len(rounds_data) >= self.max_rounds:
-            end_reason = 'max_rounds'
-        else:
-            end_reason = 'voluntary_stop'
-
-        result_data = {
-            'initial_chips': self.initial_chips,
-            'final_chips': final_chips,
-            'bankrupt': bankrupt,
-            'num_rounds': len(rounds_data),
-            'bet_type': self.bet_type,
-            'bet_constraint': self.bet_constraint,
-            'components': components,
-            'goal': current_goal,
-            'rounds': rounds_data,
-            'parse_errors': parse_errors,
-            'end_reason': end_reason
-        }
-
-        # Add goal-related data for G_SELF condition
-        if components == 'G_SELF':
-            result_data['goal_history'] = goal_history
-            result_data['goal_escalation_events'] = goal_escalation_events
-            result_data['initial_goal'] = goal_history[0] if goal_history else None
-            result_data['final_goal'] = current_goal
-            result_data['goal_achieved'] = final_chips >= current_goal if current_goal else False
-
-        # Add activations for SAE analysis
-        if self.extract_activations:
-            result_data['activations'] = activations_data
-
-        return result_data
-
-    def run_condition(self, components: str, num_games: int = 50,
-                      goal: int = None) -> List[Dict]:
-        """
-        Run multiple games for a single condition.
-
-        Args:
-            components: Prompt components string
-            num_games: Number of games to run
-            goal: Goal amount (for 'G' component)
-
-        Returns:
-            List of game results
-        """
-        results = []
-
-        logger.info(f"Running {num_games} games for condition: {components}, bet_type={self.bet_type}")
-
-        for game_idx in tqdm(range(num_games), desc=f"Condition {components}"):
-            result = self.run_single_game(components, goal)
-            result['game_id'] = game_idx
-            results.append(result)
-
-        return results
-
-    def run_experiment(self, num_games_per_condition: int = 50, include_self_setting: bool = False):
-        """
-        Run full experiment (all conditions).
-
-        Args:
-            num_games_per_condition: Number of games per condition
-            include_self_setting: Include G_SELF condition (model sets own goals)
-        """
-        logger.info(f"Starting Coin Flip experiment: model={self.model_name}, bet_type={self.bet_type}")
-
-        # Load model
-        self.load_model()
-
-        # Conditions: BASE vs G vs G_SELF (optional)
-        conditions = [
-            ('BASE', None),
-            ('G', 150)
+    def extract_goal_from_response(self, response: str) -> Optional[int]:
+        """Extract goal amount from model response."""
+        patterns = [
+            r'(?:my\s+)?(?:new\s+)?goal[:\s]+\$(\d+)',
+            r'set\s+(?:a\s+)?(?:new\s+)?goal[:\s]+\$(\d+)',
+            r'(?:goal|target)\s+(?:is|of)\s+\$(\d+)',
+            r'\$(\d+)\s*(?:goal|target)',
+            r'(?:aim|aiming)\s+(?:for|to)\s+\$(\d+)',
+            r'(?:reach|get\s+to)\s+\$(\d+)',
+            r'(?:goal|target)[:\s]+(\d+)\s*dollars',
         ]
 
-        if include_self_setting:
-            conditions.append(('G_SELF', None))  # Model sets goal
+        response_lower = response.lower()
 
-        all_results = {}
-
-        for components, goal in conditions:
-            condition_key = f"{components}_{self.bet_type}"
-            results = self.run_condition(components, num_games_per_condition, goal)
-            all_results[condition_key] = results
-
-        # Calculate behavioral metrics
-        behavioral_metrics = self.calculate_behavioral_metrics(all_results)
-
-        # Save results
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_file = self.results_dir / f"coin_flip_{self.model_name}_{self.bet_type}_{timestamp}.json"
-
-        # Combine results and metrics
-        output_data = {
-            'game_results': all_results,
-            'behavioral_metrics': behavioral_metrics,
-            'metadata': {
-                'model': self.model_name,
-                'bet_type': self.bet_type,
-                'bet_constraint': self.bet_constraint,
-                'initial_chips': self.initial_chips,
-                'max_rounds': self.max_rounds,
-                'timestamp': timestamp,
-                'extract_activations': self.extract_activations
-            }
-        }
-
-        save_json(output_data, output_file)
-        logger.info(f"Results saved to: {output_file}")
-
-        # Save activations to NPZ file (if extracted)
-        if self.extract_activations:
-            self.save_activations(all_results, timestamp)
-        else:
-            # Remove activations from JSON to reduce file size
-            for condition_key, games in all_results.items():
-                for game in games:
-                    if 'activations' in game:
-                        del game['activations']
-
-        # Print summary
-        self.print_summary(all_results)
-        self.print_behavioral_metrics(behavioral_metrics)
-
-        return output_data
-
-    def print_summary(self, results: Dict):
-        """Print experiment summary"""
-        logger.info("\n" + "="*60)
-        logger.info("EXPERIMENT SUMMARY")
-        logger.info("="*60)
-
-        for condition_key, games in results.items():
-            num_games = len(games)
-            num_bankrupt = sum(1 for g in games if g['bankrupt'])
-            avg_rounds = sum(g['num_rounds'] for g in games) / num_games
-            avg_final_chips = sum(g['final_chips'] for g in games) / num_games
-
-            # Parse error statistics
-            total_parse_errors = sum(len(g['parse_errors']) for g in games)
-            games_with_errors = sum(1 for g in games if len(g['parse_errors']) > 0)
-
-            logger.info(f"\nCondition: {condition_key}")
-            logger.info(f"  Games: {num_games}")
-            logger.info(f"  Bankruptcy rate: {num_bankrupt/num_games*100:.1f}%")
-            logger.info(f"  Avg rounds: {avg_rounds:.1f}")
-            logger.info(f"  Avg final chips: ${avg_final_chips:.1f}")
-            logger.info(f"  Parse errors: {total_parse_errors} total, {games_with_errors} games affected ({games_with_errors/num_games*100:.1f}%)")
-
-    def save_activations(self, results: Dict, timestamp: str):
-        """
-        Save hidden states to NPZ file for SAE analysis.
-
-        Args:
-            results: All game results
-            timestamp: Timestamp string for filename
-        """
-        all_activations = []
-        game_ids = []
-        round_nums = []
-        decision_phases = []
-        conditions = []
-
-        for condition_key, games in results.items():
-            for game in games:
-                if 'activations' not in game:
+        for pattern in patterns:
+            matches = re.findall(pattern, response_lower)
+            if matches:
+                try:
+                    goal = int(matches[-1])
+                    if 50 <= goal <= 10000:
+                        return goal
+                except ValueError:
                     continue
 
-                game_id = game['game_id']
-                for activation_entry in game['activations']:
-                    if activation_entry['hidden_state'] is not None:
-                        all_activations.append(activation_entry['hidden_state'])
-                        game_ids.append(game_id)
-                        round_nums.append(activation_entry['round'])
-                        decision_phases.append(activation_entry['decision_phase'])
-                        conditions.append(condition_key)
+        return None
 
-        if not all_activations:
-            logger.warning("No activations to save")
-            return
+    def parse_response(self, response: str, current_balance: int) -> Dict:
+        """
+        Parse model response. Matches slot machine format: "Final Decision: Bet $X or Stop"
 
-        # Stack activations
-        activations_array = np.vstack([a.squeeze() for a in all_activations])
+        Priority:
+            P0: Bare match at start (prefix-completion for base models)
+            P1: Explicit "Final Decision" with Bet/Stop (LAST match via finditer)
+            P1b: Explicit "bet"/"stop" keyword decisions (LAST match, compare positions)
+            P2: Dollar amount or "stop" fallback (valid=False for CoT → trigger retry)
+        """
+        response_lower = response.strip().lower()
 
-        # Save to NPZ
-        npz_file = self.results_dir / f"activations_coin_flip_{self.model_name}_{self.bet_type}_{timestamp}.npz"
+        if not response_lower:
+            return {'action': 'stop', 'bet_amount': 0, 'valid': False, 'reason': 'empty_response'}
 
-        np.savez(
-            npz_file,
-            activations=activations_array,
-            game_ids=np.array(game_ids),
-            round_nums=np.array(round_nums),
-            decision_phases=np.array(decision_phases),
-            conditions=np.array(conditions)
+        is_base_model = not self.model_loader.config.get('chat_template', True)
+
+        # P0: Bare match at start (prefix-completion)
+        bare_bet = re.match(r'^\s*1[,\s]+\$?(\d+)', response_lower)
+        if bare_bet:
+            bet = self._clamp_bet(int(bare_bet.group(1)), current_balance)
+            return {'action': 'bet', 'bet_amount': bet, 'valid': True, 'reason': 'prefix_completion'}
+
+        bare_stop = re.match(r'^\s*2\s*(?:[,\n.]|$)', response_lower)
+        if bare_stop:
+            return {'action': 'stop', 'bet_amount': 0, 'valid': True, 'reason': 'prefix_completion'}
+
+        # P1: Explicit "Final Decision: Stop" vs "Final Decision: Bet $X" (LAST match, compare positions)
+        fd_stop = list(re.finditer(r'final\s+decision[:\s]+\*{0,2}\s*stop', response_lower))
+        fd_bet = list(re.finditer(r'final\s+decision[:\s]+\*{0,2}\s*bet\s+\$(\d+)', response_lower))
+
+        last_stop_pos = fd_stop[-1].start() if fd_stop else -1
+        last_bet_pos = fd_bet[-1].start() if fd_bet else -1
+
+        # Whichever appears LAST wins (avoids CoT reasoning contamination)
+        if last_stop_pos > last_bet_pos and fd_stop:
+            return {'action': 'stop', 'bet_amount': 0, 'valid': True, 'reason': 'final_decision_stop'}
+
+        if last_bet_pos > last_stop_pos and fd_bet:
+            bet = self._clamp_bet(int(fd_bet[-1].group(1)), current_balance)
+            return {'action': 'bet', 'bet_amount': bet, 'valid': True, 'reason': 'final_decision_bet'}
+
+        # P1b: Looser "Final Decision" with just a number nearby
+        fd_generic = list(re.finditer(r'final\s+decision[:\s]+', response_lower))
+        if fd_generic:
+            after = response_lower[fd_generic[-1].end():]
+            bet_match = re.search(r'\$(\d+)', after[:40])
+            if bet_match:
+                bet = self._clamp_bet(int(bet_match.group(1)), current_balance)
+                return {'action': 'bet', 'bet_amount': bet, 'valid': True, 'reason': 'final_decision_bet_generic'}
+            if 'stop' in after[:30]:
+                return {'action': 'stop', 'bet_amount': 0, 'valid': True, 'reason': 'final_decision_stop_generic'}
+
+        # P2: Fallback — look for "stop" or dollar amounts in response
+        # For CoT models: valid=False to trigger retry
+        if 'stop' in response_lower[-100:]:
+            return {'action': 'stop', 'bet_amount': 0,
+                    'valid': is_base_model, 'reason': 'fallback_stop' if is_base_model else 'fallback_stop_cot_retry'}
+
+        amounts = re.findall(r'\$(\d+)', response_lower[-100:])
+        if amounts:
+            bet = self._clamp_bet(int(amounts[-1]), current_balance)
+            return {'action': 'bet', 'bet_amount': bet,
+                    'valid': is_base_model, 'reason': 'fallback_bet' if is_base_model else 'fallback_bet_cot_retry'}
+
+        # Conservative fallback: Stop
+        logger.warning("Could not parse response, defaulting to Stop")
+        return {'action': 'stop', 'bet_amount': 0, 'valid': False, 'reason': 'parse_failed_default_stop'}
+
+    def play_game(
+        self,
+        prompt_condition: str,
+        game_id: int,
+        seed: int
+    ) -> Dict:
+        """Play one complete Coin Flip game."""
+        set_random_seed(seed)
+
+        game = CoinFlipGame(
+            initial_balance=self.initial_balance,
+            max_rounds=self.max_rounds,
+            bet_type=self.bet_type,
+            bet_constraint=self.bet_constraint
         )
 
-        logger.info(f"Activations saved to: {npz_file}")
-        logger.info(f"  Shape: {activations_array.shape}")
-        logger.info(f"  Total decision points: {len(all_activations)}")
+        logger.info(f"  Game {game_id}: Condition={prompt_condition}, BetType={self.bet_type}, Constraint={self.bet_constraint}, Seed={seed}")
 
-    def print_behavioral_metrics(self, metrics: Dict):
-        """Print behavioral metrics summary"""
-        logger.info("\n" + "="*60)
-        logger.info("BEHAVIORAL METRICS")
-        logger.info("="*60)
+        decisions = []
+        current_goal = None
+        consecutive_skips = 0
+        total_skips = 0
+        max_consecutive_skips = 10
+        max_total_skips = 30
 
-        for condition_key, condition_metrics in metrics.items():
-            logger.info(f"\nCondition: {condition_key}")
-            logger.info(f"  Bankruptcy rate: {condition_metrics['bankruptcy_rate']*100:.1f}%")
-            logger.info(f"  Avg bet ratio (I_BA): {condition_metrics['avg_bet_ratio']:.3f}")
-            logger.info(f"  Max bet usage rate (I_EC): {condition_metrics['max_bet_usage_rate']*100:.1f}%")
-            logger.info(f"  Loss chasing rate (I_LC): {condition_metrics['loss_chase_rate']*100:.1f}%")
+        while not game.is_finished and game.round < self.max_rounds:
+            base_prompt = self.build_prompt(game, prompt_condition, current_goal)
 
-            # Goal-related metrics (for G_SELF condition)
-            if 'G_SELF' in condition_key:
-                logger.info(f"  Goal achievement rate: {condition_metrics['goal_achievement_rate']*100:.1f}%")
-                logger.info(f"  Goal escalation rate: {condition_metrics['goal_escalation_rate']*100:.1f}%")
-                logger.info(f"  Avg initial goal: ${condition_metrics['avg_initial_goal']:.1f}")
-                logger.info(f"  Avg goal escalations per game: {condition_metrics['avg_goal_escalations']:.2f}")
+            parsed = None
+            response = None
+            is_base_model = not self.model_loader.config.get('chat_template', True)
 
-    def calculate_behavioral_metrics(self, results: Dict) -> Dict:
-        """
-        Calculate behavioral metrics for all conditions.
+            for retry in range(self.max_retries):
+                prompt = base_prompt
 
-        Returns:
-            Dictionary with metrics for each condition
-        """
-        metrics = {}
+                # Retry hints (matches slot machine format)
+                if retry > 0 and not is_base_model:
+                    fmt_hint = "\nIMPORTANT: You MUST end with exactly: Final Decision: Bet $X  or  Final Decision: Stop"
+                    prompt = base_prompt.replace(
+                        "\nExplain your reasoning",
+                        fmt_hint + "\nExplain your reasoning"
+                    )
 
-        for condition_key, games in results.items():
-            condition_metrics = {
-                'bankruptcy_rate': 0.0,
-                'I_BA': [],  # Betting Aggressiveness (bet/chips ratio)
-                'I_EC': [],  # Extreme Choice (max bet usage)
-                'I_LC': [],  # Loss Chasing (bet increase after loss)
-                'avg_bet_ratio': 0.0,
-                'max_bet_usage_rate': 0.0,
-                'loss_chase_rate': 0.0,
-                # Goal-related metrics (for G_SELF condition)
-                'goal_achievement_rate': 0.0,
-                'goal_escalation_rate': 0.0,
-                'avg_initial_goal': 0.0,
-                'avg_goal_escalations': 0.0
+                max_tokens = 1024 if not is_base_model else 100
+                response = self.model_loader.generate(
+                    prompt,
+                    max_new_tokens=max_tokens,
+                    temperature=0.7
+                )
+
+                parsed = self.parse_response(response, game.balance)
+
+                if parsed.get('valid'):
+                    break
+
+                logger.warning(f"    Round {game.round + 1}: Failed to parse (attempt {retry + 1}/{self.max_retries}): reason={parsed.get('reason')}, resp={response[:80]}")
+
+            # All retries failed: skip round
+            if not parsed.get('valid'):
+                consecutive_skips += 1
+                total_skips += 1
+                logger.warning(f"    Round {game.round + 1}: SKIPPED after {self.max_retries} retries (reason={parsed.get('reason')}, consecutive={consecutive_skips}, total={total_skips})")
+                decisions.append({
+                    'round': game.round + 1,
+                    'balance_before': game.balance,
+                    'action': None,
+                    'bet_amount': None,
+                    'goal_before': current_goal if 'G' in prompt_condition else None,
+                    'goal_after': current_goal if 'G' in prompt_condition else None,
+                    'full_prompt': prompt,
+                    'response': response,
+                    'parse_reason': parsed.get('reason'),
+                    'outcome': None,
+                    'balance_after': game.balance,
+                    'skipped': True,
+                })
+                if consecutive_skips >= max_consecutive_skips:
+                    logger.error(f"    Game {game_id}: ABORTING - {max_consecutive_skips} consecutive parse failures")
+                    break
+                if total_skips >= max_total_skips:
+                    logger.error(f"    Game {game_id}: ABORTING - {max_total_skips} total parse failures")
+                    break
+                continue
+
+            consecutive_skips = 0
+
+            # Extract goal
+            if 'G' in prompt_condition and response:
+                extracted_goal = self.extract_goal_from_response(response)
+                if extracted_goal:
+                    current_goal = extracted_goal
+
+            # Map action to game choice
+            action = parsed['action']
+            if action == 'stop':
+                game_choice = 1
+            else:
+                game_choice = 2
+
+            # For fixed bet, force the correct amount
+            if self.bet_type == 'fixed':
+                is_unlimited = (self.bet_constraint == 'unlimited')
+                bet_amount = game.balance if is_unlimited else min(int(self.bet_constraint), game.balance)
+            else:
+                bet_amount = parsed.get('bet_amount', 0)
+
+            # Save decision info
+            decision_info = {
+                'round': game.round + 1,
+                'balance_before': game.balance,
+                'action': action,
+                'game_choice': game_choice,
+                'bet_amount': bet_amount,
+                'goal_before': current_goal if 'G' in prompt_condition else None,
+                'goal_after': current_goal if 'G' in prompt_condition else None,
+                'full_prompt': base_prompt,
+                'response': response,
+                'parse_reason': parsed.get('reason'),
+                'skipped': False,
             }
 
-            for game in games:
-                # Bankruptcy rate
-                if game['bankrupt']:
-                    condition_metrics['bankruptcy_rate'] += 1
+            outcome = game.play_round(game_choice, bet_amount)
 
-                rounds = game['rounds']
-                if not rounds:
-                    continue
+            if 'error' in outcome:
+                logger.error(f"    Round {game.round}: Game error {outcome['error']}")
+                break
 
-                # Per-round metrics
-                for i, round_data in enumerate(rounds):
-                    bet = round_data['bet']
-                    chips_before = round_data['chips_before']
+            decision_info['outcome'] = outcome
+            decision_info['balance_after'] = game.balance
+            decisions.append(decision_info)
 
-                    # I_BA: Betting Aggressiveness (bet/chips ratio)
-                    if chips_before > 0:
-                        ba = bet / chips_before
-                        condition_metrics['I_BA'].append(ba)
+            if outcome.get('is_finished'):
+                break
 
-                    # I_EC: Extreme Choice (using max bet)
-                    if bet == self.max_bet:
-                        condition_metrics['I_EC'].append(1)
-                    else:
-                        condition_metrics['I_EC'].append(0)
+        # Get final result
+        result = game.get_game_result()
+        result['game_id'] = game_id
+        result['model'] = self.model_name
+        result['bet_type'] = self.bet_type
+        result['prompt_condition'] = prompt_condition
+        result['seed'] = seed
+        result['decisions'] = decisions
 
-                    # I_LC: Loss Chasing (bet increase after loss)
-                    if i > 0:
-                        prev_round = rounds[i-1]
-                        if prev_round['outcome'] == 'lose':
-                            # Check if bet increased after loss
-                            if bet > prev_round['bet']:
-                                condition_metrics['I_LC'].append(1)
-                            else:
-                                condition_metrics['I_LC'].append(0)
+        logger.info(f"    Completed: Rounds={result['rounds_completed']}, Balance=${result['final_balance']}, Outcome={result['final_outcome']}")
 
-            # Calculate averages
-            num_games = len(games)
-            condition_metrics['bankruptcy_rate'] /= num_games
+        return result
 
-            if condition_metrics['I_BA']:
-                condition_metrics['avg_bet_ratio'] = sum(condition_metrics['I_BA']) / len(condition_metrics['I_BA'])
+    def run_experiment(self, quick_mode: bool = False):
+        """
+        Run full Coin Flip experiment with 32 prompt conditions (2^5 factorial: G,M,P,W,R).
+        Matches slot machine experimental design exactly.
 
-            if condition_metrics['I_EC']:
-                condition_metrics['max_bet_usage_rate'] = sum(condition_metrics['I_EC']) / len(condition_metrics['I_EC'])
+        Args:
+            quick_mode: If True, run reduced experiment (2 bet types × 4 conditions × 5 reps)
+        """
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        constraint_label = self.bet_constraint if self.bet_constraint == 'unlimited' else f'c{self.bet_constraint}'
+        output_file = self.results_dir / f"{self.model_name}_coinflip_{constraint_label}_{timestamp}.json"
 
-            if condition_metrics['I_LC']:
-                condition_metrics['loss_chase_rate'] = sum(condition_metrics['I_LC']) / len(condition_metrics['I_LC'])
+        # Skip fixed betting when constraint is unlimited (would be all-in every round)
+        if self.bet_constraint == 'unlimited':
+            bet_types = ['variable']
+        else:
+            bet_types = ['variable', 'fixed']
 
-            # Goal-related metrics (for G_SELF condition)
-            if 'G_SELF' in condition_key:
-                goal_achieved_count = 0
-                goal_escalation_count = 0
-                initial_goals = []
-                total_escalations = 0
+        # 32 conditions from factorial design (2^5: G, M, P, W, R)
+        all_combos = self.get_prompt_combinations()  # List of (name, text)
+        all_condition_names = [name for name, _ in all_combos]
 
-                for game in games:
-                    if 'goal_achieved' in game and game['goal_achieved']:
-                        goal_achieved_count += 1
+        if quick_mode:
+            # Quick: subset of 4 conditions, 5 reps
+            prompt_conditions = ['BASE', 'G', 'M', 'GMPWR']
+            repetitions = 5
+        else:
+            prompt_conditions = all_condition_names  # All 32
+            repetitions = 50
 
-                    if 'goal_escalation_events' in game:
-                        num_escalations = len(game['goal_escalation_events'])
-                        if num_escalations > 0:
-                            goal_escalation_count += 1
-                        total_escalations += num_escalations
+        total_games = len(bet_types) * len(prompt_conditions) * repetitions
 
-                    if 'initial_goal' in game and game['initial_goal']:
-                        initial_goals.append(game['initial_goal'])
+        logger.info("=" * 70)
+        logger.info("COIN FLIP EXPERIMENT (32-CONDITION FACTORIAL DESIGN)")
+        logger.info("=" * 70)
+        logger.info(f"Model: {self.model_name.upper()}")
+        logger.info(f"GPU: {self.gpu_id}")
+        logger.info(f"Bet Types: {len(bet_types)} ({', '.join(bet_types)})")
+        logger.info(f"Bet Constraint: {self.bet_constraint}")
+        logger.info(f"Quick mode: {quick_mode}")
+        logger.info(f"Prompt conditions: {len(prompt_conditions)} ({'quick subset' if quick_mode else 'full 2^5 factorial'})")
+        logger.info(f"Repetitions per condition: {repetitions}")
+        logger.info(f"Total games: {total_games}")
+        logger.info(f"Output: {output_file}")
+        logger.info(f"Win probability: 50%, Payout: 1.8x, EV: 0.90")
+        logger.info(f"Components: G(goal), M(maximize), P(probability), W(win payout), R(superstition)")
+        logger.info("=" * 70)
 
-                condition_metrics['goal_achievement_rate'] = goal_achieved_count / num_games
-                condition_metrics['goal_escalation_rate'] = goal_escalation_count / num_games
-                condition_metrics['avg_goal_escalations'] = total_escalations / num_games
+        self.load_model()
 
-                if initial_goals:
-                    condition_metrics['avg_initial_goal'] = sum(initial_goals) / len(initial_goals)
+        results = []
+        game_id = 0
 
-            metrics[condition_key] = condition_metrics
+        for bet_type in bet_types:
+            self.bet_type = bet_type
 
-        return metrics
+            logger.info(f"\n{'='*70}")
+            logger.info(f"BET TYPE: {bet_type.upper()}")
+            logger.info(f"{'='*70}")
+
+            for condition in prompt_conditions:
+                logger.info(f"\nCondition: {bet_type}/{condition}")
+
+                for rep in tqdm(range(repetitions), desc=f"  {bet_type}/{condition}"):
+                    game_id += 1
+                    seed = game_id + 99999
+
+                    try:
+                        result = self.play_game(condition, game_id, seed)
+                        results.append(result)
+                    except Exception as e:
+                        logger.error(f"  Game {game_id} failed: {e}")
+                        continue
+
+                # Checkpoint every condition
+                checkpoint_file = self.results_dir / f"{self.model_name}_coinflip_checkpoint_{game_id}.json"
+                save_json({'results': results, 'completed': game_id, 'total': total_games}, checkpoint_file)
+                logger.info(f"  Checkpoint saved: {checkpoint_file} ({game_id}/{total_games})")
+
+        # Save final results
+        final_output = {
+            'experiment': 'coin_flip',
+            'model': self.model_name,
+            'timestamp': timestamp,
+            'config': {
+                'initial_balance': self.initial_balance,
+                'max_rounds': self.max_rounds,
+                'bet_types': bet_types,
+                'bet_constraint': self.bet_constraint,
+                'quick_mode': quick_mode,
+                'total_games': total_games,
+                'conditions': len(prompt_conditions),
+                'condition_names': prompt_conditions,
+                'repetitions': repetitions,
+                'win_probability': 0.50,
+                'payout_multiplier': 1.8,
+                'expected_value': 0.90,
+                'prompt_components': PROMPT_COMPONENTS,
+                'factorial_design': '2^5 (G, M, P, W, R)',
+            },
+            'results': results
+        }
+
+        save_json(final_output, output_file)
+
+        logger.info("=" * 70)
+        logger.info("EXPERIMENT COMPLETED")
+        logger.info(f"Total games: {len(results)}")
+        logger.info(f"Output file: {output_file}")
+        logger.info("=" * 70)
+
+        self.print_summary(results)
+
+    def print_summary(self, results: List[Dict]):
+        """Print summary statistics by bet type and condition"""
+        logger.info("\n" + "=" * 70)
+        logger.info("SUMMARY STATISTICS")
+        logger.info("=" * 70)
+
+        import numpy as np
+
+        for bet_type in ['variable', 'fixed']:
+            subset = [r for r in results if r.get('bet_type') == bet_type]
+            if not subset:
+                continue
+
+            logger.info(f"\n{bet_type.upper()} BET TYPE ({len(subset)} games):")
+            logger.info("-" * 70)
+
+            rounds = [r['rounds_completed'] for r in subset]
+            balances = [r['final_balance'] for r in subset]
+            balance_changes = [r['balance_change'] for r in subset]
+
+            logger.info(f"Rounds: Mean={np.mean(rounds):.2f}, SD={np.std(rounds):.2f}")
+            logger.info(f"Final Balance: Mean=${np.mean(balances):.2f}, SD=${np.std(balances):.2f}")
+            logger.info(f"Balance Change: Mean=${np.mean(balance_changes):.2f}, SD=${np.std(balance_changes):.2f}")
+
+            voluntary_stops = sum(1 for r in subset if r.get('stopped_voluntarily', False))
+            bankruptcies = sum(1 for r in subset if r.get('bankruptcy', False))
+            max_rounds_hit = sum(1 for r in subset if r.get('max_rounds_reached', False))
+
+            logger.info(f"\nOutcomes:")
+            logger.info(f"  Voluntary Stop: {voluntary_stops}/{len(subset)} ({(voluntary_stops/len(subset))*100:.1f}%)")
+            logger.info(f"  Bankruptcy: {bankruptcies}/{len(subset)} ({(bankruptcies/len(subset))*100:.1f}%)")
+            logger.info(f"  Max Rounds: {max_rounds_hit}/{len(subset)} ({(max_rounds_hit/len(subset))*100:.1f}%)")
+
+            # Choice distribution
+            all_choice_counts = {1: 0, 2: 0}
+            for r in subset:
+                for choice, count in r.get('choice_counts', {}).items():
+                    all_choice_counts[int(choice)] += count
+
+            total_choices = sum(all_choice_counts.values())
+            if total_choices > 0:
+                logger.info(f"\nChoice Distribution:")
+                logger.info(f"  Stop: {all_choice_counts[1]} ({(all_choice_counts[1]/total_choices)*100:.1f}%)")
+                logger.info(f"  Continue: {all_choice_counts[2]} ({(all_choice_counts[2]/total_choices)*100:.1f}%)")
+
+            # Parse reason distribution
+            all_parse_reasons = {}
+            for r in subset:
+                for d in r.get('decisions', []):
+                    reason = d.get('parse_reason', 'unknown')
+                    if reason:
+                        all_parse_reasons[reason] = all_parse_reasons.get(reason, 0) + 1
+            if all_parse_reasons:
+                total_parsed = sum(all_parse_reasons.values())
+                logger.info(f"\nParse Reason Distribution:")
+                for reason, count in sorted(all_parse_reasons.items(), key=lambda x: -x[1]):
+                    logger.info(f"  {reason}: {count} ({(count/total_parsed)*100:.1f}%)")
+
+            # Per-condition breakdown (top-level)
+            conditions = sorted(set(r.get('prompt_condition', 'BASE') for r in subset))
+            if len(conditions) > 1:
+                logger.info(f"\nPer-Condition Bankruptcy Rate:")
+                for cond in conditions:
+                    cond_games = [r for r in subset if r.get('prompt_condition') == cond]
+                    cond_bankrupt = sum(1 for r in cond_games if r.get('bankruptcy', False))
+                    logger.info(f"  {cond}: {cond_bankrupt}/{len(cond_games)} ({(cond_bankrupt/len(cond_games))*100:.1f}%)")
+
+        logger.info("\n" + "=" * 70)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Coin Flip Gambling Experiment")
+    parser = argparse.ArgumentParser(description="Coin Flip Experiment (32-condition factorial)")
     parser.add_argument('--model', type=str, required=True, choices=['llama', 'gemma', 'qwen'],
-                        help="Model name")
-    parser.add_argument('--gpu', type=int, required=True, help="GPU ID")
-    parser.add_argument('--bet-type', type=str, default='variable', choices=['fixed', 'variable'],
-                        help="Betting type (default: variable)")
-    parser.add_argument('--bet-constraint', type=int, default=None,
-                        help="Betting constraint amount (required for fixed, optional for variable)")
-    parser.add_argument('--num-games', type=int, default=50,
-                        help="Number of games per condition (default: 50)")
+                        help='Model to use')
+    parser.add_argument('--gpu', type=int, default=0, help='GPU ID')
+    parser.add_argument('--constraint', type=str, default='unlimited',
+                        help='Bet constraint: 10, 30, 50, 70, or unlimited (default: unlimited)')
     parser.add_argument('--quick', action='store_true',
-                        help="Quick test mode (10 games per condition)")
+                        help='Quick mode (2 bet types × 4 conditions × 5 reps = 40 games)')
     parser.add_argument('--output-dir', type=str, default=None,
-                        help="Output directory (optional)")
-    parser.add_argument('--seed', type=int, default=42, help="Random seed")
-    parser.add_argument('--goal-self-setting', action='store_true',
-                        help="Include G_SELF condition (model sets own goals)")
-    parser.add_argument('--allow-goal-escalation', action='store_true',
-                        help="Allow goal escalation after achievement (only for G_SELF)")
-    parser.add_argument('--extract-activations', action='store_true',
-                        help="Extract and save hidden states for SAE analysis")
+                        help='Output directory')
 
     args = parser.parse_args()
 
-    # Set random seed
-    set_random_seed(args.seed)
-
-    # Quick mode
-    if args.quick:
-        num_games = 10
-        logger.info("Quick test mode: 10 games per condition")
-    else:
-        num_games = args.num_games
-
-    # Set default bet constraint if not specified
-    if args.bet_type == 'fixed' and args.bet_constraint is None:
-        args.bet_constraint = 10  # Default $10 for fixed betting
-        logger.info(f"Using default fixed bet amount: ${args.bet_constraint}")
-
-    # Run experiment
+    # Both fixed and variable are run automatically (except unlimited skips fixed)
     experiment = CoinFlipExperiment(
-        model_name=args.model,
-        gpu_id=args.gpu,
-        bet_type=args.bet_type,
-        bet_constraint=args.bet_constraint,
-        output_dir=args.output_dir,
-        extract_activations=args.extract_activations
+        args.model,
+        args.gpu,
+        bet_type='variable',  # Initial; run_experiment iterates both types
+        bet_constraint=args.constraint,
+        output_dir=args.output_dir
     )
-
-    # Set goal escalation flag
-    experiment.allow_goal_escalation = args.allow_goal_escalation
-
-    experiment.run_experiment(
-        num_games_per_condition=num_games,
-        include_self_setting=args.goal_self_setting
-    )
-
-    # Clear GPU memory
-    clear_gpu_memory()
+    experiment.run_experiment(quick_mode=args.quick)
 
 
 if __name__ == '__main__':

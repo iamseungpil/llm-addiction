@@ -90,7 +90,7 @@ bash scripts/run_quick_all.sh gemma
 
 ## 출력 파일
 
-결과는 `/scratch/x3415a02/data/llm-addiction/`에 저장됩니다:
+결과는 `/home/jovyan/beomi/llm-addiction-data/`에 저장됩니다:
 
 ```
 data/llm-addiction/

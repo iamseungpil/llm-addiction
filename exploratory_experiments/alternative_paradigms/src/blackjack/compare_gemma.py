@@ -93,9 +93,9 @@ def main():
     logger.info("="*60)
 
     # File paths
-    gemma_fixed_10 = "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_gemma_20260220_023838.json"
-    gemma_fixed_30 = "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_gemma_20260220_113119.json"
-    gemma_variable = "/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_gemma_20260221_164948.json"
+    gemma_fixed_10 = "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_gemma_20260220_023838.json"
+    gemma_fixed_30 = "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_gemma_20260220_113119.json"
+    gemma_variable = "/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_gemma_20260221_164948.json"
 
     logger.info("\nLoading Gemma data...")
     fixed_10 = load_data(gemma_fixed_10)

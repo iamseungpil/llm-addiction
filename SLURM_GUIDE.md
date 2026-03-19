@@ -1,244 +1,150 @@
-# SLURM Job Submission Guide
+# Experiment Execution Guide
 
-이 프로젝트의 HPC 클러스터 사용 가이드입니다.
+이 프로젝트의 실험 실행 가이드입니다.
 
-## 클러스터 정보
+## 현재 환경: OpenHPC (Kubernetes/JupyterHub)
 
-### GPU 파티션
+> **Note**: 이전에는 SLURM HPC 클러스터를 사용했으나, 현재는 OpenHPC 환경으로 이전했습니다.
+> GPU가 직접 할당되어 있어 `sbatch`/`srun` 없이 바로 실행 가능합니다.
 
-| 파티션 | GPU 종류 | GPU 수/노드 | VRAM | 용도 |
-|--------|----------|-------------|------|------|
-| `cas_v100nv_8` | V100 | 8 | 32GB | 대규모 실험 |
-| `cas_v100nv_4` | V100 | 4 | 32GB | 중규모 실험 |
-| `cas_v100_4` | V100 | 4 | 32GB | 일반 실험 |
-| `cas_v100_2` | V100 | 2 | 32GB | 소규모 실험 |
-| `amd_a100nv_8` | A100 | 8 | 80GB | 대형 모델 |
-| `amd_a100_4` | A100 | 4 | 80GB | 대형 모델 |
-| `amd_h200nv_8` | H200 | 8 | 141GB | 초대형 모델 |
+### GPU 정보
 
-### 모델별 권장 파티션
+| GPU | 모델 | VRAM | CUDA |
+|-----|------|------|------|
+| GPU 0 | NVIDIA A100-SXM4-40GB | 39.5GB | 12.9 |
+| GPU 1 | NVIDIA A100-SXM4-40GB | 39.5GB | 12.9 |
 
-| 모델 | VRAM 요구량 | 권장 파티션 |
-|------|-------------|-------------|
-| LLaMA-3.1-8B | ~19GB (bf16) | `cas_v100_4` |
-| Gemma-2-9B | ~22GB (bf16) | `cas_v100_4` |
-| 대형 모델 (70B+) | 80GB+ | `amd_a100nv_8` |
+### 모델별 GPU 사용량
 
-## 기본 명령어
+| 모델 | VRAM 요구량 | A100 40GB 적합 |
+|------|-------------|----------------|
+| LLaMA-3.1-8B | ~19GB (bf16) | O (2개 동시 가능) |
+| Gemma-2-9B | ~22GB (bf16) | O |
+| Qwen models | ~19GB (bf16) | O (2개 동시 가능) |
 
-### 클러스터 상태 확인
+### 시스템 사양
+
+- **CPU**: 100 cores
+- **RAM**: 1TB
+- **Python**: 3.13.11 (Anaconda)
+- **PyTorch**: 2.8.0+cu128
+
+## 실험 실행 방법
+
+### 기본 실행
 
 ```bash
-# 파티션 상태
-sinfo
+# 리포지토리로 이동
+cd /home/jovyan/llm-addiction
 
-# 내 잡 확인
-squeue -u $USER
+# GPU 0에서 실행
+python your_experiment.py --gpu 0
 
-# 특정 파티션의 가용 노드
-sinfo -p cas_v100_4
+# GPU 1에서 실행
+CUDA_VISIBLE_DEVICES=1 python your_experiment.py --gpu 0
 ```
 
-### Interactive 세션
+### 백그라운드 실행
 
 ```bash
-# V100 1개로 2시간 interactive 세션
-srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
+# nohup으로 백그라운드 실행
+nohup python your_experiment.py --gpu 0 \
+  > /home/jovyan/beomi/llm-addiction-data/logs/experiment_$(date +%Y%m%d_%H%M%S).log 2>&1 &
 
-# A100 1개로 4시간 interactive 세션
-srun -p amd_a100_4 --gres=gpu:1 --time=04:00:00 --pty bash
+# PID 확인
+echo $!
+
+# 로그 실시간 확인
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/experiment_*.log
 ```
 
-## Job Script 템플릿
-
-### 기본 템플릿: `scripts/run_experiment.sh`
+### 병렬 실행 (2개 GPU 동시 사용)
 
 ```bash
-#!/bin/bash
-#SBATCH --job-name=llm-exp
-#SBATCH --partition=cas_v100_4
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --time=04:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/%x_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/%x_%j.err
+# GPU 0: LLaMA 실험
+CUDA_VISIBLE_DEVICES=0 nohup python experiment.py --model llama --gpu 0 \
+  > /home/jovyan/beomi/llm-addiction-data/logs/llama_exp.log 2>&1 &
 
-# 환경 설정
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
+# GPU 1: Gemma 실험
+CUDA_VISIBLE_DEVICES=1 nohup python experiment.py --model gemma --gpu 0 \
+  > /home/jovyan/beomi/llm-addiction-data/logs/gemma_exp.log 2>&1 &
+```
 
-# 작업 디렉토리
-cd /scratch/x3415a02/projects/llm-addiction
+## 실험별 실행 예시
 
-# 실험 실행
-python your_experiment.py --gpu 0 --output-dir /scratch/x3415a02/data/llm-addiction/
+### Blackjack 실험
+
+```bash
+python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
+    --model llama \
+    --gpu 0
 ```
 
 ### Investment Choice 실험
 
 ```bash
-#!/bin/bash
-#SBATCH --job-name=invest-exp
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --time=08:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/investment_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/investment_%j.err
-
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-cd /scratch/x3415a02/projects/llm-addiction
-
-python paper_experiments/investment_choice_experiment/src/run_experiment.py \
-    --model llama \
-    --gpu 0 \
-    --output-dir /scratch/x3415a02/data/llm-addiction/investment_choice/
-```
-
-### Loot Box 실험
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=lootbox-exp
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --time=04:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/lootbox_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/lootbox_%j.err
-
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-cd /scratch/x3415a02/projects/llm-addiction
-
-python exploratory_experiments/alternative_paradigms/src/lootbox/run_experiment.py \
+python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py \
     --model gemma \
-    --gpu 0 \
-    --output-dir /scratch/x3415a02/data/llm-addiction/lootbox/
+    --gpu 0
 ```
 
-### Blackjack 실험
+### SAE 분석 파이프라인
 
 ```bash
-#!/bin/bash
-#SBATCH --job-name=blackjack-exp
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --time=04:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/blackjack_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/blackjack_%j.err
+# Phase 1: Feature extraction
+python paper_experiments/llama_sae_analysis/src/phase1_feature_extraction.py
 
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-cd /scratch/x3415a02/projects/llm-addiction
+# Phase 2: Correlation analysis
+python paper_experiments/llama_sae_analysis/src/phase2_correlation_analysis.py
 
-python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
-    --model llama \
-    --gpu 0 \
-    --output-dir /scratch/x3415a02/data/llm-addiction/blackjack/
+# Phase 4: Causal validation
+python paper_experiments/llama_sae_analysis/src/phase4_causal_pilot_v2.py
 ```
 
-## Job 제출 및 관리
-
-### 제출
+## 모니터링
 
 ```bash
-# 단일 잡 제출
-sbatch scripts/run_experiment.sh
+# GPU 상태
+nvidia-smi
+watch -n 1 nvidia-smi
 
-# 여러 모델 동시 실행 (Array Job)
-sbatch --array=0-2 scripts/run_multi_model.sh
+# 실행 중인 Python 프로세스
+ps aux | grep python
+
+# 로그 확인
+tail -f /home/jovyan/beomi/llm-addiction-data/logs/*.log
+
+# 백그라운드 잡 확인
+jobs -l
 ```
 
-### 모니터링
+## 프로세스 관리
 
 ```bash
-# 잡 상태 확인
-squeue -u $USER
+# 특정 프로세스 종료
+kill <PID>
 
-# 잡 상세 정보
-scontrol show job <JOBID>
-
-# 실시간 로그 확인
-tail -f /scratch/x3415a02/data/llm-addiction/logs/llm-exp_<JOBID>.out
-```
-
-### 취소
-
-```bash
-# 특정 잡 취소
-scancel <JOBID>
-
-# 내 모든 잡 취소
-scancel -u $USER
-```
-
-## Array Job (다중 실험)
-
-여러 모델/조건을 병렬로 실행:
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=multi-model
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --time=04:00:00
-#SBATCH --array=0-2
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/%x_%A_%a.out
-
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-cd /scratch/x3415a02/projects/llm-addiction
-
-# 모델 배열
-MODELS=("llama" "gemma" "qwen")
-MODEL=${MODELS[$SLURM_ARRAY_TASK_ID]}
-
-python your_experiment.py --model $MODEL --gpu 0
+# GPU를 사용하는 프로세스 확인
+nvidia-smi --query-compute-apps=pid,name,used_memory --format=csv
 ```
 
 ## 디렉토리 구조
 
 ```
-/scratch/x3415a02/data/llm-addiction/
-├── logs/                  # SLURM 로그 (.out, .err)
-├── investment_choice/     # 실험 결과
-├── blackjack/
-├── lootbox/
-└── slot_machine/
-```
-
-로그 디렉토리 생성:
-```bash
-mkdir -p /scratch/x3415a02/data/llm-addiction/logs
+/home/jovyan/beomi/llm-addiction-data/
+├── logs/                  # 실험 로그
+├── investment_choice/     # Investment choice 실험 결과
+├── blackjack/             # Blackjack 실험 결과
+└── slot_machine/          # Slot machine 실험 결과
 ```
 
 ## 주의사항
 
-1. **시간 제한**: 대부분 파티션이 2일(48시간) 제한. 긴 실험은 체크포인트 사용
-2. **메모리**: LLaMA/Gemma는 32GB면 충분, 여유 있게 설정
-3. **GPU**: bf16 로딩 필수 (float16/quantized 사용 금지)
-4. **출력 경로**: 항상 `/scratch/` 사용 (홈 디렉토리 용량 제한)
+1. **bf16 필수**: 모델은 항상 bf16으로 로딩 (float16/quantized 사용 금지)
+2. **GPU 메모리**: 실험 간 `clear_gpu_memory()` 호출 필수
+3. **데이터 경로**: 결과는 반드시 `/home/jovyan/beomi/llm-addiction-data/`에 저장
+4. **프로젝트 경로**: 코드는 `/home/jovyan/llm-addiction/`
 
-## Quick Reference
+## 레거시 SLURM 스크립트
 
-```bash
-# 환경 활성화
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-
-# Interactive GPU 세션
-srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
-
-# 잡 제출
-sbatch scripts/run_experiment.sh
-
-# 상태 확인
-squeue -u $USER
-```
+이전 SLURM 환경의 쉘 스크립트들은 `scripts/` 디렉토리에 남아있으며, `#SBATCH` 라인은 `[SLURM-DISABLED]`로 주석 처리되었습니다. Python 실행 명령어는 여전히 유효하므로 참고용으로 활용 가능합니다.

@@ -136,7 +136,7 @@ def print_analysis(model_name, stats):
         print()
 
 def main():
-    data_dir = Path("/scratch/x3415a02/data/llm-addiction/investment_choice")
+    data_dir = Path("/home/jovyan/beomi/llm-addiction-data/investment_choice")
 
     # LLaMA results
     llama_file = data_dir / "llama_investment_unlimited_20260213_110822.json"

@@ -27,7 +27,7 @@ from common import ModelLoader, setup_logger, save_json, set_random_seed
 
 logger = setup_logger(__name__)
 
-OUTPUT_DIR = Path('/scratch/x3415a02/data/llm-addiction/blackjack')
+OUTPUT_DIR = Path('/home/jovyan/beomi/llm-addiction-data/blackjack')
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 

@@ -59,16 +59,16 @@
 
 ```bash
 # Lootbox
-/scratch/x3415a02/data/llm-addiction/lootbox/llama_lootbox_20260204_212033.json
-/scratch/x3415a02/data/llm-addiction/lootbox/gemma_lootbox_checkpoint_200.json
+/home/jovyan/beomi/llm-addiction-data/lootbox/llama_lootbox_20260204_212033.json
+/home/jovyan/beomi/llm-addiction-data/lootbox/gemma_lootbox_checkpoint_200.json
 
 # Blackjack
-/scratch/x3415a02/data/llm-addiction/blackjack/blackjack_llama_20260204_234930.json
-/scratch/x3415a02/data/llm-addiction/blackjack/llama_blackjack_checkpoint_300.json
+/home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_llama_20260204_234930.json
+/home/jovyan/beomi/llm-addiction-data/blackjack/llama_blackjack_checkpoint_300.json
 
 # Investment (BEST)
-/scratch/x3415a02/data/llm-addiction/investment_choice/llama_investment_unlimited_20260204_203537.json
-/scratch/x3415a02/data/llm-addiction/investment_choice/gemma_investment_unlimited_20260204_202628.json
+/home/jovyan/beomi/llm-addiction-data/investment_choice/llama_investment_unlimited_20260204_203537.json
+/home/jovyan/beomi/llm-addiction-data/investment_choice/gemma_investment_unlimited_20260204_202628.json
 ```
 
 ---

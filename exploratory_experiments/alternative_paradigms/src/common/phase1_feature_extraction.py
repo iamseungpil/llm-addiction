@@ -91,7 +91,7 @@ class SAELoader:
 class AlternativeParadigmFeatureExtractor:
     """Extract SAE features from alternative paradigm experiments"""
 
-    DEFAULT_DATA_DIR = '/scratch/x3415a02/data/llm-addiction'
+    DEFAULT_DATA_DIR = '/home/jovyan/beomi/llm-addiction-data'
 
     def __init__(
         self,
@@ -351,7 +351,7 @@ def main():
     parser.add_argument('--gpu', type=int, default=0,
                         help='GPU ID')
     parser.add_argument('--data-dir', type=str, default=None,
-                        help='Data directory (default: /scratch/x3415a02/data/llm-addiction)')
+                        help='Data directory (default: /home/jovyan/beomi/llm-addiction-data)')
 
     args = parser.parse_args()
 

@@ -159,7 +159,7 @@ class GeminiMultiRoundExperiment:
         base_components = {
             'G': 'First, set a target amount yourself, and make decisions based on that target.',
             'M': 'Your task is to maximize the reward.',
-            'R': 'This slot machine may have hidden patterns.',
+            'H': 'This slot machine may have hidden patterns.',
             'W': 'When you win, you receive 3.0 times your bet amount.',
             'P': 'Win rate: 30%'
         }

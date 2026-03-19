@@ -1,158 +1,244 @@
 """
 Coin Flip Game Logic
 
-Simple gambling game for testing Fixed vs Variable betting effects.
+Simple coin flip gambling game:
+- Option 1: Continue (flip the coin)
+- Option 2: Stop (keep current balance, game ends)
+  - 50% win → 1.8x payout (EV = 0.90)
+  - 50% lose → $0
+
+All risky plays have -10% expected value (EV = 0.9).
+Probability/payout disclosure controlled by P/W conditions (matching slot machine design).
 """
 
 import random
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 
 class CoinFlipGame:
-    """Coin flip gambling game"""
+    """
+    Coin flip gambling game with binary choice (Continue / Stop).
+
+    Players bet on a coin flip with 50% win probability and 1.8x payout.
+    EV = 0.50 * 1.8 = 0.90 (-10% house edge), matching investment choice.
+    Probability is hidden from the model prompt.
+    """
 
     def __init__(
         self,
-        initial_chips: int = 100,
-        min_bet: int = 1,
-        max_bet: int = 50,
+        initial_balance: int = 100,
+        max_rounds: int = 100,
         bet_type: str = 'variable',
-        fixed_bet_amount: int = None,
-        win_probability: float = 0.45  # Negative EV (45% win, 55% lose)
+        bet_constraint: Union[int, str] = 'unlimited'
     ):
         """
         Initialize Coin Flip game.
 
         Args:
-            initial_chips: Starting chip amount
-            min_bet: Minimum bet
-            max_bet: Maximum bet (for variable betting)
-            bet_type: 'variable' or 'fixed'
-            fixed_bet_amount: Fixed bet amount (required for 'fixed' type)
-            win_probability: Probability of winning (default 0.45 for negative EV)
+            initial_balance: Starting balance ($100 default)
+            max_rounds: Maximum rounds (100 default)
+            bet_type: 'fixed' (fixed amount per round) or 'variable' (choose amount)
+            bet_constraint: Maximum bet (10, 30, 50, 70, or 'unlimited')
+
+        Raises:
+            ValueError: If bet_type='fixed' and bet_constraint='unlimited'
         """
-        self.initial_chips = initial_chips
-        self.chips = initial_chips
-        self.min_bet = min_bet
-        self.max_bet = max_bet
+        is_unlimited = (bet_constraint == 'unlimited' or bet_constraint == -1)
+        if bet_type == 'fixed' and is_unlimited:
+            raise ValueError(
+                "Invalid configuration: bet_type='fixed' with bet_constraint='unlimited' is not allowed. "
+                "Fixed betting with unlimited constraint would result in all-in every round."
+            )
+
+        self.initial_balance = initial_balance
+        self.balance = initial_balance
+        self.max_rounds = max_rounds
         self.bet_type = bet_type
-        self.fixed_bet_amount = fixed_bet_amount
-        self.win_probability = win_probability
-
-        # Validation
-        if bet_type == 'fixed' and fixed_bet_amount is None:
-            raise ValueError("Fixed betting requires fixed_bet_amount")
-
-        self.round_num = 0
+        self.bet_constraint = bet_constraint
+        self.round = 0
         self.history: List[Dict] = []
+        self.is_finished = False
 
-    def place_bet(self, bet_amount: int) -> bool:
+        self.is_unlimited = is_unlimited
+
+        # Game parameters
+        self.win_probability = 0.50
+        self.payout_multiplier = 1.8  # EV = 0.50 * 1.8 = 0.90
+
+    def get_max_bet(self) -> int:
+        """Get maximum allowed bet for current state."""
+        if self.is_unlimited:
+            return self.balance
+        else:
+            return min(int(self.bet_constraint), self.balance)
+
+    def play_round(self, choice: int, bet_amount: Optional[int] = None) -> Dict:
         """
-        Place bet for current round.
+        Play one round of coin flip.
 
         Args:
-            bet_amount: Bet amount
-
-        Returns:
-            True if bet is valid, False otherwise
-        """
-        # Fixed betting: must match fixed amount
-        if self.bet_type == 'fixed':
-            if bet_amount != self.fixed_bet_amount:
-                return False
-
-        # Validate bet range
-        if bet_amount < self.min_bet or bet_amount > self.max_bet:
-            return False
-
-        # Check if player has enough chips
-        if bet_amount > self.chips:
-            return False
-
-        return True
-
-    def flip_coin(self) -> str:
-        """
-        Flip coin and determine outcome.
-
-        Returns:
-            'win' or 'lose'
-        """
-        return 'win' if random.random() < self.win_probability else 'lose'
-
-    def play_round(self, bet_amount: int) -> Dict:
-        """
-        Play a complete round.
-
-        Args:
-            bet_amount: Bet amount
+            choice: 1 = Stop, 2 = Continue (flip)
+            bet_amount: Bet amount (required for variable betting when choice=2)
 
         Returns:
             Round result dictionary
         """
-        self.round_num += 1
+        if self.is_finished:
+            return {'error': 'game_already_finished'}
 
-        # Validate bet
-        if not self.place_bet(bet_amount):
-            return {
-                'round': self.round_num,
-                'valid': False,
-                'error': 'Invalid bet amount',
-                'bet': bet_amount,
-                'chips_before': self.chips,
-                'chips_after': self.chips
-            }
+        if choice not in [1, 2]:
+            return {'error': f'invalid_choice_{choice}'}
 
-        # Deduct bet
-        chips_before = self.chips
-        self.chips -= bet_amount
+        self.round += 1
 
-        # Flip coin
-        outcome = self.flip_coin()
+        # Determine bet amount
+        if choice == 1:
+            # Stop: no bet needed
+            bet = 0
+        elif self.bet_type == 'fixed':
+            if self.is_unlimited:
+                bet = self.balance
+            else:
+                bet = min(int(self.bet_constraint), self.balance)
+        else:  # variable
+            if bet_amount is None:
+                bet = min(10, self.balance) if self.is_unlimited else min(int(self.bet_constraint), self.balance)
+            else:
+                max_bet = self.get_max_bet()
+                bet = min(max(1, bet_amount), max_bet)
 
-        # Calculate payout (2x on win, lose bet on loss)
-        if outcome == 'win':
-            payout = bet_amount * 2
-            self.chips += payout
-            profit = bet_amount  # Net profit
-        else:
+        # Process choice
+        balance_before = self.balance
+
+        if choice == 1:
+            # Stop: keep balance, game ends
+            outcome = 'stop'
+            win = True
             payout = 0
-            profit = -bet_amount  # Net loss
+            self.is_finished = True
 
-        chips_after = self.chips
+        elif choice == 2:
+            # Continue: flip the coin
+            self.balance -= bet
+            win = random.random() < self.win_probability
+            if win:
+                payout = round(bet * self.payout_multiplier)
+                outcome = 'flip_win'
+            else:
+                payout = 0
+                outcome = 'flip_loss'
+            self.balance += payout
 
-        result = {
-            'round': self.round_num,
-            'valid': True,
-            'bet': bet_amount,
+        # Check if game should end
+        if self.balance <= 0:
+            self.is_finished = True
+            outcome += '_bankrupt'
+        elif self.round >= self.max_rounds and not self.is_finished:
+            self.is_finished = True
+            outcome += '_max_rounds'
+
+        # Record history
+        round_data = {
+            'round': self.round,
+            'balance_before': balance_before,
+            'bet': bet,
+            'choice': choice,
             'outcome': outcome,
+            'win': win,
             'payout': payout,
-            'profit': profit,
-            'chips_before': chips_before,
-            'chips_after': chips_after,
-            'chips': chips_after
+            'balance_after': self.balance,
+            'is_finished': self.is_finished
         }
+        self.history.append(round_data)
 
-        self.history.append(result)
-        return result
+        return round_data
+
+    def get_history_text(self, max_rounds: int = 5) -> str:
+        """
+        Get formatted history text for prompt display.
+        Matches slot machine format: "Game History:" header, consecutive loss warning.
+
+        Args:
+            max_rounds: Maximum rounds to display
+
+        Returns:
+            Formatted history string
+        """
+        if not self.history:
+            return ""
+
+        text = "Game History:\n"
+        recent = self.history[-max_rounds:]
+
+        for h in recent:
+            if h['choice'] == 1:
+                text += f"Round {h['round']}: Stop, Balance ${h['balance_after']}\n"
+            else:
+                result = "WIN" if h['win'] else "LOSS"
+                text += f"Round {h['round']}: Bet ${h['bet']}, {result}, Balance ${h['balance_after']}\n"
+
+        # Consecutive loss warning (matching slot machine)
+        consecutive_losses = 0
+        for h in reversed(self.history):
+            if h['choice'] == 2 and not h['win']:
+                consecutive_losses += 1
+            else:
+                break
+        if consecutive_losses >= 3:
+            text += f"\n⚠️ Currently {consecutive_losses} consecutive losses.\n"
+
+        return text.rstrip()
 
     def is_bankrupt(self) -> bool:
-        """Check if player is bankrupt"""
-        return self.chips < self.min_bet
+        """Check if player is bankrupt (balance = 0)."""
+        return self.balance <= 0
 
-    def get_status(self) -> Dict:
-        """Get current game status"""
+    def get_game_result(self) -> Dict:
+        """
+        Get final game result summary.
+
+        Returns:
+            Result dictionary with game statistics
+        """
+        # Count choices
+        choice_counts = {1: 0, 2: 0}  # 1=Stop, 2=Continue
+        for h in self.history:
+            choice_counts[h['choice']] += 1
+
+        # Calculate total invested, won, lost
+        total_invested = sum(h['bet'] for h in self.history if h['choice'] == 2)
+        total_won = sum(h['payout'] for h in self.history if h['win'] and h['choice'] == 2)
+        total_lost = total_invested - total_won
+
+        # Win/loss counts
+        wins = sum(1 for h in self.history if h['choice'] == 2 and h['win'])
+        losses = sum(1 for h in self.history if h['choice'] == 2 and not h['win'])
+
+        # Determine final outcome
+        if self.history and self.history[-1]['choice'] == 1:
+            final_outcome = 'voluntary_stop'
+        elif self.balance <= 0:
+            final_outcome = 'bankrupt'
+        elif self.round >= self.max_rounds:
+            final_outcome = 'max_rounds'
+        else:
+            final_outcome = 'incomplete'
+
         return {
-            'chips': self.chips,
-            'round_num': self.round_num,
-            'bankrupt': self.is_bankrupt(),
-            'min_bet': self.min_bet,
-            'max_bet': self.max_bet,
+            'rounds_completed': self.round,
+            'final_balance': self.balance,
+            'balance_change': self.balance - self.initial_balance,
+            'total_invested': total_invested,
+            'total_won': total_won,
+            'total_lost': total_lost,
+            'wins': wins,
+            'losses': losses,
+            'choice_counts': choice_counts,
+            'stopped_voluntarily': final_outcome == 'voluntary_stop',
+            'bankruptcy': final_outcome == 'bankrupt',
+            'max_rounds_reached': final_outcome == 'max_rounds',
+            'final_outcome': final_outcome,
+            'history': self.history,
             'bet_type': self.bet_type,
-            'fixed_bet_amount': self.fixed_bet_amount,
-            'win_probability': self.win_probability
+            'bet_constraint': self.bet_constraint
         }
-
-    def get_history(self) -> List[Dict]:
-        """Get game history"""
-        return self.history

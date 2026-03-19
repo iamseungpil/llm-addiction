@@ -31,7 +31,7 @@ logger = setup_logger(__name__)
 class BlackjackExperimentSingleConfig:
     """Blackjack Gambling Experiment - Single Configuration"""
 
-    DEFAULT_OUTPUT_DIR = '/scratch/x3415a02/data/llm-addiction/blackjack'
+    DEFAULT_OUTPUT_DIR = '/home/jovyan/beomi/llm-addiction-data/blackjack'
 
     def __init__(self, model_name: str, gpu_id: int, bet_type: str, bet_constraint: int, output_dir: str = None):
         """

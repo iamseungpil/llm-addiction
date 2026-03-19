@@ -29,7 +29,7 @@ HALLUC_KEYWORDS = [
     'calculator', 'make another post', 'next round',
 ]
 
-OUTPUT_DIR = Path('/scratch/x3415a02/data/llm-addiction/investment_choice')
+OUTPUT_DIR = Path('/home/jovyan/beomi/llm-addiction-data/investment_choice')
 
 
 def build_prompt_old(game, prompt_condition, current_goal, bet_type, bet_constraint):

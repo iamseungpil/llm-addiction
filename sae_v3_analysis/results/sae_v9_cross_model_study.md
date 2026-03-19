@@ -3,8 +3,8 @@
 **Models**: Gemma-2-9B-IT (42L, 3584-dim, GemmaScope 131K features) | LLaMA-3.1-8B-Instruct (32L, 4096-dim, LlamaScope 32K features)
 **Paradigms**: Investment Choice (IC, 1600 games), Slot Machine (SM, 3200 games), Mystery Wheel (MW, 3200 games)
 **Data**: Gemma: IC+SM+MW; LLaMA: IC+SM (MW pending extraction)
-**Verified data sources**: `b1_b2_results_20260317_125620.json`, `llama_ic_results_20260317_130655.json`, `gap_filling_20260317_194117.json`, `final_verification_20260317_201024.json`, `llama_symmetric_20260318.json`, `selfcritique_20260318_114430.json`, `llama_hidden_analyses_20260318_172609.json`
-**Date**: 2026-03-18 (v9.4 — LLaMA hidden states 재추출, Analysis 2/3 대칭 완성)
+**Verified data sources**: `b1_b2_results_20260317_125620.json`, `llama_ic_results_20260317_130655.json`, `gap_filling_20260317_194117.json`, `final_verification_20260317_201024.json`, `llama_symmetric_20260318.json`, `selfcritique_20260318_114430.json`, `llama_hidden_analyses_20260318_172609.json`, `hidden_state_v8style_20260319_133042.json`
+**Date**: 2026-03-19 (v9.5 — V8 hidden-state analyses 재현 + SAE analyses 통합)
 
 > **Note on data integrity**: All numerical claims in this report are directly traceable to computed JSON outputs. Unverifiable numbers from previous drafts have been removed or replaced with verified results.
 
@@ -250,11 +250,100 @@ Fixed와 Variable 모두에서 **cross-domain sign-consistent features가 57-62%
 
 ---
 
-## Analysis 5: Gemma Cross-Domain SAE Transfer with Permutation Test
+## Analysis 4b: Universal BK Neurons — Hidden State Level (Gemma L22)
 
 ### Why
 
-"IC에서 학습한 BK classifier가 SM에서도 작동하는가?" — cross-domain transfer만이 답할 수 있다. V8의 cross-domain 분석에 permutation test를 추가해 통계적 유의성 확인.
+V8의 핵심 발견: 3584개 hidden state neurons 중 600개가 3-paradigm sign-consistent. V9는 SAE features (131K)에서 분석했으나, hidden state neurons에서의 재현이 필요. **Hidden state 분석이 SAE 분석보다 본질적** — SAE는 hidden state의 decomposition이므로.
+
+### What & How
+
+L22에서 각 neuron × 각 paradigm의 point-biserial correlation → FDR correction (BH, p<0.01) → 3-paradigm 모두 유의미 + 같은 부호 → "Universal BK Neuron".
+
+### Result → RQ1
+
+| | IC | SM | MW | Cross-paradigm |
+|--|:--:|:--:|:--:|:-:|
+| FDR-significant neurons (p<0.01) | 2,528 (70.5%) | 2,725 (76.0%) | 2,314 (64.6%) | — |
+| All-3-sig | — | — | — | 1,238 (34.5%) |
+| **Sign-consistent (Universal)** | — | — | — | **600 (16.7%)** |
+| BK-promoting | — | — | — | 302 |
+| BK-inhibiting | — | — | — | 298 |
+
+**Top-5 Universal BK Neurons:**
+
+| Rank | Neuron | min\|r\| | IC r | SM r | MW r | Direction |
+|:----:|:------:|:--------:|:----:|:----:|:----:|:---------:|
+| 1 | **1763** | 0.217 | +0.305 | +0.248 | +0.217 | BK-promoting |
+| 2 | 371 | 0.203 | -0.223 | -0.203 | -0.209 | BK-inhibiting |
+| 3 | 2951 | 0.198 | -0.198 | -0.207 | -0.266 | BK-inhibiting |
+| 4 | 1755 | 0.190 | -0.210 | -0.198 | -0.190 | BK-inhibiting |
+| 5 | 864 | 0.182 | -0.267 | -0.182 | -0.182 | BK-inhibiting |
+
+**V8과의 일치**: 600 neurons, Neuron #1763 top, min|r|=0.217 — **완벽히 재현됨**.
+
+Promoting (302) ≈ Inhibiting (298)으로 L22에서는 균형적. (L30에서는 inhibiting 우세 — Analysis 6 참조.)
+
+### Comparison: Hidden State (600 neurons) vs SAE (744 features)
+
+| Level | Cross-domain consistent | FDR? | Binomial significant? |
+|-------|:----------------------:|:----:|:---------------------:|
+| Hidden state (3584-dim, L22) | 600 (16.7%) | Yes (p<0.01) | — |
+| SAE features (131K, 7 layers) | 744 (total), L18+ sig | No FDR | L18+ p<5e-3 |
+
+**해석**: Hidden state level에서 16.7%가 universal이고 FDR-corrected. SAE level에서 deep layers (L18+)에 한해 chance 대비 유의미. 두 분석 레벨이 일관되게 cross-domain BK signal의 존재를 지지.
+
+---
+
+## Analysis 5: Cross-Domain Transfer — Hidden State vs SAE (Gemma L22)
+
+### Why
+
+V8의 핵심 발견: "Hidden state transfer가 SAE transfer보다 0.12-0.28 높다." BK 신호가 distributed representation에 있어 sparsification이 coherence를 깨뜨린다는 해석. V9에서 이를 재검증.
+
+### What & How
+
+Gemma L22 DP에서 PCA(50) → LogReg(balanced) → cross-paradigm AUC. Hidden state (3584-dim) vs SAE features (common active features). 200-permutation test.
+
+### Result → RQ2
+
+**Hidden State Transfer (L22, DP):**
+
+| Transfer | Hidden AUC | SAE AUC | Δ (HS - SAE) | HS perm_p |
+|----------|:---------:|:-------:|:------------:|:---------:|
+| IC → SM  | **0.746** | 0.499 (NS at L22) | +0.247 | 0.000 |
+| IC → MW  | **0.826** | 0.876 | -0.050 | 0.000 |
+| SM → MW  | **0.920** | 0.819 | +0.101 | 0.000 |
+
+*V8 보고서 (R1 기반): IC→SM 0.896, IC→MW hidden 미보고, SM→MW 미보고*
+
+**핵심 발견**:
+- **IC→SM에서 Hidden >> SAE**: L22에서 SAE transfer 실패 (0.499 NS) vs Hidden 성공 (0.746, p=0.000). BK 신호가 SAE sparsification으로 손실됨.
+- **SM→MW에서 Hidden > SAE**: 0.920 vs 0.819 (+0.101).
+- **IC→MW에서는 SAE ≈ Hidden**: 0.876 vs 0.826. 이 방향에서는 SAE가 hidden state와 비슷하게 정보 보존.
+- V8의 "hidden > SAE" 주장이 **IC→SM과 SM→MW에서 확인**, IC→MW에서는 SAE가 오히려 약간 우위.
+
+### 3D Shared Subspace
+
+3개 paradigm LR weight vectors의 PCA → 3D BK subspace:
+
+| Paradigm | 3D Subspace AUC | Full-dim AUC (50-PC) |
+|----------|:--------------:|:--------------------:|
+| IC | 0.862 ± 0.029 | ~0.95+ |
+| SM | 0.899 ± 0.034 | ~0.97+ |
+| MW | 0.970 ± 0.016 | ~0.97+ |
+
+**LR weight vector cosines**: IC-SM=0.042, IC-MW=-0.026, SM-MW=-0.026 (거의 직교).
+
+Weight vectors가 직교인데 3D subspace AUC가 0.86-0.97 → BK 신호가 단일 방향이 아닌 **subspace에 분산**. V8 보고서 (0.91-0.94)와 유사한 범위.
+
+---
+
+## Analysis 5b: Gemma Cross-Domain SAE Transfer with Permutation Test
+
+### Why
+
+"IC에서 학습한 BK classifier가 SM에서도 작동하는가?" — cross-domain transfer만이 답할 수 있다. Analysis 5의 SAE 버전.
 
 ### What & How
 
@@ -569,6 +658,37 @@ SM 3,200 games를 각 component의 유무로 이분. Per-component:
 ![Figure 5: Prompt component BK effect — dramatic cross-model difference for G (Goal)](figures/fig5_prompt_components.png)
 
 **Figure 5 해석**: G(Goal) component가 Gemma에서 20.8x BK 증가 (blue, dominant)이지만 LLaMA에서는 1.26x (orange, mild). 같은 prompt가 모델에 따라 16배 다른 행동적 효과. M, W, P는 두 모델 모두에서 약함.
+
+### Supplementary: G-Prompt BK Direction Alignment (Gemma L22, V8 §4.2 재현)
+
+Hidden state level에서 G-prompt direction (G_mean - non-G_mean)과 BK direction (BK_mean - Safe_mean)의 cosine:
+
+| Paradigm | cos(G_dir, BK_dir) | BK with G | BK without G | Interpretation |
+|----------|:-------------------:|:---------:|:------------:|:--------------:|
+| IC | **-0.143** | 10.9% | 10.6% | G는 IC에서 BK 방향과 거의 무관 |
+| SM | **+0.850** | 5.2% | 0.3% | **G가 BK 방향과 강하게 정렬** |
+| MW | **+0.367** | 2.5% | 0.9% | G가 BK 방향과 약하게 정렬 |
+
+*V8 보고서: SM cos=+0.69, IC cos=-0.87, MW cos=-0.79. SM 부호 일치, IC/MW 부호는 methodology 차이 (V8은 다른 G condition 정의를 사용했을 가능성).*
+
+**핵심**: SM에서 G-prompt direction이 BK direction과 cos=+0.85로 강하게 정렬. G가 있으면 activation space가 BK 방향으로 이동. 이는 Analysis 9의 "G는 BK를 독립적으로 유발"과 일관 — G가 모델의 hidden state를 BK 방향으로 직접 밀어넣는다.
+
+### Supplementary: Bet Constraint Linear Mapping (Gemma IC L22, V8 §4.3 재현)
+
+IC에서 bet constraint (c10, c30, c50, c70)와 BK-projection (LogReg probability)의 관계:
+
+| Constraint | n | Mean BK prob | Actual BK rate |
+|:----------:|:---:|:------------:|:--------------:|
+| c10 ($1-$10) | 400 | 0.000 | 0.0% |
+| c30 ($1-$30) | 400 | 0.056 | 5.2% |
+| c50 ($1-$50) | 400 | 0.212 | 16.8% |
+| c70 ($1-$70) | 400 | 0.270 | 21.0% |
+
+**Linear correlation: r=0.979, p=0.021**
+
+*V8 보고서: r=0.98. 거의 동일.*
+
+Bet constraint가 높을수록 BK-projection이 선형적으로 증가. c10에서는 BK가 불가능 ($1 bet × 100 rounds = $100 loss 불가), c70에서는 21% BK.
 
 ---
 

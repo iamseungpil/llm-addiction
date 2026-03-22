@@ -7,7 +7,7 @@
 **Date**: 2026-03-22 (V10 — MW 3-paradigm completion, cross-bet-type transfer, full symmetric analyses)
 **Paper context**: Extends Section 3.2 of "Can Large Language Models Develop Gambling Addiction?" (NMT submission)
 
-> **Data integrity**: All numerical claims are traceable to computed JSON outputs from V9 verified sources and V10 analyses (`llama_v10_symmetric_*.json`, `llama_mw_*.json`, `cross_bet_transfer_*.json`). No unverified numbers are included.
+> **Data integrity**: All numerical claims are traceable to computed analysis outputs. No unverified numbers are included.
 
 ---
 
@@ -25,8 +25,6 @@
 
 ### 1.1 Data & Representations
 
-This section specifies the dataset composition and representation extraction pipeline used throughout all analyses.
-
 **Table 1. Dataset Overview**
 
 | Paradigm | Model | Games | BK | BK% | Bet Types | Constraints | Prompt Conditions |
@@ -38,19 +36,13 @@ This section specifies the dataset composition and representation extraction pip
 | MW | Gemma | 3,200 | 54 | 1.7% | Fixed/Variable | $30 fixed | 32 prompt combos |
 | **MW** | **LLaMA** | **3,200** | **2,426** | **75.8%** | Fixed/Variable | $30 fixed | 32 prompt combos |
 
-**V10 addition**: LLaMA MW (3,200 games, 2,426 BK at 75.8%) completes the 3-paradigm matrix for both models. LLaMA exhibits markedly higher BK rates than Gemma in both SM (36.4% vs 2.7%) and MW (75.8% vs 1.7%).
+**V10 addition**: LLaMA MW (3,200 games, 2,426 BK at 75.8%) completes the 3-paradigm matrix for both models. LLaMA's BK rates exceed Gemma's by 13x in SM (36.4% vs 2.7%) and 44x in MW (75.8% vs 1.7%).
 
 **Representations**: Hidden states are residual-stream activations at each layer (Gemma: 3,584-dim x 42 layers; LLaMA: 4,096-dim x 32 layers). SAE features are extracted via GemmaScope (131K features/layer) and LlamaScope (32K features/layer). Decision Point (DP) denotes the last decision time point. Round 1 (R1) denotes the first round at $100 equal balance. Classification pipeline: StandardScaler -> PCA(50) -> LogReg(C=1.0, balanced) with 5-fold StratifiedKFold.
 
 ### 1.2 V9 Limitations Addressed
 
-This section identifies the specific gaps from V9 that V10 resolves.
-
-V9 left three limitations that V10 directly addresses:
-
-1. **LLaMA MW missing**: V9 had LLaMA IC+SM only (2-paradigm). V10 adds LLaMA MW (3,200 games, BK=2,426), enabling **3-paradigm cross-domain analysis for both models**.
-2. **No cross-bet-type transfer test**: V9 showed BK direction cosine > 0.81 (LLaMA IC) and shared BK neurons (33--37%), but never tested whether a classifier trained on Fixed BK can predict Variable BK. V10 adds **F1: cross-bet-type BK transfer** with permutation tests.
-3. **2-paradigm factor decomposition only for LLaMA**: V9 LLaMA factor decomposition used IC+SM (69.5%). V10 extends to **3-paradigm (IC+SM+MW)** with 75.8% outcome-significant features.
+V9 left three gaps that V10 resolves. First, V9 lacked LLaMA MW data (only IC+SM, 2-paradigm). V10 adds LLaMA MW (3,200 games, BK=2,426), enabling 3-paradigm cross-domain analysis for both models. Second, V9 showed BK direction cosine > 0.81 and 33--37% shared BK neurons, but never tested whether a classifier trained on Fixed BK can predict Variable BK. V10 adds the F1 cross-bet-type transfer analysis with 200-permutation tests. Third, V9's LLaMA factor decomposition was limited to IC+SM (69.5%). V10 extends this to IC+SM+MW, yielding 75.8% outcome-significant features.
 
 ---
 
@@ -83,7 +75,7 @@ LLaMA MW's high BK rate (75.8%) differs substantially from Gemma MW (1.7%), yet 
 
 ### 2.2 Universal BK Neurons
 
-This section quantifies neurons that predict BK consistently across paradigms in each model.
+A universal BK neuron is defined as one whose point-biserial correlation with BK outcome is FDR-significant (BH, p<0.01) in every paradigm tested, with the same sign direction.
 
 **Table 4. Universal BK Neuron Summary (L22)**
 
@@ -109,7 +101,7 @@ Both models exhibit a balanced promoting/inhibiting ratio at all layers (approxi
 
 ### 2.3 Factor Decomposition
 
-This section tests whether BK encoding is independent of confounding variables (bet-type and paradigm) using per-feature OLS regression with outcome, bet_type, and paradigm as predictors.
+Factor decomposition isolates the independent contribution of BK outcome to SAE feature activation after controlling for bet-type and paradigm. For each feature, per-feature OLS regression (`feature ~ outcome + bet_type + paradigm`) identifies features where outcome remains significant (p<0.01) after partialling out the other factors.
 
 **Table 6. Factor Decomposition: Outcome-Significant Features**
 
@@ -137,7 +129,7 @@ These findings establish that BK representation is a shared property of the two 
 
 ### 3.1 Cross-Domain Transfer
 
-This section tests whether a BK classifier trained on one paradigm generalizes to another, providing direct evidence for domain-invariant BK representations.
+Cross-domain transfer trains a BK classifier on one paradigm's features and tests it on another paradigm's data. If transfer AUC exceeds chance (0.5) with permutation p<0.05, the two paradigms share BK-predictive structure.
 
 **Table 7. Gemma SAE Cross-Domain Transfer (Best Layer per Direction)**
 
@@ -176,7 +168,7 @@ Transfer asymmetry is consistent across models: both Gemma and LLaMA show strong
 
 ### 3.2 Shared BK Subspace
 
-This section examines whether BK directions across paradigms span a low-dimensional shared subspace despite having near-orthogonal weight vectors.
+Per-paradigm LogReg classifiers produce weight vectors that point in different directions (cosine ≈ 0.04). PCA on these weight vectors extracts a low-dimensional shared subspace. If this subspace achieves high AUC when applied to each paradigm separately, BK signal is distributed across a subspace rather than aligned to a single axis.
 
 **Table 10. Shared BK Subspace Performance**
 
@@ -191,7 +183,7 @@ LLaMA's 2D shared subspace achieves higher AUCs (0.901, 0.943) than Gemma's 3D s
 
 ### 3.3 Hidden State Transfer Exceeds SAE Transfer
 
-This section compares transfer performance between hidden state representations and SAE features to determine whether BK signal is distributed or sparse.
+If BK signal is distributed across many neurons, hidden state transfer (which preserves all dimensions) should outperform SAE transfer (which sparsifies into individual features).
 
 **Table 11. Hidden State vs SAE Transfer (Gemma L22)**
 
@@ -262,7 +254,7 @@ Gemma shows the opposite asymmetry: Fix->Var (0.808--0.902) exceeds Var->Fix (0.
 
 ### 4.2 Common BK Features Across Bet Types
 
-This section quantifies SAE features that differentiate BK from Safe outcomes in both Fixed and Variable conditions with consistent direction.
+A common BK feature is defined as one with Cohen's d ≥ 0.3 between BK and Safe games in both Fixed and Variable conditions, with the same sign. These features encode BK regardless of betting autonomy.
 
 **Table 15. Variable/Fixed Common BK Features (LLaMA IC SAE L22)**
 
@@ -276,7 +268,7 @@ The 415 common features (promoting 213 / inhibiting 202) maintain the balanced r
 
 ### 4.3 G-Prompt BK Direction Alignment
 
-This section tests whether the Goal (G) prompt shifts the activation space toward the BK direction, providing a mechanistic explanation for G's behavioral effect on bankruptcy rates.
+The G-prompt direction is defined as the mean hidden state difference between G-present and G-absent games. The BK direction is the mean difference between BK and Safe games. A positive cosine between these two vectors indicates that G shifts the activation space toward bankruptcy.
 
 **Table 16. G-Prompt BK Direction Alignment (Cross-Model)**
 
@@ -294,7 +286,7 @@ LLaMA L30 cosine (+0.548) confirms the alignment persists at deep layers, consis
 
 ### 4.4 Bet Constraint Linear Mapping
 
-This section tests whether bet constraints (c10/c30/c50/c70 in IC) map linearly onto BK probability, indicating that the model's internal BK representation scales continuously with risk exposure.
+IC uses four bet constraints (c10, c30, c50, c70) that cap maximum bets at $10--$70. Higher caps allow larger losses per round, increasing objective BK risk. If the model's internal BK probability scales linearly with constraint level, the BK representation encodes continuous risk magnitude, not merely a binary BK/Safe distinction.
 
 **Table 17. Bet Constraint -> BK Probability (Cross-Model, IC SAE L22)**
 
@@ -332,17 +324,9 @@ V10 advances RQ3 decisively through the F1 cross-bet-type transfer analysis. V9 
 
 ## 5. Implications for NMT Paper Section 3.2
 
-This section identifies how V10 findings strengthen the paper's neural mechanism narrative.
+The paper's Section 3.2 identifies 112 causal features in LLaMA SM via activation patching, with safe features concentrated in L4--L19 and risky features in L24+. These features show bidirectional causal effects and semantic associations with goal-pursuit versus stopping vocabulary. V10 extends this single-model, single-domain finding in three directions.
 
-The current paper Section 3.2 reports:
-- 112 causal features via activation patching (LLaMA SM only)
-- Safe features (L4--L19) vs Risky features (L24+)
-- Bidirectional causal effects
-- Semantic associations (goal-pursuit vs stopping)
-
-V10 extends Section 3.2 in three directions:
-
-**1. Cross-model validation.** The 112 causal features were identified in LLaMA SM. V10 shows that Gemma achieves near-identical BK classification (0.976 vs 0.974), 600 universal BK neurons with balanced promoting/inhibiting structure, and 65.2% outcome-independent features. This establishes that the causal features are not LLaMA-specific artifacts but reflect a convergent property of transformer architectures.
+**1. Cross-model validation.** The 112 causal features were identified in LLaMA SM. V10 shows that Gemma achieves near-identical BK classification (0.976 vs 0.974), 600 universal BK neurons with balanced promoting/inhibiting structure, and 65.2% outcome-independent features. This establishes that the causal features are not LLaMA-specific artifacts but reflect a property shared by both architectures.
 
 **2. Cross-domain generalization.** The causal features were identified in the Slot Machine paradigm. V10's cross-domain transfer (Gemma IC->MW AUC 0.932; LLaMA MW->IC AUC 0.805) and factor decomposition (65--76% paradigm-independent) demonstrate that BK representations generalize beyond the specific gambling domain. The BK neural basis reflects a domain-general risk computation, not task-specific pattern matching.
 

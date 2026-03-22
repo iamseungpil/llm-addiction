@@ -52,8 +52,8 @@ N_SAE_FEATURES = 32768  # fnlp LlamaScope width
 HIDDEN_DIM = 4096  # LLaMA-3.1-8B hidden dimension
 RANDOM_SEED = 42
 
-DATA_DIR = Path("/home/jovyan/beomi/llm-addiction-data/mystery_wheel")
-OUTPUT_DIR = Path("/home/jovyan/beomi/llm-addiction-data/sae_features_v3/mystery_wheel/llama")
+DATA_DIR = Path("/home/v-seungplee/data/llm-addiction/behavioral/mystery_wheel/llama_v2_role")
+OUTPUT_DIR = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3/mystery_wheel/llama")
 
 
 @dataclass
@@ -305,10 +305,9 @@ def phase_a_extract(
             valid_mask[i] = False
             n_skipped += 1
 
-        # Checkpoint every 2000 rounds
-        if checkpoint_dir and i > 0 and i % 2000 == 0:
-            _save_checkpoint(checkpoint_dir, hidden_all, valid_mask,
-                             n_rounds, layers, n_skipped, logger, partial=True)
+        # Progress log only (no checkpoint saves — they cause massive I/O bottleneck)
+        if i > 0 and i % 5000 == 0:
+            logger.info(f"  Progress: {i}/{n_rounds} rounds ({i/n_rounds*100:.0f}%)")
 
     logger.info(f"Phase A complete: {n_rounds - n_skipped}/{n_rounds} valid ({n_skipped} skipped)")
 
@@ -318,10 +317,8 @@ def phase_a_extract(
     gc.collect()
     logger.info("Model unloaded")
 
-    # Save final checkpoint
-    if checkpoint_dir:
-        _save_checkpoint(checkpoint_dir, hidden_all, valid_mask,
-                         n_rounds, layers, n_skipped, logger, partial=False)
+    # Skip checkpoint save — hidden_all stays in memory for Phase B
+    logger.info("Phase A data in memory, proceeding to Phase B (no checkpoint I/O)")
 
     return hidden_all, valid_mask
 

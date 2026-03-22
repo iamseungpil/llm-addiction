@@ -37,7 +37,7 @@ PARADIGMS = {
     },
 }
 
-# Llama paradigms (IC ready, SM/MW pending extraction)
+# Llama paradigms (IC+SM ready, MW after experiment)
 LLAMA_PARADIGMS = {
     "ic": {
         "name": "Investment Choice V2role (LLaMA)",
@@ -45,6 +45,22 @@ LLAMA_PARADIGMS = {
         "sae_dir": SAE_V3_ROOT / "investment_choice" / "llama",
         "behavioral": DATA_ROOT / "behavioral" / "investment_choice" / "v2_role_llama",
         "n_games": 1600,
+        "model": "llama",
+    },
+    "sm": {
+        "name": "Slot Machine V4role (LLaMA)",
+        "short": "SM",
+        "sae_dir": SAE_V3_ROOT / "slot_machine" / "llama",
+        "behavioral": DATA_ROOT / "behavioral" / "slot_machine" / "llama_v4_role",
+        "n_games": 3200,
+        "model": "llama",
+    },
+    "mw": {
+        "name": "Mystery Wheel V2role (LLaMA)",
+        "short": "MW",
+        "sae_dir": SAE_V3_ROOT / "mystery_wheel" / "llama",
+        "behavioral": DATA_ROOT / "behavioral" / "mystery_wheel" / "llama_v2_role",
+        "n_games": 3200,
         "model": "llama",
     },
 }

@@ -153,7 +153,7 @@ MW & Gemma & 3,200 & 54 & 1.7\% & Fixed/Variable & \$30 fixed & 32 prompt combos
 
 \subsection{V9의 한계점 해결}
 
-V9에는 V10에서 해결된 세 가지 공백이 있었다. 첫째, V9에는 LLaMA MW 데이터가 없었다 (IC+SM의 2-패러다임만 존재). V10은 LLaMA MW (3,200 게임, BK$=2{,}426$)를 추가하여 두 모델 모두에 대한 3-패러다임 교차 도메인 분석을 가능하게 했다. 둘째, V9에서는 BK 방향 코사인(cosine) $> 0.81$ 및 33--37\%의 공유 BK 뉴런을 보였지만, 고정(Fixed) BK로 훈련된 분류기가 변동(Variable) BK를 예측할 수 있는지는 테스트하지 않았다. V10은 200회 순열 검정(permutation test)을 포함한 F1 교차 배팅 유형 전이 분석을 추가한다. 셋째, V9의 LLaMA 요인 분해는 IC+SM으로 제한되었다 (69.5\%). V10은 이를 IC+SM+MW로 확장하여 75.8\%의 결과-유의 피처를 산출한다.
+V10은 V9의 세 가지 공백을 해결한다. 첫째, V9에는 LLaMA MW 데이터가 없었다 (IC+SM의 2-패러다임만 존재). V10은 LLaMA MW (3,200 게임, BK$=2{,}426$)를 추가하여 두 모델 모두의 3-패러다임 매트릭스를 완성한다. 둘째, V9에서는 BK 방향 코사인(cosine) $> 0.81$ 및 33--37\%의 공유 BK 뉴런을 보였지만, 한 배팅 유형으로 훈련된 분류기가 다른 유형의 BK를 예측할 수 있는지는 테스트하지 않았다. V10은 200회 순열 검정(permutation test)을 포함한 F1 교차 배팅 유형 전이 분석을 추가한다. 셋째, V9의 LLaMA 요인 분해는 IC+SM으로 제한되었다 (69.5\%). V10은 이를 세 패러다임 전체로 확장하여 75.8\%에 도달한다.
 
 \bigskip\hrule\bigskip
 
@@ -166,7 +166,7 @@ V9에는 V10에서 해결된 세 가지 공백이 있었다. 첫째, V9에는 LL
 
 \subsection{교차 모델 BK 분류}
 
-두 아키텍처 간 BK 정보 내용이 불변적인지 판단하기 위해 Gemma와 LLaMA의 BK 예측 정확도를 비교한다.
+두 모델 모두 세 패러다임 전반에서 BK 분류 AUC $> 0.95$를 달성하여, BK 정보 내용이 아키텍처에 불변적임을 확립한다.
 
 \begin{table}[H]
 \centering
@@ -178,7 +178,7 @@ Paradigm & Gemma-2-9B & LLaMA-3.1-8B \\
 \midrule
 SM best AUC & \textbf{0.976} (L20) & \textbf{0.974} (L8) \\
 IC best AUC & \textbf{0.960} (L30) & \textbf{0.954} (L12) \\
-MW best AUC & --- & \textbf{0.963} (L16) \\
+MW best AUC & \textbf{0.966} (L30) & \textbf{0.963} (L16) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -199,7 +199,7 @@ L0--L30 (all) & $0.96$+ & 75.8\% (2,426/3,200) \\
 \end{tabular}
 \end{table}
 
-\noindent LLaMA MW의 높은 BK 비율(75.8\%)은 Gemma MW(1.7\%)와 상당한 차이를 보이지만, 두 모델 모두 높은 분류 성능을 유지한다. BK 정보는 기저 비율(base rate)에 관계없이 견고하게 인코딩된다.
+\noindent LLaMA MW의 BK 비율(75.8\%)은 Gemma MW(1.7\%)보다 44배 높지만, 분류 성능은 동등하게 유지된다 ($0.963$ vs $0.966$). BK 정보는 기저 비율(base rate)에 관계없이 견고하게 인코딩된다.
 
 \subsection{보편적 BK 뉴런}
 
@@ -290,7 +290,7 @@ BK 피처는 세 가지 독립적인 증거 라인에 의해 뒷받침되어 아
 
 \subsection{교차 도메인 전이}
 
-교차 도메인 전이(Cross-domain transfer)는 한 패러다임의 피처로 BK 분류기를 훈련하고 다른 패러다임의 데이터에서 테스트한다. 전이 AUC가 우연 수준($0.5$)을 초과하고 순열 $p<0.05$이면, 두 패러다임은 BK 예측 구조를 공유한다.
+BK 분류기가 패러다임 간 AUC $0.932$까지 전이되어 (Gemma IC$\rightarrow$MW), 도메인 불변적 BK 구조를 입증한다 (LLaMA MW$\rightarrow$IC에서도 AUC $0.805$). 교차 도메인 전이는 한 패러다임의 피처로 BK 분류기를 훈련하고 다른 패러다임의 데이터에서 테스트한다; 전이 AUC가 우연 수준($0.5$)을 초과하고 순열 $p<0.05$이면 공유 BK 예측 구조를 나타낸다.
 
 \begin{table}[H]
 \centering
@@ -412,7 +412,7 @@ IC $\rightarrow$ SM & 0.577 (L8) & 0.783 (L25) & $-0.206$ \\
 \end{tabular}
 \end{table}
 
-\noindent 은닉 상태는 대부분의 전이 방향에서 SAE를 능가한다 (Gemma IC$\rightarrow$SM $+0.247$; Gemma SM$\rightarrow$MW $+0.101$; LLaMA SM$\rightarrow$IC $+0.064$). 예외는 LLaMA IC$\rightarrow$SM으로, L25의 SAE ($0.783$)가 L8의 은닉 상태 ($0.577$)를 초과하지만, 이들은 서로 다른 층이다. 일반적인 패턴은 BK 신호가 희소적이지 않고 분포되어 있음을 확인한다: SAE 희소화는 교차 도메인 전이에서 일관성을 잃을 수 있다.
+\noindent 은닉 상태는 대부분의 전이 방향에서 SAE를 능가한다 (Gemma IC$\rightarrow$SM $+0.247$; Gemma SM$\rightarrow$MW $+0.101$; LLaMA SM$\rightarrow$IC $+0.064$). 예외는 LLaMA IC$\rightarrow$SM으로, L25의 SAE ($0.783$)가 L8의 은닉 상태 ($0.577$)를 초과하지만, 이들은 서로 다른 층이다. 일반적인 패턴은 BK 신호가 희소적이지 않고 분포되어 있음을 확인한다: SAE 희소화는 교차 도메인 전이에서 일관성을 잃을 수 있다. 이는 개입(intervention)에 대한 실질적 시사점을 갖는다 --- 개별 SAE 피처를 수정하는 것만으로는 BK 행동을 완전히 제어하기 어려울 수 있으며, 분포된 은닉 상태 표상이 상보적 정보를 전달한다.
 
 \subsection{RQ2 종합}
 

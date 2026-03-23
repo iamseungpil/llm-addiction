@@ -148,7 +148,7 @@ MW & Gemma & 3,200 & 54 & 1.7\% & Fixed/Variable & \$30 fixed & 32 prompt combos
 
 \subsection{V9 Limitations Addressed}
 
-V9 left three gaps that V10 resolves. First, V9 lacked LLaMA MW data (only IC+SM, 2-paradigm). V10 adds LLaMA MW (3,200 games, BK$=2{,}426$), enabling 3-paradigm cross-domain analysis for both models. Second, V9 showed BK direction cosine $> 0.81$ and 33--37\% shared BK neurons, but never tested whether a classifier trained on Fixed BK can predict Variable BK. V10 adds the F1 cross-bet-type transfer analysis with 200-permutation tests. Third, V9's LLaMA factor decomposition was limited to IC+SM (69.5\%). V10 extends this to IC+SM+MW, yielding 75.8\% outcome-significant features.
+V10 resolves three gaps from V9. First, V9 lacked LLaMA MW data (only IC+SM, 2-paradigm). V10 adds LLaMA MW (3,200 games, BK$=2{,}426$), completing the 3-paradigm matrix for both models. Second, V9 showed BK direction cosine $> 0.81$ and 33--37\% shared BK neurons, but never tested whether a classifier trained on one bet type can predict the other. V10 adds the F1 cross-bet-type transfer analysis with 200-permutation tests. Third, V9's LLaMA factor decomposition was limited to IC+SM (69.5\%). V10 extends this to all three paradigms, reaching 75.8\% outcome-significant features.
 
 \bigskip\hrule\bigskip
 
@@ -161,7 +161,7 @@ V9 left three gaps that V10 resolves. First, V9 lacked LLaMA MW data (only IC+SM
 
 \subsection{Cross-Model BK Classification}
 
-BK prediction accuracy is compared between Gemma and LLaMA to determine whether BK information content is architecture-invariant.
+Both models achieve BK classification AUC $> 0.95$ in all three paradigms, establishing that BK information content is architecture-invariant.
 
 \begin{table}[H]
 \centering
@@ -173,7 +173,7 @@ Paradigm & Gemma-2-9B & LLaMA-3.1-8B \\
 \midrule
 SM best AUC & \textbf{0.976} (L20) & \textbf{0.974} (L8) \\
 IC best AUC & \textbf{0.960} (L30) & \textbf{0.954} (L12) \\
-MW best AUC & --- & \textbf{0.963} (L16) \\
+MW best AUC & \textbf{0.966} (L30) & \textbf{0.963} (L16) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -194,7 +194,7 @@ L0--L30 (all) & $0.96$+ & 75.8\% (2,426/3,200) \\
 \end{tabular}
 \end{table}
 
-\noindent LLaMA MW's high BK rate (75.8\%) differs substantially from Gemma MW (1.7\%), yet both models maintain high classification performance. BK information is robustly encoded regardless of base rate.
+\noindent LLaMA MW's BK rate (75.8\%) is 44$\times$ higher than Gemma MW (1.7\%), yet classification performance remains equivalent ($0.963$ vs $0.966$). BK information is robustly encoded regardless of base rate.
 
 \subsection{Universal BK Neurons}
 
@@ -285,7 +285,7 @@ BK features are universal across architectures, supported by three independent l
 
 \subsection{Cross-Domain Transfer}
 
-Cross-domain transfer trains a BK classifier on one paradigm's features and tests it on another paradigm's data. If transfer AUC exceeds chance ($0.5$) with permutation $p<0.05$, the two paradigms share BK-predictive structure.
+BK classifiers transfer across paradigms with AUC up to $0.932$ (Gemma IC$\rightarrow$MW) and $0.805$ (LLaMA MW$\rightarrow$IC), demonstrating domain-invariant BK structure. Cross-domain transfer trains a BK classifier on one paradigm's features and tests it on another; AUC exceeding chance ($0.5$) with permutation $p<0.05$ indicates shared BK-predictive structure.
 
 \begin{table}[H]
 \centering
@@ -407,7 +407,7 @@ IC $\rightarrow$ SM & 0.577 (L8) & 0.783 (L25) & $-0.206$ \\
 \end{tabular}
 \end{table}
 
-\noindent Hidden states outperform SAE in most transfer directions (Gemma IC$\rightarrow$SM $+0.247$; Gemma SM$\rightarrow$MW $+0.101$; LLaMA SM$\rightarrow$IC $+0.064$). The exception is LLaMA IC$\rightarrow$SM, where SAE at L25 ($0.783$) exceeds hidden states at L8 ($0.577$), though these are different layers. The general pattern confirms that BK signal is distributed rather than sparse: SAE sparsification can lose coherence in cross-domain transfer.
+\noindent Hidden states outperform SAE in most transfer directions (Gemma IC$\rightarrow$SM $+0.247$; Gemma SM$\rightarrow$MW $+0.101$; LLaMA SM$\rightarrow$IC $+0.064$). The exception is LLaMA IC$\rightarrow$SM, where SAE at L25 ($0.783$) exceeds hidden states at L8 ($0.577$), though these are different layers. The general pattern confirms that BK signal is distributed rather than sparse: SAE sparsification can lose coherence in cross-domain transfer. This has practical implications for intervention --- modifying individual SAE features may be insufficient to fully control BK behavior; distributed hidden state representations carry complementary information.
 
 \subsection{RQ2 Synthesis}
 

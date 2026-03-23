@@ -1,15 +1,20 @@
 \documentclass[11pt,a4paper]{article}
 
-% === Font & encoding (XeLaTeX) ===
+% === Font & encoding (XeLaTeX + xeCJK) ===
 \usepackage{fontspec}
 \setmainfont{Latin Modern Roman}
 \setsansfont{Latin Modern Sans}
 \setmonofont{Latin Modern Mono}
 
-% Korean font support via ucharclasses
-\usepackage{ucharclasses}
-\newfontfamily\koreanfont{Noto Sans CJK KR}[Scale=0.95, BoldFont={Noto Sans CJK KR Bold}]
-\setTransitionsForCJK{\koreanfont}{\setmainfont{Latin Modern Roman}}
+% Korean font support via xeCJK (proper spacing between CJK and Latin)
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Sans CJK KR}[Scale=0.95, BoldFont={Noto Sans CJK KR Bold}]
+\setCJKsansfont{Noto Sans CJK KR}[Scale=0.95]
+\xeCJKsetup{CJKspace=true, CJKecglue={\hskip 0.15em plus 0.05em}}
+
+% Paragraph formatting for readability
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.4em plus 0.1em}
 
 % === Layout ===
 \usepackage[margin=2cm,headheight=14pt]{geometry}

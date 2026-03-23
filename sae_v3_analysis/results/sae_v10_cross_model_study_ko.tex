@@ -80,6 +80,25 @@
 \bigskip\hrule\bigskip
 
 % ============================================================
+% OVERVIEW
+% ============================================================
+\section*{개요}
+\addcontentsline{toc}{section}{개요}
+
+본 보고서는 대형 언어 모델(LLM)이 위험한 의사결정에 대한 공통된 신경 기반을 공유하는지 조사한다. LLM이 도박 과제에서 파산할 때 --- 반복적인 위험한 선택을 통해 모든 돈을 잃는 경우 --- 이 결과가 공유된 내부 표상에서 발생하는지, 아니면 각 모델, 도메인, 조건이 고유한 패턴을 생성하는지 분석한다.
+
+\medskip\noindent 두 가지 트랜스포머 모델을 분석한다: \textbf{Gemma-2-9B-IT} (Google, 42층, 3,584차원 은닉 상태) 및 \textbf{LLaMA-3.1-8B-Instruct} (Meta, 32층, 4,096차원 은닉 상태). 두 모델 모두 세 가지 도박 패러다임 --- Investment Choice (IC), Slot Machine (SM), Mystery Wheel (MW) --- 을 다양한 프롬프트 조건(고정/변동 배팅, 목표/자금/경고 구성 요소) 하에서 수행한다. 내부 표상은 두 수준에서 분석된다: \textbf{은닉 상태}(각 층의 전체 잔차 스트림 활성화 벡터) 및 \textbf{SAE 피처}(희소 오토인코더를 통해 추출된 희소 해석 가능 피처: GemmaScope 131K 피처/층, LlamaScope 32K 피처/층).
+
+\medskip\noindent\textbf{세 가지 연구 질문}이 분석을 구조화한다:
+\begin{itemize}[nosep]
+    \item \textbf{RQ1}: Gemma와 LLaMA는 공통된 BK 패턴을 공유하는가? (교차 모델 보편성)
+    \item \textbf{RQ2}: BK 패턴은 IC, SM, MW 간에 불변적인가? (교차 도메인 불변성)
+    \item \textbf{RQ3}: BK 패턴은 고정/변동 및 프롬프트 구성 요소 간에 불변적인가? (교차 조건 견고성)
+\end{itemize}
+
+\bigskip\hrule\bigskip
+
+% ============================================================
 % EXECUTIVE SUMMARY
 % ============================================================
 \section*{핵심 요약}
@@ -119,6 +138,16 @@ MW & Gemma & 3,200 & 54 & 1.7\% & Fixed/Variable & \$30 fixed & 32 prompt combos
 \end{table}
 
 \noindent\textbf{V10 추가 사항}: LLaMA MW (3,200 게임, 2,426 BK, 75.8\%)가 추가되어 두 모델 모두의 3-패러다임 매트릭스가 완성되었다. LLaMA의 BK 비율은 SM에서 Gemma보다 $13\times$ (36.4\% 대 2.7\%), MW에서 $44\times$ (75.8\% 대 1.7\%) 높다.
+
+\medskip\noindent\textbf{핵심 정의}:
+\begin{description}[nosep,leftmargin=1.5em,labelindent=0em]
+    \item[파산 (BK, Bankruptcy)] 누적 손실로 모델의 잔고가 \$0에 도달하면 게임이 파산으로 종료된다. BK는 본 보고서 전체의 주요 결과 변수이다.
+    \item[은닉 상태 (Hidden states)] 각 트랜스포머 층의 전체 활성화 벡터(잔차 스트림). Gemma는 42개 층에 걸쳐 3,584차원; LLaMA는 32개 층에 걸쳐 4,096차원.
+    \item[SAE 피처] 희소 오토인코더 피처 --- 은닉 상태의 해석 가능한 희소 분해. GemmaScope는 층당 131K 피처, LlamaScope는 층당 32K 피처를 제공한다.
+    \item[결정 시점 (Decision Point, DP)] 각 게임에서 모델의 최종 결정 순간의 활성화 상태 --- 모델이 마지막으로 배팅 또는 중단을 선택한 시점.
+    \item[교차 도메인 전이 (Cross-domain transfer)] 한 패러다임(예: IC)에서 BK 분류기를 훈련하고 다른 패러다임(예: SM)에서 테스트. 성공은 도메인 간 공유된 BK 구조를 나타낸다.
+    \item[분류 파이프라인] StandardScaler $\rightarrow$ PCA(50 components) $\rightarrow$ 로지스틱 회귀(C=1.0, 균형 클래스 가중치), 5-fold 층화 교차 검증으로 평가. AUC(ROC 곡선 아래 면적)가 주요 지표이며, 200회 순열 검정이 통계적 유의성을 결정한다.
+\end{description}
 
 \medskip\noindent\textbf{표상(Representations)}: 은닉 상태(Hidden states)는 각 층의 잔차 스트림 활성화(residual-stream activations)이다 (Gemma: 3,584차원 $\times$ 42층; LLaMA: 4,096차원 $\times$ 32층). SAE 피처는 GemmaScope (131K features/layer) 및 LlamaScope (32K features/layer)를 통해 추출된다. 결정 시점(Decision Point, DP)은 마지막 결정 시간 지점을 나타낸다. 라운드 1 (R1)은 \$100 동일 잔고에서의 첫 번째 라운드를 나타낸다. 분류 파이프라인: StandardScaler $\rightarrow$ PCA(50) $\rightarrow$ LogReg(C=1.0, balanced), 5-fold StratifiedKFold.
 
@@ -211,6 +240,15 @@ L30 & 1,347 & $\sim$balanced & $\sim$balanced \\
 \end{table}
 
 \noindent 두 모델 모두 모든 층에서 균형 잡힌 촉진/억제 비율(약 1:1)을 보인다. LLaMA의 더 높은 수치(1,334 대 Gemma의 600)는 부분적으로 2-패러다임 대 3-패러다임 기준 차이(우연 50\% 대 25\%)를 반영한다. 핵심 구조적 발견은 균형 잡힌 비율이다: BK 표상은 촉진이나 억제 어느 한쪽에 의해 지배되지 않는다.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/v10_fig1_cross_model_bk.png}
+\caption{(a) 교차 모델 BK 분류 AUC. (b) 보편적 BK 뉴런: 균형 잡힌 촉진/억제 비율.}
+\label{fig:fig1}
+\end{figure}
+
+\noindent\textbf{그림~\ref{fig:fig1} 해석}: 패널 (a)는 Gemma와 LLaMA가 서로 다른 아키텍처와 훈련 데이터에도 불구하고 거의 동일한 BK 예측 정확도(모든 패러다임에서 AUC 차이 $< 0.02$)를 달성함을 보여준다. 패널 (b)는 두 모델 모두 거의 동일한 수의 촉진 뉴런과 억제 뉴런을 통해 BK를 인코딩함을 드러내며, 이는 일방적 위험 감지기가 아닌 양방향 ``push-pull'' 메커니즘을 시사한다.
 
 \subsection{요인 분해}
 
@@ -309,6 +347,15 @@ SM $\rightarrow$ IC & L30 & \textbf{0.685} & 0.000 \\
 \noindent LLaMA 3-패러다임 전이(V10)는 두 가지 패턴을 보여준다. 첫째, MW $\rightarrow$ IC가 가장 강한 전이 방향이며 (L25 AUC$=0.805$), MW와 IC가 상당한 BK 구조를 공유함을 나타낸다. 둘째, IC $\rightarrow$ SM은 두 모델 및 두 표상 유형(SAE와 은닉 상태) 모두에서 가장 약한 방향으로 남아 있어, IC와 SM이 부분적으로 구별되는 메커니즘을 통해 BK를 인코딩함을 확인한다.
 
 \medskip\noindent 전이 비대칭성(Transfer asymmetry)은 모델 간에 일관적이다: Gemma와 LLaMA 모두 *-to-MW 및 MW-to-* 전이가 강하며, IC--SM 전이는 층에 따라 달라진다.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/v10_fig2_cross_domain_transfer.png}
+\caption{교차 도메인 전이 AUC 히트맵. (a) Gemma SAE. (b) LLaMA 은닉 상태.}
+\label{fig:fig2}
+\end{figure}
+
+\noindent\textbf{그림~\ref{fig:fig2} 해석}: 녹색 셀은 성공적 전이(AUC $\gg 0.5$)를, 적색 셀은 실패를 나타낸다. MW 패러다임은 두 모델 모두에서 강력한 ``허브'' 역할을 한다 --- MW에서 학습된 BK 패턴은 다른 도메인으로 잘 전이되며, 그 반대도 마찬가지이다. IC$\leftrightarrow$SM 전이는 일관되게 약하며, 이는 이 두 패러다임이 동일한 기본 결과를 공유함에도 불구하고 부분적으로 구별되는 메커니즘을 통해 BK를 인코딩함을 시사한다.
 
 \subsection{공유 BK 부분공간}
 
@@ -443,6 +490,15 @@ L10 & NS & --- & NS & --- \\
 
 \medskip\noindent\textbf{종합}: 교차 배팅 유형 전이는 두 모델 모두에서 깊은 층에서 성공한다 (AUC $0.696$--$0.927$, 모두 $p=0.000$). BK 표상은 고정/변동 조작에 대해 불변적이다. 이는 지금까지의 가장 강력한 RQ3 증거이다: 단순히 공유 방향(코사인)이나 공유 뉴런(상호작용 회귀)이 아닌, 성공적인 분류 전이를 입증한다.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/v10_fig3_cross_bettype_transfer.png}
+\caption{교차 배팅 유형 BK 전이. (a) LLaMA HS: 모든 층 $p=0.000$. (b) Gemma SAE: 깊은 층에서 성공.}
+\label{fig:fig3}
+\end{figure}
+
+\noindent\textbf{그림~\ref{fig:fig3} 해석}: 이것이 V10의 핵심 발견이다. 고정 배팅 파산 게임만으로 훈련된 BK 분류기가 변동 배팅 파산을 AUC $0.872$ (LLaMA L8)까지 예측할 수 있으며, 그 반대 방향도 $0.927$ (L12)에 도달한다. 녹색 음영 영역은 우연 수준($0.5$) 위의 격차를 보여주며 --- 모든 점이 이를 크게 초과한다. 이는 변동 배팅이 더 높은 행동적 파산율을 유발함에도 불구하고, 고정 및 변동 배팅이 동일한 기본 BK 표상을 활성화함을 입증한다.
+
 \subsection{배팅 유형 간 공통 BK 피처}
 
 공통 BK 피처(Common BK feature)는 고정 및 변동 조건 모두에서 BK 게임과 안전 게임 간 Cohen's $d \ge 0.3$이며, 동일한 부호를 가지는 피처로 정의된다. 이 피처들은 배팅 자율성에 관계없이 BK를 인코딩한다.
@@ -520,6 +576,15 @@ $p$ & 0.021 & 0.013 \\
 \end{table}
 
 \noindent 두 모델 모두 거의 완벽한 선형 관계를 보인다 ($r > 0.97$, $p < 0.025$). BK 표상은 객관적 위험 노출(배팅 상한)에 따라 연속적으로 스케일링된다. LLaMA의 약간 더 높은 $r$ ($0.987$ 대 $0.979$)과 더 가파른 기울기(c10: $0.057$에서 c70: $0.360$)는 더 민감한 위험 스케일링 메커니즘을 나타낸다.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/v10_fig4_factor_constraint.png}
+\caption{(a) 요인 분해: 결과-유의 65--76\% 대 귀무 1\%. (b) 배팅 제한 선형 매핑.}
+\label{fig:fig4}
+\end{figure}
+
+\noindent\textbf{그림~\ref{fig:fig4} 해석}: 패널 (a)는 BK를 인코딩하는 SAE 피처의 대다수가 교란 변수와 독립적으로 인코딩함을 보여준다. 1\%의 적색 점선은 순열 귀무 분포를 나타내며 --- 실제 비율(65--76\%)은 이를 $60\times$+ 초과한다. 패널 (b)는 배팅 제한이 \$10에서 \$70으로 증가함에 따라 모델의 내부 BK 확률이 선형적으로 증가함을 입증하며, BK 표상이 이진 안전/불안전 구분이 아닌 연속적 위험 크기를 인코딩함을 확인한다.
 
 \subsection{RQ3 종합}
 

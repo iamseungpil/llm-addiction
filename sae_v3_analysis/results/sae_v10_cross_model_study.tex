@@ -75,6 +75,25 @@
 \bigskip\hrule\bigskip
 
 % ============================================================
+% OVERVIEW
+% ============================================================
+\section*{Overview}
+\addcontentsline{toc}{section}{Overview}
+
+This report investigates whether large language models (LLMs) share a common neural basis for risky decision-making. When an LLM goes bankrupt in a gambling task --- losing all its money through repeated risky choices --- does this outcome arise from a shared internal representation, or does each model, domain, and condition produce its own distinct pattern?
+
+\medskip\noindent We analyze two transformer models: \textbf{Gemma-2-9B-IT} (Google, 42 layers, 3,584-dim hidden states) and \textbf{LLaMA-3.1-8B-Instruct} (Meta, 32 layers, 4,096-dim hidden states). Both models play three gambling paradigms --- Investment Choice (IC), Slot Machine (SM), and Mystery Wheel (MW) --- under varying prompt conditions (Fixed/Variable betting, Goal/Money/Warning components). Internal representations are analyzed at two levels: \textbf{hidden states} (the full residual-stream activation vector at each layer) and \textbf{SAE features} (sparse interpretable features extracted via Sparse Autoencoders: GemmaScope at 131K features/layer, LlamaScope at 32K features/layer).
+
+\medskip\noindent\textbf{Three research questions} structure the analysis:
+\begin{itemize}[nosep]
+    \item \textbf{RQ1}: Do Gemma and LLaMA share common BK patterns? (Cross-model universality)
+    \item \textbf{RQ2}: Are BK patterns invariant across IC, SM, and MW? (Cross-domain invariance)
+    \item \textbf{RQ3}: Are BK patterns invariant across Fixed/Variable and prompt components? (Cross-condition robustness)
+\end{itemize}
+
+\bigskip\hrule\bigskip
+
+% ============================================================
 % EXECUTIVE SUMMARY
 % ============================================================
 \section*{Executive Summary}
@@ -114,6 +133,16 @@ MW & Gemma & 3,200 & 54 & 1.7\% & Fixed/Variable & \$30 fixed & 32 prompt combos
 \end{table}
 
 \noindent\textbf{V10 addition}: LLaMA MW (3,200 games, 2,426 BK at 75.8\%) completes the 3-paradigm matrix for both models. LLaMA's BK rates exceed Gemma's by $13\times$ in SM (36.4\% vs 2.7\%) and $44\times$ in MW (75.8\% vs 1.7\%).
+
+\medskip\noindent\textbf{Key definitions}:
+\begin{description}[nosep,leftmargin=1.5em,labelindent=0em]
+    \item[Bankruptcy (BK)] A game ends in bankruptcy when the model's balance reaches \$0 through accumulated losses. BK is the primary outcome variable throughout this report.
+    \item[Hidden states] The full activation vector at each transformer layer (residual stream). Gemma has 3,584 dimensions across 42 layers; LLaMA has 4,096 dimensions across 32 layers.
+    \item[SAE features] Sparse Autoencoder features --- interpretable, sparse decompositions of hidden states. GemmaScope provides 131K features per layer; LlamaScope provides 32K features per layer.
+    \item[Decision Point (DP)] The activation state at the model's final decision moment in each game --- the point where the model last chose to bet or stop.
+    \item[Cross-domain transfer] Training a BK classifier on one paradigm (e.g., IC) and testing on another (e.g., SM). Success indicates shared BK structure across domains.
+    \item[Classification pipeline] StandardScaler $\rightarrow$ PCA(50 components) $\rightarrow$ Logistic Regression (C=1.0, balanced class weights), evaluated with 5-fold stratified cross-validation. AUC (Area Under the ROC Curve) is the primary metric; 200-permutation tests determine statistical significance.
+\end{description}
 
 \medskip\noindent\textbf{Representations}: Hidden states are residual-stream activations at each layer (Gemma: 3,584-dim $\times$ 42 layers; LLaMA: 4,096-dim $\times$ 32 layers). SAE features are extracted via GemmaScope (131K features/layer) and LlamaScope (32K features/layer). Decision Point (DP) denotes the last decision time point. Round 1 (R1) denotes the first round at \$100 equal balance. Classification pipeline: StandardScaler $\rightarrow$ PCA(50) $\rightarrow$ LogReg(C=1.0, balanced) with 5-fold StratifiedKFold.
 
@@ -206,6 +235,15 @@ L30 & 1,347 & $\sim$balanced & $\sim$balanced \\
 \end{table}
 
 \noindent Both models exhibit a balanced promoting/inhibiting ratio at all layers (approximately 1:1). LLaMA's higher count (1,334 vs Gemma's 600) partly reflects the 2-paradigm vs 3-paradigm criterion difference (chance 50\% vs 25\%). The balanced ratio is the key structural finding: BK representation is not dominated by either promotion or inhibition.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/v10_fig1_cross_model_bk.png}
+\caption{(a) Cross-model BK classification AUC. (b) Universal BK neurons: balanced promoting/inhibiting ratio.}
+\label{fig:fig1}
+\end{figure}
+
+\noindent\textbf{Fig.~\ref{fig:fig1} interpretation}: Panel (a) shows that Gemma and LLaMA achieve nearly identical BK prediction accuracy (AUC difference $< 0.02$ in every paradigm), despite different architectures and training data. Panel (b) reveals that both models encode BK through approximately equal numbers of promoting and inhibiting neurons, suggesting a bidirectional ``push-pull'' mechanism rather than a one-sided risk detector.
 
 \subsection{Factor Decomposition}
 
@@ -304,6 +342,15 @@ SM $\rightarrow$ IC & L30 & \textbf{0.685} & 0.000 \\
 \noindent LLaMA 3-paradigm transfer (V10) reveals two patterns. First, MW $\rightarrow$ IC is the strongest transfer direction (L25 AUC$=0.805$), indicating that MW and IC share substantial BK structure. Second, IC $\rightarrow$ SM remains the weakest direction in both models and both representation types (SAE and hidden states), confirming that IC and SM encode BK through partially distinct mechanisms.
 
 \medskip\noindent Transfer asymmetry is consistent across models: both Gemma and LLaMA show strong *-to-MW and MW-to-* transfer, while IC--SM transfer is layer-dependent.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/v10_fig2_cross_domain_transfer.png}
+\caption{Cross-domain transfer AUC heatmaps. (a) Gemma SAE. (b) LLaMA hidden states.}
+\label{fig:fig2}
+\end{figure}
+
+\noindent\textbf{Fig.~\ref{fig:fig2} interpretation}: Green cells indicate successful transfer (AUC $\gg 0.5$); red cells indicate failure. The MW paradigm serves as a strong ``hub'' in both models --- BK patterns learned from MW transfer well to other domains, and vice versa. IC$\leftrightarrow$SM transfer is consistently weaker, suggesting these two paradigms encode BK through partially distinct mechanisms despite sharing the same underlying outcome.
 
 \subsection{Shared BK Subspace}
 
@@ -438,6 +485,15 @@ L10 & NS & --- & NS & --- \\
 
 \medskip\noindent\textbf{Synthesis}: Cross-bet-type transfer succeeds in both models at deep layers (AUC $0.696$--$0.927$, all $p=0.000$). BK representation is invariant to the Fixed/Variable manipulation. This is the strongest RQ3 evidence to date: not merely shared directions (cosine) or shared neurons (interaction regression), but successful classification transfer.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/v10_fig3_cross_bettype_transfer.png}
+\caption{Cross-bet-type BK transfer. (a) LLaMA HS: all layers $p=0.000$. (b) Gemma SAE: deep layers succeed.}
+\label{fig:fig3}
+\end{figure}
+
+\noindent\textbf{Fig.~\ref{fig:fig3} interpretation}: This is the central finding of V10. A BK classifier trained exclusively on Fixed-bet bankruptcy games can predict Variable-bet bankruptcy with AUC up to $0.872$ (LLaMA L8), and vice versa ($0.927$ at L12). The green shaded area shows the gap above chance ($0.5$) --- all points are far above it. This demonstrates that Fixed and Variable betting activate the same underlying BK representation, even though Variable betting produces higher behavioral bankruptcy rates.
+
 \subsection{Common BK Features Across Bet Types}
 
 A common BK feature is defined as one with Cohen's $d \ge 0.3$ between BK and Safe games in both Fixed and Variable conditions, with the same sign. These features encode BK regardless of betting autonomy.
@@ -515,6 +571,15 @@ $p$ & 0.021 & 0.013 \\
 \end{table}
 
 \noindent Both models show near-perfect linear relationships ($r > 0.97$, $p < 0.025$). The BK representation scales continuously with objective risk exposure (bet ceiling). LLaMA's slightly higher $r$ ($0.987$ vs $0.979$) and steeper slope (c10: $0.057$ to c70: $0.360$) indicate a more sensitive risk-scaling mechanism.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/v10_fig4_factor_constraint.png}
+\caption{(a) Factor decomposition: 65--76\% outcome-significant vs 1\% null. (b) Bet constraint linear mapping.}
+\label{fig:fig4}
+\end{figure}
+
+\noindent\textbf{Fig.~\ref{fig:fig4} interpretation}: Panel (a) shows that the majority of SAE features encoding BK do so independently of confounding variables. The red dashed line at 1\% represents the permutation null --- actual percentages (65--76\%) exceed it by $60\times$+. Panel (b) demonstrates that the model's internal BK probability increases linearly as the bet constraint rises from \$10 to \$70, confirming that BK representation encodes continuous risk magnitude, not a binary safe/unsafe distinction.
 
 \subsection{RQ3 Synthesis}
 

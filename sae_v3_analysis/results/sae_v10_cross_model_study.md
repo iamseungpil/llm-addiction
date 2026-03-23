@@ -113,9 +113,9 @@ A universal BK neuron is defined as one whose point-biserial correlation with BK
 
 Both models exhibit a balanced promoting/inhibiting ratio at all layers (approximately 1:1). LLaMA's higher count (1,334 vs Gemma's 600) partly reflects the 2-paradigm vs 3-paradigm criterion difference (chance level 50% vs 25%). The balanced ratio is the key structural finding: BK representation is not dominated by either promotion or inhibition.
 
-![Fig. 1: (a) Cross-model BK classification AUC — both models achieve >0.95 across paradigms. (b) Universal BK neurons at L22 show balanced promoting/inhibiting structure in both models.](figures/v10_fig1_cross_model_bk.png)
+![Fig. 1: RQ1 Overview. (a) BK prediction AUC: both models achieve >0.95 across all paradigms. (b) Universal BK neurons at L22 show balanced promoting/inhibiting structure. (c) Factor decomposition: 65-76% of features encode BK independently of confounds.](figures/v10_fig1_rq1_overview.png)
 
-**Fig. 1 interpretation**: Panel (a) shows that Gemma and LLaMA achieve nearly identical BK prediction accuracy (AUC difference < 0.02 in every paradigm), despite different architectures and training data. Panel (b) reveals that both models encode BK through approximately equal numbers of promoting and inhibiting neurons, suggesting a bidirectional "push-pull" mechanism rather than a one-sided risk detector.
+**Fig. 1 interpretation**: Three independent lines of evidence for RQ1. Panel (a): Gemma and LLaMA achieve nearly identical BK prediction accuracy (AUC difference < 0.02 in every paradigm), despite different architectures and training data. Panel (b): both models encode BK through approximately equal numbers of promoting and inhibiting neurons, suggesting a bidirectional "push-pull" mechanism. Panel (c): the proportion of outcome-significant features increases from 65% to 76% as more paradigms are added, exceeding the permutation null (~1%) by 60x+.
 
 ### 2.3 Factor Decomposition
 
@@ -184,9 +184,9 @@ LLaMA 3-paradigm transfer (V10) reveals two patterns. First, MW -> IC is the str
 
 Transfer asymmetry is consistent across models: both Gemma and LLaMA show strong *-to-MW and MW-to-* transfer, while IC-SM transfer is layer-dependent.
 
-![Fig. 2: Cross-domain transfer AUC heatmaps. (a) Gemma SAE: IC→MW (0.932) and SM→MW (0.867) are strongest. (b) LLaMA hidden states: MW→IC (0.805) is strongest. Both models show IC↔SM as weakest direction.](figures/v10_fig2_cross_domain_transfer.png)
+![Fig. 2: RQ2 Cross-Domain Transfer. (a) Gemma SAE: IC→MW (0.932) and SM→MW (0.867) are strongest. (b) LLaMA hidden states: MW→IC (0.805) is strongest. Both models show IC↔SM as weakest direction.](figures/v10_fig2_rq2_transfer.png)
 
-**Fig. 2 interpretation**: Green cells indicate successful transfer (AUC >> 0.5); red cells indicate failure. The MW paradigm serves as a strong "hub" in both models — BK patterns learned from MW transfer well to other domains, and vice versa. IC↔SM transfer is consistently weaker, suggesting these two paradigms encode BK through partially distinct mechanisms despite sharing the same underlying outcome.
+**Fig. 2 interpretation**: Green cells indicate successful transfer (AUC >> 0.5); yellow/red cells indicate weaker or failed transfer. MW serves as a strong "hub" in both models — BK patterns learned from MW transfer well to other domains, and vice versa. IC↔SM transfer is consistently weaker in both models, suggesting these two paradigms encode BK through partially distinct mechanisms despite sharing the same underlying outcome.
 
 ### 3.2 Shared BK Subspace
 
@@ -274,23 +274,32 @@ Gemma shows the opposite asymmetry: Fix->Var (0.808--0.902) exceeds Var->Fix (0.
 
 **Synthesis**: Cross-bet-type transfer succeeds in both models at deep layers (AUC 0.696--0.927, all p=0.000). BK representation is invariant to the Fixed/Variable manipulation. This is the strongest RQ3 evidence to date: not merely shared directions (cosine) or shared neurons (interaction regression), but successful classification transfer.
 
-![Fig. 3: Cross-bet-type BK transfer. (a) LLaMA hidden states: all layers, both directions, all p=0.000. Var→Fix consistently stronger (0.84-0.93). (b) Gemma SAE: deep layers succeed (L30 Fix→Var 0.902), shallow layer fails (L10 NS).](figures/v10_fig3_cross_bettype_transfer.png)
+![Fig. 3: RQ3 Cross-Bet-Type Transfer (F1). (a) LLaMA hidden states: all layers, both directions, all p=0.000. (b) Gemma SAE: deep layers succeed, shallow layer (L10) fails due to Variable BK=14.](figures/v10_fig3_rq3_bettype_transfer.png)
 
-**Fig. 3 interpretation**: This is the central finding of V10. A BK classifier trained exclusively on Fixed-bet bankruptcy games can predict Variable-bet bankruptcy with AUC up to 0.872 (LLaMA L8), and vice versa (0.927 at L12). The green shaded area shows the gap above chance (0.5) — all points are far above it. This demonstrates that Fixed and Variable betting activate the same underlying BK representation, even though Variable betting produces higher behavioral bankruptcy rates.
+**Fig. 3 interpretation**: This is the central finding of V10. Panel (a): in LLaMA, a BK classifier trained on Fixed games predicts Variable BK with AUC 0.74-0.87, and the reverse direction achieves 0.84-0.93 — all p=0.000. The green shaded area shows the gap above chance. Panel (b): Gemma SAE shows the same pattern at deep layers (L30: Fix→Var 0.902), though shallow layers fail (L10 NS), consistent with Gemma's extremely low Variable BK count (n=14). Both panels demonstrate that Fixed and Variable betting activate the same underlying BK representation.
+
+### Supplementary: Var/Fix BK Direction Cosine (Both Models, Both Levels)
+
+The direction cosine between Variable BK direction and Fixed BK direction provides complementary evidence. A positive cosine indicates that both bet types push activations in the same direction when bankruptcy occurs.
+
+![Fig. 4: Var/Fix BK Direction Cosine. (a) Hidden state level: LLaMA cos>0.81 at all layers; Gemma converges from negative to positive (shallow→deep). (b) SAE feature level: same pattern reproduced. Gemma's lower cosines reflect Variable BK=14 sample size.](figures/v10_fig4_rq3_direction_cosine.png)
+
+**Fig. 4 interpretation**: LLaMA IC (orange) shows consistently high cosine (>0.81 at HS, >0.77 at SAE) across all layers, indicating strong directional convergence between Variable and Fixed BK representations. Gemma IC (blue) shows a shallow-negative → deep-positive gradient at both representation levels, converging to cos ~0.39 at L30. The Gemma-LLaMA discrepancy is explained by sample size: Gemma Variable BK=14 (noisy direction estimate) vs LLaMA Variable BK=77 (stable estimate). The deep-layer convergence in Gemma supports the same conclusion: at sufficient processing depth, Variable and Fixed BK directions align.
 
 ### 4.2 Common BK Features Across Bet Types
 
 A common BK feature is defined as one with Cohen's d ≥ 0.3 between BK and Safe games in both Fixed and Variable conditions, with the same sign. These features encode BK regardless of betting autonomy.
 
-**Table 15. Variable/Fixed Common BK Features (LLaMA IC SAE L22)**
+**Table 15. Variable/Fixed Common BK Features (SAE L22, Both Models)**
 
-| Criterion | Count |
-|-----------|:-----:|
-| Total features with d >= 0.3 in BOTH bet types (same sign) | **415** |
-| BK-promoting | 213 |
-| BK-inhibiting | 202 |
+| | LLaMA IC (Var BK=77, Fix BK=65) | Gemma IC (Var BK=14, Fix BK=158) |
+|--|:-------------------------------:|:--------------------------------:|
+| Common features (d≥0.3, same sign) | **415** | **35** |
+| BK-promoting | 213 | 16 |
+| BK-inhibiting | 202 | 19 |
+| Active features tested | 1,056 | 427 |
 
-The 415 common features (promoting 213 / inhibiting 202) maintain the balanced ratio observed in universal BK neurons (Section 2.2). These features encode BK regardless of whether the model has fixed or variable betting autonomy. The balanced promoting/inhibiting structure is preserved at the feature level, reinforcing the bidirectional nature of BK representation.
+LLaMA yields 415 common features with balanced promoting/inhibiting ratio (213/202). Gemma yields only 35, reflecting the extreme Variable BK sample imbalance (n=14). Both models maintain the balanced promoting/inhibiting ratio observed in universal BK neurons (Section 2.2), confirming that BK encoding is bidirectional at the feature level regardless of betting condition.
 
 ### 4.3 G-Prompt BK Direction Alignment
 
@@ -330,9 +339,7 @@ IC uses four bet constraints (c10, c30, c50, c70) that cap maximum bets at $10--
 
 Both models show near-perfect linear relationships (r > 0.97, p < 0.025). The BK representation scales continuously with objective risk exposure (bet ceiling). LLaMA's slightly higher r (0.987 vs 0.979) and steeper slope (c10: 0.057 to c70: 0.360) indicate a more sensitive risk-scaling mechanism.
 
-![Fig. 4: (a) Factor decomposition: 65-76% of features encode BK independently of bet-type and paradigm (permutation null ~1%). (b) Bet constraint maps linearly onto BK probability in both models (r>0.97).](figures/v10_fig4_factor_constraint.png)
-
-**Fig. 4 interpretation**: Panel (a) shows that the majority of SAE features encoding BK do so independently of confounding variables. The red dashed line at 1% represents the permutation null — actual percentages (65-76%) exceed it by 60x+. Panel (b) demonstrates that the model's internal BK probability increases linearly as the bet constraint rises from $10 to $70, confirming that BK representation encodes continuous risk magnitude, not a binary safe/unsafe distinction.
+(Factor decomposition and bet constraint results are visualized in Fig. 1(c) and Table 17 respectively.)
 
 ### 4.5 RQ3 Synthesis
 

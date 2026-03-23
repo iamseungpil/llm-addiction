@@ -56,7 +56,7 @@ We analyze two transformer models: **Gemma-2-9B-IT** (Google, 42 layers, 3,584-d
 
 ### 1.2 V9 Limitations Addressed
 
-V9 left three gaps that V10 resolves. First, V9 lacked LLaMA MW data (only IC+SM, 2-paradigm). V10 adds LLaMA MW (3,200 games, BK=2,426), enabling 3-paradigm cross-domain analysis for both models. Second, V9 showed BK direction cosine > 0.81 and 33--37% shared BK neurons, but never tested whether a classifier trained on Fixed BK can predict Variable BK. V10 adds the F1 cross-bet-type transfer analysis with 200-permutation tests. Third, V9's LLaMA factor decomposition was limited to IC+SM (69.5%). V10 extends this to IC+SM+MW, yielding 75.8% outcome-significant features.
+V10 resolves three gaps from V9. First, V9 lacked LLaMA MW data. V10 adds 3,200 MW games (BK=2,426), completing the 3-paradigm matrix for both models. Second, V9 showed direction cosine > 0.81 between Variable and Fixed BK representations, but never tested whether a classifier trained on one bet type can predict the other. V10 adds cross-bet-type transfer (F1) with 200-permutation tests. Third, V9's LLaMA factor decomposition covered only IC+SM (69.5%). V10 extends to all three paradigms, reaching 75.8%.
 
 ---
 
@@ -66,7 +66,7 @@ V9 left three gaps that V10 resolves. First, V9 lacked LLaMA MW data (only IC+SM
 
 ### 2.1 Cross-Model BK Classification
 
-BK prediction accuracy is compared between Gemma and LLaMA to determine whether BK information content is architecture-invariant.
+Both models achieve BK classification AUC > 0.95 in all three paradigms, establishing that BK information content is architecture-invariant.
 
 **Table 2. BK Classification AUC (DP, SAE features -> PCA -> LogReg)**
 
@@ -74,9 +74,9 @@ BK prediction accuracy is compared between Gemma and LLaMA to determine whether 
 |----------|:----------:|:------------:|
 | SM best AUC | **0.976** (L20) | **0.974** (L8) |
 | IC best AUC | **0.960** (L30) | **0.954** (L12) |
-| MW best AUC | — | **0.963** (L16) |
+| MW best AUC | **0.966** (L30) | **0.963** (L16) |
 
-LLaMA MW achieves AUC 0.96+ at all layers (L0--L30), with the peak at L16 (0.963). Both models predict BK with AUC > 0.95 across paradigms. Encoding depth differs — Gemma peaks at L20 (SM), while LLaMA peaks at L8 (SM), L12 (IC), and L16 (MW) — but the maximum AUC values are within 0.02 of each other in every paradigm.
+Both models predict BK with AUC > 0.95 across all three paradigms, including MW where Gemma achieves 0.966 (L30) and LLaMA achieves 0.963 (L16). Encoding depth differs — Gemma peaks at deeper layers (L20-L30), while LLaMA peaks earlier (L8-L16) — but the maximum AUC values are within 0.02 of each other in every paradigm.
 
 **Table 3. LLaMA MW AUC Across Layers**
 
@@ -85,7 +85,7 @@ LLaMA MW achieves AUC 0.96+ at all layers (L0--L30), with the peak at L16 (0.963
 | L0--L30 (all) | 0.96+ | 75.8% (2,426/3,200) |
 | **L16 (best)** | **0.963** | 75.8% |
 
-LLaMA MW's high BK rate (75.8%) differs substantially from Gemma MW (1.7%), yet both models maintain high classification performance. BK information is robustly encoded regardless of base rate.
+LLaMA MW's BK rate (75.8%) is 44x higher than Gemma MW (1.7%), yet classification performance remains equivalent (0.963 vs 0.966). BK information is robustly encoded regardless of base rate.
 
 ### 2.2 Universal BK Neurons
 
@@ -147,7 +147,7 @@ These findings establish that BK representation is a shared property of the two 
 
 ### 3.1 Cross-Domain Transfer
 
-Cross-domain transfer trains a BK classifier on one paradigm's features and tests it on another paradigm's data. If transfer AUC exceeds chance (0.5) with permutation p<0.05, the two paradigms share BK-predictive structure.
+BK classifiers transfer across paradigms with AUC up to 0.932 (Gemma IC→MW) and 0.805 (LLaMA MW→IC), demonstrating domain-invariant BK structure. Cross-domain transfer works by training a BK classifier on one paradigm and testing it on another; AUC exceeding chance (0.5) with permutation p<0.05 indicates shared BK-predictive structure.
 
 **Table 7. Gemma SAE Cross-Domain Transfer (Best Layer per Direction)**
 
@@ -222,7 +222,7 @@ If BK signal is distributed across many neurons, hidden state transfer (which pr
 | SM -> IC | 0.749 (L30) | 0.685 (L30) | +0.064 |
 | IC -> SM | 0.577 (L8) | 0.783 (L25) | -0.206 |
 
-Hidden states outperform SAE in most transfer directions (Gemma IC->SM +0.247; Gemma SM->MW +0.101; LLaMA SM->IC +0.064). The exception is LLaMA IC->SM, where SAE at L25 (0.783) exceeds hidden states at L8 (0.577), though these are different layers. The general pattern confirms that BK signal is distributed rather than sparse: SAE sparsification can lose coherence in cross-domain transfer.
+Hidden states outperform SAE in most transfer directions (Gemma IC→SM +0.247; Gemma SM→MW +0.101; LLaMA SM→IC +0.064). The exception is LLaMA IC→SM, where SAE at L25 (0.783) exceeds hidden states at L8 (0.577), though these are different layers. The general pattern confirms that BK signal is distributed rather than sparse: SAE sparsification can lose coherence in cross-domain transfer. This has practical implications for intervention — modifying individual SAE features may be insufficient to fully control BK behavior; distributed hidden state representations carry complementary information.
 
 ### 3.4 RQ2 Synthesis
 

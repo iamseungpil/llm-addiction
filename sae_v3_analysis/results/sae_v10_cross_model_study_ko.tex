@@ -243,12 +243,12 @@ L30 & 1,347 & $\sim$balanced & $\sim$balanced \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{figures/v10_fig1_cross_model_bk.png}
-\caption{(a) 교차 모델 BK 분류 AUC. (b) 보편적 BK 뉴런: 균형 잡힌 촉진/억제 비율.}
+\includegraphics[width=\textwidth]{figures/v10_fig1_rq1_overview.png}
+\caption{RQ1 개요. (a) BK 예측 AUC: 두 모델 모두 $>0.95$. (b) 보편적 BK 뉴런: 균형 잡힌 촉진/억제 비율. (c) 요인 분해: 결과-유의 65--76\% 대 귀무 $\sim$1\%.}
 \label{fig:fig1}
 \end{figure}
 
-\noindent\textbf{그림~\ref{fig:fig1} 해석}: 패널 (a)는 Gemma와 LLaMA가 서로 다른 아키텍처와 훈련 데이터에도 불구하고 거의 동일한 BK 예측 정확도(모든 패러다임에서 AUC 차이 $< 0.02$)를 달성함을 보여준다. 패널 (b)는 두 모델 모두 거의 동일한 수의 촉진 뉴런과 억제 뉴런을 통해 BK를 인코딩함을 드러내며, 이는 일방적 위험 감지기가 아닌 양방향 ``push-pull'' 메커니즘을 시사한다.
+\noindent\textbf{그림~\ref{fig:fig1} 해석}: RQ1에 대한 세 가지 독립적 증거 라인. 패널 (a): Gemma와 LLaMA는 서로 다른 아키텍처와 훈련 데이터에도 불구하고 거의 동일한 BK 예측 정확도(모든 패러다임에서 AUC 차이 $< 0.02$)를 달성한다. 패널 (b): 두 모델 모두 거의 동일한 수의 촉진 뉴런과 억제 뉴런을 통해 BK를 인코딩하며, 양방향 ``push-pull'' 메커니즘을 시사한다. 패널 (c): 패러다임이 추가될수록 결과-유의 피처의 비율이 65\%에서 76\%로 증가하며, 순열 귀무($\sim$1\%)를 $60\times$+ 초과한다.
 
 \subsection{요인 분해}
 
@@ -350,7 +350,7 @@ SM $\rightarrow$ IC & L30 & \textbf{0.685} & 0.000 \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{figures/v10_fig2_cross_domain_transfer.png}
+\includegraphics[width=\textwidth]{figures/v10_fig2_rq2_transfer.png}
 \caption{교차 도메인 전이 AUC 히트맵. (a) Gemma SAE. (b) LLaMA 은닉 상태.}
 \label{fig:fig2}
 \end{figure}
@@ -492,12 +492,12 @@ L10 & NS & --- & NS & --- \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{figures/v10_fig3_cross_bettype_transfer.png}
-\caption{교차 배팅 유형 BK 전이. (a) LLaMA HS: 모든 층 $p=0.000$. (b) Gemma SAE: 깊은 층에서 성공.}
+\includegraphics[width=\textwidth]{figures/v10_fig3_rq3_bettype_transfer.png}
+\caption{교차 배팅 유형 BK 전이. (a) LLaMA HS: 모든 층 $p=0.000$. (b) Gemma SAE: 깊은 층에서 성공, 얕은 층(L10)은 Variable BK$=14$로 인해 실패.}
 \label{fig:fig3}
 \end{figure}
 
-\noindent\textbf{그림~\ref{fig:fig3} 해석}: 이것이 V10의 핵심 발견이다. 고정 배팅 파산 게임만으로 훈련된 BK 분류기가 변동 배팅 파산을 AUC $0.872$ (LLaMA L8)까지 예측할 수 있으며, 그 반대 방향도 $0.927$ (L12)에 도달한다. 녹색 음영 영역은 우연 수준($0.5$) 위의 격차를 보여주며 --- 모든 점이 이를 크게 초과한다. 이는 변동 배팅이 더 높은 행동적 파산율을 유발함에도 불구하고, 고정 및 변동 배팅이 동일한 기본 BK 표상을 활성화함을 입증한다.
+\noindent\textbf{그림~\ref{fig:fig3} 해석}: 이것이 V10의 핵심 발견이다. 패널 (a): LLaMA에서 고정 게임으로 훈련된 BK 분류기가 변동 BK를 AUC $0.74$--$0.87$로 예측하며, 반대 방향은 $0.84$--$0.93$에 도달한다 --- 모두 $p=0.000$. 녹색 음영 영역은 우연 수준 위의 격차를 보여준다. 패널 (b): Gemma SAE는 깊은 층에서 동일한 패턴을 보이며 (L30: Fix$\rightarrow$Var $0.902$), 얕은 층은 실패한다 (L10 NS). 이는 Gemma의 극히 낮은 Variable BK 수($n=14$)와 일치한다. 두 패널 모두 고정 및 변동 배팅이 동일한 기본 BK 표상을 활성화함을 입증한다.
 
 \subsection{배팅 유형 간 공통 BK 피처}
 
@@ -505,20 +505,21 @@ L10 & NS & --- & NS & --- \\
 
 \begin{table}[H]
 \centering
-\caption{변동/고정 공통 BK 피처 (LLaMA IC SAE L22)}\label{tab:t15}
+\caption{변동/고정 공통 BK 피처 (SAE L22, 두 모델)}\label{tab:t15}
 \footnotesize
-\begin{tabular}{lc}
+\begin{tabular}{lcc}
 \toprule
-Criterion & Count \\
+ & LLaMA IC (Var BK$=77$, Fix BK$=65$) & Gemma IC (Var BK$=14$, Fix BK$=158$) \\
 \midrule
-Total features with $d \ge 0.3$ in BOTH bet types (same sign) & \textbf{415} \\
-BK-promoting & 213 \\
-BK-inhibiting & 202 \\
+공통 피처 ($d \ge 0.3$, 동일 부호) & \textbf{415} & \textbf{35} \\
+BK-촉진 & 213 & 16 \\
+BK-억제 & 202 & 19 \\
+활성 피처 테스트 수 & 1,056 & 427 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\noindent 415개의 공통 피처(촉진 213 / 억제 202)는 보편적 BK 뉴런(2.2절)에서 관찰된 균형 비율을 유지한다. 이 피처들은 모델이 고정 또는 변동 배팅 자율성을 가지는지에 관계없이 BK를 인코딩한다. 균형 잡힌 촉진/억제 구조는 피처 수준에서 보존되어, BK 표상의 양방향적 특성을 강화한다.
+\noindent LLaMA는 균형 잡힌 촉진/억제 비율(213/202)을 가진 415개의 공통 피처를 산출한다. Gemma는 극단적인 Variable BK 표본 불균형($n=14$)을 반영하여 35개만 산출한다. 두 모델 모두 보편적 BK 뉴런(2.2절)에서 관찰된 균형 잡힌 촉진/억제 비율을 유지하며, 배팅 조건에 관계없이 BK 인코딩이 피처 수준에서 양방향적임을 확인한다.
 
 \subsection{G-프롬프트 BK 방향 정렬}
 
@@ -577,14 +578,18 @@ $p$ & 0.021 & 0.013 \\
 
 \noindent 두 모델 모두 거의 완벽한 선형 관계를 보인다 ($r > 0.97$, $p < 0.025$). BK 표상은 객관적 위험 노출(배팅 상한)에 따라 연속적으로 스케일링된다. LLaMA의 약간 더 높은 $r$ ($0.987$ 대 $0.979$)과 더 가파른 기울기(c10: $0.057$에서 c70: $0.360$)는 더 민감한 위험 스케일링 메커니즘을 나타낸다.
 
+\subsubsection*{보충: 변동/고정 BK 방향 코사인 (두 모델, 두 수준)}
+
+변동 BK 방향과 고정 BK 방향 간의 방향 코사인(direction cosine)은 보충적 증거를 제공한다. 양의 코사인은 파산 발생 시 두 배팅 유형이 활성화를 동일한 방향으로 밀어냄을 나타낸다.
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{figures/v10_fig4_factor_constraint.png}
-\caption{(a) 요인 분해: 결과-유의 65--76\% 대 귀무 1\%. (b) 배팅 제한 선형 매핑.}
+\includegraphics[width=\textwidth]{figures/v10_fig4_rq3_direction_cosine.png}
+\caption{변동/고정 BK 방향 코사인. (a) 은닉 상태 수준: LLaMA cos$>0.81$ (모든 층); Gemma는 음에서 양으로 수렴 (얕은$\rightarrow$깊은). (b) SAE 피처 수준: 동일 패턴 재현. Gemma의 낮은 코사인은 Variable BK$=14$ 표본 크기를 반영.}
 \label{fig:fig4}
 \end{figure}
 
-\noindent\textbf{그림~\ref{fig:fig4} 해석}: 패널 (a)는 BK를 인코딩하는 SAE 피처의 대다수가 교란 변수와 독립적으로 인코딩함을 보여준다. 1\%의 적색 점선은 순열 귀무 분포를 나타내며 --- 실제 비율(65--76\%)은 이를 $60\times$+ 초과한다. 패널 (b)는 배팅 제한이 \$10에서 \$70으로 증가함에 따라 모델의 내부 BK 확률이 선형적으로 증가함을 입증하며, BK 표상이 이진 안전/불안전 구분이 아닌 연속적 위험 크기를 인코딩함을 확인한다.
+\noindent\textbf{그림~\ref{fig:fig4} 해석}: LLaMA IC (주황색)는 모든 층에서 일관되게 높은 코사인(HS에서 $>0.81$, SAE에서 $>0.77$)을 보이며, 변동 및 고정 BK 표상 간의 강한 방향적 수렴을 나타낸다. Gemma IC (파란색)는 두 표상 수준 모두에서 얕은-음 $\rightarrow$ 깊은-양 기울기를 보이며, L30에서 $\cos \approx 0.39$로 수렴한다. Gemma--LLaMA 간 불일치는 표본 크기로 설명된다: Gemma Variable BK$=14$ (노이즈가 큰 방향 추정) 대 LLaMA Variable BK$=77$ (안정적 추정). Gemma의 깊은 층 수렴은 동일한 결론을 뒷받침한다: 충분한 처리 깊이에서 변동 및 고정 BK 방향이 정렬된다.
 
 \subsection{RQ3 종합}
 

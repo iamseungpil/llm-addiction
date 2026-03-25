@@ -299,7 +299,11 @@ The BK direction vector is defined as the difference between the mean BK hidden 
 | +2.0 | 0.480 | 0.520 |
 | Random dir (alpha=1) | 0.660 | 0.340 |
 
-Table 12 shows a monotonic relationship between steering magnitude and BK rate. As alpha increases from -2 to +2, BK rate increases from 34% to 52%. The dose-response relationship is quantified by Spearman rank correlation: **rho = 0.927, p = 0.003**. This confirms that the BK direction vector — derived from the same activation patterns that support cross-model and cross-domain classification — causally influences gambling behavior. The direction is specific: pushing along the BK direction increases bankruptcy, while pushing against it increases stopping.
+Table 12 shows a monotonic relationship between steering magnitude and BK rate. As alpha increases from -2 to +2, BK rate increases from 34% to 52%.
+
+![Fig. 5: BK direction steering dose-response. (a) BK rate increases monotonically with alpha (Spearman rho=0.927, p=0.003). (b) Stop rate decreases correspondingly. Dashed line = baseline; dotted line = random direction control at alpha=1.](figures/v11_fig5_steering_doseresponse.png)
+
+**Fig. 5 interpretation**: The dose-response curve confirms that the BK direction vector causally influences gambling behavior. Panel (a): pushing along the BK direction (positive alpha) increases bankruptcy, pushing against it (negative alpha) increases stopping. The relationship is monotonic (Spearman rho=0.927, p=0.003). Panel (b): stop rate mirrors this pattern. The random direction control (dotted line) shows high stop rate at a single alpha value, but only BK direction demonstrates a graded dose-response across 7 alpha values.
 
 ### 7.4 Random Direction Control and Caveat
 

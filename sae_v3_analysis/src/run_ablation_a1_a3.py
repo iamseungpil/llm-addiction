@@ -150,9 +150,18 @@ def main():
     results['elapsed_seconds'] = round(elapsed)
     print(f"\nTotal time: {elapsed/60:.1f} min")
 
+    # Convert numpy types for JSON
+    def convert(obj):
+        if isinstance(obj, (np.integer,)): return int(obj)
+        if isinstance(obj, (np.floating,)): return float(obj)
+        if isinstance(obj, np.ndarray): return obj.tolist()
+        if isinstance(obj, dict): return {k: convert(v) for k, v in obj.items()}
+        if isinstance(obj, list): return [convert(i) for i in obj]
+        return obj
+
     out_file = OUT / f"ablation_a1_a3_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with open(out_file, 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(convert(results), f, indent=2)
     print(f"Saved to {out_file}")
 
 

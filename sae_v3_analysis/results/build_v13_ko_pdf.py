@@ -66,9 +66,11 @@ def md_to_latex(md_text):
         if line.startswith('# ') and not line.startswith('## '):
             tex_lines.append(f'\\section*{{{escape_latex(line[2:].strip())}}}'); continue
         if line.startswith('## '):
-            tex_lines.append(f'\\section{{{escape_latex(line[3:].strip())}}}'); continue
+            raw = re.sub(r'^\d+\.\s+', '', line[3:].strip())
+            tex_lines.append(f'\\section{{{escape_latex(raw)}}}'); continue
         if line.startswith('### '):
-            tex_lines.append(f'\\subsection{{{escape_latex(line[4:].strip())}}}'); continue
+            raw = re.sub(r'^\d+\.\d+\s+', '', line[4:].strip())
+            tex_lines.append(f'\\subsection{{{escape_latex(raw)}}}'); continue
         img_match = re.match(r'!\[([^\]]*)\]\(([^)]+)\)', line)
         if img_match:
             caption, path = img_match.groups()

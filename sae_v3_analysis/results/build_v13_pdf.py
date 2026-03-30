@@ -48,10 +48,16 @@ def md_to_latex(md_text):
             tex_lines.append(f'\\section*{{{escape_latex(title)}}}')
             continue
         if line.startswith('## '):
-            tex_lines.append(f'\\section{{{escape_latex(line[3:].strip())}}}')
+            raw = line[3:].strip()
+            # Strip leading "N. " to avoid double numbering with LaTeX auto-numbering
+            raw = re.sub(r'^\d+\.\s+', '', raw)
+            tex_lines.append(f'\\section{{{escape_latex(raw)}}}')
             continue
         if line.startswith('### '):
-            tex_lines.append(f'\\subsection{{{escape_latex(line[4:].strip())}}}')
+            raw = line[4:].strip()
+            # Strip leading "N.N " to avoid double numbering
+            raw = re.sub(r'^\d+\.\d+\s+', '', raw)
+            tex_lines.append(f'\\subsection{{{escape_latex(raw)}}}')
             continue
 
         # Images

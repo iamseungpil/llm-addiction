@@ -153,6 +153,8 @@ Figure 8 visualizes the multi-layer amplification.
 
 ![Fig. 8: Multi-layer steering. The combined L22+L25+L30 curve shows a steeper slope than any individual layer. The combined effect (+0.49) exceeds the sum-of-parts expectation.](figures/v13_fig8_multilayer.png)
 
+Steering generalizes to other tasks and models, with a sign-dependent caveat. Cross-task steering in LLaMA IC (|rho| = 0.991, p = 0.000015) and MW (|rho| = 0.955, p = 0.00081) both produce strong dose-responses, and cross-model steering in Gemma MW achieves |rho| = 1.000 (p = 0.000) with an 88-percentage-point behavioral swing. However, four of the six model-task combinations exhibit negative rho (BK rate decreases as alpha increases). This sign reversal is explained by the inference-time baseline: the BK direction vector points from the Safe centroid toward the BK centroid, and whether adding it increases or decreases BK depends on the steering-environment baseline. A threshold model --- "steering baseline BK above 50% predicts positive rho" --- achieves 80% accuracy (4 of 5 valid combinations). The sign reversal does not invalidate the causal claim; the critical evidence is the monotonic dose-response magnitude (|rho| >= 0.955 in all significant cases). Gemma SM (BK = 87 samples, ceiling effect) and Gemma IC (BK = 0.000 at all conditions, floor effect) define the boundary conditions where steering fails due to insufficient behavioral variation.
+
 ### 3.4 Summary
 
 A consistent BK-predicting neural pattern exists in both models. Classification evidence demonstrates that internal representations predict BK with AUC 0.954 to 0.982, and this signal persists after controlling for balance and bet-type confounds (within-bet-type R1 AUC 0.62 to 0.80 in Gemma, 0.885 to 0.995 in LLaMA). Universal BK neurons are balanced in promoting-to-inhibiting ratio, encoding BK as a direction rather than through individual neurons. Causal steering confirms that this direction is functionally meaningful: manipulating it produces a monotonic, dose-dependent change in BK rate (rho = 0.964, p = 0.00045), while random directions have no effect. The BK pattern is real, robust, and causal.
@@ -214,7 +216,7 @@ Figure 4 visualizes the cross-domain steering results.
 
 ![Fig. 4: Cross-domain steering transfer. MW row shows the strongest cross-domain transfer. Dose-response curves for the 3 significant cross-domain combinations confirm monotonic relationships.](figures/v13_fig4_crossdomain_steering.png)
 
-The negative rho values in all significant cross-domain combinations reflect the sign reversal mechanism described in Section 6.2: the behavioral consequence of adding the BK direction depends on the inference-time baseline BK rate, not on the training-data class balance.
+The negative rho values in all significant cross-domain combinations reflect the sign reversal mechanism described in Section 3.3: the behavioral consequence of adding the BK direction depends on the inference-time baseline BK rate, not on the training-data class balance.
 
 ### 4.4 Summary
 
@@ -262,11 +264,7 @@ Experimental conditions modulate BK activation systematically but paradigm-depen
 
 The classification results are not artifacts of pipeline hyperparameters. PCA with 50 components saturates AUC in 4 of 6 datasets, and in the remaining 2 (Gemma MW, LLaMA IC) PCA = 50 outperforms the full-dimensional representation, likely because these datasets have the smallest BK sample sizes where high dimensionality causes overfitting. Across three classifiers (logistic regression, MLP, SVM-RBF), the maximum AUC difference within any dataset is 0.007. No classifier consistently dominates, and nonlinear decision boundaries provide no systematic advantage, confirming that the BK representation is linearly separable in PCA-reduced space.
 
-### 6.2 Sign Reversal
-
-Four of the six model-task steering combinations exhibit negative rho values (BK rate decreases as alpha increases). This initially counterintuitive pattern is explained by the inference-time baseline. The BK direction vector points from the Safe centroid toward the BK centroid in training data. Whether adding this direction increases or decreases BK at inference depends on the steering-environment baseline BK rate. A threshold model --- "steering baseline BK above 50% predicts positive rho" --- achieves 80% accuracy (4 of 5 valid combinations). The sign reversal does not invalidate the causal claim. The critical evidence is the monotonic dose-response (|rho| >= 0.955 in all significant cases), which demonstrates graded directional information regardless of which behavioral pole benefits from positive alpha.
-
-### 6.3 Boundary Conditions
+### 6.2 Boundary Conditions
 
 Gemma SM and IC define the operating limits of the steering paradigm. Gemma IC produces a baseline BK of 0.000 at all alpha values (floor effect: no perturbation induces BK). Gemma SM produces a baseline of 0.740 (ceiling effect: BK rate remains high regardless of direction). Only Gemma MW provides successful cross-model causal evidence, achieving the strongest single result in the study (|rho| = 1.000, behavioral swing of 88 percentage points). These boundary conditions indicate that sufficient behavioral variation at baseline is a prerequisite for detectable steering effects. Neuron ablation experiments (zero-ablation of 104 BK-promoting and 89 BK-inhibiting neurons in LLaMA L22) produced no significant behavioral change, consistent with the distributed encoding revealed by the balanced promoting/inhibiting neuron structure and further motivating the use of direction-level rather than neuron-level interventions.
 

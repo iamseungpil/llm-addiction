@@ -153,6 +153,8 @@ Figure 8은 다중 layer 증폭 효과를 시각화한다.
 
 ![Fig. 8: Multi-layer steering. The combined L22+L25+L30 curve shows a steeper slope than any individual layer. The combined effect (+0.49) exceeds the sum-of-parts expectation.](figures/v13_fig8_multilayer.png)
 
+Steering은 다른 과제와 모델로도 일반화되나, 부호 관련 주의점이 있다. LLaMA IC(|rho| = 0.991, p = 0.000015)와 MW(|rho| = 0.955, p = 0.00081)에서의 교차 과제 steering, Gemma MW에서의 교차 모델 steering(|rho| = 1.000, p = 0.000, 88%p 행동 변동폭) 모두 강한 dose-response를 보인다. 다만 6개 모델-과제 조합 중 4개에서 음의 rho가 나타난다(alpha 증가 시 BK 감소). 이 부호 역전은 추론 시점의 기저선으로 설명된다: BK direction vector는 Safe 중심에서 BK 중심을 가리키며, 이를 더했을 때 BK가 증가하는지 감소하는지는 steering 환경의 기저선 BK 비율에 의존한다. "steering 기저선 BK 50% 초과 시 양의 rho"라는 임계값 모델은 80% 정확도를 달성한다(5개 유효 조합 중 4개). 부호 역전이 인과적 주장을 약화시키지는 않으며, 핵심 증거는 단조적 dose-response의 크기(유의한 모든 경우 |rho| >= 0.955)이다. Gemma SM(BK = 87개, 천장 효과)과 Gemma IC(모든 조건에서 BK = 0.000, 바닥 효과)는 행동 변동이 부족하여 steering이 실패하는 경계 조건이다.
+
 ### 3.4 Summary
 
 일관된 BK 예측 신경 패턴이 두 모델 모두에 존재한다. 분류 증거에 따르면 내부 표상은 AUC 0.954~0.982로 BK를 예측하며, 잔액과 bet type 교란 변수를 통제한 후에도 신호가 유지된다(bet type 내 R1 AUC: Gemma 0.62~0.80, LLaMA 0.885~0.995). Universal BK neuron은 promoting 대 inhibiting 비율이 균형적이며, BK를 개별 뉴런이 아닌 방향으로 부호화한다. 인과적 steering은 이 방향의 기능적 의미를 확인한다: 조작 시 단조적, 용량 의존적 BK 비율 변화가 발생하고(rho = 0.964, p = 0.00045), 무작위 방향에서는 효과가 없다. BK 패턴은 실재하며, 강건하고, 인과적이다.
@@ -214,7 +216,7 @@ Figure 4는 교차 도메인 steering 결과를 시각화한다.
 
 ![Fig. 4: Cross-domain steering transfer. MW row shows the strongest cross-domain transfer. Dose-response curves for the 3 significant cross-domain combinations confirm monotonic relationships.](figures/v13_fig4_crossdomain_steering.png)
 
-유의한 교차 도메인 조합에서 나타나는 음의 rho 값은 Section 6.2에 기술된 부호 역전 메커니즘을 반영한다: BK direction 추가의 행동적 결과는 학습 데이터의 클래스 균형이 아닌 추론 시점의 기저선 BK 비율에 의존한다.
+유의한 교차 도메인 조합에서 나타나는 음의 rho 값은 Section 3.3에 기술된 부호 역전 메커니즘을 반영한다: BK direction 추가의 행동적 결과는 학습 데이터의 클래스 균형이 아닌 추론 시점의 기저선 BK 비율에 의존한다.
 
 ### 4.4 Summary
 
@@ -262,11 +264,7 @@ Fixed와 Variable 조건이 BK 표상을 공유하는지에 대한 가장 강력
 
 분류 결과는 파이프라인 하이퍼파라미터의 산물이 아니다. PCA 50 components는 6개 데이터셋 중 4개에서 AUC를 포화시키며, 나머지 2개(Gemma MW, LLaMA IC)에서는 PCA = 50이 전체 차원 표상보다 우수하다. 이 데이터셋들은 BK 표본 크기가 가장 작아 고차원에서 과적합이 발생하기 때문으로 보인다. 3개의 분류기(로지스틱 회귀, MLP, SVM-RBF) 간 최대 AUC 차이는 데이터셋 내에서 0.007이다. 어떤 분류기도 일관되게 우위를 보이지 않으며, 비선형 결정 경계가 체계적 이점을 제공하지 않는다. BK 표상은 PCA 축소 공간에서 선형 분리 가능하다.
 
-### 6.2 Sign Reversal
-
-6개의 모델-과제 steering 조합 중 4개에서 음의 rho 값이 나타난다(alpha 증가 시 BK 비율 감소). 이 반직관적 패턴은 추론 시점의 기저선으로 설명된다. BK direction vector는 학습 데이터에서 Safe 중심으로부터 BK 중심 방향을 가리킨다. 이 방향의 추가가 추론 시 BK를 증가시키는지 감소시키는지는 steering 환경의 기저선 BK 비율에 의존한다. "steering 기저선 BK 50% 초과 시 양의 rho 예측"이라는 임계값 모델은 80% 정확도를 달성한다(5개 유효 조합 중 4개). 부호 역전은 인과적 주장을 무효화하지 않는다. 핵심 증거는 단조적 dose-response(모든 유의한 경우에서 |rho| >= 0.955)이며, 양의 alpha가 어떤 행동 극에 이점을 주는지와 무관하게 점진적 방향 정보가 존재함을 보여준다.
-
-### 6.3 Boundary Conditions
+### 6.2 Boundary Conditions
 
 Gemma SM과 IC는 steering 패러다임의 작동 한계를 정의한다. Gemma IC는 모든 alpha 값에서 기저선 BK 0.000을 산출한다(바닥 효과: 어떠한 교란도 BK를 유발하지 못함). Gemma SM은 기저선 0.740을 산출한다(천장 효과: 방향에 관계없이 BK 비율이 높게 유지됨). Gemma MW만이 성공적인 교차 모델 인과 증거를 제공하며, 연구 전체에서 가장 강력한 단일 결과를 달성한다(|rho| = 1.000, 88 퍼센트포인트 행동 변동). 이 경계 조건은, 기저선에서 충분한 행동 변동이 검출 가능한 steering 효과의 전제조건임을 나타낸다. 뉴런 제거 실험(LLaMA L22에서 104개 BK-promoting, 89개 BK-inhibiting 뉴런의 영값 제거)은 유의한 행동 변화를 산출하지 못하였다. 이는 균형적 promoting/inhibiting 뉴런 구조가 보여주는 분산 부호화와 일관되며, 뉴런 수준이 아닌 방향 수준 개입의 필요성을 추가로 뒷받침한다.
 

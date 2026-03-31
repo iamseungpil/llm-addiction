@@ -115,11 +115,7 @@ Figure 2 visualizes the balanced structure of universal BK neurons.
 
 An additional factor decomposition analysis tests whether SAE features encode BK independently of bet type and paradigm identity. OLS regression (feature ~ outcome + bet_type + paradigm) reveals that 65.2% of Gemma features and 75.8% of LLaMA features retain significant outcome coefficients after accounting for confounds, compared to approximately 1% under permutation null. The BK signal encoded in these features is genuine, not an artifact of bet-type or paradigm correlations.
 
-### 3.3 Causal Confirmation: Feature Patching and Direction Steering
-
-Prior work using the same LLaMA SM data identified 112 SAE features (out of 8,000+ candidates) that causally alter gambling behavior when their activation is patched during inference. These causal features segregate anatomically: safe-promoting features cluster in early layers (L4--L19) while risk-promoting features concentrate in late layers (L24+). Patching safe features increases stopping behavior by 29.6%, confirming that sparse features can causally influence decisions. However, individual neuron ablation produces no significant effect (all p > 0.5), suggesting the causal mechanism operates through distributed directions rather than individual units.
-
-Direction steering extends this finding from sparse features to the full activation space.
+### 3.3 Causal Confirmation: Activation-Level Direction Steering
 
 The BK pattern is not merely predictive --- it is causal. This subsection tests whether adding the BK direction vector to the residual stream during inference changes gambling behavior in a dose-dependent manner, and whether this effect is specific to the BK direction rather than a generic perturbation artifact.
 

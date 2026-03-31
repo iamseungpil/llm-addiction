@@ -115,11 +115,7 @@ Figure 2는 universal BK neuron의 균형 구조를 시각화한다.
 
 추가 요인 분해 분석은 SAE feature가 bet type 및 패러다임 정체성과 독립적으로 BK를 부호화하는지 검증한다. OLS 회귀(feature ~ outcome + bet_type + paradigm)에서 Gemma feature의 65.2%, LLaMA feature의 75.8%가 교란 변수를 통제한 후에도 유의한 outcome 계수를 유지하였으며, 순열 영가설에서는 약 1%에 불과하였다. 이 feature들에 부호화된 BK 신호는 bet type이나 패러다임 상관의 산물이 아닌 실제 신호이다.
 
-### 3.3 Causal Confirmation: Feature Patching and Direction Steering
-
-동일한 LLaMA SM 데이터를 사용한 선행 분석에서 8,000개 이상의 후보 중 112개의 SAE feature가 추론 시 activation을 패칭하면 도박 행동을 인과적으로 변화시킴을 확인하였다. 이 인과적 feature들은 해부학적으로 분리된다: safe-promoting feature는 초기 layer(L4--L19)에 군집하고, risk-promoting feature는 후기 layer(L24+)에 집중된다. Safe feature 패칭은 중단 행동을 29.6% 증가시키며, 희소 feature가 의사결정에 인과적으로 영향을 줄 수 있음을 확인하였다. 그러나 개별 뉴런 제거는 유의한 효과를 산출하지 못하며(모든 p > 0.5), 인과 메커니즘이 개별 단위가 아닌 분산된 방향을 통해 작동함을 시사한다.
-
-Direction steering은 이 발견을 희소 feature에서 전체 activation 공간으로 확장한다.
+### 3.3 Causal Confirmation: Activation-Level Direction Steering
 
 BK 패턴은 단순히 예측적인 것이 아니라 인과적이다. 이 분석은 추론 시 BK direction vector를 residual stream에 더했을 때 도박 행동이 용량 의존적으로 변화하는지, 그리고 이 효과가 일반적 교란이 아닌 BK 방향에 특이적인지를 검증한다.
 

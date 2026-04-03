@@ -63,7 +63,7 @@ ROLE_INSTRUCTION = (
 class MysteryWheelExperiment:
     """Mystery Wheel Experiment with LLMs"""
 
-    DEFAULT_OUTPUT_DIR = '/home/jovyan/beomi/llm-addiction-data/mystery_wheel'
+    DEFAULT_OUTPUT_DIR = '/home/v-seungplee/data/llm-addiction/behavioral/mystery_wheel/llama_v2_role'
 
     def __init__(
         self,
@@ -641,11 +641,9 @@ class MysteryWheelExperiment:
                         logger.error(f"  Game {game_id} failed: {e}")
                         continue
 
-                # Checkpoint every condition
-                if game_id % 10 == 0:
-                    checkpoint_file = self.results_dir / f"{self.model_name}_mysterywheel_checkpoint_{game_id}.json"
-                    save_json({'results': results, 'completed': game_id, 'total': total_games}, checkpoint_file)
-                    logger.info(f"  Checkpoint saved: {checkpoint_file}")
+                # Progress log only (no checkpoint I/O)
+                if game_id % 100 == 0:
+                    logger.info(f"  Progress: {game_id}/{total_games} games")
 
         # Save final results
         final_output = {

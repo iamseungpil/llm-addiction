@@ -49,3 +49,18 @@ archive/
 
 # Asset files
 asset/
+
+# LaTeX and report artifacts
+*.aux
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.xdv
+
+# Experiment monitor / generated study outputs
+sae_v3_analysis/results/*.pdf
+sae_v3_analysis/results/*.tex
+sae_v3_analysis/results/*_log.txt
+sae_v3_analysis/results/*.lock
+sae_v3_analysis/results/*status*.md

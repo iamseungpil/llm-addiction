@@ -1,0 +1,75 @@
+======================================================================
+Q1: PER-METRIC FEATURES
+======================================================================
+
+gemma/SM L18 (n=12246):
+  I_BA: max|r|=0.562, n_strong(|r|>0.1)=183, pos_rate=0.264
+  I_LC: max|r|=0.293, n_strong(|r|>0.1)=61, pos_rate=0.420
+  I_EC: max|r|=0.329, n_strong(|r|>0.1)=73, pos_rate=0.086
+
+gemma/MW L18 (n=10544):
+  I_BA: max|r|=0.272, n_strong(|r|>0.1)=91, pos_rate=0.122
+  I_LC: max|r|=0.494, n_strong(|r|>0.1)=156, pos_rate=0.545
+  I_EC: max|r|=0.354, n_strong(|r|>0.1)=121, pos_rate=0.010
+
+llama/SM L22 (n=45551):
+  I_BA: max|r|=0.258, n_strong(|r|>0.1)=271, pos_rate=0.238
+  I_LC: max|r|=0.216, n_strong(|r|>0.1)=211, pos_rate=0.421
+  I_EC: max|r|=0.224, n_strong(|r|>0.1)=129, pos_rate=0.143
+
+llama/MW L22 (n=57361):
+  I_BA: max|r|=0.377, n_strong(|r|>0.1)=518, pos_rate=0.161
+  I_LC: max|r|=0.443, n_strong(|r|>0.1)=580, pos_rate=0.610
+  I_EC: max|r|=0.254, n_strong(|r|>0.1)=173, pos_rate=0.082
+
+======================================================================
+Q3: PROMPT COMPONENT EFFECTS
+======================================================================
+
+gemma/SM L18:
+  +G: n=8040, mean_ratio=0.290
+  -G: n=4206, mean_ratio=0.215
+  -H: n=12246, mean_ratio=0.264
+  +M: n=6556, mean_ratio=0.287
+  -M: n=5690, mean_ratio=0.237
+  +W: n=6743, mean_ratio=0.272
+  -W: n=5503, mean_ratio=0.254
+  +P: n=6491, mean_ratio=0.259
+  -P: n=5755, mean_ratio=0.269
+
+llama/SM L22:
+  +G: n=22288, mean_ratio=0.259
+  -G: n=23263, mean_ratio=0.218
+  +H: n=22497, mean_ratio=0.241
+  -H: n=23054, mean_ratio=0.235
+  +M: n=19753, mean_ratio=0.269
+  -M: n=25798, mean_ratio=0.214
+  +W: n=22280, mean_ratio=0.244
+  -W: n=23271, mean_ratio=0.233
+  +P: n=24261, mean_ratio=0.231
+  -P: n=21290, mean_ratio=0.246
+
+======================================================================
+Q4: MODEL COMPARISON
+======================================================================
+
+SM:
+  gemma L18: n=12246, ratio=0.264, extreme=8.6%, lc=42.0%
+  llama L22: n=45551, ratio=0.238, extreme=14.3%, lc=42.1%
+
+MW:
+  gemma L18: n=10544, ratio=0.122, extreme=1.0%, lc=54.5%
+  llama L22: n=57361, ratio=0.161, extreme=8.2%, lc=61.0%
+
+======================================================================
+Q5: ACTIVATION STEERING
+======================================================================
+  v14_exp1_llama_sm_perm20_20260331_153127: rho=0.919, perm_p=0.0476, verdict=BK_SPECIFIC_CONFIRMED
+  v14_exp2a_llama_ic_n100_20260331_153127: rho=-0.8895, perm_p=0.1818, verdict=BK_SIGNIFICANT_NOT_SPECIFIC
+  v14_exp2a_llama_ic_n100_20260331_162800: rho=-0.991, perm_p=0.0909, verdict=BK_SIGNIFICANT_NOT_SPECIFIC
+  v14_exp2b_llama_mw_n100_20260331_162800: rho=-0.6667, perm_p=0.2727, verdict=NOT_SIGNIFICANT
+  v14_exp3_ic2sm_20260331_162846: rho=-0.9643, perm_p=0.1667, verdict=BK_SIGNIFICANT_NOT_SPECIFIC
+  v14_exp3_mw2ic_20260331_162846: rho=-0.5976, perm_p=0.1667, verdict=NOT_SIGNIFICANT
+  v14_exp3_mw2sm_20260331_162846: rho=-0.8183, perm_p=0.1667, verdict=BK_SIGNIFICANT_NOT_SPECIFIC
+
+Done!

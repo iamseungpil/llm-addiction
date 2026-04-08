@@ -155,14 +155,19 @@ def run_one_config(model, para, layer):
     if valid.sum() < 100:
         print(f"  SKIP: only {valid.sum()} valid rounds"); return None
 
-    X = sp[valid].toarray()
+    X_sparse = sp[valid]
     iba = bet_ratios[valid]
     bal = balances[valid]
     rn = meta["round_nums"][valid].astype(float)
     gids = meta["game_ids"][valid]
+
+    # Pre-filter: keep only features with >10 non-zero activations (99.6% are dead)
+    nnz_per_col = np.diff(X_sparse.tocsc().indptr)
+    active_cols = np.where(nnz_per_col > 10)[0]
+    X = X_sparse[:, active_cols].toarray()
     n_feat = X.shape[1]
     k = min(TOP_K, n_feat)
-    print(f"  n={len(iba)}, features={n_feat}, games={len(np.unique(gids))}")
+    print(f"  n={len(iba)}, active_features={n_feat}/{X_sparse.shape[1]}, games={len(np.unique(gids))}")
 
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
     folds = list(kf.split(X))

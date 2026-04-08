@@ -1,0 +1,55 @@
+
+============================================================
+  GEMMA SM L24
+============================================================
+  n=9339, all_features=131072, active=529, LC_rate=0.392
+  A: full-data RF + all features: R²=-0.0085
+  B: CV-internal RF + all features: R²=-0.0069
+  C: full-data RF + active features: R²=-0.0085
+  D: CV-internal RF + active features: R²=-0.0069
+
+  Leakage effect (A-B): -0.0016
+  Filter effect (A-C):  0.0000
+  → FEATURE FILTERING is the dominant factor
+
+============================================================
+  GEMMA MW L24
+============================================================
+  n=10544, all_features=131072, active=486, LC_rate=0.545
+  A: full-data RF + all features: R²=0.5331
+  B: CV-internal RF + all features: R²=0.5259
+  C: full-data RF + active features: R²=0.5331
+  D: CV-internal RF + active features: R²=0.5259
+
+  Leakage effect (A-B): 0.0072
+  Filter effect (A-C):  0.0000
+  → LEAKAGE is the dominant factor
+
+============================================================
+  LLAMA SM L16
+============================================================
+  n=24496, all_features=32768, active=1147, LC_rate=0.407
+  A: full-data RF + all features: R²=-0.0051
+  B: CV-internal RF + all features: R²=-0.0050
+  C: full-data RF + active features: R²=-0.0051
+  D: CV-internal RF + active features: R²=-0.0050
+
+  Leakage effect (A-B): -0.0001
+  Filter effect (A-C):  0.0000
+  → FEATURE FILTERING is the dominant factor
+
+============================================================
+  LLAMA MW L16
+============================================================
+  n=57361, all_features=32768, active=1201, LC_rate=0.610
+  A: full-data RF + all features: R²=0.8063
+  B: CV-internal RF + all features: R²=0.8057
+  C: full-data RF + active features: R²=0.8063
+  D: CV-internal RF + active features: R²=0.8057
+
+  Leakage effect (A-B): 0.0006
+  Filter effect (A-C):  0.0000
+  → LEAKAGE is the dominant factor
+
+Saved to /home/v-seungplee/llm-addiction/sae_v3_analysis/results/robustness/ilc_diagnostic_2x2.json
+DONE

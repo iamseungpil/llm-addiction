@@ -1,0 +1,21 @@
+{
+  "method": "Baron-Kenny logistic mediation with split-half + balance residualization",
+  "baron_kenny": {
+    "c_total": 5.717084078784596,
+    "a_iv_to_m": 0.6077530666148446,
+    "b_m_to_dv": 0.400604837288625,
+    "c_prime_direct": 5.761114576632599,
+    "indirect_ab": 0.2434688183629027,
+    "proportion_mediated": 0.04258618817001239
+  },
+  "bootstrap": {
+    "indirect_mean": 0.24473518086775653,
+    "indirect_std": 0.045367839071831326,
+    "ci_95_low": 0.1613749945004705,
+    "ci_95_high": 0.34286681271269615,
+    "p_zero_excluded": true,
+    "n_valid_boots": 1000
+  },
+  "significant": true,
+  "note": "Decision-point hidden states (pilot). Round 2 analysis pending."
+}

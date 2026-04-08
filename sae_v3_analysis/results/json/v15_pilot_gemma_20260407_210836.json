@@ -1,0 +1,58 @@
+{
+  "experiment": "v15_pilot_gemma_sm",
+  "timestamp": "20260407_210836",
+  "results": {
+    "0.0": {
+      "bk_count": 36,
+      "n": 50,
+      "bk_rate": 0.72
+    },
+    "0.5": {
+      "bk_count": 42,
+      "n": 50,
+      "bk_rate": 0.84
+    },
+    "1.0": {
+      "bk_count": 39,
+      "n": 50,
+      "bk_rate": 0.78
+    },
+    "2.0": {
+      "bk_count": 36,
+      "n": 50,
+      "bk_rate": 0.72
+    },
+    "-0.5": {
+      "bk_count": 40,
+      "n": 50,
+      "bk_rate": 0.8
+    },
+    "-1.0": {
+      "bk_count": 40,
+      "n": 50,
+      "bk_rate": 0.8
+    },
+    "-2.0": {
+      "bk_count": 34,
+      "n": 50,
+      "bk_rate": 0.68
+    }
+  },
+  "rho": 0.10910894511799621,
+  "direction_meta": {
+    "model": "gemma",
+    "task": "sm",
+    "layer": 25,
+    "n_bk": 87,
+    "n_safe": 3113,
+    "direction_norm": 40.120277404785156,
+    "pca_top5_variance_ratio": 5.015807120656755,
+    "pca_explained_variance_ratio": [
+      0.5546138882637024,
+      0.15335576236248016,
+      0.07395529001951218,
+      0.0353720523416996,
+      0.031692471355199814
+    ]
+  }
+}

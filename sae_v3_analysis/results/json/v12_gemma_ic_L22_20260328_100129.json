@@ -1,0 +1,113 @@
+{
+  "experiment": "gemma_ic_L22",
+  "timestamp": "2026-03-28T10:01:29.046428",
+  "model": "gemma",
+  "task": "ic",
+  "layer": 22,
+  "n_trials": 100,
+  "baseline": {
+    "stops": 100,
+    "bks": 0,
+    "n": 100,
+    "stop_rate": 1.0,
+    "bk_rate": 0.0
+  },
+  "bk_direction": {
+    "rho": NaN,
+    "p": NaN,
+    "results": {
+      "-2.0": {
+        "stops": 100,
+        "bks": 0,
+        "n": 100,
+        "stop_rate": 1.0,
+        "bk_rate": 0.0
+      },
+      "-1.0": {
+        "stops": 100,
+        "bks": 0,
+        "n": 100,
+        "stop_rate": 1.0,
+        "bk_rate": 0.0
+      },
+      "-0.5": {
+        "stops": 100,
+        "bks": 0,
+        "n": 100,
+        "stop_rate": 1.0,
+        "bk_rate": 0.0
+      },
+      "0.5": {
+        "stops": 100,
+        "bks": 0,
+        "n": 100,
+        "stop_rate": 1.0,
+        "bk_rate": 0.0
+      },
+      "1.0": {
+        "stops": 100,
+        "bks": 0,
+        "n": 100,
+        "stop_rate": 1.0,
+        "bk_rate": 0.0
+      },
+      "2.0": {
+        "stops": 100,
+        "bks": 0,
+        "n": 100,
+        "stop_rate": 1.0,
+        "bk_rate": 0.0
+      }
+    }
+  },
+  "random_directions": [
+    {
+      "dir": 0,
+      "rho": NaN,
+      "p": NaN,
+      "bk_rates": {
+        "-2.0": 0.0,
+        "-1.0": 0.0,
+        "-0.5": 0.0,
+        "0.5": 0.0,
+        "1.0": 0.0,
+        "2.0": 0.0
+      }
+    },
+    {
+      "dir": 1,
+      "rho": NaN,
+      "p": NaN,
+      "bk_rates": {
+        "-2.0": 0.0,
+        "-1.0": 0.0,
+        "-0.5": 0.0,
+        "0.5": 0.0,
+        "1.0": 0.0,
+        "2.0": 0.0
+      }
+    },
+    {
+      "dir": 2,
+      "rho": NaN,
+      "p": NaN,
+      "bk_rates": {
+        "-2.0": 0.0,
+        "-1.0": 0.0,
+        "-0.5": 0.0,
+        "0.5": 0.0,
+        "1.0": 0.0,
+        "2.0": 0.0
+      }
+    }
+  ],
+  "verification": {
+    "T1": false,
+    "T2": false,
+    "T3": false,
+    "T4": false,
+    "T5": true,
+    "T6": false
+  },
+  "verdict": "NOT_SIGNIFICANT"
+}

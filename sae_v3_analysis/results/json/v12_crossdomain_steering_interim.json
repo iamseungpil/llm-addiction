@@ -1,0 +1,323 @@
+{
+  "results": [
+    {
+      "source_task": "sm",
+      "target_task": "ic",
+      "combo": "sm->ic",
+      "bk_norm": 1.0454,
+      "alphas": {
+        "-2.0": {
+          "stops": 50,
+          "bks": 0,
+          "n": 50,
+          "stop_rate": 1.0,
+          "bk_rate": 0.0
+        },
+        "-1.0": {
+          "stops": 49,
+          "bks": 1,
+          "n": 50,
+          "stop_rate": 0.98,
+          "bk_rate": 0.02
+        },
+        "0.0": {
+          "stops": 50,
+          "bks": 0,
+          "n": 50,
+          "stop_rate": 1.0,
+          "bk_rate": 0.0
+        },
+        "1.0": {
+          "stops": 50,
+          "bks": 0,
+          "n": 50,
+          "stop_rate": 1.0,
+          "bk_rate": 0.0
+        },
+        "2.0": {
+          "stops": 46,
+          "bks": 3,
+          "n": 50,
+          "stop_rate": 0.92,
+          "bk_rate": 0.06
+        }
+      },
+      "rho": 0.4472,
+      "p_value": 0.450185,
+      "abs_rho": 0.4472,
+      "bk_rates": {
+        "-2.0": 0.0,
+        "-1.0": 0.02,
+        "0.0": 0.0,
+        "1.0": 0.0,
+        "2.0": 0.06
+      }
+    },
+    {
+      "source_task": "sm",
+      "target_task": "mw",
+      "combo": "sm->mw",
+      "bk_norm": 1.0454,
+      "alphas": {
+        "-2.0": {
+          "stops": 33,
+          "bks": 17,
+          "n": 50,
+          "stop_rate": 0.66,
+          "bk_rate": 0.34
+        },
+        "-1.0": {
+          "stops": 29,
+          "bks": 21,
+          "n": 50,
+          "stop_rate": 0.58,
+          "bk_rate": 0.42
+        },
+        "0.0": {
+          "stops": 27,
+          "bks": 23,
+          "n": 50,
+          "stop_rate": 0.54,
+          "bk_rate": 0.46
+        },
+        "1.0": {
+          "stops": 29,
+          "bks": 21,
+          "n": 50,
+          "stop_rate": 0.58,
+          "bk_rate": 0.42
+        },
+        "2.0": {
+          "stops": 23,
+          "bks": 27,
+          "n": 50,
+          "stop_rate": 0.46,
+          "bk_rate": 0.54
+        }
+      },
+      "rho": 0.8208,
+      "p_value": 0.088587,
+      "abs_rho": 0.8208,
+      "bk_rates": {
+        "-2.0": 0.34,
+        "-1.0": 0.42,
+        "0.0": 0.46,
+        "1.0": 0.42,
+        "2.0": 0.54
+      }
+    },
+    {
+      "source_task": "ic",
+      "target_task": "sm",
+      "combo": "ic->sm",
+      "bk_norm": 2.4226,
+      "alphas": {
+        "-2.0": {
+          "stops": 16,
+          "bks": 34,
+          "n": 50,
+          "stop_rate": 0.32,
+          "bk_rate": 0.68
+        },
+        "-1.0": {
+          "stops": 24,
+          "bks": 26,
+          "n": 50,
+          "stop_rate": 0.48,
+          "bk_rate": 0.52
+        },
+        "0.0": {
+          "stops": 28,
+          "bks": 22,
+          "n": 50,
+          "stop_rate": 0.56,
+          "bk_rate": 0.44
+        },
+        "1.0": {
+          "stops": 25,
+          "bks": 25,
+          "n": 50,
+          "stop_rate": 0.5,
+          "bk_rate": 0.5
+        },
+        "2.0": {
+          "stops": 30,
+          "bks": 20,
+          "n": 50,
+          "stop_rate": 0.6,
+          "bk_rate": 0.4
+        }
+      },
+      "rho": -0.9,
+      "p_value": 0.037386,
+      "abs_rho": 0.9,
+      "bk_rates": {
+        "-2.0": 0.68,
+        "-1.0": 0.52,
+        "0.0": 0.44,
+        "1.0": 0.5,
+        "2.0": 0.4
+      }
+    },
+    {
+      "source_task": "ic",
+      "target_task": "mw",
+      "combo": "ic->mw",
+      "bk_norm": 2.4226,
+      "alphas": {
+        "-2.0": {
+          "stops": 23,
+          "bks": 27,
+          "n": 50,
+          "stop_rate": 0.46,
+          "bk_rate": 0.54
+        },
+        "-1.0": {
+          "stops": 33,
+          "bks": 17,
+          "n": 50,
+          "stop_rate": 0.66,
+          "bk_rate": 0.34
+        },
+        "0.0": {
+          "stops": 25,
+          "bks": 25,
+          "n": 50,
+          "stop_rate": 0.5,
+          "bk_rate": 0.5
+        },
+        "1.0": {
+          "stops": 32,
+          "bks": 18,
+          "n": 50,
+          "stop_rate": 0.64,
+          "bk_rate": 0.36
+        },
+        "2.0": {
+          "stops": 32,
+          "bks": 18,
+          "n": 50,
+          "stop_rate": 0.64,
+          "bk_rate": 0.36
+        }
+      },
+      "rho": -0.3591,
+      "p_value": 0.552815,
+      "abs_rho": 0.3591,
+      "bk_rates": {
+        "-2.0": 0.54,
+        "-1.0": 0.34,
+        "0.0": 0.5,
+        "1.0": 0.36,
+        "2.0": 0.36
+      }
+    },
+    {
+      "source_task": "mw",
+      "target_task": "sm",
+      "combo": "mw->sm",
+      "bk_norm": 1.2378,
+      "alphas": {
+        "-2.0": {
+          "stops": 20,
+          "bks": 30,
+          "n": 50,
+          "stop_rate": 0.4,
+          "bk_rate": 0.6
+        },
+        "-1.0": {
+          "stops": 23,
+          "bks": 27,
+          "n": 50,
+          "stop_rate": 0.46,
+          "bk_rate": 0.54
+        },
+        "0.0": {
+          "stops": 27,
+          "bks": 23,
+          "n": 50,
+          "stop_rate": 0.54,
+          "bk_rate": 0.46
+        },
+        "1.0": {
+          "stops": 32,
+          "bks": 18,
+          "n": 50,
+          "stop_rate": 0.64,
+          "bk_rate": 0.36
+        },
+        "2.0": {
+          "stops": 30,
+          "bks": 20,
+          "n": 50,
+          "stop_rate": 0.6,
+          "bk_rate": 0.4
+        }
+      },
+      "rho": -0.9,
+      "p_value": 0.037386,
+      "abs_rho": 0.9,
+      "bk_rates": {
+        "-2.0": 0.6,
+        "-1.0": 0.54,
+        "0.0": 0.46,
+        "1.0": 0.36,
+        "2.0": 0.4
+      }
+    },
+    {
+      "source_task": "mw",
+      "target_task": "ic",
+      "combo": "mw->ic",
+      "bk_norm": 1.2378,
+      "alphas": {
+        "-2.0": {
+          "stops": 37,
+          "bks": 6,
+          "n": 50,
+          "stop_rate": 0.74,
+          "bk_rate": 0.12
+        },
+        "-1.0": {
+          "stops": 46,
+          "bks": 3,
+          "n": 50,
+          "stop_rate": 0.92,
+          "bk_rate": 0.06
+        },
+        "0.0": {
+          "stops": 48,
+          "bks": 1,
+          "n": 50,
+          "stop_rate": 0.96,
+          "bk_rate": 0.02
+        },
+        "1.0": {
+          "stops": 50,
+          "bks": 0,
+          "n": 50,
+          "stop_rate": 1.0,
+          "bk_rate": 0.0
+        },
+        "2.0": {
+          "stops": 50,
+          "bks": 0,
+          "n": 50,
+          "stop_rate": 1.0,
+          "bk_rate": 0.0
+        }
+      },
+      "rho": -0.9747,
+      "p_value": 0.004818,
+      "abs_rho": 0.9747,
+      "bk_rates": {
+        "-2.0": 0.12,
+        "-1.0": 0.06,
+        "0.0": 0.02,
+        "1.0": 0.0,
+        "2.0": 0.0
+      }
+    }
+  ],
+  "timestamp": "2026-03-30T12:38:58.586669"
+}

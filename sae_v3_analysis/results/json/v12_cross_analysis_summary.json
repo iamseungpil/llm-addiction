@@ -1,0 +1,372 @@
+{
+  "description": "V12 steering experiment cross-comparison summary",
+  "n_experiments": 14,
+  "experiments": [
+    {
+      "experiment": "gemma_ic_L22",
+      "filename": "v12_gemma_ic_L22_20260328_100129.json",
+      "model": "gemma",
+      "task": "ic",
+      "layers": [
+        22
+      ],
+      "layer_label": "L22",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.0,
+      "baseline_stop_rate": 1.0,
+      "bk_rho": null,
+      "bk_p": null,
+      "verification": {
+        "T1": false,
+        "T2": false,
+        "T3": false,
+        "T4": false,
+        "T5": true,
+        "T6": false
+      },
+      "effect_bk_at_plus2": 0.0,
+      "effect_stop_at_minus2": 0.0,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "experiment": "gemma_mw_L22",
+      "filename": "v12_gemma_mw_L22_20260328_205618.json",
+      "model": "gemma",
+      "task": "mw",
+      "layers": [
+        22
+      ],
+      "layer_label": "L22",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.43,
+      "baseline_stop_rate": 0.57,
+      "bk_rho": -1.0,
+      "bk_p": 0.0,
+      "verification": {
+        "T1": true,
+        "T2": false,
+        "T3": false,
+        "T4": false,
+        "T5": false,
+        "T6": false
+      },
+      "effect_bk_at_plus2": -0.42,
+      "effect_stop_at_minus2": -0.45999999999999996,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "experiment": "gemma_sm_L22",
+      "filename": "v12_gemma_sm_L22_20260328_014425.json",
+      "model": "gemma",
+      "task": "sm",
+      "layers": [
+        22
+      ],
+      "layer_label": "L22",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.74,
+      "baseline_stop_rate": 0.26,
+      "bk_rho": -0.5123,
+      "bk_p": 0.239805,
+      "verification": {
+        "T1": true,
+        "T2": false,
+        "T3": false,
+        "T4": false,
+        "T5": false,
+        "T6": false
+      },
+      "effect_bk_at_plus2": -0.05999999999999994,
+      "effect_stop_at_minus2": -0.07,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "experiment": "llama_ic_L22",
+      "filename": "v12_llama_ic_L22_20260329_022313.json",
+      "model": "llama",
+      "task": "ic",
+      "layers": [
+        22
+      ],
+      "layer_label": "L22",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.02,
+      "baseline_stop_rate": 0.98,
+      "bk_rho": -0.991,
+      "bk_p": 1.5e-05,
+      "verification": {
+        "T1": false,
+        "T2": false,
+        "T3": false,
+        "T4": false,
+        "T5": true,
+        "T6": false
+      },
+      "effect_bk_at_plus2": -0.02,
+      "effect_stop_at_minus2": -0.18999999999999995,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "experiment": "llama_mw_L22",
+      "filename": "v12_llama_mw_L22_20260329_072818.json",
+      "model": "llama",
+      "task": "mw",
+      "layers": [
+        22
+      ],
+      "layer_label": "L22",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.41,
+      "baseline_stop_rate": 0.59,
+      "bk_rho": -0.955,
+      "bk_p": 0.000806,
+      "verification": {
+        "T1": true,
+        "T2": false,
+        "T3": false,
+        "T4": false,
+        "T5": false,
+        "T6": false
+      },
+      "effect_bk_at_plus2": -0.10999999999999999,
+      "effect_stop_at_minus2": -0.19999999999999996,
+      "verdict": "NOT_SIGNIFICANT"
+    },
+    {
+      "experiment": "S1c LLaMA SM L22+L25+L30",
+      "filename": "v12_s1c_llama_sm_l22+l25+l30_20260328_013858.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        22,
+        25,
+        30
+      ],
+      "layer_label": "L22+L25+L30",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.35,
+      "baseline_stop_rate": 0.65,
+      "bk_rho": 0.8571,
+      "bk_p": 0.013697,
+      "verification": {
+        "T1": true,
+        "T2": false,
+        "T3": true,
+        "T4": true,
+        "T5": true,
+        "T6": true
+      },
+      "effect_bk_at_plus2": 0.49,
+      "effect_stop_at_minus2": 0.030000000000000027,
+      "verdict": "BK_SPECIFIC_CONFIRMED"
+    },
+    {
+      "experiment": "v12_random_steering_20260326_172803",
+      "filename": "v12_random_steering_20260326_172803.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        22
+      ],
+      "layer_label": "L22",
+      "n_trials": 50,
+      "baseline_bk_rate": 0.4,
+      "baseline_stop_rate": 0.6,
+      "bk_rho": 0.721,
+      "bk_p": 0.0676,
+      "verification": {
+        "T1": false,
+        "T2": false,
+        "T3": false,
+        "T4": false,
+        "T5": false,
+        "T6": false
+      },
+      "effect_bk_at_plus2": 0.16000000000000003,
+      "effect_stop_at_minus2": -0.039999999999999925,
+      "verdict": "PARTIALLY_SPECIFIC"
+    },
+    {
+      "experiment": "llama_sm_L22",
+      "filename": "v12_llama_sm_L22_20260328_091923.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        22
+      ],
+      "layer_label": "L22",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.46,
+      "baseline_stop_rate": 0.54,
+      "bk_rho": 0.8469,
+      "bk_p": 0.016197,
+      "verification": {
+        "T1": true,
+        "T2": true,
+        "T3": true,
+        "T4": true,
+        "T5": true,
+        "T6": true
+      },
+      "effect_bk_at_plus2": 0.22999999999999993,
+      "effect_stop_at_minus2": 0.10999999999999999,
+      "verdict": "BK_SPECIFIC_CONFIRMED"
+    },
+    {
+      "experiment": "v12_n200_20260327_030745",
+      "filename": "v12_n200_20260327_030745.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        22
+      ],
+      "layer_label": "L22",
+      "n_trials": 200,
+      "baseline_bk_rate": 0.52,
+      "baseline_stop_rate": 0.48,
+      "bk_rho": 0.9643,
+      "bk_p": 0.000454,
+      "verification": {
+        "T1": false,
+        "T2": false,
+        "T3": false,
+        "T4": false,
+        "T5": false,
+        "T6": false
+      },
+      "effect_bk_at_plus2": 0.12,
+      "effect_stop_at_minus2": 0.15500000000000003,
+      "verdict": "BK_SPECIFIC_CONFIRMED"
+    },
+    {
+      "experiment": "S1a LLaMA SM L25",
+      "filename": "v12_s1a_llama_sm_l25_20260327_082039.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        25
+      ],
+      "layer_label": "L25",
+      "n_trials": 3,
+      "baseline_bk_rate": 0.3333,
+      "baseline_stop_rate": 0.6667,
+      "bk_rho": 0.27,
+      "bk_p": 0.55811,
+      "verification": {
+        "T1": true,
+        "T2": false,
+        "T3": true,
+        "T4": false,
+        "T5": true,
+        "T6": false
+      },
+      "effect_bk_at_plus2": 0.3334,
+      "effect_stop_at_minus2": -0.3334,
+      "verdict": "NOT_CONFIRMED"
+    },
+    {
+      "experiment": "S1a LLaMA SM L25",
+      "filename": "v12_s1a_llama_sm_l25_20260327_083458.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        25
+      ],
+      "layer_label": "L25",
+      "n_trials": 3,
+      "baseline_bk_rate": 1.0,
+      "baseline_stop_rate": 0.0,
+      "bk_rho": 0.7298,
+      "bk_p": 0.062638,
+      "verification": {
+        "T1": false,
+        "T2": true,
+        "T3": false,
+        "T4": false,
+        "T5": true,
+        "T6": false
+      },
+      "effect_bk_at_plus2": -0.33330000000000004,
+      "effect_stop_at_minus2": 1.0,
+      "verdict": "NOT_CONFIRMED"
+    },
+    {
+      "experiment": "S1a LLaMA SM L25",
+      "filename": "v12_s1a_llama_sm_l25_20260327_140500.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        25
+      ],
+      "layer_label": "L25",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.48,
+      "baseline_stop_rate": 0.52,
+      "bk_rho": 0.8829,
+      "bk_p": 0.00845,
+      "verification": {
+        "T1": true,
+        "T2": false,
+        "T3": true,
+        "T4": true,
+        "T5": true,
+        "T6": true
+      },
+      "effect_bk_at_plus2": 0.20000000000000007,
+      "effect_stop_at_minus2": 0.030000000000000027,
+      "verdict": "BK_SPECIFIC_CONFIRMED"
+    },
+    {
+      "experiment": "S1b LLaMA SM L30",
+      "filename": "v12_s1b_llama_sm_l30_20260327_083003.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        30
+      ],
+      "layer_label": "L30",
+      "n_trials": 3,
+      "baseline_bk_rate": 1.0,
+      "baseline_stop_rate": 0.0,
+      "bk_rho": 0.7298,
+      "bk_p": 0.062638,
+      "verification": {
+        "T1": false,
+        "T2": true,
+        "T3": false,
+        "T4": false,
+        "T5": true,
+        "T6": false
+      },
+      "effect_bk_at_plus2": 0.0,
+      "effect_stop_at_minus2": 0.6667,
+      "verdict": "NOT_CONFIRMED"
+    },
+    {
+      "experiment": "S1b LLaMA SM L30",
+      "filename": "v12_s1b_llama_sm_l30_20260327_194712.json",
+      "model": "llama",
+      "task": "sm",
+      "layers": [
+        30
+      ],
+      "layer_label": "L30",
+      "n_trials": 100,
+      "baseline_bk_rate": 0.54,
+      "baseline_stop_rate": 0.46,
+      "bk_rho": 0.8649,
+      "bk_p": 0.011965,
+      "verification": {
+        "T1": true,
+        "T2": true,
+        "T3": true,
+        "T4": true,
+        "T5": false,
+        "T6": false
+      },
+      "effect_bk_at_plus2": 0.06999999999999995,
+      "effect_stop_at_minus2": 0.18,
+      "verdict": "NOT_CONFIRMED"
+    }
+  ]
+}

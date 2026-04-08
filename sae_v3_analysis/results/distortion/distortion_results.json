@@ -1,0 +1,66 @@
+{
+  "bettype_pattern_belief": {
+    "fixed_pct": 83.4,
+    "variable_pct": 89.3,
+    "delta": 5.9,
+    "p_raw": 0.0,
+    "p_adjusted": 0.0,
+    "significant": true
+  },
+  "bettype_loss_chasing": {
+    "fixed_pct": 52.1,
+    "variable_pct": 85.9,
+    "delta": 33.8,
+    "p_raw": 0.0,
+    "p_adjusted": 0.0,
+    "significant": true
+  },
+  "bettype_probability_misestimation": {
+    "fixed_pct": 50.2,
+    "variable_pct": 64.4,
+    "delta": 14.2,
+    "p_raw": 0.0,
+    "p_adjusted": 0.0,
+    "significant": true
+  },
+  "bettype_goal_escalation": {
+    "fixed_pct": 43.4,
+    "variable_pct": 47.1,
+    "delta": 3.8,
+    "p_raw": 0.0,
+    "p_adjusted": 0.0,
+    "significant": true
+  },
+  "gprompt_pattern_belief": {
+    "no_g_pct": 85.9,
+    "g_pct": 86.8,
+    "delta": 0.8,
+    "p_raw": 1.0,
+    "p_adjusted": 1.0,
+    "significant": false
+  },
+  "gprompt_loss_chasing": {
+    "no_g_pct": 63.0,
+    "g_pct": 74.9,
+    "delta": 11.9,
+    "p_raw": 0.0,
+    "p_adjusted": 0.0,
+    "significant": true
+  },
+  "gprompt_probability_misestimation": {
+    "no_g_pct": 64.0,
+    "g_pct": 50.7,
+    "delta": -13.3,
+    "p_raw": 1.0,
+    "p_adjusted": 1.0,
+    "significant": false
+  },
+  "gprompt_goal_escalation": {
+    "no_g_pct": 0.4,
+    "g_pct": 90.1,
+    "delta": 89.8,
+    "p_raw": 0.0,
+    "p_adjusted": 0.0,
+    "significant": true
+  }
+}

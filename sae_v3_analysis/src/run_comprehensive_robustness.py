@@ -95,6 +95,9 @@ def load_sae_and_meta(model, paradigm, layer):
         "game_outcomes": data["game_outcomes"],
         "bet_types": data["bet_types"],
         "balances": data["balances"] if "balances" in data else None,
+        "prompt_conditions": data["prompt_conditions"] if "prompt_conditions" in data else None,
+        "bet_constraints": data["bet_constraints"] if "bet_constraints" in data else None,
+        "is_last_round": data["is_last_round"] if "is_last_round" in data else None,
     }
     return sp, meta
 
@@ -147,7 +150,10 @@ def compute_iba(meta, model, paradigm):
 
     n = len(meta["game_ids"])
     bet_ratios = np.full(n, np.nan)
-    balances = np.full(n, np.nan)
+    if meta.get("balances") is not None:
+        balances = meta["balances"].astype(float).copy()
+    else:
+        balances = np.full(n, np.nan)
 
     for i in range(n):
         gid = meta["game_ids"][i]
@@ -157,16 +163,17 @@ def compute_iba(meta, model, paradigm):
             g = game_map.get(int(gid))
         if g is None:
             continue
-        decs = g.get("history", g.get("decisions", g.get("rounds", [])))
+        decs = g.get("decisions", g.get("history", g.get("rounds", [])))
         if rn >= len(decs):
             continue
         dec = decs[rn]
         bet_val = dec.get("parsed_bet") or dec.get("bet") or dec.get("bet_amount")
         bal_val = dec.get("balance_before") or dec.get("balance")
-        if bet_val is None or bal_val is None:
+        if bet_val is None:
             continue
         try:
-            bet, bal = float(bet_val), float(bal_val)
+            bet = float(bet_val)
+            bal = float(bal_val) if bal_val is not None else float(balances[i])
         except (ValueError, TypeError):
             continue
         if bal > 0 and bet > 0:

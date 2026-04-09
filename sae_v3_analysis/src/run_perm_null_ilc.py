@@ -79,7 +79,10 @@ def compute_loss_chasing(meta, model, paradigm):
 
     n = len(meta["game_ids"])
     lc = np.full(n, np.nan)
-    balances = np.full(n, np.nan)
+    if "balances" in meta and meta["balances"] is not None:
+        balances = meta["balances"].astype(float).copy()
+    else:
+        balances = np.full(n, np.nan)
 
     for i in range(n):
         gid = meta["game_ids"][i]
@@ -96,7 +99,8 @@ def compute_loss_chasing(meta, model, paradigm):
             if rn < len(decs):
                 dec = decs[rn]
                 bal_val = dec.get("balance_before") or dec.get("balance")
-                if bal_val: balances[i] = float(bal_val)
+                if bal_val is not None:
+                    balances[i] = float(bal_val)
             continue
 
         dec = decs[rn]
@@ -106,10 +110,11 @@ def compute_loss_chasing(meta, model, paradigm):
         prev_bet = prev_dec.get("parsed_bet") or prev_dec.get("bet") or prev_dec.get("bet_amount")
         prev_bal = prev_dec.get("balance_before") or prev_dec.get("balance")
 
-        if any(v is None for v in [bet_val, bal_val, prev_bet, prev_bal]):
+        if any(v is None for v in [bet_val, prev_bet, prev_bal]):
             continue
         try:
-            bet, bal = float(bet_val), float(bal_val)
+            bet = float(bet_val)
+            bal = float(bal_val) if bal_val is not None else float(balances[i])
             p_bet, p_bal = float(prev_bet), float(prev_bal)
         except (ValueError, TypeError):
             continue

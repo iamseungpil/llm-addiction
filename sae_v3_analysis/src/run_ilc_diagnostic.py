@@ -25,6 +25,8 @@ import warnings
 warnings.filterwarnings('ignore')
 np.random.seed(42)
 
+from run_perm_null_ilc import compute_loss_chasing
+
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
 BEHAVIORAL_ROOT = Path("/home/v-seungplee/data/llm-addiction/behavioral")
 RESULTS_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/robustness")
@@ -45,62 +47,8 @@ def load_data(model, paradigm, layer):
 
 
 def compute_lc(meta, model, paradigm):
-    """Compute I_LC from behavioral data."""
-    if paradigm == "sm":
-        gpath = BEHAVIORAL_ROOT / f"slot_machine/{model}_v4_role/final_{model}_*.json"
-        import glob
-        files = glob.glob(str(gpath))
-        if not files: return None, None
-        with open(files[0]) as f:
-            raw = json.load(f)
-        games_data = raw.get("results", [])
-        if isinstance(games_data, dict): games_data = list(games_data.values())
-    elif paradigm == "mw":
-        mw_dir = BEHAVIORAL_ROOT / f"mystery_wheel/{model}_v2_role"
-        games_data = []
-        for f in sorted(mw_dir.glob(f"{model}_mysterywheel_*.json")):
-            d = json.load(open(f))
-            r = d.get("results", d.get("games", []))
-            games_data.extend(r.values() if isinstance(r, dict) else r)
-    else:
-        return None, None
-
-    game_map = {g.get("game_id", i): g for i, g in enumerate(games_data)}
-    n = len(meta["game_ids"])
-    lc = np.full(n, np.nan)
-    balances = np.full(n, np.nan)
-
-    for i in range(n):
-        gid = meta["game_ids"][i]
-        rn = int(meta["round_nums"][i]) - 1
-        g = game_map.get(gid) or game_map.get(str(gid))
-        if g is None and isinstance(gid, (np.integer, int)):
-            g = game_map.get(int(gid))
-        if g is None: continue
-        decs = g.get("decisions", g.get("history", []))
-        hist = g.get("history", decs)
-        if rn >= len(decs) or rn < 1:
-            lc[i] = 0.0
-            if rn < len(decs):
-                bv = decs[rn].get("balance_before") or decs[rn].get("balance")
-                if bv: balances[i] = float(bv)
-            continue
-        dec, prev = decs[rn], decs[rn-1]
-        try:
-            bet = float(dec.get("parsed_bet") or dec.get("bet") or 10)
-            bal = float(dec.get("balance_before") or dec.get("balance") or 100)
-            p_bet = float(prev.get("parsed_bet") or prev.get("bet") or 10)
-            p_bal = float(prev.get("balance_before") or prev.get("balance") or 100)
-        except: continue
-        if bal <= 0 or p_bal <= 0: continue
-        balances[i] = bal
-        br, p_br = min(bet/bal, 1.0), min(p_bet/p_bal, 1.0)
-        prev_loss = False
-        if rn-1 < len(hist):
-            prev_loss = not hist[rn-1].get("win", str(hist[rn-1].get("result","")) == "W")
-        lc[i] = 1.0 if (prev_loss and br > p_br) else 0.0
-
-    return lc, balances
+    """Compute I_LC using the current source-of-truth labeling path."""
+    return compute_loss_chasing(meta, model, paradigm)
 
 
 def nl_deconfound_full(target, bal, rn):

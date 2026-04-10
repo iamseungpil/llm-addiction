@@ -31,7 +31,7 @@ N_PERM = 200
 
 
 def load_sae_and_meta(model, paradigm, layer):
-    task_dirs = {"sm": "slot_machine", "mw": "mystery_wheel"}
+    task_dirs = {"sm": "slot_machine", "mw": "mystery_wheel", "ic": "investment_choice"}
     sae_dir = DATA_ROOT / task_dirs[paradigm] / model
     npz_path = sae_dir / f"sae_features_L{layer}.npz"
     if not npz_path.exists():
@@ -48,7 +48,6 @@ def load_sae_and_meta(model, paradigm, layer):
 
 def compute_loss_chasing(meta, model, paradigm):
     """Compute I_LC: binary, did bet_ratio increase after a loss?"""
-    task_dirs = {"sm": "slot_machine", "mw": "mystery_wheel"}
     if paradigm == "sm":
         if model == "gemma":
             gpath = BEHAVIORAL_ROOT / "slot_machine/gemma_v4_role/final_gemma_20260227_002507.json"
@@ -72,10 +71,24 @@ def compute_loss_chasing(meta, model, paradigm):
                 games_data.extend(results.values())
             else:
                 games_data.extend(results)
+    elif paradigm == "ic":
+        if model == "gemma":
+            ic_dir = BEHAVIORAL_ROOT / "investment_choice/v2_role_gemma"
+        else:
+            ic_dir = BEHAVIORAL_ROOT / "investment_choice/v2_role_llama"
+        games_data = []
+        for f in sorted(ic_dir.glob("*.json")):
+            d = json.load(open(f))
+            results = d.get("results", d.get("games", []))
+            if isinstance(results, dict):
+                games_data.extend(results.values())
+            else:
+                games_data.extend(results)
     else:
         return None
 
-    game_map = {g.get("game_id", i): g for i, g in enumerate(games_data)}
+    # Extraction remaps games to sequential ids starting from 1.
+    game_map = {i + 1: g for i, g in enumerate(games_data)}
 
     n = len(meta["game_ids"])
     lc = np.full(n, np.nan)
@@ -92,15 +105,18 @@ def compute_loss_chasing(meta, model, paradigm):
             g = game_map.get(int(gid))
         if g is None:
             continue
-        decs = g.get("decisions", g.get("history", []))
+        raw_decs = g.get("decisions", g.get("history", []))
+        decs = [d for d in raw_decs if d.get("action") != "skip" and not d.get("skipped", False)]
         hist = g.get("history", decs)
         if rn >= len(decs) or rn < 1:
-            lc[i] = 0.0
             if rn < len(decs):
                 dec = decs[rn]
+                bet_val = dec.get("parsed_bet") or dec.get("bet") or dec.get("bet_amount")
                 bal_val = dec.get("balance_before") or dec.get("balance")
                 if bal_val is not None:
                     balances[i] = float(bal_val)
+                if bet_val is not None and float(bet_val) > 0:
+                    lc[i] = 0.0
             continue
 
         dec = decs[rn]
@@ -119,7 +135,7 @@ def compute_loss_chasing(meta, model, paradigm):
         except (ValueError, TypeError):
             continue
 
-        if bal <= 0 or p_bal <= 0:
+        if bet <= 0 or bal <= 0 or p_bal <= 0:
             continue
         balances[i] = bal
         br = min(bet / bal, 1.0)

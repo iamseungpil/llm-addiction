@@ -143,10 +143,8 @@ def compute_iba(meta, model, paradigm):
     else:
         return None
 
-    game_map = {}
-    for i, g in enumerate(games_data):
-        gid = g.get("game_id", i)
-        game_map[gid] = g
+    # Extraction remaps games to sequential ids starting from 1.
+    game_map = {i + 1: g for i, g in enumerate(games_data)}
 
     n = len(meta["game_ids"])
     bet_ratios = np.full(n, np.nan)
@@ -163,7 +161,8 @@ def compute_iba(meta, model, paradigm):
             g = game_map.get(int(gid))
         if g is None:
             continue
-        decs = g.get("decisions", g.get("history", g.get("rounds", [])))
+        raw_decs = g.get("decisions", g.get("history", g.get("rounds", [])))
+        decs = [d for d in raw_decs if d.get("action") != "skip" and not d.get("skipped", False)]
         if rn >= len(decs):
             continue
         dec = decs[rn]

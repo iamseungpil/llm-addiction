@@ -89,7 +89,7 @@ This file maps each experiment family to its code, input data, main outputs, and
 
 | Need | File |
 | --- | --- |
-| Current experiment plan | `results/reports/v22_neural_experiment_plan_iterated.md` |
+| Current experiment plan | `results/reports/v23_workspace_and_rq_plan_20260410.md` |
 | Current findings summary | `results/reports/v17_final_neural_findings.md` |
 | Paper-safe neural manifest | `results/paper_neural_audit.json` |
 | Hidden-state RQ2 audit | `results/shared_subspace_hidden_audit_20260410.json` |
@@ -110,11 +110,13 @@ The paper text itself is maintained in `/home/v-seungplee/LLM_Addiction_NMT_KOR`
 
 ## 7. Recommended workflow
 
-1. Start from `results/reports/v22_neural_experiment_plan_iterated.md`.
+1. Start from `results/reports/v23_workspace_and_rq_plan_20260410.md`.
 2. Open the raw artifact in `results/json/` or `results/robustness/`.
 3. Check the corresponding runner in `src/`.
 4. Verify the input folder in `/home/v-seungplee/data/llm-addiction/`.
 5. Only then update the paper repo.
+
+For cleanup and retention policy, also read `docs/WORKSPACE_RUNBOOK.md`.
 
 ## 8. Intentional non-changes
 

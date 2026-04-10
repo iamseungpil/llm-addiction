@@ -25,6 +25,10 @@ files before opening older reports:
 
 These files define the shortest reproducible path from paper text to code/data.
 
+For cleanup policy and legacy rules, also read:
+
+- `docs/WORKSPACE_RUNBOOK.md`
+
 ## Quick navigation
 
 ### Data roots
@@ -158,7 +162,7 @@ Each SAE folder typically contains:
 
 ## Best entry points
 
-- If you want the current plan: `results/reports/v22_neural_experiment_plan_iterated.md`
+- If you want the current plan: `results/reports/v23_workspace_and_rq_plan_20260410.md`
 - If you want the current findings summary: `results/reports/v17_final_neural_findings.md`
 - If you want the March-to-April progress log: `results/session_progress_20260331.md`
 - If you want a full artifact map: `docs/EXPERIMENT_INDEX.md`
@@ -171,3 +175,4 @@ Each SAE folder typically contains:
 - Many `sae_v*.md/.pdf/.tex` files in `results/` are historical snapshots, not all equally current.
 - `src/run_v14_causal_validation.py` exists, but the active steering base is still centered on `src/run_v12_all_steering.py` plus later wrappers.
 - Avoid moving raw files unless every dependent script is updated; the current organization intentionally adds navigation without changing runtime paths.
+- Historical clutter is being moved only into `results/legacy/`; runtime paths remain unchanged by policy.

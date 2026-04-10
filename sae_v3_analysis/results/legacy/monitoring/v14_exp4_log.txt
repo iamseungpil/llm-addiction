@@ -1,0 +1,210 @@
+2026-03-31 16:28:49,027 INFO Loading Gemma for exp4...
+2026-03-31 16:28:49,155 INFO HTTP Request: HEAD https://huggingface.co/google/gemma-2-9b-it/resolve/main/config.json "HTTP/1.1 200 OK"
+2026-03-31 16:28:49,257 INFO HTTP Request: HEAD https://huggingface.co/google/gemma-2-9b-it/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-31 16:28:49,355 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-31 16:28:49,452 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-31 16:28:51,143 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it "HTTP/1.1 200 OK"
+2026-03-31 16:28:51,241 INFO HTTP Request: HEAD https://huggingface.co/google/gemma-2-9b-it/resolve/main/config.json "HTTP/1.1 200 OK"
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights:   0%|          | 1/464 [00:51<6:38:14, 51.61s/it]Loading weights:  20%|█▉        | 91/464 [00:53<02:37,  2.37it/s] Loading weights:  21%|██        | 96/464 [00:54<02:26,  2.51it/s]Loading weights:  21%|██▏       | 99/464 [00:55<02:25,  2.51it/s]Loading weights:  22%|██▏       | 102/464 [00:58<02:38,  2.28it/s]Loading weights:  22%|██▏       | 104/464 [00:59<02:39,  2.26it/s]Loading weights:  24%|██▍       | 113/464 [01:01<02:16,  2.58it/s]Loading weights:  25%|██▍       | 114/464 [01:02<02:25,  2.41it/s]Loading weights:  25%|██▍       | 115/464 [01:02<02:19,  2.50it/s]Loading weights:  26%|██▌       | 121/464 [01:03<01:41,  3.37it/s]Loading weights:  27%|██▋       | 124/464 [01:06<02:35,  2.19it/s]Loading weights:  27%|██▋       | 125/464 [01:06<02:25,  2.34it/s]Loading weights:  29%|██▊       | 133/464 [01:07<01:26,  3.84it/s]Loading weights:  29%|██▉       | 135/464 [01:10<02:21,  2.33it/s]Loading weights:  29%|██▉       | 136/464 [01:11<02:30,  2.18it/s]Loading weights:  31%|███       | 143/464 [01:11<01:22,  3.89it/s]Loading weights:  31%|███       | 144/464 [01:11<01:20,  3.98it/s]Loading weights:  31%|███▏      | 146/464 [01:14<02:53,  1.83it/s]Loading weights:  32%|███▏      | 147/464 [01:15<02:41,  1.97it/s]Loading weights:  33%|███▎      | 154/464 [01:15<01:20,  3.86it/s]Loading weights:  34%|███▍      | 157/464 [01:18<02:12,  2.32it/s]Loading weights:  34%|███▍      | 158/464 [01:19<02:19,  2.19it/s]Loading weights:  36%|███▌      | 165/464 [01:19<01:17,  3.85it/s]Loading weights:  36%|███▌      | 168/464 [01:22<01:55,  2.57it/s]Loading weights:  36%|███▋      | 169/464 [01:23<02:26,  2.02it/s]Loading weights:  37%|███▋      | 170/464 [01:23<02:10,  2.25it/s]Loading weights:  39%|███▊      | 179/464 [01:27<02:00,  2.36it/s]Loading weights:  39%|███▉      | 180/464 [01:27<02:00,  2.37it/s]Loading weights:  41%|████      | 190/464 [01:31<01:50,  2.47it/s]Loading weights:  43%|████▎     | 198/464 [01:31<01:08,  3.88it/s]Loading weights:  43%|████▎     | 200/464 [01:32<01:06,  3.99it/s]Loading weights:  44%|████▎     | 202/464 [01:36<02:12,  1.98it/s]Loading weights:  45%|████▌     | 209/464 [01:36<01:17,  3.28it/s]Loading weights:  45%|████▌     | 211/464 [01:37<01:20,  3.16it/s]Loading weights:  46%|████▌     | 213/464 [01:40<02:16,  1.84it/s]Loading weights:  47%|████▋     | 220/464 [01:41<01:24,  2.88it/s]Loading weights:  48%|████▊     | 223/464 [01:44<01:59,  2.02it/s]Loading weights:  48%|████▊     | 225/464 [01:45<01:58,  2.02it/s]Loading weights:  50%|█████     | 234/464 [01:47<01:29,  2.58it/s]Loading weights:  51%|█████     | 235/464 [01:48<01:36,  2.36it/s]Loading weights:  52%|█████▏    | 242/464 [01:49<00:58,  3.79it/s]Loading weights:  53%|█████▎    | 245/464 [01:51<01:28,  2.48it/s]Loading weights:  53%|█████▎    | 246/464 [01:53<01:42,  2.12it/s]Loading weights:  55%|█████▍    | 253/464 [01:53<00:56,  3.76it/s]Loading weights:  55%|█████▌    | 256/464 [01:56<01:38,  2.11it/s]Loading weights:  55%|█████▌    | 257/464 [01:57<01:35,  2.17it/s]Loading weights:  57%|█████▋    | 265/464 [01:57<00:47,  4.22it/s]Loading weights:  58%|█████▊    | 267/464 [02:00<01:28,  2.21it/s]Loading weights:  58%|█████▊    | 268/464 [02:01<01:26,  2.26it/s]Loading weights:  59%|█████▉    | 275/464 [02:01<00:47,  3.99it/s]Loading weights:  60%|█████▉    | 278/464 [02:04<01:21,  2.30it/s]Loading weights:  60%|██████    | 279/464 [02:04<01:20,  2.31it/s]Loading weights:  62%|██████▏   | 286/464 [02:05<00:47,  3.71it/s]Loading weights:  62%|██████▏   | 287/464 [02:06<00:52,  3.39it/s]Loading weights:  62%|██████▏   | 289/464 [02:08<01:27,  1.99it/s]Loading weights:  62%|██████▎   | 290/464 [02:09<01:19,  2.19it/s]Loading weights:  63%|██████▎   | 291/464 [02:09<01:25,  2.01it/s]Loading weights:  64%|██████▍   | 297/464 [02:09<00:37,  4.41it/s]Loading weights:  65%|██████▍   | 300/464 [02:13<01:21,  2.01it/s]Loading weights:  65%|██████▌   | 302/464 [02:13<01:08,  2.38it/s]Loading weights:  67%|██████▋   | 310/464 [02:14<00:33,  4.64it/s]Loading weights:  67%|██████▋   | 312/464 [02:17<01:16,  1.98it/s]Loading weights:  69%|██████▉   | 320/464 [02:18<00:38,  3.73it/s]Loading weights:  70%|██████▉   | 323/464 [02:22<01:08,  2.05it/s]Loading weights:  72%|███████▏  | 333/464 [02:25<00:56,  2.31it/s]Loading weights:  72%|███████▏  | 335/464 [02:26<00:52,  2.46it/s]Loading weights:  74%|███████▍  | 344/464 [02:29<00:44,  2.67it/s]Loading weights:  74%|███████▍  | 345/464 [02:29<00:45,  2.60it/s]Loading weights:  75%|███████▍  | 346/464 [02:30<00:50,  2.32it/s]Loading weights:  77%|███████▋  | 355/464 [02:33<00:41,  2.60it/s]Loading weights:  77%|███████▋  | 356/464 [02:33<00:39,  2.74it/s]Loading weights:  77%|███████▋  | 357/464 [02:34<00:38,  2.81it/s]Loading weights:  78%|███████▊  | 363/464 [02:35<00:29,  3.38it/s]Loading weights:  79%|███████▉  | 366/464 [02:37<00:37,  2.63it/s]Loading weights:  79%|███████▉  | 367/464 [02:38<00:39,  2.44it/s]Loading weights:  79%|███████▉  | 368/464 [02:38<00:44,  2.17it/s]Loading weights:  81%|████████▏ | 377/464 [02:41<00:30,  2.81it/s]Loading weights:  81%|████████▏ | 378/464 [02:42<00:35,  2.42it/s]Loading weights:  82%|████████▏ | 379/464 [02:42<00:32,  2.63it/s]Loading weights:  82%|████████▏ | 380/464 [02:42<00:28,  2.92it/s]Loading weights:  84%|████████▎ | 388/464 [02:46<00:31,  2.41it/s]Loading weights:  84%|████████▍ | 389/464 [02:46<00:29,  2.51it/s]Loading weights:  84%|████████▍ | 390/464 [02:46<00:26,  2.77it/s]Loading weights:  86%|████████▌ | 397/464 [02:47<00:11,  5.84it/s]Loading weights:  86%|████████▌ | 400/464 [02:50<00:28,  2.22it/s]Loading weights:  88%|████████▊ | 408/464 [02:51<00:14,  3.96it/s]Loading weights:  88%|████████▊ | 410/464 [02:54<00:25,  2.13it/s]Loading weights:  90%|█████████ | 418/464 [02:54<00:12,  3.75it/s]Loading weights:  91%|█████████ | 420/464 [02:55<00:11,  3.84it/s]Loading weights:  91%|█████████ | 422/464 [02:58<00:21,  1.96it/s]Loading weights:  92%|█████████▏| 429/464 [02:59<00:10,  3.43it/s]Loading weights:  93%|█████████▎| 432/464 [03:02<00:15,  2.06it/s]Loading weights:  94%|█████████▎| 434/464 [03:02<00:12,  2.36it/s]Loading weights:  95%|█████████▍| 440/464 [03:03<00:06,  3.50it/s]Loading weights:  95%|█████████▌| 443/464 [03:06<00:09,  2.25it/s]Loading weights:  96%|█████████▌| 444/464 [03:07<00:10,  1.92it/s]Loading weights:  98%|█████████▊| 454/464 [03:09<00:03,  2.81it/s]Loading weights:  98%|█████████▊| 455/464 [03:11<00:03,  2.36it/s]Loading weights: 100%|██████████| 464/464 [03:11<00:00,  2.43it/s]
+2026-03-31 16:32:05,037 INFO HTTP Request: HEAD https://huggingface.co/google/gemma-2-9b-it/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2026-03-31 16:32:05,114 WARNING Some parameters are on the meta device because they were offloaded to the cpu.
+2026-03-31 16:32:05,290 INFO   BK direction (gemma mw L22): 54 BK, 3146 Safe
+2026-03-31 16:32:05,299 INFO 
+============================================================
+2026-03-31 16:32:05,299 INFO   exp4_gemma_mw_n100: gemma mw (n=100, 10 randoms)
+2026-03-31 16:32:05,299 INFO ============================================================
+2026-03-31 16:32:05,299 INFO   [BK Direction]
+2026-03-31 19:55:26,611 INFO   alpha=-2.0: 50/100, stop=7, bk=43
+2026-03-31 23:13:08,561 INFO   alpha=-2.0: 100/100, stop=13, bk=87
+2026-03-31 23:13:08,561 INFO     alpha=-2.0: BK=87/100=0.870
+2026-04-01 02:17:37,424 INFO   alpha=-1.0: 50/100, stop=10, bk=40
+2026-04-01 05:57:53,833 INFO   alpha=-1.0: 100/100, stop=18, bk=82
+2026-04-01 05:57:53,833 INFO     alpha=-1.0: BK=82/100=0.820
+2026-04-01 09:09:54,342 INFO   alpha=-0.5: 50/100, stop=14, bk=36
+2026-04-01 12:48:25,991 INFO   alpha=-0.5: 100/100, stop=23, bk=77
+2026-04-01 12:48:25,992 INFO     alpha=-0.5: BK=77/100=0.770
+2026-04-01 15:35:58,966 INFO   alpha=0.0: 50/100, stop=24, bk=26
+2026-04-01 18:10:23,541 INFO   alpha=0.0: 100/100, stop=52, bk=48
+2026-04-01 18:10:23,541 INFO     alpha=+0.0: BK=48/100=0.480
+2026-04-01 20:41:00,151 INFO   alpha=0.5: 50/100, stop=32, bk=18
+2026-04-01 23:24:47,441 INFO   alpha=0.5: 100/100, stop=69, bk=31
+2026-04-01 23:24:47,441 INFO     alpha=+0.5: BK=31/100=0.310
+2026-04-02 01:57:17,794 INFO   alpha=1.0: 50/100, stop=43, bk=7
+2026-04-02 04:16:26,177 INFO   alpha=1.0: 100/100, stop=85, bk=15
+2026-04-02 04:16:26,177 INFO     alpha=+1.0: BK=15/100=0.150
+2026-04-02 05:54:09,203 INFO   alpha=2.0: 50/100, stop=48, bk=2
+2026-04-02 07:41:16,647 INFO   alpha=2.0: 100/100, stop=95, bk=5
+2026-04-02 07:41:16,647 INFO     alpha=+2.0: BK=5/100=0.050
+2026-04-02 07:41:16,648 INFO   >> BK Direction: rho=-1.0000, p=0.000000
+2026-04-02 07:41:16,649 INFO   [Random 1/10]
+2026-04-02 10:47:34,398 INFO   alpha=-2.0: 50/100, stop=25, bk=25
+2026-04-02 13:44:06,484 INFO   alpha=-2.0: 100/100, stop=65, bk=35
+2026-04-02 13:44:06,484 INFO     alpha=-2.0: BK=35/100=0.350
+2026-04-02 16:21:54,465 INFO   alpha=-1.0: 50/100, stop=28, bk=22
+2026-04-02 18:55:06,350 INFO   alpha=-1.0: 100/100, stop=54, bk=46
+2026-04-02 18:55:06,350 INFO     alpha=-1.0: BK=46/100=0.460
+2026-04-02 21:27:08,216 INFO   alpha=-0.5: 50/100, stop=28, bk=22
+2026-04-02 23:26:43,786 INFO   alpha=-0.5: 100/100, stop=51, bk=49
+2026-04-02 23:26:43,786 INFO     alpha=-0.5: BK=49/100=0.490
+2026-04-03 01:52:38,528 INFO   alpha=0.0: 50/100, stop=23, bk=27
+2026-04-03 04:00:33,894 INFO   alpha=0.0: 100/100, stop=45, bk=55
+2026-04-03 04:00:33,894 INFO     alpha=+0.0: BK=55/100=0.550
+2026-04-03 05:48:10,358 INFO   alpha=0.5: 50/100, stop=19, bk=31
+2026-04-03 07:32:12,424 INFO   alpha=0.5: 100/100, stop=38, bk=62
+2026-04-03 07:32:12,424 INFO     alpha=+0.5: BK=62/100=0.620
+2026-04-03 09:18:41,682 INFO   alpha=1.0: 50/100, stop=22, bk=28
+2026-04-03 11:48:11,660 INFO   alpha=1.0: 100/100, stop=42, bk=58
+2026-04-03 11:48:11,660 INFO     alpha=+1.0: BK=58/100=0.580
+2026-04-03 13:46:22,206 INFO   alpha=2.0: 50/100, stop=25, bk=25
+2026-04-03 15:39:55,019 INFO   alpha=2.0: 100/100, stop=46, bk=54
+2026-04-03 15:39:55,019 INFO     alpha=+2.0: BK=54/100=0.540
+2026-04-03 15:39:55,020 INFO   >> Random 0: rho=0.7500, p=0.052181
+2026-04-03 15:39:55,020 INFO   [Random 2/10]
+2026-04-03 17:34:37,148 INFO   alpha=-2.0: 50/100, stop=19, bk=31
+2026-04-03 19:34:09,709 INFO   alpha=-2.0: 100/100, stop=41, bk=59
+2026-04-03 19:34:09,709 INFO     alpha=-2.0: BK=59/100=0.590
+2026-04-03 21:26:35,828 INFO   alpha=-1.0: 50/100, stop=16, bk=34
+2026-04-03 23:47:43,556 INFO   alpha=-1.0: 100/100, stop=40, bk=60
+2026-04-03 23:47:43,556 INFO     alpha=-1.0: BK=60/100=0.600
+2026-04-04 01:30:31,175 INFO   alpha=-0.5: 50/100, stop=22, bk=28
+2026-04-04 03:34:49,038 INFO   alpha=-0.5: 100/100, stop=49, bk=51
+2026-04-04 03:34:49,038 INFO     alpha=-0.5: BK=51/100=0.510
+2026-04-04 04:50:30,821 INFO   alpha=0.0: 50/100, stop=21, bk=29
+2026-04-04 05:46:19,472 INFO   alpha=0.0: 100/100, stop=48, bk=52
+2026-04-04 05:46:19,472 INFO     alpha=+0.0: BK=52/100=0.520
+2026-04-04 06:48:24,440 INFO   alpha=0.5: 50/100, stop=28, bk=22
+2026-04-04 07:52:11,677 INFO   alpha=0.5: 100/100, stop=57, bk=43
+2026-04-04 07:52:11,678 INFO     alpha=+0.5: BK=43/100=0.430
+2026-04-04 09:08:49,827 INFO   alpha=1.0: 50/100, stop=27, bk=23
+2026-04-04 10:09:59,009 INFO   alpha=1.0: 100/100, stop=50, bk=50
+2026-04-04 10:09:59,009 INFO     alpha=+1.0: BK=50/100=0.500
+2026-04-04 11:07:34,519 INFO   alpha=2.0: 50/100, stop=34, bk=16
+2026-04-04 12:07:59,888 INFO   alpha=2.0: 100/100, stop=68, bk=32
+2026-04-04 12:07:59,889 INFO     alpha=+2.0: BK=32/100=0.320
+2026-04-04 12:07:59,889 INFO   >> Random 1: rho=-0.8929, p=0.006807
+2026-04-04 12:07:59,889 INFO   [Random 3/10]
+2026-04-04 13:10:31,424 INFO   alpha=-2.0: 50/100, stop=26, bk=24
+2026-04-04 14:17:30,390 INFO   alpha=-2.0: 100/100, stop=47, bk=53
+2026-04-04 14:17:30,390 INFO     alpha=-2.0: BK=53/100=0.530
+2026-04-04 15:41:19,636 INFO   alpha=-1.0: 50/100, stop=15, bk=35
+2026-04-04 16:53:56,164 INFO   alpha=-1.0: 100/100, stop=34, bk=66
+2026-04-04 16:53:56,164 INFO     alpha=-1.0: BK=66/100=0.660
+2026-04-04 17:52:27,331 INFO   alpha=-0.5: 50/100, stop=22, bk=28
+2026-04-04 18:46:48,300 INFO   alpha=-0.5: 100/100, stop=44, bk=56
+2026-04-04 18:46:48,300 INFO     alpha=-0.5: BK=56/100=0.560
+2026-04-04 20:00:11,027 INFO   alpha=0.0: 50/100, stop=22, bk=28
+2026-04-04 21:06:41,714 INFO   alpha=0.0: 100/100, stop=48, bk=52
+2026-04-04 21:06:41,714 INFO     alpha=+0.0: BK=52/100=0.520
+2026-04-04 22:25:21,369 INFO   alpha=0.5: 50/100, stop=29, bk=21
+2026-04-04 23:20:33,469 INFO   alpha=0.5: 100/100, stop=55, bk=45
+2026-04-04 23:20:33,469 INFO     alpha=+0.5: BK=45/100=0.450
+2026-04-05 00:39:45,252 INFO   alpha=1.0: 50/100, stop=30, bk=20
+2026-04-05 02:36:01,849 INFO   alpha=1.0: 100/100, stop=57, bk=43
+2026-04-05 02:36:01,849 INFO     alpha=+1.0: BK=43/100=0.430
+2026-04-05 04:00:56,743 INFO   alpha=2.0: 50/100, stop=36, bk=14
+Traceback (most recent call last):
+  File "/home/v-seungplee/llm-addiction/sae_v3_analysis/src/run_v14_parallel.py", line 198, in <module>
+    if args.exp == "exp4":
+^^^^^^
+  File "/home/v-seungplee/llm-addiction/sae_v3_analysis/src/run_v14_parallel.py", line 191, in main
+    gemma_sm_unit, gemma_sm_norm = compute_bk_direction("gemma", "sm")
+  File "/home/v-seungplee/llm-addiction/sae_v3_analysis/src/run_v14_parallel.py", line 85, in run_experiment
+    for i in range(n_random):
+                ^^^^^^^^^^^^^^
+  File "/home/v-seungplee/llm-addiction/sae_v3_analysis/src/run_v14_parallel.py", line 43, in steering_sweep
+    for a in alphas:
+              ^^^^^^^
+  File "/home/v-seungplee/llm-addiction/sae_v3_analysis/src/run_v12_all_steering.py", line 150, in run_condition
+    r = play_game(model, tokenizer, device, hook_fn, layer_module, 42 + i * 997, task)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/llm-addiction/sae_v3_analysis/src/run_v12_all_steering.py", line 121, in play_game
+    out = model.generate(**inputs, max_new_tokens=150, temperature=0.7,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/generation/utils.py", line 2535, in generate
+    result = decoding_method(
+             ^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/generation/utils.py", line 2742, in _sample
+    outputs = model_forward(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/utils/generic.py", line 843, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/models/gemma2/modeling_gemma2.py", line 525, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/utils/generic.py", line 917, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/utils/output_capturing.py", line 253, in wrapper
+    outputs = func(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/models/gemma2/modeling_gemma2.py", line 459, in forward
+    hidden_states = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/models/gemma2/modeling_gemma2.py", line 348, in forward
+    hidden_states = self.mlp(hidden_states)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/transformers/models/gemma2/modeling_gemma2.py", line 81, in forward
+    down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+                                           ^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/accelerate/hooks.py", line 187, in new_forward
+    args, kwargs = module._hf_hook.pre_forward(module, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/accelerate/hooks.py", line 50, in wrapper
+    return wrapper._compiled_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 745, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/accelerate/hooks.py", line 378, in pre_forward
+    set_module_tensor_to_device(
+  File "/home/v-seungplee/miniconda3/envs/llm-addiction/lib/python3.11/site-packages/accelerate/utils/modeling.py", line 343, in set_module_tensor_to_device
+    new_value = value.to(device, non_blocking=non_blocking)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 98.00 MiB. GPU 0 has a total capacity of 79.25 GiB of which 76.44 MiB is free. Process 676138 has 15.57 GiB memory in use. Including non-PyTorch memory, this process has 15.23 GiB memory in use. Process 3338756 has 15.54 GiB memory in use. Process 3630986 has 27.82 GiB memory in use. Process 3655569 has 4.97 GiB memory in use. Of the allocated memory 14.71 GiB is allocated by PyTorch, and 22.50 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

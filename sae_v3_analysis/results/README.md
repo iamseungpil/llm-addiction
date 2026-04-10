@@ -67,10 +67,20 @@ Reviewer-facing robustness and selectivity outputs.
 Human-readable plans, audits, and decision documents.
 
 - Latest planning anchor:
-  - `reports/v22_neural_experiment_plan_iterated.md`
+  - `reports/v23_workspace_and_rq_plan_20260410.md`
 - Latest findings anchor:
   - `reports/v17_final_neural_findings.md`
 - Earlier plans remain useful as historical context, but should not override newer ones without checking dates.
+
+### `legacy/`
+
+Historical clutter that is preserved for reference but is not part of the
+current paper-safe path.
+
+- This is the right place for:
+  - stale monitor traces
+  - build companion artifacts
+  - older presentation-only outputs
 
 ## Top-level file types
 
@@ -101,10 +111,11 @@ These summarize automation state. They do not replace the raw `json/` and `logs/
 
 ## Recommended lookup order
 
-1. Read `reports/v22_neural_experiment_plan_iterated.md` for what is currently considered valid.
+1. Read `reports/v23_workspace_and_rq_plan_20260410.md` for what is currently considered valid.
 2. Open the relevant raw output in `json/` or `robustness/`.
 3. Check the corresponding runtime log in `logs/` if the result looks incomplete.
 4. Only then consult the older `sae_v*.md/.pdf` snapshots for presentation context.
+5. Check `legacy/` only if you explicitly need historical auxiliary files.
 
 ## Useful anchors
 

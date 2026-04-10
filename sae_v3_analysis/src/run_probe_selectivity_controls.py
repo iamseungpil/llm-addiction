@@ -41,7 +41,6 @@ from run_comprehensive_robustness import (
 from run_perm_null_ilc import compute_loss_chasing
 
 
-RNG = np.random.RandomState(42)
 RESULTS_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/robustness")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -116,10 +115,13 @@ def build_valid_subset(sp, meta, model, paradigm, metric):
     }
 
 
-def make_balance_bins(values, n_bins):
+def fit_balance_bin_edges(values, n_bins):
     qs = np.linspace(0, 1, n_bins + 1)
     edges = np.quantile(values, qs)
-    edges = np.unique(edges)
+    return np.unique(edges)
+
+
+def apply_balance_bins(values, edges):
     if len(edges) <= 2:
         return np.zeros(len(values), dtype=int)
     bins = np.digitize(values, edges[1:-1], right=True)
@@ -134,25 +136,76 @@ def make_strata(balance_bins, round_nums, prompt_conditions):
     )
 
 
-def nuisance_matched_shuffle(target, strata, game_ids, rng):
-    shuffled = target.copy()
-    unique_strata = np.unique(strata)
+def nuisance_matched_game_shuffle(
+    train_target,
+    train_balances,
+    train_round_nums,
+    train_prompt_conditions,
+    train_game_ids,
+    test_balances,
+    test_round_nums,
+    test_prompt_conditions,
+    test_game_ids,
+    n_bins,
+    rng,
+):
+    """Build a fold-local control by reassigning whole train games within nuisance strata."""
+    edges = fit_balance_bin_edges(train_balances, n_bins)
+    train_bins = apply_balance_bins(train_balances, edges)
+    test_bins = apply_balance_bins(test_balances, edges)
 
-    for key in unique_strata:
-        idx = np.where(strata == key)[0]
-        if len(idx) < 2:
+    train_strata = make_strata(train_bins, train_round_nums, train_prompt_conditions)
+    test_strata = make_strata(test_bins, test_round_nums, test_prompt_conditions)
+
+    game_to_rows = {}
+    for gid in np.unique(train_game_ids):
+        row_idx = np.where(train_game_ids == gid)[0]
+        if len(row_idx) == 0:
             continue
+        strata_seq = tuple(train_strata[row_idx].tolist())
+        game_to_rows[gid] = {
+            "rows": row_idx,
+            "strata_seq": strata_seq,
+            "target": train_target[row_idx].copy(),
+        }
 
-        unique_games = np.unique(game_ids[idx])
-        if len(unique_games) < 2:
+    buckets = {}
+    for gid, payload in game_to_rows.items():
+        buckets.setdefault(payload["strata_seq"], []).append(gid)
+
+    gid_map = {}
+    for _, gids in buckets.items():
+        if len(gids) < 2:
             continue
-
-        perm = rng.permutation(idx)
-        if np.array_equal(perm, idx):
+        perm = np.array(gids, dtype=object)[rng.permutation(len(gids))]
+        if np.array_equal(perm, np.array(gids, dtype=object)):
             perm = np.roll(perm, 1)
-        shuffled[idx] = target[perm]
+        gid_map.update({src: dst for src, dst in zip(gids, perm)})
 
-    return shuffled
+    ctrl_train = train_target.copy()
+    for gid, payload in game_to_rows.items():
+        donor_gid = gid_map.get(gid)
+        if donor_gid is None:
+            continue
+        donor = game_to_rows[donor_gid]["target"]
+        if len(donor) != len(payload["rows"]):
+            continue
+        ctrl_train[payload["rows"]] = donor
+
+    donor_by_stratum = {}
+    for key in np.unique(train_strata):
+        donor_by_stratum[key] = train_target[train_strata == key]
+
+    ctrl_test = test_balances.astype(float).copy()
+    ctrl_test[:] = np.nan
+    for i, key in enumerate(test_strata):
+        donors = donor_by_stratum.get(key)
+        if donors is None or len(donors) == 0:
+            ctrl_test[i] = test_balances[i]
+        else:
+            ctrl_test[i] = donors[rng.randint(len(donors))]
+
+    return ctrl_train, ctrl_test
 
 
 def active_columns_from_train(X_train_sparse, min_active_nnz):
@@ -173,7 +226,18 @@ def select_top_features(X_train, residual_train, top_k):
     return np.argsort(corrs)[-k:]
 
 
-def eval_group_pipeline(X_sparse, target, balances, round_nums, game_ids, min_active_nnz):
+def eval_group_pipeline(
+    X_sparse,
+    target,
+    balances,
+    round_nums,
+    game_ids,
+    prompt_conditions,
+    min_active_nnz,
+    control_mode=False,
+    balance_bins=10,
+    control_seed=42,
+):
     unique_games = np.unique(game_ids)
     n_splits = min(5, len(unique_games))
     if n_splits < 3:
@@ -183,9 +247,26 @@ def eval_group_pipeline(X_sparse, target, balances, round_nums, game_ids, min_ac
     folds = list(cv.split(np.zeros(len(target)), target, groups=game_ids))
 
     fold_r2s = []
-    for tr, te in folds:
+    for fold_idx, (tr, te) in enumerate(folds):
         Xtr_sparse = X_sparse[tr]
         Xte_sparse = X_sparse[te]
+        ytr = target[tr]
+        yte = target[te]
+
+        if control_mode:
+            ytr, yte = nuisance_matched_game_shuffle(
+                train_target=target[tr],
+                train_balances=balances[tr],
+                train_round_nums=round_nums[tr],
+                train_prompt_conditions=prompt_conditions[tr],
+                train_game_ids=game_ids[tr],
+                test_balances=balances[te],
+                test_round_nums=round_nums[te],
+                test_prompt_conditions=prompt_conditions[te],
+                test_game_ids=game_ids[te],
+                n_bins=balance_bins,
+                rng=np.random.RandomState(control_seed + fold_idx),
+            )
 
         active_cols = active_columns_from_train(Xtr_sparse, min_active_nnz)
         if len(active_cols) == 0:
@@ -195,7 +276,7 @@ def eval_group_pipeline(X_sparse, target, balances, round_nums, game_ids, min_ac
         Xte = Xte_sparse[:, active_cols].toarray()
 
         res_tr, res_te = nl_deconfound_split(
-            target[tr], balances[tr], round_nums[tr], target[te], balances[te], round_nums[te]
+            ytr, balances[tr], round_nums[tr], yte, balances[te], round_nums[te]
         )
         top_idx = select_top_features(Xtr, res_tr, TOP_K)
 
@@ -265,9 +346,6 @@ def run_one_config(cfg, n_controls, min_active_nnz, balance_bins, smoke):
     game_ids = subset["game_ids"]
     prompt_conditions = subset["prompt_conditions"]
 
-    balance_bin_ids = make_balance_bins(balances, balance_bins)
-    strata = make_strata(balance_bin_ids, round_nums, prompt_conditions)
-
     print(
         f"  n={len(target)}, games={len(np.unique(game_ids))}, "
         f"metric_mean={target.mean():.4f}, active_input_dim={X_sparse.shape[1]}, "
@@ -275,7 +353,13 @@ def run_one_config(cfg, n_controls, min_active_nnz, balance_bins, smoke):
     )
 
     real_r2, real_folds = eval_group_pipeline(
-        X_sparse, target, balances, round_nums, game_ids, min_active_nnz
+        X_sparse,
+        target,
+        balances,
+        round_nums,
+        game_ids,
+        prompt_conditions,
+        min_active_nnz,
     )
     standard_r2 = eval_standard_pipeline(
         X_sparse, target, balances, round_nums, min_active_nnz
@@ -286,9 +370,17 @@ def run_one_config(cfg, n_controls, min_active_nnz, balance_bins, smoke):
     control_r2s = []
     n_controls = 3 if smoke else n_controls
     for ci in range(n_controls):
-        ctrl = nuisance_matched_shuffle(target, strata, game_ids, np.random.RandomState(42 + ci))
         ctrl_r2, _ = eval_group_pipeline(
-            X_sparse, ctrl, balances, round_nums, game_ids, min_active_nnz
+            X_sparse,
+            target,
+            balances,
+            round_nums,
+            game_ids,
+            prompt_conditions,
+            min_active_nnz,
+            control_mode=True,
+            balance_bins=balance_bins,
+            control_seed=42 + 1000 * ci,
         )
         control_r2s.append(ctrl_r2)
         print(f"  Control {ci + 1}/{n_controls}: R²={ctrl_r2:.4f}")
@@ -309,7 +401,8 @@ def run_one_config(cfg, n_controls, min_active_nnz, balance_bins, smoke):
         "selectivity_gap": float(real_r2 - np.nanmean(control_r2s)),
         "p_selectivity": float(p_value),
         "n_controls": int(len(control_r2s)),
-        "strata_count": int(len(np.unique(strata))),
+        "balance_bins": int(balance_bins),
+        "control_construction": "fold_local_game_strata_shuffle",
     }
     print(
         f"  Control mean±std: {result['control_r2_mean']:.4f} ± {result['control_r2_std']:.4f}\n"

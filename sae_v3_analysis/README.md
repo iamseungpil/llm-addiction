@@ -28,6 +28,7 @@ These files define the shortest reproducible path from paper text to code/data.
 For cleanup policy and legacy rules, also read:
 
 - `docs/WORKSPACE_RUNBOOK.md`
+- `docs/PUBLIC_RELEASE_INDEX_20260410.md`
 
 ## Quick navigation
 

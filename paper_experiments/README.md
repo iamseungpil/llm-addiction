@@ -1,5 +1,11 @@
 # Paper Experiments - ICLR 2026 Submission
 
+> Archive note: this directory reflects an older paper-specific organization
+> and should not be treated as the canonical reproduction path for the current
+> manuscript. For the current paper, use `sae_v3_analysis/README.md`,
+> `sae_v3_analysis/docs/PAPER_CANONICAL.md`, and
+> `sae_v3_analysis/docs/PAPER_MANIFEST.md`.
+
 ## Corresponding Paper: "Can Large Language Models Develop Gambling Addiction?"
 
 This folder contains **only** the experimental code used to generate the results presented in our ICLR 2026 paper submission.

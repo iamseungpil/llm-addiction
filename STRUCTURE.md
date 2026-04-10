@@ -1,5 +1,11 @@
 # Repository Structure Guide
 
+> Archive note: this document describes an older repository organization and is
+> no longer the canonical guide for the current paper. For the current Korean
+> paper workflow, start from `sae_v3_analysis/README.md`,
+> `sae_v3_analysis/docs/PAPER_CANONICAL.md`, and
+> `sae_v3_analysis/docs/PAPER_MANIFEST.md`.
+
 This document provides a clear overview of the repository organization, distinguishing between **paper experiments** (used in the main publication) and **exploratory experiments** (additional research).
 
 ## Quick Reference

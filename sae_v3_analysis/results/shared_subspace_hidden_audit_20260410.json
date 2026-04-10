@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "date": "2026-04-10",
+    "purpose": "paper-safe auxiliary audit for hidden-state shared-subspace claims",
+    "notes": [
+      "LLaMA numbers are direct reruns of V10 symmetric hidden-state analyses.",
+      "Gemma numbers are direct reruns on hidden_states_dp.npz using PCA(50)+logistic transfer and PCA-based shared-subspace probes."
+    ]
+  },
+  "llama_ic_sm_hidden": {
+    "source": "direct_rerun_2026_04_10_from_run_llama_v10_symmetric.py",
+    "cross_domain_transfer": {
+      "L8": {
+        "ic_to_sm": {
+          "auc": 0.5773,
+          "perm_p": 0.0
+        },
+        "sm_to_ic": {
+          "auc": 0.6045,
+          "perm_p": 0.0
+        }
+      },
+      "L12": {
+        "ic_to_sm": {
+          "auc": 0.5137,
+          "perm_p": 0.1
+        },
+        "sm_to_ic": {
+          "auc": 0.5512,
+          "perm_p": 0.015
+        }
+      },
+      "L22": {
+        "ic_to_sm": {
+          "auc": 0.4643,
+          "perm_p": 1.0
+        },
+        "sm_to_ic": {
+          "auc": 0.6457,
+          "perm_p": 0.0
+        }
+      },
+      "L25": {
+        "ic_to_sm": {
+          "auc": 0.466,
+          "perm_p": 1.0
+        },
+        "sm_to_ic": {
+          "auc": 0.6787,
+          "perm_p": 0.0
+        }
+      },
+      "L30": {
+        "ic_to_sm": {
+          "auc": 0.4545,
+          "perm_p": 1.0
+        },
+        "sm_to_ic": {
+          "auc": 0.7494,
+          "perm_p": 0.0
+        }
+      }
+    },
+    "shared_subspace": {
+      "layer": 22,
+      "weight_cosine_ic_sm": 0.0383,
+      "pca_explained_variance": [
+        1.0,
+        2.6393165869336537e-31
+      ],
+      "classification_2d": {
+        "ic_auc_2d": 0.9006,
+        "sm_auc_2d": 0.9428
+      }
+    }
+  },
+  "gemma_ic_sm_mw_hidden": {
+    "source": "direct_rerun_2026_04_10_from_hidden_states_dp",
+    "layer": 22,
+    "cross_domain_transfer_auc": {
+      "ic_to_sm": 0.7458,
+      "ic_to_mw": 0.8264,
+      "sm_to_ic": 0.4847,
+      "sm_to_mw": 0.9197,
+      "mw_to_ic": 0.674,
+      "mw_to_sm": 0.8829
+    },
+    "shared_subspace": {
+      "weight_cosines": {
+        "ic_sm": 0.0422,
+        "ic_mw": -0.0262,
+        "sm_mw": -0.0262
+      },
+      "pca_explained_variance": [
+        0.6099419949430824,
+        0.3900580050569175,
+        1.262630506266413e-31
+      ],
+      "within_auc_3d": {
+        "ic": 0.8647,
+        "sm": 0.9008,
+        "mw": 0.9714
+      }
+    }
+  }
+}

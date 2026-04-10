@@ -35,9 +35,14 @@ logger = logging.getLogger("v12_crossdomain")
 # Configuration
 # ============================================================
 
-OUT_JSON = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
-OUT_FIG = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/figures")
-HS_DIR = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
+ANALYSIS_ROOT = Path(
+    os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/home/v-seungplee/llm-addiction/sae_v3_analysis")
+)
+OUT_JSON = ANALYSIS_ROOT / "results" / "json"
+OUT_FIG = ANALYSIS_ROOT / "results" / "figures"
+HS_DIR = Path(
+    os.environ.get("LLM_ADDICTION_DATA_ROOT", "/home/v-seungplee/data/llm-addiction/sae_features_v3")
+)
 
 ALPHAS = [-2.0, -1.0, 0.0, 1.0, 2.0]
 TARGET_LAYER = 22
@@ -269,6 +274,14 @@ def run_crossdomain_pair(model, tokenizer, device, source_task, target_task, n):
     bk_tensor = torch.tensor(bk_unit, dtype=torch.bfloat16, device=device)
     layer_module = model.model.layers[TARGET_LAYER]
 
+    def make_hook(vec):
+        def hook_fn(module, input, output):
+            delta = vec.unsqueeze(0).unsqueeze(0)
+            if isinstance(output, tuple):
+                return (output[0] + delta,) + output[1:]
+            return output + delta
+        return hook_fn
+
     # Run across all alphas (including 0 as baseline)
     alpha_results = {}
     for alpha in ALPHAS:
@@ -276,7 +289,7 @@ def run_crossdomain_pair(model, tokenizer, device, source_task, target_task, n):
             hook_fn = None
         else:
             vec = alpha * bk_norm * bk_tensor
-            hook_fn = lambda m, inp, o, v=vec: o + v.unsqueeze(0).unsqueeze(0)
+            hook_fn = make_hook(vec)
 
         cond_name = f"{combo_name}_a{alpha:+.1f}"
         r = run_condition(model, tokenizer, device, layer_module, hook_fn, cond_name, n, target_task)

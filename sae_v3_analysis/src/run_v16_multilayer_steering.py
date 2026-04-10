@@ -22,9 +22,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
-RESULTS_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
-LOG_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/logs")
+ANALYSIS_ROOT = Path(
+    os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/home/v-seungplee/llm-addiction/sae_v3_analysis")
+)
+DATA_ROOT = Path(
+    os.environ.get("LLM_ADDICTION_DATA_ROOT", "/home/v-seungplee/data/llm-addiction/sae_features_v3")
+)
+RESULTS_DIR = ANALYSIS_ROOT / "results" / "json"
+LOG_DIR = ANALYSIS_ROOT / "results" / "logs"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 

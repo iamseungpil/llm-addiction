@@ -12,7 +12,7 @@ Key improvement over V15:
   - Logs saved to results/ not /tmp
 """
 
-import os, sys, json, time, re, random
+import os, sys, json, time
 import numpy as np
 import torch
 from scipy import stats
@@ -36,7 +36,7 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-from run_v12_all_steering import build_sm_prompt, parse_sm_response, play_game
+from exact_behavioral_replay import play_exact_behavioral_game, validate_behavioral_catalog
 
 
 def extract_bk_direction(model_name, task="sm", layer_idx=None):
@@ -114,13 +114,23 @@ def run_steering(model, tokenizer, model_name, layer, direction, alpha_values, n
         hook_fn = make_hook(alpha, direction_tensor, DEVICE) if alpha != 0 else None
         bk_count = 0
         for g in range(n_games):
-            seed = int(g + seed_offset + abs(alpha) * 100000)
+            seed = int(g + seed_offset)  # alpha-independent for paired design
             try:
                 def timeout_handler(signum, frame):
                     raise TimeoutError("Game timed out")
                 signal.signal(signal.SIGALRM, timeout_handler)
-                signal.alarm(120)
-                r = play_game(model, tokenizer, DEVICE, hook_fn, layer_module, seed, "sm")
+                signal.alarm(600)
+                r = play_exact_behavioral_game(
+                    model=model,
+                    tokenizer=tokenizer,
+                    device=DEVICE,
+                    hook_fn=hook_fn,
+                    layer_module=layer_module,
+                    model_name=model_name,
+                    task="sm",
+                    game_index=g,
+                    seed=seed,
+                )
                 signal.alarm(0)
                 if r.get("bk", False) or r.get("bankrupt", False):
                     bk_count += 1
@@ -142,26 +152,46 @@ def compute_rho(results, alpha_values):
     return rho, p, rho_no0, p_no0
 
 
-def compute_alpha_range(direction_norm, hs_norm, target_pct=0.03):
-    """Compute alpha values that move HS by ~target_pct (default 3%)."""
-    # α * direction_norm / hs_norm = target_pct
-    # α = target_pct * hs_norm / direction_norm
+def compute_alpha_range(direction_norm, hs_norm, target_pct=0.03,
+                        mode="pct", absolute_base=None, override=None):
+    """Compute alpha values.
+
+    mode='pct': adaptive, target HS displacement fraction (legacy V16 default).
+    mode='absolute': scale V14-style range [-2,-1,-0.5,0,+0.5,+1,+2] by absolute_base
+                     so α*direction_norm ≈ absolute_base·(V14 scale). If
+                     absolute_base is None we reuse legacy V14 LLaMA baseline=1.0,
+                     i.e. the raw V14 range.
+    mode='override': use exactly the alphas in `override`.
+    """
+    if mode == "override" and override is not None:
+        return [round(float(a), 3) for a in override]
+
+    if mode == "absolute":
+        scale = 1.0 if absolute_base is None else float(absolute_base)
+        alphas = [-2.0*scale, -1.0*scale, -0.5*scale, 0.0,
+                  0.5*scale, 1.0*scale, 2.0*scale]
+        return [round(a, 3) for a in alphas]
+
     base_alpha = target_pct * hs_norm / direction_norm
     alphas = [-2*base_alpha, -base_alpha, -0.5*base_alpha, 0.0,
               0.5*base_alpha, base_alpha, 2*base_alpha]
-    # Round to nice numbers
-    alphas = [round(a, 2) for a in alphas]
-    return alphas
+    return [round(a, 3) for a in alphas]
 
 
-def run_layer_experiment(model, tokenizer, model_name, layer_idx, n_bk_games, n_rand_games, n_random_dirs, log_f):
+def run_layer_experiment(model, tokenizer, model_name, layer_idx, n_bk_games, n_rand_games, n_random_dirs, log_f,
+                          alpha_mode="pct", alpha_override=None, alpha_absolute_base=None):
     direction, hidden_dim, meta = extract_bk_direction(model_name, "sm", layer_idx)
     layer = meta["layer"]
     direction_norm = meta["direction_norm"]
     hs_norm = meta["hs_mean_norm"]
 
-    # Compute adaptive alpha range
-    alpha_values = compute_alpha_range(direction_norm, hs_norm, target_pct=0.03)
+    alpha_values = compute_alpha_range(
+        direction_norm, hs_norm,
+        target_pct=0.03,
+        mode=alpha_mode,
+        absolute_base=alpha_absolute_base,
+        override=alpha_override,
+    )
     msg = f"\n  Layer {layer}: norm={direction_norm:.2f}, HS_norm={hs_norm:.1f}, " \
           f"ratio={direction_norm/hs_norm:.4f}, n_bk={meta['n_bk']}"
     print(msg); log_f.write(msg + "\n")
@@ -232,14 +262,31 @@ def main():
     parser.add_argument("--n-random-dirs", type=int, default=20)
     parser.add_argument("--layers", type=str, default="all",
                         help="Comma-separated layer indices (0-4) or 'all'")
+    parser.add_argument("--alpha-mode", choices=["pct", "absolute", "override"], default="pct",
+                        help="pct: adaptive 3% HS; absolute: V14-style [-2..+2] · base; override: explicit list")
+    parser.add_argument("--alpha-absolute-base", type=float, default=1.0,
+                        help="Scale factor when alpha-mode=absolute (α=base·[-2,-1,-0.5,0,+0.5,+1,+2])")
+    parser.add_argument("--alpha-values", type=str, default=None,
+                        help="Comma-separated α list; implies alpha-mode=override")
+    parser.add_argument("--tag", type=str, default="",
+                        help="Extra tag appended to output filename")
     args = parser.parse_args()
 
     layer_indices = list(range(5)) if args.layers == "all" else [int(x) for x in args.layers.split(",")]
+    alpha_override = None
+    if args.alpha_values:
+        alpha_override = [float(x) for x in args.alpha_values.split(",")]
+        args.alpha_mode = "override"
 
     log_path = LOG_DIR / f"v16_{args.model}_{TIMESTAMP}.log"
     print(f"V16 Multi-Layer Steering — {args.model.upper()}")
     print(f"Layers: {layer_indices}, Device: {DEVICE}")
     print(f"Log: {log_path}")
+    summary = validate_behavioral_catalog("sm", args.model)
+    print(
+        f"Behavioral catalog sm/{args.model}: n={summary['n_games']}, "
+        f"prompt_conditions={len(summary['prompt_conditions'])}, bet_types={summary['bet_types']}"
+    )
 
     model, tokenizer = load_model(args.model)
 
@@ -252,12 +299,15 @@ def main():
         for li in layer_indices:
             result = run_layer_experiment(
                 model, tokenizer, args.model, li,
-                args.n_bk_games, args.n_rand_games, args.n_random_dirs, log_f
+                args.n_bk_games, args.n_rand_games, args.n_random_dirs, log_f,
+                alpha_mode=args.alpha_mode,
+                alpha_override=alpha_override,
+                alpha_absolute_base=args.alpha_absolute_base,
             )
             all_results["layers"][str(result["layer"])] = result
 
-            # Save after each layer (in case of crash)
-            out_path = RESULTS_DIR / f"v16_{args.model}_{TIMESTAMP}.json"
+            tag_suffix = f"_{args.tag}" if args.tag else ""
+            out_path = RESULTS_DIR / f"v16_{args.model}_{TIMESTAMP}{tag_suffix}.json"
             with open(out_path, "w") as f:
                 json.dump(all_results, f, indent=2)
 

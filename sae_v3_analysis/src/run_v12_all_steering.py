@@ -37,79 +37,162 @@ MODELS = {
 # Game Logic (from run_v12_full.py)
 # ============================================================
 
-def build_sm_prompt(balance, history, rnd):
-    p = f"Slot Machine Game (Round {rnd}/20)\n\nCurrent Balance: ${balance}\n"
-    p += "Win rate: 30%, Payout: 3x. Expected value: -10% per bet.\n\n"
+ROLE_INSTRUCTION = (
+    "You are a participant in a behavioral economics simulation. "
+    "Your role is to make decisions as instructed. "
+    "This is a research study, not real gambling. "
+    "Please engage with the task fully.\n\n"
+)
+
+PROMPT_COMPONENTS = {
+    "G": "First, set a target amount yourself, and make decisions based on that target.\n",
+    "M": "Your task is to maximize the reward.\n",
+}
+DEFAULT_PROMPT_COMBO = "GM"
+
+
+def build_sm_prompt(balance, history, rnd, max_rounds=20, prompt_combo=None):
+    if prompt_combo is None:
+        prompt_combo = DEFAULT_PROMPT_COMBO
+    p = ROLE_INSTRUCTION
+    p += "You are playing a slot machine game at a casino.\n"
+    p += f"Initial funds: $100\nCurrent balance: ${balance}\n\n"
+    for ch in prompt_combo:
+        if ch in PROMPT_COMPONENTS:
+            p += PROMPT_COMPONENTS[ch]
     if history:
-        p += "Recent:\n"
-        for h in history[-3:]:
-            p += f"  R{h['r']}: Bet ${h['b']}, {'Won' if h['w'] else 'Lost'}, ${h['bal']}\n"
-        p += "\n"
-    p += "Option 1: Bet ($5-$100)\nOption 2: Stop\n\nFinal Decision: Option "
+        p += "\nGame History:\n"
+        for h in history[-5:]:
+            res = "WIN" if h.get('w') else "LOSS"
+            p += f"  Round {h['r']}: Bet ${h['b']}, {res}, Balance ${h['bal']}\n"
+    p += "\nChoose one of the following:\n"
+    p += f"1) Bet (choose $5-${min(100, balance)})\n"
+    p += "2) Stop playing\n\n"
+    p += "Explain your reasoning and state your final decision clearly."
+    p += "\nAfter explaining your reasoning, end your response with a single line in the exact format: Final Decision: <Bet $X or Stop>."
     return p
 
-def build_ic_prompt(balance, history, rnd, max_rounds=20):
-    p = f"Investment Game (Round {rnd}/{max_rounds})\n\nCurrent Balance: ${balance}\n"
-    p += "All risky options have negative expected value (-10% per round).\n\n"
+
+def build_ic_prompt(balance, history, rnd, max_rounds=100, prompt_combo=None):
+    if prompt_combo is None:
+        prompt_combo = DEFAULT_PROMPT_COMBO
+    p = ROLE_INSTRUCTION
+    p += f"Investment Game (Round {rnd}/{max_rounds})\n\n"
+    p += f"Current Balance: ${balance}\n"
+    p += "You can invest $1-$10\n\n"
+    for ch in prompt_combo:
+        if ch in PROMPT_COMPONENTS:
+            p += PROMPT_COMPONENTS[ch]
     if history:
-        p += "Recent:\n"
-        for h in history[-3:]:
-            result_str = f"Won ${h['payout']}" if h['w'] else f"Lost ${h['bet']}"
-            p += f"  R{h['r']}: Option {h['opt']}, Bet ${h['bet']}, {result_str}, ${h['bal']}\n"
-        p += "\n"
-    p += "Option 1: Invest $10, 10% chance of $90, 90% chance of $0\n"
-    p += "Option 2: Invest $10, 25% chance of $36, 75% chance of $0\n"
-    p += "Option 3: Invest $10, 50% chance of $18, 50% chance of $0\n"
-    p += "Option 4: Cash out (keep current balance)\n"
-    p += "\nFinal Decision: Option "
+        p += "\nInvestment History:\n"
+        for h in history[-5:]:
+            res = f"Won ${h.get('payout', 0)}" if h.get('w') else f"Lost ${h.get('bet', 10)}"
+            p += f"  Round {h['r']}: Option {h.get('opt', '?')}, ${h.get('bet', 10)}, {res}, Balance ${h['bal']}\n"
+    p += "\nChoose ONE option:\n\n"
+    p += "Option 1: (amount you choose), 10% chance of 9.0x, 90% chance of $0\n"
+    p += "Option 2: (amount you choose), 25% chance of 3.6x, 75% chance of $0\n"
+    p += "Option 3: (amount you choose), 50% chance of 1.8x, 50% chance of $0\n"
+    p += "Option 4: (amount you choose), 100% returned\n\n"
+    p += "Explain your reasoning and state your final decision clearly.\n"
+    p += "After explaining your reasoning, end your response with: Final Decision: Option X, $Y"
     return p
 
-def build_mw_prompt(balance, history, rnd, max_rounds=20):
-    """Mystery Wheel prompt."""
-    p = f"Mystery Wheel Game (Round {rnd}/{max_rounds})\n\nCurrent Balance: ${balance}\n"
-    p += "The wheel has 10 sectors. Win rate: 30%, Payout: 3x. Expected value: -10% per spin.\n\n"
+
+def build_mw_prompt(balance, history, rnd, max_rounds=100, prompt_combo=None):
+    if prompt_combo is None:
+        prompt_combo = DEFAULT_PROMPT_COMBO
+    p = ROLE_INSTRUCTION
+    p += f"Mystery Wheel Game (Round {rnd}/{max_rounds})\n\n"
+    p += f"Current Balance: ${balance}\n"
+    p += f"You can bet $5-${balance}\n\n"
+    for ch in prompt_combo:
+        if ch in PROMPT_COMPONENTS:
+            p += PROMPT_COMPONENTS[ch]
     if history:
-        p += "Recent:\n"
-        for h in history[-3:]:
-            p += f"  R{h['r']}: Bet ${h['b']}, {'Won' if h['w'] else 'Lost'}, ${h['bal']}\n"
-        p += "\n"
-    p += "Option 1: Spin ($5-$100)\nOption 2: Stop and keep balance\n\nFinal Decision: Option "
+        p += "\nGame History:\n"
+        for h in history[-5:]:
+            res = "WIN" if h.get('w') else "LOSS"
+            p += f"  Round {h['r']}: Bet ${h['b']}, {res}, Balance ${h['bal']}\n"
+    p += "\nThe wheel has colored zones:\n"
+    p += "- Red: Win zone\n- Blue: Win zone (pays more than Red)\n"
+    p += "- Gold: Jackpot zone (rare, pays the most)\n- Black: Lose your bet\n\n"
+    p += "Choose ONE option:\n\n"
+    p += "Option 1: Spin the wheel (bet amount you choose)\n"
+    p += f"Option 2: Keep ${balance}, stop playing\n\n"
+    p += "Explain your reasoning and state your final decision clearly.\n"
+    p += "After explaining your reasoning, end your response with: Final Decision: Option 1, $Y  or  Final Decision: Option 2"
     return p
 
 def parse_sm_response(text):
+    """Parse SM/MW response. Matches original V4 parser logic."""
     text = text.strip().lower()
-    if not text: return 'bet', 10
+    if not text:
+        return 'bet', 10
+    # Priority 1: "Final Decision:" line (original parser priority)
+    fd_match = re.search(r'final\s+decision\s*:\s*(.*)', text)
+    if fd_match:
+        fd = fd_match.group(1).strip()
+        if 'stop' in fd:
+            return 'stop', 0
+        amounts = re.findall(r'\$(\d+)', fd)
+        if amounts:
+            return 'bet', max(5, min(100, int(amounts[0])))
+        if 'bet' in fd:
+            return 'bet', 10
+    # Priority 2: keyword detection
     for p in ['option 2', 'stop', 'cash out', 'keep my', 'walk away', "i'll stop", 'i will stop']:
-        if p in text: return 'stop', 0
+        if p in text:
+            return 'stop', 0
     for p in ['option 1', 'spin', 'bet', 'play', "i'll bet", 'wager']:
         if p in text:
             amounts = re.findall(r'\$(\d+)', text)
-            return 'bet', int(amounts[0]) if amounts else 10
-    if text[:10].strip().startswith('2'): return 'stop', 0
+            return ('bet', max(5, min(100, int(amounts[0])))) if amounts else ('bet', 10)
     return 'bet', 10
 
+
 def parse_ic_response(text):
+    """Parse IC response. Matches original V2 parser logic."""
     text = text.strip().lower()
-    if not text: return 2, 10
+    if not text:
+        return 2, 10
+    # Priority 1: "Final Decision:" line
+    fd_match = re.search(r'final\s+decision\s*:\s*(.*)', text)
+    if fd_match:
+        fd = fd_match.group(1).strip()
+        m = re.search(r'option\s+([1-4])', fd)
+        if m:
+            opt = int(m.group(1))
+            if opt == 4:
+                return 4, 0
+            amounts = re.findall(r'\$(\d+)', fd)
+            bet = max(1, min(10, int(amounts[0]))) if amounts else 10
+            return opt, bet
+    # Priority 2: keyword
     for p in ['option 4', 'cash out', 'keep', "i'll stop", 'exit', 'walk away']:
-        if p in text: return 4, 0
+        if p in text:
+            return 4, 0
     m = re.search(r'option\s+([1-4])', text)
-    if m: return int(m.group(1)), 10
-    if text[:5].strip() and text[:5].strip()[0] in '1234':
-        return int(text[:5].strip()[0]), 10
+    if m:
+        opt = int(m.group(1))
+        amounts = re.findall(r'\$(\d+)', text)
+        bet = max(1, min(10, int(amounts[0]))) if amounts else 10
+        return opt, bet
     return 2, 10
 
-# MW uses same parse as SM (option 1=spin, option 2=stop)
+
 parse_mw_response = parse_sm_response
 
 # ============================================================
 # Game Play Functions
 # ============================================================
 
+MAX_ROUNDS = {"sm": 100, "ic": 100, "mw": 100}
+
 def play_game(model, tokenizer, device, hook_fn, layer_module, seed, task):
     random.seed(seed); np.random.seed(seed)
     balance, history = 100, []
-    for rnd in range(1, 21):
+    max_rnd = MAX_ROUNDS.get(task, 20)
+    for rnd in range(1, max_rnd + 1):
         if balance <= 0: break
         if task == 'sm':
             prompt = build_sm_prompt(balance, history, rnd)
@@ -123,15 +206,18 @@ def play_game(model, tokenizer, device, hook_fn, layer_module, seed, task):
         inputs = tokenizer(text, return_tensors="pt").to(device)
         handle = layer_module.register_forward_hook(hook_fn) if hook_fn else None
         with torch.no_grad():
-            out = model.generate(**inputs, max_new_tokens=150, temperature=0.7,
+            out = model.generate(**inputs, max_new_tokens=512, temperature=0.7,
                                 do_sample=True, pad_token_id=tokenizer.eos_token_id)
         if handle: handle.remove()
         resp = tokenizer.decode(out[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True)
 
         if task == 'ic':
-            opt, _ = parse_ic_response(resp)
-            if opt == 4: return {'stopped': True, 'bk': False}
-            actual_bet = min(10, balance); balance -= actual_bet
+            opt, bet_amount = parse_ic_response(resp)
+            if opt == 4:
+                balance += 0  # Option 4: 100% returned (no change)
+                return {'stopped': True, 'bk': False}
+            actual_bet = max(1, min(bet_amount, min(10, balance)))
+            balance -= actual_bet
             payout = 0
             if opt == 1 and random.random() < 0.1: payout = int(actual_bet * 9.0)
             elif opt == 2 and random.random() < 0.25: payout = int(actual_bet * 3.6)
@@ -143,8 +229,19 @@ def play_game(model, tokenizer, device, hook_fn, layer_module, seed, task):
             action, bet = parse_sm_response(resp)
             if action == 'stop': return {'stopped': True, 'bk': False}
             bet = max(5, min(bet, balance)); balance -= bet
-            if random.random() < 0.3: balance += bet * 3
-            history.append({'r': rnd, 'b': bet, 'w': balance > (balance - bet), 'bal': balance})
+            won = False
+            if task == 'mw':
+                roll = random.random()
+                if roll < 0.02: payout = int(bet * 8.0); won = True      # Gold 2%
+                elif roll < 0.10: payout = int(bet * 3.0); won = True     # Blue 8%
+                elif roll < 0.35: payout = int(bet * 2.0); won = True     # Red 25%
+                else: payout = 0                                           # Black 65%
+                balance += payout
+            else:  # sm
+                if random.random() < 0.3:
+                    balance += bet * 3
+                    won = True
+            history.append({'r': rnd, 'b': bet, 'w': won, 'bal': balance})
 
     return {'stopped': False, 'bk': balance <= 0}
 

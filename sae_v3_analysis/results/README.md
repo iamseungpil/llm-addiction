@@ -12,11 +12,12 @@ these files before reading historical study markdown:
 - `v17_nonlinear_deconfound.txt`
 - `robustness/permutation_null_ilc.json`
 - `robustness/probe_selectivity_controls_smoke.json`
-- `json/v14_exp1_llama_sm_perm20_20260331_153127.json`
-- `json/v12_crossdomain_steering.json`
 
 If a paper claim is not traceable to one of these artifacts or to the raw files
 they cite, it should be treated as non-canonical until re-audited.
+
+For steering specifically, read `reports/current_status_and_rerun_plan_20260414.md`
+before treating any older `v12_*`, `v14_*`, or `v16_*` JSON as paper-safe.
 
 ## High-value subdirectories
 
@@ -30,6 +31,7 @@ Raw experiment outputs and machine-readable summaries.
   - `v13_*`: RQ3 and integrated analysis summaries
   - `v14_*`: causal follow-up runs
   - `v15_*`, `v16_*`: later steering follow-ups
+  - `aligned_steering_*`: exact-replay causal runs using empirical behavioral condition catalogs
 
 ### `figures/`
 
@@ -44,6 +46,10 @@ Runtime logs from longer jobs.
 
 - Use these to confirm whether a run is active, stalled, or finished.
 - The most relevant current-style steering logs follow names such as `v16_*_run.log`.
+- Exact-replay steering code path:
+  - `src/exact_behavioral_replay.py`
+  - used by `src/run_aligned_factor_steering.py` and `src/run_v16_multilayer_steering.py`
+  - replays empirical `prompt_condition × bet_type × bet_constraint` mixtures from `data/behavioral/*`
 
 ### `robustness/`
 
@@ -66,6 +72,8 @@ Reviewer-facing robustness and selectivity outputs.
 
 Human-readable plans, audits, and decision documents.
 
+- Latest runtime status:
+  - `reports/current_status_and_rerun_plan_20260414.md`
 - Latest planning anchor:
   - `reports/v23_workspace_and_rq_plan_20260410.md`
 - Latest findings anchor:
@@ -112,13 +120,28 @@ These summarize automation state. They do not replace the raw `json/` and `logs/
 ## Recommended lookup order
 
 1. Read `reports/v23_workspace_and_rq_plan_20260410.md` for what is currently considered valid.
-2. Open the relevant raw output in `json/` or `robustness/`.
-3. Check the corresponding runtime log in `logs/` if the result looks incomplete.
-4. Only then consult the older `sae_v*.md/.pdf` snapshots for presentation context.
-5. Check `legacy/` only if you explicitly need historical auxiliary files.
+2. Read `reports/current_status_and_rerun_plan_20260414.md` if the claim touches steering or reruns.
+3. Open the relevant raw output in `json/` or `robustness/`.
+4. Check the corresponding runtime log in `logs/` if the result looks incomplete.
+5. Only then consult the older `sae_v*.md/.pdf` snapshots for presentation context.
+6. Check `legacy/` only if you explicitly need historical auxiliary files.
+
+## Steering provenance rule
+
+If a steering result is intended to support a paper claim, it must satisfy both:
+
+1. The run uses `src/exact_behavioral_replay.py` rather than the older hand-written
+   prompt/game sandbox.
+2. The result JSON or log records the replayed behavioral condition catalog
+   (prompt condition, bet type, and bet constraint where applicable).
+
+Older steering files remain useful as side evidence or archived history, but
+they should not be treated as exact behavioral replications.
 
 ## Useful anchors
 
+- Current rerun status:
+  - `reports/current_status_and_rerun_plan_20260414.md`
 - Session progress log: `session_progress_20260331.md`
 - Integrated Korean report snapshot: `sae_v13_comprehensive_study_ko.md`
 - Integrated English report snapshot: `sae_v13_comprehensive_study.md`

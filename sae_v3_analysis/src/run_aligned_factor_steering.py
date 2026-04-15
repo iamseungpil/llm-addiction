@@ -427,11 +427,13 @@ def run_direction_sweep(
     alpha_values: list[float],
     task_seed_offset: int,
     concurrent_games: int = 1,
+    checkpoint_key: str | None = None,
 ) -> list[dict]:
     """Run games across all alpha values for a single direction+task.
 
     Seeding: seed = g + task_seed_offset  (alpha-independent!)
     concurrent_games > 1 uses ThreadPool for CPU-GPU overlap.
+    checkpoint_key: if set, enables alpha-level checkpointing for resume.
 
     Returns list of dicts, one per alpha value.
     """
@@ -440,9 +442,20 @@ def run_direction_sweep(
     direction_tensor = torch.tensor(
         direction, dtype=torch.bfloat16, device=device
     )
+
+    # Load checkpoint if available
     results = []
+    done_alphas: set[float] = set()
+    ckpt_path = None
+    if checkpoint_key:
+        ckpt_path = CHECKPOINT_DIR / f"ckpt_{checkpoint_key}_{task}.json"
+        results, done_alphas = _load_checkpoint(ckpt_path)
 
     for alpha in alpha_values:
+        # Skip already-completed alphas (resume support)
+        if alpha in done_alphas:
+            logger.info(f"    alpha={alpha:+5.1f} task={task}: SKIPPED (checkpoint)")
+            continue
         hook_fn = make_hook(alpha, direction_tensor) if alpha != 0.0 else None
         bk_count = 0
         stop_count = 0
@@ -568,6 +581,13 @@ def run_direction_sweep(
             f"Wealth={result['mean_terminal_wealth']:.0f}, "
             f"IBA={result['mean_iba']:.3f}"
         )
+
+        # Checkpoint after each alpha (preemption resilience)
+        if ckpt_path:
+            _save_checkpoint(ckpt_path, results, {
+                "model": model_name, "task": task,
+                "n_games": n_games, "checkpoint_key": checkpoint_key,
+            })
 
     return results
 
@@ -831,6 +851,7 @@ def run_experiment_c(
         model, tokenizer, device, layer_module, model_name, direction,
         "sm", counts["n_main"], ALPHA_VALUES,
         TASK_SEED_OFFSET["sm"],
+        checkpoint_key=f"C_{model_name}",
     )
     main_stats = compute_experiment_stats(main_results, ALPHA_VALUES)
 
@@ -967,6 +988,7 @@ def run_experiment_a(
             task, counts["n_main"], ALPHA_VALUES,
             TASK_SEED_OFFSET[task],
             concurrent_games=concurrent_games,
+            checkpoint_key=f"A_{model_name}",
         )
         task_main_results[task] = main_results
         task_main_stats[task] = compute_experiment_stats(main_results, ALPHA_VALUES)
@@ -1123,6 +1145,7 @@ def run_experiment_b(
             task, n_main, ALPHA_VALUES,
             TASK_SEED_OFFSET[task],
             concurrent_games=concurrent_games,
+            checkpoint_key=f"B_{model_name}",
         )
         task_main_results[task] = main_results
         task_main_stats[task] = compute_experiment_stats(main_results, ALPHA_VALUES)
@@ -1349,6 +1372,47 @@ def _load_resume(resume_path: str) -> dict:
         data = json.load(f)
     logger.info(f"Resumed from {resume_path}")
     return data
+
+
+# ============================================================
+# Checkpoint: alpha-level save/resume for preemption resilience
+# ============================================================
+
+CHECKPOINT_DIR = ANALYSIS_ROOT / "results" / "checkpoints"
+CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _checkpoint_path(experiment: str, model_name: str, task: str, direction_label: str) -> Path:
+    """Deterministic checkpoint path for a given experiment/task/direction."""
+    return CHECKPOINT_DIR / f"ckpt_{experiment}_{model_name}_{task}_{direction_label}.json"
+
+
+def _save_checkpoint(
+    ckpt_path: Path,
+    completed_alphas: list[dict],
+    metadata: dict,
+) -> None:
+    """Save checkpoint after each alpha completes."""
+    data = {
+        "metadata": metadata,
+        "completed_alphas": completed_alphas,
+        "timestamp": datetime.now().isoformat(),
+    }
+    with open(ckpt_path, "w") as f:
+        json.dump(data, f, indent=2, cls=_NumpyEncoder)
+    logger.info(f"  Checkpoint saved ({len(completed_alphas)} alphas): {ckpt_path.name}")
+
+
+def _load_checkpoint(ckpt_path: Path) -> tuple[list[dict], set[float]]:
+    """Load checkpoint. Returns (completed_results, set_of_done_alphas)."""
+    if not ckpt_path.exists():
+        return [], set()
+    with open(ckpt_path) as f:
+        data = json.load(f)
+    completed = data.get("completed_alphas", [])
+    done_alphas = {r["alpha"] for r in completed}
+    logger.info(f"  Checkpoint loaded: {len(completed)} alphas done ({sorted(done_alphas)})")
+    return completed, done_alphas
 
 
 # ============================================================

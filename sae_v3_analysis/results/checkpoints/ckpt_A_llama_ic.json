@@ -3020,7 +3020,3022 @@
           }
         }
       ]
+    },
+    {
+      "alpha": -1.0,
+      "task": "ic",
+      "n_games": 200,
+      "bk_count": 16,
+      "stop_count": 184,
+      "bk_rate": 0.08,
+      "stop_rate": 0.92,
+      "mean_terminal_wealth": 94.94,
+      "mean_iba": 0.1738,
+      "mean_rounds": 2.09,
+      "parse_failures": 0,
+      "game_outcomes": [
+        {
+          "seed": 100001,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100002,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100003,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100000,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 130,
+          "mean_iba": 0.0,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100005,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100004,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.3,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100006,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 108,
+          "mean_iba": 0.0976,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100008,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.4389,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100007,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 155,
+          "mean_iba": 0.3896,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100009,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 49,
+          "mean_iba": 0.5067,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100010,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 85,
+          "mean_iba": 0.0714,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100012,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 88,
+          "mean_iba": 0.4368,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100011,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 79,
+          "mean_iba": 0.0875,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100014,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 50,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100015,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.0556,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100016,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100013,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 82,
+          "mean_iba": 0.2851,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100017,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 94,
+          "mean_iba": 0.4202,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100018,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 10,
+          "mean_iba": 0.7889,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100019,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100020,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100021,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 50,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100023,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100024,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.6083,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100025,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100022,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 64,
+          "mean_iba": 0.0728,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100027,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100028,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100026,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 106,
+          "mean_iba": 0.2908,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100030,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100029,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 10,
+          "mean_iba": 0.7444,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100031,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 102,
+          "mean_iba": 0.2501,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100032,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100033,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100034,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100036,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100035,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.85,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100038,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100037,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100039,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100041,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100040,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 450,
+          "mean_iba": 0.237,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100042,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.3,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100043,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100044,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 102,
+          "mean_iba": 0.064,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100045,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.85,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100046,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100048,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.85,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100047,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.0,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100050,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100051,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100049,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100052,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100053,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100055,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100054,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 65,
+          "mean_iba": 0.1311,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100057,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100058,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100059,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100056,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 19,
+          "mean_iba": 0.443,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100061,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100060,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.0,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100062,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100064,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100063,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.3643,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100066,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 110,
+          "mean_iba": 0.2684,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100067,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100065,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 139,
+          "mean_iba": 0.1487,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100069,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100068,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 590,
+          "mean_iba": 0.0,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100071,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100070,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100073,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100074,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100075,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100076,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100077,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100072,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 140,
+          "mean_iba": 0.0692,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100078,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.05,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100079,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100080,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100081,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.3,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100082,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100084,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.01,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100083,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1125,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100086,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100085,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.7067,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100087,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100088,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.3,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100089,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100090,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100091,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100092,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100093,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100094,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.2214,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100095,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100097,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100098,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100096,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 54,
+          "mean_iba": 0.0,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100100,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100099,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 99,
+          "mean_iba": 0.1565,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100101,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100103,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100104,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 50,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100105,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100102,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.0,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100106,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.0,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100107,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 85,
+          "mean_iba": 0.0911,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100109,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100108,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.6295,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100111,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.0527,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100112,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100113,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100110,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 99,
+          "mean_iba": 0.0543,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100115,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100114,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 150,
+          "mean_iba": 0.055,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100117,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100118,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100119,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100116,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 44,
+          "mean_iba": 0.4556,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100120,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100122,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100123,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.3643,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100124,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100121,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.6032,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100125,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100127,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 75,
+          "mean_iba": 0.0851,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100126,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 63,
+          "mean_iba": 0.3079,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100129,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100128,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100131,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100130,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 520,
+          "mean_iba": 0.0,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100132,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100134,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.3,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100133,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100135,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100136,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100137,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 156,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100138,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100139,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100140,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.3,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100141,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 29,
+          "mean_iba": 0.2505,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100142,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.6714,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100143,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100144,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100146,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100145,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100148,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100147,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.0,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100149,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100150,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100151,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100153,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100152,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 50,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100155,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.2,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100156,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100157,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 10,
+          "mean_iba": 0.0,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100154,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 150,
+          "mean_iba": 0.3238,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100158,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100160,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100159,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100161,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.3,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100162,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100164,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.7,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100163,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 180,
+          "mean_iba": 0.2993,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100165,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.0,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100167,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100168,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100166,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 69,
+          "mean_iba": 0.1531,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100170,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.3,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100169,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.3643,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100171,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100173,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100172,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 50,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100174,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100176,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.5,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100177,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100178,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100179,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100180,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 460,
+          "mean_iba": 0.2296,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100175,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 12,
+          "mean_iba": 0.514,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100181,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100182,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 94,
+          "mean_iba": 0.287,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100183,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.4929,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100185,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100184,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 164,
+          "mean_iba": 0.0601,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100186,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 390,
+          "mean_iba": 0.3277,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100188,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.01,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100189,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 30,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100190,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "10"
+          }
+        },
+        {
+          "seed": 100187,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 771,
+          "mean_iba": 0.2024,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100192,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100193,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 15,
+          "mean_iba": 0.7333,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "70"
+          }
+        },
+        {
+          "seed": 100191,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 310,
+          "mean_iba": 0.1227,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100194,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 102,
+          "mean_iba": 0.1216,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100196,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100195,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 50,
+          "mean_iba": 0.0,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100198,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 10,
+          "mean_iba": 0.0,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "30"
+          }
+        },
+        {
+          "seed": 100199,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": "50"
+          }
+        },
+        {
+          "seed": 100197,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.5001,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "ic",
+            "model_name": "llama",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": "30"
+          }
+        }
+      ]
     }
   ],
-  "timestamp": "2026-04-16T02:57:47.673819"
+  "timestamp": "2026-04-16T03:45:26.149609"
 }

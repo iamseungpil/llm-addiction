@@ -3020,7 +3020,3022 @@
           }
         }
       ]
+    },
+    {
+      "alpha": -1.0,
+      "task": "sm",
+      "n_games": 200,
+      "bk_count": 8,
+      "stop_count": 192,
+      "bk_rate": 0.04,
+      "stop_rate": 0.96,
+      "mean_terminal_wealth": 84.22,
+      "mean_iba": 0.1662,
+      "mean_rounds": 5.2,
+      "parse_failures": 0,
+      "game_outcomes": [
+        {
+          "seed": 1,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 105,
+          "mean_iba": 0.1818,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "P",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 0,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1015,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 2,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 125,
+          "mean_iba": 0.17,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 3,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 115,
+          "mean_iba": 0.1795,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 5,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 4,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 65,
+          "mean_iba": 0.2185,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 7,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "W",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 8,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 110,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 6,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 245,
+          "mean_iba": 0.2338,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 9,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 10,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 11,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 35,
+          "mean_iba": 0.2188,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 12,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 160,
+          "mean_iba": 0.0936,
+          "n_rounds": 9,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 14,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 15,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1472,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 16,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 13,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.2353,
+          "n_rounds": 17,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 17,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "P",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 19,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 18,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.1017,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 21,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.155,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 20,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.2333,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 22,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 5,
+          "mean_iba": 0.3222,
+          "n_rounds": 13,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 23,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 5,
+          "mean_iba": 0.4112,
+          "n_rounds": 15,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 24,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 25,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.0864,
+          "n_rounds": 13,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 27,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "P",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 28,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 150,
+          "mean_iba": 0.1125,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 29,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 30,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 31,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 365,
+          "mean_iba": 0.2175,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 26,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 5,
+          "mean_iba": 0.3953,
+          "n_rounds": 31,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 33,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 32,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.0949,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 34,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 36,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 55,
+          "mean_iba": 0.2562,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 37,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 38,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 35,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 3,
+          "mean_iba": 0.5005,
+          "n_rounds": 13,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 39,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.2204,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 40,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 55,
+          "mean_iba": 0.2033,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 42,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.1889,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 41,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 570,
+          "mean_iba": 0.1921,
+          "n_rounds": 10,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 43,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1197,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 45,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 180,
+          "mean_iba": 0.0793,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 44,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1027,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 46,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 85,
+          "mean_iba": 0.2592,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "P",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 47,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 49,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "H",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 50,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 65,
+          "mean_iba": 0.2192,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 48,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 135,
+          "mean_iba": 0.196,
+          "n_rounds": 13,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 51,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 125,
+          "mean_iba": 0.1888,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "W",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 53,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 52,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 55,
+          "mean_iba": 0.1365,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 54,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 250,
+          "mean_iba": 0.2125,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "H",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 55,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 56,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "P",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 57,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 50,
+          "mean_iba": 0.1227,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 59,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1792,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 60,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 58,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 55,
+          "mean_iba": 0.3425,
+          "n_rounds": 17,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 61,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 62,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 64,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 15,
+          "mean_iba": 0.3025,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 63,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 110,
+          "mean_iba": 0.0915,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 66,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 160,
+          "mean_iba": 0.0849,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 67,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 65,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.3833,
+          "n_rounds": 10,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 69,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 55,
+          "mean_iba": 0.1958,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 68,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 15,
+          "mean_iba": 0.2882,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 70,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 71,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.4628,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 73,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 72,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 20,
+          "mean_iba": 0.1986,
+          "n_rounds": 10,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 74,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1556,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 76,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.22,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 75,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1011,
+          "n_rounds": 19,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 78,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0914,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 79,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 95,
+          "mean_iba": 0.1935,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 77,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 205,
+          "mean_iba": 0.2283,
+          "n_rounds": 17,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 81,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 75,
+          "mean_iba": 0.1333,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 82,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "H",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 83,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 80,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 150,
+          "mean_iba": 0.0904,
+          "n_rounds": 10,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 84,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 85,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 140,
+          "mean_iba": 0.0917,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 86,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1674,
+          "n_rounds": 10,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 87,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.4778,
+          "n_rounds": 12,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 88,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 85,
+          "mean_iba": 0.2389,
+          "n_rounds": 9,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 89,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1644,
+          "n_rounds": 11,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 91,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 130,
+          "mean_iba": 0.0849,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 92,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 90,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.1361,
+          "n_rounds": 9,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 94,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "M",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 93,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.1064,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 96,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1556,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 95,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.2554,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 97,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 99,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 100,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 98,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.3069,
+          "n_rounds": 14,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 102,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 110,
+          "mean_iba": 0.0917,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 103,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 101,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.3629,
+          "n_rounds": 16,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 104,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.112,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "H",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 105,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 45,
+          "mean_iba": 0.1808,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 106,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 107,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 125,
+          "mean_iba": 0.2,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 108,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1788,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 110,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 109,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1333,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 112,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1226,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 111,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.3835,
+          "n_rounds": 9,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 114,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 113,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 190,
+          "mean_iba": 0.0794,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 116,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.2611,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 115,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 45,
+          "mean_iba": 0.345,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "G",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 118,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 119,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1556,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 117,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 25,
+          "mean_iba": 0.3321,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 121,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 120,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 105,
+          "mean_iba": 0.1551,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 122,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 160,
+          "mean_iba": 0.0841,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 123,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 20,
+          "mean_iba": 0.3087,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 124,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1197,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 125,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.1017,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 127,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.1014,
+          "n_rounds": 9,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 128,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "W",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 129,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 126,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.2704,
+          "n_rounds": 20,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 130,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1006,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 132,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 131,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.4714,
+          "n_rounds": 11,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 133,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 55,
+          "mean_iba": 0.1788,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 134,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 55,
+          "mean_iba": 0.1958,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "W",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 136,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 135,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1197,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "W",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 137,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 138,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "WP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 139,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 155,
+          "mean_iba": 0.1574,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 140,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.32,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 142,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 141,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0843,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 143,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1197,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 145,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "P",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 144,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 65,
+          "mean_iba": 0.2057,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "H",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 146,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 75,
+          "mean_iba": 0.1399,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "BASE",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 147,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 35,
+          "mean_iba": 0.225,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 148,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 175,
+          "mean_iba": 0.2592,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 149,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 151,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "G",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 150,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 5,
+          "mean_iba": 0.39,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 152,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.0914,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 153,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "H",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 155,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 154,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 45,
+          "mean_iba": 0.2292,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 156,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 140,
+          "mean_iba": 0.1039,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 157,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 140,
+          "mean_iba": 0.0915,
+          "n_rounds": 5,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 159,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 130,
+          "mean_iba": 0.0914,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "W",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 158,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 15,
+          "mean_iba": 0.2553,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 160,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 70,
+          "mean_iba": 0.1064,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GM",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 161,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 163,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 145,
+          "mean_iba": 0.1458,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 162,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 110,
+          "mean_iba": 0.2243,
+          "n_rounds": 9,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 165,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 45,
+          "mean_iba": 0.2455,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 166,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.3079,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GM",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 167,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 40,
+          "mean_iba": 0.2042,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 164,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 5,
+          "mean_iba": 0.3158,
+          "n_rounds": 26,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 169,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 168,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1005,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 171,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 45,
+          "mean_iba": 0.1788,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 172,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "H",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 170,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 20,
+          "mean_iba": 0.2792,
+          "n_rounds": 9,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 173,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1556,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 174,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1007,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 176,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 177,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.1164,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMH",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 175,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.3147,
+          "n_rounds": 16,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 178,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 180,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 181,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 85,
+          "mean_iba": 0.1389,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 182,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 130,
+          "mean_iba": 0.0914,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "BASE",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 179,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 15,
+          "mean_iba": 0.316,
+          "n_rounds": 9,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 183,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 120,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 184,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 100,
+          "mean_iba": 0.1333,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "H",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 185,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 65,
+          "mean_iba": 0.1938,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMHW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 186,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 45,
+          "mean_iba": 0.2314,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 188,
+          "bk": true,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.3924,
+          "n_rounds": 12,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 187,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 115,
+          "mean_iba": 0.1429,
+          "n_rounds": 17,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 189,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1593,
+          "n_rounds": 7,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "W",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 190,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 45,
+          "mean_iba": 0.2389,
+          "n_rounds": 6,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMW",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 191,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 45,
+          "mean_iba": 0.2265,
+          "n_rounds": 3,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GMP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 192,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 65,
+          "mean_iba": 0.1635,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 193,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 35,
+          "mean_iba": 0.2262,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 195,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.0936,
+          "n_rounds": 4,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "HP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 196,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 80,
+          "mean_iba": 0.1056,
+          "n_rounds": 2,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "GHW",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 197,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 90,
+          "mean_iba": 0.1,
+          "n_rounds": 1,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHWP",
+            "bet_type": "fixed",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 194,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 105,
+          "mean_iba": 0.2505,
+          "n_rounds": 11,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHWP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 199,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 60,
+          "mean_iba": 0.2045,
+          "n_rounds": 8,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        },
+        {
+          "seed": 198,
+          "bk": false,
+          "stopped": true,
+          "terminal_wealth": 10,
+          "mean_iba": 0.2868,
+          "n_rounds": 12,
+          "behavioral_condition": {
+            "task": "sm",
+            "model_name": "gemma",
+            "prompt_condition": "MHP",
+            "bet_type": "variable",
+            "bet_constraint": null
+          }
+        }
+      ]
     }
   ],
-  "timestamp": "2026-04-16T02:31:07.034445"
+  "timestamp": "2026-04-16T03:49:45.269693"
 }

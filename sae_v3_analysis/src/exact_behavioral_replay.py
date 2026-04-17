@@ -125,6 +125,76 @@ def select_behavioral_condition(
     return catalog[order[game_index % len(catalog)]]
 
 
+@lru_cache(maxsize=None)
+def get_filtered_catalog(
+    task: str,
+    model_name: str,
+    bet_filter: Optional[str] = None,
+    prompt_contains: Optional[str] = None,
+    prompt_excludes: Optional[str] = None,
+) -> tuple[BehavioralCondition, ...]:
+    """Return a subset of the canonical behavioral catalog matching filters.
+
+    bet_filter: "fixed" | "variable" | None (no bet filter)
+    prompt_contains: substring that MUST appear in prompt_condition (e.g., "G")
+    prompt_excludes: substring that MUST NOT appear in prompt_condition
+
+    Filters apply to `prompt_condition` (normalized uppercase) and `bet_type`.
+    BehavioralCondition objects come unchanged from `get_behavioral_catalog`.
+    """
+    full = get_behavioral_catalog(task, model_name)
+    filtered: list[BehavioralCondition] = []
+    for c in full:
+        if bet_filter and c.bet_type != bet_filter:
+            continue
+        pc = c.prompt_condition or ""
+        if prompt_contains and prompt_contains not in pc:
+            continue
+        if prompt_excludes and prompt_excludes in pc:
+            continue
+        filtered.append(c)
+    if not filtered:
+        raise ValueError(
+            f"No games match filters: task={task}, model={model_name}, "
+            f"bet_filter={bet_filter}, contains={prompt_contains}, excludes={prompt_excludes}"
+        )
+    return tuple(filtered)
+
+
+@lru_cache(maxsize=None)
+def _filtered_permutation(
+    task: str,
+    model_name: str,
+    bet_filter: Optional[str] = None,
+    prompt_contains: Optional[str] = None,
+    prompt_excludes: Optional[str] = None,
+) -> tuple[int, ...]:
+    catalog = get_filtered_catalog(task, model_name, bet_filter, prompt_contains, prompt_excludes)
+    filter_key = f"{bet_filter}:{prompt_contains}:{prompt_excludes}"
+    seed = sum(ord(ch) for ch in f"{task}:{model_name}:behavioral-replay:{filter_key}")
+    rng = np.random.RandomState(seed)
+    order = np.arange(len(catalog))
+    rng.shuffle(order)
+    return tuple(int(i) for i in order)
+
+
+def select_filtered_condition(
+    task: str,
+    model_name: str,
+    game_index: int,
+    bet_filter: Optional[str] = None,
+    prompt_contains: Optional[str] = None,
+    prompt_excludes: Optional[str] = None,
+) -> BehavioralCondition:
+    """Pick a condition from the subset catalog defined by filters.
+
+    Deterministic: same (task, model, filters, game_index) returns same condition.
+    """
+    catalog = get_filtered_catalog(task, model_name, bet_filter, prompt_contains, prompt_excludes)
+    order = _filtered_permutation(task, model_name, bet_filter, prompt_contains, prompt_excludes)
+    return catalog[order[game_index % len(catalog)]]
+
+
 class HookedModelLoader:
     """Minimal ModelLoader-compatible shim with steering hooks."""
 
@@ -345,9 +415,25 @@ def play_exact_behavioral_game(
     task: str,
     game_index: int,
     seed: int,
+    bet_filter: Optional[str] = None,
+    prompt_contains: Optional[str] = None,
+    prompt_excludes: Optional[str] = None,
 ) -> dict:
-    """Replay one exact behavioral game profile under steering."""
-    condition = select_behavioral_condition(task, model_name, game_index)
+    """Replay one exact behavioral game profile under steering.
+
+    If any of bet_filter/prompt_contains/prompt_excludes is set, the condition
+    is picked from the filtered subset catalog instead of the full catalog.
+    Existing call sites that pass no filter keywords keep the original behavior.
+    """
+    if bet_filter or prompt_contains or prompt_excludes:
+        condition = select_filtered_condition(
+            task, model_name, game_index,
+            bet_filter=bet_filter,
+            prompt_contains=prompt_contains,
+            prompt_excludes=prompt_excludes,
+        )
+    else:
+        condition = select_behavioral_condition(task, model_name, game_index)
     _set_random_seed(seed)
 
     if task == "sm":

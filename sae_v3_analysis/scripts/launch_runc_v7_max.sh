@@ -70,12 +70,12 @@ echo "GPU 1 Exp A LLaMA IC Phase 2: PID $!"
 
 env "${ENV_COMMON[@]}" CUDA_VISIBLE_DEVICES=1 MASTER_PORT=29620 \
     nohup $PY -u src/run_v16_multilayer_steering.py \
-        --model llama --layers 5 \
+        --model llama --layers 2 \
         --alpha-mode absolute --alpha-absolute-base 1.0 \
         --n-bk-games "$NGAMES" --n-rand-games 100 --n-random-dirs 20 \
         --tag v16_runc_v7 \
     > "$LOGDIR/runc_v7_v16.log" 2>&1 &
-echo "GPU 1 V16 multilayer LLaMA: PID $!"
+echo "GPU 1 V16 multilayer LLaMA L22 (index=2): PID $!"
 
 # ── GPU 2: Exp B Gemma IC Phase 2 + Exp B Gemma SM Phase 2 (D1-pos continues) ──
 env "${ENV_COMMON[@]}" CUDA_VISIBLE_DEVICES=2 MASTER_PORT=29604 \

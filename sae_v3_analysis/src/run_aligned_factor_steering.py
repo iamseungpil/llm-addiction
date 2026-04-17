@@ -1129,7 +1129,15 @@ def run_experiment_b(
         counts["n_main"] = {k: n_games_override for k in counts["n_main"]}
     if task_filter:
         counts["tasks"] = [task_filter]
-        logger.info(f"  task-filter active: running only [{task_filter}]")
+        # Route Phase 2 null to the filter task. If filter task is already in
+        # n_null_dirs, keep its count; otherwise copy count from any existing entry
+        # (default 50) so SM/MW filter runs get their own null distribution.
+        if task_filter in counts["n_null_dirs"]:
+            counts["n_null_dirs"] = {task_filter: counts["n_null_dirs"][task_filter]}
+        else:
+            ref_count = next(iter(counts["n_null_dirs"].values()))
+            counts["n_null_dirs"] = {task_filter: ref_count}
+        logger.info(f"  task-filter active: running only [{task_filter}], null_dirs={counts['n_null_dirs']}")
 
     layer_module = get_layer_module(model, model_name, EXP_LAYER["b"])
     hidden_dim = MODELS[model_name]["hidden_dim"]

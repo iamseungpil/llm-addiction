@@ -74,8 +74,17 @@ def critic_aligned(payload: dict) -> dict:
 
     null = exp_block.get("null_distribution", {})
     n_dirs = null.get("n_dirs", 0)
-    if n_dirs < 10:
-        issues.append(f"null n_dirs={n_dirs} (expected >= 20)")
+    if n_dirs == 0:
+        issues.append("null n_dirs=0 (FAIL)")
+        tier = "FAIL"
+    elif n_dirs < 20:
+        issues.append(f"null n_dirs={n_dirs} < 20 (insufficient)")
+        tier = "FAIL"
+    elif n_dirs < 50:
+        tier = "preliminary"
+    else:
+        tier = "canonical"
+
     perm = exp_block.get("permutation_tests", {})
     perm_p = _get(perm, "spearman_rho", "perm_p") or _get(perm, "cochran_armitage_Z", "perm_p")
 
@@ -88,6 +97,7 @@ def critic_aligned(payload: dict) -> dict:
 
     return {
         "ok": len(issues) == 0,
+        "tier": tier,
         "experiment": exp_name,
         "model": args.get("model"),
         "task_filter": args.get("task_filter") or task_label,
@@ -128,11 +138,24 @@ def critic_shared_axis(payload: dict) -> dict:
     bk_rates = []
     for r in main:
         br = _get(r, "behavioral", "bk_rate") or _get(r, "stats", "bk_rate") or r.get("bk_rate")
-        if br is not None and not math.isnan(br):
+        if br is not None and not (isinstance(br, float) and math.isnan(br)):
             bk_rates.append(br)
+
+    n_null_dirs = _get(result, "null_distribution", "n_dirs") or 0
+    if n_null_dirs == 0:
+        issues.append("null n_dirs=0 (FAIL)")
+        tier = "FAIL"
+    elif n_null_dirs < 20:
+        issues.append(f"null n_dirs={n_null_dirs} < 20 (insufficient)")
+        tier = "FAIL"
+    elif n_null_dirs < 50:
+        tier = "preliminary"
+    else:
+        tier = "canonical"
 
     return {
         "ok": len(issues) == 0,
+        "tier": tier,
         "experiment": "shared_axis",
         "model": args.get("model"),
         "task": args.get("task"),
@@ -142,7 +165,7 @@ def critic_shared_axis(payload: dict) -> dict:
             "axis_eigenvalue": axis_meta.get("eigenvalue"),
             "alphas": alphas,
             "n_main": len(main),
-            "n_null_dirs": _get(result, "null_distribution", "n_dirs"),
+            "n_null_dirs": n_null_dirs,
             "ca_z": ca_z,
             "spearman_rho": rho,
             "perm_p": perm_p,
@@ -174,10 +197,13 @@ def main():
 
     # Print summary
     passed = sum(1 for r in reports if r.get("ok"))
-    print(f"=== Critic v7 — {len(reports)} files, {passed} pass, {len(reports)-passed} fail ===\n")
+    canonical = sum(1 for r in reports if r.get("tier") == "canonical")
+    preliminary = sum(1 for r in reports if r.get("tier") == "preliminary")
+    failed = sum(1 for r in reports if r.get("tier") == "FAIL")
+    print(f"=== Critic v7 — {len(reports)} files ({canonical} canonical, {preliminary} preliminary, {failed} FAIL) ===\n")
     for r in reports:
-        status = "PASS" if r.get("ok") else "FAIL"
-        head = f"[{status}] {r['file']}"
+        tier = r.get("tier", "?")
+        head = f"[{tier}] {r['file']}"
         tag = f" {r.get('experiment','?')}/{r.get('model','?')}/{r.get('task') or r.get('task_filter') or '-'}"
         print(head + tag)
         s = r.get("summary", {})

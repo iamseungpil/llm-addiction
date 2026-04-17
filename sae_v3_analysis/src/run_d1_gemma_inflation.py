@@ -150,7 +150,9 @@ def run_subset_sweep(
                                prompt_excludes=prompt_excludes)
     logger.info("  filtered catalog size: %d unique conditions", len(cat))
 
-    direction_tensor = torch.as_tensor(direction, dtype=torch.float32, device=device)
+    # Match model dtype (Gemma/LLaMA load in bf16; direction must match to avoid matmul errors)
+    model_dtype = next(model.parameters()).dtype
+    direction_tensor = torch.as_tensor(direction, dtype=model_dtype, device=device)
 
     results: list[dict] = []
     # Deterministic filter-key seed (Python `hash` is non-deterministic without PYTHONHASHSEED)

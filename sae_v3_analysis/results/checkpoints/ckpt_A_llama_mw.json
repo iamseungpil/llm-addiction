@@ -9050,7 +9050,7267 @@
           }
         }
       ]
+    },
+    {
+      "alpha": 0.0,
+      "task": "mw",
+      "n_games": 200,
+      "bk_count": 0,
+      "stop_count": 0,
+      "bk_rate": 0.0,
+      "stop_rate": 0.0,
+      "mean_terminal_wealth": 0.0,
+      "mean_iba": 0.0,
+      "mean_rounds": 0.0,
+      "parse_failures": 0,
+      "game_outcomes": [
+        {
+          "seed": 200000,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200001,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200002,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200003,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200004,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200005,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200006,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200007,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200008,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200009,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200010,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200011,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200012,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200013,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200014,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200015,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200016,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200017,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200018,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200019,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200020,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200021,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200022,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200023,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200025,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200024,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200026,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200027,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200028,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200029,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200030,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200031,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200032,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200033,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200034,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200035,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200036,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200038,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200037,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200039,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200040,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200042,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200043,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200044,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200041,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200045,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200047,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200046,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200048,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200049,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200050,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200051,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200053,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200054,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200052,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200056,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200055,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200057,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200058,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200059,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200060,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200061,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200062,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200063,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200064,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200065,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200066,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200067,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200068,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200069,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200070,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200072,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200071,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200073,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200074,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200075,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200076,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200077,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200079,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200080,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200078,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200081,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200082,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200083,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200084,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200085,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200086,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200087,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200089,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200088,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200091,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200090,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200092,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200093,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200094,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200095,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200096,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200097,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200098,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200099,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200101,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200102,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200100,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200103,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200104,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200105,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200106,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200107,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200108,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200109,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200110,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200111,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200113,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200114,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200115,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200112,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200117,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200118,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200119,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200120,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200121,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200122,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200123,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200124,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200125,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200126,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200127,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200128,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200129,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200130,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200131,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200132,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200116,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200134,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200135,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200136,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200137,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200138,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200139,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200140,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200141,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200142,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200143,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200144,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200145,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200146,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200147,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200148,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200133,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200150,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200151,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200152,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200153,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200154,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200155,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200156,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200149,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200158,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200159,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200160,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200161,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200162,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200163,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200157,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200165,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200166,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200167,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200168,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200169,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200170,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200164,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200172,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200173,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200174,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200175,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200176,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200171,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200178,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200179,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200180,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200177,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200182,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200183,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200184,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200181,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200186,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200187,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200185,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200189,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200190,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200191,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200192,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200193,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200194,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200195,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200196,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200197,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200198,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200199,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200188,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        }
+      ]
+    },
+    {
+      "alpha": 0.5,
+      "task": "mw",
+      "n_games": 200,
+      "bk_count": 0,
+      "stop_count": 0,
+      "bk_rate": 0.0,
+      "stop_rate": 0.0,
+      "mean_terminal_wealth": 0.0,
+      "mean_iba": 0.0,
+      "mean_rounds": 0.0,
+      "parse_failures": 0,
+      "game_outcomes": [
+        {
+          "seed": 200001,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200000,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200002,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200003,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200004,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200005,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200007,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200006,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200008,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200009,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200010,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200012,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200011,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200013,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200014,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200015,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200017,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200016,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200018,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200019,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200020,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200022,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200021,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200023,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200025,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200024,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200026,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200027,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200028,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200030,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200031,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200029,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200032,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200033,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200034,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200036,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200035,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200037,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200039,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200040,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200038,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200041,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200043,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200044,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200045,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200046,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200047,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200048,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200049,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200050,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200051,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200052,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200053,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200054,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200055,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200056,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200057,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200058,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200059,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200042,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200061,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200062,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200063,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200064,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200065,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200066,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200067,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200068,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200069,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200070,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200071,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200072,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200073,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200060,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200075,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200076,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200077,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200078,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200079,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200080,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200081,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200082,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200083,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200084,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200085,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200086,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200087,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200088,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200089,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200074,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200091,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200092,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200093,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200094,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200095,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200096,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200097,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200098,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200099,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200100,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200101,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200102,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200103,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200104,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200105,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200106,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200107,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200108,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200109,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200110,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200111,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200112,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200113,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200114,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200115,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200116,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200117,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200118,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200119,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200120,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200121,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200090,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200122,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200124,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200125,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200123,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200126,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200128,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200129,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200127,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200130,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200132,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200131,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200133,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200135,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200134,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200136,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200138,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200137,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200139,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200140,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200141,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200143,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200142,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200144,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200146,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200145,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200147,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200149,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200148,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200150,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200151,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200153,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200154,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200155,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200156,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200157,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200158,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200159,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200160,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200161,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200162,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200163,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200164,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200165,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200166,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200167,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200152,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200168,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200169,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200170,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200172,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200173,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200171,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200175,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200174,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200176,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200177,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200179,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200178,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200180,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200181,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200182,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200184,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200183,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200185,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200186,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200187,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200188,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200189,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200190,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200192,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200191,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200193,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200194,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200195,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200197,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200196,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200198,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200199,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "task": "mw",
+      "n_games": 200,
+      "bk_count": 0,
+      "stop_count": 0,
+      "bk_rate": 0.0,
+      "stop_rate": 0.0,
+      "mean_terminal_wealth": 0.0,
+      "mean_iba": 0.0,
+      "mean_rounds": 0.0,
+      "parse_failures": 0,
+      "game_outcomes": [
+        {
+          "seed": 200000,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200002,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200001,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200003,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200004,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200005,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200007,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200006,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200008,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200009,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200010,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200011,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200013,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200012,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200014,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200015,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200017,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200016,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200018,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200019,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200021,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200022,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200020,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200023,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200025,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200024,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200026,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200027,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200029,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200030,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200028,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200031,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200032,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200033,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200034,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200035,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200036,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200037,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200038,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200040,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200039,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200041,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200043,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200042,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200044,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200045,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200046,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200047,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200048,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200050,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200049,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200051,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200052,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200053,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200055,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200054,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200056,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200057,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200058,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200059,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200060,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200061,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200062,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200063,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200064,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200065,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200066,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200067,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200068,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200069,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200070,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200071,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200073,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200072,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200074,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200075,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200076,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200077,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200078,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200079,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200080,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200081,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200082,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200084,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200083,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200085,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200087,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200086,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200088,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200089,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200091,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200090,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200092,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200093,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200094,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200095,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200097,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200098,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200096,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200099,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200100,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200101,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200102,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200103,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200104,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200105,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200107,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200106,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200108,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200110,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200109,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200111,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200112,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200113,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200115,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200114,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200117,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200116,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200118,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200119,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200120,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200121,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200122,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200123,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200124,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200125,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200126,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200127,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200129,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200128,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200130,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200131,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200132,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200133,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200134,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200135,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200136,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200137,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200138,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200139,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200140,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200141,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200142,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200144,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200143,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200145,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200146,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200147,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200148,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200149,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200150,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200151,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200152,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200153,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200154,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200155,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200156,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200157,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200159,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200158,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200160,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200161,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200162,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200163,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200164,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200165,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200166,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200167,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200168,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200169,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200170,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200171,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200172,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200173,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200175,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200174,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200176,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200177,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200179,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200180,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200178,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200182,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200183,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200181,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200185,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200184,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200186,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200187,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200189,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200188,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200191,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200190,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200193,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200192,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200194,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200195,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200196,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200197,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200198,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200199,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        }
+      ]
+    },
+    {
+      "alpha": 2.0,
+      "task": "mw",
+      "n_games": 200,
+      "bk_count": 0,
+      "stop_count": 0,
+      "bk_rate": 0.0,
+      "stop_rate": 0.0,
+      "mean_terminal_wealth": 0.0,
+      "mean_iba": 0.0,
+      "mean_rounds": 0.0,
+      "parse_failures": 0,
+      "game_outcomes": [
+        {
+          "seed": 200000,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200001,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200002,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200004,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200003,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200005,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200006,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200007,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200009,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200008,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200010,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200011,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200012,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200013,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200014,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200015,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200016,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200017,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200019,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200018,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200020,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200022,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200021,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200023,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200025,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200024,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200026,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200027,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200029,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200028,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200031,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200030,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200032,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200033,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200034,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200035,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200036,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200038,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200037,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200039,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200040,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200041,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200042,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200043,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200044,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200045,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200046,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200048,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200049,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200047,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200050,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200051,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200052,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200053,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200054,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200055,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200056,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200057,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200058,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200059,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200060,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200061,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200062,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200064,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200063,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200065,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200066,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200067,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200068,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200069,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200071,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200070,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200072,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200073,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200074,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200075,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200076,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200078,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200077,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200079,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200080,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200082,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200081,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200083,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200085,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200084,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200087,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200086,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200089,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200088,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200090,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200091,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200092,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200093,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200094,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200095,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200097,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200096,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200098,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200099,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200100,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200101,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200103,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200102,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200104,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200105,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200107,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200106,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200108,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200109,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200110,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200111,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200112,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200114,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200113,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200116,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200117,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200115,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200118,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200119,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200120,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200121,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200122,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200123,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200125,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200124,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200126,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200128,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200127,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200129,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200131,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200130,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200132,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200133,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200134,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200135,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200136,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200137,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200139,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200138,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200140,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200141,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200142,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200143,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200144,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200145,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200146,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200148,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200147,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200150,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200149,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200152,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200151,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200153,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200154,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200155,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200156,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200157,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200158,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200159,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200160,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200161,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200162,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200163,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200164,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200165,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200166,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200168,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200167,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200169,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200170,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200171,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200172,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200173,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200174,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200175,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200176,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200177,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200178,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200179,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200181,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200180,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200182,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200183,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200184,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200186,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200185,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200187,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200189,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200188,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200190,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200191,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200192,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200193,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200194,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200195,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200196,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200197,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200198,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        },
+        {
+          "seed": 200199,
+          "bk": false,
+          "stopped": false,
+          "terminal_wealth": 0,
+          "mean_iba": 0.0,
+          "n_rounds": 0,
+          "error": "No module named 'investment_choice'"
+        }
+      ]
     }
   ],
-  "timestamp": "2026-04-16T20:46:18.142277"
+  "timestamp": "2026-04-17T02:09:36.924783"
 }

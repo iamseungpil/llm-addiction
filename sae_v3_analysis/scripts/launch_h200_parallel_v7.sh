@@ -29,6 +29,7 @@ ENV_COMMON=(
     LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm_addiction/sae_v3_analysis
     LLM_ADDICTION_DATA_ROOT=/scratch/llm_addiction/data/sae_features_v3
     LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/llm_addiction/data/behavioral
+    PYTHONPATH=/scratch/llm_addiction/paper_experiments/slot_machine_6models/src:/scratch/llm_addiction/exploratory_experiments/alternative_paradigms/src
     LOCAL_RANK=0 RANK=0 WORLD_SIZE=1
     TORCHDYNAMO_DISABLE=1
     HF_TOKEN="${HF_TOKEN:-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}"

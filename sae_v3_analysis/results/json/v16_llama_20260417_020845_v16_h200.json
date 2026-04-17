@@ -1,0 +1,66 @@
+{
+  "model": "llama",
+  "timestamp": "20260417_020845",
+  "layers": {
+    "22": {
+      "layer": 22,
+      "direction_meta": {
+        "model": "llama",
+        "task": "sm",
+        "layer": 22,
+        "n_bk": 1164,
+        "n_safe": 2036,
+        "direction_norm": 1.0454179048538208,
+        "hs_mean_norm": 17.665569305419922,
+        "direction_hs_ratio": 0.059178274124860764
+      },
+      "alpha_values": [
+        -2.0,
+        -1.0,
+        -0.5,
+        0.0,
+        0.5,
+        1.0,
+        2.0
+      ],
+      "bk_rho": NaN,
+      "bk_p": NaN,
+      "bk_rho_no0": NaN,
+      "bk_p_no0": NaN,
+      "bk_rates": {
+        "-2.0": 0.0,
+        "-1.0": 0.0,
+        "-0.5": 0.0,
+        "0.0": 0.0,
+        "0.5": 0.0,
+        "1.0": 0.0,
+        "2.0": 0.0
+      },
+      "perm_p": 0.047619047619047616,
+      "n_rand_above": 0,
+      "rand_rhos": [
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN,
+        NaN
+      ],
+      "effect_size_pp": 0.0
+    }
+  }
+}

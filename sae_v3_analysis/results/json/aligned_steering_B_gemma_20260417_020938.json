@@ -1,0 +1,551 @@
+{
+  "experiment": "B",
+  "model": "gemma",
+  "tasks": [
+    "sm"
+  ],
+  "layer": 12,
+  "shared_axis_meta": {
+    "model": "gemma",
+    "tasks": [
+      "ic",
+      "sm",
+      "mw"
+    ],
+    "layer": 12,
+    "layer_idx": 1,
+    "eigenvalue": 1450.0556116557696,
+    "per_task": [
+      {
+        "task": "ic",
+        "n_bk": 92,
+        "n_vs": 708,
+        "weight": 81.42,
+        "direction_norm": 3.8564765453338623,
+        "cos_with_shared": 0.5602202415466309
+      },
+      {
+        "task": "sm",
+        "n_bk": 41,
+        "n_vs": 1559,
+        "weight": 39.949375,
+        "direction_norm": 5.125574588775635,
+        "cos_with_shared": 0.7573716640472412
+      },
+      {
+        "task": "mw",
+        "n_bk": 30,
+        "n_vs": 1570,
+        "weight": 29.4375,
+        "direction_norm": 5.133134365081787,
+        "cos_with_shared": 0.7767585515975952
+      }
+    ],
+    "shared_axis_norm": 1.0
+  },
+  "counts": {
+    "n_main": {
+      "ic": 200,
+      "sm": 200,
+      "mw": 200
+    },
+    "n_null_dirs": {
+      "ic": 50
+    },
+    "n_null_games": 50,
+    "tasks": [
+      "sm"
+    ]
+  },
+  "alpha_values": [
+    -2.0,
+    -1.0,
+    -0.5,
+    0.0,
+    0.5,
+    1.0,
+    2.0
+  ],
+  "task_results": {
+    "sm": {
+      "main_sweep": [
+        {
+          "alpha": -2.0,
+          "task": "sm",
+          "n_games": 200,
+          "bk_count": 9,
+          "stop_count": 191,
+          "bk_rate": 0.045,
+          "stop_rate": 0.955,
+          "mean_terminal_wealth": 84.84,
+          "mean_iba": 0.1675,
+          "mean_rounds": 5.53,
+          "parse_failures": 0
+        },
+        {
+          "alpha": -1.0,
+          "task": "sm",
+          "n_games": 200,
+          "bk_count": 8,
+          "stop_count": 192,
+          "bk_rate": 0.04,
+          "stop_rate": 0.96,
+          "mean_terminal_wealth": 84.22,
+          "mean_iba": 0.1662,
+          "mean_rounds": 5.2,
+          "parse_failures": 0
+        },
+        {
+          "alpha": -0.5,
+          "task": "sm",
+          "n_games": 200,
+          "bk_count": 5,
+          "stop_count": 195,
+          "bk_rate": 0.025,
+          "stop_rate": 0.975,
+          "mean_terminal_wealth": 84.2,
+          "mean_iba": 0.1633,
+          "mean_rounds": 5.39,
+          "parse_failures": 0
+        },
+        {
+          "alpha": 0.0,
+          "task": "sm",
+          "n_games": 200,
+          "bk_count": 6,
+          "stop_count": 194,
+          "bk_rate": 0.03,
+          "stop_rate": 0.97,
+          "mean_terminal_wealth": 90.28,
+          "mean_iba": 0.1693,
+          "mean_rounds": 5.82,
+          "parse_failures": 0
+        },
+        {
+          "alpha": 0.5,
+          "task": "sm",
+          "n_games": 200,
+          "bk_count": 5,
+          "stop_count": 195,
+          "bk_rate": 0.025,
+          "stop_rate": 0.975,
+          "mean_terminal_wealth": 97.15,
+          "mean_iba": 0.1634,
+          "mean_rounds": 6.0,
+          "parse_failures": 0
+        },
+        {
+          "alpha": 1.0,
+          "task": "sm",
+          "n_games": 200,
+          "bk_count": 2,
+          "stop_count": 198,
+          "bk_rate": 0.01,
+          "stop_rate": 0.99,
+          "mean_terminal_wealth": 86.27,
+          "mean_iba": 0.1532,
+          "mean_rounds": 5.41,
+          "parse_failures": 0
+        },
+        {
+          "alpha": 2.0,
+          "task": "sm",
+          "n_games": 200,
+          "bk_count": 6,
+          "stop_count": 194,
+          "bk_rate": 0.03,
+          "stop_rate": 0.97,
+          "mean_terminal_wealth": 84.39,
+          "mean_iba": 0.1685,
+          "mean_rounds": 5.75,
+          "parse_failures": 0
+        }
+      ],
+      "main_stats": {
+        "cochran_armitage_bk": {
+          "Z": -1.5531,
+          "p": 0.12040047796934991,
+          "trend_direction": "decreasing"
+        },
+        "ols_bk_rate": {
+          "slope": -0.005714,
+          "intercept": 0.0293,
+          "t_stat": -2.0,
+          "p_value": 0.10193947882985824,
+          "r_squared": 0.4444
+        },
+        "ols_stop_rate": {
+          "slope": 0.005714,
+          "intercept": 0.9707,
+          "t_stat": 2.0,
+          "p_value": 0.10193947882985753,
+          "r_squared": 0.4444
+        },
+        "ols_wealth": {
+          "slope": 0.72619,
+          "intercept": 87.3357,
+          "t_stat": 0.4528,
+          "p_value": 0.6696615937837032,
+          "r_squared": 0.0394
+        },
+        "ols_iba": {
+          "slope": -0.001043,
+          "intercept": 0.1645,
+          "t_stat": -0.5798,
+          "p_value": 0.587197854609192,
+          "r_squared": 0.063
+        },
+        "spearman": {
+          "bk_rate": {
+            "rho": -0.6365,
+            "p": 0.12431761964560041
+          },
+          "stop_rate": {
+            "rho": 0.6365,
+            "p": 0.12431761964560041
+          },
+          "wealth": {
+            "rho": 0.3214,
+            "p": 0.4820720382996776
+          },
+          "iba": {
+            "rho": -0.0714,
+            "p": 0.8790481931481541
+          }
+        }
+      }
+    }
+  },
+  "null_distribution": {
+    "null_tasks": [
+      "ic"
+    ],
+    "n_games_per_dir": 50,
+    "summaries": [
+      {
+        "task": "ic",
+        "dir_idx": 0,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 1,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 2,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 3,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 4,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 5,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 6,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 7,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 8,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 9,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 10,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 11,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 12,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 13,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 14,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 15,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 16,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 17,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 18,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 19,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 20,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 21,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 22,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 23,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 24,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 25,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 26,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 27,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 28,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 29,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 30,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 31,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 32,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 33,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 34,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 35,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 36,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 37,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 38,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 39,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 40,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 41,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 42,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 43,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 44,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 45,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 46,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 47,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 48,
+        "z": 0.0,
+        "slope": 0.0
+      },
+      {
+        "task": "ic",
+        "dir_idx": 49,
+        "z": 0.0,
+        "slope": 0.0
+      }
+    ]
+  },
+  "permutation_tests": {
+    "sm": {
+      "cochran_armitage_Z": {
+        "real": -1.5531,
+        "perm_p": 0.12040047796934991
+      },
+      "ols_slope": {
+        "real": -0.005714,
+        "perm_p": 0.10193947882985824
+      },
+      "spearman_rho": {
+        "real": -0.6365,
+        "perm_p": 0.12431761964560041
+      }
+    }
+  },
+  "holm_correction": {
+    "sm": {
+      "raw_p": 0.12040047796934991,
+      "corrected_p": 0.12040047796934991,
+      "reject": false
+    }
+  },
+  "verdict": "NOT_SIGNIFICANT"
+}

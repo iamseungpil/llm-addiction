@@ -4,6 +4,19 @@
 > **프로젝트**: LLM Gambling Addiction — Korean Paper (LLM_Addiction_NMT_KOR)  
 > **실험 환경**: Azure A100 80GB, conda env `llm-addiction`
 
+> **2026-04-14 정정 메모**
+>
+> 이 문서는 2026-03-31 시점의 **역사 기록**이다. 당시 문서에 적힌 V14/V16 steering 실행 경로는 이후 감사에서 두 단계로 보정되었다.
+>
+> 1. 일부 steering 결과는 **원 behavioral prompt distribution과 정확히 일치하지 않는 sandbox 프롬프트**를 사용한 것으로 판정되어 archive 처리되었다.
+> 2. 이후 steering의 canonical 경로는 hand-written sandbox가 아니라 `src/exact_behavioral_replay.py`를 통해 **원 behavioral condition catalog를 exact replay**하는 방식으로 교체되었다.
+>
+> 따라서 아래 3장 이후의 steering 진행 상황과 예상 완료 시각은 현재 기준의 paper-safe 상태를 나타내지 않는다. 최신 상태와 재실행 순서는 다음 문서를 기준으로 확인한다.
+>
+> - `results/reports/current_status_and_rerun_plan_20260414.md`
+> - `results/reports/rq2_causal_experiment_plan_v3.md`
+> - `docs/PAPER_CANONICAL.md`
+
 ---
 
 ## 1. 세션 개요

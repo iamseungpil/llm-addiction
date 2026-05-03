@@ -2,7 +2,56 @@
 
 This directory mixes raw outputs, paper figures, historical report snapshots, and monitoring files. Use the groups below as the stable entry points.
 
-## Paper-safe files first
+## §4 paper-canonical results (current)
+
+All numbers in the body's §4.1 Table 1, §4.3 Table 2, and prose are sourced
+from the GroupKFold pipeline below. **These supersede the older
+`paper_neural_audit.json` and `sweep_3metrics/` outputs for paper claims.**
+
+| Section | File | Notes |
+|---------|------|-------|
+| §4.1 Table 1 | `table1_groupkfold_L22.json` | 6 (model,task) × 3 indicators at L22, GroupKFold by `game_id`. |
+| §4.1 layer sweep (appendix) | `table1_groupkfold_L{8,12,22,25,30}.json` | Same pipeline, 5 layers — defends "L22 worst-case" claim. |
+| §4.1 permutation null | `table1_perm_null.json` | Game-block null, 50 iters on headline cells (`p<0.0001`). |
+| §4.3 Table 2 | `condition_modulation_groupkfold_L22.json` | Per-condition R² (±G, ±M, fixed_all). |
+| §4.3 continuous I_LC | `condition_modulation_continuous_ilc_L22.json` | §3-aligned magnitude definition. |
+| §4.2 transfer | `iba_cross_task_transfer.json`, `rq2_audit_consistent_layer.json` | Cross-task BK direction + sparse-feature transfer. |
+
+### Pipeline (canonical)
+
+```
+hidden state at L22  →  Gemma-Scope / Llama-Scope SAE features
+                        → Top-K=200 features by |Spearman ρ| with target
+                        → Within-fold RF deconfound on [bal, rn, bal², log1p(bal), bal·rn]
+                        → StandardScaler + Ridge(α=100)
+                        → 5-fold CV, GroupKFold by game_id
+```
+
+Reproduction:
+```bash
+conda activate llm-addiction
+python sae_v3_analysis/src/run_groupkfold_recompute.py            # §4.1 + §4.3 at L22
+for L in 8 12 25 30; do
+  python sae_v3_analysis/src/run_groupkfold_layer_sweep.py --layer $L
+done                                                              # §4.1 layer sweep
+python sae_v3_analysis/src/run_table1_perm_null.py                # null
+```
+
+### Pre-GroupKFold artefacts (kept for traceability, do **not** cite)
+
+- `sweep_3metrics/sweep_*.jsonl` — random-KFold 42-layer sweep (binary I_LC)
+- `sweep_3metrics_continuous_ilc/sweep_*.jsonl` — random-KFold 42-layer sweep (continuous I_LC)
+- `gemma_sm_42layer_sweep.csv`, `_sae.csv` — Gemma SM BK-direction AUC sweep
+- `paper_neural_audit.json` — older audit, partly inflated on LLaMA cells
+- `v17_nonlinear_deconfound.txt` — leaky V17 text report; superseded by strict-CV pipeline above
+
+These differ from body Table 1 on LLaMA cells (e.g., LLaMA IC `i_ba`: legacy 0.080
+vs body 0.268) because the legacy pipeline used random KFold and a different
+valid_mask. Body uses the GroupKFold + `target>0` mask + continuous I_LC trio.
+
+---
+
+## Historical paper-safe files (Korean paper baseline, pre-GroupKFold)
 
 If you are validating a number or claim that appears in the Korean paper, check
 these files before reading historical study markdown:

@@ -20,11 +20,21 @@ from run_groupkfold_recompute import (
 from run_perm_null_ilc import load_sae_and_meta
 
 
+VALID_LAYERS = {8, 12, 22, 25, 30}  # available in hidden_states_dp.npz
+
+
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument('--layer', type=int, required=True)
+    ap = argparse.ArgumentParser(
+        description='§4.1 GroupKFold layer sweep — runs Table 1 cells at one layer.'
+    )
+    ap.add_argument('--layer', type=int, required=True,
+                    help=f'Layer index. Must be one of {sorted(VALID_LAYERS)}.')
     args = ap.parse_args()
     layer = args.layer
+
+    if layer not in VALID_LAYERS:
+        ap.error(f'--layer={layer} not in available layers {sorted(VALID_LAYERS)}; '
+                 f'check hidden_states_dp.npz for the actual extraction set.')
 
     out_path = RESULTS_DIR / f'table1_groupkfold_L{layer}.json'
     print(f'=== §4.1 Table 1 (all_variable) GroupKFold sweep at L{layer} ===')

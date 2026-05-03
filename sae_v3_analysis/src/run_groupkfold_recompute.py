@@ -1,11 +1,22 @@
 """GroupKFold (by game_id) recomputation for §4.1 + §4.3 — fixes within-game leakage.
 
-§4.1: Table 1 cells — 6 (model, task) × 3 indicators at L22.
-§4.3: Condition modulation — same cells × {plus_G, minus_G, plus_M, minus_M, all_variable}.
+§4.1: Table 1 cells — 6 (model, task) × 3 indicators at the layer set by the
+      module-level constant LAYER (default 22 = body-cited).
+§4.3: Condition modulation — same cells × {plus_G, minus_G, plus_M, minus_M,
+      all_variable, fixed_all} at LAYER.
 
-Output:
-  results/table1_groupkfold_L22.json
-  results/condition_modulation_groupkfold_L22.json
+Output (filenames automatically follow LAYER, default 22):
+  results/table1_groupkfold_L{LAYER}.json
+  results/condition_modulation_groupkfold_L{LAYER}.json
+
+For appendix C.2 layer sweep across {L8, L12, L25, L30}, use the wrapper:
+  python run_groupkfold_layer_sweep.py --layer 8
+
+Pipeline (from run_perm_null_ilc.py, paper-canonical):
+  - Top-K=200 SAE features by |Spearman ρ| with deconfounded target
+  - Within-fold RandomForest deconfound on [bal, rn, bal², log1p(bal), bal·rn]
+  - StandardScaler + Ridge(α=100)
+  - 5-fold GroupKFold by game_id (no shuffle; deterministic group→fold map)
 """
 from __future__ import annotations
 import json, sys, time
@@ -253,7 +264,7 @@ def main():
                       f'R²={res["r2_mean"]:+.4f} ± {res["r2_std"]:.4f}', flush=True)
             else:
                 print(f'  SKIP: {res.get("reason")}', flush=True)
-            with open(RESULTS_DIR / 'table1_groupkfold_L22.json', 'w') as f:
+            with open(RESULTS_DIR / f'table1_groupkfold_L{LAYER}.json', 'w') as f:
                 json.dump(table1, f, indent=2)
 
     # ---- §4.3 condition modulation ----
@@ -278,12 +289,12 @@ def main():
                           f'R²={rm:+.4f}', flush=True)
                 else:
                     print(f'  {subset:12s}  SKIP: {res.get("reason")}', flush=True)
-                with open(RESULTS_DIR / 'condition_modulation_groupkfold_L22.json', 'w') as f:
+                with open(RESULTS_DIR / f'condition_modulation_groupkfold_L{LAYER}.json', 'w') as f:
                     json.dump(cm, f, indent=2)
 
     print(f'\nDone in {time.time()-t0:.0f}s')
-    print(f'Saved: {RESULTS_DIR / "table1_groupkfold_L22.json"}')
-    print(f'Saved: {RESULTS_DIR / "condition_modulation_groupkfold_L22.json"}')
+    print(f'Saved: {RESULTS_DIR / f"table1_groupkfold_L{LAYER}.json"}')
+    print(f'Saved: {RESULTS_DIR / f"condition_modulation_groupkfold_L{LAYER}.json"}')
 
 
 if __name__ == '__main__':

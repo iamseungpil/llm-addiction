@@ -18,10 +18,18 @@ exec > >(tee -a "$LOG") 2>&1
 echo "=== [start $(date '+%Y-%m-%dT%H:%M:%S')] role=$ROLE n=$N ==="
 nvidia-smi -L || true
 
-# --- 1) Install minimal deps ---
-pip install -q --no-cache-dir huggingface_hub hf_transfer scikit-learn statsmodels pandas \
-    "transformers>=4.45,<4.50" "torch>=2.5" sae_lens \
-    || { echo "[fatal] pip install failed"; exit 1; }
+# --- 1) Install minimal deps (user-site to avoid /opt/conda permission denial) ---
+export PYTHONUSERBASE=/scratch/pyuserbase
+mkdir -p "$PYTHONUSERBASE"
+export PATH="$PYTHONUSERBASE/bin:$PATH"
+python -m pip install --user --quiet --no-cache-dir --no-warn-script-location \
+    huggingface_hub hf_transfer scikit-learn statsmodels pandas sae_lens \
+    || { echo "[fatal] pip install --user failed (deps)"; exit 1; }
+# transformers / torch are typically already in the ptca image; only install if missing
+python -c "import transformers, sae_lens; print('transformers', transformers.__version__)" \
+    || python -m pip install --user --quiet --no-cache-dir --no-warn-script-location \
+        "transformers>=4.45,<4.50" "torch>=2.5" sae_lens \
+    || { echo "[fatal] pip install --user failed (transformers/torch)"; exit 1; }
 export HF_HUB_ENABLE_HF_TRANSFER=1
 export TOKENIZERS_PARALLELISM=false
 

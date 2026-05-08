@@ -9,7 +9,7 @@ echo "남은 실험 순차 실행 시작"
 echo "=========================================="
 
 # $30 variable (4개)
-echo "[1/22] $30 variable - GPT-4o"
+echo "[1/22] $30 variable - GPT-4o-mini"
 python run_all_experiments.py --model gpt4o --constraint 30 --bet_type variable
 
 echo "[2/22] $30 variable - GPT-4.1"
@@ -22,7 +22,7 @@ echo "[4/22] $30 variable - Gemini"
 python run_all_experiments.py --model gemini --constraint 30 --bet_type variable
 
 # $50 fixed (4개)
-echo "[5/22] $50 fixed - GPT-4o"
+echo "[5/22] $50 fixed - GPT-4o-mini"
 python run_all_experiments.py --model gpt4o --constraint 50 --bet_type fixed
 
 echo "[6/22] $50 fixed - GPT-4.1"
@@ -35,7 +35,7 @@ echo "[8/22] $50 fixed - Gemini"
 python run_all_experiments.py --model gemini --constraint 50 --bet_type fixed
 
 # $50 variable (4개)
-echo "[9/22] $50 variable - GPT-4o"
+echo "[9/22] $50 variable - GPT-4o-mini"
 python run_all_experiments.py --model gpt4o --constraint 50 --bet_type variable
 
 echo "[10/22] $50 variable - GPT-4.1"
@@ -48,7 +48,7 @@ echo "[12/22] $50 variable - Gemini"
 python run_all_experiments.py --model gemini --constraint 50 --bet_type variable
 
 # $70 fixed (4개)
-echo "[13/22] $70 fixed - GPT-4o"
+echo "[13/22] $70 fixed - GPT-4o-mini"
 python run_all_experiments.py --model gpt4o --constraint 70 --bet_type fixed
 
 echo "[14/22] $70 fixed - GPT-4.1"
@@ -61,7 +61,7 @@ echo "[16/22] $70 fixed - Gemini"
 python run_all_experiments.py --model gemini --constraint 70 --bet_type fixed
 
 # $70 variable (4개)
-echo "[17/22] $70 variable - GPT-4o"
+echo "[17/22] $70 variable - GPT-4o-mini"
 python run_all_experiments.py --model gpt4o --constraint 70 --bet_type variable
 
 echo "[18/22] $70 variable - GPT-4.1"

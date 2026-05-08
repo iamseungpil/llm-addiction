@@ -1,0 +1,43 @@
+description: llm-addiction H100x4 STANDARD — Exp A LLaMA MW retry (DATA_ROOT env fix)
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: /home/v-seungplee/llm-addiction/sae_v3_analysis/
+
+storage:
+  external:
+    storage_account_name: xufluo
+    container_name: zhangquanchen
+    mount_dir: /mnt/input
+    is_output: True
+
+jobs:
+  - name: llm_addiction_h100_mw_e
+    sku: 80G4-H100
+    sla_tier: standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 172800
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: $$HF_TOKEN
+        HUGGING_FACE_HUB_TOKEN: $$HF_TOKEN
+        WANDB_PROJECT: llm-addiction
+        NODE_ROLE: steering_expa_mw
+    command:
+      - nvidia-smi
+      - set -eux
+      - mkdir -p /scratch/logs
+      - cd /scratch
+      - pip install -q huggingface_hub hf_transfer
+      - export HF_HUB_ENABLE_HF_TRANSFER=1
+      - python -c "import os,tarfile; from huggingface_hub import hf_hub_download; p=hf_hub_download(repo_id='iamseungpil/metacot', filename='code_snapshots/llm_addiction_code.tar.gz', repo_type='dataset', token=os.environ['HF_TOKEN']); import os as _o; _o.makedirs('/scratch/llm-addiction', exist_ok=True); tarfile.open(p).extractall('/scratch/llm-addiction')"
+      - bash /scratch/llm-addiction/sae_v3_analysis/remote_launch_steering.sh 2>&1 | tee /scratch/logs/launcher.log

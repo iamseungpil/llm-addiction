@@ -221,7 +221,7 @@ def plot_single_metric(per_bet, per_prompt, per_model, metric, title, output_fil
 
     # 3) Model (combining bet types)
     models = ["gpt4o_mini", "gpt41_mini", "claude_haiku", "gemini_flash"]
-    model_labels = ["GPT-4o", "GPT-4.1", "Claude", "Gemini"]
+    model_labels = ["GPT-4o-mini", "GPT-4.1-mini", "Claude", "Gemini"]
     x = np.arange(len(models))
     vals = []
     for m in models:

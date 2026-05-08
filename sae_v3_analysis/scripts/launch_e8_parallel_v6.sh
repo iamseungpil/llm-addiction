@@ -30,8 +30,8 @@ ENV_COMMON=(
     LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/llm_addiction/data/behavioral
     LOCAL_RANK=0 RANK=0 WORLD_SIZE=1
     TORCHDYNAMO_DISABLE=1
-    HF_TOKEN="${HF_TOKEN:-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}"
-    HUGGING_FACE_HUB_TOKEN="${HF_TOKEN:-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}"
+    HF_TOKEN="${HF_TOKEN:-$$HF_TOKEN}"
+    HUGGING_FACE_HUB_TOKEN="${HF_TOKEN:-$$HF_TOKEN}"
 )
 
 PYTHON=/opt/conda/envs/ptca/bin/python

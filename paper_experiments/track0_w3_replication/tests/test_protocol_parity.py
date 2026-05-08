@@ -24,9 +24,9 @@ import pytest
 
 HERE = Path(__file__).resolve().parent
 SRC_DIR = HERE.parent / "src"
-LEGACY_ROOT = Path("/home/v-seungplee/llm-addiction/legacy")
-LEGACY_FIXED_SRC = LEGACY_ROOT / "gpt_fixed_bet_size_experiment" / "src"
-LEGACY_VARIABLE_SRC = LEGACY_ROOT / "gpt_variable_max_bet_experiment" / "src"
+LEGACY_ROOT = Path("/home/v-seungplee/llm-addiction/paper_experiments/sm_cap_ablation/src")
+LEGACY_FIXED_SRC = LEGACY_ROOT
+LEGACY_VARIABLE_SRC = LEGACY_ROOT
 
 # Order matters: legacy parser must be importable as `improved_gpt_parsing` first.
 sys.path.insert(0, str(LEGACY_ROOT))

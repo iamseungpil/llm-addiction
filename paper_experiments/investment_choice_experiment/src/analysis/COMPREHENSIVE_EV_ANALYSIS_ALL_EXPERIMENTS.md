@@ -1,7 +1,7 @@
 # Comprehensive EV Calculation Analysis: All Experiments
 
 **Date**: 2025-11-19
-**Experiments Analyzed**: Investment Choice, Claude, Gemini, GPT-5, GPT-Corrected (Total: 5 experiments)
+**Experiments Analyzed**: Investment Choice, Claude, Gemini, GPT-4.1-mini, GPT-4o-mini corrected export (Total: 5 experiments)
 **Total Data Points**: 14,400 experiments
 
 ---
@@ -31,10 +31,10 @@
 | **Investment Choice** | 1,600 | 10-100%* | N/A | 0-100%* | 4-option choice |
 | **Claude** | 3,200 | 60.0% | 10.2% | 13.5% | Slot machine |
 | **Gemini** | 3,200 | 73.3% | 25.6% | **25.1%** 🔥 | Slot machine |
-| **GPT-5** | 3,200 | **85.2%** | 3.2% | 3.7% | Slot machine |
-| **GPT-Corrected** | 3,200 | 50.3% | 5.7% | 8.1% | Slot machine |
+| **GPT-4.1-mini** | 3,200 | **85.2%** | 3.2% | 3.7% | Slot machine |
+| **GPT-4o-mini (corrected)** | 3,200 | 50.3% | 5.7% | 8.1% | Slot machine |
 
-> GPT-Corrected statistics now use the final `gpt_corrected_complete_20250911_071013.json` (3,200 runs) instead of the earlier 1,280-run pilot.
+> GPT-4o-mini corrected statistics use the final `gpt_corrected_complete_20250911_071013.json` (3,200 runs) instead of the earlier 1,280-run pilot.
 
 *Investment Choice varies by condition (analyzed separately)
 
@@ -111,7 +111,7 @@ Therefore, I choose Option 1.
 
 ### Model Comparison
 
-#### GPT-5: Most Rational
+#### GPT-4.1-mini: Most Rational
 - **EV Calc Rate**: 85.2% (per-round detection captures most games)
 - **Bankrupt Rate**: 3.2% (lowest)
 - **GPI**: 3.7% (very low)
@@ -144,7 +144,7 @@ believe otherwise, I will STOP.
 
 **Interpretation**: Calculates only when prompts force it, but usually stops after the calculation
 
-#### GPT-Corrected: Balanced
+#### GPT-4o-mini (corrected): Balanced
 - **EV Calc Rate**: 50.3%
 - **Bankrupt Rate**: 5.7% (low)
 - **GPI**: 8.1% (low)
@@ -161,8 +161,8 @@ believe otherwise, I will STOP.
 |-------|------|--------|----------------|
 | Claude | 3% | 30% | +27 pp |
 | Gemini | 15% | 77% | +62 pp |
-| GPT-5 | 86% | 91% | +5 pp |
-| GPT-Corrected | 16% | 35% | +19 pp |
+| GPT-4.1-mini | 86% | 91% | +5 pp |
+| GPT-4o-mini (corrected) | 16% | 35% | +19 pp |
 
 **Finding**: W component dramatically increases EV calculation
 
@@ -172,8 +172,8 @@ believe otherwise, I will STOP.
 |-------|------|--------|----------------|
 | Claude | 3% | 97% | +94 pp |
 | Gemini | 15% | 97% | +82 pp |
-| GPT-5 | 86% | 95% | +9 pp |
-| GPT-Corrected | 16% | 95% | +79 pp |
+| GPT-4.1-mini | 86% | 95% | +9 pp |
+| GPT-4o-mini (corrected) | 16% | 95% | +79 pp |
 
 **Finding**: P component also increases calculation
 
@@ -183,8 +183,8 @@ believe otherwise, I will STOP.
 |-------|--------------|---------------|-----|
 | Claude | **100%** | 10% | 10.0% |
 | Gemini | **100%** | 34% | 34.0% |
-| GPT-5 | **100%** | 12% | 12.0% |
-| GPT-Corrected | **99%** | 23% | 22.2% |
+| GPT-4.1-mini | **100%** | 12% | 12.0% |
+| GPT-4o-mini (corrected) | **99%** | 23% | 22.2% |
 
 **Finding**: MPRW induces near-universal EV calculation
 
@@ -212,7 +212,7 @@ believe otherwise, I will STOP.
 #### Slot Machine G:
 - **Claude**: 0% EV calc (no calculation to measure GPI)
 - **Gemini**: 2% EV calc, 5% bankrupt
-- **GPT-5**: 21% EV calc, 0% bankrupt
+- **GPT-4.1-mini**: 21% EV calc, 0% bankrupt
 - **Pattern**: Goal has minimal effect without explicit EV prompting
 
 **Finding**: Goal framing requires **choice complexity** to trigger irrationality
@@ -227,7 +227,7 @@ believe otherwise, I will STOP.
 #### Slot Machine M:
 - **Claude**: 0% EV calc
 - **Gemini**: 10% calc, 40% bankrupt, **50% GPI**
-- **GPT-5**: 67% calc, 0% bankrupt
+- **GPT-4.1-mini**: 67% calc, 0% bankrupt
 - **Pattern**: Mixed results
 
 **Finding**: "Maximize" works in Investment Choice, fails in Slot Machine (Gemini)
@@ -246,7 +246,7 @@ believe otherwise, I will STOP.
 - All still go bankrupt
 - Worst calculated irrationality in slot machines
 
-### 2. GPT-5's Rationality
+### 2. GPT-4.1-mini's Rationality
 
 **Pattern**: High EV calculation (53%), low bankruptcy (3%)
 
@@ -277,7 +277,7 @@ believe otherwise, I will STOP.
 
 ## Part 7: Model Personality Profiles
 
-### GPT-5: "The Analyst"
+### GPT-4.1-mini: "The Analyst"
 - ✅ Calculates EV frequently (85%)
 - ✅ Acts on calculations (96.3% rational when calculated)
 - ✅ Conservative without prompting
@@ -305,7 +305,7 @@ believe otherwise, I will STOP.
 - **Strength**: Responsive to framing
 - **Weakness**: Goal fixation
 
-### GPT-Corrected (Slot Machine): "The Balanced"
+### GPT-4o-mini (corrected slot-machine export): "The Balanced"
 - ✅ Moderate calculation (50%)
 - ✅ Low bankruptcy (5.7%)
 - ✅ Low GPI (8.1%)
@@ -398,7 +398,7 @@ percent_pairs = r'\d+%[^.\n]{0,30}?(chance|확률)[^.\n]{0,30}?\$?\d+'
    - 2 options → lower irrationality (except Gemini)
 
 4. **Model Differences**
-   - GPT-5: Most rational (calculation → action)
+   - GPT-4.1-mini: Most rational (calculation → action)
    - Gemini: Least rational (calculation ≠ action)
    - Claude: Conservative without calculation
    - GPT-4o-mini: Goal-sensitive
@@ -427,8 +427,8 @@ percent_pairs = r'\d+%[^.\n]{0,30}?(chance|확률)[^.\n]{0,30}?\$?\d+'
 - **Investment Choice**: `/data/llm_addiction/investment_choice_experiment/results/` (8 files, 1,600 experiments)
 - **Claude**: `/data/llm_addiction/claude_experiment/claude_experiment_corrected_20250925.json` (3,200 experiments)
 - **Gemini**: `/data/llm_addiction/gemini_experiment/gemini_experiment_20250920_042809.json` (3,200 experiments)
-- **GPT-5**: `/data/llm_addiction/gpt5_experiment/gpt5_experiment_20250921_174509.json` (3,200 experiments)
-- **GPT-Corrected**: `/data/llm_addiction/ARCHIVE_NON_ESSENTIAL/gpt_results_corrected/gpt_corrected_complete_20250825_212628.json` (1,280 experiments)
+- **GPT-4.1-mini**: `/data/llm_addiction/gpt5_experiment/gpt5_experiment_20250921_174509.json` (3,200 experiments; legacy filename prefix)
+- **GPT-4o-mini (corrected)**: `/data/llm_addiction/ARCHIVE_NON_ESSENTIAL/gpt_results_corrected/gpt_corrected_complete_20250911_071013.json` (3,200 experiments)
 
 ---
 
@@ -439,5 +439,5 @@ percent_pairs = r'\d+%[^.\n]{0,30}?(chance|확률)[^.\n]{0,30}?\$?\d+'
 - `case_study_example.py`
 
 **Total Experiments Analyzed**: 14,080
-**Total Models**: 5 (GPT-4o-mini, GPT-4.1-mini, Claude-3.5-Haiku, Gemini-2.0-Flash, GPT-5-preview)
+**Total Models**: 5 (GPT-4o-mini, GPT-4.1-mini, Claude-3.5-Haiku, Gemini-2.0-Flash, GPT-4o-mini corrected slot export)
 **Total Conditions**: 32 prompt combinations × 2 bet types = 64 conditions

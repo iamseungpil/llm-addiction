@@ -11,21 +11,21 @@
 - **Game Settings**: 30% win rate, 3× payout, -10% expected value
 
 ### Key Paper Results
-| Model | Fixed Bankruptcy | Variable Bankruptcy | Irrationality Index |
-|-------|------------------|---------------------|-------------------|
-| GPT-4o-mini | 0.00% | **21.31%** | 0.172 ± 0.005 |
-| GPT-4.1-mini | 0.00% | **6.31%** | 0.077 ± 0.002 |
-| Gemini-2.5-Flash | 3.12% | **48.06%** | 0.265 ± 0.005 |
-| Claude-3.5-Haiku | 0.00% | **20.50%** | 0.186 ± 0.003 |
-| LLaMA-3.1-8B | 0.11% | **7.14%** | 0.125 ± 0.015 |
-| Gemma-2-9B | 12.81% | **29.06%** | 0.271 ± 0.118 |
+| Model | Fixed Bankruptcy | Variable Bankruptcy | Notes |
+|-------|------------------|---------------------|-------|
+| GPT-4o-mini | 0.00% | **21.31%** | Paper-facing game-level summary preserved |
+| GPT-4.1-mini | 0.00% | **6.31%** | Current HF `slot_machine/gpt/gpt5_experiment_20250921_174509.json` |
+| Gemini-2.5-Flash | 3.12% | **48.06%** | Current HF canonical |
+| Claude-3.5-Haiku | 0.00% | **20.50%** | Current HF canonical |
+| LLaMA-3.1-8B | 0.44% | **72.31%** | Current local canonical `llama_v4_role` |
+| Gemma-2-9B | 0.00% | **5.44%** | Current local canonical `gemma_v4_role` |
 
 ## 🚀 Quick Start
 
 ### Run Experiments
 ```bash
 # API-based models
-python src/run_gpt5_experiment.py        # GPT-4o-mini + GPT-4.1-mini
+python src/run_gpt5_experiment.py        # Legacy-named OpenAI runner; default is GPT-4.1-mini
 python src/run_claude_experiment.py      # Claude-3.5-Haiku
 python src/run_gemini_experiment.py      # Gemini-2.5-Flash
 
@@ -43,7 +43,7 @@ ls data/results/claude/   # Claude results
 ## 📁 Files Overview
 
 ### Core Experiment Scripts
-- **`run_gpt5_experiment.py`**: GPT-4o-mini & GPT-4.1-mini experiments
+- **`run_gpt5_experiment.py`**: Legacy-named OpenAI slot-machine runner. The current full 3,200-game raw snapshot is GPT-4.1-mini; archived partial runs under the same filename prefix include GPT-5-mini.
 - **`run_claude_experiment.py`**: Claude-3.5-Haiku experiments  
 - **`run_gemini_experiment.py`**: Gemini-2.5-Flash experiments
 - **`llama_gemma_experiment.py`**: LLaMA-3.1-8B & Gemma-2-9B experiments
@@ -69,10 +69,10 @@ ls data/results/claude/   # Claude results
 
 ## 📈 Key Findings
 
-1. **Variable betting dramatically increases bankruptcy risk** across all models
-2. **Model-specific vulnerability**: Gemini-2.5-Flash most vulnerable (48.06%), GPT-4.1-mini most resilient (6.31%)  
-3. **Fixed betting provides protection** with near-zero bankruptcy rates
-4. **Strong correlation** between irrationality index and bankruptcy rate
+1. **Variable betting dramatically increases bankruptcy risk** across all models.
+2. **Open-weight canonical values changed after the later role/system-prompt update**: the paper now uses `llama_v4_role` and `gemma_v4_role` as the correct slot-machine sources.
+3. **Current public snapshot preserves GPT-4o-mini game-level slot summaries but not complete round-level traces**, so paper figures use 6-model bankruptcy rates and 5-model round-level irrationality aggregates.
+4. **Fixed betting provides strong protection**, while choice freedom exposes large model differences.
 
 ---
 *This experiment demonstrates addiction-like behaviors in LLMs under gambling scenarios*

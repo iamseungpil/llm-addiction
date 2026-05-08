@@ -21,7 +21,7 @@ SRC_DIR = HERE.parent / "src"
 # Track 0 W3 Plan v5.2 §8: `game_logic` now imports `improved_parse_gpt_response`
 # from /home/v-seungplee/llm-addiction/legacy/. Insert that path before the SRC_DIR
 # so the legacy parser resolves cleanly when the smoke tests import `game_logic`.
-sys.path.insert(0, "/home/v-seungplee/llm-addiction/legacy")
+sys.path.insert(0, "/home/v-seungplee/llm-addiction/paper_experiments/sm_cap_ablation/src")
 sys.path.insert(0, str(SRC_DIR))
 
 import game_logic  # noqa: E402

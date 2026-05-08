@@ -42,7 +42,7 @@ This analysis measures **two types of irrational goal-setting behavior** in LLM 
 - **Gemini**: **35.7%** (most unrealistic)
 - **GPT-4.1**: **26.9%**
 - **Claude**: **23.3%**
-- **GPT-4o**: **21.4%** (most realistic)
+- **GPT-4o-mini**: **21.4%** (most realistic)
 - **Insight**: Models differ significantly in goal-setting rationality
 
 ---
@@ -64,7 +64,7 @@ This analysis measures **two types of irrational goal-setting behavior** in LLM 
 #### By Model:
 - **GPT-4.1**: **17.2%** (most dynamic)
 - **Claude**: **12.5%**
-- **GPT-4o**: **9.1%**
+- **GPT-4o-mini**: **9.1%**
 - **Gemini**: **6.1%** (most stable)
 - **Insight**: GPT-4.1 is most sensitive to changing circumstances
 

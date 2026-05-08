@@ -48,7 +48,10 @@ sys.path.insert(0, str(REPO_SRC))
 
 from run_aligned_factor_steering import (  # noqa: E402
     ALPHA_VALUES,
+    ANALYSIS_ROOT,
+    CHECKPOINT_DIR,
     LAYERS,
+    RESULTS_DIR,
     _NumpyEncoder,
     compute_experiment_stats,
     compute_shared_axis,
@@ -69,10 +72,7 @@ logging.basicConfig(
 logger = logging.getLogger("shared_axis_steering")
 
 
-ANALYSIS_ROOT = Path(os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/scratch/llm_addiction/sae_v3_analysis"))
-RESULTS_DIR = ANALYSIS_ROOT / "results"
 JSON_DIR = RESULTS_DIR / "json"
-CHECKPOINT_DIR = RESULTS_DIR / "checkpoints"
 LOG_DIR = RESULTS_DIR / "logs"
 for d in (JSON_DIR, CHECKPOINT_DIR, LOG_DIR):
     d.mkdir(parents=True, exist_ok=True)

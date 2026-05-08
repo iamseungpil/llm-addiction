@@ -21,8 +21,8 @@ ENV_COMMON=(
     PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
     LOCAL_RANK=0 RANK=0 WORLD_SIZE=1
     TORCHDYNAMO_DISABLE=1
-    HF_TOKEN="${HF_TOKEN:-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}"
-    HUGGING_FACE_HUB_TOKEN="${HF_TOKEN:-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}"
+    HF_TOKEN="${HF_TOKEN:-$$HF_TOKEN}"
+    HUGGING_FACE_HUB_TOKEN="${HF_TOKEN:-$$HF_TOKEN}"
 )
 
 PY=/opt/conda/envs/ptca/bin/python

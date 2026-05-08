@@ -81,7 +81,7 @@ paper_experiments/
 ```bash
 # Experiment 1a: 6-model slot machine
 cd slot_machine_6models
-python src/run_gpt5_experiment.py        # GPT models
+python src/run_gpt5_experiment.py        # Legacy-named OpenAI slot-machine runner (default: GPT-4.1-mini)
 python src/run_claude_experiment.py      # Claude  
 python src/run_gemini_experiment.py      # Gemini
 python src/llama_gemma_experiment.py     # LLaMA/Gemma

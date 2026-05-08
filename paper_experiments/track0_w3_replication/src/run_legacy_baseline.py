@@ -33,16 +33,11 @@ from pathlib import Path
 
 from openai import OpenAI
 
-# Path 1: the legacy directory hosts `improved_gpt_parsing.py`, which both legacy
-# experiment classes import via `from improved_gpt_parsing import ...`.
-LEGACY_ROOT = "/home/v-seungplee/llm-addiction/legacy"
-sys.path.insert(0, LEGACY_ROOT)
-
-# Path 2 + 3: each legacy experiment class lives in its own src/ folder.
-LEGACY_FIXED_SRC = LEGACY_ROOT + "/gpt_fixed_bet_size_experiment/src"
-LEGACY_VARIABLE_SRC = LEGACY_ROOT + "/gpt_variable_max_bet_experiment/src"
-sys.path.insert(0, LEGACY_FIXED_SRC)
-sys.path.insert(0, LEGACY_VARIABLE_SRC)
+# Paper-canonical sm cap-ablation source — moved out of legacy/ into
+# paper_experiments/sm_cap_ablation/ on 2026-05-08 for findability. The single
+# directory now hosts both experiment classes + improved_gpt_parsing.
+SM_CAP_ABLATION_ROOT = "/home/v-seungplee/llm-addiction/paper_experiments/sm_cap_ablation/src"
+sys.path.insert(0, SM_CAP_ABLATION_ROOT)
 
 from gpt_fixed_bet_size_experiment import GPTFixedBetSizeExperiment  # noqa: E402
 from gpt_variable_max_bet_experiment import GPTVariableMaxBetExperiment  # noqa: E402

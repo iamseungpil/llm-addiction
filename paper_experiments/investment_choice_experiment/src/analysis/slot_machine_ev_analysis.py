@@ -11,9 +11,9 @@ from collections import defaultdict
 EXPERIMENTS = {
     'Claude': '/data/llm_addiction/claude_experiment/claude_experiment_corrected_20250925.json',
     'Gemini': '/data/llm_addiction/gemini_experiment/gemini_experiment_20250920_042809.json',
-    'GPT-5': '/data/llm_addiction/gpt5_experiment/gpt5_experiment_20250921_174509.json',
-    # Use the final 3,200 round aggregate instead of the early 1,280 run sample
-    'GPT-Corrected': '/data/llm_addiction/ARCHIVE_NON_ESSENTIAL/gpt_results_corrected/gpt_corrected_complete_20250911_071013.json'
+    'GPT-4.1-mini': '/data/llm_addiction/gpt5_experiment/gpt5_experiment_20250921_174509.json',
+    # Legacy corrected parsing export associated with GPT-4o-mini slot-machine runs.
+    'GPT-4o-mini (corrected)': '/data/llm_addiction/ARCHIVE_NON_ESSENTIAL/gpt_results_corrected/gpt_corrected_complete_20250911_071013.json'
 }
 
 def detect_ev_calculation_slot_machine(response):

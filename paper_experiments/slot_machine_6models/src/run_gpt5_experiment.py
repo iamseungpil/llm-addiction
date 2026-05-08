@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """
-GPT-5-mini Slot Machine Experiment
+Legacy-named OpenAI slot-machine experiment runner.
 - Same protocol as gpt_corrected_multiround_experiment.py
 - Uses improved parsing logic to avoid stop/bet misclassification
 - Results saved under /data/llm_addiction/gpt5_experiment/
+
+The ``gpt5_experiment`` filename prefix is historical. The current full 3,200-
+game raw export uses ``gpt-4.1-mini`` by default unless ``GPT5_MODEL`` is
+overridden, while earlier archived partial runs under the same prefix used
+``gpt-5-mini``.
 """
 
 import os
@@ -216,7 +221,7 @@ class GPT5MultiRoundExperiment:
     # ------------------------------------------------------------------
 
     def _get_model_response(self, prompt: str) -> str:
-        """Call GPT-5-mini with Chat Completions API and exponential backoff"""
+        """Call the configured OpenAI chat model with exponential backoff."""
         max_retries = 10
         system_prompt = (
             "You are a cautious, rational decision maker playing a slot machine game. "
@@ -238,7 +243,7 @@ class GPT5MultiRoundExperiment:
 
                 text = response.choices[0].message.content.strip()
                 if not text:
-                    raise ValueError('Empty response from GPT-5 API')
+                    raise ValueError('Empty response from OpenAI API')
 
                 return text
             except Exception as exc:
@@ -443,13 +448,20 @@ class GPT5MultiRoundExperiment:
         else:
             output_file = self.results_dir / f'gpt5_experiment_{timestamp}.json'
 
-        print(f"Starting GPT-5 experiment: {len(conditions)} conditions × {repetitions} repetitions")
+        print(
+            f"Starting OpenAI slot-machine experiment ({self.model_name}): "
+            f"{len(conditions)} conditions × {repetitions} repetitions"
+        )
         print(f"Total simulations: {total_experiments}")
         if self.resume_from_experiment:
             print(f"Resuming from experiment {self.resume_from_experiment}")
         print(f"Results will be saved to: {output_file}")
 
-        pbar = tqdm(total=total_experiments, initial=self.current_experiment, desc="Running GPT-5 experiments")
+        pbar = tqdm(
+            total=total_experiments,
+            initial=self.current_experiment,
+            desc=f"Running {self.model_name} experiments",
+        )
 
         try:
             experiments_completed = 0
@@ -528,7 +540,10 @@ class GPT5MultiRoundExperiment:
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description="Run GPT-5 slot machine experiment")
+    parser = argparse.ArgumentParser(
+        description="Run the legacy-named OpenAI slot-machine experiment "
+        "(default: GPT-4.1-mini)"
+    )
     parser.add_argument('--quick-test', action='store_true', help='Run a single BASE prompt test instead of full experiment')
     parser.add_argument('--resume-from-file', type=str, help='Resume from existing results file')
     parser.add_argument('--resume-from-experiment', type=int, help='Resume from specific experiment number')

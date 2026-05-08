@@ -1,0 +1,45 @@
+description: llm-addiction H100x4 M3prime — Llama MW + IC focused 3-alpha cross-task
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: /home/v-seungplee/llm-addiction/sae_v3_analysis/
+
+storage:
+  external:
+    storage_account_name: xufluo
+    container_name: zhangquanchen
+    mount_dir: /mnt/input
+    is_output: True
+
+jobs:
+  - name: m3prime_llama_xtask_n1
+    sku: 80G4-H100
+    sla_tier: standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: $$HF_TOKEN
+        HUGGING_FACE_HUB_TOKEN: $$HF_TOKEN
+        WANDB_PROJECT: llm-addiction
+        JOB_ROLE: llama_xtask
+        N_PER_COND: "80"
+        NODE_ROLE: m3prime_llama_xtask
+    command:
+      - nvidia-smi
+      - set -eux
+      - mkdir -p /scratch/code /scratch/logs
+      - cd /scratch/code
+      - "if [ ! -d llm-addiction ]; then git clone --depth 1 https://github.com/iamseungpil/llm-addiction.git; fi"
+      - cd /scratch/code/llm-addiction
+      - git fetch && git pull --rebase || true
+      - bash sae_v3_analysis/scripts/remote_m3prime_launcher.sh

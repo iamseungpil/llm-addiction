@@ -1,0 +1,47 @@
+description: llm-addiction MW held-out cells 0428 (h13 L25 + h14 L30 + h2 L22)
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: /home/v-seungplee/llm-addiction/sae_v3_analysis/
+
+storage:
+  external:
+    storage_account_name: xufluo
+    container_name: zhangquanchen
+    mount_dir: /mnt/input
+    is_output: True
+
+jobs:
+  - name: llm_addiction_mw_holdout_0428
+    sku: 80G4-H100
+    sla_tier: standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: $$HF_TOKEN
+        HUGGING_FACE_HUB_TOKEN: $$HF_TOKEN
+        WANDB_PROJECT: llm-addiction
+        NODE_ROLE: holdout_continue_0428
+    command:
+      - nvidia-smi
+      - set -eux
+      - mkdir -p /scratch/logs /scratch/l22_runs /scratch/l22_logs /scratch/.hf_cache
+      - cd /scratch
+      - pip install -q huggingface_hub hf_transfer
+      - export HF_HUB_ENABLE_HF_TRANSFER=1 HF_HOME=/scratch/.hf_cache
+      - python -c "import os,tarfile; from huggingface_hub import hf_hub_download; p=hf_hub_download(repo_id='iamseungpil/metacot', filename='code_snapshots/llm_addiction_code.tar.gz', repo_type='dataset', token=os.environ['HF_TOKEN']); import os as _o; _o.makedirs('/scratch/llm-addiction', exist_ok=True); tarfile.open(p).extractall('/scratch/llm-addiction')"
+      - python -c "import os,tarfile; from huggingface_hub import hf_hub_download; p=hf_hub_download(repo_id='iamseungpil/metacot', filename='llm_addiction_data/llama_ic_mw_bundle.tar.gz', repo_type='dataset', token=os.environ['HF_TOKEN']); import os as _o; _o.makedirs('/scratch/llm-addiction-data', exist_ok=True); tarfile.open(p).extractall('/scratch/llm-addiction-data')"
+      - python -c "import os,shutil; from huggingface_hub import hf_hub_download; tok=os.environ['HF_TOKEN']; p=hf_hub_download(repo_id='iamseungpil/metacot', filename='code_snapshots/l22_held_out/run_l22_held_out_steering.py', repo_type='dataset', token=tok); shutil.copy2(p,'/scratch/llm-addiction/sae_v3_analysis/src/run_l22_held_out_steering.py')"
+      - python -c "import os,shutil; from huggingface_hub import hf_hub_download; tok=os.environ['HF_TOKEN']; p=hf_hub_download(repo_id='iamseungpil/metacot', filename='code_snapshots/l22_held_out/run_holdout_continue.sh', repo_type='dataset', token=tok); shutil.copy2(p,'/scratch/llm-addiction/sae_v3_analysis/run_holdout_continue.sh')"
+      - python -c "import os,shutil; from huggingface_hub import hf_hub_download; tok=os.environ['HF_TOKEN']; [shutil.copy2(hf_hub_download(repo_id='iamseungpil/metacot', filename=src, repo_type='dataset', token=tok), dst) for src,dst in [('llm_addiction_results/steering_l22_held_out_v5/intent_node/h13_mw_L25.json','/scratch/l22_runs/h13_mw_L25.json'),('llm_addiction_results/steering_l22_held_out_v5/intent_node/h14_mw_L30.json','/scratch/l22_runs/h14_mw_L30.json'),('llm_addiction_results/steering_l22_held_out_v5/intent_node/h2_a-2.0.json','/scratch/l22_runs/h2_mw_L22.json')]"
+      - bash /scratch/llm-addiction/sae_v3_analysis/run_holdout_continue.sh

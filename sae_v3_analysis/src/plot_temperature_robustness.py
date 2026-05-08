@@ -8,7 +8,9 @@ import numpy as np
 import re
 from pathlib import Path
 
-OUT_PATH = "/home/v-seungplee/LLM_Addiction_NMT_KOR/images/temperature_robustness.pdf"
+from paper_figure_style import COLORS, panel_title, save_pdf_png, style_axes, use_paper_style
+
+OUT_DIR = Path("/home/v-seungplee/LLM_Addiction_NMT_KOR/images")
 
 # Parse data from log
 data = {}
@@ -26,15 +28,16 @@ prompts = ["BASE", "G", "H", "GMHW"]
 print(f"Available: {len(data)} conditions, temps={temps}")
 
 # ── Single clean figure ──
-fig, ax = plt.subplots(figsize=(8, 4.5))
+use_paper_style(9.0)
+fig, ax = plt.subplots(figsize=(6.9, 2.95))
 
 x = np.arange(len(prompts))
 n_temps = len(temps)
 total_width = 0.7
 bar_w = total_width / (n_temps * 2)  # 2 bars (fixed/var) per temp
 
-colors_f = ["#27ae60", "#1e8449", "#145a32", "#0d3b1f"]
-colors_v = ["#e74c3c", "#c0392b", "#922b21", "#6c1d1d"]
+colors_f = ["#7BC77A", "#59A14F", "#3D7D3B", "#255628"]
+colors_v = ["#F28B82", COLORS["variable"], "#C94A48", "#8B2C2A"]
 
 for i, temp in enumerate(temps):
     fixed_vals = [data.get((temp, p, "fixed"), np.nan) for p in prompts]
@@ -44,19 +47,19 @@ for i, temp in enumerate(temps):
 
     # Fixed bars
     f_bars = ax.bar(x + offset - bar_w/2, fixed_vals, bar_w,
-                    color=colors_f[i], alpha=0.8, edgecolor="black", linewidth=0.5)
+                    color=colors_f[i], alpha=0.92, edgecolor="white", linewidth=0.5)
     # Variable bars
     v_bars = ax.bar(x + offset + bar_w/2, var_vals, bar_w,
-                    color=colors_v[i], alpha=0.85, edgecolor="black", linewidth=0.5)
+                    color=colors_v[i], alpha=0.92, edgecolor="white", linewidth=0.5)
 
     # Value labels on variable bars only (fixed is always 20)
     for j, v in enumerate(var_vals):
         if not np.isnan(v):
             ax.text(x[j] + offset + bar_w/2, v + 1.5, f"{v:.0f}%",
-                    ha="center", fontsize=7, fontweight="bold", color=colors_v[i])
+                    ha="center", fontsize=6.8, fontweight="bold", color=colors_v[i])
 
 # Fixed baseline annotation
-ax.axhline(y=20, color="#27ae60", linewidth=1.5, linestyle="--", alpha=0.6)
+ax.axhline(y=20, color=COLORS["fixed"], linewidth=1.2, linestyle="--", alpha=0.75)
 ax.text(3.45, 23, "Fixed ≈ 20%\n(all temps)", fontsize=8, color="#1a8a4a",
         fontstyle="italic", ha="right", va="bottom")
 
@@ -68,19 +71,16 @@ for i, temp in enumerate(temps):
                                  label=f"Fixed (t={temp})"))
     legend_elements.append(Patch(facecolor=colors_v[i], edgecolor="black", linewidth=0.5,
                                  label=f"Variable (t={temp})"))
-ax.legend(handles=legend_elements, fontsize=7, ncol=2, loc="upper left",
+ax.legend(handles=legend_elements, fontsize=6.8, ncol=2, loc="upper left",
           framealpha=0.9)
 
 ax.set_xticks(x)
-ax.set_xticklabels(prompts, fontsize=11)
-ax.set_ylabel("Bankruptcy Rate (%)", fontsize=11)
-ax.set_xlabel("Prompt Condition", fontsize=11)
-ax.set_title("Temperature Robustness: Variable > Fixed at All Temperatures",
-             fontsize=12, fontweight="bold")
+ax.set_xticklabels(prompts)
+ax.set_ylabel("Bankruptcy rate (%)")
+ax.set_xlabel("Prompt condition")
+panel_title(ax, "", "Temperature Robustness")
 ax.set_ylim(0, 105)
-ax.spines["top"].set_visible(False)
-ax.spines["right"].set_visible(False)
+style_axes(ax)
 
-plt.tight_layout()
-plt.savefig(OUT_PATH, dpi=300, bbox_inches="tight")
-print(f"Saved to {OUT_PATH}")
+save_pdf_png(fig, OUT_DIR, "temperature_robustness")
+print(f"Saved to {OUT_DIR / 'temperature_robustness.pdf'}")

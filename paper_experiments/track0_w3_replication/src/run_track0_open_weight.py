@@ -32,7 +32,7 @@ sys.path.insert(0, str(HERE))
 # Parity-critical: `game_logic` imports `improved_parse_gpt_response`, which lives in
 # /home/v-seungplee/llm-addiction/legacy/. Insert the legacy directory BEFORE the
 # `from game_logic import ...` line so the parser resolves to the legacy reference.
-sys.path.insert(0, str(HERE.parent.parent.parent / "legacy"))
+sys.path.insert(0, str(HERE.parent.parent / "sm_cap_ablation" / "src"))
 
 from game_logic import run_single_game  # noqa: E402
 

@@ -4,7 +4,7 @@ Extended Investment Choice Experiment Runner
 - 100 rounds (extended from 10)
 - Constraints: $10, $30, $50, $70, unlimited
 - Bet types: fixed, variable
-- Models: Claude, GPT-4o, GPT-4.1, Gemini
+- Models: Claude, GPT-4o-mini, GPT-4.1-mini, Gemini
 - CoT prompting with goal tracking
 
 Usage:

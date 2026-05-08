@@ -52,14 +52,14 @@ DATA_SOURCES = [
         path=HF_SNAPSHOT
         / "analysis/gpt_results_fixed_parsing/gpt_fixed_parsing_complete_20250919_151240.json",
         provenance="huggingface",
-        note="Corrected parsing export with round-level free-text decisions.",
+        note="Legacy corrected slot-machine export with round-level free-text decisions.",
     ),
     DataSource(
         model_key="gpt41",
         display_name="GPT-4.1-mini",
         path=HF_SNAPSHOT / "slot_machine/gpt/gpt5_experiment_20250921_174509.json",
         provenance="huggingface",
-        note="Raw slot-machine export with free-text decisions in round_details.",
+        note="Raw slot-machine export with free-text decisions in round_details; legacy filename prefix `gpt5_experiment` but actual model is GPT-4.1-mini.",
     ),
     DataSource(
         model_key="gemini",

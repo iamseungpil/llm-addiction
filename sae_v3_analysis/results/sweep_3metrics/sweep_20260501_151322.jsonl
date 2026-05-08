@@ -1,0 +1,2 @@
+{"model": "gemma", "task": "sm", "layer": 18, "i_lc": null, "i_ba": {"r2": null, "n": 18223, "null_mean": null, "null_95": null, "p": null, "reason": "all_folds_degenerate"}, "i_ec": {"r2": null, "n": 18223, "null_mean": null, "null_95": null, "p": null, "reason": "all_folds_degenerate"}}
+{"model": "gemma", "task": "sm", "layer": 24, "i_lc": null, "i_ba": {"r2": null, "n": 18223, "null_mean": null, "null_95": null, "p": null, "reason": "all_folds_degenerate"}, "i_ec": {"r2": null, "n": 18223, "null_mean": null, "null_95": null, "p": null, "reason": "all_folds_degenerate"}}

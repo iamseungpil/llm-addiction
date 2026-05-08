@@ -32,8 +32,8 @@ ENV_COMMON=(
     PYTHONPATH=/scratch/llm_addiction/paper_experiments/slot_machine_6models/src:/scratch/llm_addiction/exploratory_experiments/alternative_paradigms/src
     LOCAL_RANK=0 RANK=0 WORLD_SIZE=1
     TORCHDYNAMO_DISABLE=1
-    HF_TOKEN="${HF_TOKEN:-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}"
-    HUGGING_FACE_HUB_TOKEN="${HF_TOKEN:-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}"
+    HF_TOKEN="${HF_TOKEN:-$$HF_TOKEN}"
+    HUGGING_FACE_HUB_TOKEN="${HF_TOKEN:-$$HF_TOKEN}"
 )
 
 PYTHON=/opt/conda/envs/ptca/bin/python

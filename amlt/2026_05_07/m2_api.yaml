@@ -1,0 +1,33 @@
+description: Track A1 M2 persona-decoupling (API models, SM only)
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: m2_api
+    sku: 80G4-H100
+    sla_tier: standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 604800
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: $$HF_TOKEN
+        OPENAI_API_KEY: $$OPENAI_API_KEY
+        ANTHROPIC_API_KEY: $$ANTHROPIC_API_KEY
+        GOOGLE_API_KEY: $$GOOGLE_API_KEY
+        CLAUDE_API_KEY: $$ANTHROPIC_API_KEY
+        TRACK: m2_api
+    command:
+      - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
+      - cd /scratch/code/llm-addiction && bash paper_experiments/m2_persona_decoupling/amlt/run_grid.sh api
+      - sleep 86400

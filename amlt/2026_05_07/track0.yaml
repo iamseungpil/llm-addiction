@@ -1,0 +1,39 @@
+description: Track 0 W3 cross-model matched-cap replication (open-weight Gemma+LLaMA)
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+  setup:
+    - echo "export LC_CTYPE=en_US.UTF-8" >> ~/.profile
+    - echo "export CUDA_HOME=/usr/local/cuda-12.6" >> ~/.profile
+    - echo "export PATH=/usr/local/cuda-12.6/bin:/opt/conda/envs/ptca/bin:$$PATH" >> ~/.profile
+    - echo "export LD_LIBRARY_PATH=/usr/local/cuda-12.6/lib64:/opt/conda/envs/ptca/lib:$$LD_LIBRARY_PATH" >> ~/.profile
+    - source ~/.profile
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: track0_open_weight
+    sku: 80G4-H100
+    sla_tier: standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 604800
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: $$HF_TOKEN
+        HUGGING_FACE_HUB_TOKEN: $$HF_TOKEN
+        TRACK: track0
+    command:
+      - nvidia-smi
+      - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
+      - cd /scratch/code/llm-addiction && bash paper_experiments/track0_w3_replication/amlt/run_grid.sh open_weight
+      - cd /scratch/code/llm-addiction && python paper_experiments/track0_w3_replication/src/analyze_track0.py --input_dir /scratch/x3415a02/data/llm-addiction/track0_w3/ --output_path /scratch/x3415a02/data/llm-addiction/track0_w3/_analysis.json
+      - cd /scratch/code/llm-addiction && python paper_experiments/track0_w3_replication/src/sanity_checks.py --input_dir /scratch/x3415a02/data/llm-addiction/track0_w3/ --output_path /scratch/x3415a02/data/llm-addiction/track0_w3/_sanity.md
+      - sleep 86400

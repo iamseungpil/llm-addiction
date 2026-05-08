@@ -1,0 +1,62 @@
+# Track A1 / M2 Persona-decoupling pre-registration config.
+# Frozen at Plan v4 commit (2026-05-08). Any change requires §13 deviation note in PLAN_4NODE_EXECUTION_2026_05_07.md.
+# All parameters affecting the primary contrast live here, not in CLI defaults.
+
+stage_1:
+  n_games_per_cell: 200
+  conditions: [BASE, +G, +M, +GM]
+  framings: [first_person, role_play_gambler]
+  tasks:
+    primary: SM
+    robustness: [IC, MW]
+  models:
+    open_weight:
+      - {name: gemma, hf_id: google/gemma-2-9b-it}
+      - {name: llama, hf_id: meta-llama/Llama-3.1-8B-Instruct}
+    api:
+      - {name: gpt-4o-mini, sdk: openai, model_id: gpt-4o-mini}
+      - {name: claude-haiku, sdk: anthropic, model_id: claude-3-5-haiku-20241022}
+      - {name: gemini-flash, sdk: google, model_id: gemini-2.5-flash}
+      - {name: gpt-4o, sdk: openai, model_id: gpt-4o}
+
+stage_2:
+  n_games_per_cell: 500
+  trigger:
+    primary_ci_borderline_lower_bound: [-0.01, 0.02]   # probability scale, per Plan §2.3
+    primary_ci_halfwidth_max_prob: 0.03                # probability scale
+
+api:
+  inter_call_gap_s: 0.2
+
+generation:
+  initial_balance: 100
+  win_rate: 0.30
+  payout: 3.0
+  max_rounds: 100
+  seed_base: 42
+
+bambi_fit:
+  formula: "risk_metric ~ condition * framing + (1 | model)"
+  family: bernoulli
+  draws: 2000
+  tune: 1000
+  chains: 4
+  cores: 4
+  random_seed: 42
+  cluster_se_groups: ["model", "game_id"]
+
+primary_contrast:
+  estimand: "Delta_{+G,first_person} - Delta_{+G,role_play} where each Delta_{cond,frame} = E[risk | cond, frame] - E[risk | BASE, frame]"
+  scale: logit
+  decision_rule: "lower 95% Wald CI on (Delta_{+G,first} - Delta_{+G,role}) > 0"
+  reference_condition: BASE
+  test_condition: +G
+  risk_metric: bankrupt
+
+manipulation_check:
+  gambling_keywords: [bet, risk, loss, win, gamble, luck, chance]
+  rule: "+G under role_play should boost gambling-keyword frequency more than +G under first_person"
+
+output:
+  base_dir: /scratch/x3415a02/data/llm-addiction/m2_persona/
+  filename_pattern: "final_{model}_{condition}_{framing}_{task}_{timestamp}.json"

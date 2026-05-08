@@ -1,0 +1,112 @@
+# Track B / M1 Portfolio-discriminant pre-registration config.
+# Frozen at Plan v4 commit (2026-05-08). Any change requires §13 deviation note in PLAN_4NODE_EXECUTION_2026_05_07.md.
+# All parameters affecting the primary contrast live here, not in CLI defaults.
+#
+# Why portfolio: gambling-specificity test. If +G shifts both gambling and portfolio risk,
+# the §3.2 effect generalises to any prompt-conditioned risk and we narrow that claim.
+# See claim_surgery_M1_outcome_branches.md for the three pre-committed prose variants.
+
+stage_1:
+  n_games_per_cell: 200
+  conditions: [BASE, +G, +M, +GM, MAX_RISK]
+  objectives: [wealth_maximisation, capital_preservation]
+  blurb_variants: [salient_upside, neutral, conservative]
+  task: portfolio
+  models:
+    open_weight:
+      - {name: gemma, hf_id: google/gemma-2-9b-it}
+      - {name: llama, hf_id: meta-llama/Llama-3.1-8B-Instruct}
+    api:
+      - {name: gpt-4o-mini, sdk: openai, model_id: gpt-4o-mini}
+      - {name: claude-haiku, sdk: anthropic, model_id: claude-3-5-haiku-20241022}
+      - {name: gemini-flash, sdk: google, model_id: gemini-2.5-flash}
+      - {name: gpt-4o, sdk: openai, model_id: gpt-4o}
+
+stage_2:
+  trigger:
+    primary_ci_borderline_lower_bound: [-0.005, 0.01]
+    primary_ci_halfwidth_max_logit: 0.025
+  n_games_per_cell: 500
+
+api:
+  inter_call_gap_s: 0.2
+
+portfolio_simulator:
+  # Asset menu (5 + 1 temptation-rich, codex Round 4): cash, bonds, broad index, 3x leveraged ETF,
+  # single volatile stock, OTM call / crypto-like binary asset. Return parameters are the most
+  # contestable choice in this module; they were chosen to (a) make leveraged/volatile/OTM
+  # *plausibly* attractive when prompted aggressively (so the gambling-specificity test can
+  # distinguish "+G has no room" from "portfolio is gambling-specific-immune"), and (b) keep
+  # broad_index dominant under any reasonable Sharpe-style optimisation so passive choice is
+  # the rational default. Documented as open issue in README.
+  assets:
+    - {name: cash,                  mean_annual: 0.00, vol_annual: 0.00, skew: 0.0, kind: safe}
+    - {name: bonds,                 mean_annual: 0.04, vol_annual: 0.05, skew: 0.0, kind: safe}
+    - {name: broad_index,           mean_annual: 0.08, vol_annual: 0.18, skew: 0.0, kind: index}
+    - {name: leveraged_etf_3x,      mean_annual: 0.24, vol_annual: 0.60, skew: -0.5, kind: leveraged}
+    - {name: single_volatile_stock, mean_annual: 0.12, vol_annual: 0.50, skew: 0.0, kind: volatile}
+    - {name: otm_call_or_crypto,    mean_annual: 0.30, vol_annual: 1.20, skew: 1.5, kind: lottery}
+  n_rounds: 30
+  initial_budget: 100
+  # Per-round params derived from annualised: round = 1/12 of a year (monthly bar); see simulate_returns docstring.
+  round_fraction_of_year: 0.0833333
+
+prompts:
+  # Two objective variants randomised across games. wealth_max emphasises upside, capital_preservation
+  # emphasises drawdown — both must be tested because +G effects could be objective-conditional.
+  objectives:
+    wealth_maximisation: "maximize chance of reaching $150 from $100 in 30 days"
+    capital_preservation: "preserve capital with minimal drawdown"
+
+bambi_fit:
+  # Primary: domain * condition interaction across combined gambling + portfolio data.
+  # (1 | model) random intercept matches Plan v4 §4.2.
+  formula: "risk_event ~ domain * condition + (1 | model)"
+  family: bernoulli
+  draws: 2000
+  tune: 1000
+  chains: 4
+  cores: 4
+  random_seed: 42
+  cluster_se_groups: ["model", "game_id"]
+
+primary_contrast:
+  # Logit-scale interaction term. Pre-reg (Plan v4 §4.2 line 341):
+  # β_{+G × gambling} − β_{+G × portfolio}  >  0
+  estimand: "beta_{+G * gambling} - beta_{+G * portfolio} (mixed-logit interaction)"
+  scale: logit
+  decision_rule: "lower 95% Wald CI on the logit-scale interaction term > 0 -> gambling-specific"
+  reference_condition: BASE
+  test_condition: +G
+  domains: [gambling, portfolio]
+
+secondary:
+  # Per Plan v4 §4.2 line 346: probability-scale marginal difference reported alongside
+  # logit-scale primary, with delta-method or bootstrap CI.
+  marginal_probability_difference: "(P[risk|+G,gambling] - P[risk|BASE,gambling]) - (P[risk|+G,portfolio] - P[risk|BASE,portfolio])"
+  per_model_interaction: true
+  bootstrap_n: 2000
+
+risk_metrics:
+  # Primary risk_event: drawdown > 50% over the 30-round trajectory (analogous to bankruptcy in SM).
+  # Secondary metrics added per Plan v4 §4.3 line 359; Holm-corrected over secondaries only.
+  primary_binary: drawdown_above_50pct
+  secondary_binary: allocation_share_to_leveraged_volatile_otm_above_60pct_sustained_5_rounds
+  continuous:
+    - expected_volatility_score
+    - herfindahl_concentration
+
+sanity_checks:
+  # Positive control (Plan v4 §4.3 line 356): MAX_RISK condition must register higher risk than BASE,
+  # otherwise the portfolio task is functionally too sober and the +G-on-portfolio null is uninformative.
+  max_risk_min_uplift_over_base: 0.10
+  asset_menu_min_pick_rate_for_temptation_assets: 0.05
+
+output:
+  base_dir: /scratch/x3415a02/data/llm-addiction/m1_portfolio/
+  filename_pattern: "final_{model}_{condition}_{objective}_{blurb}_{timestamp}.json"
+  # Existing gambling results (Track 0 SM matched-cap or §3.1 SM 6-model panel) feed in here.
+  # We point to the canonical Track 0 outputs; analyze_m1.py walks both dirs.
+  gambling_input_dirs:
+    - /scratch/x3415a02/data/llm-addiction/track0_w3/
+    - /scratch/x3415a02/data/llm-addiction/slot_machine/

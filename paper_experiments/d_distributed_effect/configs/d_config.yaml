@@ -1,0 +1,78 @@
+# Track D — §4.3 distributed-effect robustness configuration
+# Plan v4 spec at /home/v-seungplee/llm-addiction/PLAN_4NODE_EXECUTION_2026_05_07.md §5
+#
+# This config drives:
+#   src/topk_removal.py             (paired top-K vs random-K feature ablation primitive)
+#   src/run_d_topk_removal.py       (CLI: per (model, K, removal_type) Δ_G recompute)
+#   src/analyze_d.py                (paired bootstrap by game_id; pre-registered K=50 verdict)
+
+models:
+  gemma:
+    behavioral_model: gemma
+  llama:
+    behavioral_model: llama
+
+# Layer used in body Table 3
+layer: 22
+
+# Primary task and indicator (headline cell from Table 3)
+task: sm                            # slot machine
+indicator: i_ba                     # betting aggressiveness
+
+# Feature-removal counts to sweep
+K_values: [10, 50, 100]
+
+# Random-K paired-bootstrap baseline count per K. Each random replicate draws
+# a uniformly random K-subset from the active feature pool and re-fits Δ_G.
+N_random_baselines_per_K: 50
+random_seed_base: 1000              # replicate seeds = base + 0 .. N-1
+
+# Selection criterion for top-K. MUST match paper §4.1 selection rule applied
+# to the deconfounded I_BA target on the TRAINING fold only (no leakage):
+#   |spearmanr(F[:, j], y_deconfounded_train)|
+# Implemented inside fit_groupkfold_with_removal so the selection step lives
+# inside the GroupKFold fold loop.
+selection:
+  criterion: abs_spearman_deconfounded_iba
+  on_split: train_only
+
+# Pre-registered primary verdict (Plan v4 §5; frozen before computation):
+#   Δ_G_random_K − Δ_G_top_K > 0  at K=50
+# evaluated as: lower bound of 95% paired-bootstrap CI > 0.
+# Secondary K=10 and K=100 are reported as robustness curves only.
+preregistration:
+  primary_K: 50
+  primary_alpha: 0.05               # → 95% CI
+  bootstrap_n_resamples: 1000
+  bootstrap_resample_unit: game_id  # paired by game; preserves within-game dependence
+
+# GroupKFold protocol — must match sae_v3_analysis/src/run_groupkfold_recompute.py
+groupkfold:
+  n_splits: 5
+  top_k: 200                        # post-removal Ridge selects from remaining features
+  ridge_alpha: 100.0
+  rf_trees: 50
+  rf_depth: 8
+  group_by: game_id
+
+# Source of original Table 3 Δ_G (read by analyze_d.py and tests)
+original_table3_path: /home/v-seungplee/llm-addiction/sae_v3_analysis/results/condition_modulation_groupkfold_L22.json
+original_table3_key_template: "{model}_{task}_{indicator}_L{layer}"
+plus_g_subset: plus_G
+minus_g_subset: minus_G
+
+# Cached SAE features (matches sae_v3_analysis layout via load_sae_and_meta)
+data:
+  behavioral_root: /home/v-seungplee/data/llm-addiction/behavioral
+  sae_features_root: /home/v-seungplee/data/llm-addiction/sae_features_v3
+
+# Output root
+output:
+  root: /scratch/x3415a02/data/llm-addiction/d_robustness
+  per_run_subdir: per_run           # per (model, K, removal_type) JSONs
+  results_subdir: results           # aggregated bootstrap verdict
+  log_subdir: logs
+
+# Reproducibility
+seeds:
+  numpy: 42

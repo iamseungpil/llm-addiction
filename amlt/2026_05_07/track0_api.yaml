@@ -1,0 +1,35 @@
+description: Track 0 W3 API models (no GPU) — gpt-4o-mini, claude-haiku, gemini-flash, gpt-4o re-baseline
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: track0_api
+    sku: 80G4-H100
+    sla_tier: standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 604800
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: $$HF_TOKEN
+        HUGGING_FACE_HUB_TOKEN: $$HF_TOKEN
+        OPENAI_API_KEY: $$OPENAI_API_KEY
+        ANTHROPIC_API_KEY: $$ANTHROPIC_API_KEY
+        GOOGLE_API_KEY: $$GOOGLE_API_KEY
+        CLAUDE_API_KEY: $$ANTHROPIC_API_KEY
+        TRACK: track0_api
+    command:
+      - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
+      - cd /scratch/code/llm-addiction && bash paper_experiments/track0_w3_replication/amlt/run_grid.sh api
+      - cd /scratch/code/llm-addiction && python paper_experiments/track0_w3_replication/src/analyze_track0.py --input_dir /scratch/x3415a02/data/llm-addiction/track0_w3/ --output_path /scratch/x3415a02/data/llm-addiction/track0_w3/_analysis.json
+      - sleep 86400

@@ -1,0 +1,121 @@
+# M5 — Internal-state residualisation configuration
+# Plan v4 Track A2 spec at /home/v-seungplee/llm-addiction/PLAN_4NODE_EXECUTION_2026_05_07.md §3
+#
+# This config drives:
+#   src/extract_compliance_directions.py    (forward-pass probe direction extraction)
+#   src/residualise_sae_features.py         (orthogonal-complement projection)
+#   src/refit_table3_residualised.py        (Ridge readout under GroupKFold)
+#   src/analyze_m5.py                       (Δ_G survival ratio + pre-registered thresholds)
+
+models:
+  gemma:
+    name_hf: google/gemma-2-9b-it
+    d_model: 3584
+    sae_release: gemma-scope-9b-pt-res-canonical
+    sae_id_template: "layer_{layer}/width_131k/canonical"
+    n_sae_features: 131072
+    sae_kind: gemma_scope          # uses sae_lens.SAE.from_pretrained
+  llama:
+    # parity with sae_v3_analysis/src/extract_llama_sm.py:51 — Instruct variant
+    # has different residual streams than the base model; cached SAE features
+    # were extracted from this checkpoint.
+    name_hf: meta-llama/Llama-3.1-8B-Instruct
+    d_model: 4096
+    sae_repo_id: fnlp/Llama3_1-8B-Base-LXR-8x
+    sae_filename_template: "Llama3_1-8B-Base-L{layer}R-8x/checkpoints/final.safetensors"
+    sae_hp_template: "Llama3_1-8B-Base-L{layer}R-8x/hyperparams.json"
+    n_sae_features: 32768
+    sae_kind: fnlp                 # uses safetensors + custom ReLU encode
+
+# Layer used in body Table 3
+layer: 22
+
+# Primary task and indicator (headline cell from Table 3)
+task: sm                            # slot machine
+indicator: i_ba                     # betting aggressiveness
+
+# Probe directions — three-direction compliance battery (Persona Vectors 2025 style)
+probe_directions:
+  d_comp:
+    description: "follow-strictly vs ignore (instruction-following compliance)"
+    pos_file: prompts/d_comp_pos.txt
+    neg_file: prompts/d_comp_neg.txt
+  d_agree:
+    description: "yes-man vs adversarial response (sycophancy/agreeableness, SycEval Fanous 2025)"
+    pos_file: prompts/d_agree_pos.txt
+    neg_file: prompts/d_agree_neg.txt
+  d_role:
+    description: "role-play adoption vs first-person neutral (persona/Wang 2024)"
+    pos_file: prompts/d_role_pos.txt
+    neg_file: prompts/d_role_neg.txt
+
+# Filler instruction count per direction (50 pos + 50 neg = 100 forward passes per direction)
+n_filler_per_side: 50
+
+# Residualisation modes
+modes:
+  - individual_per_direction        # project against each d_i separately, 3 results
+  - joint_3direction                # project against span(d_comp, d_agree, d_role)
+
+# Residualisation space — see open issue in README
+# "hidden_state": project hidden state in d_model space, then re-encode through SAE
+# "sae_decoder":  project in SAE decoder column space (cheaper, no model reload)
+residualisation_space: hidden_state
+
+# Pre-registered sensitivity thresholds (frozen before computation; Plan v4 §3.2)
+thresholds:
+  individual_relative: 0.30          # |Δ_G − Δ_G'| / Δ_G < 0.30 → pass
+  joint_relative: 0.50               # |Δ_G − Δ_G_joint| / Δ_G < 0.50 → pass
+  # Stability rule for near-zero Δ_G
+  stability_floor_abs_delta: 0.005   # if |Δ_G| < this, switch to absolute
+  individual_absolute: 0.01
+  joint_absolute: 0.015
+
+# GroupKFold protocol — must match sae_v3_analysis/src/run_groupkfold_recompute.py
+groupkfold:
+  n_splits: 5
+  top_k: 200
+  ridge_alpha: 100.0
+  rf_trees: 50
+  rf_depth: 8
+  group_by: game_id
+
+# Source of original Table 3 Δ_G (read by analyze_m5.py and tests)
+original_table3_path: /home/v-seungplee/llm-addiction/sae_v3_analysis/results/condition_modulation_groupkfold_L22.json
+original_table3_key_template: "{model}_{task}_{indicator}_L{layer}"
+plus_g_subset: plus_G
+minus_g_subset: minus_G
+
+# Cached hidden states (matches sae_v3_analysis layout). Layer index maps to position
+# inside the `layers` array of hidden_states_dp.npz: [8, 12, 22, 25, 30] -> L22 is index 2.
+data:
+  hidden_states_root: /home/v-seungplee/data/llm-addiction/sae_features_v3
+  hidden_states_filename: hidden_states_dp.npz
+  sae_features_filename_template: "sae_features_L{layer}.npz"
+  behavioral_root: /home/v-seungplee/data/llm-addiction/behavioral
+
+# Output root
+output:
+  root: /scratch/x3415a02/data/llm-addiction/m5_residualisation
+  directions_subdir: directions          # per-model per-direction NPZ
+  residualised_subdir: residualised      # per-mode residualised feature caches
+  results_subdir: results                # JSON survival ratios + pass/fail
+  log_subdir: logs
+
+# Reproducibility
+seeds:
+  numpy: 42
+  torch: 42
+  generation: 42
+
+# Generation defaults for probe direction extraction
+generation:
+  max_new_tokens: 1                  # last-token activation only — no decoding required
+  dtype: bfloat16
+  device: cuda
+  batch_size: 8
+
+# Sanity controls
+controls:
+  random_direction_baseline: true    # residualise against a random unit vector — should preserve Δ_G
+  n_random_baseline: 5

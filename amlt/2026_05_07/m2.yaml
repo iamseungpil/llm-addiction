@@ -1,0 +1,35 @@
+description: Track A1 M2 persona-decoupling (open-weight Gemma+LLaMA, SM only)
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+  setup:
+    - source ~/.profile
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: m2_open_weight
+    sku: 80G4-H100
+    sla_tier: standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 604800
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: $$HF_TOKEN
+        HUGGING_FACE_HUB_TOKEN: $$HF_TOKEN
+        TRACK: m2
+    command:
+      - nvidia-smi
+      - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
+      - cd /scratch/code/llm-addiction && bash paper_experiments/m2_persona_decoupling/amlt/run_grid.sh open_weight
+      - cd /scratch/code/llm-addiction && python paper_experiments/m2_persona_decoupling/src/analyze_m2.py --input_dir /scratch/x3415a02/data/llm-addiction/m2_persona/ --output_path /scratch/x3415a02/data/llm-addiction/m2_persona/_analysis.json
+      - cd /scratch/code/llm-addiction && python paper_experiments/m2_persona_decoupling/src/sanity_checks.py --input_dir /scratch/x3415a02/data/llm-addiction/m2_persona/ --output_path /scratch/x3415a02/data/llm-addiction/m2_persona/_manipulation_check.md
+      - sleep 86400

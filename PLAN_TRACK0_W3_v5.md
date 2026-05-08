@@ -21,7 +21,7 @@ The paper §3.2 mechanism claim H3 ("the slot-machine bankruptcy gap is freedom-
 Two non-negotiable design consequences:
 
 1. **Same task** — slot machine, not investment choice. The IC arm of cap variation is already populated for these five models in HF and is a separate Plan v4 deliverable.
-2. **Same matched-cap manipulation as Figure 3d**, defined byte-for-byte by the live re-run of `legacy/gpt_fixed_bet_size_experiment.py` and `legacy/gpt_variable_max_bet_experiment.py` (now manifested in `PAPER_CANONICAL_CODE.md`). Anything new — `ROLE_INSTRUCTION`, "cautious" qualifier, max_rounds asymmetry erasure, or different choice-text — is **a different experiment**, not Track 0.
+2. **Same matched-cap manipulation as Figure 3d**, defined byte-for-byte by the live re-run of `paper_experiments/sm_cap_ablation/src/gpt_fixed_bet_size_experiment.py` and `paper_experiments/sm_cap_ablation/src/gpt_variable_max_bet_experiment.py` (now manifested in `PAPER_CANONICAL_CODE.md`). Anything new — `ROLE_INSTRUCTION`, "cautious" qualifier, max_rounds asymmetry erasure, or different choice-text — is **a different experiment**, not Track 0.
 
 The five added models are: Gemma-2-9b-it, LLaMA-3.1-8B-Instruct, Claude-3.5-haiku, Gemini-2.5-flash, and gpt-4o (full, as the API parity twin to gpt-4o-mini). The original-model re-baseline is gpt-4o-mini, matching what HF data files actually contain (`model: "gpt-4o-mini"`); Plan v4 §1bis prose saying "GPT-4o (full)" was imprecise and is corrected here.
 
@@ -65,6 +65,10 @@ The third failure is the new gate Plan v4 lacked.
 
 H_W3_gap is not by itself a "freedom-to-choose" claim. The mechanism story requires both the gap *and* the qualitative bet-distribution shape — that is the entire reason §3.2 prose says "betting smaller average amounts than the cap … by playing 16-19 rounds." Promoting signature to co-primary aligns the hypothesis layer with the prose layer.
 
+### 2.4 Operational framing of "matched-cap" (codex Round 6 critique 4)
+
+The matched-cap manipulation does not literally "isolate freedom-to-choose" with no other prompt-form difference. Variable mode prompt at cap=$X reads `"Bet between $5 and $X (specify amount, e.g., Bet $25)"` plus `"Note: Your maximum bet is $X"`, while fixed mode reads `"Bet $X"` — the variable arm therefore differs from fixed in (i) bet-sizing autonomy, (ii) explicit constraint salience (the "Note" line), and (iii) example anchoring (the "e.g., Bet $25" example). This is the *same* operationalisation as the original Figure 3d cap-ablation (`paper_experiments/sm_cap_ablation/src/gpt_variable_max_bet_experiment.py`), so any cross-model replication preserves whatever (i)-(iii) bundle the paper already attributes to "freedom-to-choose." A reviewer asking "is freedom-to-choose causally isolated, or also constraint-salience and anchoring?" is asking a question about Figure 3d's original operationalisation, not about Track 0's replication. We therefore phrase claims as "matched financial cap under the original Figure 3d prompt protocol" rather than "only choice freedom differs," and acknowledge (i)-(iii) explicitly as part of the operationalised treatment.
+
 ---
 
 ## §3. Verification
@@ -73,7 +77,7 @@ H_W3_gap is not by itself a "freedom-to-choose" claim. The mechanism story requi
 
 #### 3.1.1 Authoritative protocol source
 
-The live re-run of `legacy/gpt_fixed_bet_size_experiment.py` + `legacy/gpt_variable_max_bet_experiment.py` is the protocol of record. Track 0 v6 must execute the same prompt, system message, generation parameters, and parser as those scripts on the gpt-4o-mini cells. Hand-extracted bankruptcy numbers from `LLM_Addiction_NMT_KOR/generate_paper_figures.py` are an additional sanity reference (§3.5), not the only ground truth.
+The live re-run of `paper_experiments/sm_cap_ablation/src/gpt_fixed_bet_size_experiment.py` + `paper_experiments/sm_cap_ablation/src/gpt_variable_max_bet_experiment.py` is the protocol of record. Track 0 v6 must execute the same prompt, system message, generation parameters, and parser as those scripts on the gpt-4o-mini cells. Hand-extracted bankruptcy numbers from `LLM_Addiction_NMT_KOR/generate_paper_figures.py` are an additional sanity reference (§3.5), not the only ground truth.
 
 #### 3.1.2 Per-model parity matrix (codex C1)
 
@@ -120,7 +124,7 @@ Secondary readout (per-model): forest plot of cell-level binomial proportions an
 
 ### 3.4 Sanity checks
 
-- **S1** (signature, descriptive, not gating): per-model `mean(variable_bet | cap=70) / 70` and `mean(variable_rounds | cap=70) / mean(fixed_rounds | cap=70)`. Reported in the forest plot regardless of pass; gate threshold for §2.1 H_W3_signature applies only to the count of models passing 0.6/3.0.
+- **S1** (signature, descriptive, not gating): per-model `mean(variable_bet | cap=70) / 70` and `mean(variable_rounds | cap=70) / mean(fixed_rounds | cap=70)`. Reported in the forest plot regardless of pass; gate threshold for §2.1 H_W3_signature applies only to the count of models passing 0.5/5.0 (per §2.1).
 - **S2** (bankruptcy floor): per-model `bankruptcy(fixed, cap=10) ≤ 0.05`. If violated, that model has a non-baseline parsing or generation issue and is flagged for inspection before inclusion in the bambi fit.
 - **S3** (game-physics determinism, deterministic-side only): replaying 5 games per cell with the same `seed` argument to `SlotMachineGame` and a *fixed dummy `response_fn`* must yield bit-identical `is_bankrupt`, `final_balance`, `total_rounds`. This isolates the slot RNG from API/model non-determinism — codex C5 noted that S4 in v5.0 was infeasible because API responses are non-deterministic, so v5.1 reframes S3 to test only the game-physics RNG, not the model's text generation.
 - **S4** (parser idempotence): running the recovered legacy parser on each game's stored response strings reproduces the per-game decisions recorded in the JSON. Catches parser regressions at audit time.
@@ -129,7 +133,7 @@ Secondary readout (per-model): forest plot of cell-level binomial proportions an
 
 #### 3.5.1 Two-track parity
 
-**Track A — code parity**: run Track 0 v6's gpt-4o-mini cap-ablation cells at **n=200 / cell** (codex C7b raised parity n from 50 to 200; binomial SE on a 17 % rate at n=200 is ~2.7 pp — ±5 pp tolerance is now ~2 SE, not 1 SE), then re-run `legacy/gpt_fixed_bet_size_experiment.py` and `legacy/gpt_variable_max_bet_experiment.py` *independently* on the same prompts at the same n. Compare cell means *and* per-game decision distributions (Kolmogorov–Smirnov on rounds-played; chi-square on bankruptcy).
+**Track A — code parity**: run Track 0 v6's gpt-4o-mini cap-ablation cells at **n=200 / cell** (codex C7b raised parity n from 50 to 200; binomial SE on a 17 % rate at n=200 is ~2.7 pp — ±5 pp tolerance is now ~2 SE, not 1 SE), then re-run `paper_experiments/sm_cap_ablation/src/gpt_fixed_bet_size_experiment.py` and `paper_experiments/sm_cap_ablation/src/gpt_variable_max_bet_experiment.py` *independently* on the same prompts at the same n. Compare cell means *and* per-game decision distributions (Kolmogorov–Smirnov on rounds-played; chi-square on bankruptcy).
 
 Pass criterion (Holm-corrected at family-wise α=0.10 across the 8 cells; cell-level α' = 0.10/(8 − k) for the k-th sorted p-value):
 
@@ -186,7 +190,7 @@ If Track A fails, **stop**: the v6 code drifted from legacy and must be fixed be
 
 1. **API non-determinism** on five new providers — Stage 2 gating handles, and §3.5 KS check on rounds-played catches gross drift even within a stochastic generator.
 2. **AMLT preemption** — mitigated by `.markers` resumability (added 2026-05-08).
-3. **Parser drift** — codex C5 raised this. **Resolved**: legacy `improved_gpt_parsing.py` recovered from git commit `9a4ee94^` and now lives at `legacy/improved_gpt_parsing.py` (237 lines). Track 0 v6 must `from improved_gpt_parsing import improved_parse_gpt_response` directly rather than re-implementing a `parse_response` function in `game_logic.py`. The current Track 0 `parse_response` is *not* equivalence-tested against the recovered legacy and must be replaced.
+3. **Parser drift** — codex C5 raised this. **Resolved**: legacy `improved_gpt_parsing.py` recovered from git commit `9a4ee94^` and now lives at `paper_experiments/sm_cap_ablation/src/improved_gpt_parsing.py` (237 lines). Track 0 v6 must `from improved_gpt_parsing import improved_parse_gpt_response` directly rather than re-implementing a `parse_response` function in `game_logic.py`. Track 0 v6 now imports `improved_parse_gpt_response` directly from this canonical path (game_logic.py:31); the wrapper `parse_response` adapts to the v6 SlotMachineGame signature and clamps variable bets to `game.variable_upper_bound()`. 22/22 protocol parity tests pass.
 4. **gpt-4o-mini deprecation** — confirm OpenAI is still serving `gpt-4o-mini` (currently it is). If deprecated mid-rebuttal, pin to a specific snapshot date in the OpenAI API call (`gpt-4o-mini-2024-07-18` is the original).
 5. **Chat-template token injection** (codex C7a, new) — Gemma and LLaMA chat templates inject system/turn tokens (`<|begin_of_text|>`, `<start_of_turn>user`, etc.) that are not present in the OpenAI raw-prompt protocol. Two implications: (a) the prompt body is byte-identical to legacy, but the wrapped-input token stream differs by tens of tokens; (b) Gemma/LLaMA cannot have *exactly* the same prompt as gpt-4o-mini because the OpenAI API hides its own templating. Mitigation: run the open-weight models with `tokenizer.apply_chat_template(...)` to take the official wrapping (matches `llama_gemma_experiment.py`'s SM 64-cond runner); document the difference in the §3.5 parity report; do not try to remove the chat template tokens.
 6. **Bambi NUTS divergences** with `(condition × cap | model)` random slope at 6 models — 6 levels is on the low end for hierarchical identification. If divergences > 1 % we drop the random slope and refit with `(1 | model)` only, reporting it explicitly in the deviation log.
@@ -196,7 +200,7 @@ If Track A fails, **stop**: the v6 code drifted from legacy and must be fixed be
 ## §6. Decision-rule log (frozen before Stage 1 launch)
 
 - Primary rule: §3.6 decision tree (above).
-- Co-primary: H_W3_gap (β_primary CrI > 0) AND H_W3_signature (≥4/6 models pass 0.6/3.0 thresholds).
+- Co-primary: H_W3_gap (β_primary CrI > 0) AND H_W3_signature (≥4/6 models pass 0.5/5.0 thresholds, per §2.1 H_W3_signature).
 - Surgery prose: PLAN_4NODE_EXECUTION_2026_05_07.md §9bis "W3-passes" / "W3-fails" remain authoritative; v5.1 adds a third branch "W3-mech-fails" — see §2.2.
 - Pre-registration freeze: this file (Plan v5.1) is the contract. Any change post-launch goes in a §13-style deviation log.
 

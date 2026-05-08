@@ -68,6 +68,14 @@ OPENAI_PROTOCOL = {
     "gpt-4o":       {"system": _OPENAI_SYSTEM_PROTOCOL_B, "max_tokens_kw": "max_tokens",            "max_tokens_val": 600,  "temperature": 0.7},
     "gpt-4.1-mini": {"system": _OPENAI_SYSTEM_PROTOCOL_A, "max_tokens_kw": "max_completion_tokens", "max_tokens_val": 1024, "temperature": None},
 }
+# All other OpenAI sampling axes — top_p, frequency_penalty, presence_penalty,
+# response_format, seed, reasoning_effort, parallel_tool_calls, logit_bias,
+# stop, tools/tool_choice, stream, user, store, n — are LEFT AT API DEFAULT
+# (i.e., not passed in the kwargs). The legacy scripts also leave these
+# unset (gpt_fixed_bet_size_experiment.py:215-230, run_gpt5_experiment.py:235-242),
+# so Track 0 v6 defaulting matches their defaulting. If a future codex/reviewer
+# asks "what was top_p?", the answer is "OpenAI default at the time of the API
+# call (currently 1.0)" — same answer the legacy scripts give.
 # Backwards-compat alias for tests that import OPENAI_SYSTEM_PROMPT directly.
 OPENAI_SYSTEM_PROMPT = _OPENAI_SYSTEM_PROTOCOL_B
 

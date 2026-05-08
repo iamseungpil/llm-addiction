@@ -114,17 +114,29 @@ sae_v3_analysis/
     └── robustness/              # selectivity controls + null distributions
 
 paper_experiments/
-├── slot_machine_6models/        # §3 behavioural experiment (6 LLMs × 8 conditions)
+├── slot_machine_6models/        # §3 behavioural experiment (6 LLMs × 64 conditions)
+├── sm_cap_ablation/             # §3.2 Figure 3d cap-ablation (gpt-4o-mini); paper-canonical (moved from legacy/ on 2026-05-08 — see PAPER_CANONICAL_CODE.md)
 ├── investment_choice_experiment/ # §3 IC ablation + paper Fig 3
 ├── llama_sae_analysis/          # §4 SAE pipeline early version (use sae_v3_analysis)
-└── pathway_token_analysis/      # §3 cognitive-distortion text analysis
+├── pathway_token_analysis/      # §3 cognitive-distortion text analysis
+├── track0_w3_replication/       # NeurIPS 2026 rebuttal — Track 0 (cross-model matched-cap)
+├── m1_portfolio_discriminant/   # rebuttal Track B
+├── m2_persona_decoupling/       # rebuttal Track A1
+├── m5_compliance_residualisation/ # rebuttal Track A2
+└── d_distributed_effect/        # rebuttal Track D
 
-legacy/                          # ARCHIVED — DO NOT CITE
+legacy/                          # ARCHIVED — see PAPER_CANONICAL_CODE.md before citing
 ├── v12_steering_invalidated/    # invalidated 2026-04-14 (prompts mismatch)
 ├── v14_steering/                # paper does not cite
 ├── v16_steering/                # paper does not cite
 ├── v17_leaky_pipeline/          # leaky RF deconfound (paper_neural_audit.json + v17 text)
-└── pre_groupkfold_sweep/        # random-KFold sweeps; LLaMA cells diverge from body
+├── pre_groupkfold_sweep/        # random-KFold sweeps; LLaMA cells diverge from body
+├── claude_experiment/, gemini_experiment/, gpt5_experiment/, gpt_experiments/
+│                                # OLD COPIES of API runners now canonicalised under
+│                                # paper_experiments/slot_machine_6models/src/
+└── gpt_fixed_bet_size_experiment/, gpt_variable_max_bet_experiment/
+                                 # MOVED 2026-05-08 — paper-canonical Figure 3d source
+                                 # now lives at paper_experiments/sm_cap_ablation/src/
 
 sae_features_v3/                 # SAE feature activations + hidden states (raw inputs)
 sae_patching/                    # ICLR-era SAE feature patching (separate study)

@@ -1,6 +1,32 @@
-# Plan v3.1 — Track L: Length / Survival Confound Re-analysis
+# Plan v3.3 — Track L: Length / Survival Confound Re-analysis
 
-> **Status**: v3.1, 2026-05-09. Data-availability correction. v3.1 supersedes v3 wherever they conflict.
+> **Status**: v3.3, 2026-05-09. SUPERSEDES v3.1 entirely. v3.1 had a data-availability error: the 4-API IC `bet_constraint/results/` cache and the gpt-4o-mini SM corrected-parsing archive WERE on HF, just under non-obvious paths. Re-audit found:
+>   - `investment_choice/bet_constraint/results/` — 4 API × 4 caps × 2 modes (33 files, 2025-11-21/22)
+>   - `slot_machine/{claude,gemini,gpt}/{*_experiment_*}.json` — 3 SM API panels
+>   - `analysis/gpt_results_fixed_parsing/gpt_fixed_parsing_complete_20250919_151240.json` — gpt-4o-mini-corrected SM panel (the "5.methods.tex corrected parsing archive" Plan v3 §3.1 referenced)
+>
+> **v3.3 deltas vs v3** (incorporates codex Round 5 + 6 + 7):
+> - **Co-primary 1 (full SM 6-model panel)**: SM_OW (LLaMA + Gemma v4_role) + SM_API (Claude / Gemini / GPT-4.1-mini / gpt-4o-mini-corrected). Per **codex Round 5**, API and OW are *segregated* primary fits (separate multinomial cause-specific hazard per dataset axis); pooled with `dataset` indicator is reported as sensitivity only. Risks of pooling: API runs are 2025-09 + 2025-11; OW runs are 2026-02/03 — model-version + collection-window confound proxies.
+> - **Co-primary 2 (cap-variation defense)**: IC_OW (LLaMA + Gemma v2_role, max_rounds=100, real bankruptcy events). Bankruptcy hazard fit segregated, paralleling SM analysis.
+> - **IC_API descriptive only** (per **codex Round 6**): 4 API × 4 caps × 2 modes data has `max_rounds=10` and ZERO bankruptcy events across all 6,600 games (4,573 max_rounds + 2,027 voluntary stops). Structurally uninformative for bankruptcy hazard — including it would invite reviewers to dismiss Track L as a length-confound artifact. Reframe IC_API: report as descriptive cap-stratified bet-size / risk-taking analysis (mean bet, drawdown, voluntary-stop timing); explicitly state the design truncates before bankruptcy can compound.
+> - **Drawdown / EV-trajectory** (e.g. "first round where balance < 50% of initial") considered as a *secondary robustness outcome only*, not a reframed primary endpoint (per codex Round 6).
+> - **gpt-4o-mini SM corrected parsing**: dual-list schema (`round_details` for ALL decisions including terminal stop; `game_history` for actual bet outcomes only). Parser hardened with alignment guards (codex Round 7): hard fail on round-id mismatch, soft warning on IC_API non-zero bankruptcy.
+> - **Multiplicity correction** (codex Round 8): SM_API, SM_OW, IC_OW are three *planned primary readouts*, not one pooled primary. Apply Holm correction across the three co-primary RR tests on β_var^bankrupt; report unadjusted 95 % CIs + Holm-adjusted p-values; the RR-threshold table in §2.3 is the descriptive readout, the Holm-adjusted p-value is the inferential readout.
+> - **Transportability framing** (codex Round 8 caution): SM_API and SM_OW are run separately to avoid transportability violations between API model versions (2025-09) and open-weight checkpoints (2026-02/03), NOT post-hoc cherry-picking. Decision tree explicit: 3 primary RR readouts → 3 Holm-adjusted p-values → trichotomy per dataset (L-passes / L-mixed / L-fails). Pooled fit (with `dataset` indicator and clustered SE) is reported as a sensitivity analysis, not a primary readout.
+> - **IC_API explicit framing**: Track L appendix says "IC_API max_rounds=10 design structurally precludes bankruptcy events across all 6,600 games (4,573 max_rounds + 2,027 voluntary stops); IC_API tests behavioral persistence and voluntary-stopping timing descriptively but cannot adjudicate bankruptcy hazard. The IC bankruptcy hazard claim in this rebuttal rests on IC_OW (max_rounds=100, real events)."
+>
+> - **S1 sanity passes** against paper §3 6-model bankruptcy claim:
+>   - LLaMA SM variable 72.4 % (paper 72.3 %), fixed 0.4 %
+>   - Gemma SM variable 5.5 %, fixed 0 %
+>   - Claude SM variable 20.5 %, fixed 0 %
+>   - Gemini SM variable 48.1 %, fixed 3.1 %
+>   - GPT-4.1-mini SM variable 6.3 %, fixed 0 %
+>   - gpt-4o-mini-corrected SM variable 21.3 %, fixed 0 %
+>   - Range 5.5 %-72.4 % matches paper §3 "5-72 %" claim exactly.
+>
+> ---
+>
+> **Status (v3.1 superseded)**: v3.1, 2026-05-09. Data-availability correction. v3.1 supersedes v3 wherever they conflict.
 >
 > **v3.1 deltas vs v3** (data audit on this VM + HF dataset `llm-addiction-research/llm-addiction`):
 > - **Co-primary 1 (IC) scope-down**: 2 open-weight models — `llama` (timestamps 2026-03-08; 4 caps) and `gemma` (2026-02-25/26; 4 caps) — not 4 API. The 4-API IC cap-variation cache (gpt4o_mini / gpt41_mini / claude_haiku / gemini_flash) is not on this machine and not in the HF snapshot the user has access to from this host. Total: 2 models × 4 caps × 2 modes (variable, fixed) × ~50 reps = ~400 games per cap-file × 8 files = ~3 200 games × `max_rounds=100` (NOT 10).

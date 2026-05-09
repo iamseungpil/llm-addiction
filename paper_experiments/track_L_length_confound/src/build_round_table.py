@@ -126,6 +126,13 @@ def _ic_api_iter_rows(payload: dict, file_timestamp: str) -> Iterator[RoundRow]:
     cap = int(cfg["bet_constraint"])
     file_bet_type = cfg["bet_type"]
     file_model = cfg["model"]
+    # Per codex Round 7 sanity: IC_API max_rounds=10 should produce zero bankruptcy events.
+    bankrupt_seen = sum(1 for g in payload["results"] if g.get("exit_reason") == "bankruptcy")
+    if bankrupt_seen > 0:
+        # Not a hard fail — just a flag; reframing depends on this being zero.
+        import warnings
+        warnings.warn(f"IC_API file {file_timestamp} has {bankrupt_seen} bankruptcies — "
+                      f"Plan v3.3 assumed zero. Re-check max_rounds and reframing.")
     for game in payload["results"]:
         bet_type = game.get("bet_type", file_bet_type)
         model = game.get("model", file_model)
@@ -194,6 +201,15 @@ def _sm_ow_iter_rows(payload: dict, initial_balance: int = 100) -> Iterator[Roun
 
 
 def _sm_api_iter_rows(payload: dict, initial_balance: int = 100) -> Iterator[RoundRow]:
+    """Two SM_API sub-schemas (Plan v3 §5 risk 5):
+    (i)  Claude / Gemini / GPT-4.1-mini: round_details[j].game_result has
+         {bet, result, balance (post-bet), win}. Use that.
+    (ii) gpt-4o-mini-corrected: round_details[j] has no game_result; game has
+         a parallel game_history[j] = {round, bet, result, balance, win}.
+         Align by list index (Plan v3 §5 risk 5: 'align by round index, not
+         by list position' — but list position == round - 1 in practice; we
+         additionally guard by checking round identity).
+    """
     file_timestamp = payload.get("timestamp", "")
     model = payload.get("model", "")
     for rep_idx, game in enumerate(payload["results"]):
@@ -202,17 +218,47 @@ def _sm_api_iter_rows(payload: dict, initial_balance: int = 100) -> Iterator[Rou
         prompt_combo = game.get("prompt_combo", "UNKNOWN")
         game_id = int(game.get("condition_id", 0)) * 10000 + int(game.get("repetition", rep_idx))
         round_details = game.get("round_details") or []
+        game_history = game.get("game_history") or []
         n = len(round_details)
         bankruptcy_flag = bool(game.get("is_bankrupt", False))
+        # gpt-4o-mini-corrected dual-list schema: round_details has BOTH bet decisions
+        # and the terminal "stop" decision; game_history has ONLY actual bet outcomes.
+        # Mismatch policy (codex Round 7 hardened):
+        #   len(rd) == len(gh): all decisions led to a bet (e.g. bankruptcy game)
+        #   len(rd) == len(gh) + 1: terminal decision is "stop" (voluntary stop)
+        #   any other: alignment error → fail hard
+        uses_dual_list = bool(game_history) and (not round_details or not (round_details[0] or {}).get("game_result"))
+        if uses_dual_list and len(round_details) - len(game_history) not in (0, 1):
+            raise ValueError(
+                f"SM_API alignment error: len(round_details)={len(round_details)} vs "
+                f"len(game_history)={len(game_history)} for game "
+                f"(cond={game.get('condition_id')}, rep={game.get('repetition')})"
+            )
+        # Build a round-id → game_history record map for hard alignment lookups.
+        gh_by_round = {gh.get("round"): gh for gh in game_history}
         prev_balance = initial_balance
         for j, rec in enumerate(round_details):
-            is_terminal = (j == n - 1)
-            decision = "bet" if rec.get("decision") == "continue" else "stop"
-            bet_amount = int(rec.get("bet_amount") or 0)
             gr = rec.get("game_result") or {}
-            balance_after = int(gr.get("balance", prev_balance) if gr else prev_balance)
-            balance_before = prev_balance
-            win = bool(gr.get("win", gr.get("result", "L") == "W"))
+            decision_field = rec.get("decision")
+            if not gr and uses_dual_list and decision_field != "stop":
+                gr = gh_by_round.get(rec.get("round"), {})
+                if not gr:
+                    raise ValueError(
+                        f"SM_API round-id missing in game_history at round={rec.get('round')} "
+                        f"(cond={game.get('condition_id')}, rep={game.get('repetition')})"
+                    )
+            balance_before = int(rec.get("balance_before", prev_balance))
+            if decision_field == "stop" or (uses_dual_list and not gr):
+                bet_amount = 0
+                balance_after = balance_before
+                win = False
+                decision = "stop"
+            else:
+                bet_amount = int(rec.get("bet_amount") or gr.get("bet", 0))
+                balance_after = int(gr.get("balance", prev_balance))
+                win = bool(gr.get("win", gr.get("result", "L") == "W"))
+                decision = "bet"
+            is_terminal = (j == n - 1)
             if is_terminal:
                 out = _classify_terminal_outcome(bet_amount, balance_before, win, balance_after, bankruptcy_flag)
             else:
@@ -259,14 +305,15 @@ def discover_default_files(data_root: Path) -> dict[str, list[Path]]:
     sm_ow = data_root / "behavioral" / "slot_machine"
     if sm_ow.exists():
         out["sm_ow"] = sorted(sm_ow.glob("*_v4_role/final_*.json"))
-    sm_api = data_root / "slot_machine"
-    if sm_api.exists():
-        out["sm_api"] = [
-            sm_api / "claude/claude_experiment_corrected_20250925.json",
-            sm_api / "gemini/gemini_experiment_20250920_042809.json",
-            sm_api / "gpt/gpt5_experiment_20250921_174509.json",
-        ]
-        out["sm_api"] = [p for p in out["sm_api"] if p.exists()]
+    sm_api_root = data_root / "slot_machine"
+    gpt4o_mini = data_root / "analysis" / "gpt_results_fixed_parsing" / "gpt_fixed_parsing_complete_20250919_151240.json"
+    candidates = [
+        sm_api_root / "claude/claude_experiment_corrected_20250925.json",
+        sm_api_root / "gemini/gemini_experiment_20250920_042809.json",
+        sm_api_root / "gpt/gpt5_experiment_20250921_174509.json",
+        gpt4o_mini,
+    ]
+    out["sm_api"] = [p for p in candidates if p.exists()]
     return out
 
 

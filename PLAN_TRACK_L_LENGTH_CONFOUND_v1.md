@@ -1,6 +1,20 @@
-# Plan v3 — Track L: Length / Survival Confound Re-analysis
+# Plan v3.1 — Track L: Length / Survival Confound Re-analysis
 
-> **Status**: Round 3, 2026-05-08. v3 incorporates codex Round 2 cleanup (4 fixes + 4 new issues).
+> **Status**: v3.1, 2026-05-09. Data-availability correction. v3.1 supersedes v3 wherever they conflict.
+>
+> **v3.1 deltas vs v3** (data audit on this VM + HF dataset `llm-addiction-research/llm-addiction`):
+> - **Co-primary 1 (IC) scope-down**: 2 open-weight models — `llama` (timestamps 2026-03-08; 4 caps) and `gemma` (2026-02-25/26; 4 caps) — not 4 API. The 4-API IC cap-variation cache (gpt4o_mini / gpt41_mini / claude_haiku / gemini_flash) is not on this machine and not in the HF snapshot the user has access to from this host. Total: 2 models × 4 caps × 2 modes (variable, fixed) × ~50 reps = ~400 games per cap-file × 8 files = ~3 200 games × `max_rounds=100` (NOT 10).
+> - **IC primary timestamps**: Gemma 2026-02-25/26, LLaMA 2026-03-08 (paper-canonical IC ablation runs that produced Figure 3d / §3.1 IC results in the current submission). 2025-11-XX timestamps in v3 were a hallucination — drop them.
+> - **IC max_rounds**: configured at 100, but Track L primary analysis still restricts to **rounds 1-10** for matched-cap mechanism defense (codex Round 1 §3.2 framing). Rounds 11-100 reported in `variable-only late-round` appendix (per Plan §5 risk 4).
+> - **Co-primary 2 (SM) scope-down**: 2 open-weight models — `llama_v4_role` (`final_llama_20260315_062428.json`) + `gemma_v4_role` (`final_gemma_20260227_002507.json`). The 4 API SM panels (gpt-4o-mini, gpt-4.1-mini, claude-3.5-haiku, gemini-2.5-flash) are NOT on this VM and NOT in the HF snapshot from this host — the paper §3 6-model bankruptcy table data is presumed to live on HPC scratch (`/scratch/x3415a02/`).
+> - **Cluster ID rebound**: `(dataset, file_timestamp, cap, prompt_combo, model, game_id)` — `dataset ∈ {IC, SM}`; `file_timestamp` from JSON filename; `cap ∈ {10, 30, 50, 70}` for IC, `=10` for SM; `prompt_combo` decoded from per-game condition slot.
+> - **Rebuttal scope-narrowing in §6**: Track L delivers matched-cap per-decision RR on **2 open-weight models** (LLaMA + Gemma); the §3.1 cross-model 6-model bankruptcy table is defended via the existing P1-3 SM bet-size confound disclosure (already in §3.2 of the paper). Track L does NOT need to defend the 4 API models' bankruptcy gap because the body claim that survives Track L scope is "open-weight LLaMA + Gemma exhibit per-decision risk under variable mode beyond what length asymmetry alone explains".
+> - **Statistical model unchanged from v3**: multinomial cause-specific hazard with `model` as a 2-level fixed-effect dummy (still under-identified for random intercept; was 6 levels in v3, 2 levels here is even more so → fixed effect is the right call).
+> - **Decision tree, RR thresholds, S1-S5, Firth fallback, Fine-Gray sensitivity, voluntary-stop competing risk — all unchanged** from v3.
+>
+> ---
+>
+> **Status (v3 superseded)**: Round 3, 2026-05-08. v3 incorporates codex Round 2 cleanup (4 fixes + 4 new issues).
 > **v3 deltas vs v2**:
 > - **Two co-primary datasets**: IC cap-variation (matched-cap mechanism defense) + SM 6-model panel (Figure 2 / §3.1 length-confound defense). Each gets its own readout; the rebuttal cites whichever passes (or both if both pass).
 > - **Multinomial readout renamed**: `RR_per_decision` (relative risk on cause-specific bankruptcy contrast), not `HR`. Cox sensitivity uses Cox HR; we keep the names distinct.
@@ -134,33 +148,40 @@ acknowledgement quantitative.
 
 ### 3.1 Data sources
 
-**Co-primary 1 (v3): IC cap-variation** in HF cache `investment_choice/bet_constraint/results/`
-covers `gpt4o_mini`, `gpt41_mini`, `claude_haiku`, `gemini_flash` at cap ∈ {10,30,50,70}
-× fixed/variable × {BASE, G, M, GM}. **Primary timestamp: `2025-11-28`** (latest stable
-re-run). Reproducibility-only: 2025-11-21 and 2025-11-25 — appendix only. 4 models × 4 caps
-× 2 modes × 4 prompts × 50 reps = 6 400 games at the primary timestamp, with `max_rounds=10`.
-The data files contain per-round `decisions` lists with `balance_before`, `bet`, `choice`,
-`outcome`, `balance_after`, `prompt`, `response` fields. Defends §3.2 matched-cap mechanism.
+**Co-primary 1 (v3.1): IC cap-variation, 2 open-weight models** in
+`/home/v-seungplee/data/llm-addiction/behavioral/investment_choice/{v2_role_llama, v2_role_gemma}/`
+(mirrored under `hf_exports/llm_addiction_public_20260410/behavioral/investment_choice/`).
+Covers `llama` (timestamps 2026-03-08; caps 10/30/50/70) and `gemma` (timestamps 2026-02-25
+and 2026-02-26; caps 10/30/50/70) at fixed/variable × {BASE, G, M, GM} × 50 reps. JSON
+schema: top-level `{experiment, model, timestamp, config, results[]}` with
+`config.bet_constraint = cap`, `config.bet_types = ["variable","fixed"]`,
+`config.max_rounds = 100`, `config.repetitions = 50`. Each `results[i]` is one game with
+`{rounds_completed, final_balance, bankruptcy, final_outcome, history[]}`; each
+`history[j]` carries `{round, balance_before, bet, choice, outcome, win, payout,
+balance_after, is_finished}`.
 
-**Co-primary 2 (v3): SM 6-model panel** in `paper_experiments/slot_machine_6models/data/results/`
-+ HF `iamseungpil/llm-addiction-research/llm-addiction:slot_machine/{model}/` raw JSONs (6 models × 64 conds × 50 reps × cap=$10, max_rounds=100). Defends §3.1 length-confound on Figure 2:
+8 cap-files total (2 models × 4 caps), ~400 games/file × `max_rounds=100`. Defends §3.2
+matched-cap mechanism on the open-weight subset. **Primary analysis restricts to rounds
+1-10** for matched-cap framing (per codex Round 1 §3.2 anchor); rounds 11-100 reported as
+`variable-only late-round` appendix.
 
-- `final_gemma_20251004_172426.json` (legacy gemma) + `final_gemma_20260227_002507.json`
-  (corrected v4_role) — 3 200 games each
-- `final_llama_20251004_021106.json` + `final_llama_20260315_062428.json` — same
-- `gpt5_experiment_20250921_174509.json` (gpt-4.1-mini) — 3 200 games
-- `claude_experiment_corrected_20250925.json` — 3 201 games
-- `gemini_experiment_20250920_042809.json` — 3 200 games
-- gpt-4o-mini SM 64-cond panel — corrected parsing archive (per appendix `5.methods.tex`
-  note: `round_details` + `game_history` aligned by round index)
+The 4 API IC cap-variation cache (`gpt4o_mini`, `gpt41_mini`, `claude_haiku`,
+`gemini_flash`) referenced in v3 is NOT on this VM. Track L cannot speak to those models
+and the rebuttal phrasing is narrowed accordingly (see §6).
 
-Each file has per-round records — the body of `results[i].history` (or
-`results[i].decisions`) carries `round, bet, result, balance` already.
+**Co-primary 2 (v3.1): SM panel, 2 open-weight models** in
+`/home/v-seungplee/data/llm-addiction/behavioral/slot_machine/{llama_v4_role, gemma_v4_role}/`:
 
-Secondary (for cap-variation): IC cap-ablation HF cache files
-`investment_choice/bet_constraint/results/{gpt4o_mini, gpt41_mini, claude_haiku,
-gemini_flash}_{10,30,50,70}_{fixed,variable}_*.json`. These include 4 caps × 2 modes per
-model and so allow a cap-stratified hazard fit.
+- `gemma_v4_role/final_gemma_20260227_002507.json` — corrected v4_role, ~3 200 games
+- `llama_v4_role/final_llama_20260315_062428.json` — corrected v4_role, ~3 200 games
+
+Each file has per-round records via `results[i].history`. cap=$10, `max_rounds=100`,
+8 (G/M/cap interactions) × 8 conditions × 50 reps grid (paper §3 §3.1 Figure 2).
+
+The 4 API SM panels (gpt-4o-mini 64-cond, gpt-4.1-mini, claude, gemini) referenced in v3
+are NOT on this VM. The paper §3 6-model bankruptcy table values are taken as given (P1-3
+disclosure already addresses bet-size confound qualitatively); Track L's quantitative RR
+is reported only on the open-weight pair.
 
 Both sources are read-only re-analysis; **no LLM is queried**.
 
@@ -199,7 +220,9 @@ import statsmodels.formula.api as smf
 m = smf.mnlogit(
     "outcome ~ C(bet_type) + C(cap) + np.log1p(balance_before) + round + C(model) + C(prompt_combo)",
     data=long_table_overlap,   # restricted to overlapping balance × round support
-).fit(cov_type="cluster", cov_kwds={"groups": long_table_overlap[["model","game_id"]].astype(str).agg("_".join, axis=1)})
+).fit(cov_type="cluster", cov_kwds={"groups": long_table_overlap[
+    ["dataset","file_timestamp","cap","prompt_combo","model","game_id"]
+].astype(str).agg("_".join, axis=1)})
 beta_var_bankrupt = m.params.loc["C(bet_type)[T.variable]", "bankrupt"]
 RR_per_decision   = np.exp(beta_var_bankrupt)         # cause-specific bankruptcy hazard ratio
 ```
@@ -316,12 +339,19 @@ competing risk via the Fine–Gray subdistribution hazard.
 
 - Primary readout: lower 95 % CI of RR_per_decision (or β_var on logit scale).
 - Pre-registered direction: H_L_main predicts RR_per_decision > 1.
-- Surgery prose branches:
+- **v3.1 scope**: Track L delivers RR on **2 open-weight models (LLaMA + Gemma) only**.
+  The 4 API models in the §3 6-model bankruptcy table are out of Track L scope (data not
+  on this VM). Their length-confound concern is addressed via the existing §3.2 P1-3
+  bet-size disclosure (qualitative).
+- Surgery prose branches (open-weight subset):
   - **L-passes**: §3 retains "freedom-to-choose at root" prose, adds 3–5 sentence
-    body acknowledgement of length asymmetry, points to Track L appendix RR table.
-  - **L-fails**: §3 narrows to "variable mode extends play, compounding −10 % EV trap";
-    "freedom-to-choose at root" replaced.
-- Pre-registration: this Plan v1 file is the contract until Round-0 codex review converges.
+    body acknowledgement of length asymmetry citing Track L open-weight RR. Appendix
+    holds full RR table.
+  - **L-fails**: §3 narrows to "variable mode extends play, compounding −10 % EV trap"
+    on open-weight models; the §3 6-model gap is reframed as "exposure-cumulative,
+    documented via Track L on the open-weight subset and via the P1-3 bet-size
+    disclosure for the API panel".
+- Pre-registration: this Plan v3.1 file is the contract until codex review converges.
 
 ---
 

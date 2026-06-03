@@ -31,7 +31,7 @@ If the goal is to verify a paper claim, use this order:
 
 1. `sae_v3_analysis/docs/PAPER_MANIFEST.md`
 2. `sae_v3_analysis/docs/EXPERIMENT_INDEX.md`
-3. `sae_v3_analysis/results/paper_neural_audit.json`
+3. strict-CV GroupKFold canonical files: Table 1 = `sae_v3_analysis/results/table1_groupkfold_L22.json`; Table 3 = `sae_v3_analysis/results/condition_modulation_groupkfold_L22.json`; Table 2 = `sae_v3_analysis/results/rq2_aligned_hidden_transfer_*L22_r1*.json`
 4. `sae_v3_analysis/results/shared_subspace_hidden_audit_20260410.json`
 5. `papers/LLM_Addiction_NMT_KOR/sn-article.pdf`
 

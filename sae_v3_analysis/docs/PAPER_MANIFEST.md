@@ -13,13 +13,13 @@ Each paper element should be traceable through:
 
 | Paper element | Artifact | Script | Upstream input / note |
 | --- | --- | --- | --- |
-| Table 1 (`I_LC`, `I_BA`, `I_EC`) | `results/paper_neural_audit.json` | `src/build_paper_neural_audit.py` | `results/v17_nonlinear_deconfound.txt`, `results/robustness/permutation_null_ilc.json`, direct rerun assets |
-| Figure 3 neural panel | `images/neural_analysis_combined.pdf` in paper repo | `src/plot_neural_figures.py` | reads `results/paper_neural_audit.json` |
+| Table 1 (`I_LC`, `I_BA`, `I_EC`) | `results/table1_groupkfold_L22.json` | `src/run_groupkfold_recompute.py` (current; `src/build_paper_neural_audit.py` deprecated, moved to `legacy/v17_leaky_pipeline/`) | `results/v17_nonlinear_deconfound.txt`, `results/robustness/permutation_null_ilc.json`, direct rerun assets |
+| Figure 3 neural panel | `images/neural_analysis_combined.pdf` in paper repo | `src/plot_neural_figures.py` | reads `results/table1_groupkfold_L22.json` |
 | Figure 4 cross-paradigm transfer | `images/cross_paradigm_transfer.pdf` in paper repo | `src/plot_neural_figures.py` | representative sparse-transfer figure |
 | RQ2 hidden-state geometry paragraph | `results/shared_subspace_hidden_audit_20260410.json` | summarized in `docs/HIDDEN_SUBSPACE_AUDIT.md` | decision-point `hidden_states_dp.npz` assets |
-| RQ3 condition table | `results/paper_neural_audit.json` → `rq3_condition_i_ba` | `src/build_paper_neural_audit.py` | direct rerun subsets for Gemma/LLaMA SM `I_BA` |
-| Same-domain steering paragraph | `results/paper_neural_audit.json` → `steering.same_domain` | `src/build_paper_neural_audit.py` | representative same-domain steering JSON |
-| Cross-domain steering appendix table | `results/paper_neural_audit.json` → `steering.cross_domain_significant` | `src/build_paper_neural_audit.py` | supportive appendix evidence only |
+| RQ3 condition table | `results/condition_modulation_groupkfold_L22.json` | `src/run_groupkfold_recompute.py` (current; `src/build_paper_neural_audit.py` deprecated, moved to `legacy/v17_leaky_pipeline/`) | direct rerun subsets for Gemma/LLaMA SM `I_BA` |
+| Same-domain steering paragraph | `causal_supplements/M3prime_direction_steering/` | (paper's NULL causal-steering result) | representative same-domain steering |
+| Cross-domain steering appendix table | `causal_supplements/M3pp_paired_full_prompt_patch/` | (paper's NULL causal-steering result) | supportive appendix evidence only |
 
 ## Behavioral / Language Section
 

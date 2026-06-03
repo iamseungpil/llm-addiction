@@ -91,7 +91,7 @@ This file maps each experiment family to its code, input data, main outputs, and
 | --- | --- |
 | Current experiment plan | `results/reports/v23_workspace_and_rq_plan_20260410.md` |
 | Current findings summary | `results/reports/v17_final_neural_findings.md` |
-| Paper-safe neural manifest | `results/paper_neural_audit.json` |
+| Paper-safe neural manifest | Table 1 = `results/table1_groupkfold_L22.json`; Table 3 = `results/condition_modulation_groupkfold_L22.json`; Table 2 = `results/rq2_aligned_hidden_transfer_*L22_r1*.json` (strict-CV GroupKFold pipeline) |
 | Hidden-state RQ2 audit | `results/shared_subspace_hidden_audit_20260410.json` |
 | Session history and decisions | `results/session_progress_20260331.md` |
 | Historical integrated study | `results/sae_v13_comprehensive_study.md` |

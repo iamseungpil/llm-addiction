@@ -84,3 +84,7 @@ arms:
   - {id: e3a_rnd_s7, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062007, directions_npz: multilayer_causal/assets/directions.npz}
   - {id: e3a_rnd_s8, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062008, directions_npz: multilayer_causal/assets/directions.npz}
   - {id: e3a_rnd_s9, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062009, directions_npz: multilayer_causal/assets/directions.npz}
+  # ---- E1c: CONFIRMATORY n=200, held-out states (offset 100), fresh seeds ----
+  - {id: e1c_anchor_minus, phase: e1c, mode: anchor_minus, n: 200, seed_base: 1000042, state_offset: 100}
+  - {id: e1c_anchor_plus,  phase: e1c, mode: anchor_plus,  n: 200, seed_base: 1000042, state_offset: 100}
+  - {id: e1c_win18,        phase: e1c, mode: patch, layers: [18, 23], n: 200, seed_base: 1000042, state_offset: 100}

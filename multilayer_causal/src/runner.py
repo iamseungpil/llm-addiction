@@ -100,18 +100,23 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
         vec = VectorStore(ck.path.with_name(f"{arm['id']}_vectors.npz"),
                           N_LAYERS, D_MODEL)
     ensure_sm_catalog(arm["model"])
-    states = load_minusG_states(arm["model"], n=n + 50)
+    # Confirmatory arms use a HELD-OUT slice of the frozen pool (state_offset
+    # past the discovery indices) and a distinct seed_base.
+    offset = int(arm.get("state_offset", 0))
+    seed_base = int(arm.get("seed_base", SEED_BASE))
+    states = load_minusG_states(arm["model"], n=n + offset + 50)
     assert states, "empty state pool"
     model, tok, device = load_model(gpu)
     done = ck.done_seeds()
-    print(f"[{arm['id']}] n={n} done={len(done)} pool={len(states)}", flush=True)
+    print(f"[{arm['id']}] n={n} done={len(done)} pool={len(states)} "
+          f"offset={offset}", flush=True)
 
     for i in range(n):
-        seed = SEED_BASE + i * 997
+        seed = seed_base + i * 997
         if seed in done:
             continue
         t0 = time.time()
-        game, round_idx = states[i % len(states)]
+        game, round_idx = states[(i + offset) % len(states)]
         base_combo = game.get("prompt_combo", "")
         plus_combo = base_combo + "G" if "G" not in base_combo else base_combo
         minus_p = build_prompt(game, round_idx, override_combo=base_combo)

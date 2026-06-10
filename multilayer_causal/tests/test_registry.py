@@ -32,6 +32,15 @@ def test_e2_e3a_registry():
 def test_ids_unique_and_layers_valid():
     arms = load_arms()
     for a in arms.values():
-        assert a["n"] == 50
+        assert a["n"] == (200 if a["phase"] == "e1c" else 50)
         for l in a.get("layers", []):
             assert 0 <= l <= 41
+
+
+def test_e1c_confirmatory_held_out():
+    arms = load_arms()
+    e1c = [a for a in arms.values() if a["phase"] == "e1c"]
+    assert len(e1c) == 3
+    for a in e1c:
+        # held-out: distinct seeds AND state slice disjoint from discovery (0..99)
+        assert a["seed_base"] == 1000042 and a["state_offset"] == 100

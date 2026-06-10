@@ -18,6 +18,8 @@ def main():
                         "--exclude", "multilayer_causal/out",
                         "--exclude", "__pycache__",
                         "--exclude", ".pytest_cache",
+                        # rendered yamls carry the real HF token — never package
+                        "--exclude", "*.rendered.yaml",
                         *PATHS],
                        cwd=REPO_ROOT, check=True)
         from huggingface_hub import HfApi

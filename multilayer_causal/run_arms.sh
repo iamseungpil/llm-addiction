@@ -3,6 +3,9 @@
 # Usage: bash run_arms.sh <NGPUS> <arm1> <arm2> ...
 set -uo pipefail
 NGPUS=$1; shift
+# Serial catalog bootstrap BEFORE the fan-out — arms must never race the download.
+SCRIPT_PARENT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PYTHONPATH="$SCRIPT_PARENT" python -c "from multilayer_causal.src.states import ensure_sm_catalog; ensure_sm_catalog('gemma')"
 declare -a Q
 i=0
 for arm in "$@"; do

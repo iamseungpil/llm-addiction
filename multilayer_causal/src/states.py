@@ -30,7 +30,11 @@ def ensure_sm_catalog(model: str = "gemma") -> Path:
     dest.mkdir(parents=True, exist_ok=True)
     for f in files:
         p = hf_hub_download(HF_REPO, f, repo_type="dataset", token=token)
-        (dest / Path(f).name).write_bytes(Path(p).read_bytes())
+        # Atomic write: concurrent arm processes glob *.json — a half-written
+        # .json must never be visible (caused JSONDecodeError race in e1 v1).
+        tmp = dest / (Path(f).name + ".tmp")
+        tmp.write_bytes(Path(p).read_bytes())
+        os.replace(tmp, dest / Path(f).name)
     print(f"[states] downloaded {len(files)} catalog files → {dest}", flush=True)
     return dest
 

@@ -65,3 +65,4 @@ sae_v3_analysis/results/*_log.txt
 sae_v3_analysis/results/*.lock
 sae_v3_analysis/results/*status*.md
 multilayer_causal/out/
+multilayer_causal/amlt/*.rendered.yaml

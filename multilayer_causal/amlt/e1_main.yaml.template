@@ -1,0 +1,56 @@
+description: multilayer-causal E1 - 19-arm paired patch sweep on Gemma SM (4xH100, resume-safe)
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_e1_main
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml 2>&1 | tail -1
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        bash multilayer_causal/run_arms.sh 4 e1_anchor_minus e1_anchor_plus e1_full e1_cum_b8 e1_cum_b16 e1_cum_b22 e1_cum_b30 e1_cum_b36 e1_cum_t8 e1_cum_t16 e1_cum_t22 e1_cum_t30 e1_win_0 e1_win_6 e1_win_12 e1_win_18 e1_win_24 e1_win_30 e1_win_36
+        python -m multilayer_causal.src.analyze summary --out multilayer_causal/out
+        python -c "
+        import os
+        from huggingface_hub import HfApi
+        api = HfApi(token=os.environ[\"HF_TOKEN\"])
+        api.upload_file(path_or_fileobj=\"multilayer_causal/out/summary.json\", path_in_repo=\"experiments/multilayer_causal/results/e1_summary.json\", repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", commit_message=\"e1 summary\")
+        api.upload_file(path_or_fileobj=\"multilayer_causal/out/e1_full_vectors.npz\", path_in_repo=\"experiments/multilayer_causal/checkpoints/e1/e1_full_vectors.npz\", repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", commit_message=\"e1 vectors\")
+        print(\"results uploaded\")
+        "
+        echo E1_DONE
+        '

@@ -1,0 +1,30 @@
+# Arm registry — multilayer causal intervention (spec 2026-06-10).
+# layers: [a, b] = INCLUSIVE range; n: default trials; modes:
+#   anchor_minus / anchor_plus / patch / subspace / steer
+defaults:
+  model: gemma
+  task: sm
+  n: 50
+
+arms:
+  # ---- E1: anchors + multi-layer paired patch sweep -----------------------
+  - {id: e1_anchor_minus, phase: e1, mode: anchor_minus}
+  - {id: e1_anchor_plus,  phase: e1, mode: anchor_plus}
+  - {id: e1_full,         phase: e1, mode: patch, layers: [0, 41], log_vectors: true}
+  - {id: e1_cum_b8,       phase: e1, mode: patch, layers: [0, 8]}
+  - {id: e1_cum_b16,      phase: e1, mode: patch, layers: [0, 16]}
+  - {id: e1_cum_b22,      phase: e1, mode: patch, layers: [0, 22]}
+  - {id: e1_cum_b30,      phase: e1, mode: patch, layers: [0, 30]}
+  - {id: e1_cum_b36,      phase: e1, mode: patch, layers: [0, 36]}
+  - {id: e1_cum_t8,       phase: e1, mode: patch, layers: [8, 41]}
+  - {id: e1_cum_t16,      phase: e1, mode: patch, layers: [16, 41]}
+  - {id: e1_cum_t22,      phase: e1, mode: patch, layers: [22, 41]}
+  - {id: e1_cum_t30,      phase: e1, mode: patch, layers: [30, 41]}
+  - {id: e1_win_0,        phase: e1, mode: patch, layers: [0, 5]}
+  - {id: e1_win_6,        phase: e1, mode: patch, layers: [6, 11]}
+  - {id: e1_win_12,       phase: e1, mode: patch, layers: [12, 17]}
+  - {id: e1_win_18,       phase: e1, mode: patch, layers: [18, 23]}
+  - {id: e1_win_24,       phase: e1, mode: patch, layers: [24, 29]}
+  - {id: e1_win_30,       phase: e1, mode: patch, layers: [30, 35]}
+  - {id: e1_win_36,       phase: e1, mode: patch, layers: [36, 41]}
+  # ---- E2/E3 arms are appended after the E1 gate fixes S* ------------------

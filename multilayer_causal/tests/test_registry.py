@@ -15,6 +15,20 @@ def test_e1_registry_complete():
     assert covered == list(range(42))                      # tiling, no gaps/overlap
 
 
+def test_e2_e3a_registry():
+    arms = load_arms()
+    e2 = [a for a in arms.values() if a["phase"] == "e2"]
+    e3a = [a for a in arms.values() if a["phase"] == "e3a"]
+    assert len(e2) == 35                                   # 5 pca-r + 30 random ctrl
+    assert len(e3a) == 17                                  # 7 alphas + 10 random dirs
+    for a in e2 + e3a:
+        assert a["layers"] == list(range(18, 24))          # S* fixed from E1
+    assert sorted(a["alpha"] for a in e3a if a.get("direction") != "random") == \
+        [-2.0, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0]
+    rnd = [a for a in e2 if a.get("basis") == "random"]
+    assert len(rnd) == 30 and len({a["basis_seed"] for a in rnd}) == 30
+
+
 def test_ids_unique_and_layers_valid():
     arms = load_arms()
     for a in arms.values():

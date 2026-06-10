@@ -28,3 +28,59 @@ arms:
   - {id: e1_win_30,       phase: e1, mode: patch, layers: [30, 35]}
   - {id: e1_win_36,       phase: e1, mode: patch, layers: [36, 41]}
   # ---- E2/E3 arms are appended after the E1 gate fixes S* ------------------
+  # ---- E2: rank-r subspace patch at S* = L18-23 (fixed from E1, 2026-06-10) ----
+  - {id: e2_r1, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  - {id: e2_r2, phase: e2, mode: subspace, layers: [18, 23], r: 2, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  - {id: e2_r8, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  - {id: e2_r32, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  - {id: e2_r128, phase: e2, mode: subspace, layers: [18, 23], r: 128, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  # E2 random-subspace controls (Makelov-illusion defence)
+  - {id: e2_rnd_r1_s0, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061100}
+  - {id: e2_rnd_r1_s1, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061101}
+  - {id: e2_rnd_r1_s2, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061102}
+  - {id: e2_rnd_r1_s3, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061103}
+  - {id: e2_rnd_r1_s4, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061104}
+  - {id: e2_rnd_r1_s5, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061105}
+  - {id: e2_rnd_r1_s6, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061106}
+  - {id: e2_rnd_r1_s7, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061107}
+  - {id: e2_rnd_r1_s8, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061108}
+  - {id: e2_rnd_r1_s9, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061109}
+  - {id: e2_rnd_r8_s0, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061800}
+  - {id: e2_rnd_r8_s1, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061801}
+  - {id: e2_rnd_r8_s2, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061802}
+  - {id: e2_rnd_r8_s3, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061803}
+  - {id: e2_rnd_r8_s4, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061804}
+  - {id: e2_rnd_r8_s5, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061805}
+  - {id: e2_rnd_r8_s6, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061806}
+  - {id: e2_rnd_r8_s7, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061807}
+  - {id: e2_rnd_r8_s8, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061808}
+  - {id: e2_rnd_r8_s9, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061809}
+  - {id: e2_rnd_r32_s0, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064200}
+  - {id: e2_rnd_r32_s1, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064201}
+  - {id: e2_rnd_r32_s2, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064202}
+  - {id: e2_rnd_r32_s3, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064203}
+  - {id: e2_rnd_r32_s4, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064204}
+  - {id: e2_rnd_r32_s5, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064205}
+  - {id: e2_rnd_r32_s6, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064206}
+  - {id: e2_rnd_r32_s7, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064207}
+  - {id: e2_rnd_r32_s8, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064208}
+  - {id: e2_rnd_r32_s9, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064209}
+  # ---- E3a: additive steering along the G-axis at S* = L18-23 ----
+  - {id: e3a_m20, phase: e3a, mode: steer, layers: [18, 23], alpha: -2.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_m10, phase: e3a, mode: steer, layers: [18, 23], alpha: -1.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_m05, phase: e3a, mode: steer, layers: [18, 23], alpha: -0.5, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_a00, phase: e3a, mode: steer, layers: [18, 23], alpha: 0.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_p05, phase: e3a, mode: steer, layers: [18, 23], alpha: 0.5, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_p10, phase: e3a, mode: steer, layers: [18, 23], alpha: 1.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_p20, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions.npz}
+  # E3a random-direction controls at alpha=+2
+  - {id: e3a_rnd_s0, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062000, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s1, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062001, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s2, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062002, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s3, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062003, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s4, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062004, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s5, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062005, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s6, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062006, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s7, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062007, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s8, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062008, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s9, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062009, directions_npz: multilayer_causal/assets/directions.npz}

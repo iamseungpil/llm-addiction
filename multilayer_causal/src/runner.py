@@ -54,12 +54,22 @@ def _generate(model, tok, device, prompt, hookset, seed):
 
 
 def _load_steer_assets(arm):
-    """directions npz: keys 'directions' (L,D), 'scales' (L,) — built by analyze.py."""
+    """directions npz: keys 'directions' (L,D), 'scales' (L,) — built by analyze.py.
+
+    direction: random → isotropic unit vectors (control), same per-layer scales.
+    """
     import torch
     z = np.load(arm["directions_npz"])
+    scales = {li: float(z["scales"][li]) for li in arm["layers"]}
+    if arm.get("direction") == "random":
+        rng = np.random.Generator(np.random.PCG64(int(arm["dir_seed"])))
+        dirs = {}
+        for li in arm["layers"]:
+            v = rng.standard_normal(D_MODEL)
+            dirs[li] = torch.tensor(v / np.linalg.norm(v), dtype=torch.float32)
+        return dirs, scales
     dirs = {li: torch.tensor(z["directions"][li], dtype=torch.float32)
             for li in arm["layers"]}
-    scales = {li: float(z["scales"][li]) for li in arm["layers"]}
     return dirs, scales
 
 

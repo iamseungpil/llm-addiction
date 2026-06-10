@@ -66,3 +66,4 @@ sae_v3_analysis/results/*.lock
 sae_v3_analysis/results/*status*.md
 multilayer_causal/out/
 multilayer_causal/amlt/*.rendered.yaml
+multilayer_causal/assets/*.npz

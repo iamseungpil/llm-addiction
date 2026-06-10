@@ -44,3 +44,32 @@ def test_e1c_confirmatory_held_out():
     for a in e1c:
         # held-out: distinct seeds AND state slice disjoint from discovery (0..99)
         assert a["seed_base"] == 1000042 and a["state_offset"] == 100
+
+
+def test_w1_registry():
+    arms = load_arms()
+    by_phase = {}
+    for a in arms.values():
+        by_phase.setdefault(a["phase"], []).append(a)
+    assert len(by_phase["w1ro"]) == 4
+    assert len(by_phase["w1lc"]) == 7
+    assert len(by_phase["w1s"]) == 4
+    assert len(by_phase["w1ic"]) == 6
+    assert len(by_phase["w1b"]) == 2
+    assert len(by_phase["w1e"]) == 7
+    # layers_list expansion: non-contiguous set stored verbatim into 'layers'
+    assert arms["w1b_patch5"]["layers"] == [8, 12, 22, 25, 30]
+    assert "layers_list" not in arms["w1b_patch5"]
+    assert arms["w1b_steer5"]["layers"] == [8, 12, 22, 25, 30]
+    for a in by_phase["w1lc"]:
+        assert a.get("probe") is True and a["task"] == "sm"
+    for a in by_phase["w1ic"]:
+        assert a["task"] == "ic" and not a.get("probe")
+        assert a["mode"] in {"anchor_minus", "steer"}
+    for a in by_phase["w1ro"] + by_phase["w1s"]:
+        assert a["mode"] == "steer" and a["layers"] == list(range(18, 24))
+    assert sorted(a["alpha"] for a in by_phase["w1ro"]) == [-2.0, 0.0, 2.0, 4.0]
+    rnd = [a for a in arms.values()
+           if a["phase"].startswith("w1") and a.get("direction") == "random"]
+    assert {a["id"] for a in rnd} == {"w1lc_rnd", "w1ic_rnd_s0", "w1ic_rnd_s1"}
+    assert len({a["dir_seed"] for a in rnd}) == 3

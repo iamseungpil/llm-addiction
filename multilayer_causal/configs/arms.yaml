@@ -104,3 +104,40 @@ arms:
   # G-axis high-dose extension (dose-sufficiency check)
   - {id: e3a_p40, phase: e3a, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions.npz}
   - {id: e3a_p80, phase: e3a, mode: steer, layers: [18, 23], alpha: 8.0, directions_npz: multilayer_causal/assets/directions.npz}
+  # ==== W1 discovery arms (spec 2026-06-10 W0-W2 section-interleaved) ========
+  # ---- w1ro: §4.1 readout-axis dose-response (Ridge readout direction) ----
+  - {id: w1ro_m20, phase: w1ro, mode: steer, layers: [18, 23], alpha: -2.0, directions_npz: multilayer_causal/assets/directions_readout.npz}
+  - {id: w1ro_a00, phase: w1ro, mode: steer, layers: [18, 23], alpha: 0.0, directions_npz: multilayer_causal/assets/directions_readout.npz}
+  - {id: w1ro_p20, phase: w1ro, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_readout.npz}
+  - {id: w1ro_p40, phase: w1ro, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_readout.npz}
+  # ---- w1lc: §4.1 loss-chasing probe arms (3 generations: decision+LOSS+WIN) ----
+  - {id: w1lc_anchor_minus, phase: w1lc, mode: anchor_minus, probe: true}
+  - {id: w1lc_anchor_plus, phase: w1lc, mode: anchor_plus, probe: true}
+  - {id: w1lc_patch, phase: w1lc, mode: patch, layers: [18, 23], probe: true}
+  - {id: w1lc_iba_p40, phase: w1lc, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iba_v2.npz, probe: true}
+  - {id: w1lc_ilc_p20, phase: w1lc, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_ilc.npz, probe: true}
+  - {id: w1lc_ilc_p40, phase: w1lc, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_ilc.npz, probe: true}
+  - {id: w1lc_rnd, phase: w1lc, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026064000, directions_npz: multilayer_causal/assets/directions_iba_v2.npz, probe: true}
+  # ---- w1s: §4.1 selectivity matrix fill (I_LC / I_EC axes, single decision) ----
+  - {id: w1s_ilc_p20, phase: w1s, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_ilc.npz}
+  - {id: w1s_ilc_p40, phase: w1s, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_ilc.npz}
+  - {id: w1s_iec_p20, phase: w1s, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_iec.npz}
+  - {id: w1s_iec_p40, phase: w1s, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iec.npz}
+  # ---- w1ic: §4.2 cross-task causal transfer (investment choice) ----
+  - {id: w1ic_anchor, phase: w1ic, task: ic, mode: anchor_minus}
+  - {id: w1ic_smiba_p20, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_iba_v2.npz}
+  - {id: w1ic_smiba_p40, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iba_v2.npz}
+  - {id: w1ic_icax_p40, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_ic.npz}
+  - {id: w1ic_rnd_s0, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026065000, directions_npz: multilayer_causal/assets/directions_ic.npz}
+  - {id: w1ic_rnd_s1, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026065001, directions_npz: multilayer_causal/assets/directions_ic.npz}
+  # ---- w1b: §4.3 bridge — non-contiguous layer set {8,12,22,25,30} ----
+  - {id: w1b_patch5, phase: w1b, mode: patch, layers_list: [8, 12, 22, 25, 30]}
+  - {id: w1b_steer5, phase: w1b, mode: steer, layers_list: [8, 12, 22, 25, 30], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iba_v2.npz}
+  # ---- w1e: §4.3 edge — width-2 windows + width-4 flanks around S* ----
+  - {id: w1e_1617, phase: w1e, mode: patch, layers: [16, 17]}
+  - {id: w1e_1819, phase: w1e, mode: patch, layers: [18, 19]}
+  - {id: w1e_2021, phase: w1e, mode: patch, layers: [20, 21]}
+  - {id: w1e_2223, phase: w1e, mode: patch, layers: [22, 23]}
+  - {id: w1e_2425, phase: w1e, mode: patch, layers: [24, 25]}
+  - {id: w1e_1821, phase: w1e, mode: patch, layers: [18, 21]}
+  - {id: w1e_2023, phase: w1e, mode: patch, layers: [20, 23]}

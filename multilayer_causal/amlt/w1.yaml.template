@@ -1,0 +1,48 @@
+description: multilayer-causal W1 - section-interleaved causal discovery, 30 arms (readout dose, LC probe x3-gen, selectivity, IC transfer, bridge, edge; 4xH100, resume-safe)
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_w1
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml 2>&1 | tail -1
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        python -c "from multilayer_causal.src.ic import ensure_ic_catalog; ensure_ic_catalog()"
+        bash multilayer_causal/run_arms.sh 4 w1lc_anchor_minus w1lc_anchor_plus w1lc_patch w1lc_iba_p40 w1lc_ilc_p20 w1lc_ilc_p40 w1lc_rnd w1ic_anchor w1ic_smiba_p20 w1ic_smiba_p40 w1ic_icax_p40 w1ic_rnd_s0 w1ic_rnd_s1 w1ro_m20 w1ro_a00 w1ro_p20 w1ro_p40 w1s_ilc_p20 w1s_ilc_p40 w1s_iec_p20 w1s_iec_p40 w1b_patch5 w1b_steer5 w1e_1617 w1e_1819 w1e_2021 w1e_2223 w1e_2425 w1e_1821 w1e_2023
+        echo W1_DONE
+        '

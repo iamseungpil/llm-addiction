@@ -18,6 +18,8 @@ MODEL_PATH = "google/gemma-2-9b-it"
 N_LAYERS, D_MODEL = 42, 3584
 TEMPERATURE, MAX_NEW_TOKENS = 0.7, 200
 SEED_BASE = 42
+PROBE_MODES = {"anchor_minus", "anchor_plus", "patch", "steer"}
+IC_MODES = {"anchor_minus", "steer"}
 
 
 def load_model(gpu: int):
@@ -88,7 +90,77 @@ def _load_bases(arm):
             for li in arm["layers"]}
 
 
+def build_branch_game(game, round_idx, bet, win: bool) -> dict:
+    """Counterfactual NEXT-round game state after betting `bet` at round_idx.
+
+    Pure: returns a NEW dict, never mutates `game`. WIN pays 3.0x the bet
+    (net +2*bet), LOSS forfeits the bet — same arithmetic as the §3 engine.
+    The appended history entry renders in build_prompt as
+    'Round {round_idx+1}: Bet ${bet}, WIN|LOSS, Balance ${new_bal}'.
+    All-in bets are rejected: a LOSS branch would be a probe-bankruptcy
+    (balance 0, no next decision) — callers log those instead of branching.
+    """
+    decs = game["decisions"]
+    assert 0 <= round_idx < len(decs), f"round_idx {round_idx} out of range"
+    bal = decs[round_idx]["balance_before"]
+    assert 0 < bet < bal, f"branch needs 0 < bet < balance (bet={bet}, bal={bal})"
+    new_bal = bal + 2 * bet if win else bal - bet
+    return {
+        "bet_type": game["bet_type"],
+        "prompt_combo": game.get("prompt_combo", ""),
+        "decisions": list(decs[:round_idx + 1]) + [{"balance_before": new_bal}],
+        "history": list(game.get("history", [])[:round_idx])
+        + [{"round": round_idx + 1, "bet": bet, "win": win, "balance": new_bal}],
+    }
+
+
+def _run_probe(arm, model, tok, device, game, round_idx, action, amount, balance,
+               seed, branch_combo, plus_combo):
+    """Stage-2 LC probe: LOSS branch (seed+1) + WIN branch (seed+2).
+
+    branch_combo = combo of the EVALUATED stage-1 prompt (plus combo for
+    anchor_plus arms, minus combo otherwise) — branches see the same framing.
+    """
+    if action == "stop":
+        return {"stage1_stop": True}
+    if amount >= balance:
+        return {"all_in": True}  # probe-bankruptcy on LOSS; LC undefined, no branches
+    r_t = amount / balance
+    steer_assets = _load_steer_assets(arm) if arm["mode"] == "steer" else None
+    out = {"r_t": r_t, "bet": amount}
+    for key, win, seed_off in (("loss", False, 1), ("win", True, 2)):
+        bg = build_branch_game(game, round_idx, amount, win)
+        eval_p = build_prompt(bg, round_idx + 1, override_combo=branch_combo)
+        assert eval_p is not None, "branch prompt build failed"
+        hookset = None
+        if arm["mode"] == "patch":
+            # fresh +G twin cache OF THE BRANCH prompt (same recipe as stage 1)
+            plus_p = build_prompt(bg, round_idx + 1, override_combo=plus_combo)
+            cached, _ = cache_layer_outputs(model, tok, device, plus_p, arm["layers"])
+            hookset = MultiLayerPatcher(cached)
+        elif arm["mode"] == "steer":
+            dirs, scales = steer_assets
+            hookset = MultiLayerSteerer(dirs, scales, alpha=float(arm["alpha"]))
+        text = _generate(model, tok, device, eval_p, hookset, seed + seed_off)
+        new_bal = bg["decisions"][-1]["balance_before"]
+        b_action, b_amount = parse_response(text, min(100, new_bal))
+        r = b_amount / new_bal if b_action == "bet" else 0.0
+        lc = max(0.0, (r - r_t) / r_t) if b_action == "bet" else None
+        out[key] = {
+            "action": b_action, "amount": b_amount, "r": r, "lc": lc,
+            "parse_ok": bool(re.search(r"Final Decision:", text, re.IGNORECASE)),
+            "response": text[:300],
+        }
+    return out
+
+
 def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
+    if arm.get("task", "sm") == "ic":
+        return _run_arm_ic(arm, out_dir, gpu=gpu, n=n, smoke=smoke)
+    probe = bool(arm.get("probe"))
+    if probe:
+        assert arm.get("task", "sm") != "ic", "probe arms are SM-only"
+        assert arm["mode"] in PROBE_MODES, f"probe unsupported for mode {arm['mode']}"
     n = n or arm["n"]
     if smoke:
         n = min(n, 3)
@@ -158,7 +230,7 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
         balance = int(bal_m.group(1)) if bal_m else 100
         max_bet = min(100, balance)
         action, amount = parse_response(text, max_bet)
-        ck.record({
+        rec = {
             "trial_id": i, "seed": seed, "arm": arm["id"], "phase": phase,
             "mode": mode, "layers": arm.get("layers"),
             "r": arm.get("r"), "alpha": arm.get("alpha"),
@@ -171,10 +243,80 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
             "parse_ok": bool(re.search(r"Final Decision:", text, re.IGNORECASE)),
             "response": text[:300], "elapsed_s": round(time.time() - t0, 1),
             "timestamp": datetime.now().isoformat(),
-        })
+        }
+        if probe:
+            branch_combo = plus_combo if mode == "anchor_plus" else base_combo
+            try:
+                rec["probe"] = _run_probe(arm, model, tok, device, game, round_idx,
+                                          action, amount, balance, seed,
+                                          branch_combo, plus_combo)
+            except Exception as e:
+                print(f"[{arm['id']} trial {i}] PROBE ERROR "
+                      f"{type(e).__name__}: {e}", flush=True)
+                continue  # skip record → resume retries the whole trial
+            rec["elapsed_s"] = round(time.time() - t0, 1)
+        ck.record(rec)
         if vec is not None:
             vec.save()
         print(f"  [{arm['id']} {i + 1}/{n}] {action} ${amount} "
+              f"({time.time() - t0:.1f}s)", flush=True)
+    ck.final_sync()
+    print(f"[{arm['id']}] DONE {len(ck.done_seeds())} trials", flush=True)
+
+
+def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
+    """Investment-choice single-decision arm (W1 §4.2 transfer bundle).
+
+    Stored IC prompt verbatim — no minus/plus twin exists, so the only legal
+    modes are anchor_minus (natural prompt, no hook) and steer.
+    """
+    from . import ic  # lazy: only task: ic arms need (or have) the ic module
+    assert not arm.get("probe"), "probe arms are SM-only"
+    mode = arm["mode"]
+    assert mode in IC_MODES, f"ic: unsupported mode {mode}"
+    n = n or arm["n"]
+    if smoke:
+        n = min(n, 3)
+    phase = arm["phase"]
+    ck = ArmCheckpoint(phase, arm["id"], out_dir,
+                       hf_enabled=False if smoke else None)
+    ic.ensure_ic_catalog(arm["model"])
+    offset = int(arm.get("state_offset", 0))
+    seed_base = int(arm.get("seed_base", SEED_BASE))
+    pool = ic.load_ic_states(arm["model"], n=n + offset + 50)
+    assert pool, "empty IC state pool"
+    model, tok, device = load_model(gpu)
+    done = ck.done_seeds()
+    print(f"[{arm['id']}] task=ic n={n} done={len(done)} pool={len(pool)} "
+          f"offset={offset}", flush=True)
+
+    for i in range(n):
+        seed = seed_base + i * 997
+        if seed in done:
+            continue
+        t0 = time.time()
+        game_id, prompt, _meta = pool[(i + offset) % len(pool)]
+        assert isinstance(prompt, str) and prompt, "IC state has empty prompt"
+        hookset = None
+        if mode == "steer":
+            dirs, scales = _load_steer_assets(arm)
+            hookset = MultiLayerSteerer(dirs, scales, alpha=float(arm["alpha"]))
+        try:
+            text = _generate(model, tok, device, prompt, hookset, seed)
+        except Exception as e:
+            print(f"[{arm['id']} trial {i}] ERROR {type(e).__name__}: {e}", flush=True)
+            continue
+        choice, parse_ok, risky = ic.parse_ic_response(text)
+        ck.record({
+            "trial_id": i, "seed": seed, "arm": arm["id"], "phase": phase,
+            "mode": mode, "task": "ic", "layers": arm.get("layers"),
+            "alpha": arm.get("alpha"), "game_id": int(game_id),
+            "choice": choice, "risky": bool(risky), "parse_ok": bool(parse_ok),
+            "response": text[:300],
+            "elapsed_s": round(time.time() - t0, 1),
+            "timestamp": datetime.now().isoformat(),
+        })
+        print(f"  [{arm['id']} {i + 1}/{n}] choice={choice} "
               f"({time.time() - t0:.1f}s)", flush=True)
     ck.final_sync()
     print(f"[{arm['id']}] DONE {len(ck.done_seeds())} trials", flush=True)

@@ -88,3 +88,19 @@ arms:
   - {id: e1c_anchor_minus, phase: e1c, mode: anchor_minus, n: 200, seed_base: 1000042, state_offset: 100}
   - {id: e1c_anchor_plus,  phase: e1c, mode: anchor_plus,  n: 200, seed_base: 1000042, state_offset: 100}
   - {id: e1c_win18,        phase: e1c, mode: patch, layers: [18, 23], n: 200, seed_base: 1000042, state_offset: 100}
+  # ---- E3i: I_BA BEHAVIOUR-axis steering at S*=L18-23 (orthogonal to G-axis, cos~0.07) ----
+  - {id: e3i_m20, phase: e3i, mode: steer, layers: [18, 23], alpha: -2.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_m10, phase: e3i, mode: steer, layers: [18, 23], alpha: -1.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_a00, phase: e3i, mode: steer, layers: [18, 23], alpha: 0.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_p10, phase: e3i, mode: steer, layers: [18, 23], alpha: 1.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_p20, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_p40, phase: e3i, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  # E3i random-direction controls at alpha=+2
+  - {id: e3i_rnd_s0, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063000, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_rnd_s1, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063001, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_rnd_s2, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063002, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_rnd_s3, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063003, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_rnd_s4, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063004, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  # G-axis high-dose extension (dose-sufficiency check)
+  - {id: e3a_p40, phase: e3a, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_p80, phase: e3a, mode: steer, layers: [18, 23], alpha: 8.0, directions_npz: multilayer_causal/assets/directions.npz}

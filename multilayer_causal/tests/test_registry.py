@@ -32,7 +32,10 @@ def test_e2_e3a_registry():
 def test_ids_unique_and_layers_valid():
     arms = load_arms()
     for a in arms.values():
-        assert a["n"] == (200 if a["phase"] == "e1c" else 50)
+        if a["phase"] in ("e1c", "w2"):       # confirmatory: 200 (50 controls)
+            assert a["n"] in (50, 200)
+        else:
+            assert a["n"] == 50
         for l in a.get("layers", []):
             assert 0 <= l <= 41
 
@@ -73,3 +76,25 @@ def test_w1_registry():
            if a["phase"].startswith("w1") and a.get("direction") == "random"]
     assert {a["id"] for a in rnd} == {"w1lc_rnd", "w1ic_rnd_s0", "w1ic_rnd_s1"}
     assert len({a["dir_seed"] for a in rnd}) == 3
+
+
+def test_w2_confirmatory_held_out():
+    arms = load_arms()
+    w2 = [a for a in arms.values() if a["phase"] == "w2"]
+    assert len(w2) == 8
+    for a in w2:
+        # third seed set AND state slice disjoint from discovery (0..99)
+        # and e1c confirmatory (100..299)
+        assert a["seed_base"] == 2000042 and a["state_offset"] == 300
+        # any axis used at offset 300 must be the re-estimated W2 build
+        if "directions_npz" in a:
+            assert "/assets/w2/" in a["directions_npz"], a["id"]
+    assert arms["w2e_1617"]["layers"] == [16, 17]
+    assert arms["w2e_1821"]["layers"] == [18, 19, 20, 21]
+    assert arms["w2ro5_p20"]["layers"] == [8, 12, 22, 25, 30]
+    # confirmatory mains are n=200; controls (random / ro5 closing arm) n=50
+    assert {a["id"]: a["n"] for a in w2 if a["n"] == 50} == \
+        {"w2rnd_p40": 50, "w2ro5_p20": 50}
+    probes = {a["id"] for a in w2 if a.get("probe")}
+    assert probes == {"w2_anchor_minus", "w2_anchor_plus",
+                      "w2lc_iba_p40", "w2lc_ilc_p20", "w2rnd_p40"}

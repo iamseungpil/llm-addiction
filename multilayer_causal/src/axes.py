@@ -331,6 +331,10 @@ def main():
                     choices=sorted(sm_builders) + ["ic", "all"])
     ap.add_argument("--dest-dir", required=True)
     ap.add_argument("--skip-ic", action="store_true")
+    ap.add_argument("--n-eval", type=int, default=N_EVAL,
+                    help="exclude games of pool[0:n_eval] from axis fits "
+                         "(W1 discovery=300; W2 confirmatory at offset 300 "
+                         "evaluates pool[300:500+] so needs 500)")
     args = ap.parse_args()
     dest_dir = Path(args.dest_dir)
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -347,11 +351,12 @@ def main():
         # Cross-check the rebuilt pool against the frozen eval-pool loader on
         # the env-root copy of the SAME catalog (rulebook: no silent drift).
         ensure_sm_catalog("gemma")
-        ref = load_minusG_states("gemma", n=N_EVAL)
-        assert [ri for _, ri in pool[:N_EVAL]] == [ri for _, ri in ref], \
+        ref = load_minusG_states("gemma", n=args.n_eval)
+        assert [ri for _, ri in pool[:args.n_eval]] == [ri for _, ri in ref], \
             "rebuilt eval pool diverges from states.load_minusG_states"
-        excluded = excluded_game_ids(pool)
-        print(f"[axes] eval pool first {N_EVAL} -> {len(excluded)} excluded games")
+        excluded = excluded_game_ids(pool, n_eval=args.n_eval)
+        print(f"[axes] eval pool first {args.n_eval} -> "
+              f"{len(excluded)} excluded games")
         pa = hf_hub_download(HF_REPO, PHASE_A, repo_type="dataset", token=token)
         z = np.load(pa, mmap_mode="r")
         hs = z["hidden_states"]

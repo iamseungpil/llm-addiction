@@ -46,9 +46,21 @@
 
 ---
 
-## W2 (이번 제출에 포함 안 함 — W1 결과 후 확정)
+## W2 — confirmatory wave (확정·제출: arms.yaml `phase: w2`, 8 arms)
 
-discovery 승자만 n=200, **상태 오프셋 ≥300**(0–99 discovery, 100–299 e1c와 분리), 시드 제3셋(`seed_base` 신규), **축은 평가-게임 제외 후 재추정판**으로 재검증. 후보: {iba_v2, readout 중 강한 쪽}+4 / I_LC축 프로브 / SM→IC(양성 시) / random@+4 ×10. **본문 승격 = confirmatory p<0.05 + random 95분위 밖 + 파싱 ≥0.9 + 갭회복·CI 보고.** TOST는 클러스터 버전으로 교체 예정(현 retro_stats의 tost_p는 비클러스터 — 표기됨).
+W1 결과로 확정된 구성. 공통: **state_offset 300** (0–99 discovery / 100–299 e1c와 분리), **seed_base 2000042** (제3셋), 축은 전부 `assets/w2/` — **--n-eval 500 재추정판** (평가게임 363개 제외; W1 축과 cos: 행동축 ~0.99, readout ~0.80).
+
+| arm | n | 의도 | 가설 | 1차 지표 |
+|---|---|---|---|---|
+| w2_anchor_minus/plus (probe) | 200×2 | 신규 오프셋 ±G 기준선 + R7 게이트 재검 | +G I_LC(프로브) > −G 재현 | 단측 클러스터 perm |
+| w2e_1617 | 200 | **W1 헤드라인 확정**: L16–17 폭2가 갭 ~98% 회복 | 회복≥50%, vs −G p<0.05 | 갭회복+클러스터부트스트랩 CI |
+| w2e_1821 | 200 | 핵 윈도 L18–21 확정 | 동상 | 동상 |
+| w2lc_iba_p40 (probe) | 200 | **"한 축이 세 지표 전부" 마감**: W1에서 probe-n 23으로 미달했던 I_BA축의 I_LC 효과 | 손실 특이성 > −G (단측) | spec 차이, 단측 클러스터 perm |
+| w2lc_ilc_p20 (probe) | 200 | W1 p=0.086 방향-일관 ILC축 확정 | 동상 | 동상 |
+| w2rnd_p40 (probe) | 50 | 프로브 특이성 컨트롤 | random은 무효과 | — |
+| w2ro5_p20 | 50 | **마지막 조합 마감**: 논문 읽기격자 {8,12,22,25,30} × readout축 | H0: 무반응 (read/write 비대칭 완결) | I_BA vs anchor |
+
+**본문 승격 = confirmatory p<0.05 + random 대비 분리 + 파싱 ≥0.9 + 갭회복·CI 보고.** TOST는 클러스터 버전으로 교체 예정(현 retro_stats의 tost_p는 비클러스터 — 표기됨). 제출: `amlt run multilayer_causal/amlt/w2.rendered.yaml mlc-w2-<date> -y` (tarball push → render 선행, W1과 동일).
 
 ## 제출 절차 (지시 시 그대로 실행, 3단계)
 

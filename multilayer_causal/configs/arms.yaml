@@ -141,3 +141,14 @@ arms:
   - {id: w1e_2425, phase: w1e, mode: patch, layers: [24, 25]}
   - {id: w1e_1821, phase: w1e, mode: patch, layers: [18, 21]}
   - {id: w1e_2023, phase: w1e, mode: patch, layers: [20, 23]}
+  # ---- W2: confirmatory wave (offset 300 = held-out states past discovery
+  # 0-99 and e1c 100-299; seed_base third set; axes re-estimated with
+  # --n-eval 500 so no eval game leaks into any axis fit) -------------------
+  - {id: w2_anchor_minus, phase: w2, mode: anchor_minus, n: 200, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2_anchor_plus,  phase: w2, mode: anchor_plus,  n: 200, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2e_1617, phase: w2, mode: patch, layers: [16, 17], n: 200, seed_base: 2000042, state_offset: 300}
+  - {id: w2e_1821, phase: w2, mode: patch, layers: [18, 21], n: 200, seed_base: 2000042, state_offset: 300}
+  - {id: w2lc_iba_p40, phase: w2, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 200, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2lc_ilc_p20, phase: w2, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/w2/directions_ilc.npz, n: 200, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2rnd_p40, phase: w2, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026066000, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2ro5_p20, phase: w2, mode: steer, layers_list: [8, 12, 22, 25, 30], alpha: 2.0, directions_npz: multilayer_causal/assets/w2/directions_readout.npz, n: 50, seed_base: 2000042, state_offset: 300}

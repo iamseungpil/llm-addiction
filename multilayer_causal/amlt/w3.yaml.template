@@ -1,0 +1,51 @@
+description: multilayer-causal W3 discovery wave - SAE-readout steering at L16-21 plus M-twin patch and direction nulls on gemma then LLaMA write-window sweep, two sequential model batches to avoid per-GPU model thrash (4xH100, resume-safe); w3bk SM arms included - bk_sm and bk_sm_balres pass the pre-registered construct gates (game-perm p=1e-4, existence pair-cos boot 2.5pct 0.25/0.29, stability 0.99; directions orientation-calibrated stop-ward, oriented game AUC 0.78/0.82) plus the round-3 discriminative balance controls w3bk_smorth_p40 (bk_sm axis made exactly orthogonal to the target balance-slope direction, cos 0 by construction, residual norm 0.914) and w3bk_smbal_p40 (pure balance-slope direction sign-aligned with the bk_sm axis's balance component, confound-positive control) at the same Delta-norm; w3bk_ic excluded - existence gate FAIL (source pair cos 0.02, boot 2.5pct -0.25) recorded in assets/w3 npz per RUN_PLAN_W3.md gate rule
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_w3
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml 2>&1 | tail -1
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        python -c "from multilayer_causal.src.ic import ensure_ic_catalog; ensure_ic_catalog()"
+        bash multilayer_causal/run_arms.sh 4 w3a_saerd_m20 w3a_saerd_p20 w3a_saerd_p40 w3a_saerdx_m20 w3a_saerdx_p20 w3a_saerdx_p40 w3bk_sm_m20 w3bk_sm_p20 w3bk_sm_p40 w3bk_smres_p40 w3bk_smorth_p40 w3bk_smbal_p40 w3pos_iba_p40 w3rnd_s0 w3rnd_s1 w3rnd_s2 w3rnd_s3 w3rnd_s4 w3rnd_s5 w3rnd_s6 w3rnd_s7 w3m_0813 w3m_1621 w3m_2429
+        echo W3_GEMMA_DONE
+        python -c "from multilayer_causal.src.states import ensure_sm_catalog; ensure_sm_catalog(\"llama\")"
+        bash multilayer_causal/run_arms.sh 4 w3L_anchor_minus w3L_anchor_plus w3L_w00 w3L_w04 w3L_w08 w3L_w12 w3L_w16 w3L_w20 w3L_w24 w3L_w28
+        echo W3_DONE
+        '

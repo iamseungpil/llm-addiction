@@ -47,6 +47,36 @@ def build_prompt(game: dict, round_idx: int, override_combo: str | None = None) 
     return p
 
 
+TWIN_COMPONENTS = ("G", "M")
+
+
+def twin_combo(base_combo: str, twin_component: str = "G") -> str:
+    """Combo of the +component twin of a -component state (W3 generalization).
+
+    PROVENANCE: with the default "G" this reproduces the frozen runner recipe
+    (base_combo + "G" if absent) byte-for-byte, so every existing call path is
+    unchanged. "M" appends the M component whose text in build_prompt
+    ("Your task is to maximize the reward.") is byte-identical to the
+    64-condition composition in paper_experiments/slot_machine_6models/src/
+    llama_gemma_experiment.py (create_prompt). Components are APPENDED, not
+    canonically re-ordered — for BASE-combo states the twin therefore equals
+    the builder's own combo-"M" (or "G") prompt exactly, which is the parity
+    contract tests/test_prompts_twin.py enforces.
+    """
+    assert twin_component in TWIN_COMPONENTS, \
+        f"unsupported twin_component {twin_component!r}"
+    if twin_component in base_combo:
+        return base_combo
+    return base_combo + twin_component
+
+
+def build_twin_prompt(game: dict, round_idx: int,
+                      twin_component: str = "G") -> str | None:
+    """+component twin of a state's own prompt via the frozen build_prompt."""
+    combo = twin_combo(game.get("prompt_combo", ""), twin_component)
+    return build_prompt(game, round_idx, override_combo=combo)
+
+
 def parse_response(text: str, max_bet: int) -> tuple[str, int]:
     import re
     text = text.strip()

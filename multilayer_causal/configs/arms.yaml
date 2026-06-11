@@ -152,3 +152,62 @@ arms:
   - {id: w2lc_ilc_p20, phase: w2, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/w2/directions_ilc.npz, n: 200, seed_base: 2000042, state_offset: 300, probe: true}
   - {id: w2rnd_p40, phase: w2, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026066000, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, probe: true}
   - {id: w2ro5_p20, phase: w2, mode: steer, layers_list: [8, 12, 22, 25, 30], alpha: 2.0, directions_npz: multilayer_causal/assets/w2/directions_readout.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # ==== W3 discovery arms (RUN_PLAN_W3.md plan v4, 2026-06-11) ===============
+  # Gemma arms reuse the W2 anchor protocol (seed_base 2000042, state_offset
+  # 300) so w2_anchor_minus/plus are the comparison group without re-running.
+  # IC arms keep the W3 seeds but their own corpus (state_offset 0).
+  # ---- w3a: SAE-readout direction placed inside the write window L16-21 ----
+  - {id: w3a_saerd_m20, phase: w3a, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/w3/directions_saerd.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3a_saerd_p20, phase: w3a, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/w3/directions_saerd.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3a_saerd_p40, phase: w3a, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_saerd.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # saerdx: eval-pool-EXCLUDED refit twin of the literal direction (round-1
+  # leakage fix) — PR-1 claims a positive w3a only if BOTH directions move
+  # behavior, so the twin runs the same three alphas.
+  - {id: w3a_saerdx_m20, phase: w3a, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/w3/directions_saerd_excl.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3a_saerdx_p20, phase: w3a, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/w3/directions_saerd_excl.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3a_saerdx_p40, phase: w3a, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_saerd_excl.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- w3bk: shared BK (stop-vs-bankrupt) subspace as a control subspace ----
+  - {id: w3bk_sm_m20, phase: w3bk, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3bk_sm_p20, phase: w3bk, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3bk_sm_p40, phase: w3bk, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: w3bk_smres_p40, phase: w3bk, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm_balres.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  # round-3 discriminative balance controls (balres alone is a partial control,
+  # cos(plain, balres)~0.95): smorth = bk_sm axis projected EXACTLY orthogonal
+  # to the target balance-slope direction (positive effect => non-balance
+  # causal content); smbal = the pure balance-slope direction, sign-aligned
+  # with the bk_sm axis's balance component (confound-POSITIVE control:
+  # reproduces the bk_sm effect => balance account wins; null => excluded).
+  - {id: w3bk_smorth_p40, phase: w3bk, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm_balorth.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: w3bk_smbal_p40, phase: w3bk, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm_balslope.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: w3bk_ic_p20, phase: w3bk, task: ic, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/w3/directions_bk_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: w3bk_ic_p40, phase: w3bk, task: ic, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  # ---- w3pos: positive control — known causal I_BA axis, same Δnorm ----
+  - {id: w3pos_iba_p40, phase: w3pos, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- w3rnd: pooled direction-null distribution at the W3 window ----
+  - {id: w3rnd_s0, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067000, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s1, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067001, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s2, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067002, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s3, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067003, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s4, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067004, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s5, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067005, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s6, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067006, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s7, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067007, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- w3m: +M component mediation — twin patch across three windows ----
+  - {id: w3m_0813, phase: w3m, mode: patch, twin_component: M, layers: [8, 13], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3m_1621, phase: w3m, mode: patch, twin_component: M, layers: [16, 21], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3m_2429, phase: w3m, mode: patch, twin_component: M, layers: [24, 29], n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- w3L: LLaMA write-window sweep (own anchors gate interpretation) ----
+  # Anchor n=878 is power-driven (out/llama_gap_estimate.json: gap 0.0225,
+  # d=0.134, power@n50=0.106 → plan rule "불충분하면 n 상향"; 878 gives 0.806).
+  # Pool check: runner loads n+offset+50=928 ≤ 3636 llama −G states. The 8
+  # sweep windows stay n=50 discovery — top-1 promotes to W4 n=200 (PR-2).
+  - {id: w3L_anchor_minus, phase: w3L, model: llama, mode: anchor_minus, n: 878, seed_base: 42, state_offset: 0}
+  - {id: w3L_anchor_plus, phase: w3L, model: llama, mode: anchor_plus, n: 878, seed_base: 42, state_offset: 0}
+  - {id: w3L_w00, phase: w3L, model: llama, mode: patch, layers: [0, 3], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w04, phase: w3L, model: llama, mode: patch, layers: [4, 7], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w08, phase: w3L, model: llama, mode: patch, layers: [8, 11], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w12, phase: w3L, model: llama, mode: patch, layers: [12, 15], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w16, phase: w3L, model: llama, mode: patch, layers: [16, 19], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w20, phase: w3L, model: llama, mode: patch, layers: [20, 23], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w24, phase: w3L, model: llama, mode: patch, layers: [24, 27], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w28, phase: w3L, model: llama, mode: patch, layers: [28, 31], n: 50, seed_base: 42, state_offset: 0}

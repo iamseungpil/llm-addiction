@@ -9,12 +9,21 @@ from datetime import datetime
 import numpy as np
 
 from .checkpoint import ArmCheckpoint, VectorStore
-from .hooks import (MultiLayerPatcher, MultiLayerSteerer, SubspacePatcher,
-                    cache_layer_outputs)
-from .prompts import build_prompt, parse_response
+from .hooks import (HookGroup, MultiLayerPatcher, MultiLayerSteerer,
+                    PrefillTap, SubspacePatcher, cache_layer_outputs)
+from .prompts import build_prompt, parse_response, twin_combo
 from .states import ensure_sm_catalog, load_minusG_states
 
-MODEL_PATH = "google/gemma-2-9b-it"
+# Model ids mirror paper_experiments/slot_machine_6models/src/
+# llama_gemma_experiment.py::load_model exactly (the §3 behavioural corpus).
+MODEL_PATHS = {
+    "gemma": "google/gemma-2-9b-it",
+    "llama": "meta-llama/Llama-3.1-8B-Instruct",
+}
+MODEL_PATH = MODEL_PATHS["gemma"]  # frozen alias (gemma asset/test surface)
+# Gemma asset-schema constants (directions npz rows, VectorStore stacks built
+# so far). The runner path itself derives n_layers/d_model from the loaded
+# model config — do NOT use these for anything model-dependent.
 N_LAYERS, D_MODEL = 42, 3584
 TEMPERATURE, MAX_NEW_TOKENS = 0.7, 200
 SEED_BASE = 42
@@ -22,19 +31,33 @@ PROBE_MODES = {"anchor_minus", "anchor_plus", "patch", "steer"}
 IC_MODES = {"anchor_minus", "steer"}
 
 
-def load_model(gpu: int):
+def load_model(gpu: int, model_name: str = "gemma"):
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
-    tok = AutoTokenizer.from_pretrained(MODEL_PATH, token=os.environ.get("HF_TOKEN"))
+    path = MODEL_PATHS[model_name]
+    tok = AutoTokenizer.from_pretrained(path, token=os.environ.get("HF_TOKEN"))
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL_PATH, torch_dtype=torch.bfloat16,
+        path, torch_dtype=torch.bfloat16,
         device_map={"": f"cuda:{gpu}"}, token=os.environ.get("HF_TOKEN"))
     model.eval()
-    assert len(model.model.layers) == N_LAYERS, "unexpected layer count"
-    assert model.config.hidden_size == D_MODEL, "unexpected hidden size"
+    if model_name == "gemma":  # frozen W1/W2 contract
+        assert len(model.model.layers) == N_LAYERS, "unexpected layer count"
+        assert model.config.hidden_size == D_MODEL, "unexpected hidden size"
     return model, tok, f"cuda:{gpu}"
+
+
+def _load_model_for(arm, gpu):
+    """Gemma arms keep the frozen single-arg call shape (dry-run tests
+    monkeypatch load_model as ``lambda gpu: ...``); llama arms pass the name."""
+    name = arm.get("model", "gemma")
+    return load_model(gpu) if name == "gemma" else load_model(gpu, name)
+
+
+def _model_dims(model):
+    """(n_layers, d_model) from the LOADED model — never from constants."""
+    return len(model.model.layers), int(model.config.hidden_size)
 
 
 def _generate(model, tok, device, prompt, hookset, seed):
@@ -55,10 +78,16 @@ def _generate(model, tok, device, prompt, hookset, seed):
             hookset.remove()
 
 
-def _load_steer_assets(arm):
+def _load_steer_assets(arm, d_model=D_MODEL):
     """directions npz: keys 'directions' (L,D), 'scales' (L,) — built by analyze.py.
 
     direction: random → isotropic unit vectors (control), same per-layer scales.
+    d_model only sizes the random control draw; npz rows carry their own dim.
+
+    W3 assets (paper_axes.py) record gate_passed inside the npz; a failed
+    reproduction gate auto-excludes the arm (RUN_PLAN_W3.md 구현 원칙), enforced
+    here at load time. W2-era npz without the field stay exempt; random-direction
+    arms only borrow per-layer scales, so the gate does not apply to them.
     """
     import torch
     z = np.load(arm["directions_npz"])
@@ -67,27 +96,49 @@ def _load_steer_assets(arm):
         rng = np.random.Generator(np.random.PCG64(int(arm["dir_seed"])))
         dirs = {}
         for li in arm["layers"]:
-            v = rng.standard_normal(D_MODEL)
+            v = rng.standard_normal(d_model)
             dirs[li] = torch.tensor(v / np.linalg.norm(v), dtype=torch.float32)
         return dirs, scales
+    if "gate_passed" in z.files:
+        assert bool(z["gate_passed"]), (
+            f"{arm['id']}: direction asset {arm['directions_npz']} failed its "
+            f"reproduction gate — arm auto-excluded (RUN_PLAN_W3.md)")
     dirs = {li: torch.tensor(z["directions"][li], dtype=torch.float32)
             for li in arm["layers"]}
     return dirs, scales
 
 
-def _load_bases(arm):
+def _load_bases(arm, d_model=D_MODEL):
     import torch
     if arm.get("basis", "pca") == "random":
         rng = np.random.Generator(np.random.PCG64(int(arm["basis_seed"])))
         bases = {}
         for li in arm["layers"]:
-            g = rng.standard_normal((D_MODEL, int(arm["r"])))
+            g = rng.standard_normal((d_model, int(arm["r"])))
             q, _ = np.linalg.qr(g)
             bases[li] = torch.tensor(q, dtype=torch.float32)
         return bases
     z = np.load(arm["basis_npz"])
     return {li: torch.tensor(z[f"L{li}"][:, :int(arm["r"])], dtype=torch.float32)
             for li in arm["layers"]}
+
+
+def _tap_projection(arm, tap):
+    """Manipulation-check entry for steer arms with log_vectors (w3bk spec).
+
+    Projection of the prefill last-token hidden state at the tap layer
+    (default L22, arm key 'log_layer') onto that layer's UNIT direction row
+    from the arm's npz. The raw (d_model,) vector is too large for per-trial
+    jsonl; the scalar projection answers the check — did the reading at the
+    monitored layer move along the steered axis.
+    """
+    li = tap.layer_indices[0]
+    z = np.load(arm["directions_npz"])
+    d = np.asarray(z["directions"][li], dtype=np.float64)
+    d /= max(float(np.linalg.norm(d)), 1e-12)
+    h = tap.hidden.numpy().astype(np.float64)
+    return {"layer": li, "proj": float(h @ d),
+            "h_norm": float(np.linalg.norm(h))}
 
 
 def build_branch_game(game, round_idx, bet, win: bool) -> dict:
@@ -115,7 +166,7 @@ def build_branch_game(game, round_idx, bet, win: bool) -> dict:
 
 
 def _run_probe(arm, model, tok, device, game, round_idx, action, amount, balance,
-               seed, branch_combo, plus_combo):
+               seed, branch_combo, plus_combo, d_model=D_MODEL):
     """Stage-2 LC probe: LOSS branch (seed+1) + WIN branch (seed+2).
 
     branch_combo = combo of the EVALUATED stage-1 prompt (plus combo for
@@ -126,7 +177,7 @@ def _run_probe(arm, model, tok, device, game, round_idx, action, amount, balance
     if amount >= balance:
         return {"all_in": True}  # probe-bankruptcy on LOSS; LC undefined, no branches
     r_t = amount / balance
-    steer_assets = _load_steer_assets(arm) if arm["mode"] == "steer" else None
+    steer_assets = _load_steer_assets(arm, d_model) if arm["mode"] == "steer" else None
     out = {"r_t": r_t, "bet": amount}
     for key, win, seed_off in (("loss", False, 1), ("win", True, 2)):
         bg = build_branch_game(game, round_idx, amount, win)
@@ -134,7 +185,8 @@ def _run_probe(arm, model, tok, device, game, round_idx, action, amount, balance
         assert eval_p is not None, "branch prompt build failed"
         hookset = None
         if arm["mode"] == "patch":
-            # fresh +G twin cache OF THE BRANCH prompt (same recipe as stage 1)
+            # fresh donor-twin cache OF THE BRANCH prompt (plus_combo carries
+            # the arm's twin_component recipe from run_arm; +G unless set)
             plus_p = build_prompt(bg, round_idx + 1, override_combo=plus_combo)
             cached, _ = cache_layer_outputs(model, tok, device, plus_p, arm["layers"])
             hookset = MultiLayerPatcher(cached)
@@ -167,18 +219,36 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
     phase = arm["phase"]
     ck = ArmCheckpoint(phase, arm["id"], out_dir,
                        hf_enabled=False if smoke else None)
-    vec = None
-    if arm.get("log_vectors"):
-        vec = VectorStore(ck.path.with_name(f"{arm['id']}_vectors.npz"),
-                          N_LAYERS, D_MODEL)
     ensure_sm_catalog(arm["model"])
     # Confirmatory arms use a HELD-OUT slice of the frozen pool (state_offset
     # past the discovery indices) and a distinct seed_base.
     offset = int(arm.get("state_offset", 0))
     seed_base = int(arm.get("seed_base", SEED_BASE))
-    states = load_minusG_states(arm["model"], n=n + offset + 50)
+    twin = arm.get("twin_component", "G")
+    # twin_combo is idempotent when the base combo already contains the twin
+    # component (donor combo == base combo → identity patch, the trial measures
+    # nothing). The frozen −G pool only filters G, so for non-G twins (w3m +M)
+    # restrict the eval slice to twin-free base combos: scan FORWARD from
+    # state_offset in frozen pool order, keeping the slice inside the same
+    # held-out window the W2 anchors sampled (RUN_PLAN_W3.md w3m — anchor
+    # comparison is restricted to the matching twin-free stratum at analysis).
+    pad = 50 if twin == "G" else 3 * n + 50
+    states = load_minusG_states(arm["model"], n=n + offset + pad)
     assert states, "empty state pool"
-    model, tok, device = load_model(gpu)
+    if twin != "G":
+        states = [s for s in states[offset:]
+                  if twin not in s[0].get("prompt_combo", "")]
+        assert len(states) >= n, \
+            f"{arm['id']}: twin-free state pool too small ({len(states)} < {n})"
+        offset = 0
+    model, tok, device = _load_model_for(arm, gpu)
+    n_layers, d_model = _model_dims(model)
+    vec = None
+    if arm.get("log_vectors") and arm["mode"] != "steer":
+        # patch arms: full −G/+G last-token stacks (e1_full protocol).
+        # steer arms log a per-trial projection instead (see _tap_projection).
+        vec = VectorStore(ck.path.with_name(f"{arm['id']}_vectors.npz"),
+                          n_layers, d_model)
     done = ck.done_seeds()
     print(f"[{arm['id']}] n={n} done={len(done)} pool={len(states)} "
           f"offset={offset}", flush=True)
@@ -190,33 +260,42 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
         t0 = time.time()
         game, round_idx = states[(i + offset) % len(states)]
         base_combo = game.get("prompt_combo", "")
-        plus_combo = base_combo + "G" if "G" not in base_combo else base_combo
+        # Donor twin combo: +G by default (frozen W1/W2 recipe, byte-identical
+        # via twin_combo), +M for w3m mediation arms (twin_component: M).
+        # _run_probe re-derives its branch donor from this same plus_combo.
+        plus_combo = twin_combo(base_combo, arm.get("twin_component", "G"))
         minus_p = build_prompt(game, round_idx, override_combo=base_combo)
         plus_p = build_prompt(game, round_idx, override_combo=plus_combo)
         if minus_p is None or plus_p is None:
             continue
 
         mode = arm["mode"]
-        eval_p, hookset = minus_p, None
+        eval_p, hookset, tap = minus_p, None, None
         if mode == "anchor_plus":
             eval_p = plus_p
         elif mode == "patch":
             cached, _ = cache_layer_outputs(model, tok, device, plus_p, arm["layers"])
             hookset = MultiLayerPatcher(cached)
             if vec is not None and seed not in vec.seeds:
-                cached_m, _ = cache_layer_outputs(model, tok, device, minus_p,
-                                                  list(range(N_LAYERS)))
+                full = list(range(n_layers))
+                cached_m, _ = cache_layer_outputs(model, tok, device, minus_p, full)
+                cached_p, _ = cache_layer_outputs(model, tok, device, plus_p, full)
                 vec.append(seed,
                            np.stack([cached_m[l][-1].float().cpu().numpy()
-                                     for l in range(N_LAYERS)]),
-                           np.stack([cached[l][-1].float().cpu().numpy()
-                                     for l in range(N_LAYERS)]))
+                                     for l in full]),
+                           np.stack([cached_p[l][-1].float().cpu().numpy()
+                                     for l in full]))
         elif mode == "subspace":
             cached, _ = cache_layer_outputs(model, tok, device, plus_p, arm["layers"])
-            hookset = SubspacePatcher(cached, _load_bases(arm))
+            hookset = SubspacePatcher(cached, _load_bases(arm, d_model))
         elif mode == "steer":
-            dirs, scales = _load_steer_assets(arm)
+            dirs, scales = _load_steer_assets(arm, d_model)
             hookset = MultiLayerSteerer(dirs, scales, alpha=float(arm["alpha"]))
+            if arm.get("log_vectors"):
+                li = int(arm.get("log_layer", 22))
+                assert 0 <= li < n_layers, f"log_layer {li} out of range"
+                tap = PrefillTap(li)
+                hookset = HookGroup(hookset, tap)  # tap last → post-edit view
         elif mode != "anchor_minus":
             raise ValueError(f"unknown mode {mode}")
 
@@ -233,6 +312,7 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
         rec = {
             "trial_id": i, "seed": seed, "arm": arm["id"], "phase": phase,
             "mode": mode, "layers": arm.get("layers"),
+            "twin_component": arm.get("twin_component", "G"),
             "r": arm.get("r"), "alpha": arm.get("alpha"),
             "source_state": {"prompt_combo": base_combo,
                              "bet_type": game.get("bet_type"),
@@ -244,12 +324,14 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
             "response": text[:300], "elapsed_s": round(time.time() - t0, 1),
             "timestamp": datetime.now().isoformat(),
         }
+        if tap is not None and tap.hidden is not None:
+            rec["vector_log"] = _tap_projection(arm, tap)
         if probe:
             branch_combo = plus_combo if mode == "anchor_plus" else base_combo
             try:
                 rec["probe"] = _run_probe(arm, model, tok, device, game, round_idx,
                                           action, amount, balance, seed,
-                                          branch_combo, plus_combo)
+                                          branch_combo, plus_combo, d_model)
             except Exception as e:
                 print(f"[{arm['id']} trial {i}] PROBE ERROR "
                       f"{type(e).__name__}: {e}", flush=True)
@@ -285,7 +367,8 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
     seed_base = int(arm.get("seed_base", SEED_BASE))
     pool = ic.load_ic_states(arm["model"], n=n + offset + 50)
     assert pool, "empty IC state pool"
-    model, tok, device = load_model(gpu)
+    model, tok, device = _load_model_for(arm, gpu)
+    n_layers, d_model = _model_dims(model)
     done = ck.done_seeds()
     print(f"[{arm['id']}] task=ic n={n} done={len(done)} pool={len(pool)} "
           f"offset={offset}", flush=True)
@@ -297,17 +380,22 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
         t0 = time.time()
         game_id, prompt, _meta = pool[(i + offset) % len(pool)]
         assert isinstance(prompt, str) and prompt, "IC state has empty prompt"
-        hookset = None
+        hookset, tap = None, None
         if mode == "steer":
-            dirs, scales = _load_steer_assets(arm)
+            dirs, scales = _load_steer_assets(arm, d_model)
             hookset = MultiLayerSteerer(dirs, scales, alpha=float(arm["alpha"]))
+            if arm.get("log_vectors"):
+                li = int(arm.get("log_layer", 22))
+                assert 0 <= li < n_layers, f"log_layer {li} out of range"
+                tap = PrefillTap(li)
+                hookset = HookGroup(hookset, tap)
         try:
             text = _generate(model, tok, device, prompt, hookset, seed)
         except Exception as e:
             print(f"[{arm['id']} trial {i}] ERROR {type(e).__name__}: {e}", flush=True)
             continue
         choice, parse_ok, risky = ic.parse_ic_response(text)
-        ck.record({
+        rec = {
             "trial_id": i, "seed": seed, "arm": arm["id"], "phase": phase,
             "mode": mode, "task": "ic", "layers": arm.get("layers"),
             "alpha": arm.get("alpha"), "game_id": int(game_id),
@@ -315,7 +403,10 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
             "response": text[:300],
             "elapsed_s": round(time.time() - t0, 1),
             "timestamp": datetime.now().isoformat(),
-        })
+        }
+        if tap is not None and tap.hidden is not None:
+            rec["vector_log"] = _tap_projection(arm, tap)
+        ck.record(rec)
         print(f"  [{arm['id']} {i + 1}/{n}] choice={choice} "
               f"({time.time() - t0:.1f}s)", flush=True)
     ck.final_sync()

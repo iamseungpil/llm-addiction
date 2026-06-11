@@ -106,6 +106,42 @@ class MultiLayerSteerer(_HookSet):
         return hook
 
 
+class PrefillTap(_HookSet):
+    """Read-only capture of one layer's LAST-token hidden state on the first
+    prefill forward (T > 1). Used as the steer-arm manipulation check
+    (runner log_vectors): install AFTER editing hooksets via HookGroup so the
+    tap observes the post-intervention value when it shares a layer."""
+
+    def __init__(self, layer):
+        super().__init__()
+        self.layer_indices = [int(layer)]
+        self.hidden = None
+
+    def _hook_for(self, li):
+        def hook(module, _input, output):
+            out = _hidden(output)
+            assert out.shape[0] == 1, "batch size must be 1"
+            if out.shape[1] > 1 and self.hidden is None:
+                self.hidden = out[0, -1, :].detach().float().cpu().clone()
+        return hook
+
+
+class HookGroup:
+    """Install/remove several hooksets as one; registration order = arg order
+    (PyTorch fires same-module hooks in registration order)."""
+
+    def __init__(self, *hooksets):
+        self.hooksets = [h for h in hooksets if h is not None]
+
+    def install(self, model):
+        for h in self.hooksets:
+            h.install(model)
+
+    def remove(self):
+        for h in self.hooksets:
+            h.remove()
+
+
 def cache_layer_outputs(model, tokenizer, device, prompt_text, layer_indices):
     """One no-grad forward over prompt_text; capture each layer's (T, D) output."""
     inputs = tokenizer(prompt_text, return_tensors="pt").to(device)

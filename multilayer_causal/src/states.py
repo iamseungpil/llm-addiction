@@ -16,7 +16,15 @@ def behavioral_root() -> Path:
 
 
 def ensure_sm_catalog(model: str = "gemma") -> Path:
-    """Download behavioral/slot_machine/{model}_v4_role/*.json from HF if absent."""
+    """Download behavioral/slot_machine/{model}_v4_role/*.json from HF if absent.
+
+    Both §3 corpora follow the same prefix: gemma_v4_role (1 file) and
+    llama_v4_role (1 file, final_llama_20260315_062428.json — verified on the
+    HF dataset 2026-06-11; llama −G variable pool = 3636 states, which covers
+    the power-sized w3L anchors: n=878 + offset 0 + 50 runner slack = 928.
+    Gate POWER is a separate question — out/llama_gap_estimate.json found
+    n=50 power 0.106, hence the 878 anchors in configs/arms.yaml).
+    """
     dest = behavioral_root() / "slot_machine" / f"{model}_v4_role"
     if dest.exists() and any(dest.glob("*.json")):
         return dest
@@ -44,6 +52,9 @@ def load_minusG_states(model: str, n: int = 200) -> list:
 
     PROVENANCE: logic identical to run_m3pp_strong_patching.load_minusG_states
     (rounds 2–6, variable betting, no 'G' in combo, random.Random(42) shuffle).
+    Model-agnostic: the llama_v4_role catalog stores the same schema
+    (bet_type / prompt_combo / decisions / history), so the gemma filter
+    applies unchanged ('BASE' combos have no 'G' and stay in the −G pool).
     """
     path = behavioral_root() / "slot_machine" / f"{model}_v4_role"
     states = []

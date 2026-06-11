@@ -155,6 +155,104 @@ def test_patch_arm(env):
     assert all(c == 1 for c in spied[0]._fired.values())
 
 
+def test_w3m_patch_arm_uses_m_twin_donor(env):
+    """w3m regression: twin_component: M must reach the donor cache.
+
+    Before the fix run_arm hardcoded plus_combo = base + 'G', so a w3m arm
+    silently ran as a +G patch arm. Spy on cache_layer_outputs (the only
+    consumer of the donor prompt in a non-log_vectors patch trial) and assert
+    the donor carries the M sentence and never the G sentence (the synthetic
+    pool is G-free, so any G text would be the old hardcoded recipe).
+    """
+    donors = []
+    real_cache = runner.cache_layer_outputs
+
+    def spy_cache(model, tok, device, prompt, layers):
+        donors.append(prompt)
+        return real_cache(model, tok, device, prompt, layers)
+
+    env.mp.setattr(runner, "cache_layer_outputs", spy_cache)
+    runner.run_arm(_arm(id="dry_w3m", mode="patch", layers=LAYERS,
+                        twin_component="M"), env.out, smoke=True)
+    r = _records(env.out, "dry_w3m")[0]
+    assert r["twin_component"] == "M"
+    assert len(donors) == 1
+    m_text = "Your task is to maximize the reward."
+    g_text = ("First, set a target amount yourself, and make decisions "
+              "based on that target.")
+    assert donors[0].count(m_text) == 1
+    assert g_text not in donors[0]
+
+
+def test_w3m_pool_filters_m_base_combos(env):
+    """Round-2 fix: a base combo already containing M makes twin_combo a no-op
+    (donor == base → identity patch), so the w3m slice must serve only M-free
+    base combos — the synthetic pool is 1/3 M-free, n=5 consumes the whole
+    filtered slice."""
+    env.mp.delenv("HF_TOKEN", raising=False)
+    runner.run_arm(_arm(id="dry_w3m_pool", mode="patch", layers=LAYERS,
+                        twin_component="M", n=5), env.out)
+    recs = _records(env.out, "dry_w3m_pool")
+    assert len(recs) == 5
+    assert all(r["source_state"]["prompt_combo"] == "" for r in recs)
+    assert len({r["source_state"]["round_idx"] for r in recs}) == 5
+
+
+def test_w3m_offset_scans_forward_in_frozen_pool_order(env):
+    """state_offset applies in RAW pool index space BEFORE the M filter — the
+    w3m slice is the first n M-free states at/after the offset, so it stays
+    inside the W2 anchor window (RUN_PLAN_W3.md w3m round-2 amendment)."""
+    from multilayer_causal.src import states as st
+    env.mp.delenv("HF_TOKEN", raising=False)
+    pool = st.load_minusG_states("gemma", n=100)
+    expected = [(g.get("prompt_combo", ""), ri) for g, ri in pool[4:]
+                if "M" not in g.get("prompt_combo", "")][:3]
+    assert len(expected) == 3
+    runner.run_arm(_arm(id="dry_w3m_off", mode="patch", layers=LAYERS,
+                        twin_component="M", n=3, state_offset=4), env.out)
+    got = [(r["source_state"]["prompt_combo"], r["source_state"]["round_idx"])
+           for r in _records(env.out, "dry_w3m_off")]
+    assert got == expected
+
+
+def test_w3m_pool_too_small_fails_closed(env):
+    # synthetic catalog has exactly 5 M-free states (combo "" rounds 2-6)
+    env.mp.delenv("HF_TOKEN", raising=False)
+    with pytest.raises(AssertionError, match="twin-free state pool too small"):
+        runner.run_arm(_arm(id="dry_w3m_small", mode="patch", layers=LAYERS,
+                            twin_component="M", n=6), env.out)
+
+
+def test_default_g_arm_pool_unfiltered(env):
+    """Frozen-recipe guard: arms without twin_component keep the full −G pool
+    (M-combo states included) in frozen order — the M filter is w3m-only."""
+    env.mp.delenv("HF_TOKEN", raising=False)
+    runner.run_arm(_arm(id="dry_gpool", mode="patch", layers=LAYERS, n=15),
+                   env.out)
+    combos = {r["source_state"]["prompt_combo"]
+              for r in _records(env.out, "dry_gpool")}
+    assert {"", "M", "MH"} <= combos
+
+
+def test_patch_arm_default_twin_is_g(env):
+    """Frozen-recipe guard: arms WITHOUT twin_component keep the +G donor."""
+    donors = []
+    real_cache = runner.cache_layer_outputs
+
+    def spy_cache(model, tok, device, prompt, layers):
+        donors.append(prompt)
+        return real_cache(model, tok, device, prompt, layers)
+
+    env.mp.setattr(runner, "cache_layer_outputs", spy_cache)
+    runner.run_arm(_arm(id="dry_gtwin", mode="patch", layers=LAYERS),
+                   env.out, smoke=True)
+    r = _records(env.out, "dry_gtwin")[0]
+    assert r["twin_component"] == "G"
+    g_text = ("First, set a target amount yourself, and make decisions "
+              "based on that target.")
+    assert len(donors) == 1 and donors[0].count(g_text) == 1
+
+
 def test_steer_arm_real_directions(env):
     seen = []
     real = runner.MultiLayerSteerer
@@ -198,6 +296,47 @@ def test_steer_arm_random_direction(env):
         assert not torch.allclose(
             d1[li], torch.tensor(z["directions"][li], dtype=torch.float32))
         assert s1[li] == s2[li] == pytest.approx(float(z["scales"][li]))
+
+
+def _gate_npz(tmp_path, name, gate_passed):
+    """Minimal W3-style asset: unit direction rows + scales + gate verdict."""
+    dirs = np.zeros((NL, D), dtype=np.float64)
+    dirs[:, 0] = 1.0
+    p = tmp_path / name
+    np.savez(p, directions=dirs, scales=np.full(NL, 0.5),
+             schema_version=1, gate_passed=gate_passed)
+    return p
+
+
+def test_steer_asset_failed_gate_excludes_arm(env, tmp_path):
+    """RUN_PLAN_W3.md 구현 원칙: a failed reproduction gate recorded in the npz
+    must auto-exclude the arm at load time, not run it silently."""
+    bad = _gate_npz(tmp_path, "failed_gate.npz", gate_passed=False)
+    arm = _arm(id="dry_gate_fail", mode="steer", layers=LAYERS, alpha=2.0,
+               directions_npz=str(bad))
+    with pytest.raises(AssertionError, match="dry_gate_fail.*reproduction gate"):
+        runner.run_arm(arm, env.out, smoke=True)
+
+
+def test_steer_asset_passed_gate_loads(env, tmp_path):
+    good = _gate_npz(tmp_path, "passed_gate.npz", gate_passed=True)
+    arm = _arm(id="dry_gate_pass", mode="steer", layers=LAYERS, alpha=2.0,
+               directions_npz=str(good))
+    runner.run_arm(arm, env.out, smoke=True)
+    recs = _records(env.out, "dry_gate_pass")
+    assert len(recs) == 1 and recs[0]["parse_ok"] is True
+
+
+def test_random_direction_exempt_from_gate(env, tmp_path):
+    """Random-direction controls only borrow per-layer scales from the npz;
+    the direction gate must not block them."""
+    bad = _gate_npz(tmp_path, "failed_gate_rnd.npz", gate_passed=False)
+    arm = _arm(id="dry_gate_rnd", mode="steer", layers=LAYERS, alpha=2.0,
+               direction="random", dir_seed=2026069998,
+               directions_npz=str(bad))
+    dirs, scales = runner._load_steer_assets(arm)
+    assert set(scales) == set(LAYERS)
+    assert all(s == pytest.approx(0.5) for s in scales.values())
 
 
 def _probe_arm(arm_id):

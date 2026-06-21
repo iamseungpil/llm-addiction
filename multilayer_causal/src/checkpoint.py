@@ -17,7 +17,10 @@ from pathlib import Path
 import numpy as np
 
 HF_REPO = "llm-addiction-research/llm-addiction"
-HF_BASE = "experiments/multilayer_causal/checkpoints"
+# HF write prefix. The xtask wave overrides this to experiments/xtask/checkpoints
+# via MLC_HF_BASE (additive — with the var unset every existing arm is
+# byte-identical on HF).
+HF_BASE = os.environ.get("MLC_HF_BASE", "experiments/multilayer_causal/checkpoints")
 
 
 class ArmCheckpoint:

@@ -16,9 +16,11 @@ def main():
     ap.add_argument("--gpu", type=int, default=0)
     ap.add_argument("--n", type=int, default=None)
     ap.add_argument("--out", default=str(Path(__file__).parent / "out"))
+    ap.add_argument("--arms", default=None,
+                    help="arms yaml override (else MLC_ARMS_YAML / configs/arms.yaml)")
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
-    arms = load_arms()
+    arms = load_arms(Path(args.arms)) if args.arms else load_arms()
     assert args.arm in arms, f"unknown arm {args.arm}; have {sorted(arms)}"
     run_arm(arms[args.arm], args.out, gpu=args.gpu, n=args.n, smoke=args.smoke)
 

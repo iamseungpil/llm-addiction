@@ -29,6 +29,7 @@ TEMPERATURE, MAX_NEW_TOKENS = 0.7, 200
 SEED_BASE = 42
 PROBE_MODES = {"anchor_minus", "anchor_plus", "patch", "steer"}
 IC_MODES = {"anchor_minus", "steer"}
+MW_MODES = {"anchor_minus", "steer"}
 
 
 def load_model(gpu: int, model_name: str = "gemma"):
@@ -209,6 +210,8 @@ def _run_probe(arm, model, tok, device, game, round_idx, action, amount, balance
 def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
     if arm.get("task", "sm") == "ic":
         return _run_arm_ic(arm, out_dir, gpu=gpu, n=n, smoke=smoke)
+    if arm.get("task", "sm") == "mw":
+        return _run_arm_mw(arm, out_dir, gpu=gpu, n=n, smoke=smoke)
     probe = bool(arm.get("probe"))
     if probe:
         assert arm.get("task", "sm") != "ic", "probe arms are SM-only"
@@ -367,6 +370,8 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
     seed_base = int(arm.get("seed_base", SEED_BASE))
     pool = ic.load_ic_states(arm["model"], n=n + offset + 50)
     assert pool, "empty IC state pool"
+    assert len(pool) >= n, (
+        f"{arm['id']}: IC pool {len(pool)} < n {n} — would silently wrap states")
     model, tok, device = _load_model_for(arm, gpu)
     n_layers, d_model = _model_dims(model)
     done = ck.done_seeds()
@@ -408,6 +413,88 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
             rec["vector_log"] = _tap_projection(arm, tap)
         ck.record(rec)
         print(f"  [{arm['id']} {i + 1}/{n}] choice={choice} "
+              f"({time.time() - t0:.1f}s)", flush=True)
+    ck.final_sync()
+    print(f"[{arm['id']}] DONE {len(ck.done_seeds())} trials", flush=True)
+
+
+def _run_arm_mw(arm, out_dir, gpu=0, n=None, smoke=False):
+    """Mystery-wheel single-decision arm (xtask 3x3 BK transfer, mw target).
+
+    Near-verbatim copy of _run_arm_ic: the stored MW prompt is replayed verbatim
+    (no minus/plus twin), so the legal modes are anchor_minus and steer. MW
+    choice encoding is INVERTED vs slot machine — game choice 2 = Spin (risky),
+    1 = Stop (safe) — so risky = (action == 'spin'). Balance is taken from the
+    pool tuple's meta['balance_before'] rather than re-regexing the prompt
+    (MW prompts say 'Current Balance:' with a capital B, unlike the SM regex);
+    the variable parser needs it to compute bet_ratio.
+    """
+    from . import mw  # lazy: only task: mw arms need (or have) the mw module
+    assert not arm.get("probe"), "probe arms are SM-only"
+    mode = arm["mode"]
+    assert mode in MW_MODES, f"mw: unsupported mode {mode}"
+    n = n or arm["n"]
+    if smoke:
+        n = min(n, 3)
+    phase = arm["phase"]
+    ck = ArmCheckpoint(phase, arm["id"], out_dir,
+                       hf_enabled=False if smoke else None)
+    mw.ensure_mw_catalog(arm["model"])
+    offset = int(arm.get("state_offset", 0))
+    seed_base = int(arm.get("seed_base", SEED_BASE))
+    pool = mw.load_mw_states(arm["model"], n=n + offset + 50)
+    assert pool, "empty MW state pool"
+    assert len(pool) >= n, (
+        f"{arm['id']}: MW pool {len(pool)} < n {n} "
+        f"(variable-filtered corpus too small) — would silently wrap states")
+    model, tok, device = _load_model_for(arm, gpu)
+    n_layers, d_model = _model_dims(model)
+    done = ck.done_seeds()
+    print(f"[{arm['id']}] task=mw n={n} done={len(done)} pool={len(pool)} "
+          f"offset={offset}", flush=True)
+
+    for i in range(n):
+        seed = seed_base + i * 997
+        if seed in done:
+            continue
+        t0 = time.time()
+        game_id, prompt, meta = pool[(i + offset) % len(pool)]
+        assert isinstance(prompt, str) and prompt, "MW state has empty prompt"
+        # Balance from the pool tuple (MW header is capital-B 'Current Balance:',
+        # incompatible with the SM regex); the variable parser needs it to clamp
+        # the bet and compute bet_ratio. Falls back to 100 if the corpus omits it.
+        balance = int(meta.get("balance_before") or 100)
+        hookset, tap = None, None
+        if mode == "steer":
+            dirs, scales = _load_steer_assets(arm, d_model)
+            hookset = MultiLayerSteerer(dirs, scales, alpha=float(arm["alpha"]))
+            if arm.get("log_vectors"):
+                li = int(arm.get("log_layer", 22))
+                assert 0 <= li < n_layers, f"log_layer {li} out of range"
+                tap = PrefillTap(li)
+                hookset = HookGroup(hookset, tap)
+        try:
+            text = _generate(model, tok, device, prompt, hookset, seed)
+        except Exception as e:
+            print(f"[{arm['id']} trial {i}] ERROR {type(e).__name__}: {e}", flush=True)
+            continue
+        action, bet_amount, parse_ok, bet_ratio = mw.parse_mw_response(text, balance)
+        risky = action == "spin"
+        rec = {
+            "trial_id": i, "seed": seed, "arm": arm["id"], "phase": phase,
+            "mode": mode, "task": "mw", "layers": arm.get("layers"),
+            "alpha": arm.get("alpha"), "game_id": int(game_id),
+            "bet_type": meta.get("bet_type"), "action": action,
+            "amount": bet_amount, "bet_ratio": bet_ratio,
+            "risky": bool(risky), "parse_ok": bool(parse_ok),
+            "response": text[:300],
+            "elapsed_s": round(time.time() - t0, 1),
+            "timestamp": datetime.now().isoformat(),
+        }
+        if tap is not None and tap.hidden is not None:
+            rec["vector_log"] = _tap_projection(arm, tap)
+        ck.record(rec)
+        print(f"  [{arm['id']} {i + 1}/{n}] {action} ${bet_amount} "
               f"({time.time() - t0:.1f}s)", flush=True)
     ck.final_sync()
     print(f"[{arm['id']}] DONE {len(ck.done_seeds())} trials", flush=True)

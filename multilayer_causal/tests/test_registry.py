@@ -154,8 +154,10 @@ def test_w3_registry():
     for a in w3["w3rnd"]:
         assert a["direction"] == "random" and a["alpha"] == 4.0
         assert a["layers"] == list(range(16, 22))
-    # twin_component appears on exactly the w3m arms (patch mode, value M)
-    twins = [a for a in arms.values() if "twin_component" in a]
+    # twin_component appears on exactly the w3m arms in this wave (the spine
+    # wave reuses the +M recipe under its own phase, audited separately).
+    twins = [a for a in arms.values()
+             if "twin_component" in a and a["phase"] == "w3m"]
     assert {a["id"] for a in twins} == {"w3m_0813", "w3m_1621", "w3m_2429"}
     for a in twins:
         assert a["twin_component"] == "M" and a["mode"] == "patch"
@@ -176,6 +178,30 @@ def test_w3_registry():
     assert tiled == list(range(32))
     assert {a["mode"] for a in w3["w3L"] if "anchor" in a["id"]} == \
         {"anchor_minus", "anchor_plus"}
+
+
+def test_spinew_registry():
+    """C3 write blank-fill: §4.2 BK steering + §4.3 +M patch, both as a
+    width-6 e1-grid tiling over Gemma, W2 anchor protocol, W3 assets reused."""
+    WIN6 = [(0, 5), (6, 11), (12, 17), (18, 23), (24, 29), (30, 35), (36, 41)]
+    arms = load_arms()
+    spine = [a for a in arms.values() if a["phase"] == "spinew"]
+    for a in spine:                                    # all Gemma, W2 protocol
+        assert a.get("model", "gemma") == "gemma" and a["task"] == "sm"
+        assert a["n"] == 50 and a["seed_base"] == 2000042
+        assert a["state_offset"] == 300
+    # §4.2: BK control-axis steering, full width-6 tiling, alpha=4, W3 BK axis
+    bk = [a for a in spine if a["mode"] == "steer"]
+    assert {tuple((a["layers"][0], a["layers"][-1])) for a in bk} == set(WIN6)
+    for a in bk:
+        assert a["alpha"] == 4.0
+        assert a["directions_npz"].endswith("w3/directions_bk_sm.npz")
+    # §4.3: +M twin patch; w3m_2429 already covers [24,29], so the spine fills
+    # the other six width-6 tiles (reuse, not duplicate).
+    m = [a for a in spine if a["mode"] == "patch"]
+    assert all(a["twin_component"] == "M" for a in m)
+    assert {tuple((a["layers"][0], a["layers"][-1])) for a in m} == \
+        set(WIN6) - {(24, 29)}
 
 
 def test_w3_validation_rejects_bad_fields(tmp_path):

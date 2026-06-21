@@ -1,0 +1,94 @@
+description: spine crosstask42 sweep - all-layer paper §4.2 (cross-task BK contrast) readout, isolated from the running indicators/condition sweep. Reuses e3_balance_stratified_section42 (bk_direction/loto_audit/balance_matched_subsample/residualize_balance) UNMODIFIED at every layer via crosstask42_alllayer (Route A = phase_a hidden states + dp labels, BIT-EXACT vs hidden_states_dp.npz at the 5 dp layers {8,12,22,25,30}; Route B = SAE-feature axis for cells without phase_a). Route A covers gemma 42 x {sm,ic,mw} + llama-IC 32. Resume-safe via per-profile HF upload/skip. Writes read_profile_{model}_crosstask42_L{n}.json (DISTINCT name, never collides with the 5-layer 'crosstask' or indicators/condition profiles).
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: spine_crosstask
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+    command:
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" hf_transfer scikit-learn scipy numpy 2>&1 | tail -1
+        export HF_HUB_ENABLE_HF_TRANSFER=1
+        export HF_HOME=/scratch/spine/hf_cache
+        REPO=llm-addiction-research/llm-addiction
+        mkdir -p /scratch/spine && cd /scratch/spine
+
+        # --- code (run_spine_sweep + crosstask42_alllayer + e3 paper module) ---
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"$$REPO\", \"experiments/spine/code/spine_src.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\"/scratch/spine\")
+        print(\"code extracted\")
+        "
+
+        # --- data: behavioral catalogs + all-layer sae_features + phase_a (Route A) ---
+        # Route A needs checkpoint/phase_a_hidden_states.npz (gemma x3 + llama-IC) plus
+        # one sae_features_L*.npz per cell for the dp labels (game_outcomes/balances/
+        # is_last_round). Pull all sae layers so every layer is auditable, and the
+        # phase_a checkpoints for the Route-A cells.
+        python -c "
+        import os
+        from huggingface_hub import snapshot_download
+        snapshot_download(\"$$REPO\", repo_type=\"dataset\", local_dir=\"/scratch/spine/data\",
+          token=os.environ[\"HF_TOKEN\"],
+          allow_patterns=[
+            \"behavioral/**\",
+            \"sae_features_v3/slot_machine/gemma/sae_features_L*.npz\",
+            \"sae_features_v3/investment_choice/gemma/sae_features_L*.npz\",
+            \"sae_features_v3/mystery_wheel/gemma/sae_features_L*.npz\",
+            \"sae_features_v3/investment_choice/llama/sae_features_L*.npz\",
+            \"sae_features_v3/slot_machine/llama/sae_features_L*.npz\",
+            \"sae_features_v3/mystery_wheel/llama/sae_features_L*.npz\",
+            \"sae_features_v3/slot_machine/gemma/checkpoint/phase_a_hidden_states.npz\",
+            \"sae_features_v3/investment_choice/gemma/checkpoint/phase_a_hidden_states.npz\",
+            \"sae_features_v3/mystery_wheel/gemma/checkpoint/phase_a_hidden_states.npz\",
+            \"sae_features_v3/investment_choice/llama/checkpoint/phase_a_hidden_states.npz\",
+          ])
+        print(\"data pulled\")
+        "
+
+        export PYTHONUNBUFFERED=1
+        cd /scratch/spine/sae_v3_analysis/src
+        DROOT=/scratch/spine/data/sae_features_v3
+        OUT=/scratch/spine/data/profiles
+        # Route A is the paper-faithful primary; the handler falls back to B only for
+        # a model whose tasks lack phase_a (llama SM/MW). Cross-task is per-(model,
+        # layer): --tasks supplies just a placeholder cell (the audit runs once/layer).
+        export CROSSTASK42_ROUTE=A
+
+        # gemma: Route A, all 42 layers (sm/ic/mw all have phase_a)
+        python run_spine_sweep.py --model gemma --sections crosstask42 \
+          --tasks slot_machine --layers 0-41 \
+          --data-root $$DROOT --out-dir $$OUT --hf-repo $$REPO --hf-prefix experiments/spine/profiles
+        echo SPINE_CROSSTASK_GEMMA_DONE
+
+        # llama: only IC has phase_a -> handler auto-falls-back to Route B (all-cell,
+        # concordant) for the cross-task audit, 32 layers.
+        python run_spine_sweep.py --model llama --sections crosstask42 \
+          --tasks investment_choice --layers 0-31 \
+          --data-root $$DROOT --out-dir $$OUT --hf-repo $$REPO --hf-prefix experiments/spine/profiles
+        echo SPINE_CROSSTASK_DONE
+        '

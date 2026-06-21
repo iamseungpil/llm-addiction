@@ -1,0 +1,42 @@
+# xtaskd arm registry — Stage D: WRITE-LOCALITY width / cumulative-layer sweep (2026-06-18).
+# Localises the I_BA behavioural causal lever (directions_iba_v2.npz, the 'one
+# axis drives all three irrationality indices' axis) by steering it (+4.0) on SM
+# across window GEOMETRY only, measuring recovery vs the ±G anchors
+# (w2_anchor_minus/plus, reused from HF: -G br 0.061, +G br 0.202).
+#   single-layer (width-1): is one layer enough? where does it peak (inside L16-21)?
+#   cumulative window: does recovery saturate at ~L16-21 and NOT grow (or derail,
+#     parse drop) when widened to L14-23 / L12-25 / L8-29 / all 42?
+# log_vectors:true = manipulation check (projection landed) per arm. ISOLATION:
+# loaded ONLY via MLC_ARMS_YAML; SM-only; reuses the existing iba_v2 asset + ±G
+# anchors; new HF prefix experiments/xtaskd/, results/xtaskd. NO new axis/catalog.
+defaults:
+  model: gemma
+  task: sm
+  n: 50
+
+arms:
+  # ---- single-layer (width-1): localization profile ----
+  - {id: xtaskd_L12_w1, phase: xtaskd, mode: steer, layers: [12, 12], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L14_w1, phase: xtaskd, mode: steer, layers: [14, 14], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L16_w1, phase: xtaskd, mode: steer, layers: [16, 16], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L17_w1, phase: xtaskd, mode: steer, layers: [17, 17], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L18_w1, phase: xtaskd, mode: steer, layers: [18, 18], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L19_w1, phase: xtaskd, mode: steer, layers: [19, 19], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L20_w1, phase: xtaskd, mode: steer, layers: [20, 20], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L21_w1, phase: xtaskd, mode: steer, layers: [21, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L22_w1, phase: xtaskd, mode: steer, layers: [22, 22], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L24_w1, phase: xtaskd, mode: steer, layers: [24, 24], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L26_w1, phase: xtaskd, mode: steer, layers: [26, 26], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_L30_w1, phase: xtaskd, mode: steer, layers: [30, 30], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  # ---- cumulative window: saturation / derail curve ----
+  - {id: xtaskd_cum_18_19, phase: xtaskd, mode: steer, layers: [18, 19], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_cum_18_20, phase: xtaskd, mode: steer, layers: [18, 20], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_cum_17_20, phase: xtaskd, mode: steer, layers: [17, 20], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_cum_16_21, phase: xtaskd, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_cum_14_23, phase: xtaskd, mode: steer, layers: [14, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_cum_12_25, phase: xtaskd, mode: steer, layers: [12, 25], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_cum_08_29, phase: xtaskd, mode: steer, layers: [8, 29], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtaskd_cum_00_41, phase: xtaskd, mode: steer, layers: [0, 41], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  # ---- random-direction nulls (norm-matched, width-1 @L19 and width-6 @L16-21) ----
+  - {id: xtaskd_rnd_L19_w1, phase: xtaskd, mode: steer, layers: [19, 19], alpha: 4.0, direction: random, dir_seed: 2026180019, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtaskd_rnd_w1621, phase: xtaskd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026181621, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300}

@@ -211,3 +211,36 @@ arms:
   - {id: w3L_w20, phase: w3L, model: llama, mode: patch, layers: [20, 23], n: 50, seed_base: 42, state_offset: 0}
   - {id: w3L_w24, phase: w3L, model: llama, mode: patch, layers: [24, 27], n: 50, seed_base: 42, state_offset: 0}
   - {id: w3L_w28, phase: w3L, model: llama, mode: patch, layers: [28, 31], n: 50, seed_base: 42, state_offset: 0}
+  # ==== spinew: §4 read/write spine — write blank-fill (design 2026-06-14 C3) ==
+  # All Gemma, W2 anchor protocol (seed_base 2000042, state_offset 300) so the
+  # W2 anchors w2_anchor_minus/plus are the comparison group without re-running.
+  # Width-6 windows = the SAME e1 patch tiling (0-5,6-11,...,36-41) so the write
+  # profile lands on the read sweep's grid. Axes reuse the W3 builders' assets
+  # UNCHANGED (paper_axes.py build_bk / w3m twin) — no new axis is invented.
+  # §4.1 write is already all-layer (e1 width-6 tiling + w1e 16-25) — reused, not
+  # duplicated here.
+  # CONSUMER WIRING: w3_stats.py emits these under R["spinew"]; spine_stats.py
+  # WRITE_SOURCE maps §4.2->spinew_bk_*, §4.3->w3m_* + spinew_m_*, and
+  # window_center parses the _wNN single-window form (center = NN+2.5). So these
+  # arms ARE plotted once run+aggregated; they are no longer orphaned.
+  # ---- spinew_bk: §4.2 BK control-axis steering across the width-6 tiling ----
+  # Reuses directions_bk_sm.npz (build_bk, replicated to 42 layers; placement is
+  # the arm's `layers`), alpha=4.0 per W3/W4 BK dose. w3bk_sm_p40 [16,21] is the
+  # W3 result and is reused as the in-window comparison, not re-tiled here.
+  - {id: spinew_bk_w00, phase: spinew, mode: steer, layers: [0, 5], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w06, phase: spinew, mode: steer, layers: [6, 11], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w12, phase: spinew, mode: steer, layers: [12, 17], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w18, phase: spinew, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w24, phase: spinew, mode: steer, layers: [24, 29], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w30, phase: spinew, mode: steer, layers: [30, 35], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w36, phase: spinew, mode: steer, layers: [36, 41], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- spinew_m: §4.3 +M twin-patch across the width-6 tiling (w3m extension) ----
+  # Reuses the w3m +M mediation recipe (twin_component: M patch). w3m_2429 [24,29]
+  # already covers that e1 tile and is reused as comparison; these six complete
+  # the 42-layer cover. (w3m_0813/w3m_1621 are off-grid W3 probes, kept separate.)
+  - {id: spinew_m_w00, phase: spinew, mode: patch, twin_component: M, layers: [0, 5], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w06, phase: spinew, mode: patch, twin_component: M, layers: [6, 11], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w12, phase: spinew, mode: patch, twin_component: M, layers: [12, 17], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w18, phase: spinew, mode: patch, twin_component: M, layers: [18, 23], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w30, phase: spinew, mode: patch, twin_component: M, layers: [30, 35], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w36, phase: spinew, mode: patch, twin_component: M, layers: [36, 41], n: 50, seed_base: 2000042, state_offset: 300}

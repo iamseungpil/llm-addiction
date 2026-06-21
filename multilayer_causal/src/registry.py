@@ -4,20 +4,26 @@ layers: [a, b] inclusive range → expanded list.
 layers_list: explicit (possibly non-contiguous) layer indices → stored as
 a['layers']; mutually exclusive with layers (W1 bridge arms).
 Optional pass-through fields validated here: probe (bool, SM-only),
-task ('sm' | 'ic'), direction ('random', needs dir_seed), seed_base,
+task ('sm' | 'ic' | 'mw'), direction ('random', needs dir_seed), seed_base,
 state_offset, dir_seed, twin_component ('G' | 'M', patch mode only — W3
 +M mediation arms), model ('gemma' 42 layers | 'llama' 32 layers, layer
 bounds enforced per model), log_vectors (bool).
 """
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import yaml
 
-ARMS_YAML = Path(__file__).resolve().parents[1] / "configs" / "arms.yaml"
+# Default arms file is configs/arms.yaml; the xtask wave points this at
+# configs/arms_xtask.yaml via the MLC_ARMS_YAML env var (additive — with the var
+# unset the sm/ic load path is byte-identical).
+ARMS_YAML = Path(os.environ.get(
+    "MLC_ARMS_YAML",
+    str(Path(__file__).resolve().parents[1] / "configs" / "arms.yaml")))
 MODES = {"anchor_minus", "anchor_plus", "patch", "subspace", "steer"}
-TASKS = {"sm", "ic"}
+TASKS = {"sm", "ic", "mw"}
 MODELS = {"gemma", "llama"}
 MAX_LAYER = {"gemma": 41, "llama": 31}  # inclusive top decoder-layer index
 TWIN_COMPONENTS = {"G", "M"}
@@ -34,6 +40,8 @@ def load_arms(path=ARMS_YAML):
         assert a.get("task", "sm") in TASKS, f"{a['id']}: bad task {a.get('task')}"
         assert a.get("probe", False) in (True, False), f"{a['id']}: probe must be bool"
         assert not (a.get("probe") and a.get("task") == "ic"), \
+            f"{a['id']}: probe is SM-only"
+        assert not (a.get("probe") and a.get("task") == "mw"), \
             f"{a['id']}: probe is SM-only"
         assert a.get("model", "gemma") in MODELS, f"{a['id']}: bad model {a.get('model')}"
         assert a.get("log_vectors", False) in (True, False), \

@@ -1,0 +1,52 @@
+description: multilayer-causal XTASKD wave (Stage D) - WRITE-LOCALITY width/cumulative-layer sweep. Steers the I_BA behavioural axis (+4.0) on SM across window geometry only (single-layer L12-30 + cumulative windows 18-19..0-41 + 2 random nulls), recovery vs the W2 +/-G anchors (reused from HF). Tests whether the causal write is concentrated in L16-21 (single-layer peak inside, cumulative saturation, no gain/derail when widened). ISOLATED via arms_xtaskd.yaml (MLC_ARMS_YAML), experiments/xtaskd (MLC_HF_BASE), results/xtaskd (MLC_OUT). Reuses iba_v2 asset; SM-only, no new axis/catalog.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_xtaskd
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # xtask isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_xtaskd.yaml
+        MLC_HF_BASE: experiments/xtaskd/checkpoints
+        MLC_OUT: multilayer_causal/results/xtaskd
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml 2>&1 | tail -1
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        bash multilayer_causal/run_arms.sh 4 xtaskd_L12_w1 xtaskd_L14_w1 xtaskd_L16_w1 xtaskd_L17_w1 xtaskd_L18_w1 xtaskd_L19_w1 xtaskd_L20_w1 xtaskd_L21_w1 xtaskd_L22_w1 xtaskd_L24_w1 xtaskd_L26_w1 xtaskd_L30_w1 xtaskd_cum_18_19 xtaskd_cum_18_20 xtaskd_cum_17_20 xtaskd_cum_16_21 xtaskd_cum_14_23 xtaskd_cum_12_25 xtaskd_cum_08_29 xtaskd_cum_00_41 xtaskd_rnd_L19_w1 xtaskd_rnd_w1621
+        echo XTASKD_DONE
+        '

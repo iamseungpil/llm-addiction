@@ -12,11 +12,18 @@ for arm in "$@"; do
   g=$((i % NGPUS)); Q[$g]="${Q[$g]:-} $arm"; i=$((i+1))
 done
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Optional --out override (additive): set MLC_OUT to route rollout jsonls
+# somewhere other than the default multilayer_causal/out/ (e.g. the xtask wave
+# points it at results/xtask so xtask_stats reads where the runner writes).
+OUT_ARGS=()
+if [ -n "${MLC_OUT:-}" ]; then
+  OUT_ARGS=(--out "$MLC_OUT")
+fi
 for g in $(seq 0 $((NGPUS-1))); do
   (
     for arm in ${Q[$g]:-}; do
       echo "[gpu$g] start $arm $(date -Is)"
-      python "$SCRIPT_DIR/run_experiment.py" --arm "$arm" --gpu "$g" \
+      python "$SCRIPT_DIR/run_experiment.py" --arm "$arm" --gpu "$g" "${OUT_ARGS[@]}" \
         || echo "[gpu$g] $arm FAILED (continuing)"
     done
   ) &

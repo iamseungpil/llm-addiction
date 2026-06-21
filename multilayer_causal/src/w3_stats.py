@@ -40,6 +40,11 @@ GEMMA_STEER = ["w3a_saerd_m20", "w3a_saerd_p20", "w3a_saerd_p40",
 M_ARMS = ["w3m_0813", "w3m_1621", "w3m_2429"]
 L_WINDOWS = ["w3L_w00", "w3L_w04", "w3L_w08", "w3L_w12",
              "w3L_w16", "w3L_w20", "w3L_w24", "w3L_w28"]
+# spinew §4 write-spine blank-fill (width-6 e1 tiling). spinew_bk_* = §4.2 BK
+# control-axis steering; spinew_m_* = §4.3 +M twin patch. Their gap.recovery is
+# the §4.2/§4.3 write metric the spine plots at each window center.
+SPINEW_BK = [f"spinew_bk_w{n:02d}" for n in (0, 6, 12, 18, 24, 30, 36)]
+SPINEW_M = [f"spinew_m_w{n:02d}" for n in (0, 6, 12, 18, 30, 36)]
 
 
 def mixed_vals(trials):
@@ -108,6 +113,28 @@ def main():
             e["proj_mean"] = float(np.mean(vl))
         arms[arm] = e
     R["arms"] = arms
+
+    # ---- spinew: §4 write-spine blank-fill (gap.recovery per width-6 window) --
+    # Same W2-anchor protocol (offset 300) as GEMMA_STEER/M_ARMS, so the SAME
+    # vs-minus + gap-recovery computation lands these on the read sweep's grid.
+    # Missing checkpoints are skipped (arm not yet run), never fabricated.
+    spinew = {}
+    for arm in SPINEW_BK + SPINEW_M:
+        try:
+            t = load(args.w3, arm)
+        except FileNotFoundError:
+            continue
+        e = arm_summary(t)
+        e.update(vs_minus(t, mok, mv, mc, pool, gid, clusters300))
+        ok = parse_excluded(t)
+        if ok and len(ok) >= 4:
+            tv = [float(x["bet_ratio"]) for x in ok]
+            tc = clusters300(ok, pool, gid)
+            e["gap"] = tost_gap_recovery(tv, pv, mv, treat_clusters=tc,
+                                         plus_clusters=pc, minus_clusters=mc)
+        spinew[arm] = e
+    if spinew:
+        R["spinew"] = spinew
 
     # ---- w3a PR-1 trend ---------------------------------------------------
     def trend(prefix):

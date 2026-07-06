@@ -25,6 +25,11 @@ HF_BASE = os.environ.get("MLC_HF_BASE", "experiments/multilayer_causal/checkpoin
 
 class ArmCheckpoint:
     def __init__(self, phase, arm_id, out_dir, sync_every=10, hf_enabled=None):
+        # MLC_SYNC_EVERY override (additive; unset -> byte-identical default).
+        # HF caps repo commits at 256/h: a 69-arm x n200 wave at sync_every=10
+        # needs ~1.4k commits and throttles itself; a larger interval trades at
+        # most that many trials on preemption for staying under the cap.
+        sync_every = int(os.environ.get("MLC_SYNC_EVERY", sync_every))
         self.phase, self.arm_id = phase, arm_id
         self.path = Path(out_dir) / f"{arm_id}.jsonl"
         self.path.parent.mkdir(parents=True, exist_ok=True)

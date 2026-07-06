@@ -28,6 +28,10 @@ jobs:
         MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w3.yaml
         MLC_HF_BASE: experiments/sec4_causal/checkpoints
         MLC_OUT: multilayer_causal/results/sec4_w3
+        # HF commit-rate cap (256/h): sync every 50 trials instead of 10 so the
+        # 38-arm wave stays under budget; preemption loses <=50 trials/arm,
+        # refilled on resume.
+        MLC_SYNC_EVERY: "50"
         WANDB_PROJECT: llm-addiction-sec4
         WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
     command:

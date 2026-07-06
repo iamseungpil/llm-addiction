@@ -360,6 +360,59 @@ def _discovery_mask(game_ids, held_out=False):
     return (bits == 1) if held_out else (bits == 0)
 
 
+def _iba_from_catalog(meta, task, model):
+    """Per-row I_BA for ic/mw by joining the behavioural catalog decisions —
+    the paper pipeline's exact rule (run_comprehensive_robustness.compute_iba):
+    sequential game ids from extraction order (i+1), non-skip decisions,
+    bet = parsed_bet|bet|bet_amount, bal = balance_before|balance (fallback:
+    meta balances), ratio = min(bet/bal, 1). Returns (i_ba, balances)."""
+    import json as _json
+    if task == "investment_choice":
+        from .ic import ensure_ic_catalog
+        cdir = ensure_ic_catalog(model)
+        files = sorted(cdir.glob("*.json"))
+    elif task == "mystery_wheel":
+        from .mw import ensure_mw_catalog
+        cdir = ensure_mw_catalog(model)
+        files = sorted(cdir.glob(f"{model}_mysterywheel_*.json"))
+    else:
+        raise ValueError(f"_iba_from_catalog: unexpected task {task}")
+    games = []
+    for f in files:
+        d = _json.load(open(f))
+        res = d.get("results", d.get("games", []))
+        games.extend(res.values() if isinstance(res, dict) else res)
+    assert games, f"empty {task} catalog under {cdir}"
+    game_map = {i + 1: g for i, g in enumerate(games)}
+
+    n = len(meta["game_ids"])
+    i_ba = np.full(n, np.nan)
+    balances = (np.asarray(meta["balances"], dtype=np.float64).copy()
+                if meta.get("balances") is not None else np.full(n, np.nan))
+    for i in range(n):
+        g = game_map.get(int(meta["game_ids"][i]))
+        if g is None:
+            continue
+        raw = g.get("decisions", g.get("history", g.get("rounds", [])))
+        decs = [d for d in raw
+                if d.get("action") != "skip" and not d.get("skipped", False)]
+        rn = int(meta["round_nums"][i]) - 1
+        if rn >= len(decs):
+            continue
+        dec = decs[rn]
+        bet = dec.get("parsed_bet") or dec.get("bet") or dec.get("bet_amount")
+        bal = dec.get("balance_before") or dec.get("balance")
+        try:
+            bet = float(bet)
+            bal = float(bal) if bal is not None else float(balances[i])
+        except (TypeError, ValueError):
+            continue
+        if bal > 0 and bet > 0:
+            i_ba[i] = min(bet / bal, 1.0)
+            balances[i] = bal
+    return i_ba, balances
+
+
 def load_task_arrays(model, task, layers, held_out=False):
     """Pull cached HF SAE features + all-layer hidden states + indicators for a
     (model, task), restricted to the DISCOVERY (or held-out) game split.
@@ -392,10 +445,13 @@ def load_task_arrays(model, task, layers, held_out=False):
     if task == "slot_machine":
         cat = pa._hf_path(pa.SM_CATALOG, token)
         i_ba, balances = pa.compute_iba_sm(meta, cat)
-    else:  # ic/mw: bet ratio proxy from meta balances (no all-in catalog needed)
-        balances = np.asarray(meta["balances"], dtype=np.float64)
-        i_ba = np.asarray(meta.get("bet_ratios",
-                                   np.full(len(game_ids), np.nan)), np.float64)
+    else:
+        # ic/mw: the SAE meta has NO bet_ratios field (confirmed on HF) — join
+        # the behavioural catalogs exactly like the paper pipeline
+        # (run_comprehensive_robustness.compute_iba): sequential game_map,
+        # non-skip decisions, bet from parsed_bet|bet|bet_amount over
+        # balance_before|balance, ratio = min(bet/bal, 1).
+        i_ba, balances = _iba_from_catalog(meta, task, model)
     i_lc, i_ec = _lc_ec_from_iba(np.nan_to_num(i_ba), balances, game_ids, rounds)
 
     if task == "slot_machine":

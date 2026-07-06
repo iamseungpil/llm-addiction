@@ -18,3 +18,10 @@ GO). No auto-launch — expansion is a human gate.
 - **Caveat:** read!=write UNRESOLVED — Wave-1 null is thin single-dose; Wave-2 adds a thick multi-dose null-slope band.
 - **Verdict:** WRITE_CONFIRMED (behavioural writes I_BA & co-moves I_EC; read>=weak, confound inert)
 - **HF:** rollouts `experiments/sec4_causal/checkpoints/sec4_p0/`, axes `experiments/sec4_causal/assets/`, analysis `results/sec4_p0/sec4_p0_analysis.json`.
+
+### Wave-3 rung Q1-1 `postloss_rung1` — FREE re-analysis of sec4_p0+w2 (no node)
+- **Hypothesis (Q1):** the behavioural axis drives loss-chasing-like behaviour (post-loss-specific potency), i.e. indicator commonality beyond bet-size.
+- **Method:** seed->pool join (4460/4460 rows validated, 0 unlabeled), (alpha,seed) dedup vs W1/W2 pseudoreplication (1378 dropped), OLS dose x postloss interaction.
+- **Result:** behavioural interaction coef=+0.0129, t=3.98 (n=1378) — steering is MORE potent on post-loss states in both directions (a+2: 0.248 vs 0.184; a-2: 0.015 vs 0.031); baseline cells equal (0.059 vs 0.066) so not a baseline artifact. readout: t=-1.30 NO_INTERACTION (dissociation again). shared: t=2.75 but UNDERPOWERED (W2 incomplete at fetch).
+- **Verdict:** LC_LIKE_INTERACTION (Q1 rung1 positive). Dedicated arms (rung2, state_filter n=200/cell) in mlc-sec4-w3-0706.
+- **Repro:** `python -m multilayer_causal.src.postloss_analysis --from-hf`; results `experiments/sec4_causal/analysis/postloss_rung1.json`.

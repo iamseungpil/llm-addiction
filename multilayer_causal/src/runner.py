@@ -1,6 +1,8 @@
 """Trial loop: one arm = N single-decision trials (M3'' protocol, multi-layer)."""
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 import re
 import time
@@ -8,6 +10,7 @@ from datetime import datetime
 
 import numpy as np
 
+from . import wandb_logger
 from .checkpoint import ArmCheckpoint, VectorStore
 from .hooks import (HookGroup, MultiLayerPatcher, MultiLayerSteerer,
                     PrefillTap, SubspacePatcher, cache_layer_outputs)
@@ -30,6 +33,134 @@ SEED_BASE = 42
 PROBE_MODES = {"anchor_minus", "anchor_plus", "patch", "steer"}
 IC_MODES = {"anchor_minus", "steer"}
 MW_MODES = {"anchor_minus", "steer"}
+
+
+def assert_replay_match(arm_hash, dir_hash):
+    """Replay guard (past-failure fix: V12/V14 headline invalid because the
+    direction was built on one prompt set and tested on another). The arm's
+    replay prompt-set hash MUST equal the direction-build prompt-set hash;
+    raise ValueError on mismatch so a mis-paired arm fails loudly, never
+    silently steers the wrong prompts."""
+    if str(arm_hash) != str(dir_hash):
+        raise ValueError(
+            f"replay-set mismatch: arm prompt_set_hash {arm_hash!r} != "
+            f"direction build hash {dir_hash!r} — refusing to replay")
+
+
+def _replay_hash(arm):
+    """Deterministic hash of an arm's replay-relevant config (prompt set,
+    direction asset, layers, alpha) — recorded in the run-metadata summary and
+    usable by assert_replay_match."""
+    key = {
+        "prompt_set": arm.get("prompt_set"),
+        "directions_npz": arm.get("directions_npz"),
+        "layers": arm.get("layers"),
+        "alpha": arm.get("alpha"),
+        "mode": arm.get("mode"),
+        "task": arm.get("task", "sm"),
+    }
+    return hashlib.sha1(json.dumps(key, sort_keys=True).encode()).hexdigest()[:16]
+
+
+def sec4_prompt_set_hash(prompt_set):
+    """Canonical hash of a replay prompt-set label. The axis builder stamps the
+    build-time label into the npz (indicator_axes.BUILD_PROMPT_SET); the runner
+    hashes the arm's own prompt_set with this SAME function and compares — a
+    mis-paired arm (direction built on one prompt set, replayed on another) then
+    fails assert_replay_match loudly instead of silently steering the wrong
+    distribution (the V12/V14 headline-invalidation failure)."""
+    return hashlib.sha1(str(prompt_set).encode()).hexdigest()[:16]
+
+
+def _sec4_provenance(arm):
+    """Build provenance recorded in the arm's steering npz by indicator_axes, or
+    None for arms that carry no built sec4 direction — random-null / anchor
+    baselines (no eligible npz) and prior-wave assets without the sec4 keys
+    (kept exempt so prior waves stay byte-identical)."""
+    npz = arm.get("directions_npz")
+    if arm.get("mode") != "steer" or arm.get("direction") == "random" or not npz:
+        return None
+    z = np.load(npz)
+    if "build_prompt_set" not in z.files:
+        return None
+    ids = (set(int(g) for g in z["build_game_ids"])
+           if "build_game_ids" in z.files else None)
+    return {"prompt_set": str(z["build_prompt_set"]), "build_game_ids": ids}
+
+
+def _replay_game_ids(model, n, offset, pool_len):
+    """1-based catalog game ids of the −G offset-slice this SM arm replays, or
+    None when the corpus is not a single catalog file (id reconstruction needs
+    the exact load_minusG_states iteration order). Reuses the frozen
+    axes.minusG_pool_with_game_ids pool (identical Random(42) shuffle)."""
+    from .axes import minusG_pool_with_game_ids
+    files = sorted(ensure_sm_catalog(model).glob("*.json"))
+    if len(files) != 1:
+        return None
+    pool = minusG_pool_with_game_ids(str(files[0]))
+    if not pool:
+        return None
+    return {pool[(i + offset) % pool_len][0] for i in range(n)}
+
+
+def _assert_replay_ok(arm, model, n, offset, pool_len, twin):
+    """Replay guard (past-failure V12/V14): assert the arm replays the SAME
+    prompt set the axis was built on AND, for the SM −G pool, a game slice
+    DISJOINT from the axis build set. No-op for null / baseline / prior-wave
+    arms (npz without sec4 build provenance)."""
+    prov = _sec4_provenance(arm)
+    if prov is None:
+        return
+    assert_replay_match(sec4_prompt_set_hash(arm.get("prompt_set")),
+                        sec4_prompt_set_hash(prov["prompt_set"]))
+    if prov["build_game_ids"] and twin == "G":
+        replay_ids = _replay_game_ids(model, n, offset, pool_len)
+        if replay_ids is not None:
+            overlap = prov["build_game_ids"] & replay_ids
+            assert not overlap, (
+                f"{arm['id']}: {len(overlap)} replayed games leak into the axis "
+                f"build set — held-out disjointness violated")
+
+
+def _arm_metrics(rows):
+    """Per-arm behaviour + manipulation-check summary from the recorded rows.
+
+    manip_proj reads rec['vector_log']['proj'] (key-path fix: the manip check
+    was NaN everywhere because it read a non-existent top-level key)."""
+    parsed = [r for r in rows if r.get("parse_ok")]
+    br = [float(r["bet_ratio"]) for r in parsed if r.get("bet_ratio") is not None]
+    risky = [1.0 if r.get("risky") else 0.0 for r in parsed if "risky" in r]
+    projs = [float(r["vector_log"]["proj"]) for r in rows
+             if isinstance(r.get("vector_log"), dict)
+             and r["vector_log"].get("proj") is not None]
+    m = {
+        "n": len(rows),
+        "parse_rate": (len(parsed) / len(rows)) if rows else float("nan"),
+    }
+    if br:
+        m["mean_bet_ratio"] = float(np.mean(br))
+    if risky:
+        m["risky_rate"] = float(np.mean(risky))
+    if projs:
+        m["mean_manip_proj"] = float(np.mean(projs))
+    return m
+
+
+def _arm_done(arm, ck, t_start):
+    """Called at every arm DONE: log the per-arm summary to W&B (no-op unless
+    enabled) and write the run-metadata summary (n, t_start, t_end,
+    replay_hash) — provenance guard against smoke JSONs read as real runs."""
+    rows = [json.loads(l) for l in open(ck.path)] if ck.path.exists() else []
+    metrics = _arm_metrics(rows)
+    wandb_logger.log_arm(arm["id"], arm.get("alpha"), metrics)
+    ck.record_summary({
+        "arm": arm["id"], "phase": arm.get("phase"),
+        "n": len(rows), "t_start": t_start, "t_end": time.time(),
+        "replay_hash": _replay_hash(arm),
+        "prompt_set": arm.get("prompt_set"),
+        "metrics": metrics,
+        "timestamp": datetime.now().isoformat(),
+    })
 
 
 def load_model(gpu: int, model_name: str = "gemma"):
@@ -222,6 +353,7 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
     phase = arm["phase"]
     ck = ArmCheckpoint(phase, arm["id"], out_dir,
                        hf_enabled=False if smoke else None)
+    _t_start = time.time()
     ensure_sm_catalog(arm["model"])
     # Confirmatory arms use a HELD-OUT slice of the frozen pool (state_offset
     # past the discovery indices) and a distinct seed_base.
@@ -244,6 +376,7 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
         assert len(states) >= n, \
             f"{arm['id']}: twin-free state pool too small ({len(states)} < {n})"
         offset = 0
+    _assert_replay_ok(arm, arm["model"], n, offset, len(states), twin)
     model, tok, device = _load_model_for(arm, gpu)
     n_layers, d_model = _model_dims(model)
     vec = None
@@ -346,6 +479,7 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
         print(f"  [{arm['id']} {i + 1}/{n}] {action} ${amount} "
               f"({time.time() - t0:.1f}s)", flush=True)
     ck.final_sync()
+    _arm_done(arm, ck, _t_start)
     print(f"[{arm['id']}] DONE {len(ck.done_seeds())} trials", flush=True)
 
 
@@ -365,6 +499,7 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
     phase = arm["phase"]
     ck = ArmCheckpoint(phase, arm["id"], out_dir,
                        hf_enabled=False if smoke else None)
+    _t_start = time.time()
     ic.ensure_ic_catalog(arm["model"])
     offset = int(arm.get("state_offset", 0))
     seed_base = int(arm.get("seed_base", SEED_BASE))
@@ -372,6 +507,7 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
     assert pool, "empty IC state pool"
     assert len(pool) >= n, (
         f"{arm['id']}: IC pool {len(pool)} < n {n} — would silently wrap states")
+    _assert_replay_ok(arm, arm["model"], n, offset, len(pool), None)
     model, tok, device = _load_model_for(arm, gpu)
     n_layers, d_model = _model_dims(model)
     done = ck.done_seeds()
@@ -415,6 +551,7 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
         print(f"  [{arm['id']} {i + 1}/{n}] choice={choice} "
               f"({time.time() - t0:.1f}s)", flush=True)
     ck.final_sync()
+    _arm_done(arm, ck, _t_start)
     print(f"[{arm['id']}] DONE {len(ck.done_seeds())} trials", flush=True)
 
 
@@ -439,6 +576,7 @@ def _run_arm_mw(arm, out_dir, gpu=0, n=None, smoke=False):
     phase = arm["phase"]
     ck = ArmCheckpoint(phase, arm["id"], out_dir,
                        hf_enabled=False if smoke else None)
+    _t_start = time.time()
     mw.ensure_mw_catalog(arm["model"])
     offset = int(arm.get("state_offset", 0))
     seed_base = int(arm.get("seed_base", SEED_BASE))
@@ -447,6 +585,7 @@ def _run_arm_mw(arm, out_dir, gpu=0, n=None, smoke=False):
     assert len(pool) >= n, (
         f"{arm['id']}: MW pool {len(pool)} < n {n} "
         f"(variable-filtered corpus too small) — would silently wrap states")
+    _assert_replay_ok(arm, arm["model"], n, offset, len(pool), None)
     model, tok, device = _load_model_for(arm, gpu)
     n_layers, d_model = _model_dims(model)
     done = ck.done_seeds()
@@ -497,6 +636,7 @@ def _run_arm_mw(arm, out_dir, gpu=0, n=None, smoke=False):
         print(f"  [{arm['id']} {i + 1}/{n}] {action} ${bet_amount} "
               f"({time.time() - t0:.1f}s)", flush=True)
     ck.final_sync()
+    _arm_done(arm, ck, _t_start)
     print(f"[{arm['id']}] DONE {len(ck.done_seeds())} trials", flush=True)
 
 

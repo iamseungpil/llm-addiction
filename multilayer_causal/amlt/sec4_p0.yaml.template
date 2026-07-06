@@ -1,0 +1,54 @@
+description: multilayer-causal SEC4 Phase-1 CORE wave - §4 causal-strengthening on Gemma SM. Steers three deconfounded axes (readout - behavioural - confound) at L16-21 across alpha -3..+3 plus 5 random nulls, a no-steer baseline and 3 cumulative-window behavioural arms, replaying the exact addiction prompts (addiction_role_gm) on the held-out slice with alpha-independent seeds and manip-check logging. Tests H1 (behavioural axis writes betting) and H2 (readout axis inert although the better decoder). ISOLATED via arms_sec4_p0.yaml (MLC_ARMS_YAML), experiments/sec4_causal (MLC_HF_BASE), results/sec4_p0 (MLC_OUT), W&B project llm-addiction-sec4. Axis assets built offline by indicator_axes.py into assets/sec4.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_p0
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_p0.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_p0
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml sae_lens 2>&1 | tail -1
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        bash multilayer_causal/run_arms.sh 4 sec4_readout_am3 sec4_readout_am2 sec4_readout_am1 sec4_readout_a0 sec4_readout_ap1 sec4_readout_ap2 sec4_readout_ap3 sec4_behavioural_am3 sec4_behavioural_am2 sec4_behavioural_am1 sec4_behavioural_a0 sec4_behavioural_ap1 sec4_behavioural_ap2 sec4_behavioural_ap3 sec4_confound_am3 sec4_confound_am2 sec4_confound_am1 sec4_confound_a0 sec4_confound_ap1 sec4_confound_ap2 sec4_confound_ap3 sec4_null_1 sec4_null_2 sec4_null_3 sec4_null_4 sec4_null_5 sec4_baseline sec4_cum_18_19 sec4_cum_16_21 sec4_cum_14_23
+        echo SEC4_P0_DONE
+        '

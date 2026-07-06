@@ -70,6 +70,25 @@ class ArmCheckpoint:
         if self.hf_enabled:
             self._upload()
 
+    def record_summary(self, meta):
+        """Write per-arm run-metadata ({n, t_start, t_end, replay_hash, ...})
+        to {arm_id}_summary.json (additive — sits beside the jsonl, never
+        rewrites it) and mirror it to HF. Provenance guard against 10-second
+        smoke JSONs being mistaken for real runs (audit: provenance drift)."""
+        sp = self.path.with_name(f"{self.arm_id}_summary.json")
+        sp.write_text(json.dumps(meta, indent=1))
+        if self.hf_enabled:
+            try:
+                from huggingface_hub import HfApi
+                HfApi(token=self.token).upload_file(
+                    path_or_fileobj=str(sp),
+                    path_in_repo=f"{HF_BASE}/{self.phase}/{self.arm_id}_summary.json",
+                    repo_id=HF_REPO, repo_type="dataset",
+                    commit_message=f"summary {self.phase}/{self.arm_id}")
+            except Exception as e:
+                print(f"[ckpt] summary sync failed: {type(e).__name__}: {e}",
+                      file=sys.stderr, flush=True)
+
     def _upload(self):
         try:
             from huggingface_hub import HfApi

@@ -37,7 +37,8 @@ jobs:
         set -x
         source /opt/conda/etc/profile.d/conda.sh
         conda activate ptca
-        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml sae_lens 2>&1 | tail -1
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml 2>&1 | tail -1
+        python -c "import huggingface_hub" || { echo PIP_INSTALL_FAILED; exit 1; }
         mkdir -p /scratch/mlc
         cd /scratch/mlc
         export HF_HOME=/scratch/mlc/hf_cache

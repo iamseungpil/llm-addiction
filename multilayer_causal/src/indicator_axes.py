@@ -261,6 +261,65 @@ def build_confound_axis_from_arrays(hidden, balance, rounds, layers):
     }
 
 
+# ------------------------------------------------- shared (common) axis
+
+# Right singular values within this relative tolerance are treated as tied; a
+# tie means no single indicator direction dominates, so the shared axis falls
+# back to the centroid (equal-weight mean) rather than an arbitrary degenerate
+# pick — this is what makes orthogonal indicators yield an intermediate axis.
+SHARED_TIE_TOL = 1e-6
+
+
+def build_shared_axis_from_axes(axes_list, layers):
+    """SVD top-1 SHARED component per layer across per-indicator behavioural axes.
+
+    axes_list is a list of per-indicator behavioural axis stacks, each (L, d)
+    unit (e.g. [i_ba_behavioural['directions'], i_ec_behavioural['directions']]).
+    Per layer: orient every indicator row to a common reference (their centroid),
+    stack into an (n_ind, d) matrix, SVD, and take right singular vector 1 — the
+    one common direction the indicators most share. When the top two singular
+    values are tied (no dominant shared component, e.g. orthogonal indicators)
+    the axis falls back to the oriented centroid so it stays equidistant from
+    each indicator instead of collapsing onto one. Unit-normed per layer.
+
+    Returns {directions (L,d) unit f32, singular_energy (L,) f64 = s1^2/sum(s^2)
+    fraction of variance the shared axis captures, provenance str}.
+    """
+    stacks = [np.asarray(a, dtype=np.float64) for a in axes_list]
+    assert len(stacks) >= 2, "shared axis needs >= 2 indicator axes"
+    layers = list(layers)
+    n_layer = len(layers)
+    d = stacks[0].shape[1]
+
+    directions = np.zeros((n_layer, d), dtype=np.float32)
+    singular_energy = np.zeros(n_layer, dtype=np.float64)
+    for li in range(n_layer):
+        rows = np.stack([pa.unit(s[li]) for s in stacks])  # (n_ind, d)
+        centroid = rows.mean(axis=0)
+        ref = pa.unit(centroid) if np.linalg.norm(centroid) > 1e-9 else rows[0]
+        rows = np.stack([r if float(r @ ref) >= 0 else -r for r in rows])
+        centroid = rows.mean(axis=0)  # re-centroid after orientation
+
+        _, s, vt = np.linalg.svd(rows, full_matrices=False)
+        s2 = s ** 2
+        singular_energy[li] = float(s2[0] / max(float(s2.sum()), 1e-12))
+        tied = len(s) > 1 and (s[0] - s[1]) <= SHARED_TIE_TOL * max(s[0], 1e-12)
+        v = pa.unit(centroid) if tied else vt[0]
+        if float(v @ centroid) < 0:  # orient the shared axis the +indicator way
+            v = -v
+        directions[li] = pa.unit(v).astype(np.float32)
+
+    return {
+        "directions": directions,
+        "singular_energy": singular_energy,
+        "provenance": (
+            "shared axis: per layer, indicator behavioural rows oriented to their "
+            "centroid then SVD; right singular vector 1 (the common component), "
+            "falling back to the oriented centroid on a singular-value tie; "
+            "unit-normed. singular_energy = s1^2/sum(s^2) shared-ness fraction."),
+    }
+
+
 # ------------------------------------------------------- indicators
 
 def _lc_ec_from_iba(bet_ratio, balances, game_ids, rounds):
@@ -405,6 +464,33 @@ def _build_all_axes(data, indicator_key, layers):
     return out
 
 
+def _build_wave2_axes(data, layers):
+    """Wave-2 COMMON-AXIS build: the I_BA and I_EC behavioural axes plus the
+    SHARED (SVD top-1) axis across them, and the (indicator-agnostic) confound.
+
+    Returns {asset_name: built} where asset_name is the ``{indicator}_{axis}``
+    stem the CLI saves. The shared axis borrows the I_BA behavioural scales so it
+    steers at the same sigma-units as the per-indicator behavioural arms.
+    """
+    hidden = data["hidden"]
+    bal, rnd, grp = data["balance"], data["rounds"], data["groups"]
+    iba = build_behavioural_axis_from_arrays(
+        hidden, data["indicators"]["i_ba"], bal, rnd, grp, layers)
+    iec = build_behavioural_axis_from_arrays(
+        hidden, data["indicators"]["i_ec"], bal, rnd, grp, layers)
+    conf = build_confound_axis_from_arrays(hidden, bal, rnd, layers)
+    shared = build_shared_axis_from_axes([iba["directions"], iec["directions"]],
+                                         layers)
+    shared["scales"] = iba["scales"].copy()  # matched sigma-units
+    shared["auc"] = float("nan")
+    return {
+        "i_ba_behavioural": iba,
+        "i_ec_behavioural": iec,
+        "i_ba_confound": conf,
+        "shared_iba_iec_behavioural": shared,
+    }
+
+
 def _replicate_to_full(directions, layers):
     """Expand a (L,d) per-window direction stack to the (42,d) runner npz row
     schema: the L requested layers carry the built rows, all others hold the
@@ -450,6 +536,10 @@ def main():
     ap.add_argument("--layers", nargs=2, type=int, default=[16, 21],
                     help="inclusive write window low high")
     ap.add_argument("--dest", required=True)
+    ap.add_argument("--wave2", action="store_true",
+                    help="build the COMMON-AXIS set (i_ba+i_ec behavioural, "
+                         "shared, confound) instead of the per-indicator Wave-1 "
+                         "readout/behavioural/confound axes")
     args = ap.parse_args()
 
     lo, hi = args.layers
@@ -466,6 +556,20 @@ def main():
         "sm" if args.task == "slot_machine" else args.task,
         np.arange(len(data["groups"])), token) if args.task == "slot_machine" \
         else None
+
+    if args.wave2:
+        built = _build_wave2_axes(data, layers)
+        summary = {}
+        for name, b in built.items():
+            indicator, axis = name.rsplit("_", 1)
+            dest = _save_axis(dest_dir, args.model, args.task, indicator, axis,
+                              b, layers, scales_full, float("nan"),
+                              data["build_game_ids"])
+            summary[name] = {"dest": str(dest), "axis": axis,
+                             "indicator": indicator}
+            print(f"[sec4-axes/wave2] {name} -> {dest}", flush=True)
+        print(json.dumps(summary, indent=2))
+        return
 
     summary = {}
     for indicator in indicators:

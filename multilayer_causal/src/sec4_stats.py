@@ -344,13 +344,235 @@ def make_figure(res: dict, by_axis: dict, base_bet: float, out_png: Path):
     plt.close(fig)
 
 
+# ============================================================ WAVE 2
+# Common-axis analysis: does ONE shared internal axis drive BOTH the I_BA
+# (bet_ratio) and I_EC (extreme) irrationality indicators, above a THICK null
+# slope band estimated per random-null direction from its own -3/+3 dose pair
+# (fixing Wave-1's single-dose thin null)?
+
+W2_AXES = ("behav_iba", "behav_iec", "shared", "confound")
+W2_INDICATORS = ("i_ba", "i_ec")
+NULL_SLOPE_FLOOR = 0.005  # min half-band so a zero-variance null is not "clear"
+
+
+def _ec(r: dict):
+    """I_EC value per record: the runner's boolean `extreme` field as 0/1, with
+    a bet_ratio>=0.5 fallback when `extreme` was not logged."""
+    if r.get("extreme") is not None:
+        return 1.0 if r["extreme"] else 0.0
+    b = _bet(r)
+    return None if b is None else (1.0 if b >= 0.5 else 0.0)
+
+
+_W2_METRIC = {"i_ba": _bet, "i_ec": _ec}
+
+
+def _w2_axis_of(arm_id: str) -> Optional[str]:
+    """Wave-2 axis role from an arm id, or None if not a Wave-2 dose arm.
+    sec4_w2_<axis>_a{m,p}<k> for axis in W2_AXES; nulls / baseline handled apart."""
+    if not arm_id.startswith("sec4_w2_"):
+        return None
+    if arm_id.startswith("sec4_w2_null") or arm_id.startswith("sec4_w2_baseline"):
+        return None
+    for axis in W2_AXES:
+        if arm_id.startswith(f"sec4_w2_{axis}_a"):
+            return axis
+    return None
+
+
+def _ols_slope(xs, ys) -> float:
+    """OLS slope of ys on xs (dose->indicator). NaN when <3 points or no dose
+    spread."""
+    xs = np.asarray(xs, dtype=np.float64)
+    ys = np.asarray(ys, dtype=np.float64)
+    if len(xs) < 3 or float(xs.std()) < 1e-12:
+        return float("nan")
+    return float(np.cov(xs, ys, bias=True)[0, 1] / xs.var())
+
+
+def _dose_cells(results_dir: Path):
+    """Group Wave-2 rollouts: {axis: {dose: summary}}, plus per-null-direction
+    {dose: summary} pairs and the baseline summary. Each summary carries both
+    indicators' per-trial values so slopes/spearman use trial-level data."""
+    by_axis: Dict[str, Dict[float, dict]] = {a: {} for a in W2_AXES}
+    nulls: Dict[str, Dict[float, dict]] = {}
+    baseline = None
+    for fp in sorted(results_dir.glob("sec4_w2_*.jsonl")):
+        arm = fp.stem
+        rows = _rows(fp)
+        parse_ok = [r for r in rows if r.get("parse_ok")]
+        parse_rate = len(parse_ok) / len(rows) if rows else float("nan")
+        vals = {ind: [v for r in parse_ok if (v := _W2_METRIC[ind](r)) is not None]
+                for ind in W2_INDICATORS}
+        summ = {"parse_rate": parse_rate, "n": len(rows), "values": vals}
+        if arm.startswith("sec4_w2_baseline"):
+            baseline = summ
+            continue
+        dose = _dose_of(rows, arm)
+        if dose is None:
+            continue
+        if arm.startswith("sec4_w2_null"):
+            key = re.sub(r"_a[mp]?\d+$", "", arm)  # collapse the dose suffix
+            nulls.setdefault(key, {})[dose] = summ
+            continue
+        axis = _w2_axis_of(arm)
+        if axis is not None:
+            by_axis[axis][dose] = summ
+    return by_axis, nulls, baseline
+
+
+def _pooled(cells: Dict[float, dict], ind: str):
+    """(doses, values) trial-level arrays over parse-gated dose cells."""
+    xs, ys, dose_means = [], [], {}
+    for d in sorted(cells):
+        c = cells[d]
+        if c["parse_rate"] < PARSE_GATE:
+            continue
+        vs = c["values"][ind]
+        if not vs:
+            continue
+        dose_means[d] = float(np.mean(vs))
+        for v in vs:
+            xs.append(d); ys.append(v)
+    return xs, ys, dose_means
+
+
+def _null_band(nulls: Dict[str, Dict[float, dict]], ind: str) -> dict:
+    """THICK null: one slope per random-null direction from its -3/+3 pair,
+    reported as mean +/- 2sd (half-band = max(2sd, floor))."""
+    slopes = []
+    for key, cells in nulls.items():
+        xs, ys, _ = _pooled(cells, ind)
+        s = _ols_slope(xs, ys)
+        if np.isfinite(s):
+            slopes.append(s)
+    mean = float(np.mean(slopes)) if slopes else 0.0
+    sd = float(np.std(slopes)) if len(slopes) > 1 else 0.0
+    return {"mean": mean, "sd": sd, "delta": max(2.0 * sd, NULL_SLOPE_FLOOR),
+            "n": len(slopes)}
+
+
+def _w2_indicator_stat(cells, ind, band) -> dict:
+    """Per (axis, indicator): monotone dose-response + slope vs the null band."""
+    xs, ys, dose_means = _pooled(cells, ind)
+    doses = sorted(dose_means)
+    rho = _spearman(doses, [dose_means[d] for d in doses])  # per-dose-mean trend
+    slope = _ols_slope(xs, ys)
+    z = ((slope - band["mean"]) / band["sd"]
+         if band["sd"] > 1e-12 and np.isfinite(slope) else float("nan"))
+    sign_ok = bool(np.isfinite(rho) and rho > 0)
+    monotone = bool(np.isfinite(rho) and abs(rho) >= SPEARMAN_MIN and rho > 0)
+    above_null = bool(np.isfinite(slope)
+                      and abs(slope - band["mean"]) > band["delta"])
+    return {"spearman": rho, "slope": slope, "z": z, "sign_ok": sign_ok,
+            "monotone": monotone, "above_null": above_null,
+            "dose_means": {str(k): v for k, v in dose_means.items()}}
+
+
+def _w2_moves(stat: dict) -> bool:
+    return bool(stat["monotone"] and stat["sign_ok"] and stat["above_null"])
+
+
+def analyze_wave2(results_dir=None, assets_dir=None,
+                  out_json: Optional[Path] = None,
+                  out_png: Optional[Path] = None) -> dict:
+    """Wave-2 COMMON-AXIS analysis. For each axis, the dose-response of BOTH
+    I_BA (bet_ratio) and I_EC (extreme). Returns:
+      axes[axis][ind] = monotone/sign/slope/z vs the thick null band,
+      cross_indicator_slopes[axis][ind] = the axis's slope on each indicator,
+      null_band[ind] = per-direction slope band (mean, sd, +/-2sd delta, n),
+    and a verdict SHARED_COMMON_AXIS iff the SHARED axis moves BOTH indicators
+    monotonically and above the null slope band, else NO_SHARED_AXIS.
+    """
+    results_dir = Path(results_dir) if results_dir is not None \
+        else _MLC / "results" / "sec4_w2"
+    assets_dir = Path(assets_dir) if assets_dir is not None else ASSETS_DIR
+
+    by_axis, nulls, baseline = _dose_cells(results_dir)
+    band = {ind: _null_band(nulls, ind) for ind in W2_INDICATORS}
+
+    axes_out, cross = {}, {}
+    for axis in W2_AXES:
+        cells = by_axis[axis]
+        axes_out[axis] = {ind: _w2_indicator_stat(cells, ind, band[ind])
+                          for ind in W2_INDICATORS}
+        cross[axis] = {ind: axes_out[axis][ind]["slope"]
+                       for ind in W2_INDICATORS}
+
+    shared = axes_out["shared"]
+    shared_moves_both = bool(_w2_moves(shared["i_ba"]) and _w2_moves(shared["i_ec"]))
+    verdict = "SHARED_COMMON_AXIS" if shared_moves_both else "NO_SHARED_AXIS"
+
+    result = {
+        "verdict": verdict,
+        "shared_moves_both": shared_moves_both,
+        "axes": axes_out,
+        "cross_indicator_slopes": cross,
+        "null_band": band,
+        "n_null_directions": len(nulls),
+        "baseline": ({ind: (float(np.mean(baseline["values"][ind]))
+                            if baseline["values"][ind] else float("nan"))
+                     for ind in W2_INDICATORS} if baseline else None),
+    }
+    if out_json is not None:
+        Path(out_json).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_json).write_text(json.dumps(result, indent=1))
+    if out_png is not None:
+        try:
+            make_figure_wave2(result, by_axis, band, Path(out_png))
+        except Exception as e:
+            print(f"[sec4-w2] figure skipped: {e}")
+    return result
+
+
+def make_figure_wave2(res: dict, by_axis: dict, band: dict, out_png: Path):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fig, axs = plt.subplots(1, 2, figsize=(12, 5), sharex=True)
+    colors = {"behav_iba": "C0", "behav_iec": "C3", "shared": "C1",
+              "confound": "C2"}
+    labels = {"i_ba": "I_BA (bet ratio)", "i_ec": "I_EC (extreme rate)"}
+    for ax, ind in zip(axs, W2_INDICATORS):
+        for axis in W2_AXES:
+            cells = by_axis.get(axis, {})
+            _, _, dose_means = _pooled(cells, ind)
+            doses = sorted(dose_means)
+            if not doses:
+                continue
+            ax.plot(doses, [dose_means[d] for d in doses], "-o",
+                    color=colors[axis], label=axis,
+                    lw=2.2 if axis == "shared" else 1.2)
+        ax.set_xlabel("steering alpha (sigma-units)")
+        ax.set_ylabel(f"mean {labels[ind]}")
+        ax.set_title(labels[ind])
+        ax.legend(fontsize=8)
+    fig.suptitle(f"§4 Wave-2 common axis — verdict: {res['verdict']}")
+    fig.tight_layout()
+    Path(out_png).parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_png, dpi=130)
+    fig.savefig(str(out_png).replace(".png", ".pdf"))
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results-dir", default=str(RESULTS_DIR))
     ap.add_argument("--assets-dir", default=str(ASSETS_DIR))
     ap.add_argument("--out-json", default=str(OUT_JSON))
     ap.add_argument("--out-png", default=str(OUT_PNG))
+    ap.add_argument("--wave2", action="store_true",
+                    help="run the Wave-2 common-axis analysis instead of Wave-1")
     args = ap.parse_args()
+    if args.wave2:
+        res = analyze_wave2(Path(args.results_dir), Path(args.assets_dir),
+                            Path(args.out_json), Path(args.out_png))
+        print(json.dumps({"verdict": res["verdict"],
+                          "shared_moves_both": res["shared_moves_both"],
+                          "cross_indicator_slopes": res["cross_indicator_slopes"]},
+                         indent=2))
+        return
     res = analyze(Path(args.results_dir), Path(args.assets_dir),
                   Path(args.out_json), Path(args.out_png))
     print(json.dumps({"verdict": res["verdict"],

@@ -1,0 +1,102 @@
+# sec4 Wave-2 COMMON-AXIS arm registry — §4 causal-strengthening (Gemma SM, 2026-07-06).
+# NORTH STAR: find ONE shared internal axis that drives gambling behaviour
+# CONSISTENTLY across irrationality indicators. Wave-1 showed the I_BA behavioural
+# axis (L16-21) writes betting (bet_ratio 0.014->0.256 over alpha -3..+3, rho 0.96)
+# AND co-moves extreme-betting I_EC — but read=/=write stayed UNRESOLVED under a
+# thin single-dose null. Wave-2 asks whether the SVD top-1 SHARED axis of the I_BA
+# and I_EC behavioural axes moves BOTH indicators monotonically ABOVE a THICK null
+# slope band (each random direction dosed at -3 AND +3 so its slope is estimable).
+# Four steered axes x alpha {-3..+3} = 28 dose arms (each steers its OWN npz:
+# behav_iba, behav_iec, shared, confound) + 20 random-direction nulls x {-3,+3} =
+# 40 null arms + a no-steer baseline = 69 arms. Every arm replays the EXACT
+# addiction prompts (prompt_set: addiction_role_gm) at L16-21 with alpha-independent
+# seeds (seed_base + 997*i) on the HELD-OUT slice (state_offset 300), log_vectors
+# for the manip check. ISOLATION: loaded ONLY via MLC_ARMS_YAML; SM-only; HF prefix
+# experiments/sec4_causal, results/sec4_w2. Axes built by indicator_axes.py --wave2.
+defaults:
+  model: gemma
+  task: sm
+  n: 200
+  seed_base: 2000042
+  state_offset: 300
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  # ---- I_BA behavioural axis (Wave-1 heater): moves betting ----
+  - {id: sec4_w2_behav_iba_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w2_behav_iba_am2, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w2_behav_iba_am1, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w2_behav_iba_a0, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w2_behav_iba_ap1, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w2_behav_iba_ap2, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w2_behav_iba_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  # ---- I_EC behavioural axis (extreme-betting heater) ----
+  - {id: sec4_w2_behav_iec_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ec_behavioural.npz}
+  - {id: sec4_w2_behav_iec_am2, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ec_behavioural.npz}
+  - {id: sec4_w2_behav_iec_am1, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ec_behavioural.npz}
+  - {id: sec4_w2_behav_iec_a0, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ec_behavioural.npz}
+  - {id: sec4_w2_behav_iec_ap1, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ec_behavioural.npz}
+  - {id: sec4_w2_behav_iec_ap2, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ec_behavioural.npz}
+  - {id: sec4_w2_behav_iec_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ec_behavioural.npz}
+  # ---- SHARED axis (SVD top-1 of {i_ba,i_ec} behavioural): THE common-axis candidate ----
+  - {id: sec4_w2_shared_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_shared_iba_iec_behavioural.npz}
+  - {id: sec4_w2_shared_am2, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_shared_iba_iec_behavioural.npz}
+  - {id: sec4_w2_shared_am1, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_shared_iba_iec_behavioural.npz}
+  - {id: sec4_w2_shared_a0, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_shared_iba_iec_behavioural.npz}
+  - {id: sec4_w2_shared_ap1, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_shared_iba_iec_behavioural.npz}
+  - {id: sec4_w2_shared_ap2, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_shared_iba_iec_behavioural.npz}
+  - {id: sec4_w2_shared_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_shared_iba_iec_behavioural.npz}
+  # ---- confound axis (balance+round control): a shared write must beat this ----
+  - {id: sec4_w2_confound_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w2_confound_am2, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w2_confound_am1, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w2_confound_a0, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w2_confound_ap1, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w2_confound_ap2, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w2_confound_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  # ---- THICK random-direction null: 20 seeds, each dosed at -3 AND +3 so a per-
+  #      direction slope (and thus a mean+/-2sd null slope band) can be estimated.
+  #      The -3/+3 pair shares one dir_seed => it is the SAME random direction. ----
+  - {id: sec4_w2_null1_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070601, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null1_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070601, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null2_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070602, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null2_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070602, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null3_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070603, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null3_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070603, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null4_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070604, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null4_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070604, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null5_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070605, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null5_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070605, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null6_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070606, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null6_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070606, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null7_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070607, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null7_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070607, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null8_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070608, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null8_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070608, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null9_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070609, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null9_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070609, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null10_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070610, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null10_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070610, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null11_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070611, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null11_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070611, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null12_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070612, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null12_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070612, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null13_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070613, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null13_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070613, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null14_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070614, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null14_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070614, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null15_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070615, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null15_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070615, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null16_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070616, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null16_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070616, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null17_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070617, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null17_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070617, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null18_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070618, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null18_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070618, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null19_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070619, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null19_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070619, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null20_am3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070620, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w2_null20_ap3, phase: sec4_w2, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070620, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  # ---- no-steer baseline (natural -G prompt, no hook) ----
+  - {id: sec4_w2_baseline, phase: sec4_w2, mode: anchor_minus, layers: [16, 21], log_vectors: false}

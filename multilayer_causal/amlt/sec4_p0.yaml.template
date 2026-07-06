@@ -49,6 +49,23 @@ jobs:
         print(\"code extracted\")
         "
         export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the axis library ON the node (sae_lens + gemma-scope decoder +
+        # cached SAE feats); abort the whole job if the build fails, so a bad axis
+        # never wastes the rollout. Prints AUC/cos for early-log verification and
+        # uploads the npz to HF for reproducibility. ---
+        PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model gemma --task slot_machine --indicators i_ba --axes readout,behavioural,confound --layers 16 21 --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        python -c "
+        import numpy as np, glob, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        fs = sorted(glob.glob(\"multilayer_causal/assets/sec4/*.npz\"))
+        assert fs, \"no axis npz built\"
+        for f in fs:
+            d = np.load(f)
+            print(\"SEC4_AXIS\", os.path.basename(f), \"auc=%.3f cos_read_write=%.3f\" % (float(d[\"auc\"]), float(d[\"cos_read_write\"])))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+os.path.basename(f), repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_AXES_UPLOADED\", len(fs))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
         bash multilayer_causal/run_arms.sh 4 sec4_readout_am3 sec4_readout_am2 sec4_readout_am1 sec4_readout_a0 sec4_readout_ap1 sec4_readout_ap2 sec4_readout_ap3 sec4_behavioural_am3 sec4_behavioural_am2 sec4_behavioural_am1 sec4_behavioural_a0 sec4_behavioural_ap1 sec4_behavioural_ap2 sec4_behavioural_ap3 sec4_confound_am3 sec4_confound_am2 sec4_confound_am1 sec4_confound_a0 sec4_confound_ap1 sec4_confound_ap2 sec4_confound_ap3 sec4_null_1 sec4_null_2 sec4_null_3 sec4_null_4 sec4_null_5 sec4_baseline sec4_cum_18_19 sec4_cum_16_21 sec4_cum_14_23
         echo SEC4_P0_DONE
         '

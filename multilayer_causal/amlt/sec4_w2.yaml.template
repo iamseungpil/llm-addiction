@@ -28,6 +28,7 @@ jobs:
         MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w2.yaml
         MLC_HF_BASE: experiments/sec4_causal/checkpoints
         MLC_OUT: multilayer_causal/results/sec4_w2
+        MLC_SYNC_EVERY: "50"
         WANDB_PROJECT: llm-addiction-sec4
         WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
     command:

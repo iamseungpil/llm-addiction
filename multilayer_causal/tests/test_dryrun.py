@@ -410,6 +410,77 @@ def test_ic_anchor_and_steer(env):
     assert r2["choice"] == 3 and r2["parse_ok"] is True
 
 
+def test_state_filter_partitions_window(env):
+    """sec4_w3 Q1 rung-2: state_filter must serve ONLY the postloss (resp.
+    postwin) partition of the exact offset window, wrapping when the partition
+    is smaller than n, with the labeling delegated to
+    postloss_analysis.label_postloss (single source of truth)."""
+    from multilayer_causal.src import states as st
+    from multilayer_causal.src.postloss_analysis import label_postloss
+    env.mp.delenv("HF_TOKEN", raising=False)
+    n = 6
+    pool = st.load_minusG_states("gemma", n=n + 0 + 50)
+    window = [pool[i % len(pool)] for i in range(n)]
+    for filt, want in (("postloss", True), ("postwin", False)):
+        expect_states = [s for s in window if label_postloss(s) is want]
+        assert 0 < len(expect_states) < n  # partition forces wrap-around
+        expected = [(g.get("prompt_combo", ""), ri)
+                    for g, ri in (expect_states[i % len(expect_states)]
+                                  for i in range(n))]
+        runner.run_arm(_arm(id=f"dry_{filt}", mode="anchor_minus",
+                            state_filter=filt, n=n), env.out)
+        got = [(r["source_state"]["prompt_combo"],
+                r["source_state"]["round_idx"])
+               for r in _records(env.out, f"dry_{filt}")]
+        assert got == expected, filt
+
+
+def test_no_state_filter_pool_unchanged(env):
+    """Additive guard: without state_filter the pool (and hence the replayed
+    states) is byte-identical to the frozen path — both partitions appear."""
+    from multilayer_causal.src.postloss_analysis import label_postloss
+    from multilayer_causal.src import states as st
+    env.mp.delenv("HF_TOKEN", raising=False)
+    runner.run_arm(_arm(id="dry_nofilter", mode="anchor_minus", n=6), env.out)
+    pool = st.load_minusG_states("gemma", n=6 + 50)
+    labels = {label_postloss(pool[i]) for i in range(6)}
+    got = [(r["source_state"]["prompt_combo"], r["source_state"]["round_idx"])
+           for r in _records(env.out, "dry_nofilter")]
+    assert got == [(g.get("prompt_combo", ""), ri) for g, ri in pool[:6]]
+    assert labels == {True, False}  # the unfiltered window mixes both
+
+
+def test_steer_twin_g_evaluates_plus_prompt(env):
+    """sec4_w3 Q3: twin: G on a steer arm must evaluate the +G TWIN prompt
+    (steer hook still installed) and mark the record with twin: G."""
+    prompts = []
+    real_gen = runner._generate
+
+    def spy(model, tok, device, prompt, hookset, seed):
+        prompts.append((prompt, hookset))
+        return real_gen(model, tok, device, prompt, hookset, seed)
+
+    env.mp.setattr(runner, "_generate", spy)
+    runner.run_arm(_arm(id="dry_twin_steer", mode="steer", layers=LAYERS,
+                        alpha=2.0, twin="G", directions_npz=str(IBA_V2)),
+                   env.out, smoke=True)
+    g_text = ("First, set a target amount yourself, and make decisions "
+              "based on that target.")
+    assert len(prompts) == 1
+    assert prompts[0][0].count(g_text) == 1     # +G twin evaluated
+    assert prompts[0][1] is not None            # steer hook still active
+    r = _records(env.out, "dry_twin_steer")[0]
+    assert r["twin"] == "G" and r["alpha"] == 2.0
+
+    # frozen-path guard: the same arm WITHOUT twin evaluates the −G prompt
+    # (synthetic pool is G-free) and writes no twin key.
+    runner.run_arm(_arm(id="dry_notwin_steer", mode="steer", layers=LAYERS,
+                        alpha=2.0, directions_npz=str(IBA_V2)),
+                   env.out, smoke=True)
+    assert g_text not in prompts[1][0]
+    assert "twin" not in _records(env.out, "dry_notwin_steer")[0]
+
+
 def test_resume_skips_done_seeds(env):
     arm = _arm(id="dry_anchor", mode="anchor_minus", n=2)
     runner.run_arm(arm, env.out, smoke=True)

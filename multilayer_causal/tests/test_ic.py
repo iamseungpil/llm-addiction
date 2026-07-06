@@ -68,6 +68,16 @@ def test_pool_order_is_frozen_seed42(tmp_path, monkeypatch):
     assert ic.load_ic_states("gemma", n=2) == expected[:2]
 
 
+def test_replay_game_ids_covers_pool_prefix(tmp_path, monkeypatch):
+    """replay_game_ids(n) = the game ids of the first n frozen-pool entries —
+    exactly the window the runner can replay, so excluding them at axis-build
+    time makes the replayed IC states held out."""
+    _write_ic_catalog(tmp_path, monkeypatch)
+    pool = ic.load_ic_states("gemma", n=200)
+    assert ic.replay_game_ids("gemma") == {g for g, _, _ in pool}
+    assert ic.replay_game_ids("gemma", n=2) == {g for g, _, _ in pool[:2]}
+
+
 # ---------------------------------------------------------------- parser
 
 def test_parse_explicit_decision_formats():

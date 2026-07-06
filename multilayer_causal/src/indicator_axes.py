@@ -410,7 +410,21 @@ def load_task_arrays(model, task, layers, held_out=False):
         replay_games = excluded_game_ids(
             minusG_pool_with_game_ids(cat), n_eval=pa.EVAL_EXCLUDE_N)
         split = ~np.isin(game_ids, sorted(replay_games))
-    else:  # ic/mw: no positional −G pool; hash-parity split (Phase-2 re-baseline)
+    elif task == "investment_choice":
+        # Same positional-replay convention for IC: the sec4_w3 IC arms replay
+        # the first ic.IC_REPLAY_EXCLUDE_N entries of the SAME Random(42)
+        # load_ic_states order (game_counter shares the behavior_axis
+        # global-counter id space of meta['game_ids']), so EXCLUDE every game
+        # in that window from the axis build — a hash-parity split would leak
+        # ~half the replayed games into the build set (train-on-test).
+        from .ic import ensure_ic_catalog, replay_game_ids
+        ensure_ic_catalog(model)
+        replayed = replay_game_ids(model)
+        split = ~np.isin(game_ids, sorted(replayed))
+        print(f"[sec4-axes] ic: excluded {len(replayed)} replayed games from "
+              f"the axis build ({int(split.sum())}/{len(split)} rows kept)",
+              flush=True)
+    else:  # mw: not replayed by any wave's arms; hash-parity discovery split
         split = _discovery_mask(game_ids, held_out)
     keep = split & np.isfinite(i_ba)
     # decoder is the FULL (K_full,d) matrix; the SAE feature columns are the
@@ -491,6 +505,66 @@ def _build_wave2_axes(data, layers):
     }
 
 
+# Wave-3 (goals-v2 Q2) cross-task build: the tasks whose OWN behavioural I_BA
+# axes feed the 3-task shared component, in fixed order.
+W3_TASKS = ("slot_machine", "investment_choice", "mystery_wheel")
+# scales_from_phase_a task keys (paper_axes.PHASE_A namespaces).
+W3_TASK_KEY = {"slot_machine": "sm", "investment_choice": "ic",
+               "mystery_wheel": "mw"}
+
+
+def _build_wave3_axes(task_data, layers):
+    """Wave-3 CROSS-TASK build (goals-v2 Q2 rung-1, expression-matched):
+    per-task behavioural I_BA axes for the three tasks plus the 3-task
+    SVD-top1 SHARED axis across them (build_shared_axis_from_axes reused).
+
+    task_data: {task in W3_TASKS: load_task_arrays dict}. Prints the pairwise
+    cross-task cosines of the behavioural axes over the write window
+    (reconnaissance: how aligned are the tasks' own risk directions BEFORE any
+    steering). The shared axis is emitted TWICE with identical directions:
+    'shared3' borrows the SM behavioural scales (the sec4_w3 SM arms steer it
+    at the same sigma-units as the Wave-1/2 behavioural arms) and
+    'shared3_icscale' borrows the IC behavioural scales — the sh3_ic arms
+    must be dosed at the SAME sigma-magnitude as the ic_own positive control
+    and the IC null band they are adjudicated against (SM/IC hidden norms can
+    differ in the write window; the per-layer scale ratio is printed).
+    Returns ({task | 'shared3' | 'shared3_icscale': built}, cos_pairs).
+    """
+    per_task = {}
+    for task in W3_TASKS:
+        data = task_data[task]
+        per_task[task] = build_behavioural_axis_from_arrays(
+            data["hidden"], data["indicators"]["i_ba"], data["balance"],
+            data["rounds"], data["groups"], layers)
+    cos_pairs = {}
+    for i, a in enumerate(W3_TASKS):
+        for b in W3_TASKS[i + 1:]:
+            cs = [float(pa.unit(per_task[a]["directions"][li])
+                        @ pa.unit(per_task[b]["directions"][li]))
+                  for li in range(len(layers))]
+            cos_pairs[f"{a}~{b}"] = float(np.mean(cs))
+            print(f"[sec4-axes/wave3] cos({a}, {b}) mean over window = "
+                  f"{np.mean(cs):.4f}", flush=True)
+    shared = build_shared_axis_from_axes(
+        [per_task[t]["directions"] for t in W3_TASKS], layers)
+    shared["scales"] = per_task["slot_machine"]["scales"].copy()  # SM sigma-units
+    shared["auc"] = float("nan")
+    # IC-scale twin asset: SAME directions, IC write-window sigma-units, so the
+    # sh3_ic dose ladder is norm-matched to the ic_own control / IC null band.
+    shared_ic = dict(shared)
+    shared_ic["scales"] = per_task["investment_choice"]["scales"].copy()
+    shared_ic["provenance"] = (shared["provenance"]
+                               + " IC write-window scales (sh3_ic dosing "
+                                 "norm-matched to the IC-own control/null).")
+    ratio = shared["scales"] / np.maximum(shared_ic["scales"], 1e-12)
+    print(f"[sec4-axes/wave3] SM/IC write-window scale ratio per layer = "
+          f"{np.round(ratio, 4).tolist()}", flush=True)
+    built = dict(per_task)
+    built["shared3"] = shared
+    built["shared3_icscale"] = shared_ic
+    return built, cos_pairs
+
+
 def _replicate_to_full(directions, layers):
     """Expand a (L,d) per-window direction stack to the (42,d) runner npz row
     schema: the L requested layers carry the built rows, all others hold the
@@ -540,7 +614,12 @@ def main():
                     help="build the COMMON-AXIS set (i_ba+i_ec behavioural, "
                          "shared, confound) instead of the per-indicator Wave-1 "
                          "readout/behavioural/confound axes")
+    ap.add_argument("--wave3", action="store_true",
+                    help="build the CROSS-TASK set (per-task behavioural I_BA "
+                         "axes for slot_machine/investment_choice/mystery_wheel "
+                         "+ their SVD-top1 shared3 axis) — goals-v2 Q2 rung-1")
     args = ap.parse_args()
+    assert not (args.wave2 and args.wave3), "--wave2 and --wave3 are exclusive"
 
     lo, hi = args.layers
     layers = list(range(lo, hi + 1))
@@ -548,6 +627,50 @@ def main():
     dest_dir.mkdir(parents=True, exist_ok=True)
     axes = [a.strip() for a in args.axes.split(",") if a.strip()]
     indicators = [i.strip() for i in args.indicators.split(",") if i.strip()]
+
+    if args.wave3:
+        token = os.environ.get("HF_TOKEN")
+        task_data = {t: load_task_arrays(args.model, t, layers)
+                     for t in W3_TASKS}
+        built, cos_pairs = _build_wave3_axes(task_data, layers)
+        summary = {"cross_task_cos": cos_pairs,
+                   # dosing provenance: how far apart the SM and IC sigma-units
+                   # are in the write window (the icscale asset exists so the
+                   # sh3_ic ladder is dosed in the IC units regardless).
+                   "sm_ic_scale_ratio": (
+                       built["shared3"]["scales"]
+                       / np.maximum(built["shared3_icscale"]["scales"], 1e-12)
+                   ).round(4).tolist()}
+        for name, b in built.items():
+            axis = "behavioural"
+            if name == "shared3":
+                # shared3 steers the SM held-out replay, so it carries the SM
+                # target scales and the SM build-game ids for the runner's
+                # twin=G disjointness guard.
+                task_label, indicator, src = "shared3", "iba", "slot_machine"
+            elif name == "shared3_icscale":
+                # same directions at IC sigma-units for the sh3_ic ladder
+                # (norm-matched to ic_own / the IC null band); carries the IC
+                # build-game ids — the IC-component build already excludes the
+                # ic.replay_game_ids window, and the runner's IC guard only
+                # id-checks npz stamped task 'investment_choice'.
+                task_label, indicator, src = "shared3", "iba", "investment_choice"
+                axis = "behavioural_icscale"
+            else:
+                task_label, indicator, src = name, "i_ba", name
+            # target-task scales (PHASE_A covers sm/ic/mw), same subset
+            # convention as the Wave-1/2 SM path.
+            scale_key = W3_TASK_KEY[src]
+            n_rows = len(task_data[src]["groups"])
+            game_ids = task_data[src]["build_game_ids"]
+            sf = pa.scales_from_phase_a(scale_key, np.arange(n_rows), token)
+            dest = _save_axis(dest_dir, args.model, task_label, indicator,
+                              axis, b, layers, sf, float("nan"),
+                              game_ids)
+            summary[name] = {"dest": str(dest)}
+            print(f"[sec4-axes/wave3] {name} -> {dest}", flush=True)
+        print(json.dumps(summary, indent=2))
+        return
 
     data = load_task_arrays(args.model, args.task, layers)
     # per-layer scales over ALL discovery rows for the full 42-row npz.

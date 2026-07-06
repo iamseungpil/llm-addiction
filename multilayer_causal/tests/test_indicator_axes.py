@@ -72,6 +72,54 @@ def test_behavioural_deconfound_recovers_signal_not_balance():
     assert cos_u > cos_v, (cos_u, cos_v)
 
 
+def _w3_task_data(rs, d=8, n=120):
+    """Synthetic load_task_arrays-shaped dict (the fields _build_wave3_axes
+    reads) with the I_BA signal along a task-specific direction."""
+    u = _unit(rs.randn(d))
+    ind = rs.randn(n)
+    hidden = np.zeros((n, 2, d))
+    for l in range(2):
+        hidden[:, l, :] = ind[:, None] * u + 0.05 * rs.randn(n, d)
+    return {"hidden": hidden, "indicators": {"i_ba": ind},
+            "balance": rs.rand(n), "rounds": rs.randint(1, 20, n),
+            "groups": np.arange(n) // 4}
+
+
+def test_build_wave3_axes_per_task_plus_shared3():
+    """Wave-3 cross-task build: one behavioural I_BA axis per task, the 3-task
+    SVD-top1 shared3 axis (SM sigma-unit scales) plus its IC-scale twin
+    (identical directions, IC sigma-units — the sh3_ic dose is norm-matched to
+    the ic_own control/null band), and the pairwise cross-task cosines."""
+    rs = np.random.RandomState(11)
+    task_data = {t: _w3_task_data(rs) for t in ia.W3_TASKS}
+    built, cos_pairs = ia._build_wave3_axes(task_data, layers=[0, 1])
+
+    assert set(built) == set(ia.W3_TASKS) | {"shared3", "shared3_icscale"}
+    for name, b in built.items():
+        assert b["directions"].shape == (2, 8), name
+        assert np.allclose(np.linalg.norm(b["directions"], axis=1), 1,
+                           atol=1e-5), name
+    # shared3 borrows the SM behavioural scales (matched sigma-units on SM)
+    assert np.allclose(built["shared3"]["scales"],
+                       built["slot_machine"]["scales"])
+    assert np.isnan(built["shared3"]["auc"])
+    # the icscale twin: SAME directions, IC behavioural scales
+    assert np.array_equal(built["shared3_icscale"]["directions"],
+                          built["shared3"]["directions"])
+    assert np.allclose(built["shared3_icscale"]["scales"],
+                       built["investment_choice"]["scales"])
+    # reconnaissance: all 3 unordered task pairs, cosines in [-1, 1]
+    assert len(cos_pairs) == 3
+    assert all(-1.0 <= c <= 1.0 for c in cos_pairs.values())
+    # shared3 is the common component: no farther from any task axis than the
+    # least-aligned task pair is from each other
+    for t in ia.W3_TASKS:
+        cs = [abs(float(_unit(built["shared3"]["directions"][li])
+                        @ _unit(built[t]["directions"][li])))
+              for li in range(2)]
+        assert min(cs) > 0.2, (t, cs)
+
+
 def test_confound_axis_tracks_balance():
     """The confound axis must point along the balance direction it regresses on."""
     rs = np.random.RandomState(3)

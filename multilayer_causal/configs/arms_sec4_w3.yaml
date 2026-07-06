@@ -1,0 +1,96 @@
+# sec4 Wave-3 ADJUDICATION arm registry — §4 causal-strengthening (Gemma, 2026-07-06).
+# Implements rung 1(-2) of each question in docs/plans/2026-07-06-sec4-autoresearch-
+# goals-v2.md (positive OR characterized negative per question):
+#   Q2 (tasks, §4.2) rung-1 "expression-matched shared-component steer":
+#     sec4_w3_sh3_sm_*   the 3-task SVD-top1 shared3 axis dosed on SM (I_BA),
+#     sec4_w3_sh3_ic_*   the SAME shared3 directions dosed on IC (risky rate —
+#                        IC's binding indicator) via the _icscale twin npz (IC
+#                        write-window sigma-units, norm-matched to the ic_own
+#                        control and IC null band it is adjudicated against),
+#     sec4_w3_ic_own_*   IC's own behavioural I_BA axis on IC = positive control
+#                        (if even this is flat the IC lever is absent, not the
+#                        shared axis), plus sec4_w3_ic_baseline (no-steer) and
+#     sec4_w3_ic_null*   3 random directions x {-3,+3} = per-direction IC null
+#                        slope band (the Wave-2 thick-null recipe on the IC target).
+#   Q3 (prompts, §4.3) rung-1 "base vs +G slope":
+#     sec4_w3_plusG_*    the Wave-1 behavioural I_BA axis dosed while the runner
+#                        evaluates the +G TWIN prompt (arm field twin: G — same
+#                        frozen twin_combo recipe as the patch-donor arms), vs the
+#                        Wave-1 −G ladder pulled from sec4_p0; sec4_w3_plusG_baseline
+#                        (mode anchor_plus) anchors the unsteered +G level.
+#   Q1 (indicators, §4.1) rung-2 "I_BA axis on post-loss states":
+#     sec4_w3_postloss_* / sec4_w3_postwin_*  the behavioural axis dosed on the
+#                        postloss/postwin partition of the SAME held-out window
+#                        (arm field state_filter, labeled by postloss_analysis.
+#                        label_postloss — rung-1 is the free re-analysis).
+# SM arms replay the exact addiction prompts on the held-out slice (state_offset
+# 300) with alpha-independent seeds; IC arms replay the stored IC corpus verbatim
+# at the canonical offset 0 (arms_xtask.yaml column convention). ISOLATION: loaded
+# ONLY via MLC_ARMS_YAML; HF prefix experiments/sec4_causal, results/sec4_w3.
+# Axis assets built by indicator_axes.py --wave3 (per-task behavioural I_BA +
+# shared3 + shared3_icscale; shared3 carries SM scales for the SM ladder, the
+# _icscale twin the same directions at IC scales, the IC npz IC scales — every
+# IC-dosed arm steers in IC sigma-units). IC axes are built with the runner's
+# replay window (ic.replay_game_ids) EXCLUDED, so IC replays are held out.
+defaults:
+  model: gemma
+  task: sm
+  n: 200
+  seed_base: 2000042
+  state_offset: 300
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  # ================= Q2 rung-1: expression-matched shared3 =================
+  # ---- shared3 axis dosed on SM (bet_ratio) ----
+  - {id: sec4_w3_sh3_sm_am3, phase: sec4_w3, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural.npz}
+  - {id: sec4_w3_sh3_sm_am2, phase: sec4_w3, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural.npz}
+  - {id: sec4_w3_sh3_sm_am1, phase: sec4_w3, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural.npz}
+  - {id: sec4_w3_sh3_sm_a0, phase: sec4_w3, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural.npz}
+  - {id: sec4_w3_sh3_sm_ap1, phase: sec4_w3, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural.npz}
+  - {id: sec4_w3_sh3_sm_ap2, phase: sec4_w3, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural.npz}
+  - {id: sec4_w3_sh3_sm_ap3, phase: sec4_w3, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural.npz}
+  # ---- shared3 axis dosed on IC (risky rate, expression-matched) ----
+  - {id: sec4_w3_sh3_ic_am3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural_icscale.npz}
+  - {id: sec4_w3_sh3_ic_am2, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural_icscale.npz}
+  - {id: sec4_w3_sh3_ic_am1, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural_icscale.npz}
+  - {id: sec4_w3_sh3_ic_a0, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural_icscale.npz}
+  - {id: sec4_w3_sh3_ic_ap1, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural_icscale.npz}
+  - {id: sec4_w3_sh3_ic_ap2, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural_icscale.npz}
+  - {id: sec4_w3_sh3_ic_ap3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3_iba_behavioural_icscale.npz}
+  # ---- IC's OWN behavioural axis on IC: the positive control ----
+  - {id: sec4_w3_ic_own_am3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz}
+  - {id: sec4_w3_ic_own_a0, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz}
+  - {id: sec4_w3_ic_own_ap3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz}
+  # ---- IC no-steer baseline ----
+  - {id: sec4_w3_ic_baseline, phase: sec4_w3, task: ic, state_offset: 0, mode: anchor_minus, layers: [16, 21], log_vectors: false}
+  # ---- IC thick null: 3 random directions x {-3,+3} (per-direction slope);
+  #      each pair shares one dir_seed = the SAME direction; scales borrowed
+  #      from the IC-own npz so the null is norm-matched to the IC target ----
+  - {id: sec4_w3_ic_null1_am3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070631, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w3_ic_null1_ap3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070631, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w3_ic_null2_am3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070632, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w3_ic_null2_ap3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070632, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w3_ic_null3_am3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 2026070633, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w3_ic_null3_ap3, phase: sec4_w3, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070633, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_ba_behavioural.npz, log_vectors: false}
+  # ================= Q3 rung-1: +G condition dose slope =====================
+  # ---- behavioural I_BA axis dosed while evaluating the +G twin prompt ----
+  - {id: sec4_w3_plusG_am3, phase: sec4_w3, mode: steer, twin: G, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_plusG_am2, phase: sec4_w3, mode: steer, twin: G, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_plusG_am1, phase: sec4_w3, mode: steer, twin: G, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_plusG_a0, phase: sec4_w3, mode: steer, twin: G, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_plusG_ap1, phase: sec4_w3, mode: steer, twin: G, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_plusG_ap2, phase: sec4_w3, mode: steer, twin: G, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_plusG_ap3, phase: sec4_w3, mode: steer, twin: G, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  # ---- unsteered +G anchor (evaluates the +G twin prompt, no hook) ----
+  - {id: sec4_w3_plusG_baseline, phase: sec4_w3, mode: anchor_plus, layers: [16, 21], log_vectors: false}
+  # ================= Q1 rung-2: conditional (post-loss) steering ============
+  # ---- behavioural I_BA axis on the post-loss partition of the window ----
+  - {id: sec4_w3_postloss_am3, phase: sec4_w3, mode: steer, state_filter: postloss, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_postloss_a0, phase: sec4_w3, mode: steer, state_filter: postloss, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_postloss_ap3, phase: sec4_w3, mode: steer, state_filter: postloss, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  # ---- behavioural I_BA axis on the post-win partition (the contrast) ----
+  - {id: sec4_w3_postwin_am3, phase: sec4_w3, mode: steer, state_filter: postwin, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_postwin_a0, phase: sec4_w3, mode: steer, state_filter: postwin, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w3_postwin_ap3, phase: sec4_w3, mode: steer, state_filter: postwin, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}

@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -556,6 +557,247 @@ def make_figure_wave2(res: dict, by_axis: dict, band: dict, out_png: Path):
     plt.close(fig)
 
 
+# ============================================================ WAVE 3
+# goals-v2 adjudication rung-1 analyses (configs/arms_sec4_w3.yaml):
+#   Q2 expression-matched control — does the 3-task shared3 axis move the SM
+#      bet_ratio AND the IC risky rate, against IC's own behavioural axis as a
+#      positive control and per-target IC random nulls?
+#   Q3 condition modulation — is the +G-prompt dose slope different from the
+#      Wave-1 −G behavioural dose slope (bootstrap CI on the difference)?
+#   Q1 rung-2 — is the behavioural dose slope larger on post-loss than on
+#      post-win states (conditional steering contrast)?
+
+HF_CKPT_BASE = "experiments/sec4_causal/checkpoints"
+W3_BOOT = 1000
+W3_BOOT_SEED = 42
+# arm-id prefixes of the sec4_w3 dose ladders (nulls/baselines handled apart)
+W3_LADDERS = {
+    "sh3_sm": "sec4_w3_sh3_sm_",
+    "sh3_ic": "sec4_w3_sh3_ic_",
+    "ic_own": "sec4_w3_ic_own_",
+    "plusG": "sec4_w3_plusG_",
+    "postloss": "sec4_w3_postloss_",
+    "postwin": "sec4_w3_postwin_",
+}
+W1_BEHAV_PREFIX = "sec4_behavioural_"   # Wave-1 −G behavioural ladder (Q3 ref)
+
+
+def fetch_hf_rollouts(phase: str, dest_dir: Path, prefix: str = "sec4_") -> int:
+    """Download {HF_CKPT_BASE}/{phase}/*.jsonl rollouts into dest_dir (skipping
+    files already present). Used by the wave3/postloss CLIs to pull the frozen
+    Wave-1/2 ladders off HF for re-analysis; returns the download count."""
+    from huggingface_hub import HfApi, hf_hub_download
+    token = os.environ.get("HF_TOKEN")
+    api = HfApi(token=token)
+    base = f"{HF_CKPT_BASE}/{phase}/"
+    dest_dir = Path(dest_dir)
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    n = 0
+    for f in api.list_repo_files("llm-addiction-research/llm-addiction",
+                                 repo_type="dataset"):
+        if not (f.startswith(base) and f.endswith(".jsonl")):
+            continue
+        name = Path(f).name
+        if not name.startswith(prefix):
+            continue
+        dest = dest_dir / name
+        if dest.exists():
+            continue
+        p = hf_hub_download("llm-addiction-research/llm-addiction", f,
+                            repo_type="dataset", token=token)
+        dest.write_bytes(Path(p).read_bytes())
+        n += 1
+    return n
+
+
+def _w3_cells(results_dir: Path, prefix: str) -> Dict[float, dict]:
+    """{dose: summary} for the `{prefix}a{m,p}k` dose ladder, in the _pooled /
+    _w2_indicator_stat cell shape with the single metric key 'm' (_bet:
+    bet_ratio for SM rows, risky 0/1 for IC rows — expression-matched)."""
+    cells = {}
+    for fp in sorted(Path(results_dir).glob(f"{prefix}a*.jsonl")):
+        rows = _rows(fp)
+        parse_ok = [r for r in rows if r.get("parse_ok")]
+        dose = _dose_of(rows, fp.stem)
+        if dose is None:
+            continue
+        cells[dose] = {
+            "parse_rate": len(parse_ok) / len(rows) if rows else float("nan"),
+            "n": len(rows),
+            "values": {"m": [v for r in parse_ok
+                             if (v := _bet(r)) is not None]},
+        }
+    return cells
+
+
+def _w3_null_cells(results_dir: Path,
+                   prefix: str = "sec4_w3_ic_null") -> Dict[str, dict]:
+    """Per-null-direction {dose: summary} pairs (metric key 'm') for the IC
+    random-direction nulls — feeds the same _null_band machinery as Wave-2."""
+    nulls: Dict[str, Dict[float, dict]] = {}
+    for fp in sorted(Path(results_dir).glob(f"{prefix}*.jsonl")):
+        rows = _rows(fp)
+        parse_ok = [r for r in rows if r.get("parse_ok")]
+        dose = _dose_of(rows, fp.stem)
+        if dose is None:
+            continue
+        key = re.sub(r"_a[mp]?\d+$", "", fp.stem)
+        nulls.setdefault(key, {})[dose] = {
+            "parse_rate": len(parse_ok) / len(rows) if rows else float("nan"),
+            "n": len(rows),
+            "values": {"m": [v for r in parse_ok
+                             if (v := _bet(r)) is not None]},
+        }
+    return nulls
+
+
+def _boot_slope_diff(cells_a, cells_b, n_boot=W3_BOOT, seed=W3_BOOT_SEED):
+    """Point estimate + bootstrap 95% CI of slope(cells_a) - slope(cells_b),
+    resampling (dose, value) trials with replacement within each ladder."""
+    xa, ya, _ = _pooled(cells_a, "m")
+    xb, yb, _ = _pooled(cells_b, "m")
+    sa, sb = _ols_slope(xa, ya), _ols_slope(xb, yb)
+    point = (sa - sb if np.isfinite(sa) and np.isfinite(sb) else float("nan"))
+    if not np.isfinite(point):
+        return point, [float("nan"), float("nan")], sa, sb
+    xa, ya = np.asarray(xa), np.asarray(ya)
+    xb, yb = np.asarray(xb), np.asarray(yb)
+    rng = np.random.default_rng(seed)
+    diffs = []
+    for _ in range(n_boot):
+        ia = rng.integers(0, len(xa), len(xa))
+        ib = rng.integers(0, len(xb), len(xb))
+        d = _ols_slope(xa[ia], ya[ia]) - _ols_slope(xb[ib], yb[ib])
+        if np.isfinite(d):
+            diffs.append(d)
+    if len(diffs) < n_boot // 2:
+        return point, [float("nan"), float("nan")], sa, sb
+    lo, hi = np.quantile(diffs, [0.025, 0.975])
+    return point, [float(lo), float(hi)], sa, sb
+
+
+def analyze_wave3(results_dir=None, w1_results_dir=None, w2_results_dir=None,
+                  out_json: Optional[Path] = None,
+                  out_png: Optional[Path] = None) -> dict:
+    """Wave-3 adjudication analysis. Returns per-question blocks:
+
+    q2 (expression-matched): shared3-on-SM / shared3-on-IC / IC-own dose stats
+       (_w2_indicator_stat vs the IC null slope band; the SM side reuses the
+       Wave-2 thick SM null when w2_results_dir has it, else the slope floor).
+       verdict: IC_LEVER_ABSENT when even IC's own behavioural axis is flat
+       (no IC headroom — the control question is unanswerable), else
+       SHARED_TASK_CONTROL when shared3 moves BOTH tasks, else TASK_SPECIFIC.
+    q3: slope(+G ladder) vs slope(Wave-1 −G behavioural ladder) with a
+       bootstrap CI on the difference. verdict CONDITION_MODULATES when the CI
+       excludes 0, else NO_MODULATION.
+    q1_rung2: postloss vs postwin steering slope contrast (same bootstrap).
+       verdict POSTLOSS_STEER_AMPLIFIED when the post-loss slope is larger
+       with CI > 0, else NO_POSTLOSS_MODULATION.
+    """
+    results_dir = Path(results_dir) if results_dir is not None \
+        else _MLC / "results" / "sec4_w3"
+    w1_results_dir = Path(w1_results_dir) if w1_results_dir is not None \
+        else RESULTS_DIR
+    w2_results_dir = Path(w2_results_dir) if w2_results_dir is not None \
+        else _MLC / "results" / "sec4_w2"
+
+    cells = {k: _w3_cells(results_dir, p) for k, p in W3_LADDERS.items()}
+
+    # ---- Q2: expression-matched shared3 vs IC positive control vs IC nulls
+    ic_band = _null_band(_w3_null_cells(results_dir), "m")
+    _, w2_nulls, _ = _dose_cells(w2_results_dir)
+    # sm_null_source makes the band's provenance explicit in the output: the
+    # design gate is the THICK 20-direction Wave-2 SM null; the slope floor is
+    # a far weaker fallback that must be visible, never silent.
+    sm_null_source = "thick" if w2_nulls else "floor_fallback"
+    sm_band = (_null_band(w2_nulls, "i_ba") if w2_nulls
+               else {"mean": 0.0, "sd": 0.0, "delta": NULL_SLOPE_FLOOR, "n": 0})
+    sh3_sm = _w2_indicator_stat(cells["sh3_sm"], "m", sm_band)
+    sh3_ic = _w2_indicator_stat(cells["sh3_ic"], "m", ic_band)
+    ic_own = _w2_indicator_stat(cells["ic_own"], "m", ic_band)
+    if not _w2_moves(ic_own):
+        q2_verdict = "IC_LEVER_ABSENT"
+    elif _w2_moves(sh3_sm) and _w2_moves(sh3_ic):
+        q2_verdict = "SHARED_TASK_CONTROL"
+    else:
+        q2_verdict = "TASK_SPECIFIC"
+
+    # ---- Q3: +G dose slope vs the Wave-1 −G behavioural dose slope
+    w1_cells = _w3_cells(w1_results_dir, W1_BEHAV_PREFIX)
+    q3_diff, q3_ci, s_plus, s_minus = _boot_slope_diff(cells["plusG"], w1_cells)
+    q3_verdict = ("CONDITION_MODULATES"
+                  if np.isfinite(q3_diff) and np.isfinite(q3_ci[0])
+                  and (q3_ci[0] > 0 or q3_ci[1] < 0)
+                  else "NO_MODULATION")
+
+    # ---- Q1 rung-2: post-loss vs post-win conditional steering contrast
+    q1_diff, q1_ci, s_loss, s_win = _boot_slope_diff(cells["postloss"],
+                                                     cells["postwin"])
+    q1_verdict = ("POSTLOSS_STEER_AMPLIFIED"
+                  if np.isfinite(q1_diff) and q1_diff > 0
+                  and np.isfinite(q1_ci[0]) and q1_ci[0] > 0
+                  else "NO_POSTLOSS_MODULATION")
+
+    result = {
+        "q2": {"verdict": q2_verdict, "sh3_sm": sh3_sm, "sh3_ic": sh3_ic,
+               "ic_own": ic_own, "ic_null_band": ic_band,
+               "sm_null_band": sm_band, "sm_null_source": sm_null_source},
+        "q3": {"verdict": q3_verdict, "slope_plusG": s_plus,
+               "slope_minusG_w1": s_minus, "diff": q3_diff, "ci95": q3_ci,
+               "n_boot": W3_BOOT},
+        "q1_rung2": {"verdict": q1_verdict, "slope_postloss": s_loss,
+                     "slope_postwin": s_win, "diff": q1_diff, "ci95": q1_ci,
+                     "n_boot": W3_BOOT},
+        "verdicts": {"q2": q2_verdict, "q3": q3_verdict,
+                     "q1_rung2": q1_verdict},
+    }
+    if out_json is not None:
+        Path(out_json).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_json).write_text(json.dumps(result, indent=1))
+    if out_png is not None:
+        try:
+            make_figure_wave3(result, cells, w1_cells, Path(out_png))
+        except Exception as e:
+            print(f"[sec4-w3] figure skipped: {e}")
+    return result
+
+
+def make_figure_wave3(res: dict, cells: dict, w1_cells: dict, out_png: Path):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fig, axs = plt.subplots(1, 3, figsize=(16, 4.6))
+
+    def _plot(ax, cell, label, color, lw=1.4):
+        _, _, dm = _pooled(cell, "m")
+        doses = sorted(dm)
+        if doses:
+            ax.plot(doses, [dm[d] for d in doses], "-o", color=color,
+                    label=label, lw=lw)
+
+    _plot(axs[0], cells["sh3_sm"], "shared3 -> SM (bet ratio)", "C1", 2.2)
+    _plot(axs[0], cells["sh3_ic"], "shared3 -> IC (risky rate)", "C4", 2.2)
+    _plot(axs[0], cells["ic_own"], "IC own axis -> IC (risky rate)", "C2")
+    axs[0].set_title(f"Q2 expression-matched — {res['q2']['verdict']}")
+    _plot(axs[1], cells["plusG"], "+G prompt (w3)", "C3", 2.2)
+    _plot(axs[1], w1_cells, "-G prompt (Wave-1)", "C0")
+    axs[1].set_title(f"Q3 condition slope — {res['q3']['verdict']}")
+    _plot(axs[2], cells["postloss"], "post-loss states", "C3", 2.2)
+    _plot(axs[2], cells["postwin"], "post-win states", "C0")
+    axs[2].set_title(f"Q1 rung-2 conditional steer — {res['q1_rung2']['verdict']}")
+    for ax in axs:
+        ax.set_xlabel("steering alpha (sigma-units)")
+        ax.set_ylabel("mean indicator")
+        ax.legend(fontsize=8)
+    fig.suptitle("§4 Wave-3 adjudication (Q2 / Q3 / Q1-rung2)")
+    fig.tight_layout()
+    Path(out_png).parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_png, dpi=130)
+    fig.savefig(str(out_png).replace(".png", ".pdf"))
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results-dir", default=str(RESULTS_DIR))
@@ -564,7 +806,45 @@ def main():
     ap.add_argument("--out-png", default=str(OUT_PNG))
     ap.add_argument("--wave2", action="store_true",
                     help="run the Wave-2 common-axis analysis instead of Wave-1")
+    ap.add_argument("--wave3", action="store_true",
+                    help="run the Wave-3 adjudication analysis (Q2/Q3/Q1-rung2)")
+    ap.add_argument("--w1-results-dir", default=str(RESULTS_DIR),
+                    help="wave3: dir with the Wave-1 sec4_behavioural_* ladder "
+                         "(fetched from the sec4_p0 HF checkpoints if absent)")
+    ap.add_argument("--w2-results-dir",
+                    default=str(_MLC / "results" / "sec4_w2"),
+                    help="wave3: dir with the Wave-2 thick SM null rollouts")
     args = ap.parse_args()
+    if args.wave3:
+        # untouched defaults point at the Wave-1 output paths — redirect them
+        # to the wave3 namespace so --wave3 never overwrites the p0 analysis.
+        w3_dir = _MLC / "results" / "sec4_w3"
+        if args.results_dir == str(RESULTS_DIR):
+            args.results_dir = str(w3_dir)
+        if args.out_json == str(OUT_JSON):
+            args.out_json = str(w3_dir / "sec4_w3_analysis.json")
+        if args.out_png == str(OUT_PNG):
+            args.out_png = str(w3_dir / "sec4_w3_analysis.png")
+        w1_dir = Path(args.w1_results_dir)
+        if not list(w1_dir.glob(f"{W1_BEHAV_PREFIX}a*.jsonl")):
+            try:  # pull the frozen Wave-1 ladder off HF (skipped offline)
+                n = fetch_hf_rollouts("sec4_p0", w1_dir)
+                print(f"[sec4-w3] fetched {n} Wave-1 rollouts -> {w1_dir}")
+            except Exception as e:
+                print(f"[sec4-w3] Wave-1 HF fetch skipped: {e}")
+        w2_dir = Path(args.w2_results_dir)
+        if not list(w2_dir.glob("sec4_w2_null*.jsonl")):
+            try:  # pull the Wave-2 rollouts (thick SM null) off HF likewise —
+                # without them the Q2 sh3_sm gate silently degrades to the
+                # slope-floor fallback (q2.sm_null_source records which ran).
+                n = fetch_hf_rollouts("sec4_w2", w2_dir)
+                print(f"[sec4-w3] fetched {n} Wave-2 rollouts -> {w2_dir}")
+            except Exception as e:
+                print(f"[sec4-w3] Wave-2 HF fetch skipped: {e}")
+        res = analyze_wave3(Path(args.results_dir), w1_dir, w2_dir,
+                            Path(args.out_json), Path(args.out_png))
+        print(json.dumps({"verdicts": res["verdicts"]}, indent=2))
+        return
     if args.wave2:
         res = analyze_wave2(Path(args.results_dir), Path(args.assets_dir),
                             Path(args.out_json), Path(args.out_png))

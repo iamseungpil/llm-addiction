@@ -86,6 +86,22 @@ def load_ic_states(model: str = "gemma", n: int = 200) -> list:
     return entries[:n]
 
 
+# Pool length the sec4_w3 IC arms load: n(200) + state_offset(0) + the runner's
+# +50 pad (_run_arm_ic: load_ic_states(n = n + offset + 50)). The axis builder
+# excludes every game in this window so the replayed IC states are held out.
+IC_REPLAY_EXCLUDE_N = 250
+
+
+def replay_game_ids(model: str = "gemma", n: int = IC_REPLAY_EXCLUDE_N) -> set:
+    """Game ids (global counters — the behavior_axis id-space load_ic_states
+    documents) of the first ``n`` entries of the frozen Random(42) IC pool,
+    i.e. every game the sec4_w3 IC arms can replay. indicator_axes.
+    load_task_arrays excludes these from the IC axis-build split so the
+    replayed states are genuinely held out (mirrors the SM excluded_game_ids
+    convention)."""
+    return {int(g) for g, _, _ in load_ic_states(model, n=n)}
+
+
 class _FrozenICParser:
     """Byte-identical frozen copy of the v2_role IC response parser.
 

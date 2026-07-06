@@ -5,13 +5,15 @@ import numpy as np
 import pytest
 
 
-def _write_axis_npz(path, prompt_set="addiction_role_gm", build_game_ids=(1, 2, 3)):
+def _write_axis_npz(path, prompt_set="addiction_role_gm", build_game_ids=(1, 2, 3),
+                    task=None):
     """Minimal stand-in for an indicator_axes-built npz (only the keys the
     replay guard reads); no sae_lens / HF needed."""
+    kw = {"task": task} if task is not None else {}
     np.savez(path, directions=np.zeros((42, 8), np.float32),
              scales=np.ones(42, np.float32),
              build_prompt_set=prompt_set,
-             build_game_ids=np.asarray(build_game_ids))
+             build_game_ids=np.asarray(build_game_ids), **kw)
     return str(path)
 
 
@@ -66,6 +68,33 @@ def test_run_path_guard_ok_when_prompt_set_matches(tmp_path):
     arm = {"id": "sec4_x", "mode": "steer", "prompt_set": "addiction_role_gm",
            "directions_npz": npz}
     runner._assert_replay_ok(arm, "gemma", 5, 0, 100, None)  # no raise
+
+
+def test_run_path_guard_ic_disjointness(tmp_path):
+    """sec4_w3 IC leak guard: an IC-built npz whose build_game_ids overlap the
+    IC replay pool must raise; a disjoint build passes; an SM-/shared3-stamped
+    npz is NOT compared to IC counters (different game-id space)."""
+    from multilayer_causal.src import runner
+    arm = {"id": "sec4_w3_ic_own_ap3", "mode": "steer", "task": "ic",
+           "prompt_set": "addiction_role_gm"}
+
+    leaky = _write_axis_npz(tmp_path / "ic_leak.npz", build_game_ids=(5, 8, 9),
+                            task="investment_choice")
+    with pytest.raises(AssertionError, match="replayed IC games leak"):
+        runner._assert_replay_ok(dict(arm, directions_npz=leaky), "gemma",
+                                 5, 0, 100, None, ic_replay_ids={5, 6, 7})
+
+    clean = _write_axis_npz(tmp_path / "ic_clean.npz", build_game_ids=(8, 9),
+                            task="investment_choice")
+    runner._assert_replay_ok(dict(arm, directions_npz=clean), "gemma",
+                             5, 0, 100, None, ic_replay_ids={5, 6, 7})  # no raise
+
+    # shared3 npz carries SM catalog ids — numeric collision with IC counters
+    # must NOT fire the guard (cross-id-space comparison is meaningless).
+    sm_space = _write_axis_npz(tmp_path / "sh3.npz", build_game_ids=(5, 6, 7),
+                               task="shared3")
+    runner._assert_replay_ok(dict(arm, directions_npz=sm_space), "gemma",
+                             5, 0, 100, None, ic_replay_ids={5, 6, 7})  # no raise
 
 
 def test_run_path_guard_noop_for_prior_wave_and_null_arms(tmp_path):

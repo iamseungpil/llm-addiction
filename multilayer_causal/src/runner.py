@@ -85,7 +85,10 @@ def _sec4_provenance(arm):
         return None
     ids = (set(int(g) for g in z["build_game_ids"])
            if "build_game_ids" in z.files else None)
-    return {"prompt_set": str(z["build_prompt_set"]), "build_game_ids": ids}
+    return {"prompt_set": str(z["build_prompt_set"]), "build_game_ids": ids,
+            # build task (indicator_axes stamps it): the IC replay guard only
+            # compares ids within the SAME id space (IC-built npz vs IC pool).
+            "task": str(z["task"]) if "task" in z.files else None}
 
 
 def _replay_game_ids(model, n, offset, pool_len):
@@ -103,11 +106,18 @@ def _replay_game_ids(model, n, offset, pool_len):
     return {pool[(i + offset) % pool_len][0] for i in range(n)}
 
 
-def _assert_replay_ok(arm, model, n, offset, pool_len, twin):
+def _assert_replay_ok(arm, model, n, offset, pool_len, twin, ic_replay_ids=None):
     """Replay guard (past-failure V12/V14): assert the arm replays the SAME
     prompt set the axis was built on AND, for the SM −G pool, a game slice
     DISJOINT from the axis build set. No-op for null / baseline / prior-wave
-    arms (npz without sec4 build provenance)."""
+    arms (npz without sec4 build provenance).
+
+    ic_replay_ids (sec4_w3, additive): the IC game ids the arm will replay,
+    passed by _run_arm_ic from its loaded pool. Checked against the npz build
+    ids ONLY when the npz was built on the IC corpus (stamped task
+    'investment_choice' — same global-counter id space); SM-/shared3-stamped
+    npz carry SM catalog ids, so comparing them to IC counters would be a
+    cross-id-space false alarm."""
     prov = _sec4_provenance(arm)
     if prov is None:
         return
@@ -120,6 +130,12 @@ def _assert_replay_ok(arm, model, n, offset, pool_len, twin):
             assert not overlap, (
                 f"{arm['id']}: {len(overlap)} replayed games leak into the axis "
                 f"build set — held-out disjointness violated")
+    if (prov["build_game_ids"] and ic_replay_ids is not None
+            and prov["task"] == "investment_choice"):
+        overlap = prov["build_game_ids"] & set(ic_replay_ids)
+        assert not overlap, (
+            f"{arm['id']}: {len(overlap)} replayed IC games leak into the axis "
+            f"build set — held-out disjointness violated")
 
 
 def _arm_metrics(rows):
@@ -377,6 +393,23 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
             f"{arm['id']}: twin-free state pool too small ({len(states)} < {n})"
         offset = 0
     _assert_replay_ok(arm, arm["model"], n, offset, len(states), twin)
+    state_filter = arm.get("state_filter")
+    if state_filter:
+        # sec4_w3 Q1 rung-2 (additive; no-op when absent): condition the replay
+        # on the PREVIOUS round's outcome. The candidate window is EXACTLY the
+        # n states the unfiltered arm would replay (same offset slice, so the
+        # axis-build disjointness just asserted covers every filtered state);
+        # trials wrap around the postloss/postwin partition of it with the
+        # alpha-independent seeds intact. Labeling is postloss_analysis.
+        # label_postloss — the SAME function the rung-1 re-analysis uses.
+        from .postloss_analysis import label_postloss
+        want_loss = state_filter == "postloss"
+        window = [states[(i + offset) % len(states)] for i in range(n)]
+        states = [s for s in window if label_postloss(s) is want_loss]
+        offset = 0
+        assert states, f"{arm['id']}: state_filter={state_filter} left an empty pool"
+        print(f"[{arm['id']}] state_filter={state_filter} pool={len(states)} "
+              f"of window {len(window)} (wrap-around allowed)", flush=True)
     model, tok, device = _load_model_for(arm, gpu)
     n_layers, d_model = _model_dims(model)
     vec = None
@@ -427,6 +460,15 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
         elif mode == "steer":
             dirs, scales = _load_steer_assets(arm, d_model)
             hookset = MultiLayerSteerer(dirs, scales, alpha=float(arm["alpha"]))
+            if arm.get("twin"):
+                # sec4_w3 Q3 (additive; no-op when absent): steer the +twin
+                # prompt — the dose-response measured UNDER the +G (or +M)
+                # condition, built through the same frozen twin_combo recipe
+                # the patch arms' donors use.
+                eval_p = build_prompt(game, round_idx,
+                                      override_combo=twin_combo(base_combo,
+                                                                arm["twin"]))
+                assert eval_p is not None, "twin eval prompt build failed"
             if arm.get("log_vectors"):
                 li = int(arm.get("log_layer", 22))
                 assert 0 <= li < n_layers, f"log_layer {li} out of range"
@@ -460,6 +502,8 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
             "response": text[:300], "elapsed_s": round(time.time() - t0, 1),
             "timestamp": datetime.now().isoformat(),
         }
+        if arm.get("twin"):  # mark +twin-steered rows (key absent elsewhere)
+            rec["twin"] = arm["twin"]
         if tap is not None and tap.hidden is not None:
             rec["vector_log"] = _tap_projection(arm, tap)
         if probe:
@@ -507,7 +551,9 @@ def _run_arm_ic(arm, out_dir, gpu=0, n=None, smoke=False):
     assert pool, "empty IC state pool"
     assert len(pool) >= n, (
         f"{arm['id']}: IC pool {len(pool)} < n {n} — would silently wrap states")
-    _assert_replay_ok(arm, arm["model"], n, offset, len(pool), None)
+    _assert_replay_ok(arm, arm["model"], n, offset, len(pool), None,
+                      ic_replay_ids={int(pool[(i + offset) % len(pool)][0])
+                                     for i in range(n)})
     model, tok, device = _load_model_for(arm, gpu)
     n_layers, d_model = _model_dims(model)
     done = ck.done_seeds()

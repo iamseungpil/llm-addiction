@@ -7,7 +7,9 @@ Optional pass-through fields validated here: probe (bool, SM-only),
 task ('sm' | 'ic' | 'mw'), direction ('random', needs dir_seed), seed_base,
 state_offset, dir_seed, twin_component ('G' | 'M', patch mode only — W3
 +M mediation arms), model ('gemma' 42 layers | 'llama' 32 layers, layer
-bounds enforced per model), log_vectors (bool).
+bounds enforced per model), log_vectors (bool), twin ('G' | 'M', SM
+steer-mode only — sec4_w3 Q3 +twin-prompt steering), state_filter
+('postloss' | 'postwin', SM only — sec4_w3 Q1 rung-2 conditioning).
 """
 from __future__ import annotations
 
@@ -51,6 +53,17 @@ def load_arms(path=ARMS_YAML):
                 f"{a['id']}: bad twin_component {a['twin_component']}"
             assert a["mode"] == "patch", \
                 f"{a['id']}: twin_component is patch-mode only"
+        if "twin" in a:  # sec4_w3 Q3: steer the +twin prompt (SM steer only)
+            assert a["twin"] in TWIN_COMPONENTS, \
+                f"{a['id']}: bad twin {a['twin']}"
+            assert a["mode"] == "steer", \
+                f"{a['id']}: twin is steer-mode only (patch arms use twin_component)"
+            assert a.get("task", "sm") == "sm", f"{a['id']}: twin is SM-only"
+        if "state_filter" in a:  # sec4_w3 Q1 rung-2: previous-round conditioning
+            assert a["state_filter"] in ("postloss", "postwin"), \
+                f"{a['id']}: bad state_filter {a['state_filter']}"
+            assert a.get("task", "sm") == "sm", \
+                f"{a['id']}: state_filter is SM-only"
         if "direction" in a:
             assert a["direction"] == "random" and "dir_seed" in a, \
                 f"{a['id']}: direction must be 'random' with a dir_seed"

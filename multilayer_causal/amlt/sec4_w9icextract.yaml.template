@@ -1,0 +1,131 @@
+description: multilayer-causal SEC4 Wave-9 IC EXTRACT - re-dump the LLaMA investment_choice FULL 32-layer phase_a hidden states (round-level, N x 32 x 4096, fp16) WITH game_ids/round_nums/layers provenance so the sec4 W9 loader (_llama_catalog_meta) can catalog-join i_rc. The existing IC file (sae_features_v3/investment_choice/llama/checkpoints/) predates the provenance write and is count-only, so the loader guard rejects it - this job writes a NEW provenance dump to a SEPARATE path (checkpoints_w9/) and NEVER touches the existing checkpoints/ file. Reuses the frozen forward-pass logic in sae_v3_analysis/src/extract_llama_ic.py (chat template, last-token outputs.hidden_states[layer+1], bf16 model, fp16 store, eager, max_length 2048) whose _save_checkpoint is additively extended to write layers/game_ids/round_nums/balances into the npz. IC needs NO prompt_reconstruction (the IC catalog carries full_prompt); load_ic_rounds globs data_dir/llama_investment_c*.json so ALL FOUR constraint catalogs (c10/c30/c50/c70) are staged into ONE clean dir to keep the 1-based sequential game_id numbering. Runs --phase-a-only --layers 0..31, then uploads phase_a_hidden_states.npz + phase_a_metadata.json to sae_features_v3/investment_choice/llama/checkpoints_w9/ with an EXISTENCE GUARD (refuses to overwrite -> prints SKIP) and a STALENESS GUARD (aborts if the fetched extractor lacks the provenance write). NO rollout - pure data extraction. Touches ONLY the new checkpoints_w9/ path.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w9icextract
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # HF repo + the NEW provenance target (checkpoints_w9/, distinct from the
+        # existing count-only checkpoints/ IC file which is left untouched).
+        MLC_HF_REPO: llm-addiction-research/llm-addiction
+        # ALL FOUR IC constraint catalogs (load_ic_rounds globs c*) staged into one
+        # dir; extra/missing files would shift the sequential game_id counter.
+        MLC_IC_CATALOGS: "behavioral/investment_choice/v2_role_llama/llama_investment_c10_20260308_112003.json,behavioral/investment_choice/v2_role_llama/llama_investment_c30_20260308_135842.json,behavioral/investment_choice/v2_role_llama/llama_investment_c50_20260308_151326.json,behavioral/investment_choice/v2_role_llama/llama_investment_c70_20260308_172552.json"
+        MLC_IC_DEST: sae_features_v3/investment_choice/llama/checkpoints_w9
+        MLC_LAYERS: "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31"
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy numpy safetensors tqdm 2>&1 | tail -1
+        # hf_xet silently 404s on uploads (auto-memory pitfall); remove it and
+        # disable the Xet backend so the upload uses plain HTTP (parity w/ w8extract).
+        pip uninstall -y hf_xet 2>/dev/null || true
+        export HF_HUB_DISABLE_XET=1
+        python -c "import torch, transformers, huggingface_hub, numpy, scipy, tqdm; print(\"IMPORTS_OK\", torch.__version__)" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc /scratch/mlc/sae_src /scratch/mlc/data/ic /scratch/mlc/out/ic
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        # --- 1) fetch the IC extractor: prefer the code tarball copy (in case a
+        # future tarball bundles sae_v3_analysis), else HF sae_v3_analysis/src/.
+        # IC needs ONLY extract_llama_ic.py (no prompt_reconstruction - the IC
+        # catalog carries full_prompt, confirmed against its imports). ---
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile, shutil
+        repo = os.environ[\"MLC_HF_REPO\"]; tok = os.environ[\"HF_TOKEN\"]
+        dst = \"/scratch/mlc/sae_src\"
+        want = [\"extract_llama_ic.py\"]
+        tar_root = None
+        try:
+            p = hf_hub_download(repo, \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=tok)
+            tarfile.open(p).extractall(\"/scratch/mlc/tarcode\")
+            tar_root = \"/scratch/mlc/tarcode\"
+            print(\"code tarball extracted\")
+        except Exception as e:
+            print(\"tarball fetch skipped:\", e)
+        for name in want:
+            src = None
+            if tar_root:
+                for cand in (os.path.join(tar_root, \"sae_v3_analysis\", \"src\", name),):
+                    if os.path.exists(cand): src = cand; break
+            if src is None:
+                src = hf_hub_download(repo, \"sae_v3_analysis/src/\" + name, repo_type=\"dataset\", token=tok)
+            shutil.copy(src, os.path.join(dst, name))
+            print(\"fetched\", name, \"<-\", \"tarball\" if tar_root and src.startswith(tar_root) else \"hf:sae_v3_analysis/src\")
+        " || { echo SCRIPT_FETCH_FAILED; exit 1; }
+        # --- 2) STALENESS GUARD: the fetched IC extractor MUST carry the additive
+        # provenance write (layers/game_ids/round_nums/balances into the npz) or the
+        # produced file is as unusable as the existing count-only IC file. Abort
+        # loud rather than silently dumping a non-provenance file. ---
+        grep -q "Additive provenance (W9)" /scratch/mlc/sae_src/extract_llama_ic.py || { echo STALE_EXTRACTOR_NO_PROVENANCE extract_llama_ic.py; exit 1; }
+        echo PROVENANCE_GUARD_OK
+        # --- 3) stage ALL FOUR IC constraint catalogs into ONE clean dir so the
+        # sequential game_id numbering (1-based game_counter) is canonical; a stray
+        # json would shift the counter and break the (game_id,round_num) join. ---
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, shutil
+        repo = os.environ[\"MLC_HF_REPO\"]; tok = os.environ[\"HF_TOKEN\"]
+        ddir = \"/scratch/mlc/data/ic\"
+        rels = [r for r in os.environ[\"MLC_IC_CATALOGS\"].split(\",\") if r]
+        assert len(rels) == 4, \"expected 4 IC catalogs, got %d\" % len(rels)
+        for rel in rels:
+            p = hf_hub_download(repo, rel, repo_type=\"dataset\", token=tok)
+            shutil.copy(p, os.path.join(ddir, os.path.basename(rel)))
+            print(\"staged\", rel, \"->\", ddir)
+        " || { echo CATALOG_FETCH_FAILED; exit 1; }
+        # --- 4) IC full 32-layer phase_a (round-level, fp16, provenance). ---
+        cd /scratch/mlc/sae_src
+        PYTHONPATH=/scratch/mlc/sae_src python extract_llama_ic.py --gpu 0 --phase-a-only \
+          --layers "$$MLC_LAYERS" --data-dir /scratch/mlc/data/ic --output-dir /scratch/mlc/out/ic || { echo IC_EXTRACT_FAILED; exit 1; }
+        # --- 5) shape check + EXISTENCE-GUARDED upload to checkpoints_w9 ONLY
+        # (refuse overwrite -> SKIP). NEVER writes the existing checkpoints/ file. ---
+        python -c "
+        import os, numpy as np
+        from huggingface_hub import HfApi
+        api = HfApi(); repo = os.environ[\"MLC_HF_REPO\"]; tok = os.environ[\"HF_TOKEN\"]
+        existing = set(api.list_repo_files(repo, repo_type=\"dataset\", token=tok))
+        local_dir = \"/scratch/mlc/out/ic/checkpoints\"
+        dest = os.environ[\"MLC_IC_DEST\"]
+        npz = os.path.join(local_dir, \"phase_a_hidden_states.npz\")
+        meta = os.path.join(local_dir, \"phase_a_metadata.json\")
+        assert os.path.exists(npz) and os.path.exists(meta), \"missing extractor output for investment_choice\"
+        z = np.load(npz, mmap_mode=\"r\")
+        shp = z[\"hidden_states\"].shape
+        print(\"SHAPE\", \"investment_choice\", tuple(shp), \"layers_in_npz=%s\" % (\"layers\" in z.files))
+        assert len(shp) == 3 and shp[1] == 32 and shp[2] == 4096, \"bad shape \" + str(shp)
+        assert \"layers\" in z.files and list(np.asarray(z[\"layers\"])) == list(range(32)), \"layers provenance missing/!= 0..31\"
+        assert \"game_ids\" in z.files and \"round_nums\" in z.files, \"missing catalog-join provenance (game_ids/round_nums)\"
+        for local, fname in [(npz, \"phase_a_hidden_states.npz\"), (meta, \"phase_a_metadata.json\")]:
+            path_in_repo = dest + \"/\" + fname
+            if path_in_repo in existing:
+                print(\"SKIP\", path_in_repo, \"already exists on HF - not overwriting\")
+                continue
+            api.upload_file(path_or_fileobj=local, path_in_repo=path_in_repo, repo_id=repo, repo_type=\"dataset\", token=tok, commit_message=\"w9icextract: llama investment_choice full 32-layer phase_a (provenance)\")
+            print(\"UPLOADED\", path_in_repo)
+        print(\"SEC4_W9ICEXTRACT_UPLOAD_DONE\")
+        " || { echo UPLOAD_FAILED; exit 1; }
+        echo SEC4_W9ICEXTRACT_DONE
+        '

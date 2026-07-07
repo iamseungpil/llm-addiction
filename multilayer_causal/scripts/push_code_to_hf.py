@@ -10,15 +10,17 @@ HF_REPO = "llm-addiction-research/llm-addiction"
 DEST = "experiments/multilayer_causal/code/multilayer_causal.tar.gz"
 PATHS = ["multilayer_causal"]          # self-contained for E1/E2/E3a
 
-# The sec4 w8extract node fetches the LLaMA phase_a extractors from HF
-# sae_v3_analysis/src/ (they are NOT inside the multilayer_causal tarball). Its
-# staleness guard aborts unless the fetched copies carry the additive-provenance
-# write, so push the latest source alongside the tarball. Overwriting these
-# source files with the (superset-schema) latest is safe; it never touches any
+# The sec4 w8extract / w9icextract nodes fetch the LLaMA phase_a extractors from
+# HF sae_v3_analysis/src/ (they are NOT inside the multilayer_causal tarball).
+# Their staleness guards abort unless the fetched copies carry the additive-
+# provenance write, so push the latest source alongside the tarball (w9icextract
+# needs extract_llama_ic.py to see the provenance write). Overwriting these source
+# files with the (superset-schema) latest is safe; it never touches any
 # sae_features_v3 data path.
 SRC_FILES = [
     "sae_v3_analysis/src/extract_llama_sm.py",
     "sae_v3_analysis/src/extract_llama_mw.py",
+    "sae_v3_analysis/src/extract_llama_ic.py",
     "sae_v3_analysis/src/prompt_reconstruction.py",
 ]
 

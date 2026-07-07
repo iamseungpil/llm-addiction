@@ -53,3 +53,15 @@ GO). No auto-launch — expansion is a human gate.
 - **MW = systematic anomaly, same signature IC had pre-fix**: W4 sh3_mw inverted (rho -0.75; -3 raises bet 0.122->0.248, paired Δ+0.149 ↑100/↓21 p<1e-4; parse improves at -3, craters at +3); mw_own weak/incoherent (+3 parse 0.19); W5 sh3b_mw -3 rises (paired Δ+0.103 p=0.044) against the +0.92 loading. **Diagnosis: MW's amount axis is also the wrong object.** MW's second expression = CONTINUE-vs-STOP (catalog: choice2+bet=spin n=8948 == paper n; choice1=stop n=3146). Next rung (W6): mw_rc = spin-vs-stop contrast axis (requires keep-mask change: stop rows have no bet), shared3c = SVD(sm_iba, ic_rc, mw_rc).
 - **Q3 rung-2 (W4, 2x2): G-SPECIFIC writability modulation.** slopes: +G 0.0535 > -G same-wave 0.0404 (~ W1 0.0457) > +M 0.0383. GOAL-SETTING raises causal writability; reward-max does NOT — mirrors §4.3's G-primary readability finding. Q3 refined-positive.
 - **Repro:** rollouts experiments/sec4_causal/checkpoints/sec4_{w4,w5}/; paired scripts in git history; axes assets experiments/sec4_causal/assets/ (shared3b loadings verified from npz).
+
+### Wave-6 adjudication + OBJECT FREEZE + W7 PRE-REGISTRATION (committed BEFORE W7 launch)
+- **W6 verdict: MW_RC_CORRECTLY_SIGNED.** mw_rc (spin/stop) ladder: spin-rate rho +0.90, slope +0.0549, z=+4.87 vs MW null band; bet corroborates (z=+5.48); monotone 0.67@-1 -> 0.94@+3. The expression-matched object fix GENERALIZES (IC rung-3 prescription worked on MW). Parse asymmetry now mirrors the object: -3 craters (0.215) while + side coherent (0.62-0.66) — -3/-2 cells parse-gated; verdict from -1..+3.
+- **OBJECT FREEZE (no further object changes permitted):** SM = sm_iba (bet-ratio amount axis); IC = ic_rc (risky-option choice axis); MW = mw_rc (spin/stop continue axis); shared = shared3c = SVD-top1(sm_iba, ic_rc, mw_rc).
+- **Frozen geometry (from W6 build):** cos(mw_rc,mw_iba)=-0.29 (amount/choice anti-alignment generalizes); cos(mw_rc,sm_iba)=+0.10; cos(mw_rc,ic_rc)=+0.24; loadings cos(shared3c, sm_iba)=-0.80, ic_rc=+0.89, mw_rc=+0.26. NOTE shared3c is dominated by the sm/ic anti-aligned pair; mw_rc weakly loaded.
+- **W7 PRE-REGISTERED SIGN TABLE** (source axis steered on target; predicted sign of d(binding outcome)/d(alpha) = sign(cos(source, target-own axis)); outcome: SM=bet_ratio, IC=risky rate, MW=spin rate):
+  | source \ target | SM | IC | MW |
+  | sm_iba   | + (self) | - (cos -0.48) | + LOW-CONF (cos +0.10) |
+  | ic_rc    | - (cos -0.48) | + (self) | + (cos +0.24) |
+  | mw_rc    | + LOW-CONF (cos +0.10) | + (cos +0.24) | + (self) |
+  | shared3c | - (cos -0.80) | + (cos +0.89) | + (cos +0.26) |
+- **Pre-registered adjudication rule:** PRIMARY = the 10 confident cells (|cos|>=0.15): success = >=8/10 sign hits each above its target null band. All 12 cells reported regardless; the 2 LOW-CONF cells (|cos|=0.10) are reported but excluded from the primary criterion (predicted +, null acceptable). New seed_base 3000042 (RNG-independent of all discovery waves). Diagonal 7 doses, off-diagonal {-3,0,+3}; per-target nulls 3 dirs x +/-3 re-run under the new seed_base; n=200/arm; parse gates: SM 0.8, IC 0.45, MW 0.45.

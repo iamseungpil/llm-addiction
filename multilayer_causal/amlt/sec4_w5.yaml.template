@@ -64,7 +64,7 @@ jobs:
         import numpy as np, glob, os
         from huggingface_hub import HfApi
         api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
-        need = ["gemma_investment_choice_i_rc_behavioural.npz", "gemma_shared3b_irc_behavioural.npz", "gemma_shared3b_irc_behavioural_icscale.npz", "gemma_shared3b_irc_behavioural_mwscale.npz"]
+        need = [\"gemma_investment_choice_i_rc_behavioural.npz\", \"gemma_shared3b_irc_behavioural.npz\", \"gemma_shared3b_irc_behavioural_icscale.npz\", \"gemma_shared3b_irc_behavioural_mwscale.npz\"]
         for name in need:
             f = os.path.join(\"multilayer_causal/assets/sec4\", name)
             assert os.path.exists(f), \"missing wave3 axis: \"+name

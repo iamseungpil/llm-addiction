@@ -1,0 +1,133 @@
+description: multilayer-causal SEC4 Wave-8 EXTRACT - re-dump the LLaMA SM and MW FULL 32-layer phase_a hidden states (round-level, N x 32 x 4096) that our sec4 pipeline needs for arbitrary write windows (Gemma already has these; LLaMA only had a 5-layer game-level dp dump [8,12,22,25,30] plus the IC full-layer file). Reuses the frozen forward-pass logic in sae_v3_analysis/src/extract_llama_sm.py and extract_llama_mw.py (chat template, last-token outputs.hidden_states[layer+1], bf16, eager, max_length 2048) - IDENTICAL to the dp-dump producer extract_all_hidden_states.py, so the [8,12,22,25,30] slices reproduce the known-good dp dump. Runs --phase-a-only --layers 0..31 for both tasks, then uploads phase_a_hidden_states.npz + phase_a_metadata.json to sae_features_v3/{slot_machine,mystery_wheel}/llama/checkpoints/ with an EXISTENCE GUARD (refuses to overwrite - prints SKIP). The extractor _save_checkpoint is additively extended to write a `layers` provenance array plus game_ids/round_nums/balances into the npz (dp-dump schema) so indicator_axes._load_llama_task_arrays can resolve layer-number to row and join i_ba - a STALENESS GUARD aborts if the fetched extractor lacks that write. NO rollout - pure data extraction. Touches ONLY the two new checkpoints/ paths.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w8extract
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # HF repo + the two full-layer targets (checkpoints/ plural, matching the
+        # extractor's output_dir/"checkpoints" and the existing IC full-layer file).
+        MLC_HF_REPO: llm-addiction-research/llm-addiction
+        MLC_SM_CATALOG: behavioral/slot_machine/llama_v4_role/final_llama_20260315_062428.json
+        MLC_MW_CATALOG: behavioral/mystery_wheel/llama_v2_role/llama_mysterywheel_c30_20260320_092707.json
+        MLC_SM_DEST: sae_features_v3/slot_machine/llama/checkpoints
+        MLC_MW_DEST: sae_features_v3/mystery_wheel/llama/checkpoints
+        MLC_LAYERS: "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31"
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy numpy safetensors tqdm 2>&1 | tail -1
+        # hf_xet silently 404s on large (32-44 GB) uploads (auto-memory pitfall);
+        # remove it and disable the Xet backend so the final upload uses plain HTTP.
+        pip uninstall -y hf_xet 2>/dev/null || true
+        export HF_HUB_DISABLE_XET=1
+        python -c "import torch, transformers, huggingface_hub, numpy, scipy, tqdm; print(\"IMPORTS_OK\", torch.__version__)" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc /scratch/mlc/sae_src /scratch/mlc/data/sm /scratch/mlc/data/mw /scratch/mlc/out/sm /scratch/mlc/out/mw
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        # --- 1) fetch the extractor scripts: prefer the code tarball copy (in case
+        # a future tarball bundles sae_v3_analysis), else HF sae_v3_analysis/src/. ---
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile, shutil
+        repo = os.environ[\"MLC_HF_REPO\"]; tok = os.environ[\"HF_TOKEN\"]
+        dst = \"/scratch/mlc/sae_src\"
+        want = [\"extract_llama_sm.py\", \"extract_llama_mw.py\", \"prompt_reconstruction.py\"]
+        tar_root = None
+        try:
+            p = hf_hub_download(repo, \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=tok)
+            tarfile.open(p).extractall(\"/scratch/mlc/tarcode\")
+            tar_root = \"/scratch/mlc/tarcode\"
+            print(\"code tarball extracted\")
+        except Exception as e:
+            print(\"tarball fetch skipped:\", e)
+        for name in want:
+            src = None
+            if tar_root:
+                for cand in (os.path.join(tar_root, \"sae_v3_analysis\", \"src\", name),):
+                    if os.path.exists(cand): src = cand; break
+            if src is None:
+                src = hf_hub_download(repo, \"sae_v3_analysis/src/\" + name, repo_type=\"dataset\", token=tok)
+            shutil.copy(src, os.path.join(dst, name))
+            print(\"fetched\", name, \"<-\", \"tarball\" if tar_root and src.startswith(tar_root) else \"hf:sae_v3_analysis/src\")
+        " || { echo SCRIPT_FETCH_FAILED; exit 1; }
+        # --- 2) STALENESS GUARD: the fetched extractors MUST carry the additive
+        # provenance write (layers/game_ids/round_nums/balances into the npz) or the
+        # produced file is unusable by indicator_axes._load_llama_task_arrays. Abort
+        # loud rather than silently dumping a non-provenance file. ---
+        for f in extract_llama_sm.py extract_llama_mw.py; do
+          grep -q "Additive provenance (W8)" /scratch/mlc/sae_src/$$f || { echo STALE_EXTRACTOR_NO_PROVENANCE $$f; exit 1; }
+        done
+        echo PROVENANCE_GUARD_OK
+        # --- 3) stage EXACTLY one canonical catalog per task into a clean dir so the
+        # sequential game_id numbering matches the dp dump (extra json files would
+        # shift the counter and break (game_id,round_num) alignment). ---
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, shutil
+        repo = os.environ[\"MLC_HF_REPO\"]; tok = os.environ[\"HF_TOKEN\"]
+        for cat_env, ddir in [(\"MLC_SM_CATALOG\", \"/scratch/mlc/data/sm\"), (\"MLC_MW_CATALOG\", \"/scratch/mlc/data/mw\")]:
+            rel = os.environ[cat_env]
+            p = hf_hub_download(repo, rel, repo_type=\"dataset\", token=tok)
+            shutil.copy(p, os.path.join(ddir, os.path.basename(rel)))
+            print(\"staged\", rel, \"->\", ddir)
+        " || { echo CATALOG_FETCH_FAILED; exit 1; }
+        # --- 4) SM full 32-layer phase_a (round-level). ---
+        cd /scratch/mlc/sae_src
+        PYTHONPATH=/scratch/mlc/sae_src python extract_llama_sm.py --gpu 0 --phase-a-only \
+          --layers "$$MLC_LAYERS" --data-dir /scratch/mlc/data/sm --output-dir /scratch/mlc/out/sm || { echo SM_EXTRACT_FAILED; exit 1; }
+        # --- 5) MW full 32-layer phase_a (round-level). ---
+        PYTHONPATH=/scratch/mlc/sae_src python extract_llama_mw.py --gpu 0 --phase-a-only \
+          --layers "$$MLC_LAYERS" --data-dir /scratch/mlc/data/mw --output-dir /scratch/mlc/out/mw || { echo MW_EXTRACT_FAILED; exit 1; }
+        # --- 6) shape check + EXISTENCE-GUARDED upload (refuse overwrite -> SKIP). ---
+        python -c "
+        import os, numpy as np
+        from huggingface_hub import HfApi
+        api = HfApi(); repo = os.environ[\"MLC_HF_REPO\"]; tok = os.environ[\"HF_TOKEN\"]
+        existing = set(api.list_repo_files(repo, repo_type=\"dataset\", token=tok))
+        jobs = [
+            (\"slot_machine\", \"/scratch/mlc/out/sm/checkpoints\", os.environ[\"MLC_SM_DEST\"]),
+            (\"mystery_wheel\", \"/scratch/mlc/out/mw/checkpoints\", os.environ[\"MLC_MW_DEST\"]),
+        ]
+        for task, local_dir, dest in jobs:
+            npz = os.path.join(local_dir, \"phase_a_hidden_states.npz\")
+            meta = os.path.join(local_dir, \"phase_a_metadata.json\")
+            assert os.path.exists(npz) and os.path.exists(meta), \"missing extractor output for \" + task
+            z = np.load(npz, mmap_mode=\"r\")
+            shp = z[\"hidden_states\"].shape
+            print(\"SHAPE\", task, tuple(shp), \"layers_in_npz=%s\" % (\"layers\" in z.files))
+            assert len(shp) == 3 and shp[1] == 32 and shp[2] == 4096, \"bad shape \" + str(shp)
+            assert \"layers\" in z.files and list(np.asarray(z[\"layers\"])) == list(range(32)), \"layers provenance missing/!= 0..31\"
+            for local, fname in [(npz, \"phase_a_hidden_states.npz\"), (meta, \"phase_a_metadata.json\")]:
+                path_in_repo = dest + \"/\" + fname
+                if path_in_repo in existing:
+                    print(\"SKIP\", path_in_repo, \"already exists on HF - not overwriting\")
+                    continue
+                api.upload_file(path_or_fileobj=local, path_in_repo=path_in_repo, repo_id=repo, repo_type=\"dataset\", token=tok, commit_message=\"w8extract: llama \" + task + \" full 32-layer phase_a\")
+                print(\"UPLOADED\", path_in_repo)
+        print(\"SEC4_W8EXTRACT_UPLOAD_DONE\")
+        " || { echo UPLOAD_FAILED; exit 1; }
+        echo SEC4_W8EXTRACT_DONE
+        '

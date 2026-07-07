@@ -59,7 +59,7 @@ jobs:
         # NO SAE decoder). Abort the whole job if any window build fails so a bad
         # axis never wastes rollout. ---
         for W in "14 19" "16 21" "18 23" "20 25"; do
-          PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model llama --task slot_machine --build-llama-windows --layers $W --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+          PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model llama --task slot_machine --build-llama-windows --layers $$W --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
         done
         python -c "
         import numpy as np, os

@@ -144,7 +144,12 @@ SM_CATALOG_BY_MODEL = {
              "final_llama_20260315_062428.json",
 }
 # LLaMA SM all-layer hidden states (32 layers x 4096) for the W8 window scan.
-LLAMA_SM_HIDDEN = "sae_features_v3/slot_machine/llama/hidden_states_dp.npz"
+# W8: full 32-layer phase_a hidden (re-extracted, round-level, fp16) — replaces
+# the 5-layer game-level dp dump so LLaMA gets Gemma-identical arbitrary write
+# windows. dp-parity: cos 0.9999 (axis-equivalent; ~1.5% scale offset cancels
+# under scales_from_phase_a). MW mirror added for the reduced symmetric matrix.
+LLAMA_SM_HIDDEN = "sae_features_v3/slot_machine/llama/checkpoints/phase_a_hidden_states.npz"
+LLAMA_MW_HIDDEN = "sae_features_v3/mystery_wheel/llama/checkpoints/phase_a_hidden_states.npz"
 LAYER = 22
 SCALE_FRAC = 0.03
 SCHEMA_VERSION = 1

@@ -1,0 +1,36 @@
+# sec4 Wave-6 arm registry — Q2 MW object fix (spin-vs-stop axis), 2026-07-07.
+#
+# W4+5 adjudication: shared3b transferred sign-predictably on SM<->IC (2/3)
+# but MW stayed anomalous with the SAME signature IC had before its Wave-5
+# choice-level fix (-3 RAISES betting, parse improves at -3 / craters at +3,
+# mw_own weak) — diagnosis: MW's amount-ratio axis is also the wrong object.
+# MW's second behavioural expression is CONTINUE-vs-STOP (catalog: choice 2
+# with bet>0 = spin n=8948 == paper Table-1 MW n; choice 1 = stop n=3146), so
+# Wave-6 rebuilds the MW axis on that contrast:
+#   sec4_w6_mw_rc_*  mw_rc = spin/stop behavioural axis dosed on the frozen MW
+#                    pool (within-task control for the new object; prediction:
+#                    +alpha raises the spin rate, correctly signed this time).
+# Nulls/baseline: REUSED from the sec4_w4 rollouts at analysis time
+# (sec4_w4_mw_null* +/-3 pairs -> MW null slope band, sec4_w4_mw_baseline —
+# same frozen pool, same MW sigma-unit scale convention).
+# The node build (--wave6) uses the rc_keep loader branch: stop rows carry no
+# bet, so the frozen i_ba keep rule would drop the entire stop class.
+# ISOLATION: loaded ONLY via MLC_ARMS_YAML; new HF phase sec4_w6.
+defaults:
+  model: gemma
+  task: mw
+  n: 200
+  seed_base: 2000042
+  state_offset: 0
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  # ---- MW spin/stop axis on MW (new-object within-task control) ----
+  - {id: sec4_w6_mw_rc_am3, phase: sec4_w6, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_mystery_wheel_mw_rc_behavioural.npz}
+  - {id: sec4_w6_mw_rc_am2, phase: sec4_w6, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_mystery_wheel_mw_rc_behavioural.npz}
+  - {id: sec4_w6_mw_rc_am1, phase: sec4_w6, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_mystery_wheel_mw_rc_behavioural.npz}
+  - {id: sec4_w6_mw_rc_a0, phase: sec4_w6, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_mystery_wheel_mw_rc_behavioural.npz}
+  - {id: sec4_w6_mw_rc_ap1, phase: sec4_w6, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_mystery_wheel_mw_rc_behavioural.npz}
+  - {id: sec4_w6_mw_rc_ap2, phase: sec4_w6, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_mystery_wheel_mw_rc_behavioural.npz}
+  - {id: sec4_w6_mw_rc_ap3, phase: sec4_w6, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_mystery_wheel_mw_rc_behavioural.npz}

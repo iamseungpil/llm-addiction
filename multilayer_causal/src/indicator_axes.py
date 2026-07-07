@@ -365,7 +365,11 @@ def _iba_from_catalog(meta, task, model):
     the paper pipeline's exact rule (run_comprehensive_robustness.compute_iba):
     sequential game ids from extraction order (i+1), non-skip decisions,
     bet = parsed_bet|bet|bet_amount, bal = balance_before|balance (fallback:
-    meta balances), ratio = min(bet/bal, 1). Returns (i_ba, balances)."""
+    meta balances), ratio = min(bet/bal, 1).
+    Returns (i_ba, balances, choices, bets); bets is the raw parsed bet per row
+    (NaN when the catalog carries none) — the Wave-6 MW spin/stop labels need
+    it because a stop row has no bet, so i_ba alone cannot tell 'stop' apart
+    from 'unjoinable'."""
     import json as _json
     if task == "investment_choice":
         from .ic import ensure_ic_catalog
@@ -390,6 +394,7 @@ def _iba_from_catalog(meta, task, model):
     balances = (np.asarray(meta["balances"], dtype=np.float64).copy()
                 if meta.get("balances") is not None else np.full(n, np.nan))
     choices = np.full(n, np.nan)
+    bets = np.full(n, np.nan)
     for i in range(n):
         g = game_map.get(int(meta["game_ids"][i]))
         if g is None:
@@ -410,10 +415,41 @@ def _iba_from_catalog(meta, task, model):
             bal = float(bal) if bal is not None else float(balances[i])
         except (TypeError, ValueError):
             continue
+        bets[i] = bet
         if bal > 0 and bet > 0:
             i_ba[i] = min(bet / bal, 1.0)
             balances[i] = bal
-    return i_ba, balances, choices
+    return i_ba, balances, choices, bets
+
+
+def _mw_rc_labels(choices, bets):
+    """Wave-6 MW spin-vs-stop contrast labels (the catalog's verified choice
+    semantics: choice 2 WITH bet>0 = SPIN n=8948 == paper Table-1 MW n,
+    choice 1 = STOP n=3146, choice 2 without a bet = parse edge -> no label).
+
+    i_rc = 1.0 spin (choice==2 and bet>0), 0.0 stop (choice==1), NaN otherwise.
+    A NaN bet never labels a spin (NaN>0 is False), so parse-edge rows stay
+    unlabeled instead of leaking into either class."""
+    choices = np.asarray(choices, dtype=np.float64)
+    bets = np.asarray(bets, dtype=np.float64)
+    rc = np.full(len(choices), np.nan)
+    rc[choices == 1.0] = 0.0
+    with np.errstate(invalid="ignore"):
+        rc[(choices == 2.0) & (bets > 0)] = 1.0
+    return rc
+
+
+def _keep_mask(split, i_ba, i_rc, rc_keep=False):
+    """Row-keep rule for load_task_arrays. Default (frozen Wave-1..5 rule):
+    split & isfinite(i_ba). rc_keep (Wave-6 MW build ONLY): additionally keep
+    rows with a finite spin/stop label — stop rows carry no bet, so i_ba is
+    NaN and the default rule drops the entire stop class the mw_rc contrast
+    needs. The default path is bit-identical to the pre-Wave-6 mask, so every
+    earlier wave build sees exactly the same rows."""
+    split = np.asarray(split, dtype=bool)
+    if rc_keep:
+        return split & (np.isfinite(i_ba) | np.isfinite(i_rc))
+    return split & np.isfinite(i_ba)
 
 
 def _build_wave5_axes(task_data, layers):
@@ -471,14 +507,88 @@ def _build_wave5_axes(task_data, layers):
     return built, cos_pairs
 
 
-def load_task_arrays(model, task, layers, held_out=False):
+def _build_wave6_axes(task_data, layers):
+    """Wave-6 Q2 rung (MW object fix): the W4+5 adjudication showed MW's
+    amount-ratio axis is the WRONG object (same anomaly signature IC had
+    before its Wave-5 choice-level fix: -3 raises betting, parse craters at
+    +3). MW's second behavioural expression is CONTINUE-vs-STOP, so rebuild
+    the MW axis on the spin/stop contrast (i_rc: choice2+bet>0=1, choice1=0 —
+    requires the rc_keep loader branch because stop rows have no bet) and
+    recompute the shared component shared3c = SVD-top1(sm_iba, ic_rc, mw_rc).
+
+    task_data must hold slot_machine/investment_choice loaded with the DEFAULT
+    keep rule and mystery_wheel loaded with rc_keep=True. Prints (a) the
+    mw_rc diagnostic cosines vs mw_iba (rebuilt on the iba_finite subset =
+    exactly the Wave-3/5 MW rows), sm_iba, ic_rc, and (b) the shared3c
+    loadings on each of its three inputs — the W7 pre-registration numbers
+    that predict the per-task steering signs. Returns ({name: built},
+    cos_pairs) with mw/ic/sm sigma-unit shared3c variants (mirrors wave5)."""
+    sm = build_behavioural_axis_from_arrays(
+        task_data["slot_machine"]["hidden"],
+        task_data["slot_machine"]["indicators"]["i_ba"],
+        task_data["slot_machine"]["balance"], task_data["slot_machine"]["rounds"],
+        task_data["slot_machine"]["groups"], layers)
+    ic_d = task_data["investment_choice"]
+    rc = np.asarray(ic_d["indicators"]["i_rc"], dtype=np.float64)
+    m = np.isfinite(rc)
+    assert m.sum() >= 500, f"too few IC rows with a choice label ({m.sum()})"
+    ic_rc = build_behavioural_axis_from_arrays(
+        ic_d["hidden"][m], rc[m], ic_d["balance"][m], ic_d["rounds"][m],
+        ic_d["groups"][m], layers)
+    mw_d = task_data["mystery_wheel"]
+    mrc = np.asarray(mw_d["indicators"]["i_rc"], dtype=np.float64)
+    mm = np.isfinite(mrc)
+    assert mm.sum() >= 500, f"too few MW rows with a spin/stop label ({mm.sum()})"
+    assert (mrc[mm] == 0.0).any() and (mrc[mm] == 1.0).any(), \
+        "MW spin/stop contrast needs BOTH classes (rc_keep loader not used?)"
+    mw_rc = build_behavioural_axis_from_arrays(
+        mw_d["hidden"][mm], mrc[mm], mw_d["balance"][mm], mw_d["rounds"][mm],
+        mw_d["groups"][mm], layers)
+    # the old amount-ratio MW axis for the diagnostic cosine only, rebuilt on
+    # the iba_finite subset (identical rows to the Wave-3/5 MW build).
+    fb = np.asarray(mw_d["iba_finite"], dtype=bool)
+    mw_iba = build_behavioural_axis_from_arrays(
+        mw_d["hidden"][fb], mw_d["indicators"]["i_ba"][fb], mw_d["balance"][fb],
+        mw_d["rounds"][fb], mw_d["groups"][fb], layers)
+    shared = build_shared_axis_from_axes(
+        [sm["directions"], ic_rc["directions"], mw_rc["directions"]], layers)
+    shared["auc"] = float("nan")
+    cos_pairs = {}
+    for name_a, a, name_b, b in (("mw_rc", mw_rc, "mw_iba", mw_iba),
+                                 ("mw_rc", mw_rc, "sm_iba", sm),
+                                 ("mw_rc", mw_rc, "ic_rc", ic_rc),
+                                 ("shared3c", shared, "sm_iba", sm),
+                                 ("shared3c", shared, "ic_rc", ic_rc),
+                                 ("shared3c", shared, "mw_rc", mw_rc)):
+        cs = [float(pa.unit(a["directions"][li]) @ pa.unit(b["directions"][li]))
+              for li in range(len(layers))]
+        cos_pairs[f"{name_a}~{name_b}"] = float(np.mean(cs))
+        print(f"[sec4-axes/wave6] cos({name_a}, {name_b}) = {np.mean(cs):.4f}",
+              flush=True)
+    built = {"mw_rc": dict(mw_rc)}
+    for tag, src in (("shared3c", sm), ("shared3c_icscale", ic_rc),
+                     ("shared3c_mwscale", mw_rc)):
+        v = dict(shared)
+        v["scales"] = src["scales"].copy()
+        v["provenance"] = (shared["provenance"]
+                           + f" {tag} sigma-units (Wave-6 spin/stop MW).")
+        built[tag] = v
+    return built, cos_pairs
+
+
+def load_task_arrays(model, task, layers, held_out=False, rc_keep=False):
     """Pull cached HF SAE features + all-layer hidden states + indicators for a
     (model, task), restricted to the DISCOVERY (or held-out) game split.
 
     Returns a dict with feats (N,K), decoder (K,d) [L22 canonical], hidden
-    (N,L,d) sliced to ``layers``, indicators {i_ba,i_lc,i_ec} (N,), balance (N,),
-    rounds (N,), groups (N,) game ids, and the raw layer list. Referenced only
-    at run time (Task 8); the unit tests use synthetic arrays directly.
+    (N,L,d) sliced to ``layers``, indicators {i_ba,i_lc,i_ec,i_rc} (N,),
+    balance (N,), rounds (N,), groups (N,) game ids, an ``iba_finite`` row mask
+    (which kept rows carry a real bet — all True on the default keep rule), and
+    the raw layer list. ``rc_keep`` (Wave-6, mystery_wheel ONLY) widens the
+    keep rule to choice-validity so the spin/stop contrast keeps its stop rows
+    (see _keep_mask); the default path is bit-identical to the Wave-1..5
+    loader. Referenced only at run time (Task 8); the unit tests use synthetic
+    arrays directly.
     """
     token = os.environ.get("HF_TOKEN")
     assert model == "gemma", "sec4 Phase-1 is Gemma-only"
@@ -509,8 +619,20 @@ def load_task_arrays(model, task, layers, held_out=False):
         # (run_comprehensive_robustness.compute_iba): sequential game_map,
         # non-skip decisions, bet from parsed_bet|bet|bet_amount over
         # balance_before|balance, ratio = min(bet/bal, 1).
-        i_ba, balances, choices = _iba_from_catalog(meta, task, model)
+        i_ba, balances, choices, bets = _iba_from_catalog(meta, task, model)
     i_lc, i_ec = _lc_ec_from_iba(np.nan_to_num(i_ba), balances, game_ids, rounds)
+    # per-row decision-level risk label, computed BEFORE the keep mask so
+    # rc_keep can retain choice-valid rows the i_ba rule would drop:
+    #   sm  — no choice object, all NaN;
+    #   ic  — risky OPTION (choice>=3), the Wave-5 constraint-free indicator;
+    #   mw  — spin-vs-stop (choice 2 with bet>0 = 1, choice 1 = 0), Wave-6.
+    if task == "slot_machine":
+        i_rc = np.full(len(game_ids), np.nan)
+    elif task == "investment_choice":
+        i_rc = ((choices >= 3).astype(np.float64)
+                * np.where(np.isfinite(choices), 1.0, np.nan))
+    else:
+        i_rc = _mw_rc_labels(choices, bets)
 
     if task == "slot_machine":
         # Disjointness with the runner's replay: the SM runner steers the
@@ -549,7 +671,9 @@ def load_task_arrays(model, task, layers, held_out=False):
         print(f"[sec4-axes] mw: excluded {len(replayed)} replayed games from "
               f"the axis build ({int(split.sum())}/{len(split)} rows kept)",
               flush=True)
-    keep = split & np.isfinite(i_ba)
+    assert not (rc_keep and task != "mystery_wheel"), \
+        "rc_keep is the Wave-6 MW-only keep rule"
+    keep = _keep_mask(split, i_ba, i_rc, rc_keep=rc_keep)
     # decoder is the FULL (K_full,d) matrix; the SAE feature columns are the
     # active subset, so restrict decoder rows to the active feature ids.
     active = np.asarray(meta.get("feature_indices",
@@ -560,13 +684,13 @@ def load_task_arrays(model, task, layers, held_out=False):
         "hidden": hidden[keep],
         "indicators": {"i_ba": np.nan_to_num(i_ba)[keep],
                        "i_lc": i_lc[keep], "i_ec": i_ec[keep],
-                       # ic/mw only: risky-OPTION choice (>=3), the
-                       # constraint-free decision-level risk appetite —
-                       # NaN where the catalog row has no choice (or sm).
-                       "i_rc": ((choices >= 3).astype(np.float64)
-                                * np.where(np.isfinite(choices), 1.0, np.nan)
-                                )[keep] if task != "slot_machine"
-                               else np.full(int(keep.sum()), np.nan)},
+                       # ic/mw only: decision-level risk label (see above) —
+                       # NaN where the catalog row has no valid choice (or sm).
+                       "i_rc": i_rc[keep]},
+        # which kept rows carry a real bet: under the default rule this is all
+        # True; under rc_keep it lets the Wave-6 diagnostics rebuild the
+        # i_ba-based MW axis on EXACTLY the rows the Wave-3/5 builds saw.
+        "iba_finite": np.isfinite(i_ba)[keep],
         "balance": balances[keep],
         "rounds": rounds[keep],
         "groups": game_ids[keep],
@@ -756,13 +880,17 @@ def main():
                     help="Q2 rung-3 build: IC risky-CHOICE axis (i_rc) + "
                          "shared3b = SVD(sm_iba, ic_rc, mw_iba) with per-task "
                          "sigma-unit variants")
+    ap.add_argument("--wave6", action="store_true",
+                    help="Q2 MW object fix: MW spin-vs-stop axis (mw_rc, "
+                         "rc_keep loader) + shared3c = SVD(sm_iba, ic_rc, "
+                         "mw_rc) with per-task sigma-unit variants")
     ap.add_argument("--wave3", action="store_true",
                     help="build the CROSS-TASK set (per-task behavioural I_BA "
                          "axes for slot_machine/investment_choice/mystery_wheel "
                          "+ their SVD-top1 shared3 axis) — goals-v2 Q2 rung-1")
     args = ap.parse_args()
-    assert sum(map(bool, (args.wave2, args.wave3, args.wave5))) <= 1, \
-        "--wave2/--wave3/--wave5 are exclusive"
+    assert sum(map(bool, (args.wave2, args.wave3, args.wave5, args.wave6))) <= 1, \
+        "--wave2/--wave3/--wave5/--wave6 are exclusive"
 
     lo, hi = args.layers
     layers = list(range(lo, hi + 1))
@@ -770,6 +898,38 @@ def main():
     dest_dir.mkdir(parents=True, exist_ok=True)
     axes = [a.strip() for a in args.axes.split(",") if a.strip()]
     indicators = [i.strip() for i in args.indicators.split(",") if i.strip()]
+
+    if args.wave6:
+        token = os.environ.get("HF_TOKEN")
+        # MW is loaded with the Wave-6 choice-validity keep rule so its stop
+        # rows survive; SM/IC keep the frozen default rule (byte-identical to
+        # the Wave-3/5 builds).
+        task_data = {t: load_task_arrays(args.model, t, layers,
+                                         rc_keep=(t == "mystery_wheel"))
+                     for t in W3_TASKS}
+        built, cos_pairs = _build_wave6_axes(task_data, layers)
+        summary = {"wave6_cos": cos_pairs}
+        SRC = {"mw_rc": ("mystery_wheel", "mw_rc", "behavioural"),
+               "shared3c": ("shared3c", "rc", "behavioural"),
+               "shared3c_icscale": ("shared3c", "rc", "behavioural_icscale"),
+               "shared3c_mwscale": ("shared3c", "rc", "behavioural_mwscale")}
+        SCALE_SRC = {"mw_rc": "mystery_wheel",
+                     "shared3c": "slot_machine",
+                     "shared3c_icscale": "investment_choice",
+                     "shared3c_mwscale": "mystery_wheel"}
+        for name, b in built.items():
+            task_label, indicator, axis = SRC[name]
+            src = SCALE_SRC[name]
+            sf = pa.scales_from_phase_a(W3_TASK_KEY[src],
+                                        np.arange(len(task_data[src]["groups"])),
+                                        token)
+            dest = _save_axis(dest_dir, args.model, task_label, indicator,
+                              axis, b, layers, sf, float("nan"),
+                              task_data[src]["build_game_ids"])
+            summary[name] = {"dest": str(dest)}
+            print(f"[sec4-axes/wave6] {name} -> {dest}", flush=True)
+        print(json.dumps(summary, indent=2, default=str))
+        return
 
     if args.wave5:
         token = os.environ.get("HF_TOKEN")

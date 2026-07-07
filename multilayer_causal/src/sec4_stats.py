@@ -422,12 +422,12 @@ def _dose_cells(results_dir: Path):
     return by_axis, nulls, baseline
 
 
-def _pooled(cells: Dict[float, dict], ind: str):
+def _pooled(cells: Dict[float, dict], ind: str, parse_gate: float = PARSE_GATE):
     """(doses, values) trial-level arrays over parse-gated dose cells."""
     xs, ys, dose_means = [], [], {}
     for d in sorted(cells):
         c = cells[d]
-        if c["parse_rate"] < PARSE_GATE:
+        if c["parse_rate"] < parse_gate:
             continue
         vs = c["values"][ind]
         if not vs:
@@ -438,12 +438,13 @@ def _pooled(cells: Dict[float, dict], ind: str):
     return xs, ys, dose_means
 
 
-def _null_band(nulls: Dict[str, Dict[float, dict]], ind: str) -> dict:
+def _null_band(nulls: Dict[str, Dict[float, dict]], ind: str,
+               parse_gate: float = PARSE_GATE) -> dict:
     """THICK null: one slope per random-null direction from its -3/+3 pair,
     reported as mean +/- 2sd (half-band = max(2sd, floor))."""
     slopes = []
     for key, cells in nulls.items():
-        xs, ys, _ = _pooled(cells, ind)
+        xs, ys, _ = _pooled(cells, ind, parse_gate)
         s = _ols_slope(xs, ys)
         if np.isfinite(s):
             slopes.append(s)
@@ -453,9 +454,9 @@ def _null_band(nulls: Dict[str, Dict[float, dict]], ind: str) -> dict:
             "n": len(slopes)}
 
 
-def _w2_indicator_stat(cells, ind, band) -> dict:
+def _w2_indicator_stat(cells, ind, band, parse_gate: float = PARSE_GATE) -> dict:
     """Per (axis, indicator): monotone dose-response + slope vs the null band."""
-    xs, ys, dose_means = _pooled(cells, ind)
+    xs, ys, dose_means = _pooled(cells, ind, parse_gate)
     doses = sorted(dose_means)
     rho = _spearman(doses, [dose_means[d] for d in doses])  # per-dose-mean trend
     slope = _ols_slope(xs, ys)
@@ -798,6 +799,188 @@ def make_figure_wave3(res: dict, cells: dict, w1_cells: dict, out_png: Path):
     plt.close(fig)
 
 
+# ============================================================ WAVE 6
+# Q2 MW object fix (configs/arms_sec4_w6.yaml): does MW's spin-vs-stop axis
+# (mw_rc, built with the rc_keep loader so stop rows survive) write MW
+# CORRECTLY SIGNED — the within-task control that resolved the same anomaly
+# on IC in Wave-5? Nulls + baseline are REUSED from the sec4_w4 MW rollouts
+# (same frozen pool, same MW sigma-unit convention), so this wave only spends
+# rollout budget on the 7-dose mw_rc ladder.
+
+W6_LADDER_PREFIX = "sec4_w6_mw_rc_"
+W6_MW_NULL_PREFIX = "sec4_w4_mw_null"
+W6_MW_BASELINE = "sec4_w4_mw_baseline"
+W6_METRICS = ("spin", "bet")
+# MW-calibrated parse gate. Real MW rollouts parse at 0.19-0.73 (measured on
+# the frozen sec4_w4 set: baseline 0.650, nulls 0.455-0.730, mw_own_ap3
+# 0.190), so the W2 PARSE_GATE=0.8 would discard EVERY real MW cell — nulls
+# included — silently collapsing the band to NULL_SLOPE_FLOOR and forcing
+# UNDERPOWERED. 0.45 is the same MW/IC low-parse sensitivity gate the
+# INDEX.md Q2-rung1 analysis used; it keeps all six W4 nulls and the
+# baseline while still excluding parse-cratered cells like mw_own_ap3.
+W6_PARSE_GATE = 0.45
+
+
+def _mw_spin(r) -> Optional[float]:
+    """Spin/stop outcome per MW record: the runner's `risky` boolean as 0/1
+    (risky = action == 'spin'); None when absent (non-MW record)."""
+    v = r.get("risky")
+    return None if v is None else (1.0 if v else 0.0)
+
+
+def _w6_summ(rows: List[dict]) -> dict:
+    """Per-arm summary in the _pooled cell shape with BOTH Wave-6 metrics:
+    'spin' (spin rate) and 'bet' (bet_ratio, 0.0 on stop rows)."""
+    parse_ok = [r for r in rows if r.get("parse_ok")]
+    return {
+        "parse_rate": len(parse_ok) / len(rows) if rows else float("nan"),
+        "n": len(rows),
+        "values": {
+            "spin": [v for r in parse_ok if (v := _mw_spin(r)) is not None],
+            "bet": [float(r["bet_ratio"]) for r in parse_ok
+                    if r.get("bet_ratio") is not None],
+        },
+    }
+
+
+def _w6_cells(results_dir: Path,
+              prefix: str = W6_LADDER_PREFIX) -> Dict[float, dict]:
+    """{dose: summary} for the mw_rc dose ladder (both metrics per cell)."""
+    cells = {}
+    for fp in sorted(Path(results_dir).glob(f"{prefix}a*.jsonl")):
+        rows = _rows(fp)
+        dose = _dose_of(rows, fp.stem)
+        if dose is None:
+            continue
+        cells[dose] = _w6_summ(rows)
+    return cells
+
+
+def _w6_null_cells(w4_results_dir: Path) -> Dict[str, dict]:
+    """Per-null-direction {dose: summary} pairs from the REUSED sec4_w4 MW
+    null rollouts (sec4_w4_mw_null<k>_{am3,ap3}) — feeds _null_band for both
+    Wave-6 metrics."""
+    nulls: Dict[str, Dict[float, dict]] = {}
+    for fp in sorted(Path(w4_results_dir).glob(f"{W6_MW_NULL_PREFIX}*.jsonl")):
+        rows = _rows(fp)
+        dose = _dose_of(rows, fp.stem)
+        if dose is None:
+            continue
+        key = re.sub(r"_a[mp]?\d+$", "", fp.stem)
+        nulls.setdefault(key, {})[dose] = _w6_summ(rows)
+    return nulls
+
+
+def analyze_wave6(results_dir=None, w4_results_dir=None,
+                  out_json: Optional[Path] = None,
+                  out_png: Optional[Path] = None) -> dict:
+    """Wave-6 adjudication: mw_rc dose-response on BOTH the spin/stop outcome
+    AND bet_ratio, against the sec4_w4 MW null band + baseline.
+
+    SPIN-RATE METRIC (decided from runner._run_arm_mw): every MW rollout row
+    records `action` ('spin'/'stop' from the frozen parser's game choice:
+    2=spin, 1=stop), `risky` = (action == 'spin'), `bet_ratio` (amount /
+    max(balance,1) when spinning, 0.0 on stop), and `parse_ok`. A STOP is an
+    ordinary parse_ok=True row (e.g. 'Final Decision: Option 2' -> choice 1,
+    bet 0, valid) with risky=False and bet_ratio=0.0; a parse FAILURE also
+    defaults to stop but with parse_ok=False. Therefore:
+      spin rate = mean(`risky`) over parse_ok rows (parse-gated so defaulted
+                  stops never count as behaviour), and
+      bet metric = mean(`bet_ratio`) over parse_ok rows (stop rows contribute
+                  0.0 — unconditional bet intensity, the W4-comparable object).
+
+    Cell inclusion uses the MW-calibrated W6_PARSE_GATE (0.45), NOT the W2
+    PARSE_GATE (0.8): real MW cells parse at 0.19-0.73, so the 0.8 gate would
+    discard every ladder/null/baseline cell and force UNDERPOWERED with an
+    empty (floor-only) null band. The result records `parse_gate` and the
+    EFFECTIVE per-metric band count `n_null_slopes` (what actually gated the
+    verdict) alongside `n_null_directions` (directions found on disk).
+
+    Verdict (primary outcome = the spin metric, the axis's own object):
+      MW_RC_CORRECTLY_SIGNED  spin rate rises monotonically with +alpha and
+                              the slope clears the MW null band,
+      STILL_ANOMALOUS         the slope clears the null band but wrong-signed
+                              or incoherent (the W3/W4 anomaly signature),
+      UNDERPOWERED            nothing clears the null band.
+    bet_corroborates reports whether bet_ratio independently moves the same
+    way (spin implies bet>0, so it should co-move if the write is real)."""
+    results_dir = Path(results_dir) if results_dir is not None \
+        else _MLC / "results" / "sec4_w6"
+    w4_results_dir = Path(w4_results_dir) if w4_results_dir is not None \
+        else _MLC / "results" / "sec4_w4"
+
+    cells = _w6_cells(results_dir)
+    nulls = _w6_null_cells(w4_results_dir)
+    band = {m: _null_band(nulls, m, W6_PARSE_GATE) for m in W6_METRICS}
+    stats = {m: _w2_indicator_stat(cells, m, band[m], W6_PARSE_GATE)
+             for m in W6_METRICS}
+    parse_by_dose = {str(d): cells[d]["parse_rate"] for d in sorted(cells)}
+
+    base_fp = Path(w4_results_dir) / f"{W6_MW_BASELINE}.jsonl"
+    baseline = _w6_summ(_rows(base_fp)) if base_fp.exists() else None
+    base_means = ({m: (float(np.mean(baseline["values"][m]))
+                       if baseline["values"][m] else float("nan"))
+                   for m in W6_METRICS} if baseline else None)
+
+    spin = stats["spin"]
+    if _w2_moves(spin):
+        verdict = "MW_RC_CORRECTLY_SIGNED"
+    elif spin["above_null"]:
+        verdict = "STILL_ANOMALOUS"
+    else:
+        verdict = "UNDERPOWERED"
+
+    result = {
+        "verdict": verdict,
+        "spin": stats["spin"],
+        "bet": stats["bet"],
+        "bet_corroborates": _w2_moves(stats["bet"]),
+        "null_band": band,
+        "n_null_directions": len(nulls),
+        "n_null_slopes": {m: band[m]["n"] for m in W6_METRICS},
+        "parse_gate": W6_PARSE_GATE,
+        "baseline": base_means,
+        "parse_by_dose": parse_by_dose,
+    }
+    if out_json is not None:
+        Path(out_json).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_json).write_text(json.dumps(result, indent=1))
+    if out_png is not None:
+        try:
+            make_figure_wave6(result, cells, Path(out_png))
+        except Exception as e:
+            print(f"[sec4-w6] figure skipped: {e}")
+    return result
+
+
+def make_figure_wave6(res: dict, cells: dict, out_png: Path):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fig, axs = plt.subplots(1, 2, figsize=(11, 4.6), sharex=True)
+    labels = {"spin": "spin rate (risky)", "bet": "bet ratio"}
+    for ax, m in zip(axs, W6_METRICS):
+        _, _, dm = _pooled(cells, m, W6_PARSE_GATE)
+        doses = sorted(dm)
+        if doses:
+            ax.plot(doses, [dm[d] for d in doses], "-o", color="C3",
+                    label=f"mw_rc -> {labels[m]}", lw=2.2)
+        base = (res["baseline"] or {}).get(m)
+        if base is not None and np.isfinite(base):
+            ax.axhline(base, color="k", lw=0.5, ls=":", label="W4 MW baseline")
+        ax.set_xlabel("steering alpha (sigma-units)")
+        ax.set_ylabel(f"mean {labels[m]}")
+        ax.set_title(labels[m])
+        ax.legend(fontsize=8)
+    fig.suptitle(f"§4 Wave-6 MW spin/stop axis — verdict: {res['verdict']}")
+    fig.tight_layout()
+    Path(out_png).parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_png, dpi=130)
+    fig.savefig(str(out_png).replace(".png", ".pdf"))
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results-dir", default=str(RESULTS_DIR))
@@ -808,13 +991,47 @@ def main():
                     help="run the Wave-2 common-axis analysis instead of Wave-1")
     ap.add_argument("--wave3", action="store_true",
                     help="run the Wave-3 adjudication analysis (Q2/Q3/Q1-rung2)")
+    ap.add_argument("--wave6", action="store_true",
+                    help="run the Wave-6 MW spin/stop adjudication (mw_rc "
+                         "ladder vs the reused sec4_w4 MW nulls/baseline)")
     ap.add_argument("--w1-results-dir", default=str(RESULTS_DIR),
                     help="wave3: dir with the Wave-1 sec4_behavioural_* ladder "
                          "(fetched from the sec4_p0 HF checkpoints if absent)")
     ap.add_argument("--w2-results-dir",
                     default=str(_MLC / "results" / "sec4_w2"),
                     help="wave3: dir with the Wave-2 thick SM null rollouts")
+    ap.add_argument("--w4-results-dir",
+                    default=str(_MLC / "results" / "sec4_w4"),
+                    help="wave6: dir with the sec4_w4 MW null/baseline "
+                         "rollouts (fetched from HF if absent)")
     args = ap.parse_args()
+    if args.wave6:
+        # untouched defaults point at the Wave-1 output paths — redirect them
+        # to the wave6 namespace so --wave6 never overwrites the p0 analysis.
+        w6_dir = _MLC / "results" / "sec4_w6"
+        if args.results_dir == str(RESULTS_DIR):
+            args.results_dir = str(w6_dir)
+        if args.out_json == str(OUT_JSON):
+            args.out_json = str(w6_dir / "sec4_w6_analysis.json")
+        if args.out_png == str(OUT_PNG):
+            args.out_png = str(w6_dir / "sec4_w6_analysis.png")
+        w4_dir = Path(args.w4_results_dir)
+        if not list(w4_dir.glob(f"{W6_MW_NULL_PREFIX}*.jsonl")):
+            try:  # pull the frozen Wave-4 MW nulls/baseline off HF — without
+                # them the band degrades to the slope floor (n_null_slopes in
+                # the output records the EFFECTIVE per-metric band count that
+                # actually gated the verdict; n_null_directions is on-disk).
+                n = fetch_hf_rollouts("sec4_w4", w4_dir, prefix="sec4_w4_mw_")
+                print(f"[sec4-w6] fetched {n} Wave-4 MW rollouts -> {w4_dir}")
+            except Exception as e:
+                print(f"[sec4-w6] Wave-4 HF fetch skipped: {e}")
+        res = analyze_wave6(Path(args.results_dir), w4_dir,
+                            Path(args.out_json), Path(args.out_png))
+        print(json.dumps({"verdict": res["verdict"],
+                          "bet_corroborates": res["bet_corroborates"],
+                          "spin_slope": res["spin"]["slope"],
+                          "bet_slope": res["bet"]["slope"]}, indent=2))
+        return
     if args.wave3:
         # untouched defaults point at the Wave-1 output paths — redirect them
         # to the wave3 namespace so --wave3 never overwrites the p0 analysis.

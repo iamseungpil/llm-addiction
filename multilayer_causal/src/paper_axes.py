@@ -150,6 +150,13 @@ SM_CATALOG_BY_MODEL = {
 # under scales_from_phase_a). MW mirror added for the reduced symmetric matrix.
 LLAMA_SM_HIDDEN = "sae_features_v3/slot_machine/llama/checkpoints/phase_a_hidden_states.npz"
 LLAMA_MW_HIDDEN = "sae_features_v3/mystery_wheel/llama/checkpoints/phase_a_hidden_states.npz"
+# LLaMA IC all-layer hidden (W9 reduced symmetric matrix). NOTE: SM & MW were
+# re-extracted with full game_ids/round_nums/layers provenance in W8-extract
+# (verify_llama_fullhidden asserts them); the IC checkpoint predates that job, so
+# indicator_axes._load_llama_task_arrays PREFERS the file provenance and falls
+# back to a catalog ORDER join if the IC dump only carries hidden_states
+# [+ valid_mask] (the old IC shape).
+LLAMA_IC_HIDDEN = "sae_features_v3/investment_choice/llama/checkpoints/phase_a_hidden_states.npz"
 LAYER = 22
 SCALE_FRAC = 0.03
 SCHEMA_VERSION = 1

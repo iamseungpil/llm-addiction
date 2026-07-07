@@ -1,0 +1,96 @@
+# sec4 Wave-9 arm registry — LLaMA REDUCED symmetric matrix (§4.2 model
+# symmetry). The SAME W7 frozen objects (sm_iba / ic_rc / mw_rc / shared3c) as
+# gemma, but built on LLaMA hidden at the W8 write window L14-19 (32L) via
+# --wave7-llama (llama_w7_{src}_{tgt}scale.npz, target sigma-units). 4 source
+# axes x 3 target tasks: diagonal (self) cells 7 doses, off-diagonal {-3,0,+3};
+# per-target 2 random nulls x +/-3 + a no-steer baseline. NEW seed_base 5000042
+# (RNG-independent of every gemma wave + the llama w8 scan). Outcomes: SM
+# bet_ratio, IC risky rate, MW spin rate. state_offset 0 replays pool[0:150],
+# held out of the axis build (SM excluded_game_ids / ic|mw.replay_game_ids).
+# ISOLATED via arms_sec4_w9.yaml, results/sec4_w9, MLC_SYNC_EVERY 50. 63 arms.
+#
+# PRE-REGISTRATION (gemma W7 loadings = model-INDEPENDENT prediction; the llama
+# build PRINTS its own loadings for the comparison, --wave7-llama):
+#   shared3c -> SM negative (cos -0.80), -> IC positive (cos +0.89),
+#              -> MW positive (cos +0.26);
+#   sm_iba -> IC negative (cos -0.48);  ic_rc -> SM negative (cos -0.48),
+#            -> MW positive (cos +0.24);  mw_rc -> IC positive (cos +0.24),
+#            -> SM positive LOW-CONF (cos +0.10).
+#   | source \ target | SM | IC | MW |
+#   | sm_iba   | + (self) | - | + LOW-CONF |
+#   | ic_rc    | -        | + (self) | + |
+#   | mw_rc    | + LOW-CONF | + | + (self) |
+#   | shared3c | -        | + | + |
+defaults:
+  model: llama
+  task: sm
+  n: 150
+  seed_base: 5000042
+  state_offset: 0
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  - {id: sec4_w9_smiba_sm_am3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz}
+  - {id: sec4_w9_smiba_sm_am2, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz}
+  - {id: sec4_w9_smiba_sm_am1, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz}
+  - {id: sec4_w9_smiba_sm_a0, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz}
+  - {id: sec4_w9_smiba_sm_ap1, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz}
+  - {id: sec4_w9_smiba_sm_ap2, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz}
+  - {id: sec4_w9_smiba_sm_ap3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz}
+  - {id: sec4_w9_smiba_ic_am3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_icscale.npz}
+  - {id: sec4_w9_smiba_ic_a0, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_icscale.npz}
+  - {id: sec4_w9_smiba_ic_ap3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_icscale.npz}
+  - {id: sec4_w9_smiba_mw_am3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_mwscale.npz}
+  - {id: sec4_w9_smiba_mw_a0, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_mwscale.npz}
+  - {id: sec4_w9_smiba_mw_ap3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_mwscale.npz}
+  - {id: sec4_w9_icrc_sm_am3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_smscale.npz}
+  - {id: sec4_w9_icrc_sm_a0, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_smscale.npz}
+  - {id: sec4_w9_icrc_sm_ap3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_smscale.npz}
+  - {id: sec4_w9_icrc_ic_am3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz}
+  - {id: sec4_w9_icrc_ic_am2, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz}
+  - {id: sec4_w9_icrc_ic_am1, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz}
+  - {id: sec4_w9_icrc_ic_a0, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz}
+  - {id: sec4_w9_icrc_ic_ap1, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz}
+  - {id: sec4_w9_icrc_ic_ap2, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz}
+  - {id: sec4_w9_icrc_ic_ap3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz}
+  - {id: sec4_w9_icrc_mw_am3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_mwscale.npz}
+  - {id: sec4_w9_icrc_mw_a0, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_mwscale.npz}
+  - {id: sec4_w9_icrc_mw_ap3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_mwscale.npz}
+  - {id: sec4_w9_mwrc_sm_am3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_smscale.npz}
+  - {id: sec4_w9_mwrc_sm_a0, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_smscale.npz}
+  - {id: sec4_w9_mwrc_sm_ap3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_smscale.npz}
+  - {id: sec4_w9_mwrc_ic_am3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_icscale.npz}
+  - {id: sec4_w9_mwrc_ic_a0, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_icscale.npz}
+  - {id: sec4_w9_mwrc_ic_ap3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_icscale.npz}
+  - {id: sec4_w9_mwrc_mw_am3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz}
+  - {id: sec4_w9_mwrc_mw_am2, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz}
+  - {id: sec4_w9_mwrc_mw_am1, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz}
+  - {id: sec4_w9_mwrc_mw_a0, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz}
+  - {id: sec4_w9_mwrc_mw_ap1, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz}
+  - {id: sec4_w9_mwrc_mw_ap2, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz}
+  - {id: sec4_w9_mwrc_mw_ap3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz}
+  - {id: sec4_w9_sh3c_sm_am3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_smscale.npz}
+  - {id: sec4_w9_sh3c_sm_a0, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_smscale.npz}
+  - {id: sec4_w9_sh3c_sm_ap3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_smscale.npz}
+  - {id: sec4_w9_sh3c_ic_am3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_icscale.npz}
+  - {id: sec4_w9_sh3c_ic_a0, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_icscale.npz}
+  - {id: sec4_w9_sh3c_ic_ap3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_icscale.npz}
+  - {id: sec4_w9_sh3c_mw_am3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_mwscale.npz}
+  - {id: sec4_w9_sh3c_mw_a0, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_mwscale.npz}
+  - {id: sec4_w9_sh3c_mw_ap3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_w7_sh3c_mwscale.npz}
+  - {id: sec4_w9_null_sm1_am3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, direction: random, dir_seed: 502607090, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_sm1_ap3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 502607091, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_sm2_am3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, direction: random, dir_seed: 502607092, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_sm2_ap3, phase: sec4_w9, task: sm, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 502607093, directions_npz: multilayer_causal/assets/sec4/llama_w7_smiba_smscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_ic1_am3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, direction: random, dir_seed: 502607094, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_ic1_ap3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 502607095, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_ic2_am3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, direction: random, dir_seed: 502607096, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_ic2_ap3, phase: sec4_w9, task: ic, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 502607097, directions_npz: multilayer_causal/assets/sec4/llama_w7_icrc_icscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_mw1_am3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, direction: random, dir_seed: 502607098, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_mw1_ap3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 502607099, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_mw2_am3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, direction: random, dir_seed: 502607100, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz, log_vectors: false}
+  - {id: sec4_w9_null_mw2_ap3, phase: sec4_w9, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 502607101, directions_npz: multilayer_causal/assets/sec4/llama_w7_mwrc_mwscale.npz, log_vectors: false}
+  - {id: sec4_w9_base_sm, phase: sec4_w9, task: sm, state_offset: 0, mode: anchor_minus, layers: [14, 19], log_vectors: false}
+  - {id: sec4_w9_base_ic, phase: sec4_w9, task: ic, state_offset: 0, mode: anchor_minus, layers: [14, 19], log_vectors: false}
+  - {id: sec4_w9_base_mw, phase: sec4_w9, task: mw, state_offset: 0, mode: anchor_minus, layers: [14, 19], log_vectors: false}

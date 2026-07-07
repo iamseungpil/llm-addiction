@@ -480,8 +480,17 @@ def load_task_arrays(model, task, layers, held_out=False):
         print(f"[sec4-axes] ic: excluded {len(replayed)} replayed games from "
               f"the axis build ({int(split.sum())}/{len(split)} rows kept)",
               flush=True)
-    else:  # mw: not replayed by any wave's arms; hash-parity discovery split
-        split = _discovery_mask(game_ids, held_out)
+    else:
+        # mw: sec4_w4 arms replay the frozen MW pool (offset 0) — exclude that
+        # window from the axis build (mirrors the IC branch; a hash-parity
+        # split would leak ~half the replayed games into the build set).
+        from .mw import ensure_mw_catalog, replay_game_ids as mw_replay_ids
+        ensure_mw_catalog(model)
+        replayed = mw_replay_ids(model)
+        split = ~np.isin(game_ids, sorted(replayed))
+        print(f"[sec4-axes] mw: excluded {len(replayed)} replayed games from "
+              f"the axis build ({int(split.sum())}/{len(split)} rows kept)",
+              flush=True)
     keep = split & np.isfinite(i_ba)
     # decoder is the FULL (K_full,d) matrix; the SAE feature columns are the
     # active subset, so restrict decoder rows to the active feature ids.
@@ -615,9 +624,17 @@ def _build_wave3_axes(task_data, layers):
     ratio = shared["scales"] / np.maximum(shared_ic["scales"], 1e-12)
     print(f"[sec4-axes/wave3] SM/IC write-window scale ratio per layer = "
           f"{np.round(ratio, 4).tolist()}", flush=True)
+    # MW-scale twin (Wave-4 sh3_mw arms): SAME directions, MW write-window
+    # sigma-units, norm-matched to the mw_own control / MW null band.
+    shared_mw = dict(shared)
+    shared_mw["scales"] = per_task["mystery_wheel"]["scales"].copy()
+    shared_mw["provenance"] = (shared["provenance"]
+                               + " MW write-window scales (sh3_mw dosing "
+                                 "norm-matched to the MW-own control/null).")
     built = dict(per_task)
     built["shared3"] = shared
     built["shared3_icscale"] = shared_ic
+    built["shared3_mwscale"] = shared_mw
     return built, cos_pairs
 
 
@@ -712,6 +729,11 @@ def main():
                 # id-checks npz stamped task 'investment_choice'.
                 task_label, indicator, src = "shared3", "iba", "investment_choice"
                 axis = "behavioural_icscale"
+            elif name == "shared3_mwscale":
+                # same directions at MW sigma-units for the Wave-4 sh3_mw
+                # ladder (norm-matched to mw_own / the MW null band).
+                task_label, indicator, src = "shared3", "iba", "mystery_wheel"
+                axis = "behavioural_mwscale"
             else:
                 task_label, indicator, src = name, "i_ba", name
             # target-task scales (PHASE_A covers sm/ic/mw), same subset

@@ -109,6 +109,17 @@ def load_mw_states(model: str = "gemma", n: int = 200) -> list:
     return entries[:n]
 
 
+MW_REPLAY_EXCLUDE_N = 250
+
+
+def replay_game_ids(model: str = "gemma", n: int = MW_REPLAY_EXCLUDE_N) -> set:
+    """Game ids of the first ``n`` entries of the frozen Random(42) MW pool —
+    every game the sec4_w4 MW arms can replay. indicator_axes.load_task_arrays
+    excludes these from the MW axis-build split so replayed states are
+    genuinely held out (mirrors ic.replay_game_ids)."""
+    return {int(g) for g, _, _ in load_mw_states(model, n=n)}
+
+
 class _FrozenMWParser:
     """Byte-identical frozen copy of the v2_role MW response parser.
 

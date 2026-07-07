@@ -94,7 +94,8 @@ def test_build_wave3_axes_per_task_plus_shared3():
     task_data = {t: _w3_task_data(rs) for t in ia.W3_TASKS}
     built, cos_pairs = ia._build_wave3_axes(task_data, layers=[0, 1])
 
-    assert set(built) == set(ia.W3_TASKS) | {"shared3", "shared3_icscale"}
+    assert set(built) == set(ia.W3_TASKS) | {"shared3", "shared3_icscale",
+                                             "shared3_mwscale"}
     for name, b in built.items():
         assert b["directions"].shape == (2, 8), name
         assert np.allclose(np.linalg.norm(b["directions"], axis=1), 1,

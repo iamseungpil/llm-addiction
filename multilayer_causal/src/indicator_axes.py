@@ -99,6 +99,11 @@ def build_readout_axis_from_arrays(feats, indicator, balance, rounds, groups,
     from sklearn.model_selection import GroupKFold
     from sklearn.preprocessing import StandardScaler
 
+    if decoder is None:
+        raise NotImplementedError(
+            "readout axis requires an SAE decoder (GemmaScope L22, gemma-only); "
+            "W8 llama uses the behavioural hidden mean-diff axis, which needs no "
+            "decoder — build only behavioural/confound axes for llama")
     feats = np.asarray(feats, dtype=np.float64)
     indicator = np.asarray(indicator, dtype=np.float64)
     balance = np.asarray(balance, dtype=np.float64)
@@ -626,8 +631,11 @@ def load_task_arrays(model, task, layers, held_out=False, rc_keep=False):
     loader. Referenced only at run time (Task 8); the unit tests use synthetic
     arrays directly.
     """
+    if model == "llama":
+        return _load_llama_task_arrays(task, layers, held_out=held_out,
+                                       rc_keep=rc_keep)
+    assert model == "gemma", f"sec4 Phase-1 supports gemma/llama (got {model})"
     token = os.environ.get("HF_TOKEN")
-    assert model == "gemma", "sec4 Phase-1 is Gemma-only"
     tdir = TASK_DIR[task]
     sae_rel = f"sae_features_v3/{tdir}/{model}/sae_features_L{pa.LAYER}.npz"
     phase_rel = (pa.PHASE_A["sm"] if task == "slot_machine"
@@ -726,6 +734,90 @@ def load_task_arrays(model, task, layers, held_out=False, rc_keep=False):
         # which kept rows carry a real bet: under the default rule this is all
         # True; under rc_keep it lets the Wave-6 diagnostics rebuild the
         # i_ba-based MW axis on EXACTLY the rows the Wave-3/5 builds saw.
+        "iba_finite": np.isfinite(i_ba)[keep],
+        "balance": balances[keep],
+        "rounds": rounds[keep],
+        "groups": game_ids[keep],
+        "build_game_ids": np.unique(game_ids[keep]),
+        "layers": list(layers),
+    }
+
+
+def _load_llama_task_arrays(task, layers, held_out=False, rc_keep=False):
+    """W8 LLaMA loader — SM BEHAVIOURAL-axis inputs only (model symmetry).
+
+    LLaMA's causal write axis is the BEHAVIOURAL hidden mean-diff, which needs
+    NO SAE decoder, so this returns feats=None / decoder=None (the readout
+    builder raises NotImplementedError on a None decoder). Hidden states come
+    from the 32-layer llama SM dump (pa.LLAMA_SM_HIDDEN); i_ba is the SM
+    catalog join (pa.compute_iba_sm on the llama v4_role catalog,
+    pa.sm_catalog_for). Row order mirrors the gemma path (phase_a extraction
+    order == catalog decision order). Held-out disjointness reuses the SAME
+    EVAL_EXCLUDE_N replay-window exclusion as gemma SM (small llama gap => the
+    W8 analysis reads the ABSOLUTE effect, but the build/replay disjointness
+    discipline is identical). Referenced only at run time (Task 8); the unit
+    tests exercise the array cores on synthetic data.
+    """
+    assert task == "slot_machine", \
+        f"W8 llama scan is slot_machine-only (got {task})"
+    assert not rc_keep, "rc_keep is the Wave-6 gemma MW-only keep rule"
+    token = os.environ.get("HF_TOKEN")
+    n_layers_full, d_model = pa.MODEL_DIMS["llama"]
+    z = np.load(pa._hf_path(pa.LLAMA_SM_HIDDEN, token), mmap_mode="r")
+    hs = z["hidden_states"]
+    assert hs.shape[1] == n_layers_full and hs.shape[2] == d_model, hs.shape
+    meta = {"game_ids": np.asarray(z["game_ids"]),
+            "round_nums": np.asarray(z["round_nums"]),
+            "balances": np.asarray(z["balances"], dtype=np.float64)}
+    # hidden_states_dp.npz carries an explicit `layers` array mapping each
+    # layer-axis ROW to its true decoder-layer NUMBER (the canonical
+    # run_rq2_aligned_hidden_transfer.load_hidden_states_dp convention). A
+    # count-only guard (shape[1]==32) cannot tell a post-layer dump [L0..L31]
+    # from an embedding-row dump [embed,L0..L30] — both are exactly 32 rows —
+    # so a naive hs[:, l, :] would silently estimate every window axis one layer
+    # off from where MultiLayerSteerer WRITES it (model.model.layers[l]).
+    # Resolve each requested layer number to its stored row so an off-by-one /
+    # missing-layer dump fails LOUD instead of mis-targeting the whole scan.
+    assert "layers" in z.files, (
+        "llama hidden_states_dp.npz lacks the `layers` provenance array; "
+        "cannot verify the layer-axis convention (embedding-row/off-by-one "
+        "would be undetectable)")
+    dp_layers = np.asarray(z["layers"]).tolist()
+
+    def _row_for(layer):
+        try:
+            return dp_layers.index(layer)
+        except ValueError:
+            raise ValueError(
+                f"llama hidden_states_dp.npz has no layer {layer} "
+                f"(stored layers: {dp_layers})")
+
+    hidden = np.stack(
+        [np.asarray(hs[:, _row_for(l), :], dtype=np.float64) for l in layers],
+        axis=1)
+    assert hs.shape[0] == hidden.shape[0], "llama phase_a row mismatch"
+
+    cat = pa._hf_path(pa.sm_catalog_for("llama"), token)
+    i_ba, balances = pa.compute_iba_sm(meta, cat)
+    game_ids = meta["game_ids"]
+    rounds = np.asarray(meta["round_nums"], dtype=np.float64)
+    i_lc, i_ec = _lc_ec_from_iba(np.nan_to_num(i_ba), balances, game_ids, rounds)
+
+    from .axes import excluded_game_ids, minusG_pool_with_game_ids
+    replay_games = excluded_game_ids(
+        minusG_pool_with_game_ids(cat), n_eval=pa.EVAL_EXCLUDE_N)
+    split = ~np.isin(game_ids, sorted(replay_games))
+    print(f"[sec4-axes] llama sm: excluded {len(replay_games)} replay-window "
+          f"games from the axis build ({int(split.sum())}/{len(split)} rows "
+          f"kept)", flush=True)
+    keep = _keep_mask(split, i_ba, np.full(len(game_ids), np.nan), rc_keep=False)
+    return {
+        "feats": None,     # behavioural axis uses no SAE features ...
+        "decoder": None,   # ... nor the GemmaScope decoder (readout is gemma-only)
+        "hidden": hidden[keep],
+        "indicators": {"i_ba": np.nan_to_num(i_ba)[keep],
+                       "i_lc": i_lc[keep], "i_ec": i_ec[keep],
+                       "i_rc": np.full(int(keep.sum()), np.nan)},
         "iba_finite": np.isfinite(i_ba)[keep],
         "balance": balances[keep],
         "rounds": rounds[keep],
@@ -863,13 +955,14 @@ def _build_wave3_axes(task_data, layers):
     return built, cos_pairs
 
 
-def _replicate_to_full(directions, layers):
-    """Expand a (L,d) per-window direction stack to the (42,d) runner npz row
-    schema: the L requested layers carry the built rows, all others hold the
-    first row (placement is the arm's ``layers`` field, like replicate_rows)."""
-    d = directions.shape[1]
+def _replicate_to_full(directions, layers, n_layers=N_LAYERS):
+    """Expand a (L,d) per-window direction stack to the (n_layers,d) runner npz
+    row schema: the L requested layers carry the built rows, all others hold the
+    first row (placement is the arm's ``layers`` field, like replicate_rows).
+    n_layers defaults to the gemma 42 so every existing caller is byte-identical;
+    W8 llama passes 32 (pa.MODEL_DIMS)."""
     full = np.tile(pa.unit(directions[0]).astype(np.float32)[None, :],
-                   (N_LAYERS, 1))
+                   (n_layers, 1))
     for li, l in enumerate(layers):
         full[l] = pa.unit(directions[li]).astype(np.float32)
     return full
@@ -877,8 +970,9 @@ def _replicate_to_full(directions, layers):
 
 def _save_axis(dest_dir, model, task, indicator, axis, built, layers,
                scales_full, cos_read_write, build_game_ids):
-    directions = _replicate_to_full(built["directions"], layers)
-    scales = scales_full if scales_full is not None else np.zeros(N_LAYERS, np.float32)
+    n_layers, _ = pa.MODEL_DIMS[model]  # gemma -> 42 (byte-identical), llama 32
+    directions = _replicate_to_full(built["directions"], layers, n_layers)
+    scales = scales_full if scales_full is not None else np.zeros(n_layers, np.float32)
     for li, l in enumerate(layers):
         if li < len(built["scales"]):
             scales[l] = built["scales"][li]
@@ -895,6 +989,40 @@ def _save_axis(dest_dir, model, task, indicator, axis, built, layers,
         build_prompt_set=BUILD_PROMPT_SET,
         build_game_ids=np.asarray(build_game_ids),
         provenance=built["provenance"])
+    return dest
+
+
+def _build_llama_window(dest_dir, model, layers):
+    """W8 STEP 1: llama SM I_BA BEHAVIOURAL axis for ONE candidate window.
+
+    Saves {model}_slot_machine_i_ba_behavioural_L{lo}_{hi}.npz (window in the
+    stem — the scan builds several to pick llama's causal write window before
+    the reduced symmetric matrix). Behavioural axis only: NO SAE decoder is
+    loaded (load_task_arrays returns decoder=None for llama). The npz row/scale
+    schema and replay-guard stamps match _save_axis so the runner replays it
+    exactly like a gemma behavioural axis, but at llama's 32-layer geometry.
+    """
+    lo, hi = layers[0], layers[-1]
+    data = load_task_arrays(model, "slot_machine", layers)
+    built = build_behavioural_axis_from_arrays(
+        data["hidden"], data["indicators"]["i_ba"], data["balance"],
+        data["rounds"], data["groups"], layers)
+    n_layers, _ = pa.MODEL_DIMS[model]
+    directions = _replicate_to_full(built["directions"], layers, n_layers)
+    scales = np.zeros(n_layers, np.float32)
+    for li, l in enumerate(layers):
+        scales[l] = built["scales"][li]
+    dest = (Path(dest_dir)
+            / f"{model}_slot_machine_i_ba_behavioural_L{lo}_{hi}.npz")
+    np.savez(
+        dest, directions=directions, scales=scales.astype(np.float32),
+        schema_version=SCHEMA_VERSION, gate_passed=True,
+        axis="behavioural", indicator="i_ba", task="slot_machine", model=model,
+        layers=np.asarray(layers), auc=float("nan"), cos_read_write=float("nan"),
+        build_prompt_set=BUILD_PROMPT_SET,
+        build_game_ids=np.asarray(data["build_game_ids"]),
+        provenance=(built["provenance"]
+                    + f" W8 llama SM window scan (L{lo}-{hi})."))
     return dest
 
 
@@ -929,6 +1057,10 @@ def main():
                     help="build the CROSS-TASK set (per-task behavioural I_BA "
                          "axes for slot_machine/investment_choice/mystery_wheel "
                          "+ their SVD-top1 shared3 axis) — goals-v2 Q2 rung-1")
+    ap.add_argument("--build-llama-windows", action="store_true",
+                    help="W8 STEP 1: build ONE llama SM I_BA behavioural axis "
+                         "for the --layers window (llama_slot_machine_i_ba_"
+                         "behavioural_L{lo}_{hi}.npz); no SAE decoder needed")
     args = ap.parse_args()
     assert sum(map(bool, (args.wave2, args.wave3, args.wave5, args.wave6, args.wave7))) <= 1, \
         "--wave2/3/5/6/7 are exclusive"
@@ -939,6 +1071,13 @@ def main():
     dest_dir.mkdir(parents=True, exist_ok=True)
     axes = [a.strip() for a in args.axes.split(",") if a.strip()]
     indicators = [i.strip() for i in args.indicators.split(",") if i.strip()]
+
+    if args.build_llama_windows:
+        dest = _build_llama_window(dest_dir, args.model, layers)
+        print(f"[sec4-axes/w8scan] {args.model} SM behavioural L{lo}-{hi} -> "
+              f"{dest}", flush=True)
+        print(json.dumps({"dest": str(dest)}, default=str))
+        return
 
     if args.wave7:
         token = os.environ.get("HF_TOKEN")

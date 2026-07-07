@@ -1,0 +1,35 @@
+# sec4 Wave-8 window SCAN - pick the LLaMA causal write window before the
+# reduced symmetric matrix. The spine llama profile was noisy, so this scans
+# four candidate behavioural I_BA write windows {[14,19],[16,21],[18,23],
+# [20,25]} (llama 32L) at alpha {-3,0,+3}, plus a no-steer baseline + 2 random
+# nulls. Each window steers its OWN llama_slot_machine_i_ba_behavioural_L{lo}_{hi}
+# axis (built by indicator_axes --build-llama-windows). LLaMA +/-G gap is small
+# (configs/llama_gap_estimate.json 0.0225) so the scan reads the ABSOLUTE effect,
+# not a recovery ratio. state_offset 0 replays pool[0:150] (inside the first-500
+# held-out window the axis build excludes), so build/replay stay disjoint.
+# ISOLATED via arms_sec4_w8scan.yaml, results/sec4_w8scan, MLC_SYNC_EVERY 50.
+defaults:
+  model: llama
+  task: sm
+  n: 150
+  seed_base: 4000042
+  state_offset: 0
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  - {id: sec4_w8scan_L14_19_am3, phase: sec4_w8scan, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L14_19.npz}
+  - {id: sec4_w8scan_L14_19_a0, phase: sec4_w8scan, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L14_19.npz}
+  - {id: sec4_w8scan_L14_19_ap3, phase: sec4_w8scan, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L14_19.npz}
+  - {id: sec4_w8scan_L16_21_am3, phase: sec4_w8scan, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L16_21.npz}
+  - {id: sec4_w8scan_L16_21_a0, phase: sec4_w8scan, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L16_21.npz}
+  - {id: sec4_w8scan_L16_21_ap3, phase: sec4_w8scan, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L16_21.npz}
+  - {id: sec4_w8scan_L18_23_am3, phase: sec4_w8scan, mode: steer, layers: [18, 23], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L18_23.npz}
+  - {id: sec4_w8scan_L18_23_a0, phase: sec4_w8scan, mode: steer, layers: [18, 23], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L18_23.npz}
+  - {id: sec4_w8scan_L18_23_ap3, phase: sec4_w8scan, mode: steer, layers: [18, 23], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L18_23.npz}
+  - {id: sec4_w8scan_L20_25_am3, phase: sec4_w8scan, mode: steer, layers: [20, 25], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L20_25.npz}
+  - {id: sec4_w8scan_L20_25_a0, phase: sec4_w8scan, mode: steer, layers: [20, 25], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L20_25.npz}
+  - {id: sec4_w8scan_L20_25_ap3, phase: sec4_w8scan, mode: steer, layers: [20, 25], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L20_25.npz}
+  - {id: sec4_w8scan_null1_ap3, phase: sec4_w8scan, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 40000420, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L16_21.npz, log_vectors: false}
+  - {id: sec4_w8scan_null2_am3, phase: sec4_w8scan, mode: steer, layers: [16, 21], alpha: -3.0, direction: random, dir_seed: 40000430, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural_L16_21.npz, log_vectors: false}
+  - {id: sec4_w8scan_base, phase: sec4_w8scan, mode: anchor_minus, layers: [16, 21], log_vectors: false}

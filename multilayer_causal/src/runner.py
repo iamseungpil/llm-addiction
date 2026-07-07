@@ -12,6 +12,7 @@ import numpy as np
 
 from . import wandb_logger
 from .checkpoint import ArmCheckpoint, VectorStore
+from .paper_axes import MODEL_DIMS
 from .hooks import (HookGroup, MultiLayerPatcher, MultiLayerSteerer,
                     PrefillTap, SubspacePatcher, cache_layer_outputs)
 from .prompts import build_prompt, parse_response, twin_combo
@@ -25,9 +26,10 @@ MODEL_PATHS = {
 }
 MODEL_PATH = MODEL_PATHS["gemma"]  # frozen alias (gemma asset/test surface)
 # Gemma asset-schema constants (directions npz rows, VectorStore stacks built
-# so far). The runner path itself derives n_layers/d_model from the loaded
-# model config — do NOT use these for anything model-dependent.
-N_LAYERS, D_MODEL = 42, 3584
+# so far), resolved from the single MODEL_DIMS registry so gemma stays 42/3584.
+# The runner path itself derives n_layers/d_model from the loaded model config
+# (_model_dims) — do NOT use these for anything model-dependent.
+N_LAYERS, D_MODEL = MODEL_DIMS["gemma"]
 TEMPERATURE, MAX_NEW_TOKENS = 0.7, 200
 SEED_BASE = 42
 PROBE_MODES = {"anchor_minus", "anchor_plus", "patch", "steer"}
@@ -190,9 +192,14 @@ def load_model(gpu: int, model_name: str = "gemma"):
         path, torch_dtype=torch.bfloat16,
         device_map={"": f"cuda:{gpu}"}, token=os.environ.get("HF_TOKEN"))
     model.eval()
-    if model_name == "gemma":  # frozen W1/W2 contract
-        assert len(model.model.layers) == N_LAYERS, "unexpected layer count"
-        assert model.config.hidden_size == D_MODEL, "unexpected hidden size"
+    # Model-aware geometry guard via the single MODEL_DIMS registry: gemma keeps
+    # its frozen W1/W2 42/3584 contract byte-identically; llama additionally
+    # asserts 32/4096 (W8 model symmetry) instead of skipping the check.
+    n_exp, d_exp = MODEL_DIMS[model_name]
+    assert len(model.model.layers) == n_exp, \
+        f"unexpected layer count for {model_name}"
+    assert model.config.hidden_size == d_exp, \
+        f"unexpected hidden size for {model_name}"
     return model, tok, f"cuda:{gpu}"
 
 

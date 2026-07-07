@@ -127,7 +127,24 @@ import numpy as np
 from .behavior_axis import CATALOG as SM_CATALOG
 from .behavior_axis import HF_REPO, PHASE_A as SM_PHASE_A
 
-N_LAYERS, D_MODEL = 42, 3584
+# Model geometry registry — the single source of truth for (n_layers, d_model)
+# (Karpathy: one MODEL_DIMS map, never scattered 42/3584 conditionals). Gemma is
+# listed first and drives the module-level constants so every existing gemma
+# builder/asset stays byte-identical; llama is additive (W8 model symmetry).
+MODEL_DIMS = {"gemma": (42, 3584), "llama": (32, 4096)}
+N_LAYERS, D_MODEL = MODEL_DIMS["gemma"]   # frozen gemma default (42, 3584)
+# Model-aware §3 SM behavioural catalog (mirrors run_comprehensive_robustness
+# .compute_iba's per-model SM file). SM_CATALOG stays the gemma file so every
+# gemma builder is byte-identical; llama adds its v4_role catalog. The
+# behavioural axis is a hidden mean-diff, so llama needs NO SAE decoder — only
+# the readout axis (gemma-only) uses load_gemmascope_l22_wdec.
+SM_CATALOG_BY_MODEL = {
+    "gemma": SM_CATALOG,
+    "llama": "behavioral/slot_machine/llama_v4_role/"
+             "final_llama_20260315_062428.json",
+}
+# LLaMA SM all-layer hidden states (32 layers x 4096) for the W8 window scan.
+LLAMA_SM_HIDDEN = "sae_features_v3/slot_machine/llama/hidden_states_dp.npz"
 LAYER = 22
 SCALE_FRAC = 0.03
 SCHEMA_VERSION = 1
@@ -183,6 +200,11 @@ BK_TASKS = ("sm", "ic", "mw")
 
 
 # ---------------------------------------------------------------- pure math
+
+def sm_catalog_for(model="gemma"):
+    """Model-aware §3 SM behavioural catalog HF path (gemma default frozen)."""
+    return SM_CATALOG_BY_MODEL[model]
+
 
 def unit(v):
     """v / ||v|| (1e-12 guard)."""

@@ -1,0 +1,79 @@
+description: multilayer-causal SEC4 Wave-7 - PRE-REGISTERED 12-cell symmetric confirmatory matrix (sign table + adjudication rule committed to INDEX.md e4a5412 BEFORE this launch). Frozen objects sm_iba/ic_rc/mw_rc/shared3c steered on every task at target sigma-units (--wave7 grid assets), NEW seed_base 3000042, per-target nulls + baselines. Primary criterion - at least 8 of 10 confident cells hit their pre-registered sign above the target null band. ISOLATED via arms_sec4_w7.yaml, results/sec4_w7, MLC_SYNC_EVERY 50.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w7
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0..w5 paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w7.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w7
+        # HF commit-rate cap (256/h): sync every 50 trials instead of 10 so the
+        # wave stays under budget; preemption loses <=50 trials/arm, refilled
+        # on resume.
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the WAVE-6 axis library ON the node (--wave7 builds the MW
+        # spin/stop mw_rc axis via the rc_keep loader plus shared3c =
+        # SVD-top1(sm_iba, ic_rc, mw_rc) with per-task sigma-unit variants,
+        # printing the mw_rc diagnostics and the shared3c loadings — the W7
+        # pre-registration numbers); abort the whole job if the build fails so
+        # a bad axis never wastes rollout. Uploads the npz to HF. ---
+        PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model gemma --wave7 --layers 16 21 --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        python -c "
+        import numpy as np, glob, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        need = [\"gemma_w7_smiba_smscale.npz\", \"gemma_w7_smiba_icscale.npz\", \"gemma_w7_smiba_mwscale.npz\", \"gemma_w7_icrc_smscale.npz\", \"gemma_w7_icrc_icscale.npz\", \"gemma_w7_icrc_mwscale.npz\", \"gemma_w7_mwrc_smscale.npz\", \"gemma_w7_mwrc_icscale.npz\", \"gemma_w7_mwrc_mwscale.npz\", \"gemma_w7_sh3c_smscale.npz\", \"gemma_w7_sh3c_icscale.npz\", \"gemma_w7_sh3c_mwscale.npz\"]
+        for name in need:
+            f = os.path.join(\"multilayer_causal/assets/sec4\", name)
+            assert os.path.exists(f), \"missing wave6 axis: \"+name
+            d = np.load(f)
+            print(\"SEC4_W7_AXIS\", name, \"shape=%s\" % (d[\"directions\"].shape,))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+name, repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_W7_AXES_UPLOADED\", len(need))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        bash multilayer_causal/run_arms.sh 4 sec4_w7_smiba_sm_am3 sec4_w7_smiba_sm_am2 sec4_w7_smiba_sm_am1 sec4_w7_smiba_sm_a0 sec4_w7_smiba_sm_ap1 sec4_w7_smiba_sm_ap2 sec4_w7_smiba_sm_ap3 sec4_w7_smiba_ic_am3 sec4_w7_smiba_ic_a0 sec4_w7_smiba_ic_ap3 sec4_w7_smiba_mw_am3 sec4_w7_smiba_mw_a0 sec4_w7_smiba_mw_ap3 sec4_w7_icrc_sm_am3 sec4_w7_icrc_sm_a0 sec4_w7_icrc_sm_ap3 sec4_w7_icrc_ic_am3 sec4_w7_icrc_ic_am2 sec4_w7_icrc_ic_am1 sec4_w7_icrc_ic_a0 sec4_w7_icrc_ic_ap1 sec4_w7_icrc_ic_ap2 sec4_w7_icrc_ic_ap3 sec4_w7_icrc_mw_am3 sec4_w7_icrc_mw_a0 sec4_w7_icrc_mw_ap3 sec4_w7_mwrc_sm_am3 sec4_w7_mwrc_sm_a0 sec4_w7_mwrc_sm_ap3 sec4_w7_mwrc_ic_am3 sec4_w7_mwrc_ic_a0 sec4_w7_mwrc_ic_ap3 sec4_w7_mwrc_mw_am3 sec4_w7_mwrc_mw_am2 sec4_w7_mwrc_mw_am1 sec4_w7_mwrc_mw_a0 sec4_w7_mwrc_mw_ap1 sec4_w7_mwrc_mw_ap2 sec4_w7_mwrc_mw_ap3 sec4_w7_sh3c_sm_am3 sec4_w7_sh3c_sm_a0 sec4_w7_sh3c_sm_ap3 sec4_w7_sh3c_ic_am3 sec4_w7_sh3c_ic_a0 sec4_w7_sh3c_ic_ap3 sec4_w7_sh3c_mw_am3 sec4_w7_sh3c_mw_a0 sec4_w7_sh3c_mw_ap3 sec4_w7_null_sm1_am3 sec4_w7_null_sm1_ap3 sec4_w7_null_sm2_am3 sec4_w7_null_sm2_ap3 sec4_w7_null_sm3_am3 sec4_w7_null_sm3_ap3 sec4_w7_null_ic1_am3 sec4_w7_null_ic1_ap3 sec4_w7_null_ic2_am3 sec4_w7_null_ic2_ap3 sec4_w7_null_ic3_am3 sec4_w7_null_ic3_ap3 sec4_w7_null_mw1_am3 sec4_w7_null_mw1_ap3 sec4_w7_null_mw2_am3 sec4_w7_null_mw2_ap3 sec4_w7_null_mw3_am3 sec4_w7_null_mw3_ap3 sec4_w7_base_sm sec4_w7_base_ic sec4_w7_base_mw
+        echo SEC4_W7_DONE
+        '

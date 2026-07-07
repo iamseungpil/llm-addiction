@@ -576,6 +576,42 @@ def _build_wave6_axes(task_data, layers):
     return built, cos_pairs
 
 
+def _build_wave7_axes(task_data, layers):
+    """W7 confirmatory grid: the FROZEN objects (INDEX.md object-freeze) —
+    sm_iba, ic_rc, mw_rc, shared3c — each emitted at EVERY target task's
+    sigma-units, so all 12 pre-registered matrix cells steer norm-matched to
+    their target. Construction is byte-identical to _build_wave6_axes (same
+    deconfound, same subsets); this function only re-scales. Returns
+    ({(src, tgt): built}, cos_pairs) with cos_pairs re-printed for the launch
+    log (must match the frozen pre-registration numbers)."""
+    built6, cos_pairs = _build_wave6_axes(task_data, layers)
+    # rebuild the two inputs wave6 does not return, identically to its body
+    sm = build_behavioural_axis_from_arrays(
+        task_data["slot_machine"]["hidden"],
+        task_data["slot_machine"]["indicators"]["i_ba"],
+        task_data["slot_machine"]["balance"], task_data["slot_machine"]["rounds"],
+        task_data["slot_machine"]["groups"], layers)
+    ic_d = task_data["investment_choice"]
+    rc = np.asarray(ic_d["indicators"]["i_rc"], dtype=np.float64)
+    m = np.isfinite(rc)
+    ic_rc = build_behavioural_axis_from_arrays(
+        ic_d["hidden"][m], rc[m], ic_d["balance"][m], ic_d["rounds"][m],
+        ic_d["groups"][m], layers)
+    sources = {"smiba": sm, "icrc": ic_rc, "mwrc": built6["mw_rc"],
+               "sh3c": built6["shared3c"]}
+    tgt_scales = {"sm": sm["scales"], "ic": ic_rc["scales"],
+                  "mw": built6["mw_rc"]["scales"]}
+    grid = {}
+    for sk, src in sources.items():
+        for tk, sc in tgt_scales.items():
+            v = dict(src)
+            v["scales"] = np.asarray(sc).copy()
+            v["provenance"] = (src.get("provenance", "") +
+                               f" W7 grid: source {sk} at {tk} sigma-units.")
+            grid[(sk, tk)] = v
+    return grid, cos_pairs
+
+
 def load_task_arrays(model, task, layers, held_out=False, rc_keep=False):
     """Pull cached HF SAE features + all-layer hidden states + indicators for a
     (model, task), restricted to the DISCOVERY (or held-out) game split.
@@ -880,6 +916,11 @@ def main():
                     help="Q2 rung-3 build: IC risky-CHOICE axis (i_rc) + "
                          "shared3b = SVD(sm_iba, ic_rc, mw_iba) with per-task "
                          "sigma-unit variants")
+    ap.add_argument("--wave7", action="store_true",
+                    help="W7 confirmatory build: the FROZEN objects (sm_iba, "
+                         "ic_rc, mw_rc, shared3c) saved at EVERY target's "
+                         "sigma-units — the full source x target-scale grid "
+                         "the 12-cell pre-registered matrix steers")
     ap.add_argument("--wave6", action="store_true",
                     help="Q2 MW object fix: MW spin-vs-stop axis (mw_rc, "
                          "rc_keep loader) + shared3c = SVD(sm_iba, ic_rc, "
@@ -889,8 +930,8 @@ def main():
                          "axes for slot_machine/investment_choice/mystery_wheel "
                          "+ their SVD-top1 shared3 axis) — goals-v2 Q2 rung-1")
     args = ap.parse_args()
-    assert sum(map(bool, (args.wave2, args.wave3, args.wave5, args.wave6))) <= 1, \
-        "--wave2/--wave3/--wave5/--wave6 are exclusive"
+    assert sum(map(bool, (args.wave2, args.wave3, args.wave5, args.wave6, args.wave7))) <= 1, \
+        "--wave2/3/5/6/7 are exclusive"
 
     lo, hi = args.layers
     layers = list(range(lo, hi + 1))
@@ -898,6 +939,28 @@ def main():
     dest_dir.mkdir(parents=True, exist_ok=True)
     axes = [a.strip() for a in args.axes.split(",") if a.strip()]
     indicators = [i.strip() for i in args.indicators.split(",") if i.strip()]
+
+    if args.wave7:
+        token = os.environ.get("HF_TOKEN")
+        task_data = {t: load_task_arrays(args.model, t, layers,
+                                         rc_keep=(t == "mystery_wheel"))
+                     for t in W3_TASKS}
+        grid, cos_pairs = _build_wave7_axes(task_data, layers)
+        summary = {"w7_cos": cos_pairs}
+        SCALE_TASK = {"sm": "slot_machine", "ic": "investment_choice",
+                      "mw": "mystery_wheel"}
+        for (sk, tk), b in grid.items():
+            src_task = SCALE_TASK[tk]
+            sf = pa.scales_from_phase_a(W3_TASK_KEY[src_task],
+                                        np.arange(len(task_data[src_task]["groups"])),
+                                        token)
+            dest = _save_axis(dest_dir, args.model, "w7", sk,
+                              f"{tk}scale", b, layers, sf, float("nan"),
+                              task_data[src_task]["build_game_ids"])
+            summary[f"{sk}_{tk}"] = {"dest": str(dest)}
+            print(f"[sec4-axes/wave7] {sk}@{tk} -> {dest}", flush=True)
+        print(json.dumps(summary, indent=2, default=str))
+        return
 
     if args.wave6:
         token = os.environ.get("HF_TOKEN")

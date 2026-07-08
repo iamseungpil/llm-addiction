@@ -119,3 +119,16 @@ GO). No auto-launch — expansion is a human gate.
 | §4.2 shared causal write | STRONG (SM<->IC sign-predictable 8/8) | STRONG at task-own windows (IC L12-17 +0.20, MW L16-21 +0.36; sign-orientation) |
 | §4.3 condition writability | STRONG (G-specific +G>-G>+M) | NOT REPRODUCED (headroom-limited) |
 - **Paper stance:** §4.1 read-inert + §4.2 shared write reproduce on BOTH models (headline, causal upgrade); §4.1 write-purity (confound) + §4.3 are Gemma-clean, LLaMA-limited (stated limitations, not overclaimed). Gemma = confirmatory model, LLaMA = robustness with honest headroom/purity caveats.
+
+### W13 NECESSITY (project-out) — causal argument COMPLETED (sufficiency + necessity), §4.1 LLaMA purity RESOLVED
+- **behavioural = NECESSARY (both models):** remove it -> gambling drops. Gemma 0.066->0.028 (Δ-0.037, p<0.001, ↑17/↓62); LLaMA 0.211->0.159 (Δ-0.052, p=0.023, ↑24/↓46). The write axis is a NECESSARY cause, not just sufficient.
+- **readout = NOT necessary (both models):** remove it -> no change (Gemma Δ-0.003 p=0.885; LLaMA Δ-0.019 p=1.0). The read direction is neither sufficient (inert steering) NOR necessary -> monitor≠controller now holds under sufficiency AND necessity, both models.
+- **§4.1 LLaMA write-PURITY RESOLVED:** confound is NOT necessary on LLaMA (Δ-0.006, p=1.0) — it was sufficient (steering raised betting, W10) but removing it does nothing, so the write effect is carried by behavioural, not the balance signal. The W10 confound entanglement was a sufficiency artefact; necessity separates them. behavioural = the pure causal axis.
+- **Aside:** Gemma confound removal RAISES betting (Δ+0.046, p<0.001) — balance-awareness acts as a brake; removing it disinhibits. Interesting footnote, not a purity problem (behavioural is necessary; confound is not, it's suppressive).
+- **Balance-matched (same-seed paired):** all drops are within-balance (paired by seed->identical state->identical balance), not a balance artefact.
+
+### PROGRAM COMPLETE — final causal picture (both models unless noted)
+- §4.1 monitor≠controller: STRONG both models — behavioural sufficient AND necessary; readout inert AND unnecessary; LLaMA purity resolved by necessity.
+- §4.2 shared causal write: STRONG both models (Gemma SM<->IC sign-predictable 8/8; LLaMA strong at task-own windows W11).
+- §4.3 condition writability: Gemma STRONG (G-specific); LLaMA NOT reproduced because autonomy barely moves LLaMA behaviour (±G gap 0.019, consistent with §3 behaviour) — honest, behaviour-consistent limitation, not a method failure.
+- Causal argument = sufficiency (steering) + necessity (project-out), both models. Ready for paper §4 causal upgrade.

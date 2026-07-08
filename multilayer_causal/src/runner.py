@@ -13,8 +13,9 @@ import numpy as np
 from . import wandb_logger
 from .checkpoint import ArmCheckpoint, VectorStore
 from .paper_axes import MODEL_DIMS
-from .hooks import (HookGroup, MultiLayerPatcher, MultiLayerSteerer,
-                    PrefillTap, SubspacePatcher, cache_layer_outputs)
+from .hooks import (HookGroup, MultiLayerPatcher, MultiLayerProjector,
+                    MultiLayerSteerer, PrefillTap, SubspacePatcher,
+                    cache_layer_outputs)
 from .prompts import build_prompt, parse_response, twin_combo
 from .states import ensure_sm_catalog, load_minusG_states
 
@@ -263,6 +264,33 @@ def _load_steer_assets(arm, d_model=D_MODEL):
     return dirs, scales
 
 
+def _load_projectout_dirs(arm, d_model=D_MODEL):
+    """W13 NECESSITY: per-layer axis rows for project-out (MultiLayerProjector).
+
+    Reuses the SAME directions npz the steerer reads (keys 'directions' (L,D)),
+    applying the identical reproduction gate; the projector unit-normalises each
+    row itself, so no scales are needed (removal is a pure geometric projection,
+    not a sigma-unit dose). direction: random draws isotropic unit rows (the
+    project-out null control) from the arm's dir_seed — removing a RANDOM
+    direction should NOT lower betting, the necessity contrast. Only d_model
+    sizes the random draw; real rows carry their own dim."""
+    import torch
+    z = np.load(arm["directions_npz"])
+    if arm.get("direction") == "random":
+        rng = np.random.Generator(np.random.PCG64(int(arm["dir_seed"])))
+        dirs = {}
+        for li in arm["layers"]:
+            v = rng.standard_normal(d_model)
+            dirs[li] = torch.tensor(v / np.linalg.norm(v), dtype=torch.float32)
+        return dirs
+    if "gate_passed" in z.files:
+        assert bool(z["gate_passed"]), (
+            f"{arm['id']}: direction asset {arm['directions_npz']} failed its "
+            f"reproduction gate — arm auto-excluded (RUN_PLAN_W3.md)")
+    return {li: torch.tensor(z["directions"][li], dtype=torch.float32)
+            for li in arm["layers"]}
+
+
 def _load_bases(arm, d_model=D_MODEL):
     import torch
     if arm.get("basis", "pca") == "random":
@@ -481,6 +509,19 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
                 assert 0 <= li < n_layers, f"log_layer {li} out of range"
                 tap = PrefillTap(li)
                 hookset = HookGroup(hookset, tap)  # tap last → post-edit view
+        elif mode == "project_out":
+            # W13 NECESSITY: REMOVE the axis from the residual stream at every
+            # write-window layer, all positions, every forward (opposite of the
+            # additive steerer). No alpha; removal_frac (default 1.0) scales the
+            # removal h - frac*(h·û)û. Evaluates the natural −G prompt (minus_p).
+            dirs = _load_projectout_dirs(arm, d_model)
+            frac = float(arm.get("removal_frac", 1.0))
+            hookset = MultiLayerProjector(dirs, frac=frac)
+            if arm.get("log_vectors"):
+                li = int(arm.get("log_layer", 22))
+                assert 0 <= li < n_layers, f"log_layer {li} out of range"
+                tap = PrefillTap(li)
+                hookset = HookGroup(hookset, tap)  # tap last → post-removal view
         elif mode != "anchor_minus":
             raise ValueError(f"unknown mode {mode}")
 

@@ -1,0 +1,109 @@
+description: multilayer-causal SEC4 Wave-13 - §4 NECESSITY via PROJECT-OUT on BOTH models. Every prior wave tested SUFFICIENCY (add alpha*dir -> behaviour moves); W13 REMOVES the axis from the residual stream (h -= (h·u)u at every write-window layer, all positions, every forward) and asks whether betting DROPS. REUSES the FROZEN §4 axis assets (no rebuild of the direction objects) - gemma_slot_machine_i_ba_(behavioural,confound,readout) at L16-21 and llama_slot_machine_i_ba_(behavioural,confound,readout) at L14-19 - fetched from HF, rebuilt on the node ONLY if absent (gemma via indicator_axes --axes readout,behavioural,confound --layers 16 21; llama via --wave10-llama --layers 14 19). Runs 14 arms (per model - a no-hook baseline, full project-out of behavioural/confound/readout, a partial removal_frac 0.5 behavioural arm, and 2 random-direction project-out nulls). If behavioural project-out DROPS betting below the random-null band while confound + readout do NOT, behavioural is NECESSARY and PURE. ISOLATED via arms_sec4_w13.yaml (MLC_ARMS_YAML), results/sec4_w13 (MLC_OUT), MLC_SYNC_EVERY 50, W&B llm-addiction-sec4.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w13
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0..w11 paths stay byte-identical). W13 loads a
+        # single arms yaml (both models) via MLC_ARMS_YAML.
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w13.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w13
+        # HF commit-rate cap (256/h): sync every 50 trials instead of 10 so the
+        # wave stays under budget; preemption loses <=50 trials/arm, refilled
+        # on resume.
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn safetensors 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml, safetensors" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- FETCH the FROZEN §4 axis library from HF (W13 REUSES the same
+        # direction objects the sufficiency waves steered — it never rebuilds
+        # them by default). Only the axes ABSENT after the fetch are rebuilt on
+        # the node (gemma via the p0 build recipe, llama via --wave10-llama), so
+        # the project-out and the earlier add-alpha arms share byte-identical û. ---
+        mkdir -p multilayer_causal/assets/sec4
+        python -c "
+        import os
+        from huggingface_hub import hf_hub_download
+        need = [\"gemma_slot_machine_i_ba_behavioural.npz\", \"gemma_slot_machine_i_ba_confound.npz\", \"gemma_slot_machine_i_ba_readout.npz\", \"llama_slot_machine_i_ba_behavioural.npz\", \"llama_slot_machine_i_ba_confound.npz\", \"llama_slot_machine_i_ba_readout.npz\"]
+        tok = os.environ[\"HF_TOKEN\"]
+        for name in need:
+            try:
+                p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/sec4_causal/assets/\"+name, repo_type=\"dataset\", token=tok)
+                open(os.path.join(\"multilayer_causal/assets/sec4\", name), \"wb\").write(open(p, \"rb\").read())
+                print(\"SEC4_W13_AXIS_FETCHED\", name)
+            except Exception as e:
+                print(\"SEC4_W13_AXIS_MISSING\", name, str(e)[:80])
+        "
+        # rebuild any missing axes on the node (frozen recipe: gemma p0 window,
+        # llama wave10 window). No-op when the fetch already provided all six.
+        if [ ! -f multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz ]; then
+          PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model gemma --task slot_machine --indicators i_ba --axes readout,behavioural,confound --layers 16 21 --dest multilayer_causal/assets/sec4 || { echo SEC4_GEMMA_BUILD_FAILED; exit 1; }
+        fi
+        if [ ! -f multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz ]; then
+          PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model llama --wave10-llama --layers 14 19 --dest multilayer_causal/assets/sec4 || { echo SEC4_LLAMA_BUILD_FAILED; exit 1; }
+        fi
+        # verify all six axes exist with the expected per-model shapes before any
+        # rollout (a missing/mis-shaped axis must fail the job, not steer garbage).
+        python -c "
+        import numpy as np, os
+        need = {\"gemma\": [\"gemma_slot_machine_i_ba_behavioural.npz\", \"gemma_slot_machine_i_ba_confound.npz\", \"gemma_slot_machine_i_ba_readout.npz\"], \"llama\": [\"llama_slot_machine_i_ba_behavioural.npz\", \"llama_slot_machine_i_ba_confound.npz\", \"llama_slot_machine_i_ba_readout.npz\"]}
+        shape = {\"gemma\": (42, 3584), \"llama\": (32, 4096)}
+        for model, names in need.items():
+            for name in names:
+                f = os.path.join(\"multilayer_causal/assets/sec4\", name)
+                assert os.path.exists(f), \"missing w13 axis: \"+name
+                d = np.load(f)
+                assert d[\"directions\"].shape == shape[model], (name, d[\"directions\"].shape)
+                print(\"SEC4_W13_AXIS_OK\", name, d[\"directions\"].shape)
+        print(\"SEC4_W13_AXES_VERIFIED\")
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        # Serial catalog bootstrap for BOTH models BEFORE the fan-out (run_arms.sh
+        # only pre-bootstraps gemma; the parallel llama SM arms must not race the
+        # catalog download their state pools need).
+        PYTHONPATH=/scratch/mlc python -c "from multilayer_causal.src.states import ensure_sm_catalog; ensure_sm_catalog(\"gemma\"); ensure_sm_catalog(\"llama\")"
+        # --- run the W13 NECESSITY arm set (both models, one fan-out) ---
+        export MLC_ARMS_YAML=multilayer_causal/configs/arms_sec4_w13.yaml
+        bash multilayer_causal/run_arms.sh 4 sec4_w13_gemma_base sec4_w13_gemma_behavioural sec4_w13_gemma_confound sec4_w13_gemma_readout sec4_w13_gemma_behavioural_half sec4_w13_gemma_null_1 sec4_w13_gemma_null_2 sec4_w13_llama_base sec4_w13_llama_behavioural sec4_w13_llama_confound sec4_w13_llama_readout sec4_w13_llama_behavioural_half sec4_w13_llama_null_1 sec4_w13_llama_null_2
+        echo SEC4_W13_DONE
+        '

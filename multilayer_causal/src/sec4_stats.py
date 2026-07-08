@@ -1451,6 +1451,235 @@ def make_figure_w11(res: dict, results_dir: Path, out_png: Path):
     plt.close(fig)
 
 
+# ============================================================ WAVE 13
+# §4 NECESSITY via PROJECT-OUT (configs/arms_sec4_w13.yaml). Every prior wave
+# tested SUFFICIENCY (add alpha*dir -> behaviour moves). W13 REMOVES the axis
+# from the residual stream (h -= (h·û)û at every write-window layer, all
+# positions, every forward) and asks whether betting DROPS. The KEY pattern:
+# the BEHAVIOURAL axis is NECESSARY (project-out drops betting below the
+# random-direction project-out null band) while the CONFOUND and READOUT axes
+# are NOT (their project-out leaves betting inside the null band) — pure +
+# necessary, upgrading §4 to sufficiency+necessity. Reported PER MODEL (gemma
+# L16-21, llama L14-19). Absolute-effect (llama gap small): mean bet_ratio drop
+# vs the no-hook baseline, gated against the random-null project-out band.
+#
+# Balance as a confound is removed BY CONSTRUCTION (matched pairs, not post-hoc
+# stratification): the baseline and every project-out arm replay the SAME
+# held-out state slice with the SAME alpha-independent seeds, so records pair by
+# seed. Within a pair both arms see the identical prompt and thus the identical
+# shown balance (`balance` is parsed from the prompt, a function of the
+# seed/state, not of the model output the hook perturbs). The paired drop is
+# therefore a within-balance drop for every pair; project-out cannot shift which
+# balances were sampled, so a balance-mix artefact is impossible. `by_bin` (the
+# §4.3 fixed-balance-window read-out) is DESCRIPTIVE only — a count-weighted mean
+# over its bins is the raw paired drop by construction, so it is not an
+# independent artefact guard.
+
+W13_RESULTS_DIR = _MLC / "results" / "sec4_w13"
+# LLaMA SM parses lower than gemma; reuse the W10 SM floor so a real llama cell
+# is not discarded. Gemma SM parses well above it, so the gate is a no-op there.
+W13_PARSE_GATE = 0.5
+W13_MODELS = ("gemma", "llama")
+W13_AXES = ("behavioural", "confound", "readout")
+W13_NULL_FLOOR = 0.02            # min half-band on the absolute bet drop
+W13_BAL_BINS = (0, 40, 80, 120, 200, 100000)   # balance strata edges ($)
+
+
+def _bal_of(r: dict) -> Optional[float]:
+    """Balance the trial was decided at (source_state.balance), for the
+    descriptive within-balance read-out. None when the record omits it."""
+    ss = r.get("source_state")
+    if isinstance(ss, dict) and ss.get("balance") is not None:
+        return float(ss["balance"])
+    return None
+
+
+def _w13_arm_rows(results_dir: Path, arm_id: str) -> List[dict]:
+    fp = Path(results_dir) / f"{arm_id}.jsonl"
+    return _rows(fp) if fp.exists() else []
+
+
+def _w13_bets(rows: List[dict]) -> List[float]:
+    """Parse-gated per-trial bet_ratios (drops parse-fail rows before betting is
+    read, mirroring _arm_summary)."""
+    return [b for r in rows if r.get("parse_ok") and (b := _bet(r)) is not None]
+
+
+def _w13_paired_drop(base_rows, proj_rows) -> dict:
+    """Matched-pairs drop baseline - project_out. Pairs parse-ok rows by `seed`
+    (the arms replay the identical seeded slice), so each pair shares the same
+    source state and therefore the same shown balance (`balance` is parsed from
+    the prompt at runner.py:534, a function of the seed/state, NOT of the model
+    output the hook perturbs). Returns the mean within-pair drop (positive =
+    betting fell). Balance is removed as a confound BY CONSTRUCTION here: because
+    both arms see the identical balance for every pair, the drop cannot be a
+    balance-mix artefact — there is nothing to re-weight. `by_bin` reports the
+    drop within each shown-balance stratum for descriptive read-out only (it is
+    NOT an independent artefact guard: the paired design already holds balance
+    fixed, and a count-weighted mean over these bins is the raw mean by
+    construction)."""
+    def _by_seed(rows):
+        return {r["seed"]: r for r in rows
+                if r.get("parse_ok") and _bet(r) is not None
+                and r.get("seed") is not None}
+    b, p = _by_seed(base_rows), _by_seed(proj_rows)
+    seeds = sorted(set(b) & set(p))
+    if not seeds:
+        return {"n_pairs": 0, "paired_drop": float("nan"), "by_bin": {}}
+    diffs = [(_bet(b[s]) - _bet(p[s])) for s in seeds]
+    # descriptive: within-pair drop grouped by the (arm-invariant) shown balance.
+    bins: Dict[int, List[float]] = {}
+    for s in seeds:
+        bal = _bal_of(b[s])
+        k = (int(np.digitize([bal], W13_BAL_BINS)[0]) if bal is not None else -1)
+        bins.setdefault(k, []).append(_bet(b[s]) - _bet(p[s]))
+    by_bin = {str(k): {"n": len(v), "mean_drop": float(np.mean(v))}
+              for k, v in sorted(bins.items())}
+    return {"n_pairs": len(seeds), "paired_drop": float(np.mean(diffs)),
+            "by_bin": by_bin}
+
+
+def _w13_model(results_dir: Path, model: str) -> dict:
+    """Per-model necessity table. For each axis: project-out mean bet vs the
+    no-hook baseline and the random-direction project-out null band, plus the
+    matched-pairs drop. Verdict per axis NECESSARY (mean bet drops below
+    the null band AND the matched-pairs drop is positive) / NOT_NECESSARY.
+    The KEY §4 pattern = behavioural NECESSARY while confound + readout NOT."""
+    base_rows = _w13_arm_rows(results_dir, f"sec4_w13_{model}_base")
+    base_bets = _w13_bets(base_rows)
+    base_bet = float(np.mean(base_bets)) if base_bets else float("nan")
+
+    # random-direction project-out null band: mean bet under removing a RANDOM
+    # axis (should leave betting near baseline). mean +/- 2sd, floored.
+    null_means, null_drops = [], []
+    for fp in sorted(Path(results_dir).glob(f"sec4_w13_{model}_null*.jsonl")):
+        rows = _rows(fp)
+        bets = _w13_bets(rows)
+        if bets and (len(rows) == 0 or (len([r for r in rows if r.get("parse_ok")])
+                                        / len(rows)) >= W13_PARSE_GATE):
+            null_means.append(float(np.mean(bets)))
+            null_drops.append(_w13_paired_drop(base_rows, rows)["paired_drop"])
+    null_mean = float(np.mean(null_means)) if null_means else base_bet
+    null_sd = float(np.std(null_means)) if len(null_means) > 1 else 0.0
+    null_delta = max(2.0 * null_sd, W13_NULL_FLOOR)
+    # the largest random-null paired drop that still counts as "no necessity":
+    # a real drop must exceed BOTH the mean-bet band AND the null paired-drop.
+    null_drop_ceiling = (max([d for d in null_drops if np.isfinite(d)],
+                             default=0.0))
+
+    axes_out = {}
+    for axis in W13_AXES:
+        rows = _w13_arm_rows(results_dir, f"sec4_w13_{model}_{axis}")
+        bets = _w13_bets(rows)
+        parse_rate = (len([r for r in rows if r.get("parse_ok")]) / len(rows)
+                      if rows else float("nan"))
+        proj_bet = float(np.mean(bets)) if bets else float("nan")
+        # manip check: project-out drives the post-removal projection to ~0.
+        projs = [p for r in rows if (p := _manip_proj(r)) is not None]
+        pair = _w13_paired_drop(base_rows, rows)
+        # NECESSARY: project-out lowers betting below the null band (proj_bet <
+        # null_mean - delta) AND the matched-pairs drop clears the random-null
+        # paired-drop ceiling (positive within-balance effect, balance held fixed
+        # per pair by construction).
+        below_band = bool(np.isfinite(proj_bet)
+                          and proj_bet < null_mean - null_delta)
+        paired_ok = bool(np.isfinite(pair["paired_drop"])
+                         and pair["paired_drop"] > null_drop_ceiling
+                         and pair["paired_drop"] > W13_NULL_FLOOR)
+        necessary = bool(below_band and paired_ok
+                         and parse_rate >= W13_PARSE_GATE)
+        axes_out[axis] = {
+            "verdict": "NECESSARY" if necessary else "NOT_NECESSARY",
+            "necessary": necessary,
+            "proj_bet": proj_bet, "parse_rate": parse_rate,
+            "below_null_band": below_band, "paired_drop_clears_null": paired_ok,
+            "paired": pair,
+            "manip_proj": (float(np.mean(projs)) if projs else float("nan")),
+            "n": len(rows),
+        }
+
+    behav = axes_out["behavioural"]["necessary"]
+    conf = axes_out["confound"]["necessary"]
+    read = axes_out["readout"]["necessary"]
+    if behav and not conf and not read:
+        verdict = "BEHAVIOURAL_NECESSARY_AND_PURE"     # the target §4 pattern
+    elif behav and (conf or read):
+        verdict = "NECESSARY_BUT_IMPURE"               # confound/readout also drops
+    elif not behav:
+        verdict = "BEHAVIOURAL_NOT_NECESSARY"          # project-out did not lower
+    else:
+        verdict = "AMBIGUOUS"
+    return {
+        "verdict": verdict,
+        "axes": axes_out,
+        "baseline_bet": base_bet,
+        "null_band": {"mean": null_mean, "sd": null_sd, "delta": null_delta,
+                      "n": len(null_means),
+                      "paired_drop_ceiling": null_drop_ceiling},
+        "parse_gate": W13_PARSE_GATE,
+    }
+
+
+def analyze_w13(results_dir=None, out_json: Optional[Path] = None,
+                out_png: Optional[Path] = None) -> dict:
+    """§4 NECESSITY (project-out) analysis, per model. For each model it returns
+    the per-axis necessity table (project-out mean bet vs the no-hook baseline
+    and the random-direction project-out null band, plus the matched-pairs
+    drop), a per-axis verdict NECESSARY / NOT_NECESSARY, and a model-level
+    verdict whose target value is BEHAVIOURAL_NECESSARY_AND_PURE (behavioural
+    project-out drops betting while confound + readout project-out do not)."""
+    results_dir = Path(results_dir) if results_dir is not None \
+        else W13_RESULTS_DIR
+    models = {m: _w13_model(results_dir, m) for m in W13_MODELS}
+    result = {
+        "models": models,
+        "verdicts": {m: models[m]["verdict"] for m in W13_MODELS},
+        "necessity_table": {
+            m: {a: models[m]["axes"][a]["verdict"] for a in W13_AXES}
+            for m in W13_MODELS},
+    }
+    if out_json is not None:
+        Path(out_json).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_json).write_text(json.dumps(result, indent=1))
+    if out_png is not None:
+        try:
+            make_figure_w13(result, Path(results_dir), Path(out_png))
+        except Exception as e:
+            print(f"[sec4-w13] figure skipped: {e}")
+    return result
+
+
+def make_figure_w13(res: dict, results_dir: Path, out_png: Path):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fig, axs = plt.subplots(1, 2, figsize=(11, 4.6), sharey=True)
+    for ax, model in zip(axs, W13_MODELS):
+        m = res["models"][model]
+        base = m["baseline_bet"]
+        labels = ["baseline"] + list(W13_AXES)
+        vals = [base] + [m["axes"][a]["proj_bet"] for a in W13_AXES]
+        colors = ["k"] + ["C0" if m["axes"][a]["necessary"] else "0.6"
+                          for a in W13_AXES]
+        ax.bar(range(len(vals)), vals, color=colors)
+        nb = m["null_band"]
+        if np.isfinite(nb["mean"]):
+            ax.axhspan(nb["mean"] - nb["delta"], nb["mean"] + nb["delta"],
+                       color="C1", alpha=0.2, label="random-null band")
+        ax.set_xticks(range(len(labels)))
+        ax.set_xticklabels(labels, rotation=20, fontsize=8)
+        ax.set_ylabel("mean bet ratio (project-out)")
+        ax.set_title(f"{model} — {m['verdict']}")
+        ax.legend(fontsize=8)
+    fig.suptitle("§4 Wave-13 NECESSITY (project-out): behavioural should DROP")
+    fig.tight_layout()
+    Path(out_png).parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_png, dpi=130)
+    fig.savefig(str(out_png).replace(".png", ".pdf"))
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results-dir", default=str(RESULTS_DIR))
@@ -1471,6 +1700,12 @@ def main():
                     help="run the Wave-11 llama §4.2 task-own write-window scan "
                          "(IC ic_rc + MW mw_rc dose-response per window vs the "
                          "random-null band; picks each task's window)")
+    ap.add_argument("--w13", action="store_true",
+                    help="run the Wave-13 §4 NECESSITY (project-out) analysis "
+                         "per model: behavioural/confound/readout project-out "
+                         "mean bet vs baseline + random-null band, balance-"
+                         "matched paired drop, per-axis NECESSARY verdict "
+                         "(results/sec4_w13)")
     ap.add_argument("--w1-results-dir", default=str(RESULTS_DIR),
                     help="wave3: dir with the Wave-1 sec4_behavioural_* ladder "
                          "(fetched from the sec4_p0 HF checkpoints if absent)")
@@ -1482,6 +1717,18 @@ def main():
                     help="wave6: dir with the sec4_w4 MW null/baseline "
                          "rollouts (fetched from HF if absent)")
     args = ap.parse_args()
+    if args.w13:
+        w13_dir = W13_RESULTS_DIR
+        if args.results_dir == str(RESULTS_DIR):
+            args.results_dir = str(w13_dir)
+        out_json = (str(w13_dir / "sec4_w13_analysis.json")
+                    if args.out_json == str(OUT_JSON) else args.out_json)
+        out_png = (str(w13_dir / "sec4_w13_analysis.png")
+                   if args.out_png == str(OUT_PNG) else args.out_png)
+        res = analyze_w13(Path(args.results_dir), Path(out_json), Path(out_png))
+        print(json.dumps({"verdicts": res["verdicts"],
+                          "necessity_table": res["necessity_table"]}, indent=2))
+        return
     if args.w11:
         # untouched defaults point at the Wave-1 output paths — redirect them to
         # the wave11 namespace so --w11 never overwrites the p0 analysis.

@@ -24,7 +24,8 @@ import yaml
 ARMS_YAML = Path(os.environ.get(
     "MLC_ARMS_YAML",
     str(Path(__file__).resolve().parents[1] / "configs" / "arms.yaml")))
-MODES = {"anchor_minus", "anchor_plus", "patch", "subspace", "steer"}
+MODES = {"anchor_minus", "anchor_plus", "patch", "subspace", "steer",
+         "project_out"}
 TASKS = {"sm", "ic", "mw"}
 MODELS = {"gemma", "llama"}
 MAX_LAYER = {"gemma": 41, "llama": 31}  # inclusive top decoder-layer index
@@ -64,6 +65,14 @@ def load_arms(path=ARMS_YAML):
                 f"{a['id']}: bad state_filter {a['state_filter']}"
             assert a.get("task", "sm") == "sm", \
                 f"{a['id']}: state_filter is SM-only"
+        if "removal_frac" in a:  # W13 project-out removal scale (0..1, SM steer-less)
+            assert a["mode"] == "project_out", \
+                f"{a['id']}: removal_frac is project_out-mode only"
+            assert 0.0 <= float(a["removal_frac"]) <= 1.0, \
+                f"{a['id']}: removal_frac {a['removal_frac']} out of [0,1]"
+        if a["mode"] == "project_out":
+            assert a.get("task", "sm") == "sm", \
+                f"{a['id']}: project_out is SM-only (W13 NECESSITY)"
         if "direction" in a:
             assert a["direction"] == "random" and "dir_seed" in a, \
                 f"{a['id']}: direction must be 'random' with a dir_seed"

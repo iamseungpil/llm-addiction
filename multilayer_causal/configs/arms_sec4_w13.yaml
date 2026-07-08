@@ -1,0 +1,57 @@
+# sec4 Wave-13 arm registry — §4 NECESSITY via PROJECT-OUT (2026-07-08).
+# All prior waves were SUFFICIENCY (add alpha*dir -> behaviour moves). W13 tests
+# NECESSITY: REMOVE the axis from the residual stream (project it out) at every
+# write-window layer, ALL positions, EVERY forward, and ask whether betting
+# DROPS. Math: h_new = h - frac*(h·û)û with û = unit(direction) per layer
+# (removal_frac default 1.0). If BEHAVIOURAL project-out lowers betting while
+# CONFOUND/READOUT project-out do NOT, the behavioural axis is NECESSARY and PURE
+# — resolving the write-purity confound and upgrading §4 to sufficiency+necessity.
+#
+# Reuses the FROZEN §4 axis assets (no rebuild of the direction objects):
+#   gemma  @ L16-21: gemma_slot_machine_i_ba_{behavioural,confound,readout}.npz
+#   llama  @ L14-19: llama_slot_machine_i_ba_{behavioural,confound,readout}.npz
+# (llama confound + readout at L14-19 both exist — built by the W10 --wave10-llama
+# path at the same window as the behavioural axis, so all three project-out arms
+# share identical layers per model, exactly as the sufficiency waves did.)
+#
+# Per model: a no-steer baseline (natural −G prompt, no hook) + full project-out
+# of behavioural / confound / readout (frac 1.0) + a partial-removal behavioural
+# arm (frac 0.5, dose-of-removal disclosure) + 2 random-direction project-out
+# nulls (removing a random unit axis should NOT lower betting — the necessity
+# control). SM only (cleanest task). Held-out slices past the axis-build window,
+# alpha-independent seeds; manip-check logs the post-removal projection (≈0).
+# ISOLATION: loaded ONLY via MLC_ARMS_YAML; SM-only; results/sec4_w13.
+defaults:
+  task: sm
+  n: 200
+  seed_base: 8000042
+  prompt_set: addiction_role_gm
+  phase: sec4_w13
+
+arms:
+  # =============================== GEMMA @ L16-21 (state_offset 300, held out) ==
+  - {id: sec4_w13_gemma_base, model: gemma, state_offset: 300, mode: anchor_minus, layers: [16, 21], log_vectors: false}
+  # ---- full project-out (frac 1.0): behavioural should DROP betting ----
+  - {id: sec4_w13_gemma_behavioural, model: gemma, state_offset: 300, mode: project_out, layers: [16, 21], directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: true}
+  # ---- full project-out: confound should NOT drop (H3 purity) ----
+  - {id: sec4_w13_gemma_confound, model: gemma, state_offset: 300, mode: project_out, layers: [16, 21], directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz, log_vectors: true}
+  # ---- full project-out: readout should NOT drop (monitor != controller) ----
+  - {id: sec4_w13_gemma_readout, model: gemma, state_offset: 300, mode: project_out, layers: [16, 21], directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_readout.npz, log_vectors: true}
+  # ---- partial-removal behavioural (frac 0.5): removal-dose disclosure ----
+  - {id: sec4_w13_gemma_behavioural_half, model: gemma, state_offset: 300, mode: project_out, layers: [16, 21], removal_frac: 0.5, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  # ---- random-direction project-out nulls (removing a random axis: NO drop) --
+  - {id: sec4_w13_gemma_null_1, model: gemma, state_offset: 300, mode: project_out, layers: [16, 21], direction: random, dir_seed: 2026071301, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w13_gemma_null_2, model: gemma, state_offset: 300, mode: project_out, layers: [16, 21], direction: random, dir_seed: 2026071302, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  # =============================== LLAMA @ L14-19 (state_offset 0, held out) ====
+  - {id: sec4_w13_llama_base, model: llama, state_offset: 0, mode: anchor_minus, layers: [14, 19], log_vectors: false}
+  # ---- full project-out (frac 1.0): behavioural should DROP betting ----
+  - {id: sec4_w13_llama_behavioural, model: llama, state_offset: 0, mode: project_out, layers: [14, 19], directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: true}
+  # ---- full project-out: confound should NOT drop (H3 purity) ----
+  - {id: sec4_w13_llama_confound, model: llama, state_offset: 0, mode: project_out, layers: [14, 19], directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_confound.npz, log_vectors: true}
+  # ---- full project-out: readout should NOT drop (monitor != controller) ----
+  - {id: sec4_w13_llama_readout, model: llama, state_offset: 0, mode: project_out, layers: [14, 19], directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_readout.npz, log_vectors: true}
+  # ---- partial-removal behavioural (frac 0.5): removal-dose disclosure ----
+  - {id: sec4_w13_llama_behavioural_half, model: llama, state_offset: 0, mode: project_out, layers: [14, 19], removal_frac: 0.5, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  # ---- random-direction project-out nulls (removing a random axis: NO drop) --
+  - {id: sec4_w13_llama_null_1, model: llama, state_offset: 0, mode: project_out, layers: [14, 19], direction: random, dir_seed: 2026071311, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w13_llama_null_2, model: llama, state_offset: 0, mode: project_out, layers: [14, 19], direction: random, dir_seed: 2026071312, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: false}

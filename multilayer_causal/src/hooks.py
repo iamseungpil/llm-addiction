@@ -8,6 +8,11 @@ SubspacePatcher    — E2: same positions/timing, but move only the rank-r
                      projection: h += (h_plus − h) @ V @ V^T.
 MultiLayerSteerer  — E3: h += alpha * scale_l * v_l at ALL positions on EVERY
                      forward (prefill + each decode step).
+MultiLayerProjector — W13 NECESSITY: h -= frac * (h·û_l) û_l at ALL positions
+                     on EVERY forward (û_l = unit per-layer direction). Removes
+                     the axis's component from the residual stream (project-out),
+                     the counterpart of the additive steerer — same positions,
+                     same timing, opposite operation.
 """
 from __future__ import annotations
 
@@ -101,6 +106,45 @@ class MultiLayerSteerer(_HookSet):
         def hook(module, _input, output):
             out = _hidden(output)
             out += add.to(out.dtype).to(out.device)
+            return _repack(output, out)
+
+        return hook
+
+
+class MultiLayerProjector(_HookSet):
+    """W13 NECESSITY (project-out). Per layer li, subtract the component of the
+    hidden state along the UNIT direction û_li from EVERY position on EVERY
+    forward (same positions/timing as MultiLayerSteerer, opposite operation):
+
+        h_new = h - frac * (h · û_li) û_li
+
+    frac (removal_frac, default 1.0) scales the removal: frac=1.0 fully removes
+    the û-component (the post-hook projection onto û is ~0), frac=0.0 is a no-op.
+    The direction is unit-normalised here so the caller can pass the RAW axis row
+    (same npz the steerer reads); no scale factor is applied — removal is a pure
+    geometric projection, not a sigma-unit dose."""
+
+    def __init__(self, directions, frac=1.0):
+        super().__init__()
+        import torch as _torch
+        self.frac = float(frac)
+        self.units = {}
+        for k, v in directions.items():
+            u = v if isinstance(v, _torch.Tensor) else _torch.as_tensor(v)
+            u = u.to(_torch.float32)
+            self.units[int(k)] = u / (u.norm() + 1e-12)
+        self.layer_indices = sorted(self.units)
+
+    def _hook_for(self, li):
+        u = self.units[li]
+        frac = self.frac
+
+        def hook(module, _input, output):
+            out = _hidden(output)
+            uu = u.to(out.dtype).to(out.device)
+            # (..., D) · (D,) -> (...,); keepdim so it broadcasts back over D.
+            coeff = (out * uu).sum(dim=-1, keepdim=True)
+            out = out - frac * coeff * uu
             return _repack(output, out)
 
         return hook

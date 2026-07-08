@@ -1171,9 +1171,17 @@ def analyze_w10_sec41(results_dir, assets_dir) -> dict:
     }
 
 
-def _w10b_cells(results_dir: Path, prefix: str) -> Dict[float, dict]:
-    """{dose: summary} for a sec4_w10b_<cond>_a{m,p}k ladder (metric key 'm' =
-    _bet, in the _pooled cell shape)."""
+def _w10b_cells(results_dir: Path, prefix: str,
+                impute_stop: bool = False) -> Dict[float, dict]:
+    """{dose: summary} for a sec4_w10b/sec4_w14 <cond>_a{m,p}k ladder (metric
+    key 'm' = _bet, in the _pooled cell shape).
+
+    impute_stop=False (default; every pre-W14 caller) drops parse-fail rows.
+    impute_stop=True scores a parse-fail as a stop (bet 0). Strong steering
+    degrades parseability (llama drops to ~0.72 at alpha=+3), so parse_ok
+    filtering conditions on a collider: steering -> parse failure -> selection.
+    The imputed variant is the W14 robustness arm against that bias.
+    """
     cells = {}
     for fp in sorted(Path(results_dir).glob(f"{prefix}a*.jsonl")):
         rows = _rows(fp)
@@ -1181,10 +1189,13 @@ def _w10b_cells(results_dir: Path, prefix: str) -> Dict[float, dict]:
         dose = _dose_of(rows, fp.stem)
         if dose is None:
             continue
+        vals = [v for r in parse_ok if (v := _bet(r)) is not None]
+        if impute_stop:
+            vals = vals + [0.0] * (len(rows) - len(parse_ok))
         cells[dose] = {
             "parse_rate": len(parse_ok) / len(rows) if rows else float("nan"),
             "n": len(rows),
-            "values": {"m": [v for r in parse_ok if (v := _bet(r)) is not None]},
+            "values": {"m": vals},
         }
     return cells
 
@@ -1680,6 +1691,118 @@ def make_figure_w13(res: dict, results_dir: Path, out_png: Path):
     plt.close(fig)
 
 
+# ------------------------------------------------------------------ W14
+# §4.3 G-specificity re-run on the G-and-M-free MATCHED pool. The W4/W10b +M
+# rung was contaminated: prompts.twin_combo is idempotent when the component is
+# already in the base combo, and the plusM twin-free filter keyed off
+# twin_component ("G") not the applied twin ("M"), so +M silently no-op'd on
+# ~52% (gemma) / ~56% (llama) of eval states. runner.pool_exclude="GM" now runs
+# -G / +G / +M over the SAME G-and-M-free states, so every twin is a real
+# prompt change and the three ladders are matched trial-for-trial.
+W14_RESULTS_DIR = _MLC / "results" / "sec4_w14"
+W14_PARSE_GATE = 0.5             # SM-calibrated, same gate as W10/W13
+W14_MODELS = ("gemma", "llama")
+W14_CONDS = ("minusG", "plusG", "plusM")
+# -G is a 3-point ladder on both models while gemma's +G/+M are 7-point. An OLS
+# slope through a saturating dose-response is grid-dependent, so a 3-vs-7 point
+# comparison confounds curvature with condition. Comparisons AGAINST -G are
+# therefore computed on the common grid; +G vs +M (the registered contrast) is
+# grid-matched by construction and uses every dose both ladders share.
+W14_COMMON_DOSES = (-3.0, 0.0, 3.0)
+W14_PARSE_DEGRADED = 0.85        # disclose (not gate) doses below this
+
+
+def _w14_cells(results_dir: Path, model: str, cond: str,
+               impute_stop: bool = False) -> Dict[float, dict]:
+    return _w10b_cells(results_dir, f"sec4_w14_{model}_{cond}_",
+                       impute_stop=impute_stop)
+
+
+def _restrict_doses(cells: Dict[float, dict], doses) -> Dict[float, dict]:
+    return {d: c for d, c in cells.items() if d in doses}
+
+
+def _w14_contrast(cells_a, cells_b, restrict=None) -> dict:
+    if restrict is not None:
+        cells_a = _restrict_doses(cells_a, restrict)
+        cells_b = _restrict_doses(cells_b, restrict)
+    diff, ci, s_a, s_b = _boot_slope_diff(cells_a, cells_b,
+                                          parse_gate=W14_PARSE_GATE)
+    return {"diff": diff, "ci95": ci, "slope_a": s_a, "slope_b": s_b,
+            "excludes_zero": bool(np.isfinite(ci[0])
+                                  and (ci[0] > 0 or ci[1] < 0))}
+
+
+def analyze_w14_model(results_dir: Path, model: str) -> dict:
+    """One model's §4.3 G-specificity read on the matched pool.
+
+    Primary contrast: slope(+G) - slope(+M) on the shared dose grid. Positive
+    and CI-excluding-0 => goal-setting makes the addiction axis more causally
+    writable than reward-maximisation does (G_SPECIFIC); negative => M_SPECIFIC.
+    Also reports each twin against the -G control on W14_COMMON_DOSES, and an
+    impute_stop robustness arm for the parse-selection collider.
+    """
+    cells = {c: _w14_cells(results_dir, model, c) for c in W14_CONDS}
+    imp = {c: _w14_cells(results_dir, model, c, impute_stop=True)
+           for c in W14_CONDS}
+    if not all(cells.values()):
+        raise FileNotFoundError(f"w14: missing {model} ladders in {results_dir}")
+
+    shared = sorted(set(cells["plusG"]) & set(cells["plusM"]))
+    primary = _w14_contrast(cells["plusG"], cells["plusM"])
+    robust = _w14_contrast(imp["plusG"], imp["plusM"])
+
+    vs_minus = {c: _w14_contrast(cells[c], cells["minusG"],
+                                 restrict=W14_COMMON_DOSES)
+                for c in ("plusG", "plusM")}
+
+    slopes = {}
+    for c in W14_CONDS:
+        xs, ys, _ = _pooled(_restrict_doses(cells[c], W14_COMMON_DOSES), "m",
+                            W14_PARSE_GATE)
+        slopes[c] = _ols_slope(xs, ys)      # common grid => cross-condition
+
+    if primary["excludes_zero"]:
+        verdict = "G_SPECIFIC" if primary["diff"] > 0 else "M_SPECIFIC"
+    else:
+        verdict = "NO_SPECIFICITY"
+    # the sign must survive the collider correction, else the contrast is an
+    # artifact of steering-induced parse failure rather than of behaviour
+    sign_stable = bool(np.sign(primary["diff"]) == np.sign(robust["diff"])
+                       and robust["excludes_zero"])
+
+    parse = {c: {str(d): cells[c][d]["parse_rate"] for d in sorted(cells[c])}
+             for c in W14_CONDS}
+    degraded = sorted({f"{c}@{d:+.0f}" for c in W14_CONDS for d in cells[c]
+                       if cells[c][d]["parse_rate"] < W14_PARSE_DEGRADED})
+    return {
+        "verdict": verdict,
+        "sign_survives_collider_correction": sign_stable,
+        "slopes_common_grid": slopes,
+        "primary_plusG_minus_plusM": primary,
+        "robust_impute_stop_plusG_minus_plusM": robust,
+        "vs_minusG_common_grid": vs_minus,
+        "shared_doses": shared,
+        "common_doses": list(W14_COMMON_DOSES),
+        "parse_by_dose": parse,
+        "parse_degraded_cells": degraded,
+        "n_boot": W3_BOOT,
+    }
+
+
+def analyze_w14(results_dir=None, out_json: Optional[Path] = None) -> dict:
+    """§4.3 G-specificity on the matched pool, both models."""
+    results_dir = Path(results_dir) if results_dir is not None \
+        else W14_RESULTS_DIR
+    res = {m: analyze_w14_model(results_dir, m) for m in W14_MODELS}
+    res["verdicts"] = {m: res[m]["verdict"] for m in W14_MODELS}
+    res["models_agree"] = len({res[m]["verdict"] for m in W14_MODELS}) == 1
+    if out_json:
+        Path(out_json).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_json).write_text(json.dumps(res, indent=1))
+    return res
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results-dir", default=str(RESULTS_DIR))
@@ -1706,6 +1829,11 @@ def main():
                          "mean bet vs baseline + random-null band, balance-"
                          "matched paired drop, per-axis NECESSARY verdict "
                          "(results/sec4_w13)")
+    ap.add_argument("--w14", action="store_true",
+                    help="run the Wave-14 §4.3 G-specificity analysis on the "
+                         "G-and-M-free matched pool: slope(+G) vs slope(+M) "
+                         "per model, each twin vs the -G control, plus the "
+                         "impute-stop collider check (results/sec4_w14)")
     ap.add_argument("--w1-results-dir", default=str(RESULTS_DIR),
                     help="wave3: dir with the Wave-1 sec4_behavioural_* ladder "
                          "(fetched from the sec4_p0 HF checkpoints if absent)")
@@ -1717,6 +1845,15 @@ def main():
                     help="wave6: dir with the sec4_w4 MW null/baseline "
                          "rollouts (fetched from HF if absent)")
     args = ap.parse_args()
+    if args.w14:
+        w14_dir = W14_RESULTS_DIR
+        if args.results_dir == str(RESULTS_DIR):
+            args.results_dir = str(w14_dir)
+        out_json = (str(w14_dir / "sec4_w14_analysis.json")
+                    if args.out_json == str(OUT_JSON) else args.out_json)
+        res = analyze_w14(Path(args.results_dir), Path(out_json))
+        print(json.dumps(res, indent=2))
+        return
     if args.w13:
         w13_dir = W13_RESULTS_DIR
         if args.results_dir == str(RESULTS_DIR):

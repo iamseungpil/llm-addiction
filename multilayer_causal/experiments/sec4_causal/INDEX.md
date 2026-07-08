@@ -99,3 +99,10 @@ GO). No auto-launch — expansion is a human gate.
 - **Likely cause:** W8 scanned ONLY the SM window (L14-19); IC/MW reused that window without their own scan. Like the Gemma IC amount->choice fix, LLaMA needs per-task window/object search — plus small +/-G headroom (0.0225) limits paired power.
 - **W10 = full LLaMA symmetry (all 3 subsections):** w10a §4.1 readout-vs-write (monitor!=controller), w10b §4.3 ±G/±M writability, w10c §4.2 IMPROVED — scan IC/MW LLaMA write windows (not just SM's) then re-run the matrix at each task's own window with higher n. Isolation preserved (sec4_w10* phase, MLC_OUT, existence guards, no existing-data touch). New secure docker image (aifx/acpt torch2.8) on all 27 templates.
 - **Honest caveat:** LLaMA autonomy-behaviour headroom is intrinsically small; window/object optimisation may still leave §4.2/§4.3 underpowered — reported as a stated limitation if so.
+
+### W11 §4.2 improvement — LLaMA IC/MW causal write IS STRONG at the RIGHT window (W9 weakness was wrong-window)
+- **IC (ic_rc, risky-choice rate, baseline 0.472):** best window L12-17, swing -0.20 (α−3 0.561 → α+3 0.360); every window moves IC strongly (0.34-0.63). W9 used SM's L14-19 -> only -0.18. IC LLaMA write is real once the window is task-own.
+- **MW (mw_rc, spin rate, baseline 0.930=ceiling):** best window L16-21, swing -0.36 (α−3 0.988 → α+3 0.632). Ceiling blocks the up-direction; the DOWN direction (steering STOPS gambling, spin 0.93->0.63) is large and coherent on the −side (+3 parse craters 0.10).
+- **CONFIRMS the user's autoresearch intuition: behaviour is common, so the right object/window reveals a causal commonality (like the Gemma IC amount→choice fix).** W9's 6/12 was a window artefact, not absent sharing.
+- **Sign is inverted vs the Gemma-oriented expectation (−α raises risky/spin) — an axis-orientation matter, resolved by loading-sign at matrix time.**
+- **Per-task LLaMA write windows: SM L14-19, IC L12-17, MW L16-21.** Next (W12): re-run the §4.2 symmetric matrix with each task steered/measured at its OWN window; judge by each model's own loading signs.

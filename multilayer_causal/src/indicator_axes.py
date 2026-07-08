@@ -1161,20 +1161,41 @@ def _save_axis(dest_dir, model, task, indicator, axis, built, layers,
     return dest
 
 
-def _build_llama_window(dest_dir, model, layers):
-    """W8 STEP 1: llama SM I_BA BEHAVIOURAL axis for ONE candidate window.
+# W8/W11 llama behavioural window-scan — each task's OWN behavioural axis
+# object, so the write-window scan steers the SAME object the §4.2 matrix later
+# re-runs at the chosen window. Per task: (indicator key the contrast reads in
+# _load_llama_task_arrays["indicators"], object stem in the saved npz name +
+# the arm's directions_npz, rc_keep = the Wave-6 MW keep rule so stop rows
+# survive, provenance suffix). SM stays byte-identical to the W8 build (same
+# key/object/suffix); IC/MW are the W11 additions.
+LLAMA_WINDOW_OBJECT = {
+    "slot_machine":      ("i_ba", "i_ba",  False, "W8 llama SM window scan"),
+    "investment_choice": ("i_rc", "ic_rc", False, "W11 llama IC ic_rc window scan"),
+    "mystery_wheel":     ("i_rc", "mw_rc", True,  "W11 llama MW mw_rc window scan"),
+}
 
-    Saves {model}_slot_machine_i_ba_behavioural_L{lo}_{hi}.npz (window in the
-    stem — the scan builds several to pick llama's causal write window before
-    the reduced symmetric matrix). Behavioural axis only: NO SAE decoder is
-    loaded (load_task_arrays returns decoder=None for llama). The npz row/scale
+
+def _build_llama_window(dest_dir, model, layers, task="slot_machine"):
+    """W8/W11 STEP 1: llama TASK-OWN BEHAVIOURAL axis for ONE candidate window.
+
+    Saves {model}_{task}_{object}_behavioural_L{lo}_{hi}.npz where object is the
+    task's own behavioural expression (SM i_ba betting amount; IC ic_rc risky
+    OPTION choice>=3; MW mw_rc spin-vs-stop). The scan builds several windows to
+    pick each task's causal write window before the §4.2 matrix re-run (a
+    follow-up). Behavioural axis only: NO SAE decoder is loaded (load_task_arrays
+    returns decoder=None for llama). The MW build uses the rc_keep loader so the
+    spin/stop contrast keeps its stop rows (see _keep_mask). The npz row/scale
     schema and replay-guard stamps match _save_axis so the runner replays it
-    exactly like a gemma behavioural axis, but at llama's 32-layer geometry.
+    exactly like a gemma behavioural axis, but at llama's 32-layer geometry. The
+    SM path (default task) is byte-identical to the W8 build.
     """
+    assert task in LLAMA_WINDOW_OBJECT, \
+        f"llama window scan: unexpected task {task}"
+    indicator, obj, rc_keep, prov_tag = LLAMA_WINDOW_OBJECT[task]
     lo, hi = layers[0], layers[-1]
-    data = load_task_arrays(model, "slot_machine", layers)
+    data = load_task_arrays(model, task, layers, rc_keep=rc_keep)
     built = build_behavioural_axis_from_arrays(
-        data["hidden"], data["indicators"]["i_ba"], data["balance"],
+        data["hidden"], data["indicators"][indicator], data["balance"],
         data["rounds"], data["groups"], layers)
     n_layers, _ = pa.MODEL_DIMS[model]
     directions = _replicate_to_full(built["directions"], layers, n_layers)
@@ -1182,16 +1203,16 @@ def _build_llama_window(dest_dir, model, layers):
     for li, l in enumerate(layers):
         scales[l] = built["scales"][li]
     dest = (Path(dest_dir)
-            / f"{model}_slot_machine_i_ba_behavioural_L{lo}_{hi}.npz")
+            / f"{model}_{task}_{obj}_behavioural_L{lo}_{hi}.npz")
     np.savez(
         dest, directions=directions, scales=scales.astype(np.float32),
         schema_version=SCHEMA_VERSION, gate_passed=True,
-        axis="behavioural", indicator="i_ba", task="slot_machine", model=model,
+        axis="behavioural", indicator=indicator, task=task, model=model,
         layers=np.asarray(layers), auc=float("nan"), cos_read_write=float("nan"),
         build_prompt_set=BUILD_PROMPT_SET,
         build_game_ids=np.asarray(data["build_game_ids"]),
         provenance=(built["provenance"]
-                    + f" W8 llama SM window scan (L{lo}-{hi})."))
+                    + f" {prov_tag} (L{lo}-{hi})."))
     return dest
 
 
@@ -1233,9 +1254,10 @@ def main():
                          "axes for slot_machine/investment_choice/mystery_wheel "
                          "+ their SVD-top1 shared3 axis) — goals-v2 Q2 rung-1")
     ap.add_argument("--build-llama-windows", action="store_true",
-                    help="W8 STEP 1: build ONE llama SM I_BA behavioural axis "
-                         "for the --layers window (llama_slot_machine_i_ba_"
-                         "behavioural_L{lo}_{hi}.npz); no SAE decoder needed")
+                    help="W8/W11 STEP 1: build ONE llama TASK-OWN behavioural "
+                         "axis for the --layers window "
+                         "(llama_{task}_{object}_behavioural_L{lo}_{hi}.npz; "
+                         "SM i_ba, IC ic_rc, MW mw_rc); no SAE decoder needed")
     ap.add_argument("--wave10-llama", action="store_true",
                     help="W10 §4.1 model symmetry: build the LLaMA SM "
                          "readout/behavioural/confound i_ba axes at --layers "
@@ -1256,9 +1278,10 @@ def main():
     indicators = [i.strip() for i in args.indicators.split(",") if i.strip()]
 
     if args.build_llama_windows:
-        dest = _build_llama_window(dest_dir, args.model, layers)
-        print(f"[sec4-axes/w8scan] {args.model} SM behavioural L{lo}-{hi} -> "
-              f"{dest}", flush=True)
+        dest = _build_llama_window(dest_dir, args.model, layers, args.task)
+        _, obj, _, _ = LLAMA_WINDOW_OBJECT[args.task]
+        print(f"[sec4-axes/window-scan] {args.model} {args.task} {obj} "
+              f"behavioural L{lo}-{hi} -> {dest}", flush=True)
         print(json.dumps({"dest": str(dest)}, default=str))
         return
 

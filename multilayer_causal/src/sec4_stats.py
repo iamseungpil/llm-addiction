@@ -1246,6 +1246,211 @@ def analyze_w10(results_dir=None, assets_dir=None,
     return result
 
 
+# ============================================================ WAVE 11
+# §4.2 LLaMA task-own write-window SCAN (configs/arms_sec4_w11ic/mw.yaml):
+# W9's llama matrix reused the SM write window (L14-19) for IC and MW, so its
+# self-cells were weak (icrc->ic wrong-signed, mwrc->mw n=16). W11 scans each
+# task's OWN behavioural axis (IC ic_rc risky-choice, MW mw_rc spin/stop) across
+# four candidate write windows to find where each task's causal write lives
+# BEFORE the matrix re-run (the follow-up). Absolute-effect metric (the llama
+# +/-G gap is small): IC risky rate, MW spin rate = mean(`risky`) over parse_ok
+# rows — the SAME field both task runners record (IC risky = choice>=3, MW risky
+# = spin), so the outcome extractor is shared (_mw_spin). Per task: 4 windows x
+# {-3,0,+3} (the a0 cell = that window's own no-steer baseline) + a task-level
+# no-steer baseline + 3 random nulls (the null band on the absolute rate).
+
+W11_RESULTS_DIR = _MLC / "results" / "sec4_w11"
+# IC/MW low-parse gate (same as the W6 MW / INDEX Q2 sensitivity gate); the W2
+# 0.8 gate would discard every real IC/MW cell.
+W11_PARSE_GATE = 0.45
+W11_WINDOWS = ((10, 15), (12, 17), (14, 19), (16, 21))
+W11_TASKS = ("ic", "mw")
+W11_NULL_FLOOR = 0.03            # min half-band on the absolute rate effect
+W11_CEIL, W11_FLOOR = 0.9, 0.05  # headroom thresholds on the baseline rate
+
+
+def _w11_summ(rows: List[dict]) -> dict:
+    """Per-arm summary in the _pooled cell shape: parse rate + the risky/spin
+    RATE values (mean(`risky`) is the IC risky rate / MW spin rate). Reuses the
+    shared _mw_spin outcome extractor (both task runners record `risky`)."""
+    parse_ok = [r for r in rows if r.get("parse_ok")]
+    return {
+        "parse_rate": len(parse_ok) / len(rows) if rows else float("nan"),
+        "n": len(rows),
+        "values": {"rate": [v for r in parse_ok
+                            if (v := _mw_spin(r)) is not None]},
+    }
+
+
+def _w11_window_cells(results_dir: Path, task: str,
+                      lo: int, hi: int) -> Dict[float, dict]:
+    """{dose: summary} for one window's {-3,0,+3} ladder (metric key 'rate')."""
+    cells = {}
+    for fp in sorted(Path(results_dir).glob(
+            f"sec4_w11{task}_L{lo}_{hi}_a*.jsonl")):
+        rows = _rows(fp)
+        dose = _dose_of(rows, fp.stem)
+        if dose is not None:
+            cells[dose] = _w11_summ(rows)
+    return cells
+
+
+def _w11_null_rates(results_dir: Path, task: str) -> List[float]:
+    """Mean rate of each parse-gated random-null arm (the absolute-effect null
+    spread — mirrors analyze_w10_sec41's null_bets, not a per-direction slope)."""
+    out = []
+    for fp in sorted(Path(results_dir).glob(f"sec4_w11{task}_null*.jsonl")):
+        s = _w11_summ(_rows(fp))
+        vs = s["values"]["rate"]
+        if vs and s["parse_rate"] >= W11_PARSE_GATE:
+            out.append(float(np.mean(vs)))
+    return out
+
+
+def _w11_baseline_rate(results_dir: Path, task: str) -> float:
+    """Task-level no-steer baseline rate (sec4_w11{task}_base), or NaN."""
+    fp = Path(results_dir) / f"sec4_w11{task}_base.jsonl"
+    if not fp.exists():
+        return float("nan")
+    s = _w11_summ(_rows(fp))
+    vs = s["values"]["rate"]
+    return (float(np.mean(vs))
+            if vs and s["parse_rate"] >= W11_PARSE_GATE else float("nan"))
+
+
+def _w11_window_stat(cells: Dict[float, dict], base_rate: float,
+                     null_delta: float) -> dict:
+    """Per-window dose-response on the risky/spin rate: trial-level spearman +
+    slope, the ABSOLUTE effect (dose-mean furthest from the window's own a0
+    baseline), and whether it clears the random-null band. 'coherent' = the
+    effect clears the band AND rises monotonically with +alpha (sign_ok)."""
+    xs, ys, dm = _pooled(cells, "rate", W11_PARSE_GATE)
+    doses = sorted(dm)
+    a0 = dm.get(0.0, base_rate)                       # per-window baseline
+    rho = _spearman(doses, [dm[d] for d in doses])
+    slope = _ols_slope(xs, ys)
+    eff = float("nan")
+    if dm and np.isfinite(a0):
+        far = max(dm, key=lambda d: abs(dm[d] - a0))  # extreme-dose displacement
+        eff = dm[far] - a0
+    sign_ok = bool(np.isfinite(rho) and rho > 0)
+    monotone = bool(np.isfinite(rho) and abs(rho) >= SPEARMAN_MIN and rho > 0)
+    above_null = bool(np.isfinite(eff) and abs(eff) > null_delta)
+    return {
+        "spearman": rho, "slope": slope, "extreme_effect": eff,
+        "a0_rate": a0, "sign_ok": sign_ok, "monotone": monotone,
+        "above_null": above_null,
+        "coherent": bool(sign_ok and monotone and above_null),
+        "n_doses": len(doses),
+        "dose_means": {str(k): v for k, v in dm.items()},
+        "parse_by_dose": {str(d): cells[d]["parse_rate"] for d in sorted(cells)},
+    }
+
+
+def _w11_task(results_dir: Path, task: str) -> dict:
+    """Per-task window scan. Picks the strongest COHERENT window (max |effect|
+    among windows that clear the null band AND rise with +alpha); falls back to
+    the strongest above-null-but-incoherent window; else NULL. On NULL,
+    null_cause distinguishes 'headroom' (baseline at ceiling/floor, no room to
+    move) from 'absent' (genuinely no causal write at these layers — the
+    reportable 'llama IC/MW write is headroom-limited' finding)."""
+    base_rate = _w11_baseline_rate(results_dir, task)
+    null_rates = _w11_null_rates(results_dir, task)
+    null_sd = float(np.std(null_rates)) if len(null_rates) > 1 else 0.0
+    null_delta = max(2.0 * null_sd, W11_NULL_FLOOR)
+
+    windows = {f"L{lo}_{hi}":
+               _w11_window_stat(_w11_window_cells(results_dir, task, lo, hi),
+                                base_rate, null_delta)
+               for lo, hi in W11_WINDOWS}
+    coherent = {k: w for k, w in windows.items() if w["coherent"]}
+    above = {k: w for k, w in windows.items() if w["above_null"]}
+
+    chosen, null_cause = None, "none"
+    if coherent:
+        chosen = max(coherent, key=lambda k: abs(coherent[k]["extreme_effect"]))
+        verdict = f"{task.upper()}_HAS_CAUSAL_WINDOW"
+    elif above:
+        chosen = max(above, key=lambda k: abs(above[k]["extreme_effect"]))
+        verdict = f"{task.upper()}_WINDOW_INCOHERENT"
+    else:
+        verdict = f"{task.upper()}_NO_WINDOW"
+        at_headroom = bool(np.isfinite(base_rate)
+                           and (base_rate > W11_CEIL or base_rate < W11_FLOOR))
+        null_cause = "headroom" if at_headroom else "absent"
+
+    return {
+        "verdict": verdict,
+        "any_window_significant": bool(coherent),
+        "chosen_window": chosen,
+        "chosen_effect": (windows[chosen]["extreme_effect"]
+                          if chosen else float("nan")),
+        "null_cause": null_cause,
+        "windows": windows,
+        "baseline_rate": base_rate,
+        "null_band": {"delta": null_delta, "sd": null_sd, "n": len(null_rates)},
+        "parse_gate": W11_PARSE_GATE,
+    }
+
+
+def analyze_w11(results_dir=None, out_json: Optional[Path] = None,
+                out_png: Optional[Path] = None) -> dict:
+    """§4.2 llama task-own write-window scan (IC ic_rc, MW mw_rc). Per task it
+    returns the per-window dose-response (absolute risky/spin rate effect vs the
+    random-null band), the strongest coherent window, and whether ANY window
+    writes significantly. The chosen windows feed the FOLLOW-UP matrix re-run
+    (NOT this workflow); when neither task has a coherent window the scan
+    reports that llama IC/MW causal write is genuinely absent / headroom-limited
+    at these layers (a reportable finding, per-task null_cause)."""
+    results_dir = Path(results_dir) if results_dir is not None \
+        else W11_RESULTS_DIR
+    tasks = {t: _w11_task(results_dir, t) for t in W11_TASKS}
+    result = {
+        "tasks": tasks,
+        "verdicts": {t: tasks[t]["verdict"] for t in W11_TASKS},
+        "chosen_windows": {t: tasks[t]["chosen_window"] for t in W11_TASKS},
+        "any_window_significant": {t: tasks[t]["any_window_significant"]
+                                   for t in W11_TASKS},
+    }
+    if out_json is not None:
+        Path(out_json).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_json).write_text(json.dumps(result, indent=1))
+    if out_png is not None:
+        try:
+            make_figure_w11(result, Path(results_dir), Path(out_png))
+        except Exception as e:
+            print(f"[sec4-w11] figure skipped: {e}")
+    return result
+
+
+def make_figure_w11(res: dict, results_dir: Path, out_png: Path):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fig, axs = plt.subplots(1, 2, figsize=(11, 4.6), sharey=True)
+    labels = {"ic": "IC risky rate", "mw": "MW spin rate"}
+    for ax, task in zip(axs, W11_TASKS):
+        for lo, hi in W11_WINDOWS:
+            cells = _w11_window_cells(results_dir, task, lo, hi)
+            _, _, dm = _pooled(cells, "rate", W11_PARSE_GATE)
+            doses = sorted(dm)
+            if doses:
+                ax.plot(doses, [dm[d] for d in doses], "-o",
+                        label=f"L{lo}-{hi}", lw=1.8)
+        chosen = res["tasks"][task]["chosen_window"]
+        ax.set_xlabel("steering alpha (sigma-units)")
+        ax.set_ylabel(f"mean {labels[task]}")
+        ax.set_title(f"{labels[task]} — chosen: {chosen or 'none'}")
+        ax.legend(fontsize=8)
+    fig.suptitle("§4.2 Wave-11 LLaMA task-own write-window scan")
+    fig.tight_layout()
+    Path(out_png).parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_png, dpi=130)
+    fig.savefig(str(out_png).replace(".png", ".pdf"))
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results-dir", default=str(RESULTS_DIR))
@@ -1262,6 +1467,10 @@ def main():
     ap.add_argument("--wave10", action="store_true",
                     help="run the Wave-10 llama §4.1 read-vs-write dissociation "
                          "+ §4.3 condition modulation analysis (results/sec4_w10)")
+    ap.add_argument("--w11", action="store_true",
+                    help="run the Wave-11 llama §4.2 task-own write-window scan "
+                         "(IC ic_rc + MW mw_rc dose-response per window vs the "
+                         "random-null band; picks each task's window)")
     ap.add_argument("--w1-results-dir", default=str(RESULTS_DIR),
                     help="wave3: dir with the Wave-1 sec4_behavioural_* ladder "
                          "(fetched from the sec4_p0 HF checkpoints if absent)")
@@ -1273,6 +1482,22 @@ def main():
                     help="wave6: dir with the sec4_w4 MW null/baseline "
                          "rollouts (fetched from HF if absent)")
     args = ap.parse_args()
+    if args.w11:
+        # untouched defaults point at the Wave-1 output paths — redirect them to
+        # the wave11 namespace so --w11 never overwrites the p0 analysis.
+        w11_dir = W11_RESULTS_DIR
+        if args.results_dir == str(RESULTS_DIR):
+            args.results_dir = str(w11_dir)
+        out_json = (str(w11_dir / "sec4_w11_analysis.json")
+                    if args.out_json == str(OUT_JSON) else args.out_json)
+        out_png = (str(w11_dir / "sec4_w11_analysis.png")
+                   if args.out_png == str(OUT_PNG) else args.out_png)
+        res = analyze_w11(Path(args.results_dir), Path(out_json), Path(out_png))
+        print(json.dumps({"verdicts": res["verdicts"],
+                          "chosen_windows": res["chosen_windows"],
+                          "any_window_significant": res["any_window_significant"]},
+                         indent=2))
+        return
     if args.wave10:
         w10_dir = W10_RESULTS_DIR
         if args.results_dir == str(RESULTS_DIR):

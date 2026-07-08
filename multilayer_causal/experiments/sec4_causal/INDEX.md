@@ -106,3 +106,16 @@ GO). No auto-launch — expansion is a human gate.
 - **CONFIRMS the user's autoresearch intuition: behaviour is common, so the right object/window reveals a causal commonality (like the Gemma IC amount→choice fix).** W9's 6/12 was a window artefact, not absent sharing.
 - **Sign is inverted vs the Gemma-oriented expectation (−α raises risky/spin) — an axis-orientation matter, resolved by loading-sign at matrix time.**
 - **Per-task LLaMA write windows: SM L14-19, IC L12-17, MW L16-21.** Next (W12): re-run the §4.2 symmetric matrix with each task steered/measured at its OWN window; judge by each model's own loading signs.
+
+### W10 §4.1/§4.3 LLaMA adjudication — read≠write holds (both models), confound entangled on LLaMA, §4.3 not reproduced
+- **§4.1 read≠write: HOLDS on LLaMA (core of monitor≠controller).** behavioural slope +0.020 (Spearman +1.00, monotone) vs readout slope -0.006 (rho -0.89, inert/opposite). The READ direction is causally inert on LLaMA too.
+- **BUT confound is NOT inert on LLaMA:** confound slope +0.019 (rho +0.93), ~= behavioural. cos(behavioural,confound)~+0.5 (risk~balance correlation, same on gemma). Gemma steers confound -> inert (z 0.4); LLaMA steers confound -> strong. So LLaMA is more sensitive to the balance/round direction; the write axis's PURITY is weaker on LLaMA (part of the effect may be a balance signal). Honest caveat — gemma's confound-inert result is the clean one.
+- **§4.3 NOT reproduced on LLaMA:** slopes minusG 0.018 > plusM 0.012 > plusG 0.010 — opposite to gemma's G-specific (+G strongest). LLaMA +/-G headroom 0.0225 leaves condition contrasts at noise. §4.3 is a Gemma-strong, LLaMA-underpowered result (as pre-diagnosed).
+
+### FINAL 3-subsection x 2-model matrix
+| subsection | Gemma | LLaMA |
+|---|---|---|
+| §4.1 read!=write (monitor!=controller) | STRONG (behav z11.4, readout z0.75 inert, confound inert z0.4) | PARTIAL (read inert rho-0.89 ✓; confound entangled ✗ -> write purity weaker) |
+| §4.2 shared causal write | STRONG (SM<->IC sign-predictable 8/8) | STRONG at task-own windows (IC L12-17 +0.20, MW L16-21 +0.36; sign-orientation) |
+| §4.3 condition writability | STRONG (G-specific +G>-G>+M) | NOT REPRODUCED (headroom-limited) |
+- **Paper stance:** §4.1 read-inert + §4.2 shared write reproduce on BOTH models (headline, causal upgrade); §4.1 write-purity (confound) + §4.3 are Gemma-clean, LLaMA-limited (stated limitations, not overclaimed). Gemma = confirmatory model, LLaMA = robustness with honest headroom/purity caveats.

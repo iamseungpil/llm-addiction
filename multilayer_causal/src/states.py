@@ -47,6 +47,21 @@ def ensure_sm_catalog(model: str = "gemma") -> Path:
     return dest
 
 
+def exclude_combo_states(states: list, exclude: str) -> list:
+    """Drop (game, round_idx) states whose prompt_combo shares ANY char with `exclude`.
+
+    Used by sec4_w14 to build a G∩M-free eval pool so that BOTH the +G and +M
+    twins (prompts.twin_combo) are real prompt changes on the SAME matched pool:
+    twin_combo is idempotent when the component is already in the base combo, so
+    an M-bearing base state silently no-op'd the +M twin (~52% of the W4/W10b
+    plusM eval states). Returns states unchanged when `exclude` is falsy.
+    """
+    if not exclude:
+        return states
+    return [s for s in states
+            if not any(c in s[0].get("prompt_combo", "") for c in exclude)]
+
+
 def load_minusG_states(model: str, n: int = 200) -> list:
     """§3 −G variable (game, round_idx) pairs.
 

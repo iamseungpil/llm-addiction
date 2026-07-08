@@ -17,7 +17,7 @@ from .hooks import (HookGroup, MultiLayerPatcher, MultiLayerProjector,
                     MultiLayerSteerer, PrefillTap, SubspacePatcher,
                     cache_layer_outputs)
 from .prompts import build_prompt, parse_response, twin_combo
-from .states import ensure_sm_catalog, load_minusG_states
+from .states import ensure_sm_catalog, exclude_combo_states, load_minusG_states
 
 # Model ids mirror paper_experiments/slot_machine_6models/src/
 # llama_gemma_experiment.py::load_model exactly (the §3 behavioural corpus).
@@ -418,10 +418,23 @@ def run_arm(arm, out_dir, gpu=0, n=None, smoke=False):
     # state_offset in frozen pool order, keeping the slice inside the same
     # held-out window the W2 anchors sampled (RUN_PLAN_W3.md w3m — anchor
     # comparison is restricted to the matching twin-free stratum at analysis).
-    pad = 50 if twin == "G" else 3 * n + 50
+    pool_exclude = arm.get("pool_exclude")
+    pad = 50 if (twin == "G" and not pool_exclude) else 3 * n + 50
     states = load_minusG_states(arm["model"], n=n + offset + pad)
     assert states, "empty state pool"
-    if twin != "G":
+    if pool_exclude:
+        # sec4_w14 (additive; no-op when absent): restrict the eval slice to base
+        # combos containing NONE of these components, so every twin in the wave
+        # (−G/+G/+M) is a REAL prompt change on the SAME matched pool. twin_combo
+        # is idempotent on a component already in the base combo, which silently
+        # no-op'd ~52% of the W4/W10b plusM eval states (their M-free filter keyed
+        # off twin_component=G, not the applied twin=M). Filtering the held-out
+        # slice states[offset:] preserves the discovery/replay disjointness.
+        states = exclude_combo_states(states[offset:], pool_exclude)
+        assert len(states) >= n, \
+            f"{arm['id']}: pool_exclude={pool_exclude!r} pool too small ({len(states)} < {n})"
+        offset = 0
+    elif twin != "G":
         states = [s for s in states[offset:]
                   if twin not in s[0].get("prompt_combo", "")]
         assert len(states) >= n, \

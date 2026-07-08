@@ -60,6 +60,14 @@ def load_arms(path=ARMS_YAML):
             assert a["mode"] == "steer", \
                 f"{a['id']}: twin is steer-mode only (patch arms use twin_component)"
             assert a.get("task", "sm") == "sm", f"{a['id']}: twin is SM-only"
+        if "pool_exclude" in a:  # sec4_w14: G∩M-free matched pool for -G/+G/+M
+            assert a["mode"] == "steer", \
+                f"{a['id']}: pool_exclude is steer-mode only"
+            assert a.get("task", "sm") == "sm", f"{a['id']}: pool_exclude is SM-only"
+            assert isinstance(a["pool_exclude"], str) and a["pool_exclude"], \
+                f"{a['id']}: pool_exclude must be a non-empty component string"
+            assert all(c in "GMHWPR" for c in a["pool_exclude"]), \
+                f"{a['id']}: bad pool_exclude {a['pool_exclude']!r}"
         if "state_filter" in a:  # sec4_w3 Q1 rung-2: previous-round conditioning
             assert a["state_filter"] in ("postloss", "postwin"), \
                 f"{a['id']}: bad state_filter {a['state_filter']}"

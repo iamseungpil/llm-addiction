@@ -566,6 +566,62 @@ def load_gemmascope_l22_wdec(token):
     return np.load(path)["W_dec"]
 
 
+# ---- LlamaScope per-layer decoder (W10 §4.1 llama readout axis) ------------
+# The §4.1 llama readout axis maps its Ridge readout through the LlamaScope
+# decoder at the L14-19 write window. sae_lens is NOT installed in the project
+# envs, so the SAE is loaded DIRECTLY from the fnlp HF repo (the same path the
+# in-repo paper_experiments/llama_sae_analysis phases use), one SAE per layer:
+# a single safetensors holding BOTH encoder and decoder. `decoder.weight` is
+# stored (d_model=4096, d_sae=32768); the per-feature W_dec the readout
+# decoder_map needs is decoder.weight.T -> (n_feat=32768, 4096), matching the
+# gemma (K_full, d) orientation. CLAUDE.md's "LlamaScope layers 25-31 only"
+# note is STALE — the fnlp repo exposes all L0-31 (verified live). The gemma
+# decoder path above is untouched (Karpathy: additive, gemma byte-identical).
+LLAMASCOPE_REPO = "fnlp/Llama3_1-8B-Base-LXR-8x"
+LLAMASCOPE_SUBDIR = "Llama3_1-8B-Base-L{layer}R-8x/checkpoints/final.safetensors"
+LLAMASCOPE_DSAE, LLAMASCOPE_DMODEL = 32768, 4096
+# Provenance/sanity gate: fnlp carries no stored d_unit to reconstruct like
+# gemma (GEMMASCOPE decoder-reconstruction check), so the llama decoder is
+# gated on a non-degenerate mean decoder row-norm instead.
+DECODER_MIN_MEAN_ROWNORM = 1e-3
+
+
+def wdec_from_decoder_weight(decoder_weight):
+    """fnlp `decoder.weight` (d_model, d_sae) -> per-feature W_dec rows
+    (n_feat, d_model) the readout decoder_map consumes (== the gemma
+    (K_full, d) orientation). Sanity-gates shape / orientation / finiteness /
+    non-degenerate row norms — this REPLACES the gemma stored-d_unit
+    reconstruction check (fnlp has no such artifact)."""
+    W = np.asarray(decoder_weight, dtype=np.float64)
+    assert W.ndim == 2, f"decoder.weight must be 2D, got {W.shape}"
+    d_model, d_sae = W.shape
+    assert d_model < d_sae, (
+        f"decoder.weight expected (d_model < d_sae), got {W.shape} — wrong "
+        "orientation (fnlp stores (4096, 32768))")
+    Wdec = np.ascontiguousarray(W.T)                # (n_feat, d_model)
+    assert np.isfinite(Wdec).all(), "non-finite decoder rows"
+    mean_rownorm = float(np.mean(np.linalg.norm(Wdec, axis=1)))
+    assert mean_rownorm > DECODER_MIN_MEAN_ROWNORM, \
+        f"degenerate decoder (mean row-norm {mean_rownorm:.2e})"
+    return Wdec
+
+
+def load_llamascope_wdec(layer, token):
+    """LlamaScope per-layer W_dec (n_feat=32768, 4096) for `layer` (0-31) from
+    the fnlp HF repo (single safetensors, decoder.weight.T, provenance-gated by
+    wdec_from_decoder_weight). Loaded via safetensors (bf16 -> fp32 through
+    torch); the caller restricts rows to the SAE-feature active subset."""
+    from huggingface_hub import hf_hub_download
+    from safetensors import safe_open
+    path = hf_hub_download(LLAMASCOPE_REPO,
+                           LLAMASCOPE_SUBDIR.format(layer=layer), token=token)
+    with safe_open(path, framework="pt") as f:
+        assert "decoder.weight" in f.keys(), \
+            f"L{layer} safetensors lacks decoder.weight"
+        w = f.get_tensor("decoder.weight").float().cpu().numpy()
+    return wdec_from_decoder_weight(w)
+
+
 def compute_iba_sm(meta, catalog_path):
     """I_BA per SAE row for SM. Mirrors run_comprehensive_robustness
     .compute_iba: sequential 1-based game ids, non-skip decisions, bet from

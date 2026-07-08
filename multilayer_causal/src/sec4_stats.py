@@ -652,11 +652,14 @@ def _w3_null_cells(results_dir: Path,
     return nulls
 
 
-def _boot_slope_diff(cells_a, cells_b, n_boot=W3_BOOT, seed=W3_BOOT_SEED):
+def _boot_slope_diff(cells_a, cells_b, n_boot=W3_BOOT, seed=W3_BOOT_SEED,
+                     parse_gate=PARSE_GATE):
     """Point estimate + bootstrap 95% CI of slope(cells_a) - slope(cells_b),
-    resampling (dose, value) trials with replacement within each ladder."""
-    xa, ya, _ = _pooled(cells_a, "m")
-    xb, yb, _ = _pooled(cells_b, "m")
+    resampling (dose, value) trials with replacement within each ladder.
+    parse_gate defaults to the W2/W3 0.8 (wave3 callers byte-identical); the
+    W10 llama caller passes a looser SM-calibrated gate."""
+    xa, ya, _ = _pooled(cells_a, "m", parse_gate)
+    xb, yb, _ = _pooled(cells_b, "m", parse_gate)
     sa, sb = _ols_slope(xa, ya), _ols_slope(xb, yb)
     point = (sa - sb if np.isfinite(sa) and np.isfinite(sb) else float("nan"))
     if not np.isfinite(point):
@@ -981,6 +984,268 @@ def make_figure_wave6(res: dict, cells: dict, out_png: Path):
     plt.close(fig)
 
 
+# ============================================================ WAVE 10
+# §4.1 + §4.3 LLaMA model symmetry (configs/arms_sec4_w10a/b.yaml):
+#   §4.1 read-vs-write dissociation — does the READOUT axis (the better
+#        decoder, built per-layer through the LlamaScope decoder.weight.T) stay
+#        INERT while the BEHAVIOURAL axis moves betting, at the SAME L14-19
+#        layers (monitor != controller)? Absolute-effect metric (llama gap
+#        0.0225 small). NULL-CAUSE diagnosis distinguishes wrong-object vs
+#        headroom vs wrong-window when nothing writes.
+#   §4.3 condition modulation — does +G / +M change the WRITABILITY (dose
+#        slope) of the shared behavioural axis vs the -G control (bootstrap CI)?
+
+W10_RESULTS_DIR = _MLC / "results" / "sec4_w10"
+# LLaMA SM parse floor: looser than the gemma 0.8 (llama SM parses lower); cells
+# below this are dropped before behaviour is read, and every axis reports its
+# per-dose parse so the null-cause diagnosis can flag a parse-gated collapse.
+W10_PARSE_GATE = 0.5
+W10A_AXES = ("behavioural", "readout", "confound")
+W10A_SPEC = ("iec", "ilc")               # indicator-specificity behavioural axes
+W10B_CONDS = {"minusG": "sec4_w10b_minusG_", "plusG": "sec4_w10b_plusG_",
+              "plusM": "sec4_w10b_plusM_"}
+W10_CEIL, W10_FLOOR = 0.9, 0.05          # headroom thresholds on the baseline bet
+# The 'monitor != controller' win requires the readout to be a GENUINELY
+# informative decoder (an inert-AND-uninformative readout is no evidence of a
+# monitor, just a broken axis). Gate the win on above-chance held-out decoding;
+# 0.5 is chance, and we keep a margin because no bootstrap LB is stored.
+W10_READOUT_AUC_MIN = 0.55
+W10A_READOUT_KEY = "llama_slot_machine_i_ba_readout"  # readout asset stem (auc)
+
+
+def _w10a_role(arm: str) -> Optional[str]:
+    """Axis/role of a sec4_w10a_* arm: one of W10A_AXES/W10A_SPEC, or
+    'null'/'baseline'/'cum'. None if not a w10a arm."""
+    if not arm.startswith("sec4_w10a_"):
+        return None
+    rest = arm[len("sec4_w10a_"):]
+    if rest.startswith("null"):
+        return "null"
+    if rest.startswith("baseline"):
+        return "baseline"
+    if rest.startswith("cum"):
+        return "cum"
+    for a in W10A_AXES + W10A_SPEC:
+        if rest.startswith(a + "_a"):
+            return a
+    return None
+
+
+def _w10a_axis_stat(cells, base_bet, null_delta) -> dict:
+    """Per-axis dose stat (absolute effect): trial-level spearman/slope, sign,
+    monotone, and whether the extreme-dose effect clears the null band. Reports
+    per-dose parse so a parse-gated collapse is visible."""
+    kept = {d: c for d, c in cells.items() if c["parse_rate"] >= W10_PARSE_GATE}
+    doses = sorted(kept)
+    xs, ys = [], []
+    for d in doses:
+        for b in kept[d]["bets"]:
+            xs.append(d); ys.append(b)
+    rho = _spearman(xs, ys)
+    slope = _ols_slope(xs, ys)
+    sign_ok = bool(np.isfinite(rho) and rho > 0)
+    monotone = bool(np.isfinite(rho) and abs(rho) >= SPEARMAN_MIN and rho > 0)
+    eff = _extreme_effect(kept, base_bet)
+    above_null = bool(np.isfinite(eff) and abs(eff) > null_delta)
+    parse_by_dose = {str(d): cells[d]["parse_rate"] for d in sorted(cells)}
+    return {"spearman": rho, "slope": slope, "sign_ok": sign_ok,
+            "monotone": monotone, "above_null": above_null,
+            "extreme_effect": eff, "n_doses": len(doses),
+            "parse_by_dose": parse_by_dose,
+            "mean_parse": (float(np.mean(list(parse_by_dose.values())))
+                           if parse_by_dose else float("nan"))}
+
+
+def analyze_w10_sec41(results_dir, assets_dir) -> dict:
+    """§4.1 llama read-vs-write dissociation. Verdict:
+      LLAMA_MONITOR_NEQ_CONTROLLER  behavioural writes, readout INERT *and*
+                                    above-chance decoding, confound clean (win);
+      READOUT_ALSO_WRITES           both write (no dissociation);
+      CONFOUNDED                    behavioural AND confound both write — H3
+                                    fails, balance-signal could carry it;
+      READOUT_UNINFORMATIVE         behavioural writes, readout inert BUT its
+                                    decoding AUC <= chance floor (no real
+                                    monitor -> not a win);
+      NULL                          behavioural does not write — with a
+                                    null_cause hint in {object, headroom,
+                                    window} (see below).
+    NULL-CAUSE: behavioural moved but incoherent/wrong-signed -> 'object'
+    (wrong indicator/expression, the MW-anomaly signature); baseline at
+    ceiling/floor -> 'headroom' (no room to move); confound moves but
+    behavioural does not -> 'object'; nothing at these layers moves ->
+    'window' (wrong write window). Fields report parse rates, effect vs the
+    null band, and whether behavioural/readout/confound each moved so the
+    caller can tell a genuine dissociation (readout-only null) from a
+    window/object failure (behavioural null too)."""
+    results_dir, assets_dir = Path(results_dir), Path(assets_dir)
+    by_axis = {a: {} for a in W10A_AXES + W10A_SPEC}
+    nulls, baseline, cum = [], None, {}
+    for fp in sorted(results_dir.glob("sec4_w10a_*.jsonl")):
+        arm = fp.stem
+        rows = _rows(fp)
+        summ = _arm_summary(rows)
+        if summ["n_parsed_bet"] and any(_manip_proj(r) is not None for r in rows):
+            assert np.isfinite(summ["manip_proj"]), \
+                f"{arm}: manip_proj is NaN despite logged vector_log.proj"
+        role = _w10a_role(arm)
+        if role == "null":
+            nulls.append(summ)
+        elif role == "baseline":
+            baseline = summ
+        elif role == "cum":
+            cum[arm] = summ["mean_bet"]
+        elif role in by_axis:
+            dose = _dose_of(rows, arm)
+            if dose is not None:
+                by_axis[role][dose] = summ
+
+    null_bets = [s["mean_bet"] for s in nulls if np.isfinite(s["mean_bet"])]
+    null_mean = float(np.mean(null_bets)) if null_bets else float("nan")
+    null_sd = float(np.std(null_bets)) if len(null_bets) > 1 else 0.0
+    null_delta = max(2.0 * null_sd, 0.03)
+    base_bet = (baseline["mean_bet"] if baseline
+                else by_axis["behavioural"].get(0.0, {}).get("mean_bet",
+                                                             float("nan")))
+
+    axes_out = {a: _w10a_axis_stat(by_axis[a], base_bet, null_delta)
+                for a in W10A_AXES + W10A_SPEC}
+    behav, read, conf = (axes_out["behavioural"], axes_out["readout"],
+                         axes_out["confound"])
+    behav_writes, read_writes = _writes(behav), _writes(read)
+    confound_writes = _writes(conf)          # H3 gate (mirrors gemma _verdict)
+    behavioural_moved = bool(behav["above_null"])
+    readout_moved = bool(read["above_null"])
+    confound_moved = bool(conf["above_null"])
+    # The readout must DECODE the indicator above chance for its inertness to be
+    # evidence of an informative-but-non-steering monitor; a broken/row-misaligned
+    # readout is ALSO inert AND has AUC~0.5, and must NOT credit the dissociation.
+    dec_auc = _decoding_auc(assets_dir)
+    readout_auc = float(dec_auc.get(W10A_READOUT_KEY, float("nan")))
+    readout_informative = bool(np.isfinite(readout_auc)
+                               and readout_auc > W10_READOUT_AUC_MIN)
+
+    if behav_writes and read_writes:
+        verdict, null_cause = "READOUT_ALSO_WRITES", "none"  # no dissociation
+    elif behav_writes and confound_writes:
+        # H3 fails: balance-signalling reproduces the betting change -> demote
+        # the headline (the confound, not the risk object, could carry it).
+        verdict, null_cause = "CONFOUNDED", "confound"
+    elif behav_writes and not read_writes:
+        if readout_informative:
+            verdict, null_cause = "LLAMA_MONITOR_NEQ_CONTROLLER", "none"
+        else:
+            # readout is inert AND cannot decode above chance -> no monitor to
+            # speak of; the 'dissociation' is uninformative, not a win.
+            verdict, null_cause = "READOUT_UNINFORMATIVE", "readout_broken"
+    else:
+        verdict = "NULL"
+        at_ceiling = bool(np.isfinite(base_bet)
+                          and (base_bet > W10_CEIL or base_bet < W10_FLOOR))
+        if behavioural_moved:            # moved but incoherent = wrong object
+            null_cause = "object"
+        elif at_ceiling:                 # no room to move = headroom
+            null_cause = "headroom"
+        elif confound_moved:             # only balance-signal moves = object
+            null_cause = "object"
+        else:                            # nothing at these layers = window
+            null_cause = "window"
+
+    return {
+        "verdict": verdict,
+        "null_cause": null_cause,
+        "axes": axes_out,
+        "behavioural_writes": behav_writes,
+        "readout_writes": read_writes,
+        "confound_writes": confound_writes,
+        "behavioural_moved": behavioural_moved,
+        "readout_moved": readout_moved,
+        "confound_moved": confound_moved,
+        "readout_auc": readout_auc,
+        "readout_informative": readout_informative,
+        "null_band": {"mean": null_mean, "sd": null_sd, "delta": null_delta,
+                      "n": len(null_bets)},
+        "baseline_bet": base_bet,
+        "cos_read_write": _cos_read_write(assets_dir),
+        "decoding_auc": dec_auc,
+        "cumulative_window_bet": cum,    # H4 locality (disclosure, not gated)
+    }
+
+
+def _w10b_cells(results_dir: Path, prefix: str) -> Dict[float, dict]:
+    """{dose: summary} for a sec4_w10b_<cond>_a{m,p}k ladder (metric key 'm' =
+    _bet, in the _pooled cell shape)."""
+    cells = {}
+    for fp in sorted(Path(results_dir).glob(f"{prefix}a*.jsonl")):
+        rows = _rows(fp)
+        parse_ok = [r for r in rows if r.get("parse_ok")]
+        dose = _dose_of(rows, fp.stem)
+        if dose is None:
+            continue
+        cells[dose] = {
+            "parse_rate": len(parse_ok) / len(rows) if rows else float("nan"),
+            "n": len(rows),
+            "values": {"m": [v for r in parse_ok if (v := _bet(r)) is not None]},
+        }
+    return cells
+
+
+def analyze_w10_sec43(results_dir) -> dict:
+    """§4.3 llama condition modulation. slope(+G) and slope(+M) vs the -G
+    control slope, each with a bootstrap CI on the difference. Verdict
+    CONDITION_MODULATES when ANY difference CI excludes 0, else
+    NO_MODULATION_HEADROOM (the expected small-gap outcome). Reports per-
+    condition parse and a headroom flag (all baselines at ceiling/floor)."""
+    results_dir = Path(results_dir)
+    cells = {k: _w10b_cells(results_dir, p) for k, p in W10B_CONDS.items()}
+    slopes, cond_parse, base_bets = {}, {}, {}
+    for k, c in cells.items():
+        xs, ys, dm = _pooled(c, "m", W10_PARSE_GATE)
+        slopes[k] = _ols_slope(xs, ys)
+        cond_parse[k] = {str(d): c[d]["parse_rate"] for d in sorted(c)}
+        base_bets[k] = dm.get(0.0, float("nan"))   # alpha-0 = condition floor
+    diffs = {}
+    for k in ("plusG", "plusM"):
+        diff, ci, s_k, s_m = _boot_slope_diff(cells[k], cells["minusG"],
+                                              parse_gate=W10_PARSE_GATE)
+        diffs[k] = {"diff": diff, "ci95": ci, "slope_cond": s_k,
+                    "slope_minusG": s_m,
+                    "excludes_zero": bool(np.isfinite(ci[0])
+                                          and (ci[0] > 0 or ci[1] < 0))}
+    modulates = any(d["excludes_zero"] for d in diffs.values())
+    headroom = all((not np.isfinite(b)) or b > W10_CEIL or b < W10_FLOOR
+                   for b in base_bets.values())
+    verdict = ("CONDITION_MODULATES" if modulates
+               else "NO_MODULATION_HEADROOM")
+    return {
+        "verdict": verdict,
+        "slopes": slopes,
+        "diffs": diffs,
+        "condition_baseline_bet": base_bets,
+        "headroom_all_conditions": headroom,
+        "parse_by_condition": cond_parse,
+        "n_boot": W3_BOOT,
+    }
+
+
+def analyze_w10(results_dir=None, assets_dir=None,
+                out_json: Optional[Path] = None) -> dict:
+    """W10 combined §4.1 + §4.3 llama analysis. Returns
+    {'sec41': analyze_w10_sec41, 'sec43': analyze_w10_sec43, 'verdicts': ...}."""
+    results_dir = Path(results_dir) if results_dir is not None \
+        else W10_RESULTS_DIR
+    assets_dir = Path(assets_dir) if assets_dir is not None else ASSETS_DIR
+    sec41 = analyze_w10_sec41(results_dir, assets_dir)
+    sec43 = analyze_w10_sec43(results_dir)
+    result = {"sec41": sec41, "sec43": sec43,
+              "verdicts": {"sec41": sec41["verdict"],
+                           "sec41_null_cause": sec41["null_cause"],
+                           "sec43": sec43["verdict"]}}
+    if out_json is not None:
+        Path(out_json).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_json).write_text(json.dumps(result, indent=1))
+    return result
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results-dir", default=str(RESULTS_DIR))
@@ -994,6 +1259,9 @@ def main():
     ap.add_argument("--wave6", action="store_true",
                     help="run the Wave-6 MW spin/stop adjudication (mw_rc "
                          "ladder vs the reused sec4_w4 MW nulls/baseline)")
+    ap.add_argument("--wave10", action="store_true",
+                    help="run the Wave-10 llama §4.1 read-vs-write dissociation "
+                         "+ §4.3 condition modulation analysis (results/sec4_w10)")
     ap.add_argument("--w1-results-dir", default=str(RESULTS_DIR),
                     help="wave3: dir with the Wave-1 sec4_behavioural_* ladder "
                          "(fetched from the sec4_p0 HF checkpoints if absent)")
@@ -1005,6 +1273,20 @@ def main():
                     help="wave6: dir with the sec4_w4 MW null/baseline "
                          "rollouts (fetched from HF if absent)")
     args = ap.parse_args()
+    if args.wave10:
+        w10_dir = W10_RESULTS_DIR
+        if args.results_dir == str(RESULTS_DIR):
+            args.results_dir = str(w10_dir)
+        out_json = (str(w10_dir / "sec4_w10_analysis.json")
+                    if args.out_json == str(OUT_JSON) else args.out_json)
+        res = analyze_w10(Path(args.results_dir), Path(args.assets_dir),
+                          Path(out_json))
+        print(json.dumps({"verdicts": res["verdicts"],
+                          "sec41_null_band": res["sec41"]["null_band"],
+                          "sec43_diffs": {k: v["diff"]
+                                          for k, v in res["sec43"]["diffs"].items()}},
+                         indent=2))
+        return
     if args.wave6:
         # untouched defaults point at the Wave-1 output paths — redirect them
         # to the wave6 namespace so --wave6 never overwrites the p0 analysis.

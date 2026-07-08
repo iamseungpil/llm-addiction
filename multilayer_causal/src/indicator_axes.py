@@ -101,9 +101,11 @@ def build_readout_axis_from_arrays(feats, indicator, balance, rounds, groups,
 
     if decoder is None:
         raise NotImplementedError(
-            "readout axis requires an SAE decoder (GemmaScope L22, gemma-only); "
-            "W8 llama uses the behavioural hidden mean-diff axis, which needs no "
-            "decoder — build only behavioural/confound axes for llama")
+            "readout axis requires an SAE decoder (GemmaScope L22 for gemma; "
+            "the LlamaScope per-layer W_dec via build_llama_readout_from_arrays "
+            "for llama). A None decoder means the caller built no decoder — the "
+            "W8/W9 behavioural hidden mean-diff axis needs none, but the readout "
+            "axis cannot be built without one")
     feats = np.asarray(feats, dtype=np.float64)
     indicator = np.asarray(indicator, dtype=np.float64)
     balance = np.asarray(balance, dtype=np.float64)
@@ -160,6 +162,49 @@ def build_readout_axis_from_arrays(feats, indicator, balance, rounds, groups,
             "refit on the median-R^2 fold's features, mapped through the SAE "
             "decoder rows (decoder_map), unit-normed and replicated to the "
             "requested layers; held-out decoding AUC pooled over GroupKFold."),
+    }
+
+
+def build_llama_readout_from_arrays(feats_by_layer, indicator, balance, rounds,
+                                    groups, decoder_by_layer, layers):
+    """W10 §4.1 LLaMA readout axis — one readout PER window layer.
+
+    LLaMA has a DISTINCT LlamaScope SAE + decoder at every layer (unlike gemma's
+    single replicated L22 readout), and feature index j means different things
+    across independently-trained SAEs — so the readout is built INDEPENDENTLY at
+    each layer from that layer's OWN feats + W_dec (a single-layer
+    build_readout_axis_from_arrays call, reused UNMODIFIED), then the per-layer
+    directions are stacked. feats_by_layer / decoder_by_layer are aligned lists
+    (one (N,K_l) feats + (K_l,d) decoder per requested layer). Returns
+    {directions (L,d) unit f32, scales (L,) ones (CLI overrides), auc (mean
+    per-layer held-out decoding AUC), aucs_by_layer (L,), n_selected, provenance}.
+    """
+    assert len(feats_by_layer) == len(decoder_by_layer) == len(layers), \
+        "feats/decoder/layers length mismatch"
+    d = np.asarray(decoder_by_layer[0]).shape[1]
+    directions = np.zeros((len(layers), d), dtype=np.float32)
+    aucs, nsel = [], []
+    for li, l in enumerate(layers):
+        r = build_readout_axis_from_arrays(
+            feats_by_layer[li], indicator, balance, rounds, groups,
+            decoder_by_layer[li], [l])
+        directions[li] = r["directions"][0]
+        aucs.append(r["auc"])
+        nsel.append(r["n_selected"])
+    return {
+        "directions": directions,
+        "scales": np.ones(len(layers), dtype=np.float32),  # CLI overrides
+        "auc": float(np.nanmean(aucs)) if aucs else float("nan"),
+        "aucs_by_layer": np.asarray(aucs, dtype=np.float64),
+        "n_selected": int(np.mean(nsel)) if nsel else 0,
+        "provenance": (
+            "llama per-layer readout axis: §4.1 top-200 SAE-feature Ridge "
+            "readout of the indicator deconfounded vs balance+round within-fold "
+            "(rf_deconfound_split/spearman_topk/fit_full_ridge), built "
+            "INDEPENDENTLY at EACH window layer's own LlamaScope SAE + decoder "
+            "(fnlp Llama3_1-8B-Base-L{l}R-8x, decoder.weight.T active subset), "
+            "unit-normed; held-out decoding AUC pooled per layer "
+            "(aucs_by_layer)."),
     }
 
 
@@ -617,7 +662,8 @@ def _build_wave7_axes(task_data, layers):
     return grid, cos_pairs
 
 
-def load_task_arrays(model, task, layers, held_out=False, rc_keep=False):
+def load_task_arrays(model, task, layers, held_out=False, rc_keep=False,
+                     want_readout=False):
     """Pull cached HF SAE features + all-layer hidden states + indicators for a
     (model, task), restricted to the DISCOVERY (or held-out) game split.
 
@@ -633,8 +679,10 @@ def load_task_arrays(model, task, layers, held_out=False, rc_keep=False):
     """
     if model == "llama":
         return _load_llama_task_arrays(task, layers, held_out=held_out,
-                                       rc_keep=rc_keep)
+                                       rc_keep=rc_keep, want_readout=want_readout)
     assert model == "gemma", f"sec4 Phase-1 supports gemma/llama (got {model})"
+    # gemma always carries the GemmaScope decoder, so want_readout is a no-op
+    # here (the readout axis is always buildable) — kept for a symmetric API.
     token = os.environ.get("HF_TOKEN")
     tdir = TASK_DIR[task]
     sae_rel = f"sae_features_v3/{tdir}/{model}/sae_features_L{pa.LAYER}.npz"
@@ -782,12 +830,19 @@ def _llama_catalog_meta(z, task, n_rows):
                          else np.full(n_rows, np.nan))}
 
 
-def _load_llama_task_arrays(task, layers, held_out=False, rc_keep=False):
-    """W8/W9 LLaMA loader — BEHAVIOURAL-axis inputs for SM/IC/MW (model symmetry).
+def _load_llama_task_arrays(task, layers, held_out=False, rc_keep=False,
+                            want_readout=False):
+    """W8/W9/W10 LLaMA loader — BEHAVIOURAL-axis inputs for SM/IC/MW (symmetry),
+    plus the W10 §4.1 per-layer READOUT inputs when want_readout.
 
     LLaMA's causal write axis is the BEHAVIOURAL hidden mean-diff, which needs
-    NO SAE decoder, so this returns feats=None / decoder=None (the readout
-    builder raises NotImplementedError on a None decoder). Hidden states come
+    NO SAE decoder, so by default this returns feats=None / decoder=None (the
+    readout builder raises on a None decoder). W10 §4.1 sets want_readout=True
+    (SM only): it ADDITIONALLY loads the per-layer LlamaScope SAE features
+    (sae_features_v3/{task}/llama/sae_features_L{l}.npz, active nnz-subset) and
+    the per-layer decoder (pa.load_llamascope_wdec) restricted to that active
+    subset, returned as feats_by_layer / decoder_by_layer for
+    build_llama_readout_from_arrays. Hidden states come
     from the 32-layer llama dump per task (pa.LLAMA_{SM,IC,MW}_HIDDEN). The
     indicator labeling mirrors the gemma _load_task_arrays branches EXACTLY,
     reusing the SAME helpers (pa.compute_iba_sm for SM; _iba_from_catalog for
@@ -879,9 +934,9 @@ def _load_llama_task_arrays(task, layers, held_out=False, rc_keep=False):
 
     i_lc, i_ec = _lc_ec_from_iba(np.nan_to_num(i_ba), balances, game_ids, rounds)
     keep = _keep_mask(split, i_ba, i_rc, rc_keep=rc_keep)
-    return {
+    out = {
         "feats": None,     # behavioural axis uses no SAE features ...
-        "decoder": None,   # ... nor the GemmaScope decoder (readout is gemma-only)
+        "decoder": None,   # ... W10 readout loads per-layer feats/decoder below
         "hidden": hidden[keep],
         "indicators": {"i_ba": np.nan_to_num(i_ba)[keep],
                        "i_lc": i_lc[keep], "i_ec": i_ec[keep],
@@ -893,6 +948,52 @@ def _load_llama_task_arrays(task, layers, held_out=False, rc_keep=False):
         "build_game_ids": np.unique(game_ids[keep]),
         "layers": list(layers),
     }
+    if want_readout:
+        # W10 §4.1: per-layer LlamaScope feats + decoder for the readout axis.
+        # Each layer's cached SAE-feature npz (col-index space == d_sae 32768)
+        # must align 1:1 with the hidden-dump rows; the active nnz-subset keeps
+        # the ridge tractable and the decoder rows aligned (mirrors the gemma
+        # build_saerd active-feature convention). SM only for W10 (the §4.1
+        # write-window readout task); the fnlp SAE holds both encoder+decoder.
+        feats_by_layer, decoder_by_layer, active_by_layer = [], [], []
+        for l in layers:
+            rel = (f"sae_features_v3/{TASK_DIR[task]}/llama/"
+                   f"sae_features_L{l}.npz")
+            sp, sae_meta = _load_sae(rel, token)
+            assert sp.shape[0] == hs.shape[0], (
+                f"llama {task} L{l} SAE rows {sp.shape[0]} != hidden rows "
+                f"{hs.shape[0]}")
+            # ROW-ORDER provenance (not just count): the per-layer SAE npz was
+            # encoded in a SEPARATE pass from the W8 hidden dump that supplies
+            # the labels/groups/keep mask, so a count-only guard would silently
+            # mis-pair feature rows with labels -> a mismatched Ridge -> an
+            # inert readout -> a FALSE 'monitor != controller' win. Verify the
+            # joint (game_id, round) key element-wise (the co-provenance the
+            # gemma path gets for free by taking feats AND labels from ONE npz)
+            # and fail LOUD on any drift.
+            assert np.array_equal(np.asarray(sae_meta["game_ids"]), game_ids), (
+                f"llama {task} L{l}: SAE npz game_ids differ from the hidden "
+                f"dump order — feats/labels would be mis-paired")
+            assert np.array_equal(
+                np.asarray(sae_meta["round_nums"], dtype=np.float64), rounds), (
+                f"llama {task} L{l}: SAE npz round_nums differ from the hidden "
+                f"dump order — feats/labels would be mis-paired")
+            nnz = np.diff(sp.tocsc().indptr)
+            active = np.where(nnz > pa.ACTIVE_MIN_NNZ)[0]
+            assert len(active) >= TOP_K, (
+                f"llama {task} L{l}: only {len(active)} active features "
+                f"(< top-K {TOP_K}); readout cannot select")
+            Wdec = pa.load_llamascope_wdec(l, token)  # (d_sae, 4096)
+            assert Wdec.shape[0] == sp.shape[1], (
+                f"L{l} decoder rows {Wdec.shape[0]} != SAE feature cols "
+                f"{sp.shape[1]}")
+            feats_by_layer.append(sp[keep][:, active].toarray().astype(np.float64))
+            decoder_by_layer.append(Wdec[active])
+            active_by_layer.append(active)
+        out["feats_by_layer"] = feats_by_layer
+        out["decoder_by_layer"] = decoder_by_layer
+        out["active_by_layer"] = active_by_layer
+    return out
 
 
 def _load_sae(rel, token):
@@ -1135,10 +1236,17 @@ def main():
                     help="W8 STEP 1: build ONE llama SM I_BA behavioural axis "
                          "for the --layers window (llama_slot_machine_i_ba_"
                          "behavioural_L{lo}_{hi}.npz); no SAE decoder needed")
+    ap.add_argument("--wave10-llama", action="store_true",
+                    help="W10 §4.1 model symmetry: build the LLaMA SM "
+                         "readout/behavioural/confound i_ba axes at --layers "
+                         "(L14-19) PLUS i_ec/i_lc behavioural specificity axes. "
+                         "The readout maps a per-layer LlamaScope Ridge readout "
+                         "through decoder.weight.T (build_llama_readout_from_"
+                         "arrays); read/write are compared at the SAME layers")
     args = ap.parse_args()
     assert sum(map(bool, (args.wave2, args.wave3, args.wave5, args.wave6,
-                          args.wave7, args.wave7_llama))) <= 1, \
-        "--wave2/3/5/6/7/7-llama are exclusive"
+                          args.wave7, args.wave7_llama, args.wave10_llama))) <= 1, \
+        "--wave2/3/5/6/7/7-llama/10-llama are exclusive"
 
     lo, hi = args.layers
     layers = list(range(lo, hi + 1))
@@ -1152,6 +1260,52 @@ def main():
         print(f"[sec4-axes/w8scan] {args.model} SM behavioural L{lo}-{hi} -> "
               f"{dest}", flush=True)
         print(json.dumps({"dest": str(dest)}, default=str))
+        return
+
+    if args.wave10_llama:
+        # W10 §4.1 model symmetry: LLaMA SM readout/behavioural/confound i_ba
+        # axes at the L14-19 write window, plus i_ec/i_lc behavioural specificity
+        # axes. The readout is built PER LAYER from that layer's own LlamaScope
+        # SAE + decoder (build_llama_readout_from_arrays) so read and write are
+        # compared at IDENTICAL layers; its scales borrow the behavioural axis
+        # so all three arms steer at matched sigma-units.
+        data = load_task_arrays("llama", "slot_machine", layers,
+                                want_readout=True)
+        bal, rnd, grp = data["balance"], data["rounds"], data["groups"]
+        ind = data["indicators"]["i_ba"]
+        behav = build_behavioural_axis_from_arrays(
+            data["hidden"], ind, bal, rnd, grp, layers)
+        conf = build_confound_axis_from_arrays(data["hidden"], bal, rnd, layers)
+        readout = build_llama_readout_from_arrays(
+            data["feats_by_layer"], ind, bal, rnd, grp,
+            data["decoder_by_layer"], layers)
+        readout["scales"] = behav["scales"].copy()      # matched sigma-units
+        cos_rw = float(np.mean([
+            pa.unit(readout["directions"][li]) @ pa.unit(behav["directions"][li])
+            for li in range(len(layers))]))
+        built = {("i_ba", "readout"): readout,
+                 ("i_ba", "behavioural"): behav,
+                 ("i_ba", "confound"): conf}
+        # indicator specificity (cheap: same hidden, different indicator): the
+        # i_ec (extreme-choice) and i_lc (loss-chasing) behavioural axes.
+        for spec in ("i_ec", "i_lc"):
+            built[(spec, "behavioural")] = build_behavioural_axis_from_arrays(
+                data["hidden"], data["indicators"][spec], bal, rnd, grp, layers)
+        summary = {"cos_read_write": cos_rw,
+                   "readout_auc": float(readout["auc"]),
+                   "aucs_by_layer": readout["aucs_by_layer"].tolist()}
+        for (indicator, axis), b in built.items():
+            crw = cos_rw if indicator == "i_ba" else float("nan")
+            dest = _save_axis(dest_dir, "llama", "slot_machine", indicator,
+                              axis, b, layers, None, crw,
+                              data["build_game_ids"])
+            summary[f"{indicator}_{axis}"] = {
+                "dest": str(dest), "auc": float(b.get("auc", np.nan))}
+            print(f"[sec4-axes/wave10-llama] {indicator}/{axis}: auc="
+                  f"{b.get('auc', float('nan'))} -> {dest}", flush=True)
+        print(f"[sec4-axes/wave10-llama] cos(read,write) window-mean = "
+              f"{cos_rw:.4f}", flush=True)
+        print(json.dumps(summary, indent=2, default=str))
         return
 
     if args.wave7:

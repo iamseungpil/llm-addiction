@@ -1,0 +1,72 @@
+# sec4 Wave-10a arm registry — §4.1 LLaMA model symmetry (2026-07-08).
+# Mirrors the gemma §4.1 CORE (arms_sec4_p0.yaml) on LLaMA-3.1-8B SM at its OWN
+# causal write window L14-19 (32L; W8 window scan). Tests, on llama:
+#   H1  the BEHAVIOURAL axis writes betting (monotone dose-response, sign
+#       reversal, above the random-null band, coherent);
+#   H2  (monitor != controller) the READOUT axis — the better DECODER, built
+#       per-layer through the LlamaScope decoder.weight.T Ridge readout at the
+#       SAME L14-19 layers — is INERT at matched sigma-units;
+#   H3  the CONFOUND (balance+round) axis reproduces at most a fraction;
+#   H4  locality: cumulative windows around L14-19.
+# Plus indicator SPECIFICITY: i_ec (extreme-choice) and i_lc (loss-chasing)
+# behavioural axes at 3 doses each (same hidden, different indicator).
+# LLaMA +/-G gap is small (0.0225), so analysis reads the ABSOLUTE effect, not a
+# recovery ratio. Every arm replays the addiction prompts (addiction_role_gm) on
+# the held-out slice (state_offset 0 = pool[0:200], inside the first-500 window
+# the axis build excludes) with alpha-independent seeds and manip-check logging.
+# ISOLATION: loaded ONLY via MLC_ARMS_YAML; SM-only; results/sec4_w10. Direction
+# assets built on the node by indicator_axes.py --wave10-llama into assets/sec4.
+defaults:
+  model: llama
+  task: sm
+  n: 200
+  seed_base: 6000042
+  state_offset: 0
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  # ---- readout axis (the "thermometer"): H2 predicts INERT ----
+  - {id: sec4_w10a_readout_am3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_readout.npz}
+  - {id: sec4_w10a_readout_am2, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_readout.npz}
+  - {id: sec4_w10a_readout_am1, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_readout.npz}
+  - {id: sec4_w10a_readout_a0, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_readout.npz}
+  - {id: sec4_w10a_readout_ap1, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_readout.npz}
+  - {id: sec4_w10a_readout_ap2, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_readout.npz}
+  - {id: sec4_w10a_readout_ap3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_readout.npz}
+  # ---- behavioural axis (the candidate "heater"): H1 predicts WRITES ----
+  - {id: sec4_w10a_behavioural_am3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10a_behavioural_am2, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10a_behavioural_am1, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10a_behavioural_a0, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10a_behavioural_ap1, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10a_behavioural_ap2, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10a_behavioural_ap3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  # ---- confound axis (balance+round control): H3 predicts a FRACTION at most ----
+  - {id: sec4_w10a_confound_am3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w10a_confound_am2, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w10a_confound_am1, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w10a_confound_a0, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w10a_confound_ap1, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w10a_confound_ap2, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_confound.npz}
+  - {id: sec4_w10a_confound_ap3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_confound.npz}
+  # ---- random-direction nulls (norm-matched, alpha +3 @ L14-19, 5 seeds) ----
+  - {id: sec4_w10a_null_1, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 2026070811, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w10a_null_2, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 2026070812, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w10a_null_3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 2026070813, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w10a_null_4, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 2026070814, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_w10a_null_5, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 2026070815, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  # ---- no-steer baseline (natural -G prompt, no hook) ----
+  - {id: sec4_w10a_baseline, phase: sec4_w10, mode: anchor_minus, layers: [14, 19], log_vectors: false}
+  # ---- cumulative-window behavioural @ alpha +3 (H4 locality around L14-19) ----
+  - {id: sec4_w10a_cum_15_18, phase: sec4_w10, mode: steer, layers: [15, 18], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10a_cum_14_19, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10a_cum_12_21, phase: sec4_w10, mode: steer, layers: [12, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  # ---- indicator specificity: i_ec (extreme-choice) behavioural @ -3/0/+3 ----
+  - {id: sec4_w10a_iec_am3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ec_behavioural.npz}
+  - {id: sec4_w10a_iec_a0, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ec_behavioural.npz}
+  - {id: sec4_w10a_iec_ap3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ec_behavioural.npz}
+  # ---- indicator specificity: i_lc (loss-chasing) behavioural @ -3/0/+3 ----
+  - {id: sec4_w10a_ilc_am3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_lc_behavioural.npz}
+  - {id: sec4_w10a_ilc_a0, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_lc_behavioural.npz}
+  - {id: sec4_w10a_ilc_ap3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_lc_behavioural.npz}

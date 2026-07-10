@@ -10,7 +10,9 @@ import json
 
 import pytest
 
-from multilayer_causal.src.sec4_stats import (W14_COMMON_DOSES, _restrict_doses,
+from multilayer_causal.src.sec4_stats import (W14_COMMON_DOSES, _drop_top_dose,
+                                              _restrict_doses,
+                                              _w14_cells_no_extreme,
                                               _w10b_cells, _w14_cells,
                                               analyze_w14, analyze_w14_model)
 
@@ -134,3 +136,33 @@ def test_missing_ladder_raises_rather_than_returning_a_partial_verdict(tmp_path)
     _write(tmp_path, "gemma", "minusG", DOSES_3, 0.030)
     with pytest.raises(FileNotFoundError, match="w14"):
         analyze_w14_model(tmp_path, "gemma")
+
+
+def test_extreme_removal_drops_only_bets_at_or_above_the_threshold(tmp_path):
+    """base 0.4 + slope 0.05: at alpha>=+2 the planted bet crosses the 0.5
+    I_EC-proxy threshold, so those doses must come back empty while every
+    other dose keeps all its rows."""
+    _write(tmp_path, "gemma", "plusG", DOSES_7, 0.050, base=0.4)
+    kept = _w14_cells(tmp_path, "gemma", "plusG")
+    no_ext = _w14_cells_no_extreme(tmp_path, "gemma", "plusG")
+    assert len(no_ext[1.0]["values"]["m"]) == len(kept[1.0]["values"]["m"])
+    assert no_ext[2.0]["values"]["m"] == []          # 0.4+0.10 = 0.50 removed
+    assert no_ext[3.0]["values"]["m"] == []
+    # parse_rate is unchanged: removal is a value filter, not a parse gate
+    assert no_ext[3.0]["parse_rate"] == pytest.approx(1.0)
+
+
+def test_drop_top_dose_removes_only_the_maximum_dose(gspecific):
+    cells = _w14_cells(gspecific, "gemma", "plusG")
+    assert sorted(_drop_top_dose(cells)) == [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0]
+
+
+def test_robustness_arms_are_reported_and_agree_on_a_clean_ladder(gspecific):
+    """On a noiseless linear fixture every robustness arm must recover the
+    same planted 0.030 contrast — the arms differ only in which rows/doses
+    they admit, and this fixture gives them no rows to disagree over."""
+    res = analyze_w14_model(gspecific, "gemma")
+    for key in ("robust_extreme_removed_plusG_minus_plusM",
+                "robust_grid_restricted_plusG_minus_plusM",
+                "robust_drop_top_dose_plusG_minus_plusM"):
+        assert res[key]["diff"] == pytest.approx(0.030, abs=2e-3), key

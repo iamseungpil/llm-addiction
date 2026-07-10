@@ -1710,12 +1710,47 @@ W14_CONDS = ("minusG", "plusG", "plusM")
 # grid-matched by construction and uses every dose both ladders share.
 W14_COMMON_DOSES = (-3.0, 0.0, 3.0)
 W14_PARSE_DEGRADED = 0.85        # disclose (not gate) doses below this
+W14_EXTREME_THRESH = 0.5         # I_EC proxy; extreme-bet-removal robustness
 
 
 def _w14_cells(results_dir: Path, model: str, cond: str,
                impute_stop: bool = False) -> Dict[float, dict]:
     return _w10b_cells(results_dir, f"sec4_w14_{model}_{cond}_",
                        impute_stop=impute_stop)
+
+
+def _w14_cells_no_extreme(results_dir: Path, model: str, cond: str,
+                          thresh: float = W14_EXTREME_THRESH
+                          ) -> Dict[float, dict]:
+    """W14 ladder cells with extreme bets (bet_ratio >= thresh) removed.
+
+    Robustness arm: the primary contrast could in principle be carried by a
+    handful of extreme (I_EC-proxy) bets rather than by a shift of the whole
+    bet distribution. Parse-fail rows are dropped as in the default cells."""
+    cells = {}
+    for fp in sorted(Path(results_dir).glob(
+            f"sec4_w14_{model}_{cond}_a*.jsonl")):
+        rows = _rows(fp)
+        parse_ok = [r for r in rows if r.get("parse_ok")]
+        dose = _dose_of(rows, fp.stem)
+        if dose is None:
+            continue
+        vals = [v for r in parse_ok
+                if (v := _bet(r)) is not None and v < thresh]
+        cells[dose] = {
+            "parse_rate": len(parse_ok) / len(rows) if rows else float("nan"),
+            "n": len(rows),
+            "values": {"m": vals},
+        }
+    return cells
+
+
+def _drop_top_dose(cells: Dict[float, dict]) -> Dict[float, dict]:
+    """Drop the maximum dose from a ladder. Conservative robustness arm: the
+    top dose is where steering degrades parseability most, so removing it
+    bounds how much of the contrast rides on the parse-degraded extreme."""
+    top = max(cells)
+    return {d: c for d, c in cells.items() if d != top}
 
 
 def _restrict_doses(cells: Dict[float, dict], doses) -> Dict[float, dict]:
@@ -1752,6 +1787,19 @@ def analyze_w14_model(results_dir: Path, model: str) -> dict:
     primary = _w14_contrast(cells["plusG"], cells["plusM"])
     robust = _w14_contrast(imp["plusG"], imp["plusM"])
 
+    # three further robustness arms on the registered +G vs +M contrast:
+    # (a) extreme-bet removal — is the contrast carried by a few I_EC bets?
+    no_ext = {c: _w14_cells_no_extreme(results_dir, model, c)
+              for c in ("plusG", "plusM")}
+    robust_ext = _w14_contrast(no_ext["plusG"], no_ext["plusM"])
+    # (b) common-grid restriction — same 3-dose grid as the -G comparisons
+    robust_grid = _w14_contrast(cells["plusG"], cells["plusM"],
+                                restrict=W14_COMMON_DOSES)
+    # (c) top-dose removal — parsed rows only, with the parse-degraded top
+    # dose dropped (most conservative; the paper's LLaMA caveat scoring)
+    robust_top = _w14_contrast(_drop_top_dose(cells["plusG"]),
+                               _drop_top_dose(cells["plusM"]))
+
     vs_minus = {c: _w14_contrast(cells[c], cells["minusG"],
                                  restrict=W14_COMMON_DOSES)
                 for c in ("plusG", "plusM")}
@@ -1781,6 +1829,9 @@ def analyze_w14_model(results_dir: Path, model: str) -> dict:
         "slopes_common_grid": slopes,
         "primary_plusG_minus_plusM": primary,
         "robust_impute_stop_plusG_minus_plusM": robust,
+        "robust_extreme_removed_plusG_minus_plusM": robust_ext,
+        "robust_grid_restricted_plusG_minus_plusM": robust_grid,
+        "robust_drop_top_dose_plusG_minus_plusM": robust_top,
         "vs_minusG_common_grid": vs_minus,
         "shared_doses": shared,
         "common_doses": list(W14_COMMON_DOSES),

@@ -1,0 +1,61 @@
+# xtask DOSE-SWEEP arm registry — Stage C (2026-06-17).
+# Extends the alpha=4.0 3x3 transfer wave (arms_xtask.yaml, on HF under
+# experiments/xtask/) with lower per-target doses to separate 'no transfer'
+# from 'dose too high'. At alpha 4.0 the geometrically-misaligned off-diagonal
+# injections COLLAPSED generation (sm->ic 2% / sm->mw 0% parse); here we sweep
+# alpha in {1,2,3} for all 9 cells to find, per target, the max dose that keeps
+# the diagonal parse ~= no-steer baseline, then read off-diagonal behaviour
+# transfer at that coherent dose. ISOLATION: loaded ONLY via MLC_ARMS_YAML;
+# reuses the target-scaled assets directions_bk_single_{s}_to_{t}.npz and the
+# Stage-B no-steer baselines (xtask_base_{t}, dose-independent) + the alpha=4.0
+# cells already on HF. New HF prefix experiments/xtask_dose/, results/xtask_dose.
+# Norm-match unchanged: unit dir rows x per-TARGET scales (baked in the _to_
+# asset) x alpha -> within a (target,alpha) the realized d-norm is identical
+# across source axes, so a cell's transfer is an orientation fact at fixed dose.
+defaults:
+  model: gemma
+  task: sm
+  n: 50
+
+arms:
+  # ---- 9 cells x alpha {1,2,3} = 27 steer arms ----
+  # column sm (target sm, state_offset 300)
+  - {id: xtask_sm_to_sm_a1, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_sm_to_sm_a2, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_sm_to_sm_a3, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtask_ic_to_sm_a1, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_ic_to_sm_a2, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_ic_to_sm_a3, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_mw_to_sm_a1, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_mw_to_sm_a2, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_mw_to_sm_a3, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # column ic (target ic, state_offset 0)
+  - {id: xtask_sm_to_ic_a1, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_sm_to_ic_a2, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_sm_to_ic_a3, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_ic_to_ic_a1, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_ic_to_ic_a2, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_ic_to_ic_a3, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0, log_vectors: true}
+  - {id: xtask_mw_to_ic_a1, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_mw_to_ic_a2, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_mw_to_ic_a3, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  # column mw (target mw, state_offset 0)
+  - {id: xtask_sm_to_mw_a1, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_sm_to_mw_a2, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_sm_to_mw_a3, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_ic_to_mw_a1, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_ic_to_mw_a2, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_ic_to_mw_a3, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_mw_to_mw_a1, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_mw_to_mw_a2, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_mw_to_mw_a3, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0, log_vectors: true}
+  # ---- per-(target,alpha) random-direction null (dose-matched band) ----
+  - {id: xtask_rnd_sm_a1, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 1.0, direction: random, dir_seed: 2026170001, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_rnd_sm_a2, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 2.0, direction: random, dir_seed: 2026170002, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_rnd_sm_a3, phase: xtask_dose, task: sm, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026170003, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_rnd_ic_a1, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 1.0, direction: random, dir_seed: 2026171001, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_rnd_ic_a2, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 2.0, direction: random, dir_seed: 2026171002, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_rnd_ic_a3, phase: xtask_dose, task: ic, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026171003, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_rnd_mw_a1, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 1.0, direction: random, dir_seed: 2026172001, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_rnd_mw_a2, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 2.0, direction: random, dir_seed: 2026172002, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_rnd_mw_a3, phase: xtask_dose, task: mw, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026172003, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}

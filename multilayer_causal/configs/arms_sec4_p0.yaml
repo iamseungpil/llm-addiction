@@ -1,0 +1,58 @@
+# sec4 Phase-1 CORE arm registry — §4 causal-strengthening (Gemma SM, 2026-07-06).
+# Tests H1 (behavioural axis writes betting, monotone + sign-reversal, above the
+# random-null band, parse >= 0.8) and H2 (the readout axis is INERT at matched
+# sigma-units although it is the better decoder), plus H3 (confound axis) and H4
+# (locality: cumulative windows). Every arm replays the EXACT addiction prompts
+# (prompt_set: addiction_role_gm) at the L16-21 write window with alpha-independent
+# seeds (seed_base + 997*i) on the HELD-OUT slice (state_offset 300), and logs the
+# manipulation-check projection (log_vectors: true). Three axes x alpha
+# {-3..+3} = 21 dose arms + 5 random nulls (alpha +3) + a no-steer baseline + 3
+# cumulative-window behavioural arms (alpha +3) for H4. ISOLATION: loaded ONLY via
+# MLC_ARMS_YAML; SM-only; new HF prefix experiments/sec4_causal, results/sec4_p0.
+# Direction assets built by indicator_axes.py into assets/sec4/.
+defaults:
+  model: gemma
+  task: sm
+  n: 200
+  seed_base: 2000042
+  state_offset: 300
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  # ---- readout axis (the "thermometer"): H2 predicts INERT ----
+  - {id: sec4_readout_am3, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_readout.npz}
+  - {id: sec4_readout_am2, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_readout.npz}
+  - {id: sec4_readout_am1, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_readout.npz}
+  - {id: sec4_readout_a0, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_readout.npz}
+  - {id: sec4_readout_ap1, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_readout.npz}
+  - {id: sec4_readout_ap2, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_readout.npz}
+  - {id: sec4_readout_ap3, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_readout.npz}
+  # ---- behavioural axis (the candidate "heater"): H1 predicts WRITES ----
+  - {id: sec4_behavioural_am3, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_behavioural_am2, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_behavioural_am1, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_behavioural_a0, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_behavioural_ap1, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_behavioural_ap2, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_behavioural_ap3, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  # ---- confound axis (balance+round control): H3 predicts a FRACTION at most ----
+  - {id: sec4_confound_am3, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_confound_am2, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_confound_am1, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_confound_a0, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_confound_ap1, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_confound_ap2, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  - {id: sec4_confound_ap3, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_confound.npz}
+  # ---- random-direction nulls (norm-matched, alpha +3 @ L16-21, 5 seeds) ----
+  - {id: sec4_null_1, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070601, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_null_2, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070602, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_null_3, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070603, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_null_4, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070604, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  - {id: sec4_null_5, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, direction: random, dir_seed: 2026070605, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz, log_vectors: false}
+  # ---- no-steer baseline (natural -G prompt, no hook) ----
+  - {id: sec4_baseline, phase: sec4_p0, mode: anchor_minus, layers: [16, 21], log_vectors: false}
+  # ---- cumulative-window behavioural @ alpha +3 (H4 locality) ----
+  - {id: sec4_cum_18_19, phase: sec4_p0, mode: steer, layers: [18, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_cum_16_21, phase: sec4_p0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_cum_14_23, phase: sec4_p0, mode: steer, layers: [14, 23], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}

@@ -271,7 +271,7 @@ def phase_a_extract(
     logger.info("Model loaded")
 
     # Pre-allocate
-    hidden_all = np.zeros((n_rounds, n_layers_req, HIDDEN_DIM), dtype=np.float32)
+    hidden_all = np.zeros((n_rounds, n_layers_req, HIDDEN_DIM), dtype=np.float16)  # W8: bf16 model -> fp16 storage halves the ~77GB dump; loader casts to f64
     valid_mask = np.ones(n_rounds, dtype=bool)
     n_skipped = 0
 
@@ -317,19 +317,48 @@ def phase_a_extract(
     gc.collect()
     logger.info("Model unloaded")
 
-    # Skip checkpoint save — hidden_all stays in memory for Phase B
-    logger.info("Phase A data in memory, proceeding to Phase B (no checkpoint I/O)")
+    # Save final Phase A checkpoint (additive W8: mirrors extract_llama_sm so
+    # `--phase-a-only` persists the full 32-layer dump; hidden_all also stays
+    # in memory for Phase B, so no re-read / no extra I/O when Phase B runs).
+    if checkpoint_dir:
+        _save_checkpoint(checkpoint_dir, hidden_all, valid_mask,
+                         n_rounds, layers, n_skipped, logger, rounds=rounds,
+                         partial=False)
+    else:
+        logger.info("No checkpoint_dir — Phase A data in memory for Phase B")
 
     return hidden_all, valid_mask
 
 
 def _save_checkpoint(checkpoint_dir, hidden_all, valid_mask, n_rounds, layers,
-                     n_skipped, logger, partial=False):
+                     n_skipped, logger, rounds=None, partial=False):
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
     ckpt_file = checkpoint_dir / "phase_a_hidden_states.npz"
     label = "partial" if partial else "final"
     logger.info(f"Saving Phase A {label} checkpoint")
-    np.savez_compressed(ckpt_file, hidden_states=hidden_all, valid_mask=valid_mask)
+    # Additive provenance (W8): mirror the hidden_states_dp.npz schema so the
+    # sec4 llama loader (indicator_axes._load_llama_task_arrays) can (a) resolve
+    # each requested layer NUMBER to its stored row via the `layers` array and
+    # (b) join i_ba/balance from game_ids/round_nums/balances, and so
+    # verify_llama_fullhidden.py can key-align the game-level [8,12,22,25,30]
+    # dp-dump rows against these round-level rows. hidden_states/valid_mask stay
+    # byte-identical to the IC-file convention; only NEW provenance keys added.
+    if rounds is not None:
+        provenance = dict(
+            layers=np.array(layers, dtype=np.int64),
+            game_ids=np.array([r.game_id for r in rounds], dtype=np.int64),
+            round_nums=np.array([r.round_num for r in rounds], dtype=np.int64),
+            balances=np.array([r.balance_before for r in rounds],
+                              dtype=np.float32),
+            game_outcomes=np.array([r.game_outcome for r in rounds]),
+            bet_types=np.array([r.bet_type for r in rounds]),
+            prompt_conditions=np.array([r.prompt_condition for r in rounds]),
+        )
+    else:
+        provenance = dict(layers=np.array(layers, dtype=np.int64))
+    # Uncompressed save — ~44GB but ~1 min vs compressed ~15 min (matches SM).
+    np.savez(ckpt_file, hidden_states=hidden_all, valid_mask=valid_mask,
+             **provenance)
     meta = {
         "n_rounds": n_rounds, "n_layers": len(layers), "layers": layers,
         "hidden_dim": HIDDEN_DIM, "n_skipped": n_skipped,

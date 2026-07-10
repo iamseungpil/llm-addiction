@@ -195,7 +195,7 @@ def phase_a_extract(
     logger.info("Model loaded")
 
     # Pre-allocate
-    hidden_all = np.zeros((n_rounds, n_layers_req, HIDDEN_DIM), dtype=np.float32)
+    hidden_all = np.zeros((n_rounds, n_layers_req, HIDDEN_DIM), dtype=np.float16)  # W8: fp16 (bf16 model), loader casts f64
     valid_mask = np.ones(n_rounds, dtype=bool)
     n_skipped = 0
 
@@ -232,7 +232,7 @@ def phase_a_extract(
         # Checkpoint every 2000 rounds
         if checkpoint_dir and i > 0 and i % 2000 == 0:
             _save_checkpoint(checkpoint_dir, hidden_all, valid_mask,
-                             n_rounds, layers, n_skipped, logger, partial=True)
+                     n_rounds, layers, n_skipped, logger, rounds=rounds, partial=True)
 
     logger.info(f"Phase A complete: {n_rounds - n_skipped}/{n_rounds} valid ({n_skipped} skipped)")
 
@@ -245,18 +245,33 @@ def phase_a_extract(
     # Save final checkpoint
     if checkpoint_dir:
         _save_checkpoint(checkpoint_dir, hidden_all, valid_mask,
-                         n_rounds, layers, n_skipped, logger, partial=False)
+                     n_rounds, layers, n_skipped, logger, rounds=rounds, partial=False)
 
     return hidden_all, valid_mask
 
 
 def _save_checkpoint(checkpoint_dir, hidden_all, valid_mask, n_rounds, layers,
-                     n_skipped, logger, partial=False):
+                     n_skipped, logger, rounds=None, partial=False):
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
     ckpt_file = checkpoint_dir / "phase_a_hidden_states.npz"
     label = "partial" if partial else "final"
     logger.info(f"Saving Phase A {label} checkpoint")
-    np.savez_compressed(ckpt_file, hidden_states=hidden_all, valid_mask=valid_mask)
+    # Additive provenance (W9): same schema as extract_llama_sm so the sec4
+    # llama loader can layer-map (`layers`) and catalog-join (game_ids/
+    # round_nums/balances). hidden_states/valid_mask stay conventional.
+    if rounds is not None:
+        prov = dict(
+            layers=np.array(layers, dtype=np.int64),
+            game_ids=np.array([r.game_id for r in rounds], dtype=np.int64),
+            round_nums=np.array([r.round_num for r in rounds], dtype=np.int64),
+            balances=np.array([r.balance_before for r in rounds], dtype=np.float32),
+            game_outcomes=np.array([r.game_outcome for r in rounds]),
+            bet_types=np.array([r.bet_type for r in rounds]),
+            prompt_conditions=np.array([r.prompt_condition for r in rounds]),
+        )
+    else:
+        prov = dict(layers=np.array(layers, dtype=np.int64))
+    np.savez(ckpt_file, hidden_states=hidden_all, valid_mask=valid_mask, **prov)
     meta = {
         "n_rounds": n_rounds, "n_layers": len(layers), "layers": layers,
         "hidden_dim": HIDDEN_DIM, "n_skipped": n_skipped,

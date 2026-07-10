@@ -1,0 +1,48 @@
+description: multilayer-causal E1c CONFIRMATORY n=200 held-out (win18 + anchors) + 2 missing e3a rnd arms
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_e1c
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml 2>&1 | tail -1
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        bash multilayer_causal/run_arms.sh 4 e1c_anchor_minus e1c_anchor_plus e1c_win18 e3a_rnd_s6 e3a_rnd_s7
+        echo E1C_DONE
+        '

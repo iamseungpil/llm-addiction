@@ -1,0 +1,84 @@
+description: multilayer-causal SEC4 Wave-8 window SCAN - pick the LLaMA causal write window before the reduced symmetric matrix (the spine llama profile was noisy). Scans four candidate behavioural I_BA write windows {[14,19],[16,21],[18,23],[20,25]} (llama 32L) at alpha {-3,0,+3} plus a no-steer baseline and 2 random nulls. Each window steers its own llama_slot_machine_i_ba_behavioural_L{lo}_{hi} axis, built on the node by indicator_axes --build-llama-windows (behavioural hidden mean-diff, no SAE decoder needed). LLaMA +/-G gap is small (0.0225) so the scan reads the ABSOLUTE effect. ISOLATED via arms_sec4_w8scan.yaml, results/sec4_w8scan, MLC_SYNC_EVERY 50.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w8scan
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0..w7 paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w8scan.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w8scan
+        # HF commit-rate cap (256/h): sync every 50 trials instead of 10 so the
+        # wave stays under budget; preemption loses <=50 trials/arm, refilled
+        # on resume.
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the WAVE-8 llama SM I_BA behavioural axis at EACH candidate
+        # window ON the node (--build-llama-windows; behavioural hidden mean-diff,
+        # NO SAE decoder). Abort the whole job if any window build fails so a bad
+        # axis never wastes rollout. ---
+        for W in "14 19" "16 21" "18 23" "20 25"; do
+          PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model llama --task slot_machine --build-llama-windows --layers $$W --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        done
+        python -c "
+        import numpy as np, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        need = [\"llama_slot_machine_i_ba_behavioural_L14_19.npz\", \"llama_slot_machine_i_ba_behavioural_L16_21.npz\", \"llama_slot_machine_i_ba_behavioural_L18_23.npz\", \"llama_slot_machine_i_ba_behavioural_L20_25.npz\"]
+        for name in need:
+            f = os.path.join(\"multilayer_causal/assets/sec4\", name)
+            assert os.path.exists(f), \"missing wave8 axis: \"+name
+            d = np.load(f)
+            assert d[\"directions\"].shape == (32, 4096), d[\"directions\"].shape
+            print(\"SEC4_W8_AXIS\", name, \"shape=%s\" % (d[\"directions\"].shape,))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+name, repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_W8_AXES_UPLOADED\", len(need))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        # Serial llama catalog bootstrap BEFORE the fan-out (run_arms.sh only
+        # pre-bootstraps gemma; the parallel llama arms must not race the download).
+        PYTHONPATH=/scratch/mlc python -c "from multilayer_causal.src.states import ensure_sm_catalog; ensure_sm_catalog(\"llama\")"
+        bash multilayer_causal/run_arms.sh 4 sec4_w8scan_L14_19_am3 sec4_w8scan_L14_19_a0 sec4_w8scan_L14_19_ap3 sec4_w8scan_L16_21_am3 sec4_w8scan_L16_21_a0 sec4_w8scan_L16_21_ap3 sec4_w8scan_L18_23_am3 sec4_w8scan_L18_23_a0 sec4_w8scan_L18_23_ap3 sec4_w8scan_L20_25_am3 sec4_w8scan_L20_25_a0 sec4_w8scan_L20_25_ap3 sec4_w8scan_null1_ap3 sec4_w8scan_null2_am3 sec4_w8scan_base
+        echo SEC4_W8_DONE
+        '

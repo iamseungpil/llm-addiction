@@ -1,0 +1,79 @@
+description: multilayer-causal SEC4 Wave-3 ADJUDICATION wave - §4 causal-strengthening on Gemma (goals-v2 rung 1). Three independent falsifiable questions in one wave. Q2 expression-matched - builds the per-task behavioural I_BA axes (SM/IC/MW, the IC axis excluding the runner's IC replay window so the replayed states are held out) plus their 3-task SVD-top1 shared3 axis (emitted twice - SM scales for the SM ladder and an _icscale twin with the same directions at IC write-window sigma-units so the IC dosing is norm-matched to the control and null band) and doses shared3 on SM (bet_ratio) AND on IC (risky rate, IC's binding indicator), against IC's OWN behavioural axis as positive control, an IC no-steer baseline and a 3-direction IC thick null (each random direction at -3 AND +3 so a per-direction slope band is estimable). Q3 condition slope - doses the Wave-1 behavioural axis while the runner evaluates the +G TWIN prompt (arm field twin - G, frozen twin_combo recipe) plus an unsteered anchor_plus baseline, to compare against the Wave-1 -G ladder. Q1 rung-2 - doses the behavioural axis separately on the postloss and postwin partitions of the SAME held-out window (arm field state_filter, labeled by postloss_analysis.label_postloss). SM arms replay the exact addiction prompts (addiction_role_gm) on the held-out slice with alpha-independent seeds and manip-check logging; IC arms replay the stored IC corpus verbatim at offset 0. ISOLATED via arms_sec4_w3.yaml (MLC_ARMS_YAML), experiments/sec4_causal (MLC_HF_BASE), results/sec4_w3 (MLC_OUT), W&B project llm-addiction-sec4. Axis assets built on the node by indicator_axes.py --wave3 into assets/sec4.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w3
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0 / sec4_w2 paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w3.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w3
+        # HF commit-rate cap (256/h): sync every 50 trials instead of 10 so the
+        # 38-arm wave stays under budget; preemption loses <=50 trials/arm,
+        # refilled on resume.
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the WAVE-3 cross-task axis library ON the node (--wave3 builds
+        # the SM/IC/MW behavioural I_BA axes and their SVD-top1 shared3 axis from
+        # the cached HF SAE+hidden npz, printing the pairwise cross-task cosines);
+        # abort the whole job if the build fails so a bad axis never wastes rollout.
+        # Uploads the npz to HF for reproducibility. ---
+        PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model gemma --wave3 --layers 16 21 --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        python -c "
+        import numpy as np, glob, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        need = [\"gemma_slot_machine_i_ba_behavioural.npz\", \"gemma_investment_choice_i_ba_behavioural.npz\", \"gemma_mystery_wheel_i_ba_behavioural.npz\", \"gemma_shared3_iba_behavioural.npz\", \"gemma_shared3_iba_behavioural_icscale.npz\"]
+        for name in need:
+            f = os.path.join(\"multilayer_causal/assets/sec4\", name)
+            assert os.path.exists(f), \"missing wave3 axis: \"+name
+            d = np.load(f)
+            print(\"SEC4_W3_AXIS\", name, \"shape=%s\" % (d[\"directions\"].shape,))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+name, repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_W3_AXES_UPLOADED\", len(need))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        bash multilayer_causal/run_arms.sh 4 sec4_w3_sh3_sm_am3 sec4_w3_sh3_sm_am2 sec4_w3_sh3_sm_am1 sec4_w3_sh3_sm_a0 sec4_w3_sh3_sm_ap1 sec4_w3_sh3_sm_ap2 sec4_w3_sh3_sm_ap3 sec4_w3_sh3_ic_am3 sec4_w3_sh3_ic_am2 sec4_w3_sh3_ic_am1 sec4_w3_sh3_ic_a0 sec4_w3_sh3_ic_ap1 sec4_w3_sh3_ic_ap2 sec4_w3_sh3_ic_ap3 sec4_w3_ic_own_am3 sec4_w3_ic_own_a0 sec4_w3_ic_own_ap3 sec4_w3_ic_baseline sec4_w3_ic_null1_am3 sec4_w3_ic_null1_ap3 sec4_w3_ic_null2_am3 sec4_w3_ic_null2_ap3 sec4_w3_ic_null3_am3 sec4_w3_ic_null3_ap3 sec4_w3_plusG_am3 sec4_w3_plusG_am2 sec4_w3_plusG_am1 sec4_w3_plusG_a0 sec4_w3_plusG_ap1 sec4_w3_plusG_ap2 sec4_w3_plusG_ap3 sec4_w3_plusG_baseline sec4_w3_postloss_am3 sec4_w3_postloss_a0 sec4_w3_postloss_ap3 sec4_w3_postwin_am3 sec4_w3_postwin_a0 sec4_w3_postwin_ap3
+        echo SEC4_W3_DONE
+        '

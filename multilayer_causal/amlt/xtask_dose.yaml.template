@@ -1,0 +1,56 @@
+description: multilayer-causal XTASK-DOSE wave (Stage C) - per-target alpha sweep {1,2,3} over the 9 cross-task BK steering cells (+ dose-matched random nulls) on gemma, to separate 'no transfer' from 'dose too high' after the alpha=4.0 wave collapsed misaligned off-diagonal generation. Rows = SINGLE-TASK BK source axis (sm / ic / mw), cols = APPLY target task (sm / ic / mw); the source axis is steered into the residual stream at the L16-21 write window during the target task's decision rollout, behavior shift measured. Diagonal (s==t) = within-task causal effect (upper bound); off-diagonal = transfer; transfer fraction = offdiag / diag. ISOLATED xtask namespace - arms from configs/arms_xtask.yaml (MLC_ARMS_YAML override), assets under assets/xtask/ (single-task BK npz built target-scaled per CONTRACT4), all HF checkpoint writes under experiments/xtask/ (MLC_HF_BASE override), local rollout jsonls under results/xtask/ (MLC_OUT). Code tarball pulled from the SHARED experiments/multilayer_causal/code asset; only outputs are namespaced. Single gemma batch (all cells are gemma).
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_xtask_dose
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # xtask isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_xtask_dose.yaml
+        MLC_HF_BASE: experiments/xtask_dose/checkpoints
+        MLC_OUT: multilayer_causal/results/xtask_dose
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml 2>&1 | tail -1
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        python -c "from multilayer_causal.src.ic import ensure_ic_catalog; ensure_ic_catalog()"
+        python -c "from multilayer_causal.src.mw import ensure_mw_catalog; ensure_mw_catalog()"
+        python -m multilayer_causal.src.xtask_axes --dest-dir multilayer_causal/assets/xtask --target-scaled
+        bash multilayer_causal/run_arms.sh 4 xtask_sm_to_sm_a1 xtask_sm_to_sm_a2 xtask_sm_to_sm_a3 xtask_ic_to_sm_a1 xtask_ic_to_sm_a2 xtask_ic_to_sm_a3 xtask_mw_to_sm_a1 xtask_mw_to_sm_a2 xtask_mw_to_sm_a3 xtask_sm_to_ic_a1 xtask_sm_to_ic_a2 xtask_sm_to_ic_a3 xtask_ic_to_ic_a1 xtask_ic_to_ic_a2 xtask_ic_to_ic_a3 xtask_mw_to_ic_a1 xtask_mw_to_ic_a2 xtask_mw_to_ic_a3 xtask_sm_to_mw_a1 xtask_sm_to_mw_a2 xtask_sm_to_mw_a3 xtask_ic_to_mw_a1 xtask_ic_to_mw_a2 xtask_ic_to_mw_a3 xtask_mw_to_mw_a1 xtask_mw_to_mw_a2 xtask_mw_to_mw_a3 xtask_rnd_sm_a1 xtask_rnd_sm_a2 xtask_rnd_sm_a3 xtask_rnd_ic_a1 xtask_rnd_ic_a2 xtask_rnd_ic_a3 xtask_rnd_mw_a1 xtask_rnd_mw_a2 xtask_rnd_mw_a3
+        echo XTASK_DOSE_DONE
+        '

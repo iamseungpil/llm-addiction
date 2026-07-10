@@ -1,0 +1,43 @@
+# sec4 Wave-11 MW write-window SCAN (§4.2 model symmetry, LLaMA). W9's llama
+# matrix reused the SM write window (L14-19) for MW, so its MW self-cell was
+# weak (mwrc->mw n=16). W11 finds MW's OWN causal write window BEFORE the matrix
+# re-run (the follow-up): it scans four candidate windows
+# {[10,15],[12,17],[14,19],[16,21]} (llama 32L) at alpha {-3,0,+3}, each window
+# steering its OWN llama_mystery_wheel_mw_rc_behavioural_L{lo}_{hi} axis (mw_rc =
+# spin-vs-stop, built by indicator_axes --build-llama-windows --task
+# mystery_wheel with the rc_keep loader so stop rows survive; behavioural hidden
+# mean-diff, no SAE decoder). Plus a no-steer baseline + 3 random nulls (their
+# axis is the middle L14-19 window). The a0 cell in each window ladder is that
+# window's own no-steer baseline. The LLaMA +/-G gap is small so the scan reads
+# the ABSOLUTE effect = MW spin rate (= mean of the runner's `risky` flag over
+# parse_ok rows). n=200 (higher than W9's 150 to fight the small llama
+# headroom). state_offset 0 replays mw.replay_game_ids[0:200], held out of the
+# axis build. NEW seed_base 7000043 (RNG-independent of the w11ic scan + every
+# prior wave). ISOLATED via arms_sec4_w11mw.yaml, results/sec4_w11,
+# MLC_SYNC_EVERY 50. 16 arms.
+defaults:
+  model: llama
+  task: mw
+  n: 200
+  seed_base: 7000043
+  state_offset: 0
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  - {id: sec4_w11mw_L10_15_am3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [10, 15], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L10_15.npz}
+  - {id: sec4_w11mw_L10_15_a0, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [10, 15], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L10_15.npz}
+  - {id: sec4_w11mw_L10_15_ap3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [10, 15], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L10_15.npz}
+  - {id: sec4_w11mw_L12_17_am3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [12, 17], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L12_17.npz}
+  - {id: sec4_w11mw_L12_17_a0, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [12, 17], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L12_17.npz}
+  - {id: sec4_w11mw_L12_17_ap3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [12, 17], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L12_17.npz}
+  - {id: sec4_w11mw_L14_19_am3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L14_19.npz}
+  - {id: sec4_w11mw_L14_19_a0, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L14_19.npz}
+  - {id: sec4_w11mw_L14_19_ap3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L14_19.npz}
+  - {id: sec4_w11mw_L16_21_am3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L16_21.npz}
+  - {id: sec4_w11mw_L16_21_a0, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L16_21.npz}
+  - {id: sec4_w11mw_L16_21_ap3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L16_21.npz}
+  - {id: sec4_w11mw_null1_ap3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 700004301, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L14_19.npz, log_vectors: false}
+  - {id: sec4_w11mw_null2_am3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: -3.0, direction: random, dir_seed: 700004302, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L14_19.npz, log_vectors: false}
+  - {id: sec4_w11mw_null3_ap3, phase: sec4_w11, task: mw, state_offset: 0, mode: steer, layers: [14, 19], alpha: 3.0, direction: random, dir_seed: 700004303, directions_npz: multilayer_causal/assets/sec4/llama_mystery_wheel_mw_rc_behavioural_L14_19.npz, log_vectors: false}
+  - {id: sec4_w11mw_base, phase: sec4_w11, task: mw, state_offset: 0, mode: anchor_minus, layers: [14, 19], log_vectors: false}

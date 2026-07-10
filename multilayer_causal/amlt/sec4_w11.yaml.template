@@ -1,0 +1,92 @@
+description: multilayer-causal SEC4 Wave-11 IC+MW write-window SCAN (§4.2 model symmetry, LLaMA). W9's llama matrix reused the SM write window (L14-19) for IC and MW, so its self-cells were weak (icrc->ic wrong-signed, mwrc->mw n=16). W11 finds each task's OWN causal write window BEFORE the matrix re-run (a follow-up). It scans four candidate windows {[10,15],[12,17],[14,19],[16,21]} (llama 32L) at alpha {-3,0,+3}, each window steering its OWN behavioural axis (IC ic_rc risky-choice, MW mw_rc spin/stop) built on the node by indicator_axes --build-llama-windows --task {investment_choice,mystery_wheel} (behavioural hidden mean-diff, no SAE decoder). Per task a no-steer baseline + 3 random nulls. n=200 (higher than W9's 150 to fight the small llama headroom). ABSOLUTE effect = IC risky rate / MW spin rate. ISOLATED via arms_sec4_w11ic.yaml + arms_sec4_w11mw.yaml, results/sec4_w11, MLC_SYNC_EVERY 50.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w11
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0..w10 paths stay byte-identical). Both arm
+        # sets write results/sec4_w11; each run_arms.sh call overrides
+        # MLC_ARMS_YAML inline so the ic + mw registries load in one job.
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w11ic.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w11
+        # HF commit-rate cap (256/h): sync every 50 trials instead of 10 so the
+        # wave stays under budget; preemption loses <=50 trials/arm, refilled
+        # on resume.
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the WAVE-11 llama TASK-OWN behavioural axis at EACH candidate
+        # window ON the node (--build-llama-windows --task {investment_choice,
+        # mystery_wheel}; behavioural hidden mean-diff, NO SAE decoder). IC steers
+        # ic_rc (risky OPTION choice>=3); MW steers mw_rc (spin/stop, rc_keep
+        # loader so stop rows survive). Abort the whole job if any window build
+        # fails so a bad axis never wastes rollout. ---
+        for W in "10 15" "12 17" "14 19" "16 21"; do
+          PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model llama --task investment_choice --build-llama-windows --layers $$W --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+          PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model llama --task mystery_wheel --build-llama-windows --layers $$W --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        done
+        python -c "
+        import numpy as np, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        need = [\"llama_investment_choice_ic_rc_behavioural_L10_15.npz\", \"llama_investment_choice_ic_rc_behavioural_L12_17.npz\", \"llama_investment_choice_ic_rc_behavioural_L14_19.npz\", \"llama_investment_choice_ic_rc_behavioural_L16_21.npz\", \"llama_mystery_wheel_mw_rc_behavioural_L10_15.npz\", \"llama_mystery_wheel_mw_rc_behavioural_L12_17.npz\", \"llama_mystery_wheel_mw_rc_behavioural_L14_19.npz\", \"llama_mystery_wheel_mw_rc_behavioural_L16_21.npz\"]
+        for name in need:
+            f = os.path.join(\"multilayer_causal/assets/sec4\", name)
+            assert os.path.exists(f), \"missing w11 axis: \"+name
+            d = np.load(f)
+            assert d[\"directions\"].shape == (32, 4096), d[\"directions\"].shape
+            print(\"SEC4_W11_AXIS\", name, \"shape=%s\" % (d[\"directions\"].shape,))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+name, repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_W11_AXES_UPLOADED\", len(need))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        # Serial llama catalog bootstrap BEFORE the fan-out (run_arms.sh only
+        # pre-bootstraps gemma; the parallel llama IC/MW arms must not race the
+        # catalog downloads their replay pools need).
+        PYTHONPATH=/scratch/mlc python -c "from multilayer_causal.src.ic import ensure_ic_catalog; ensure_ic_catalog(\"llama\")"
+        PYTHONPATH=/scratch/mlc python -c "from multilayer_causal.src.mw import ensure_mw_catalog; ensure_mw_catalog(\"llama\")"
+        MLC_ARMS_YAML=multilayer_causal/configs/arms_sec4_w11ic.yaml bash multilayer_causal/run_arms.sh 4 sec4_w11ic_L10_15_am3 sec4_w11ic_L10_15_a0 sec4_w11ic_L10_15_ap3 sec4_w11ic_L12_17_am3 sec4_w11ic_L12_17_a0 sec4_w11ic_L12_17_ap3 sec4_w11ic_L14_19_am3 sec4_w11ic_L14_19_a0 sec4_w11ic_L14_19_ap3 sec4_w11ic_L16_21_am3 sec4_w11ic_L16_21_a0 sec4_w11ic_L16_21_ap3 sec4_w11ic_null1_ap3 sec4_w11ic_null2_am3 sec4_w11ic_null3_ap3 sec4_w11ic_base
+        MLC_ARMS_YAML=multilayer_causal/configs/arms_sec4_w11mw.yaml bash multilayer_causal/run_arms.sh 4 sec4_w11mw_L10_15_am3 sec4_w11mw_L10_15_a0 sec4_w11mw_L10_15_ap3 sec4_w11mw_L12_17_am3 sec4_w11mw_L12_17_a0 sec4_w11mw_L12_17_ap3 sec4_w11mw_L14_19_am3 sec4_w11mw_L14_19_a0 sec4_w11mw_L14_19_ap3 sec4_w11mw_L16_21_am3 sec4_w11mw_L16_21_a0 sec4_w11mw_L16_21_ap3 sec4_w11mw_null1_ap3 sec4_w11mw_null2_am3 sec4_w11mw_null3_ap3 sec4_w11mw_base
+        echo SEC4_W11_DONE
+        '

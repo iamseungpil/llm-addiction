@@ -1,0 +1,69 @@
+# sec4 Wave-14 arm registry — §4.3 G-specificity RE-RUN on a matched pool (2026-07-08).
+#
+# WHY THIS WAVE EXISTS. The W4 (Gemma) / W10b (LLaMA) +M rung was CONTAMINATED:
+# prompts.twin_combo is idempotent when the component is already in the base combo,
+# and the plusM arms' M-free filter keyed off twin_component (default "G"), not the
+# applied twin ("M"). So the +M twin silently did NOTHING on M-bearing base states —
+# 103/200 (Gemma) and 111/200 (LLaMA) eval states, ~52-56%. The +G rung was clean
+# (0/200 no-op, G-free load_minusG_states pool), so the §4.3 "+G raises writability"
+# result STANDS (W3/W10b, untouched); only the "+G is G-SPECIFIC, not any module (+M)"
+# comparison was unreliable.
+#
+# THE FIX (runner pool_exclude + states.exclude_combo_states): all three conditions
+# here (−G / +G / +M) run on the SAME G∩M-free matched pool (pool_exclude "GM"), so
+# every twin is a REAL prompt change and the +G-vs-+M slope contrast is apples-to-apples.
+#   sec4_w14_{gemma,llama}_minusG_*  natural base prompt, no twin (the reference).
+#   sec4_w14_{gemma,llama}_plusG_*   +G TWIN prompt (twin: G; goal-setting module).
+#   sec4_w14_{gemma,llama}_plusM_*   +M TWIN prompt (twin: M; reward-max module).
+# a0 in each condition is that condition's no-steer floor. The behavioural I_BA axis
+# (frozen from prior waves) is dosed at the model's write window: Gemma L16-21, LLaMA
+# L14-19. Slope(+G) vs Slope(+M) on the matched pool = the clean G-specificity test.
+#
+# ISOLATION: loaded ONLY via MLC_ARMS_YAML; phase sec4_w14; HF prefix
+# experiments/sec4_causal/checkpoints/sec4_w14; results/sec4_w14 (MLC_OUT). Fresh
+# seed_base per model (gemma 3100144 / llama 6100144) — RNG-independent of every
+# prior wave. Reuses the EXISTING behavioural npz (no axis rebuild, no overwrite).
+# The valid W3/W4/W10b +G/−G data is NOT touched. G∩M-free pool sizes verified
+# 2026-07-08: gemma 1113 (after offset 300), llama 1900 — both ≫ n=200.
+defaults:
+  task: sm
+  n: 200
+  prompt_set: addiction_role_gm
+  pool_exclude: "GM"
+  log_vectors: true
+
+arms:
+  # ===================== Gemma (write window L16-21) =====================
+  # ---- −G reference ladder (no twin; base prompt) ----
+  - {id: sec4_w14_gemma_minusG_am3, phase: sec4_w14, model: gemma, mode: steer, layers: [16, 21], alpha: -3.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_minusG_a0, phase: sec4_w14, model: gemma, mode: steer, layers: [16, 21], alpha: 0.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_minusG_ap3, phase: sec4_w14, model: gemma, mode: steer, layers: [16, 21], alpha: 3.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  # ---- +G twin ladder (goal-setting module) ----
+  - {id: sec4_w14_gemma_plusG_am3, phase: sec4_w14, model: gemma, mode: steer, twin: G, layers: [16, 21], alpha: -3.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusG_am2, phase: sec4_w14, model: gemma, mode: steer, twin: G, layers: [16, 21], alpha: -2.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusG_am1, phase: sec4_w14, model: gemma, mode: steer, twin: G, layers: [16, 21], alpha: -1.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusG_a0, phase: sec4_w14, model: gemma, mode: steer, twin: G, layers: [16, 21], alpha: 0.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusG_ap1, phase: sec4_w14, model: gemma, mode: steer, twin: G, layers: [16, 21], alpha: 1.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusG_ap2, phase: sec4_w14, model: gemma, mode: steer, twin: G, layers: [16, 21], alpha: 2.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusG_ap3, phase: sec4_w14, model: gemma, mode: steer, twin: G, layers: [16, 21], alpha: 3.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  # ---- +M twin ladder (reward-maximisation module — the CONTAMINATED rung, now clean) ----
+  - {id: sec4_w14_gemma_plusM_am3, phase: sec4_w14, model: gemma, mode: steer, twin: M, layers: [16, 21], alpha: -3.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusM_am2, phase: sec4_w14, model: gemma, mode: steer, twin: M, layers: [16, 21], alpha: -2.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusM_am1, phase: sec4_w14, model: gemma, mode: steer, twin: M, layers: [16, 21], alpha: -1.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusM_a0, phase: sec4_w14, model: gemma, mode: steer, twin: M, layers: [16, 21], alpha: 0.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusM_ap1, phase: sec4_w14, model: gemma, mode: steer, twin: M, layers: [16, 21], alpha: 1.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusM_ap2, phase: sec4_w14, model: gemma, mode: steer, twin: M, layers: [16, 21], alpha: 2.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_gemma_plusM_ap3, phase: sec4_w14, model: gemma, mode: steer, twin: M, layers: [16, 21], alpha: 3.0, seed_base: 3100144, state_offset: 300, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_behavioural.npz}
+  # ===================== LLaMA (write window L14-19) =====================
+  # ---- −G reference ladder ----
+  - {id: sec4_w14_llama_minusG_am3, phase: sec4_w14, model: llama, mode: steer, layers: [14, 19], alpha: -3.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_llama_minusG_a0, phase: sec4_w14, model: llama, mode: steer, layers: [14, 19], alpha: 0.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_llama_minusG_ap3, phase: sec4_w14, model: llama, mode: steer, layers: [14, 19], alpha: 3.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  # ---- +G twin ladder ----
+  - {id: sec4_w14_llama_plusG_am3, phase: sec4_w14, model: llama, mode: steer, twin: G, layers: [14, 19], alpha: -3.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_llama_plusG_a0, phase: sec4_w14, model: llama, mode: steer, twin: G, layers: [14, 19], alpha: 0.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_llama_plusG_ap3, phase: sec4_w14, model: llama, mode: steer, twin: G, layers: [14, 19], alpha: 3.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  # ---- +M twin ladder (CONTAMINATED rung, now clean) ----
+  - {id: sec4_w14_llama_plusM_am3, phase: sec4_w14, model: llama, mode: steer, twin: M, layers: [14, 19], alpha: -3.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_llama_plusM_a0, phase: sec4_w14, model: llama, mode: steer, twin: M, layers: [14, 19], alpha: 0.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w14_llama_plusM_ap3, phase: sec4_w14, model: llama, mode: steer, twin: M, layers: [14, 19], alpha: 3.0, seed_base: 6100144, state_offset: 0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}

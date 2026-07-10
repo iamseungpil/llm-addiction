@@ -1,0 +1,65 @@
+# xtask arm registry — 3x3 CROSS-TASK BK steering transfer matrix (2026-06-16).
+# Rows = SINGLE-TASK BK source axis s (fit on ONE task: sm / ic / mw); the axis
+# is unit(mu_stop - mu_bankrupt) of raw L22 phase_a states, replicated to 42
+# layers (the per-source vbk_axis paper_axes.build_bk pools by SVD, kept single).
+# Cols = APPLY target task t; the source axis is steered into the residual stream
+# at the L16-21 write window during task t's decision rollout, behavior measured.
+#   diagonal (s==t) = within-task causal effect = transfer upper bound.
+#   off-diagonal (s!=t) = transfer; transfer fraction = offdiag / diag.
+# ISOLATION (hard req): this file is loaded ONLY via the ARMS_YAML override; it
+# shares NO ids/assets/results with arms.yaml. All assets live under assets/xtask/
+# and every arm is task in {sm, ic, mw} on the additive task:mw runner path.
+#
+# NORM MATCH (CONTRACT4): unit direction rows + per-TARGET scales (baked into the
+# per-cell directions_bk_single_{source}_to_{target}.npz, whose scales come from
+# scales_from_phase_a(target) via xtask_axes.build_target_scaled) + fixed alpha
+# 4.0 => the realized Δ-norm at each layer is identical for every source axis
+# steered into a given target, so a weak off-diagonal cell is an orientation
+# fact, not a dose artifact. Diagonal cells use the {t}_to_{t} asset (same
+# target-task scales), so every cell in a column is norm-matched. The build step
+# must emit these via `xtask_axes --target-scaled` before the rollout.
+# state_offset is a property of the COLUMN (target population), NOT the row:
+#   sm target -> state_offset 300 (W3/W2 held-out window past discovery 0-99 +
+#     e1c 100-299), ic target -> 0 (canonical ic pool), mw target -> 0 (canonical
+#     mw pool, fresh deterministic decision-state pool, no held-out split carved).
+defaults:
+  model: gemma
+  task: sm
+  n: 50
+
+arms:
+  # ---- 9 transfer cells: xtask_{source}_to_{target} ----------------------
+  # column sm (target sm, state_offset 300)
+  - {id: xtask_sm_to_sm, phase: xtask, task: sm, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtask_ic_to_sm, phase: xtask, task: sm, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: xtask_mw_to_sm, phase: xtask, task: sm, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  # column ic (target ic, state_offset 0)
+  - {id: xtask_sm_to_ic, phase: xtask, task: ic, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0, log_vectors: true}
+  - {id: xtask_ic_to_ic, phase: xtask, task: ic, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0, log_vectors: true}
+  - {id: xtask_mw_to_ic, phase: xtask, task: ic, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0, log_vectors: true}
+  # column mw (target mw, state_offset 0)
+  - {id: xtask_sm_to_mw, phase: xtask, task: mw, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0, log_vectors: true}
+  - {id: xtask_ic_to_mw, phase: xtask, task: mw, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0, log_vectors: true}
+  - {id: xtask_mw_to_mw, phase: xtask, task: mw, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0, log_vectors: true}
+  # ---- per-TARGET random-direction null (norm-matched per column) ---------
+  # direction:random draws an isotropic unit vector per layer from PCG64(dir_seed)
+  # and BORROWS the per-layer scales from the referenced npz; pointing each null
+  # at that column's diagonal (target-scaled) asset makes the random band Δ-norm-
+  # matched to that target's population at the SAME alpha 4.0. The transfer cell
+  # counts as real only if its shift exceeds this per-target random band; one null
+  # per column is required because target scales differ (median hidden norm by task).
+  - {id: xtask_rnd_sm_s0, phase: xtask, task: sm, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026160000, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_sm_to_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_rnd_ic_s0, phase: xtask, task: ic, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026161000, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_ic_to_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_rnd_mw_s0, phase: xtask, task: mw, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026162000, directions_npz: multilayer_causal/assets/xtask/directions_bk_single_mw_to_mw.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  # ---- per-TARGET no-steer baseline (mode anchor_minus = no steer hook) ----
+  # The transfer/null shifts are measured against the SAME target population with
+  # the steer hook absent (xtask_stats baseline). Population-matched per column
+  # (same task / state_offset / seed_base as that column's steer + null arms).
+  - {id: xtask_base_sm, phase: xtask, task: sm, mode: anchor_minus, layers: [16, 21], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: xtask_base_ic, phase: xtask, task: ic, mode: anchor_minus, layers: [16, 21], n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: xtask_base_mw, phase: xtask, task: mw, mode: anchor_minus, layers: [16, 21], n: 50, seed_base: 2000042, state_offset: 0}
+  # ---- NOTE: bidirectional negative-alpha variant ------------------------
+  # A confirmatory sign-flip (stop-ward axis at alpha -4.0 should push the OTHER
+  # way) can be added per cell by duplicating any xtask_{s}_to_{t} arm with
+  # alpha: -4.0 and an _neg id suffix; omitted here to keep the matrix at the
+  # 9 + 3 minimal cells (the per-target random null already bounds the +dose).

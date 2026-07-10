@@ -1,0 +1,92 @@
+description: multilayer-causal SEC4 Wave-10 - §4.1 + §4.3 LLaMA model symmetry. Builds the LLaMA SM readout/behavioural/confound i_ba axes (plus i_ec/i_lc specificity) at the L14-19 write window via indicator_axes --wave10-llama - the readout maps a PER-LAYER LlamaScope Ridge readout through decoder.weight.T (fnlp Llama3_1-8B-Base-LXR-8x, all L0-31 verified present, CLAUDE.md 25-31 note stale) so read/write are compared at the SAME layers. Runs w10a (§4.1 read-vs-write dissociation - readout/behavioural/confound x alpha -3..+3, 5 nulls, baseline, 3 cumulative windows, i_ec/i_lc specificity) and w10b (§4.3 condition modulation - behavioural axis under -G/+G/+M twins x alpha -3/0/+3 + anchor). Absolute-effect metric (llama +/-G gap 0.0225 small). ISOLATED via arms_sec4_w10a/b.yaml (MLC_ARMS_YAML), results/sec4_w10 (MLC_OUT), MLC_SYNC_EVERY 50, W&B llm-addiction-sec4.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w10
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0..w9 paths stay byte-identical). MLC_ARMS_YAML
+        # defaults to w10a; the w10b pass re-exports it inline before its fan-out.
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w10a.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w10
+        # HF commit-rate cap (256/h): sync every 50 trials instead of 10 so the
+        # wave stays under budget; preemption loses <=50 trials/arm, refilled
+        # on resume.
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn safetensors 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml, safetensors" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the W10 LLaMA §4.1 axis library ON the node (--wave10-llama
+        # builds the SM readout/behavioural/confound i_ba axes + i_ec/i_lc
+        # behavioural specificity at L14-19; the readout is per-layer through the
+        # LlamaScope decoder.weight.T; prints cos(read,write) and per-layer AUC).
+        # Abort the whole job if the build fails so a bad axis never wastes
+        # rollout. Uploads the npz to HF. ---
+        PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model llama --wave10-llama --layers 14 19 --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        python -c "
+        import numpy as np, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        need = [\"llama_slot_machine_i_ba_readout.npz\", \"llama_slot_machine_i_ba_behavioural.npz\", \"llama_slot_machine_i_ba_confound.npz\", \"llama_slot_machine_i_ec_behavioural.npz\", \"llama_slot_machine_i_lc_behavioural.npz\"]
+        for name in need:
+            f = os.path.join(\"multilayer_causal/assets/sec4\", name)
+            assert os.path.exists(f), \"missing w10 axis: \"+name
+            d = np.load(f)
+            assert d[\"directions\"].shape == (32, 4096), d[\"directions\"].shape
+            print(\"SEC4_W10_AXIS\", name, \"shape=%s auc=%.3f cos_read_write=%.3f\" % (d[\"directions\"].shape, float(d[\"auc\"]), float(d[\"cos_read_write\"])))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+name, repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_W10_AXES_UPLOADED\", len(need))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        # Serial llama SM catalog bootstrap BEFORE the fan-out (run_arms.sh only
+        # pre-bootstraps gemma; the parallel llama SM arms must not race the
+        # catalog download their state pools need).
+        PYTHONPATH=/scratch/mlc python -c "from multilayer_causal.src.states import ensure_sm_catalog; ensure_sm_catalog(\"llama\")"
+        # --- w10a (§4.1 read-vs-write dissociation) ---
+        export MLC_ARMS_YAML=multilayer_causal/configs/arms_sec4_w10a.yaml
+        bash multilayer_causal/run_arms.sh 4 sec4_w10a_readout_am3 sec4_w10a_readout_am2 sec4_w10a_readout_am1 sec4_w10a_readout_a0 sec4_w10a_readout_ap1 sec4_w10a_readout_ap2 sec4_w10a_readout_ap3 sec4_w10a_behavioural_am3 sec4_w10a_behavioural_am2 sec4_w10a_behavioural_am1 sec4_w10a_behavioural_a0 sec4_w10a_behavioural_ap1 sec4_w10a_behavioural_ap2 sec4_w10a_behavioural_ap3 sec4_w10a_confound_am3 sec4_w10a_confound_am2 sec4_w10a_confound_am1 sec4_w10a_confound_a0 sec4_w10a_confound_ap1 sec4_w10a_confound_ap2 sec4_w10a_confound_ap3 sec4_w10a_null_1 sec4_w10a_null_2 sec4_w10a_null_3 sec4_w10a_null_4 sec4_w10a_null_5 sec4_w10a_baseline sec4_w10a_cum_15_18 sec4_w10a_cum_14_19 sec4_w10a_cum_12_21 sec4_w10a_iec_am3 sec4_w10a_iec_a0 sec4_w10a_iec_ap3 sec4_w10a_ilc_am3 sec4_w10a_ilc_a0 sec4_w10a_ilc_ap3
+        echo SEC4_W10A_DONE
+        # --- w10b (§4.3 condition modulation) ---
+        export MLC_ARMS_YAML=multilayer_causal/configs/arms_sec4_w10b.yaml
+        bash multilayer_causal/run_arms.sh 4 sec4_w10b_minusG_am3 sec4_w10b_minusG_a0 sec4_w10b_minusG_ap3 sec4_w10b_plusG_am3 sec4_w10b_plusG_a0 sec4_w10b_plusG_ap3 sec4_w10b_plusM_am3 sec4_w10b_plusM_a0 sec4_w10b_plusM_ap3 sec4_w10b_base
+        echo SEC4_W10_DONE
+        '

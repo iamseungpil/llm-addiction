@@ -1,0 +1,73 @@
+description: multilayer-causal SEC4 Wave-14 - §4.3 G-specificity RE-RUN on a matched pool. The W4/W10b +M rung was contaminated - prompts.twin_combo is idempotent when the component is already in the base combo and the plusM M-free filter keyed off twin_component (default G) not the applied twin (M), so +M silently no-op'd on ~52pct (Gemma 103/200) / ~56pct (LLaMA 111/200) of eval states. The +G rung was clean (0/200, G-free pool) so the +G-raises-writability result STANDS untouched - only the +G-vs-+M specificity was unreliable. FIX - runner pool_exclude GM + states.exclude_combo_states run all three conditions (-G/+G/+M) on the SAME G-and-M-free matched pool so every twin is a REAL prompt change. Reuses the EXISTING frozen behavioural i_ba npz (Gemma L16-21, LLaMA L14-19) - no axis rebuild, no overwrite. ISOLATED via arms_sec4_w14.yaml (MLC_ARMS_YAML), results/sec4_w14 (MLC_OUT), phase sec4_w14, fresh seed_base gemma 3100144 / llama 6100144, MLC_SYNC_EVERY 50, W&B llm-addiction-sec4. Valid W3/W4/W10b +G/-G data NOT touched.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w14
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0..w13 paths stay byte-identical).
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w14.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w14
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn safetensors 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml, safetensors" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- pull the EXISTING frozen behavioural i_ba axes (no rebuild). Abort
+        # if either is missing so a run never silently steers a zero direction. ---
+        python -c "
+        import os
+        from huggingface_hub import hf_hub_download
+        os.makedirs(\"multilayer_causal/assets/sec4\", exist_ok=True)
+        for name in [\"gemma_slot_machine_i_ba_behavioural.npz\", \"llama_slot_machine_i_ba_behavioural.npz\"]:
+            p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/sec4_causal/assets/\"+name, repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+            open(os.path.join(\"multilayer_causal/assets/sec4\", name), \"wb\").write(open(p, \"rb\").read())
+            print(\"SEC4_W14_AXIS\", name)
+        " || { echo SEC4_AXIS_FETCH_FAILED; exit 1; }
+        # Serial catalog bootstrap for BOTH models before the fan-out (the parallel
+        # SM arms must not race the catalog download their state pools need).
+        PYTHONPATH=/scratch/mlc python -c "from multilayer_causal.src.states import ensure_sm_catalog; ensure_sm_catalog(\"gemma\"); ensure_sm_catalog(\"llama\")"
+        # --- w14 fan-out: -G / +G / +M ladders on the G-and-M-free matched pool ---
+        export MLC_ARMS_YAML=multilayer_causal/configs/arms_sec4_w14.yaml
+        bash multilayer_causal/run_arms.sh 4 sec4_w14_gemma_minusG_am3 sec4_w14_gemma_minusG_a0 sec4_w14_gemma_minusG_ap3 sec4_w14_gemma_plusG_am3 sec4_w14_gemma_plusG_am2 sec4_w14_gemma_plusG_am1 sec4_w14_gemma_plusG_a0 sec4_w14_gemma_plusG_ap1 sec4_w14_gemma_plusG_ap2 sec4_w14_gemma_plusG_ap3 sec4_w14_gemma_plusM_am3 sec4_w14_gemma_plusM_am2 sec4_w14_gemma_plusM_am1 sec4_w14_gemma_plusM_a0 sec4_w14_gemma_plusM_ap1 sec4_w14_gemma_plusM_ap2 sec4_w14_gemma_plusM_ap3 sec4_w14_llama_minusG_am3 sec4_w14_llama_minusG_a0 sec4_w14_llama_minusG_ap3 sec4_w14_llama_plusG_am3 sec4_w14_llama_plusG_a0 sec4_w14_llama_plusG_ap3 sec4_w14_llama_plusM_am3 sec4_w14_llama_plusM_a0 sec4_w14_llama_plusM_ap3
+        echo SEC4_W14_DONE
+        '

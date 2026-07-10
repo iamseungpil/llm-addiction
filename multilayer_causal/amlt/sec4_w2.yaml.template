@@ -1,0 +1,75 @@
+description: multilayer-causal SEC4 Wave-2 COMMON-AXIS wave - §4 causal-strengthening on Gemma SM. North star - does ONE shared internal axis control gambling behaviour across irrationality indicators. Builds the I_BA and I_EC behavioural axes plus their SVD-top1 SHARED axis (and the confound), steers each at L16-21 across alpha -3..+3, plus a THICK null of 20 random directions each at alpha -3 and +3 so a per-direction null SLOPE band can be estimated (fixing the Wave-1 thin single-dose null), and a no-steer baseline. Every rollout logs BOTH bet_ratio (I_BA) and extreme (I_EC) so the shared axis can be tested for moving both indicators above the null-slope band. Replays the exact addiction prompts (addiction_role_gm) on the held-out slice with alpha-independent seeds and manip-check logging. ISOLATED via arms_sec4_w2.yaml (MLC_ARMS_YAML), experiments/sec4_causal (MLC_HF_BASE), results/sec4_w2 (MLC_OUT), W&B project llm-addiction-sec4. Axis assets built on the node by indicator_axes.py --wave2 into assets/sec4.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w2
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0 paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w2.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w2
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the WAVE-2 common-axis library ON the node (--wave2 builds the
+        # I_BA + I_EC behavioural axes, their SVD-top1 SHARED axis, and confound);
+        # abort the whole job if the build fails so a bad axis never wastes rollout.
+        # Uploads the npz to HF for reproducibility. ---
+        PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model gemma --task slot_machine --wave2 --layers 16 21 --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        python -c "
+        import numpy as np, glob, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        need = [\"gemma_slot_machine_i_ba_behavioural.npz\", \"gemma_slot_machine_i_ec_behavioural.npz\", \"gemma_slot_machine_shared_iba_iec_behavioural.npz\", \"gemma_slot_machine_i_ba_confound.npz\"]
+        for name in need:
+            f = os.path.join(\"multilayer_causal/assets/sec4\", name)
+            assert os.path.exists(f), \"missing wave2 axis: \"+name
+            d = np.load(f)
+            print(\"SEC4_W2_AXIS\", name, \"shape=%s\" % (d[\"directions\"].shape,))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+name, repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_W2_AXES_UPLOADED\", len(need))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        bash multilayer_causal/run_arms.sh 4 sec4_w2_behav_iba_am3 sec4_w2_behav_iba_am2 sec4_w2_behav_iba_am1 sec4_w2_behav_iba_a0 sec4_w2_behav_iba_ap1 sec4_w2_behav_iba_ap2 sec4_w2_behav_iba_ap3 sec4_w2_behav_iec_am3 sec4_w2_behav_iec_am2 sec4_w2_behav_iec_am1 sec4_w2_behav_iec_a0 sec4_w2_behav_iec_ap1 sec4_w2_behav_iec_ap2 sec4_w2_behav_iec_ap3 sec4_w2_shared_am3 sec4_w2_shared_am2 sec4_w2_shared_am1 sec4_w2_shared_a0 sec4_w2_shared_ap1 sec4_w2_shared_ap2 sec4_w2_shared_ap3 sec4_w2_confound_am3 sec4_w2_confound_am2 sec4_w2_confound_am1 sec4_w2_confound_a0 sec4_w2_confound_ap1 sec4_w2_confound_ap2 sec4_w2_confound_ap3 sec4_w2_null1_am3 sec4_w2_null1_ap3 sec4_w2_null2_am3 sec4_w2_null2_ap3 sec4_w2_null3_am3 sec4_w2_null3_ap3 sec4_w2_null4_am3 sec4_w2_null4_ap3 sec4_w2_null5_am3 sec4_w2_null5_ap3 sec4_w2_null6_am3 sec4_w2_null6_ap3 sec4_w2_null7_am3 sec4_w2_null7_ap3 sec4_w2_null8_am3 sec4_w2_null8_ap3 sec4_w2_null9_am3 sec4_w2_null9_ap3 sec4_w2_null10_am3 sec4_w2_null10_ap3 sec4_w2_null11_am3 sec4_w2_null11_ap3 sec4_w2_null12_am3 sec4_w2_null12_ap3 sec4_w2_null13_am3 sec4_w2_null13_ap3 sec4_w2_null14_am3 sec4_w2_null14_ap3 sec4_w2_null15_am3 sec4_w2_null15_ap3 sec4_w2_null16_am3 sec4_w2_null16_ap3 sec4_w2_null17_am3 sec4_w2_null17_ap3 sec4_w2_null18_am3 sec4_w2_null18_ap3 sec4_w2_null19_am3 sec4_w2_null19_ap3 sec4_w2_null20_am3 sec4_w2_null20_ap3 sec4_w2_baseline
+        echo SEC4_W2_DONE
+        '

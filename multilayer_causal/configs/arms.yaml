@@ -1,0 +1,246 @@
+# Arm registry — multilayer causal intervention (spec 2026-06-10).
+# layers: [a, b] = INCLUSIVE range; n: default trials; modes:
+#   anchor_minus / anchor_plus / patch / subspace / steer
+defaults:
+  model: gemma
+  task: sm
+  n: 50
+
+arms:
+  # ---- E1: anchors + multi-layer paired patch sweep -----------------------
+  - {id: e1_anchor_minus, phase: e1, mode: anchor_minus}
+  - {id: e1_anchor_plus,  phase: e1, mode: anchor_plus}
+  - {id: e1_full,         phase: e1, mode: patch, layers: [0, 41], log_vectors: true}
+  - {id: e1_cum_b8,       phase: e1, mode: patch, layers: [0, 8]}
+  - {id: e1_cum_b16,      phase: e1, mode: patch, layers: [0, 16]}
+  - {id: e1_cum_b22,      phase: e1, mode: patch, layers: [0, 22]}
+  - {id: e1_cum_b30,      phase: e1, mode: patch, layers: [0, 30]}
+  - {id: e1_cum_b36,      phase: e1, mode: patch, layers: [0, 36]}
+  - {id: e1_cum_t8,       phase: e1, mode: patch, layers: [8, 41]}
+  - {id: e1_cum_t16,      phase: e1, mode: patch, layers: [16, 41]}
+  - {id: e1_cum_t22,      phase: e1, mode: patch, layers: [22, 41]}
+  - {id: e1_cum_t30,      phase: e1, mode: patch, layers: [30, 41]}
+  - {id: e1_win_0,        phase: e1, mode: patch, layers: [0, 5]}
+  - {id: e1_win_6,        phase: e1, mode: patch, layers: [6, 11]}
+  - {id: e1_win_12,       phase: e1, mode: patch, layers: [12, 17]}
+  - {id: e1_win_18,       phase: e1, mode: patch, layers: [18, 23]}
+  - {id: e1_win_24,       phase: e1, mode: patch, layers: [24, 29]}
+  - {id: e1_win_30,       phase: e1, mode: patch, layers: [30, 35]}
+  - {id: e1_win_36,       phase: e1, mode: patch, layers: [36, 41]}
+  # ---- E2/E3 arms are appended after the E1 gate fixes S* ------------------
+  # ---- E2: rank-r subspace patch at S* = L18-23 (fixed from E1, 2026-06-10) ----
+  - {id: e2_r1, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  - {id: e2_r2, phase: e2, mode: subspace, layers: [18, 23], r: 2, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  - {id: e2_r8, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  - {id: e2_r32, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  - {id: e2_r128, phase: e2, mode: subspace, layers: [18, 23], r: 128, basis_npz: multilayer_causal/assets/pca_bases.npz}
+  # E2 random-subspace controls (Makelov-illusion defence)
+  - {id: e2_rnd_r1_s0, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061100}
+  - {id: e2_rnd_r1_s1, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061101}
+  - {id: e2_rnd_r1_s2, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061102}
+  - {id: e2_rnd_r1_s3, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061103}
+  - {id: e2_rnd_r1_s4, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061104}
+  - {id: e2_rnd_r1_s5, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061105}
+  - {id: e2_rnd_r1_s6, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061106}
+  - {id: e2_rnd_r1_s7, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061107}
+  - {id: e2_rnd_r1_s8, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061108}
+  - {id: e2_rnd_r1_s9, phase: e2, mode: subspace, layers: [18, 23], r: 1, basis: random, basis_seed: 2026061109}
+  - {id: e2_rnd_r8_s0, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061800}
+  - {id: e2_rnd_r8_s1, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061801}
+  - {id: e2_rnd_r8_s2, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061802}
+  - {id: e2_rnd_r8_s3, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061803}
+  - {id: e2_rnd_r8_s4, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061804}
+  - {id: e2_rnd_r8_s5, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061805}
+  - {id: e2_rnd_r8_s6, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061806}
+  - {id: e2_rnd_r8_s7, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061807}
+  - {id: e2_rnd_r8_s8, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061808}
+  - {id: e2_rnd_r8_s9, phase: e2, mode: subspace, layers: [18, 23], r: 8, basis: random, basis_seed: 2026061809}
+  - {id: e2_rnd_r32_s0, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064200}
+  - {id: e2_rnd_r32_s1, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064201}
+  - {id: e2_rnd_r32_s2, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064202}
+  - {id: e2_rnd_r32_s3, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064203}
+  - {id: e2_rnd_r32_s4, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064204}
+  - {id: e2_rnd_r32_s5, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064205}
+  - {id: e2_rnd_r32_s6, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064206}
+  - {id: e2_rnd_r32_s7, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064207}
+  - {id: e2_rnd_r32_s8, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064208}
+  - {id: e2_rnd_r32_s9, phase: e2, mode: subspace, layers: [18, 23], r: 32, basis: random, basis_seed: 2026064209}
+  # ---- E3a: additive steering along the G-axis at S* = L18-23 ----
+  - {id: e3a_m20, phase: e3a, mode: steer, layers: [18, 23], alpha: -2.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_m10, phase: e3a, mode: steer, layers: [18, 23], alpha: -1.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_m05, phase: e3a, mode: steer, layers: [18, 23], alpha: -0.5, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_a00, phase: e3a, mode: steer, layers: [18, 23], alpha: 0.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_p05, phase: e3a, mode: steer, layers: [18, 23], alpha: 0.5, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_p10, phase: e3a, mode: steer, layers: [18, 23], alpha: 1.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_p20, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions.npz}
+  # E3a random-direction controls at alpha=+2
+  - {id: e3a_rnd_s0, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062000, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s1, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062001, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s2, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062002, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s3, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062003, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s4, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062004, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s5, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062005, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s6, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062006, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s7, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062007, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s8, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062008, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_rnd_s9, phase: e3a, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026062009, directions_npz: multilayer_causal/assets/directions.npz}
+  # ---- E1c: CONFIRMATORY n=200, held-out states (offset 100), fresh seeds ----
+  - {id: e1c_anchor_minus, phase: e1c, mode: anchor_minus, n: 200, seed_base: 1000042, state_offset: 100}
+  - {id: e1c_anchor_plus,  phase: e1c, mode: anchor_plus,  n: 200, seed_base: 1000042, state_offset: 100}
+  - {id: e1c_win18,        phase: e1c, mode: patch, layers: [18, 23], n: 200, seed_base: 1000042, state_offset: 100}
+  # ---- E3i: I_BA BEHAVIOUR-axis steering at S*=L18-23 (orthogonal to G-axis, cos~0.07) ----
+  - {id: e3i_m20, phase: e3i, mode: steer, layers: [18, 23], alpha: -2.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_m10, phase: e3i, mode: steer, layers: [18, 23], alpha: -1.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_a00, phase: e3i, mode: steer, layers: [18, 23], alpha: 0.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_p10, phase: e3i, mode: steer, layers: [18, 23], alpha: 1.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_p20, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_p40, phase: e3i, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  # E3i random-direction controls at alpha=+2
+  - {id: e3i_rnd_s0, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063000, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_rnd_s1, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063001, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_rnd_s2, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063002, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_rnd_s3, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063003, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  - {id: e3i_rnd_s4, phase: e3i, mode: steer, layers: [18, 23], alpha: 2.0, direction: random, dir_seed: 2026063004, directions_npz: multilayer_causal/assets/directions_iba.npz}
+  # G-axis high-dose extension (dose-sufficiency check)
+  - {id: e3a_p40, phase: e3a, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions.npz}
+  - {id: e3a_p80, phase: e3a, mode: steer, layers: [18, 23], alpha: 8.0, directions_npz: multilayer_causal/assets/directions.npz}
+  # ==== W1 discovery arms (spec 2026-06-10 W0-W2 section-interleaved) ========
+  # ---- w1ro: §4.1 readout-axis dose-response (Ridge readout direction) ----
+  - {id: w1ro_m20, phase: w1ro, mode: steer, layers: [18, 23], alpha: -2.0, directions_npz: multilayer_causal/assets/directions_readout.npz}
+  - {id: w1ro_a00, phase: w1ro, mode: steer, layers: [18, 23], alpha: 0.0, directions_npz: multilayer_causal/assets/directions_readout.npz}
+  - {id: w1ro_p20, phase: w1ro, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_readout.npz}
+  - {id: w1ro_p40, phase: w1ro, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_readout.npz}
+  # ---- w1lc: §4.1 loss-chasing probe arms (3 generations: decision+LOSS+WIN) ----
+  - {id: w1lc_anchor_minus, phase: w1lc, mode: anchor_minus, probe: true}
+  - {id: w1lc_anchor_plus, phase: w1lc, mode: anchor_plus, probe: true}
+  - {id: w1lc_patch, phase: w1lc, mode: patch, layers: [18, 23], probe: true}
+  - {id: w1lc_iba_p40, phase: w1lc, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iba_v2.npz, probe: true}
+  - {id: w1lc_ilc_p20, phase: w1lc, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_ilc.npz, probe: true}
+  - {id: w1lc_ilc_p40, phase: w1lc, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_ilc.npz, probe: true}
+  - {id: w1lc_rnd, phase: w1lc, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026064000, directions_npz: multilayer_causal/assets/directions_iba_v2.npz, probe: true}
+  # ---- w1s: §4.1 selectivity matrix fill (I_LC / I_EC axes, single decision) ----
+  - {id: w1s_ilc_p20, phase: w1s, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_ilc.npz}
+  - {id: w1s_ilc_p40, phase: w1s, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_ilc.npz}
+  - {id: w1s_iec_p20, phase: w1s, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_iec.npz}
+  - {id: w1s_iec_p40, phase: w1s, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iec.npz}
+  # ---- w1ic: §4.2 cross-task causal transfer (investment choice) ----
+  - {id: w1ic_anchor, phase: w1ic, task: ic, mode: anchor_minus}
+  - {id: w1ic_smiba_p20, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/directions_iba_v2.npz}
+  - {id: w1ic_smiba_p40, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iba_v2.npz}
+  - {id: w1ic_icax_p40, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_ic.npz}
+  - {id: w1ic_rnd_s0, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026065000, directions_npz: multilayer_causal/assets/directions_ic.npz}
+  - {id: w1ic_rnd_s1, phase: w1ic, task: ic, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026065001, directions_npz: multilayer_causal/assets/directions_ic.npz}
+  # ---- w1b: §4.3 bridge — non-contiguous layer set {8,12,22,25,30} ----
+  - {id: w1b_patch5, phase: w1b, mode: patch, layers_list: [8, 12, 22, 25, 30]}
+  - {id: w1b_steer5, phase: w1b, mode: steer, layers_list: [8, 12, 22, 25, 30], alpha: 4.0, directions_npz: multilayer_causal/assets/directions_iba_v2.npz}
+  # ---- w1e: §4.3 edge — width-2 windows + width-4 flanks around S* ----
+  - {id: w1e_1617, phase: w1e, mode: patch, layers: [16, 17]}
+  - {id: w1e_1819, phase: w1e, mode: patch, layers: [18, 19]}
+  - {id: w1e_2021, phase: w1e, mode: patch, layers: [20, 21]}
+  - {id: w1e_2223, phase: w1e, mode: patch, layers: [22, 23]}
+  - {id: w1e_2425, phase: w1e, mode: patch, layers: [24, 25]}
+  - {id: w1e_1821, phase: w1e, mode: patch, layers: [18, 21]}
+  - {id: w1e_2023, phase: w1e, mode: patch, layers: [20, 23]}
+  # ---- W2: confirmatory wave (offset 300 = held-out states past discovery
+  # 0-99 and e1c 100-299; seed_base third set; axes re-estimated with
+  # --n-eval 500 so no eval game leaks into any axis fit) -------------------
+  - {id: w2_anchor_minus, phase: w2, mode: anchor_minus, n: 200, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2_anchor_plus,  phase: w2, mode: anchor_plus,  n: 200, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2e_1617, phase: w2, mode: patch, layers: [16, 17], n: 200, seed_base: 2000042, state_offset: 300}
+  - {id: w2e_1821, phase: w2, mode: patch, layers: [18, 21], n: 200, seed_base: 2000042, state_offset: 300}
+  - {id: w2lc_iba_p40, phase: w2, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 200, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2lc_ilc_p20, phase: w2, mode: steer, layers: [18, 23], alpha: 2.0, directions_npz: multilayer_causal/assets/w2/directions_ilc.npz, n: 200, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2rnd_p40, phase: w2, mode: steer, layers: [18, 23], alpha: 4.0, direction: random, dir_seed: 2026066000, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, n: 50, seed_base: 2000042, state_offset: 300, probe: true}
+  - {id: w2ro5_p20, phase: w2, mode: steer, layers_list: [8, 12, 22, 25, 30], alpha: 2.0, directions_npz: multilayer_causal/assets/w2/directions_readout.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # ==== W3 discovery arms (RUN_PLAN_W3.md plan v4, 2026-06-11) ===============
+  # Gemma arms reuse the W2 anchor protocol (seed_base 2000042, state_offset
+  # 300) so w2_anchor_minus/plus are the comparison group without re-running.
+  # IC arms keep the W3 seeds but their own corpus (state_offset 0).
+  # ---- w3a: SAE-readout direction placed inside the write window L16-21 ----
+  - {id: w3a_saerd_m20, phase: w3a, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/w3/directions_saerd.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3a_saerd_p20, phase: w3a, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/w3/directions_saerd.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3a_saerd_p40, phase: w3a, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_saerd.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # saerdx: eval-pool-EXCLUDED refit twin of the literal direction (round-1
+  # leakage fix) — PR-1 claims a positive w3a only if BOTH directions move
+  # behavior, so the twin runs the same three alphas.
+  - {id: w3a_saerdx_m20, phase: w3a, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/w3/directions_saerd_excl.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3a_saerdx_p20, phase: w3a, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/w3/directions_saerd_excl.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3a_saerdx_p40, phase: w3a, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_saerd_excl.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- w3bk: shared BK (stop-vs-bankrupt) subspace as a control subspace ----
+  - {id: w3bk_sm_m20, phase: w3bk, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3bk_sm_p20, phase: w3bk, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3bk_sm_p40, phase: w3bk, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: w3bk_smres_p40, phase: w3bk, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm_balres.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  # round-3 discriminative balance controls (balres alone is a partial control,
+  # cos(plain, balres)~0.95): smorth = bk_sm axis projected EXACTLY orthogonal
+  # to the target balance-slope direction (positive effect => non-balance
+  # causal content); smbal = the pure balance-slope direction, sign-aligned
+  # with the bk_sm axis's balance component (confound-POSITIVE control:
+  # reproduces the bk_sm effect => balance account wins; null => excluded).
+  - {id: w3bk_smorth_p40, phase: w3bk, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm_balorth.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: w3bk_smbal_p40, phase: w3bk, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm_balslope.npz, n: 50, seed_base: 2000042, state_offset: 300, log_vectors: true}
+  - {id: w3bk_ic_p20, phase: w3bk, task: ic, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/w3/directions_bk_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  - {id: w3bk_ic_p40, phase: w3bk, task: ic, mode: steer, layers: [16, 21], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_ic.npz, n: 50, seed_base: 2000042, state_offset: 0}
+  # ---- w3pos: positive control — known causal I_BA axis, same Δnorm ----
+  - {id: w3pos_iba_p40, phase: w3pos, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- w3rnd: pooled direction-null distribution at the W3 window ----
+  - {id: w3rnd_s0, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067000, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s1, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067001, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s2, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067002, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s3, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067003, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s4, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067004, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s5, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067005, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s6, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067006, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3rnd_s7, phase: w3rnd, mode: steer, layers: [16, 21], alpha: 4.0, direction: random, dir_seed: 2026067007, directions_npz: multilayer_causal/assets/w2/directions_iba_v2.npz, probe: true, n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- w3m: +M component mediation — twin patch across three windows ----
+  - {id: w3m_0813, phase: w3m, mode: patch, twin_component: M, layers: [8, 13], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3m_1621, phase: w3m, mode: patch, twin_component: M, layers: [16, 21], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: w3m_2429, phase: w3m, mode: patch, twin_component: M, layers: [24, 29], n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- w3L: LLaMA write-window sweep (own anchors gate interpretation) ----
+  # Anchor n=878 is power-driven (out/llama_gap_estimate.json: gap 0.0225,
+  # d=0.134, power@n50=0.106 → plan rule "불충분하면 n 상향"; 878 gives 0.806).
+  # Pool check: runner loads n+offset+50=928 ≤ 3636 llama −G states. The 8
+  # sweep windows stay n=50 discovery — top-1 promotes to W4 n=200 (PR-2).
+  - {id: w3L_anchor_minus, phase: w3L, model: llama, mode: anchor_minus, n: 878, seed_base: 42, state_offset: 0}
+  - {id: w3L_anchor_plus, phase: w3L, model: llama, mode: anchor_plus, n: 878, seed_base: 42, state_offset: 0}
+  - {id: w3L_w00, phase: w3L, model: llama, mode: patch, layers: [0, 3], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w04, phase: w3L, model: llama, mode: patch, layers: [4, 7], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w08, phase: w3L, model: llama, mode: patch, layers: [8, 11], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w12, phase: w3L, model: llama, mode: patch, layers: [12, 15], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w16, phase: w3L, model: llama, mode: patch, layers: [16, 19], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w20, phase: w3L, model: llama, mode: patch, layers: [20, 23], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w24, phase: w3L, model: llama, mode: patch, layers: [24, 27], n: 50, seed_base: 42, state_offset: 0}
+  - {id: w3L_w28, phase: w3L, model: llama, mode: patch, layers: [28, 31], n: 50, seed_base: 42, state_offset: 0}
+  # ==== spinew: §4 read/write spine — write blank-fill (design 2026-06-14 C3) ==
+  # All Gemma, W2 anchor protocol (seed_base 2000042, state_offset 300) so the
+  # W2 anchors w2_anchor_minus/plus are the comparison group without re-running.
+  # Width-6 windows = the SAME e1 patch tiling (0-5,6-11,...,36-41) so the write
+  # profile lands on the read sweep's grid. Axes reuse the W3 builders' assets
+  # UNCHANGED (paper_axes.py build_bk / w3m twin) — no new axis is invented.
+  # §4.1 write is already all-layer (e1 width-6 tiling + w1e 16-25) — reused, not
+  # duplicated here.
+  # CONSUMER WIRING: w3_stats.py emits these under R["spinew"]; spine_stats.py
+  # WRITE_SOURCE maps §4.2->spinew_bk_*, §4.3->w3m_* + spinew_m_*, and
+  # window_center parses the _wNN single-window form (center = NN+2.5). So these
+  # arms ARE plotted once run+aggregated; they are no longer orphaned.
+  # ---- spinew_bk: §4.2 BK control-axis steering across the width-6 tiling ----
+  # Reuses directions_bk_sm.npz (build_bk, replicated to 42 layers; placement is
+  # the arm's `layers`), alpha=4.0 per W3/W4 BK dose. w3bk_sm_p40 [16,21] is the
+  # W3 result and is reused as the in-window comparison, not re-tiled here.
+  - {id: spinew_bk_w00, phase: spinew, mode: steer, layers: [0, 5], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w06, phase: spinew, mode: steer, layers: [6, 11], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w12, phase: spinew, mode: steer, layers: [12, 17], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w18, phase: spinew, mode: steer, layers: [18, 23], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w24, phase: spinew, mode: steer, layers: [24, 29], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w30, phase: spinew, mode: steer, layers: [30, 35], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_bk_w36, phase: spinew, mode: steer, layers: [36, 41], alpha: 4.0, directions_npz: multilayer_causal/assets/w3/directions_bk_sm.npz, n: 50, seed_base: 2000042, state_offset: 300}
+  # ---- spinew_m: §4.3 +M twin-patch across the width-6 tiling (w3m extension) ----
+  # Reuses the w3m +M mediation recipe (twin_component: M patch). w3m_2429 [24,29]
+  # already covers that e1 tile and is reused as comparison; these six complete
+  # the 42-layer cover. (w3m_0813/w3m_1621 are off-grid W3 probes, kept separate.)
+  - {id: spinew_m_w00, phase: spinew, mode: patch, twin_component: M, layers: [0, 5], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w06, phase: spinew, mode: patch, twin_component: M, layers: [6, 11], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w12, phase: spinew, mode: patch, twin_component: M, layers: [12, 17], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w18, phase: spinew, mode: patch, twin_component: M, layers: [18, 23], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w30, phase: spinew, mode: patch, twin_component: M, layers: [30, 35], n: 50, seed_base: 2000042, state_offset: 300}
+  - {id: spinew_m_w36, phase: spinew, mode: patch, twin_component: M, layers: [36, 41], n: 50, seed_base: 2000042, state_offset: 300}

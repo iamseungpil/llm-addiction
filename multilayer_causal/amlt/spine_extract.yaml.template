@@ -1,0 +1,90 @@
+description: spine LLaMA SM+MW all-layer (L0-31) SAE feature extraction - the only data gap for the all-layer read spine (LLaMA SM/MW had only 5-layer dp). Reuses extract_llama_sm.py/mw.py UNCHANGED (default --layers all, fnlp LlamaScope SAE); pulls behavioral catalogs + code from llm-addiction-research/llm-addiction, runs SM on gpu0 + MW on gpu1 in parallel, pushes sae_features_L*.npz back to sae_features_v3/{task}/llama/ so a follow-up read sweep consumes them. Resume skips completed SAE layers. 4xH100 (2 used).
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: spine_extract
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" hf_transfer "transformers>=4.44" accelerate safetensors scipy numpy tqdm 2>&1 | tail -1
+        export HF_HUB_ENABLE_HF_TRANSFER=1
+        export HF_HOME=/scratch/ext/hf_cache
+        REPO=llm-addiction-research/llm-addiction
+        mkdir -p /scratch/ext && cd /scratch/ext
+
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"$$REPO\", \"experiments/spine/code/spine_src.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\"/scratch/ext\")
+        print(\"code extracted\")
+        "
+
+        python -c "
+        import os
+        from huggingface_hub import snapshot_download
+        snapshot_download(\"$$REPO\", repo_type=\"dataset\", local_dir=\"/scratch/ext/data\",
+          token=os.environ[\"HF_TOKEN\"],
+          allow_patterns=[
+            \"behavioral/slot_machine/llama_v4_role/**\",
+            \"behavioral/mystery_wheel/llama_v2_role/**\",
+            \"sae_features_v3/slot_machine/llama/sae_features_L*.npz\",
+            \"sae_features_v3/mystery_wheel/llama/sae_features_L*.npz\",
+          ])
+        print(\"data+resume pulled\")
+        "
+
+        export PYTHONUNBUFFERED=1
+        cd /scratch/ext/sae_v3_analysis/src
+        SMDATA=/scratch/ext/data/behavioral/slot_machine/llama_v4_role
+        MWDATA=/scratch/ext/data/behavioral/mystery_wheel/llama_v2_role
+        SMOUT=/scratch/ext/data/sae_features_v3/slot_machine/llama
+        MWOUT=/scratch/ext/data/sae_features_v3/mystery_wheel/llama
+        mkdir -p $$SMOUT $$MWOUT
+        python extract_llama_sm.py --gpu 0 --data-dir $$SMDATA --output-dir $$SMOUT --layers all > /scratch/ext/sm.log 2>&1 &
+        PSM=$$!
+        python extract_llama_mw.py --gpu 1 --data-dir $$MWDATA --output-dir $$MWOUT --layers all > /scratch/ext/mw.log 2>&1 &
+        PMW=$$!
+        wait $$PSM; echo "sm rc=$$?"; tail -5 /scratch/ext/sm.log
+        wait $$PMW; echo "mw rc=$$?"; tail -5 /scratch/ext/mw.log
+
+        python -c "
+        import os, glob
+        from huggingface_hub import HfApi
+        api = HfApi(token=os.environ[\"HF_TOKEN\"])
+        for task, out in [(\"slot_machine\",\"$$SMOUT\"), (\"mystery_wheel\",\"$$MWOUT\")]:
+            for f in sorted(glob.glob(out+\"/sae_features_L*.npz\")) + sorted(glob.glob(out+\"/sae_features_L*.json\")) + glob.glob(out+\"/extraction_summary.json\"):
+                rel = os.path.basename(f)
+                try:
+                    api.upload_file(path_or_fileobj=f, path_in_repo=f\"sae_features_v3/{task}/llama/{rel}\", repo_id=\"$$REPO\", repo_type=\"dataset\")
+                    print(\"pushed\", task, rel, flush=True)
+                except Exception as e:
+                    print(\"WARN\", rel, e, flush=True)
+        "
+        echo SPINE_EXTRACT_DONE
+        '

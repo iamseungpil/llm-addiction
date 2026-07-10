@@ -1,0 +1,79 @@
+description: multilayer-causal SEC4 Wave-4 - Q2 rung-2 (does the Wave-3 IC sign-inversion replicate on the THIRD task MW - shared3 axis at MW sigma-units + mw_own control + MW null slope band, expression-matched bet_ratio, mw replay-window excluded from the axis build) and Q3 rung-2 (2x2 autonomy - plusM twin ladder + same-wave minusG control re-ladder). ISOLATED via arms_sec4_w4.yaml (MLC_ARMS_YAML), experiments/sec4_causal (MLC_HF_BASE), results/sec4_w4 (MLC_OUT), MLC_SYNC_EVERY 50, W&B llm-addiction-sec4. Axes rebuilt on the node by indicator_axes.py --wave3 (now also emits shared3 mwscale).
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_w4
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask / sec4_p0 / sec4_w2 paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_w4.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_w4
+        # HF commit-rate cap (256/h): sync every 50 trials instead of 10 so the
+        # 38-arm wave stays under budget; preemption loses <=50 trials/arm,
+        # refilled on resume.
+        MLC_SYNC_EVERY: "50"
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the WAVE-3 cross-task axis library ON the node (--wave3 builds
+        # the SM/IC/MW behavioural I_BA axes and their SVD-top1 shared3 axis from
+        # the cached HF SAE+hidden npz, printing the pairwise cross-task cosines);
+        # abort the whole job if the build fails so a bad axis never wastes rollout.
+        # Uploads the npz to HF for reproducibility. ---
+        PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model gemma --wave3 --layers 16 21 --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        python -c "
+        import numpy as np, glob, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        need = [\"gemma_slot_machine_i_ba_behavioural.npz\", \"gemma_investment_choice_i_ba_behavioural.npz\", \"gemma_mystery_wheel_i_ba_behavioural.npz\", \"gemma_shared3_iba_behavioural.npz\", \"gemma_shared3_iba_behavioural_icscale.npz\"]
+        for name in need:
+            f = os.path.join(\"multilayer_causal/assets/sec4\", name)
+            assert os.path.exists(f), \"missing wave3 axis: \"+name
+            d = np.load(f)
+            print(\"SEC4_W3_AXIS\", name, \"shape=%s\" % (d[\"directions\"].shape,))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+name, repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_W3_AXES_UPLOADED\", len(need))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        bash multilayer_causal/run_arms.sh 4 sec4_w4_sh3_mw_am3 sec4_w4_sh3_mw_am2 sec4_w4_sh3_mw_am1 sec4_w4_sh3_mw_a0 sec4_w4_sh3_mw_ap1 sec4_w4_sh3_mw_ap2 sec4_w4_sh3_mw_ap3 sec4_w4_mw_own_am3 sec4_w4_mw_own_a0 sec4_w4_mw_own_ap3 sec4_w4_mw_baseline sec4_w4_mw_null1_am3 sec4_w4_mw_null1_ap3 sec4_w4_mw_null2_am3 sec4_w4_mw_null2_ap3 sec4_w4_mw_null3_am3 sec4_w4_mw_null3_ap3 sec4_w4_plusM_am3 sec4_w4_plusM_am2 sec4_w4_plusM_am1 sec4_w4_plusM_a0 sec4_w4_plusM_ap1 sec4_w4_plusM_ap2 sec4_w4_plusM_ap3 sec4_w4_minusG_am3 sec4_w4_minusG_a0 sec4_w4_minusG_ap3
+        echo SEC4_W4_DONE
+        '

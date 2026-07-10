@@ -1,0 +1,73 @@
+description: multilayer-causal SEC4 Phase-1 CORE wave - §4 causal-strengthening on Gemma SM. Steers three deconfounded axes (readout - behavioural - confound) at L16-21 across alpha -3..+3 plus 5 random nulls, a no-steer baseline and 3 cumulative-window behavioural arms, replaying the exact addiction prompts (addiction_role_gm) on the held-out slice with alpha-independent seeds and manip-check logging. Tests H1 (behavioural axis writes betting) and H2 (readout axis inert although the better decoder). ISOLATED via arms_sec4_p0.yaml (MLC_ARMS_YAML), experiments/sec4_causal (MLC_HF_BASE), results/sec4_p0 (MLC_OUT), W&B project llm-addiction-sec4. Axis assets built offline by indicator_axes.py into assets/sec4.
+
+target:
+  service: sing
+  name: msrresrchbasicvc
+  workspace_name: msra-sh-aml-ws
+
+environment:
+  registry: mcr.microsoft.com
+  image: aifx/acpt/stable-ubuntu2204-cu126-py310-torch28x:latest
+
+code:
+  local_dir: $CONFIG_DIR/
+
+jobs:
+  - name: mlc_sec4_p0
+    sku: 80G4-H100
+    sla_tier: Standard
+    priority: high
+    identity: managed
+    submit_args:
+      max_run_duration_seconds: 86400
+      env:
+        _AZUREML_SINGULARITY_JOB_UAI: "/subscriptions/c4c534bc-9978-4974-9c87-551f7c5754ef/resourceGroups/msra-sh-aml-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msra-sh-aml-uai"
+        HF_TOKEN: HF_TOKEN_PLACEHOLDER
+        HUGGING_FACE_HUB_TOKEN: HF_TOKEN_PLACEHOLDER
+        # sec4 isolation overrides (additive — unset elsewhere, so sm/ic/w-series
+        # and prior xtask paths stay byte-identical):
+        MLC_ARMS_YAML: multilayer_causal/configs/arms_sec4_p0.yaml
+        MLC_HF_BASE: experiments/sec4_causal/checkpoints
+        MLC_OUT: multilayer_causal/results/sec4_p0
+        WANDB_PROJECT: llm-addiction-sec4
+        WANDB_API_KEY: WANDB_API_KEY_PLACEHOLDER
+    command:
+      - nvidia-smi
+      - |
+        bash -c '
+        set -x
+        source /opt/conda/etc/profile.d/conda.sh
+        conda activate ptca
+        pip install -q "huggingface_hub<1.0" "transformers>=4.44" accelerate scipy pyyaml scikit-learn 2>&1 | tail -1
+        python -c "import huggingface_hub, sklearn, scipy, yaml" || { echo PIP_INSTALL_FAILED; exit 1; }
+        mkdir -p /scratch/mlc
+        cd /scratch/mlc
+        export HF_HOME=/scratch/mlc/hf_cache
+        python -c "
+        from huggingface_hub import hf_hub_download
+        import os, tarfile
+        p = hf_hub_download(\"llm-addiction-research/llm-addiction\", \"experiments/multilayer_causal/code/multilayer_causal.tar.gz\", repo_type=\"dataset\", token=os.environ[\"HF_TOKEN\"])
+        tarfile.open(p).extractall(\".\")
+        print(\"code extracted\")
+        "
+        export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/mlc/data/behavioral
+        # --- build the axis library ON the node (sae_lens + gemma-scope decoder +
+        # cached SAE feats); abort the whole job if the build fails, so a bad axis
+        # never wastes the rollout. Prints AUC/cos for early-log verification and
+        # uploads the npz to HF for reproducibility. ---
+        PYTHONPATH=/scratch/mlc python -m multilayer_causal.src.indicator_axes --model gemma --task slot_machine --indicators i_ba --axes readout,behavioural,confound --layers 16 21 --dest multilayer_causal/assets/sec4 || { echo SEC4_BUILD_FAILED; exit 1; }
+        python -c "
+        import numpy as np, glob, os
+        from huggingface_hub import HfApi
+        api = HfApi(); tok = os.environ[\"HF_TOKEN\"]
+        fs = sorted(glob.glob(\"multilayer_causal/assets/sec4/*.npz\"))
+        assert fs, \"no axis npz built\"
+        for f in fs:
+            d = np.load(f)
+            print(\"SEC4_AXIS\", os.path.basename(f), \"auc=%.3f cos_read_write=%.3f\" % (float(d[\"auc\"]), float(d[\"cos_read_write\"])))
+            api.upload_file(path_or_fileobj=f, path_in_repo=\"experiments/sec4_causal/assets/\"+os.path.basename(f), repo_id=\"llm-addiction-research/llm-addiction\", repo_type=\"dataset\", token=tok)
+        print(\"SEC4_AXES_UPLOADED\", len(fs))
+        " || { echo SEC4_AXIS_VERIFY_FAILED; exit 1; }
+        bash multilayer_causal/run_arms.sh 4 sec4_readout_am3 sec4_readout_am2 sec4_readout_am1 sec4_readout_a0 sec4_readout_ap1 sec4_readout_ap2 sec4_readout_ap3 sec4_behavioural_am3 sec4_behavioural_am2 sec4_behavioural_am1 sec4_behavioural_a0 sec4_behavioural_ap1 sec4_behavioural_ap2 sec4_behavioural_ap3 sec4_confound_am3 sec4_confound_am2 sec4_confound_am1 sec4_confound_a0 sec4_confound_ap1 sec4_confound_ap2 sec4_confound_ap3 sec4_null_1 sec4_null_2 sec4_null_3 sec4_null_4 sec4_null_5 sec4_baseline sec4_cum_18_19 sec4_cum_16_21 sec4_cum_14_23
+        echo SEC4_P0_DONE
+        '

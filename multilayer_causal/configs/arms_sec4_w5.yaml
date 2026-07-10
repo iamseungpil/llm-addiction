@@ -1,0 +1,53 @@
+# sec4 Wave-5 arm registry — Q2 rung-3: expression-matched AXIS BUILD, 2026-07-07.
+#
+# Finding that motivates this rung: IC's amount-ratio I_BA carries ~29%
+# constraint variance (c10-c70 fixes the invested fraction), so the Wave-3/4
+# IC axis partly encoded the CONSTRAINT — a plausible driver of the observed
+# sign-inversion. Rebuild the IC axis on the risky-OPTION contrast
+# (i_rc = choice>=3: constraint-free, decision-level risk appetite,
+# expression-matched to the measured IC outcome) and recompute the shared
+# component shared3b = SVD-top1(sm_iba, ic_rc, mw_iba).
+#
+#   sec4_w5_ic_rc_*    IC's choice-level axis on IC = within-task control for
+#                      the new object (prediction: +alpha raises risky rate,
+#                      correctly signed this time if the inversion was an
+#                      axis-object artefact).
+#   sec4_w5_sh3b_ic_*  the new shared component on IC (IC sigma-units).
+#   sec4_w5_sh3b_sm_*  ... on SM (does it still write betting like shared3?).
+#   sec4_w5_sh3b_mw_*  ... on MW (third task).
+# Baselines/nulls: reuse W2 SM thick null, W3 IC baseline+nulls, W4 MW
+# baseline+nulls at analysis time (same HF tree; task-level scales identical).
+# ISOLATION: loaded ONLY via MLC_ARMS_YAML; new HF phase sec4_w5.
+defaults:
+  model: gemma
+  task: sm
+  n: 200
+  seed_base: 2000042
+  state_offset: 300
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  # ---- IC's own choice-level axis (new-object within-task control) ----
+  - {id: sec4_w5_ic_rc_am3, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_rc_behavioural.npz}
+  - {id: sec4_w5_ic_rc_am2, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_rc_behavioural.npz}
+  - {id: sec4_w5_ic_rc_am1, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_rc_behavioural.npz}
+  - {id: sec4_w5_ic_rc_a0, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_rc_behavioural.npz}
+  - {id: sec4_w5_ic_rc_ap1, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_rc_behavioural.npz}
+  - {id: sec4_w5_ic_rc_ap2, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_rc_behavioural.npz}
+  - {id: sec4_w5_ic_rc_ap3, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_investment_choice_i_rc_behavioural.npz}
+  # ---- new shared component on IC ----
+  - {id: sec4_w5_sh3b_ic_am3, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_icscale.npz}
+  - {id: sec4_w5_sh3b_ic_am2, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_icscale.npz}
+  - {id: sec4_w5_sh3b_ic_am1, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_icscale.npz}
+  - {id: sec4_w5_sh3b_ic_a0, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_icscale.npz}
+  - {id: sec4_w5_sh3b_ic_ap1, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_icscale.npz}
+  - {id: sec4_w5_sh3b_ic_ap2, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_icscale.npz}
+  - {id: sec4_w5_sh3b_ic_ap3, phase: sec4_w5, task: ic, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_icscale.npz}
+  # ---- new shared component on SM / MW (transfer spot-checks) ----
+  - {id: sec4_w5_sh3b_sm_am3, phase: sec4_w5, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural.npz}
+  - {id: sec4_w5_sh3b_sm_a0, phase: sec4_w5, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural.npz}
+  - {id: sec4_w5_sh3b_sm_ap3, phase: sec4_w5, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural.npz}
+  - {id: sec4_w5_sh3b_mw_am3, phase: sec4_w5, task: mw, state_offset: 0, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_mwscale.npz}
+  - {id: sec4_w5_sh3b_mw_a0, phase: sec4_w5, task: mw, state_offset: 0, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_mwscale.npz}
+  - {id: sec4_w5_sh3b_mw_ap3, phase: sec4_w5, task: mw, state_offset: 0, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_shared3b_irc_behavioural_mwscale.npz}

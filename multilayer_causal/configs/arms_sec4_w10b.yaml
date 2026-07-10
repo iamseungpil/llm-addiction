@@ -1,0 +1,41 @@
+# sec4 Wave-10b arm registry — §4.3 LLaMA condition modulation (2026-07-08).
+# Mirrors the gemma §4.3 twin ladders (arms_sec4_w4 plusM/minusG) on LLaMA SM at
+# the L14-19 write window: does the addiction CONDITION (+G goal-pressure, +M
+# reward-maximisation) modulate the WRITABILITY of the shared behavioural i_ba
+# axis? Doses the SAME frozen behavioural axis (llama_slot_machine_i_ba_
+# behavioural.npz, built by --wave10-llama) at alpha {-3,0,+3} under three
+# prompt conditions:
+#   sec4_w10b_minusG_*  natural -G prompt (within-wave re-ladder, the control);
+#   sec4_w10b_plusG_*   the +G TWIN prompt (twin: G, frozen twin_combo recipe);
+#   sec4_w10b_plusM_*   the +M TWIN prompt (twin: M, reward-max module added).
+# a0 in each condition IS that condition's no-steer floor; sec4_w10b_base is the
+# plain no-hook -G anchor. Analysis compares slope(+G)-slope(-G) and
+# slope(+M)-slope(-G) with bootstrap CIs. LLaMA +/-G gap is small (0.0225) so
+# §4.3 may be UNDERPOWERED — an expected, reportable outcome (NO_MODULATION_
+# HEADROOM); n=200 x 3 doses gives what power there is to detect it if present.
+# ISOLATION: loaded ONLY via MLC_ARMS_YAML; SM-only; results/sec4_w10. NEW
+# seed_base 6100042 (RNG-independent of w10a + every prior wave).
+defaults:
+  model: llama
+  task: sm
+  n: 200
+  seed_base: 6100042
+  state_offset: 0
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  # ---- -G condition (within-wave control re-ladder) ----
+  - {id: sec4_w10b_minusG_am3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10b_minusG_a0, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10b_minusG_ap3, phase: sec4_w10, mode: steer, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  # ---- +G twin ladder (goal-pressure module) ----
+  - {id: sec4_w10b_plusG_am3, phase: sec4_w10, mode: steer, twin: G, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10b_plusG_a0, phase: sec4_w10, mode: steer, twin: G, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10b_plusG_ap3, phase: sec4_w10, mode: steer, twin: G, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  # ---- +M twin ladder (reward-maximisation module) ----
+  - {id: sec4_w10b_plusM_am3, phase: sec4_w10, mode: steer, twin: M, layers: [14, 19], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10b_plusM_a0, phase: sec4_w10, mode: steer, twin: M, layers: [14, 19], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  - {id: sec4_w10b_plusM_ap3, phase: sec4_w10, mode: steer, twin: M, layers: [14, 19], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/llama_slot_machine_i_ba_behavioural.npz}
+  # ---- plain no-hook -G anchor (condition-independent floor) ----
+  - {id: sec4_w10b_base, phase: sec4_w10, mode: anchor_minus, layers: [14, 19], log_vectors: false}

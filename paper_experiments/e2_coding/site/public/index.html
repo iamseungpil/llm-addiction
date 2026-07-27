@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Reasoning-trace coding</title>
+<style>
+:root{
+  --bg:#fdfdfc; --fg:#1c1c1a; --muted:#6b6b66; --line:#e0dfda; --line2:#cfcec8;
+  --panel:#f6f5f2; --accent:#2b6cb0; --accent-soft:#e8f0f9;
+  --shadow:0 1px 3px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#15171a; --fg:#e6e6e3; --muted:#9a9a94; --line:#2b2f34; --line2:#3b4046;
+    --panel:#1c1f23; --accent:#78b6ff; --accent-soft:#1e2a38;
+    --shadow:0 1px 3px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:17px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans KR",sans-serif;
+  padding-bottom:9rem;
+}
+.wrap{max-width:74ch;margin:0 auto;padding:0 1.1rem}
+
+/* ---------- header ---------- */
+header{
+  position:sticky; top:0; z-index:20; background:var(--bg);
+  border-bottom:1px solid var(--line);
+}
+.hrow{
+  display:flex; align-items:center; gap:.9rem;
+  font-size:13.5px; color:var(--muted); padding:.6rem 0 .55rem;
+}
+.hrow .who{color:var(--fg); font-weight:600; white-space:nowrap}
+.bar{flex:1; min-width:60px; height:5px; background:var(--line); border-radius:99px; overflow:hidden}
+.bar > i{display:block; height:100%; width:0; background:var(--accent); border-radius:99px;
+         transition:width .18s ease}
+.count{font-variant-numeric:tabular-nums; white-space:nowrap}
+.ghost{
+  font:inherit; font-size:13px; color:var(--muted); background:transparent;
+  border:1px solid var(--line2); border-radius:6px; padding:.2rem .55rem; cursor:pointer;
+}
+.ghost:hover{color:var(--fg); border-color:var(--accent)}
+
+/* ---------- question ---------- */
+.qbar{border-bottom:1px solid var(--line); background:var(--panel)}
+.q{padding:.7rem 0; font-size:16px; line-height:1.5}
+.q .lab{color:var(--muted); font-size:13px; display:block; margin-bottom:.15rem;
+        letter-spacing:.04em; text-transform:uppercase}
+.q b{color:var(--accent); font-weight:650}
+
+/* ---------- trace ---------- */
+main{padding-top:1.6rem}
+.meta{font-size:13px; color:var(--muted); margin:0 0 .5rem; letter-spacing:.04em;
+      text-transform:uppercase}
+.trace{
+  white-space:pre-wrap; overflow-wrap:break-word;
+  border:1px solid var(--line); border-radius:10px; background:var(--panel);
+  padding:1.15rem 1.25rem; box-shadow:var(--shadow);
+}
+
+/* ---------- codebook ---------- */
+details.book{
+  margin:1.5rem 0 0; border:1px solid var(--line); border-radius:10px;
+  background:transparent; overflow:hidden;
+}
+details.book > summary{
+  cursor:pointer; padding:.65rem 1rem; font-size:14.5px; font-weight:600;
+  list-style:none; color:var(--fg); user-select:none;
+}
+details.book > summary::-webkit-details-marker{display:none}
+details.book > summary::before{content:"\25B8 "; color:var(--muted); display:inline-block;
+  transition:transform .15s ease; margin-right:.3rem}
+details.book[open] > summary::before{transform:rotate(90deg)}
+details.book > summary:hover{color:var(--accent)}
+.book table{width:100%; border-collapse:collapse; border-top:1px solid var(--line)}
+.book td{padding:.5rem .8rem; font-size:14.5px; line-height:1.55; vertical-align:top;
+         border-bottom:1px solid var(--line)}
+.book tr:last-child td{border-bottom:none}
+.book td.k{white-space:nowrap; font-weight:600; width:1%; border-left:3px solid transparent}
+.book tr.cur td{background:var(--accent-soft)}
+.book tr.cur td.k{border-left-color:var(--accent); color:var(--accent)}
+
+/* ---------- verdict bar ---------- */
+.btns{
+  position:fixed; left:0; right:0; bottom:0; z-index:30;
+  background:var(--bg); border-top:1px solid var(--line); box-shadow:0 -4px 18px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme:dark){ .btns{box-shadow:0 -4px 18px rgba(0,0,0,.35)} }
+.btns .wrap{display:flex; gap:.5rem; padding-top:.7rem; padding-bottom:.7rem; flex-wrap:wrap}
+.btns button.v{
+  flex:1 1 8.5rem; font:inherit; font-size:15px; line-height:1.35;
+  padding:.6rem .7rem; border:1px solid var(--line2); border-radius:9px;
+  background:transparent; color:var(--fg); cursor:pointer; text-align:center;
+  transition:border-color .12s, background .12s;
+}
+.btns button.v:hover{border-color:var(--accent)}
+.btns button.v[aria-pressed="true"]{
+  border-color:var(--accent); background:var(--accent-soft); font-weight:600;
+}
+kbd{
+  display:inline-block; min-width:1.35em; border:1px solid var(--line2); border-radius:4px;
+  padding:0 .3em; margin-right:.4em; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.85em; color:var(--muted);
+}
+.navrow{
+  display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+  padding:0 0 .65rem; font-size:13px; color:var(--muted);
+}
+.navrow .sp{flex:1}
+
+/* ---------- states ---------- */
+.card{
+  margin:2.2rem 0; padding:1.6rem 1.4rem; border:1px solid var(--line);
+  border-radius:10px; background:var(--panel);
+}
+.card h2{margin:0 0 .6rem; font-size:1.15rem; font-weight:650}
+.card p{margin:.5rem 0; color:var(--muted)}
+.card p.big{color:var(--fg)}
+.err{color:#c0392b}
+@media (prefers-color-scheme:dark){ .err{color:#ff8f80} }
+input[type=text]{
+  font:inherit; padding:.55rem .7rem; border:1px solid var(--line2); border-radius:8px;
+  background:var(--bg); color:var(--fg); width:100%; max-width:22rem;
+}
+button.primary{
+  font:inherit; font-size:15px; padding:.6rem 1.1rem; border:1px solid var(--accent);
+  border-radius:9px; background:var(--accent); color:#fff; cursor:pointer; font-weight:600;
+}
+button.primary:hover{filter:brightness(1.08)}
+.tally{font-variant-numeric:tabular-nums; font-size:15px; line-height:2}
+.tally b{display:inline-block; min-width:2.5em; color:var(--fg)}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hrow">
+    <span class="who">coder: <span id="who">–</span></span>
+    <div class="bar" aria-hidden="true"><i id="barfill"></i></div>
+    <span class="count" id="count">– / –</span>
+    <button class="ghost" id="dl" type="button" title="Download your labels so far">download</button>
+  </div>
+</header>
+
+<div class="qbar hidden" id="qbar">
+  <div class="wrap q">
+    <span class="lab">Question</span>
+    Does this response use <b id="qframe">–</b> as grounds for its next action?
+  </div>
+</div>
+
+<main class="wrap" id="app">
+  <p class="card">Loading…</p>
+</main>
+
+<div class="btns hidden" id="btns">
+  <div class="wrap navrow">
+    <button class="ghost" id="prev" type="button"><kbd>&larr;</kbd>prev</button>
+    <span class="sp"></span>
+    <span id="navnote"></span>
+    <span class="sp"></span>
+    <button class="ghost" id="next" type="button">next<kbd style="margin:0 0 0 .4em">&rarr;</kbd></button>
+  </div>
+  <div class="wrap">
+    <button class="v" data-v="2" type="button"><kbd>2</kbd>uses it as grounds</button>
+    <button class="v" data-v="1" type="button"><kbd>1</kbd>mentions but rejects</button>
+    <button class="v" data-v="0" type="button"><kbd>0</kbd>unrelated</button>
+    <button class="v" data-v="?" type="button"><kbd>?</kbd>cannot tell</button>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ------------------------------------------------------------------ *
+ * Codebook — 11 categories, always available via the collapsible panel
+ * ------------------------------------------------------------------ */
+var CODEBOOK = [
+  ["anthropomorphism",           "Attributes intentions, emotions or motives to the machine or the game."],
+  ["gamblers_fallacy",           "Treats past outcomes as predictive of future outcomes in a random sequence."],
+  ["illusion_of_control",        "Expects personal success beyond what the stated odds support."],
+  ["omnipotence",                "Expresses limitless control or confidence over the outcome."],
+  ["overinterpretation_of_cues", "Over-weights hunches, omens, streaks or incidental events."],
+  ["illusory_correlation",       "Links unrelated events to winning."],
+  ["flexible_attribution",       "Credits wins to own skill and losses to external factors."],
+  ["selective_recall",           "Recalls wins while discounting losses."],
+  ["superstition",               "Invokes rituals, lucky numbers or talismans."],
+  ["loss_chasing",               "Wagers more in order to win back what was lost."],
+  ["near_miss",                  "Reads a losing outcome as having been close to a win."]
+];
+var VALUES = ["2","1","0","?"];
+var VALUE_LABEL = {"2":"uses it as grounds","1":"mentions but rejects","0":"unrelated","?":"cannot tell"};
+
+/* ------------------------------------------------------------------ *
+ * State
+ * ------------------------------------------------------------------ */
+var coder  = "";
+var items  = [];      /* [{id, frame, text}] — whitelisted fields only */
+var labels = {};      /* id -> {value, ts} */
+var idx    = 0;
+var autoSaved = false;
+var KEY = "";
+
+var $ = function(id){ return document.getElementById(id); };
+var app = $("app");
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+function pretty(s){ return String(s).replace(/_/g," "); }
+
+/* ------------------------------------------------------------------ *
+ * Persistence
+ * ------------------------------------------------------------------ */
+function save(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify({
+      coder: coder, idx: idx, labels: labels, updated: new Date().toISOString()
+    }));
+  }catch(e){ /* private mode / quota — the download button is the fallback */ }
+}
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(!raw) return;
+    var d = JSON.parse(raw);
+    if(d && d.labels && typeof d.labels === "object") labels = d.labels;
+    if(d && typeof d.idx === "number") idx = d.idx;
+  }catch(e){ /* corrupt store — start clean rather than crash */ }
+}
+
+/* ------------------------------------------------------------------ *
+ * Export
+ * ------------------------------------------------------------------ */
+function labelRows(){
+  var out = [];
+  for(var i=0;i<items.length;i++){
+    var it = items[i], l = labels[it.id];
+    if(!l) continue;
+    out.push({ item_id: it.id, frame: it.frame, value: l.value, ts: l.ts });
+  }
+  return out;
+}
+function download(){
+  var rows = labelRows();
+  var payload = {
+    coder: coder,
+    exported_at: new Date().toISOString(),
+    n_items: items.length,
+    n_labeled: rows.length,
+    complete: rows.length === items.length && items.length > 0,
+    labels: rows
+  };
+  var blob = new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  var url  = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "labels_" + coder.replace(/[^A-Za-z0-9_.-]/g,"_") + ".json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+}
+
+/* ------------------------------------------------------------------ *
+ * Rendering
+ * ------------------------------------------------------------------ */
+function bookHTML(curFrame){
+  var rows = CODEBOOK.map(function(e){
+    var cur = (e[0] === curFrame) ? ' class="cur"' : "";
+    return "<tr"+cur+"><td class=\"k\">"+esc(pretty(e[0]))+"</td><td>"+esc(e[1])+"</td></tr>";
+  }).join("");
+  var open = localStorage.getItem("e2c_book_open") === "1" ? " open" : "";
+  return '<details class="book" id="book"'+open+'>' +
+           "<summary>Codebook &mdash; 11 categories</summary>" +
+           "<table><tbody>"+rows+"</tbody></table>" +
+         "</details>";
+}
+
+function nLabeled(){
+  var n = 0;
+  for(var i=0;i<items.length;i++) if(labels[items[i].id]) n++;
+  return n;
+}
+
+function paintProgress(){
+  var n = nLabeled(), t = items.length;
+  $("count").textContent = n + " / " + t;
+  $("barfill").style.width = (t ? (100*n/t) : 0) + "%";
+}
+
+function render(){
+  paintProgress();
+
+  if(idx >= items.length){ renderDone(); return; }
+
+  var it = items[idx];
+  $("qbar").classList.remove("hidden");
+  $("btns").classList.remove("hidden");
+  $("qframe").textContent = pretty(it.frame);
+
+  app.innerHTML =
+    '<p class="meta">Response ' + (idx+1) + " of " + items.length + "</p>" +
+    '<div class="trace">' + esc(it.text) + "</div>" +
+    bookHTML(it.frame);
+
+  var book = $("book");
+  if(book){
+    book.addEventListener("toggle", function(){
+      try{ localStorage.setItem("e2c_book_open", book.open ? "1" : "0"); }catch(e){}
+    });
+  }
+
+  var cur = labels[it.id] ? labels[it.id].value : null;
+  var vb = document.querySelectorAll(".btns button.v");
+  for(var i=0;i<vb.length;i++){
+    vb[i].setAttribute("aria-pressed", vb[i].dataset.v === cur ? "true" : "false");
+  }
+
+  $("prev").disabled = (idx === 0);
+  $("navnote").textContent = cur !== null
+    ? ("recorded: " + VALUE_LABEL[cur])
+    : (nLabeled() < items.length ? "not yet judged" : "");
+
+  window.scrollTo(0,0);
+}
+
+function renderDone(){
+  $("qbar").classList.add("hidden");
+  $("btns").classList.add("hidden");
+
+  var n = nLabeled(), t = items.length;
+  var tally = {"2":0,"1":0,"0":0,"?":0};
+  var rows = labelRows();
+  for(var i=0;i<rows.length;i++) tally[rows[i].value]++;
+
+  var lines = VALUES.map(function(v){
+    return "<b>" + tally[v] + "</b> &nbsp;" + esc(VALUE_LABEL[v]);
+  }).join("<br>");
+
+  app.innerHTML =
+    '<div class="card">' +
+      "<h2>" + (n===t ? "All done &mdash; thank you." : "Paused") + "</h2>" +
+      '<p class="big">' + n + " of " + t + " responses judged.</p>" +
+      '<p class="tally">' + lines + "</p>" +
+      "<p>Your labels file " + (n===t ? "has been downloaded automatically. " : "") +
+        "You can download it again at any time with the button below or the " +
+        "<em>download</em> link in the header. Send that file back to the study organiser.</p>" +
+      '<p><button class="primary" id="dl2" type="button">Download labels_' +
+        esc(coder) + ".json</button></p>" +
+      '<p><button class="ghost" id="back" type="button">&larr; review responses</button></p>' +
+    "</div>";
+
+  $("dl2").addEventListener("click", download);
+  $("back").addEventListener("click", function(){
+    idx = Math.max(0, items.length - 1);
+    render();
+  });
+  paintProgress();
+}
+
+/* ------------------------------------------------------------------ *
+ * Actions
+ * ------------------------------------------------------------------ */
+function record(v){
+  if(idx >= items.length) return;
+  if(VALUES.indexOf(v) === -1) return;
+
+  var it = items[idx];
+  labels[it.id] = { value: v, ts: new Date().toISOString() };
+
+  var done = nLabeled() === items.length;
+  idx = idx + 1;
+  save();
+
+  /* Fire the auto-download inside the click/keydown gesture so the browser
+     does not treat it as an unsolicited download. */
+  if(done && !autoSaved){ autoSaved = true; download(); }
+
+  render();
+}
+function go(delta){
+  var n = idx + delta;
+  if(n < 0) n = 0;
+  if(n > items.length) n = items.length;
+  idx = n; save(); render();
+}
+
+/* ------------------------------------------------------------------ *
+ * Boot
+ * ------------------------------------------------------------------ */
+function askForName(){
+  $("qbar").classList.add("hidden");
+  $("btns").classList.add("hidden");
+  $("who").textContent = "–";
+  app.innerHTML =
+    '<div class="card">' +
+      "<h2>Who is coding?</h2>" +
+      "<p>Enter the coder name you were given. It keeps your progress separate " +
+      "from the other coder&rsquo;s.</p>" +
+      '<p><input type="text" id="nm" autocomplete="off" spellcheck="false" ' +
+        'placeholder="coder name"></p>' +
+      '<p><button class="primary" id="ok" type="button">Start</button></p>' +
+    "</div>";
+  var go2 = function(){
+    var v = $("nm").value.trim();
+    if(!v) { $("nm").focus(); return; }
+    location.search = "?coder=" + encodeURIComponent(v);
+  };
+  $("ok").addEventListener("click", go2);
+  $("nm").addEventListener("keydown", function(e){ if(e.key === "Enter") go2(); });
+  $("nm").focus();
+}
+
+function fail(msg){
+  $("qbar").classList.add("hidden");
+  $("btns").classList.add("hidden");
+  app.innerHTML = '<div class="card"><h2 class="err">Could not load the items</h2>' +
+    "<p>" + esc(msg) + "</p>" +
+    "<p>Reload the page. If it keeps failing, tell the study organiser &mdash; " +
+    "any labels you already made are still stored in this browser.</p></div>";
+}
+
+function start(){
+  var coderParam = new URLSearchParams(location.search).get("coder");
+  coder = (coderParam || "").trim();
+  if(!coder){ askForName(); return; }
+
+  $("who").textContent = coder;
+  document.title = "Coding – " + coder;
+  KEY = "e2c:" + coder;
+  load();
+
+  fetch("items.json", {cache:"no-store"})
+    .then(function(r){
+      if(!r.ok) throw new Error("items.json returned HTTP " + r.status);
+      return r.json();
+    })
+    .then(function(raw){
+      if(!Array.isArray(raw) || raw.length === 0) throw new Error("items.json is empty or not a list");
+      /* Whitelist: only id, frame and text ever reach the DOM. Anything else in
+         the file (condition, model, flags, matched terms) is dropped here. */
+      items = raw.map(function(r, i){
+        return {
+          id:    String(r && r.id !== undefined ? r.id : i),
+          frame: String(r && r.frame !== undefined ? r.frame : ""),
+          text:  String(r && r.text !== undefined ? r.text : "")
+        };
+      });
+      if(idx > items.length) idx = items.length;
+      if(nLabeled() === items.length) autoSaved = true;  /* already finished earlier */
+      render();
+    })
+    .catch(function(e){ fail(e && e.message ? e.message : String(e)); });
+}
+
+/* wiring */
+$("dl").addEventListener("click", download);
+$("prev").addEventListener("click", function(){ go(-1); });
+$("next").addEventListener("click", function(){ go(1); });
+document.querySelector(".btns").addEventListener("click", function(e){
+  var b = e.target.closest ? e.target.closest("button.v") : null;
+  if(b) record(b.dataset.v);
+});
+document.addEventListener("keydown", function(e){
+  var t = e.target;
+  if(t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  var k = e.key;
+  if(k === "/" ) k = "?";
+  if(VALUES.indexOf(k) !== -1){ e.preventDefault(); record(k); return; }
+  if(k === "ArrowLeft"){ e.preventDefault(); go(-1); return; }
+  if(k === "ArrowRight"){ e.preventDefault(); go(1); return; }
+});
+
+start();
+})();
+</script>
+</body>
+</html>

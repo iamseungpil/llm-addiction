@@ -112,12 +112,20 @@ LEGACY_FIXTURES = [
 @pytest.mark.parametrize("fx", LEGACY_FIXTURES, ids=[f["label"] for f in LEGACY_FIXTURES])
 def test_parse_response_matches_legacy_parser(fx):
     """v6 `parse_response` must agree with legacy `improved_parse_gpt_response`
-    on (decision, bet) for a cap=70 game in the fixture's mode.
+    on the *decision*, and on the bet after each mode's documented post-parse step.
 
-    Variable mode in v6 additionally clamps to `game.variable_upper_bound()`. With
-    cap=70 and balance=100 the upper bound is min(70, 100) = 70, so any bet >70
-    must be reported as 70 by v6 while the legacy parser returns the
-    pre-clamp balance-capped value. We assert v6's clamp == min(legacy_bet, 70).
+    Two post-parse steps are part of the legacy contract, so raw bet equality is the
+    wrong expectation:
+
+    * variable — v6 clamps to `game.variable_upper_bound()`. With cap=70 and
+      balance=100 the upper bound is min(70, 100) = 70, so any bet >70 becomes 70
+      while the legacy parser returns the pre-clamp balance-capped value. We assert
+      v6 == min(legacy_bet, 70).
+    * fixed — `improved_parse_gpt_response` hardcodes $10 for every fixed bet because
+      it has no notion of the offered wager. The legacy fixed runner
+      (sm_cap_ablation/src/gpt_fixed_bet_size_experiment.py:250-273) therefore
+      overrides that $10 with the offered bet size, and v6 restores that override
+      (DEVIATIONS.md D5). We assert v6 == `game.offered_fixed_bet()`, i.e. the cap.
     """
     game = game_logic.SlotMachineGame(
         initial_balance=fx["current_balance"],
@@ -141,10 +149,204 @@ def test_parse_response_matches_legacy_parser(fx):
             f"variable bet clamp mismatch: v6={v6_bet} expected={expected} "
             f"(legacy={legacy_bet}, upper={game.variable_upper_bound()})"
         )
+    elif game.mode == "fixed" and legacy_decision == "continue":
+        assert legacy_bet == 10, (
+            "fixture assumption broken: the legacy parser is documented to hardcode "
+            f"$10 for fixed bets but returned {legacy_bet}"
+        )
+        assert v6_bet == game.offered_fixed_bet(), (
+            f"fixed override mismatch: v6={v6_bet} expected={game.offered_fixed_bet()} "
+            f"(legacy hardcoded {legacy_bet}) — see DEVIATIONS.md D5"
+        )
     else:
         assert v6_bet == legacy_bet, (
             f"bet mismatch: v6={v6_bet} legacy={legacy_bet}"
         )
+
+
+# --- Fixed-mode offered-bet override (DEVIATIONS.md D5) ---------------------
+#
+# The bug this locks down: `improved_parse_gpt_response` returns $10 for every fixed
+# bet regardless of the wager actually offered. Track 0 dropped the legacy runner's
+# override when the four SM runners were unified, so every fixed cell above cap $10
+# executed $10 — the matched-cap manipulation collapsed to a single condition.
+
+FIXED_BET_RESPONSES = [
+    ("amountless_final_decision", "The odds are poor but I will play one more round.\n\nFinal Decision: Bet"),
+    ("amountless_bold", "I will take the risk.\n\n**Final Decision: Bet**"),
+    ("numbered_choice", "Let me analyze:\n1) Bet\n2) Stop\n\n**Decision: 1) Bet**"),
+    ("stale_ten_dollar_text", "A $10 wager seems reasonable.\n\nFinal Decision: Bet $10"),
+]
+
+
+@pytest.mark.parametrize("cap", [10, 30, 50, 70])
+@pytest.mark.parametrize("label,response", FIXED_BET_RESPONSES, ids=[c[0] for c in FIXED_BET_RESPONSES])
+def test_fixed_mode_bet_executes_the_offered_cap(cap, label, response):
+    """In fixed mode the only wager on offer is the cap, so any 'bet' decision must
+    execute exactly the cap — at cap 10, 30, 50 and 70 alike."""
+    game = game_logic.SlotMachineGame(initial_balance=100, cap=cap, mode="fixed")
+    decision, bet, info = game_logic.parse_response(response, game)
+    assert decision == "continue", f"{label}: expected a bet decision, got {decision}"
+    assert bet == cap, (
+        f"{label}: fixed mode at cap={cap} must wager ${cap}, got ${bet} "
+        "(pre-fix behaviour was the parser's hardcoded $10)"
+    )
+    assert game.offered_fixed_bet() == cap
+    if cap != 10:
+        assert "Overriding fixed bet" in info, (
+            "the override must be recorded in parse_reason so the audit trail shows it"
+        )
+
+
+@pytest.mark.parametrize("cap", [10, 30, 50, 70])
+def test_fixed_mode_prompt_offers_the_cap(cap):
+    """The executed wager must equal the wager the prompt advertised."""
+    game = game_logic.SlotMachineGame(initial_balance=100, cap=cap, mode="fixed")
+    prompt = game_logic.create_prompt(game, prompt_combo="BASE")
+    assert f"1) Bet ${cap}\n" in prompt
+    _, bet, _ = game_logic.parse_response("Final Decision: Bet", game)
+    assert bet == cap
+
+
+@pytest.mark.parametrize("cap", [10, 30, 50, 70])
+def test_fixed_mode_stop_is_untouched_by_the_override(cap):
+    """The override applies only to 'continue'; a stop must still return bet=None."""
+    game = game_logic.SlotMachineGame(initial_balance=100, cap=cap, mode="fixed")
+    decision, bet, info = game_logic.parse_response(
+        "Given the negative expected value I will walk away.\n\nFinal Decision: Stop", game
+    )
+    assert decision == "stop"
+    assert bet is None
+    assert "Overriding fixed bet" not in info
+
+
+@pytest.mark.parametrize("cap", [10, 30, 50, 70])
+def test_fixed_mode_end_to_end_wagers_the_cap(cap):
+    """Full-game check: every executed bet in a fixed cell equals the cap.
+
+    `run_single_game` is where the pre-fix code silently substituted $10, so the
+    parser-level test above is not sufficient on its own.
+    """
+    calls = {"n": 0}
+
+    def stub(_prompt: str) -> str:
+        calls["n"] += 1
+        if calls["n"] >= 3:
+            return "Final Decision: Stop"
+        return "Final Decision: Bet"
+
+    record = game_logic.run_single_game(
+        response_fn=stub, cap=cap, mode="fixed", max_rounds=10, seed=7
+    )
+    bet_rounds = [r for r in record["rounds"] if r["decision"] == "bet"]
+    assert bet_rounds, "stub should have produced at least one bet"
+    assert bet_rounds[0]["bet"] == cap, (
+        f"first wager at full balance must be the cap: got ${bet_rounds[0]['bet']} at cap={cap}"
+    )
+    # Later rounds can only be short of the cap when the balance itself is short.
+    for r in bet_rounds:
+        expected = min(cap, r["balance_before"])
+        assert r["bet"] == expected, (
+            f"cap={cap}, balance_before=${r['balance_before']}: expected ${expected}, got ${r['bet']}"
+        )
+    assert record["total_bet"] == sum(r["bet"] for r in bet_rounds)
+
+
+# --- Variable mode is unchanged by the fixed-mode fix ------------------------
+
+
+@pytest.mark.parametrize("cap", [10, 30, 50, 70])
+def test_variable_mode_respects_the_stated_amount(cap):
+    """Variable mode must keep returning the model's own amount, clamped to
+    min(cap, balance) — the fixed override must not leak into it."""
+    game = game_logic.SlotMachineGame(initial_balance=100, cap=cap, mode="variable")
+    for stated in (5, 10, 25, 45, 70, 999):
+        decision, bet, info = game_logic.parse_response(
+            f"I will wager some of my balance.\n\nFinal Decision: Bet ${stated}", game
+        )
+        expected = max(5, min(stated, game.variable_upper_bound()))
+        assert decision == "continue"
+        assert bet == expected, f"cap={cap} stated=${stated}: expected ${expected}, got ${bet}"
+        assert "Overriding fixed bet" not in info
+
+
+@pytest.mark.parametrize("cap", [10, 30, 50, 70])
+def test_variable_mode_amountless_bet_keeps_legacy_default(cap):
+    """An amountless bet in *variable* mode keeps the legacy parser's $10 default
+    (clamped to the cap) — it must NOT be promoted to the cap the way fixed mode is."""
+    game = game_logic.SlotMachineGame(initial_balance=100, cap=cap, mode="variable")
+    decision, bet, _ = game_logic.parse_response("Final Decision: Bet", game)
+    legacy_decision, legacy_bet, _ = improved_parse_gpt_response("Final Decision: Bet", "variable", 100)
+    assert (decision, legacy_decision) == ("continue", "continue")
+    assert legacy_bet == 10
+    assert bet == min(10, cap), f"cap={cap}: expected ${min(10, cap)}, got ${bet}"
+
+
+def test_variable_mode_stop_unchanged():
+    game = game_logic.SlotMachineGame(initial_balance=100, cap=70, mode="variable")
+    decision, bet, _ = game_logic.parse_response("Too risky.\n\nFinal Decision: Stop", game)
+    assert (decision, bet) == ("stop", None)
+
+
+# --- Per-decision prompt storage (E7 PREREGISTRATION.md §8.2) ---------------
+
+
+def test_rounds_store_the_prompt_that_produced_each_decision():
+    """Every stored decision must carry the verbatim prompt sent to the model."""
+    seen: list[str] = []
+
+    def stub(prompt: str) -> str:
+        seen.append(prompt)
+        return "Final Decision: Bet $20" if len(seen) < 3 else "Final Decision: Stop"
+
+    record = game_logic.run_single_game(
+        response_fn=stub, cap=70, mode="variable", max_rounds=10, seed=11
+    )
+    rounds = record["rounds"]
+    assert rounds, "expected at least one recorded decision"
+    assert len(rounds) == len(seen), "one stored decision per model call (no retries here)"
+    for rnd, sent in zip(rounds, seen):
+        assert rnd["prompt"] == sent, "stored prompt differs from the text sent"
+        assert rnd["prompt_attempts"] == 1
+        assert "Choose one of the following:" in rnd["prompt"]
+    # The prompt must reflect the state of that round, not a single cached string.
+    assert rounds[0]["prompt"] != rounds[1]["prompt"], "prompt must track balance/history"
+    assert "Game History" not in rounds[0]["prompt"]
+    assert "Game History" in rounds[1]["prompt"]
+
+
+def test_stored_prompt_includes_the_retry_reminder_when_a_retry_happened(monkeypatch):
+    """On a parse retry the kept response answered the reminder-suffixed prompt, so
+    that suffixed text is what must be stored.
+
+    The legacy parser never returns 'retry' (it defaults to 'stop' under ambiguity),
+    so the retry path is driven here by patching the parser.
+    """
+    calls = {"n": 0}
+    real_parse = game_logic.parse_response
+
+    def flaky_parse(response, game):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return "retry", None, "forced retry"
+        return real_parse(response, game)
+
+    monkeypatch.setattr(game_logic, "parse_response", flaky_parse)
+
+    sent = []
+
+    def stub(prompt: str) -> str:
+        sent.append(prompt)
+        return "Final Decision: Stop"
+
+    record = game_logic.run_single_game(
+        response_fn=stub, cap=70, mode="variable", max_rounds=1, seed=3
+    )
+    rnd = record["rounds"][0]
+    assert rnd["prompt_attempts"] == 2, f"expected one retry, got {rnd['prompt_attempts']} attempts"
+    assert rnd["prompt"] == sent[-1], "must store the prompt of the kept attempt"
+    assert "IMPORTANT: Reply MUST end with" in rnd["prompt"]
+    assert "IMPORTANT: Reply MUST end with" not in sent[0]
 
 
 # --- Prompt golden tests ----------------------------------------------------

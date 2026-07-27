@@ -7,7 +7,14 @@ function plus one CLI entry. The legacy SM API runners are left untouched.
 Rate-limit handling per provider:
 - min 200ms inter-call gap (config-driven could be added later);
 - exponential backoff on 429/503 / generic exception, capped at 60s;
-- 10 attempts before falling back to "Final Decision: Stop" (matches legacy fallback).
+- 10 attempts before falling back to "Final Decision: Stop" (matches legacy fallback);
+  every such substitution is counted and reported in `payload["manifest"]
+  ["api_fallback_responses"]`, because in the transcript it is indistinguishable
+  from a genuine voluntary stop.
+
+The output payload carries a `manifest` block (commit, code hashes, argv, model +
+vendor, seeds, timings, fallback count) and the runner refuses to start when
+--output_dir already holds output for the same cell. See DEVIATIONS.md D5.
 """
 
 from __future__ import annotations
@@ -33,6 +40,17 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent.parent / "sm_cap_ablation" / "src"))
 
 from game_logic import run_single_game  # noqa: E402
+# `FALLBACK_RESPONSE` / `note_fallback` are re-exported here because run_e7.py builds
+# its response functions through this module and must share the same fallback counter.
+from run_manifest import (  # noqa: E402,F401
+    FALLBACK_RESPONSE,
+    OutputCollision,
+    build_manifest,
+    fallback_count,
+    guard_output_collision,
+    note_fallback,
+    now_iso,
+)
 
 MAX_API_ATTEMPTS = 10
 # Per-OpenAI-model system message + sampling dispatch (Plan v5.2 §3.1.2 + Round 5
@@ -131,7 +149,9 @@ def _build_response_fn_openai(model_id: str, inter_call_gap_s: float) -> Callabl
                     return text
             except Exception:
                 _backoff_sleep(attempt)
-        return "Final Decision: Stop"
+        # Counted so the manifest can report how many decisions were served by the
+        # substituted stop text rather than a real completion (DEVIATIONS.md D5).
+        return note_fallback()
     return fn
 
 
@@ -163,7 +183,9 @@ def _build_response_fn_anthropic(model_id: str, inter_call_gap_s: float) -> Call
                     return text
             except Exception:
                 _backoff_sleep(attempt)
-        return "Final Decision: Stop"
+        # Counted so the manifest can report how many decisions were served by the
+        # substituted stop text rather than a real completion (DEVIATIONS.md D5).
+        return note_fallback()
     return fn
 
 
@@ -203,7 +225,9 @@ def _build_response_fn_google(model_id: str, inter_call_gap_s: float) -> Callabl
                     return text
             except Exception:
                 _backoff_sleep(attempt)
-        return "Final Decision: Stop"
+        # Counted so the manifest can report how many decisions were served by the
+        # substituted stop text rather than a real completion (DEVIATIONS.md D5).
+        return note_fallback()
     return fn
 
 
@@ -242,8 +266,15 @@ def main() -> None:
     parser.add_argument("--n_games", type=int, default=None)
     parser.add_argument("--output_dir", default=None)
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument(
+        "--allow_existing_cell",
+        action="store_true",
+        help="Opt out of the output-isolation guard (DEVIATIONS.md D5). Default is to "
+             "abort when --output_dir already holds a file for this cell.",
+    )
     args = parser.parse_args()
 
+    started_at = now_iso()
     gen = cfg["generation"]
     # Per-mode max_rounds: legacy fixed-bet runner uses 100, variable runner uses 50.
     # Ref: legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:120
@@ -259,12 +290,28 @@ def main() -> None:
     random.seed(seed_base)
     short = _model_short_name(args.provider, args.model_id)
 
+    # Output isolation (DEVIATIONS.md D5): abort BEFORE the first API call if this
+    # cell already has output here, so the re-run cannot be globbed together with the
+    # pre-fix artifacts. `filename_pattern` ends in the timestamp, so the cell key is
+    # everything up to it.
+    cell = f"{short}_cap{args.cap}_{args.mode}"
+    cell_glob = cfg["output"]["filename_pattern"].format(
+        model=short, cap=args.cap, mode=args.mode, timestamp="*"
+    )
+    try:
+        guard_output_collision(
+            out_dir, [cell_glob], cell=cell, allow_existing=args.allow_existing_cell
+        )
+    except OutputCollision as exc:
+        raise SystemExit(f"[track0/api] {exc}")
+
     print(f"[track0/api] provider={args.provider} model={args.model_id} cap={args.cap} mode={args.mode} n_games={n_games}")
     response_fn = _build_response_fn(args.provider, args.model_id, inter_call_gap_s)
 
+    seeds = [seed_base + i for i in range(n_games)]
     results = []
     for i in tqdm(range(n_games), desc=f"{short}/cap{args.cap}/{args.mode}"):
-        game_seed = seed_base + i
+        game_seed = seeds[i]
         record = run_single_game(
             response_fn=response_fn,
             cap=args.cap,
@@ -297,12 +344,31 @@ def main() -> None:
         "smoke": args.smoke,
         "config_snapshot": {"generation": gen, "stage_1_n_games_per_cell": cfg["stage_1"]["n_games_per_cell"]},
         "timestamp": timestamp,
+        "manifest": build_manifest(
+            runner="track0_w3_replication/src/run_track0_api.py",
+            model_id=args.model_id,
+            vendor=args.provider,
+            seed_base=seed_base,
+            seeds=seeds,
+            started_at=started_at,
+            extra={
+                "cell": cell,
+                "cap": args.cap,
+                "mode": args.mode,
+                "n_games": n_games,
+                "smoke": bool(args.smoke),
+                "config_path": str(HERE.parent / "configs" / "track0_config.yaml"),
+                "max_api_attempts": MAX_API_ATTEMPTS,
+                "prompt_composition": "rounds[].prompt is the verbatim text sent to the model",
+            },
+        ),
         "results": results,
     }
     out_path = out_dir / fname
     with open(out_path, "w") as f:
         json.dump(payload, f, indent=2)
     print(f"[track0/api] wrote {out_path}")
+    print(f"[track0/api] api_fallback_responses={fallback_count()}")
 
 
 if __name__ == "__main__":

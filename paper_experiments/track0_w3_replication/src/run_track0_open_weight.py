@@ -35,6 +35,14 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent.parent / "sm_cap_ablation" / "src"))
 
 from game_logic import run_single_game  # noqa: E402
+from run_manifest import (  # noqa: E402
+    OutputCollision,
+    build_manifest,
+    fallback_count,
+    guard_output_collision,
+    note_fallback,
+    now_iso,
+)
 
 OPEN_WEIGHT_HF_IDS = {
     "gemma": "google/gemma-2-9b-it",
@@ -81,7 +89,9 @@ def _build_response_fn(model, tokenizer, device: str) -> Callable[[str], str]:
                 print(f"[track0/open_weight] generation retry ({type(e).__name__}): {e}", file=sys.stderr)
                 torch.cuda.empty_cache()
                 time.sleep(0.5)
-        return "Final Decision: Stop"
+        # Counted so the manifest reports how many decisions were served by the
+        # substituted stop text rather than a real generation (DEVIATIONS.md D5).
+        return note_fallback()
     return response_fn
 
 
@@ -123,7 +133,15 @@ def main() -> None:
                         help="Override config n_games (Track 0 default = config.stage_1.n_games_per_cell)")
     parser.add_argument("--output_dir", default=None)
     parser.add_argument("--smoke", action="store_true", help="Force n_games=5; CI-only.")
+    parser.add_argument(
+        "--allow_existing_cell",
+        action="store_true",
+        help="Opt out of the output-isolation guard (DEVIATIONS.md D5). Default is to "
+             "abort when --output_dir already holds a file for this cell.",
+    )
     args = parser.parse_args()
+
+    started_at = now_iso()
 
     if "CUDA_VISIBLE_DEVICES" not in os.environ:
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
@@ -141,14 +159,29 @@ def main() -> None:
     seed_base = gen["seed_base"]
     random.seed(seed_base)
 
+    # Output isolation (DEVIATIONS.md D5): abort BEFORE the model is loaded if this
+    # cell already has output here, so the re-run cannot be globbed together with the
+    # pre-fix artifacts.
+    cell = f"{args.model}_cap{args.cap}_{args.mode}"
+    cell_glob = cfg["output"]["filename_pattern"].format(
+        model=args.model, cap=args.cap, mode=args.mode, timestamp="*"
+    )
+    try:
+        guard_output_collision(
+            out_dir, [cell_glob], cell=cell, allow_existing=args.allow_existing_cell
+        )
+    except OutputCollision as exc:
+        raise SystemExit(f"[track0/open_weight] {exc}")
+
     print(f"[track0/open_weight] model={args.model} cap={args.cap} mode={args.mode} n_games={n_games}")
     model, tokenizer = _load_model(args.model)
     device = "cuda:0"
     response_fn = _build_response_fn(model, tokenizer, device)
 
+    seeds = [seed_base + i for i in range(n_games)]
     results = []
     for i in tqdm(range(n_games), desc=f"{args.model}/cap{args.cap}/{args.mode}"):
-        game_seed = seed_base + i
+        game_seed = seeds[i]
         record = run_single_game(
             response_fn=response_fn,
             cap=args.cap,
@@ -177,12 +210,30 @@ def main() -> None:
         "smoke": args.smoke,
         "config_snapshot": {"generation": gen, "stage_1_n_games_per_cell": cfg["stage_1"]["n_games_per_cell"]},
         "timestamp": timestamp,
+        "manifest": build_manifest(
+            runner="track0_w3_replication/src/run_track0_open_weight.py",
+            model_id=OPEN_WEIGHT_HF_IDS[args.model],
+            vendor="open_weight_hf",
+            seed_base=seed_base,
+            seeds=seeds,
+            started_at=started_at,
+            extra={
+                "cell": cell,
+                "cap": args.cap,
+                "mode": args.mode,
+                "n_games": n_games,
+                "smoke": bool(args.smoke),
+                "config_path": str(HERE.parent / "configs" / "track0_config.yaml"),
+                "prompt_composition": "rounds[].prompt is the verbatim text sent to the model",
+            },
+        ),
         "results": results,
     }
     out_path = out_dir / fname
     with open(out_path, "w") as f:
         json.dump(payload, f, indent=2)
     print(f"[track0/open_weight] wrote {out_path}")
+    print(f"[track0/open_weight] generation_fallback_responses={fallback_count()}")
 
 
 if __name__ == "__main__":

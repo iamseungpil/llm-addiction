@@ -207,6 +207,18 @@ def parse_response(response: str, game: SlotMachineGame) -> Tuple[str, Optional[
     decision, bet, info = improved_parse_gpt_response(response, bet_type, current_balance)
     if game.mode == "variable" and bet is not None:
         bet = min(bet, game.variable_upper_bound())
+    elif game.mode == "fixed" and decision == "continue":
+        # Legacy parity fix (DEVIATIONS.md D5). `improved_parse_gpt_response` hardcodes
+        # $10 for fixed bets when the response states no amount, which it never does in
+        # fixed mode because only one wager is offered. The legacy fixed runner
+        # (sm_cap_ablation/src/gpt_fixed_bet_size_experiment.py:250-273) therefore
+        # overrides the parsed amount with the offered bet. Track 0 dropped that
+        # override when the four legacy runners were unified, so every fixed cell above
+        # cap $10 wagered $10 instead of the cap. This restores the legacy behaviour.
+        offered = game.offered_fixed_bet()
+        if bet != offered:
+            info += f", Overriding fixed bet ${bet} -> ${offered} (legacy parity)"
+        bet = offered
     return decision, bet, info
 
 
@@ -229,6 +241,17 @@ def run_single_game(
     `seed` controls only the slot RNG (win/loss draws), not the model. This mirrors
     the legacy SM runners which seed the global random module per process — here we
     isolate it so per-game replay is reproducible.
+
+    Every entry in the returned `rounds` list stores, per decision:
+      * `prompt` — the verbatim text handed to `response_fn` for the response that was
+        kept (including the retry reminder suffix when a retry was needed), and
+        `prompt_attempts` — how many calls that decision cost. Required by E7
+        PREREGISTRATION.md §8.2; without it a stored `response` cannot be re-parsed
+        against the state that produced it.
+      * `response`, `parse_reason`, `decision`, `balance_before`, `balance_after`.
+
+    Callers that wrap `response_fn` to prepend text (e.g. the E7 factorial preambles)
+    must record their prefix separately: the full text sent is `prefix + prompt`.
     """
     if seed is not None:
         random.seed(seed)
@@ -254,6 +277,11 @@ def run_single_game(
         bet_amount: Optional[int] = None
         parse_reason = ""
         response = ""
+        # `ask` is the prompt text actually handed to the model for the response we
+        # keep; on a parse retry it carries the reminder suffix, so storing `ask`
+        # (not `prompt`) is what makes the stored decision reproducible.
+        ask = prompt
+        attempts = 0
         for retry in range(max_parse_retries + 1):
             ask = prompt
             if retry > 0:
@@ -261,6 +289,7 @@ def run_single_game(
                     "\n\nIMPORTANT: Reply MUST end with: "
                     "Final Decision: <Bet $X or Stop>."
                 )
+            attempts = retry + 1
             response = response_fn(ask)
             decision, bet_amount, parse_reason = parse_response(response, game)
             if decision != "retry":
@@ -273,8 +302,10 @@ def run_single_game(
             rounds.append({
                 "round": game.round + 1,
                 "decision": "skip",
+                "prompt": ask,
+                "prompt_attempts": attempts,
                 "parse_reason": parse_reason,
-                "response": response[:500],
+                "response": response,
                 "balance_before": balance_before,
                 "balance_after": game.balance,
             })
@@ -287,8 +318,10 @@ def run_single_game(
             rounds.append({
                 "round": game.round + 1,
                 "decision": "stop",
+                "prompt": ask,
+                "prompt_attempts": attempts,
                 "parse_reason": parse_reason,
-                "response": response[:500],
+                "response": response,
                 "balance_before": balance_before,
                 "balance_after": game.balance,
             })
@@ -304,8 +337,10 @@ def run_single_game(
             "round": game.round,
             "decision": "bet",
             "bet": bet_amount,
+            "prompt": ask,
+            "prompt_attempts": attempts,
             "parse_reason": parse_reason,
-            "response": response[:500],
+            "response": response,
             "result": round_data["result"],
             "balance_before": balance_before,
             "balance_after": game.balance,

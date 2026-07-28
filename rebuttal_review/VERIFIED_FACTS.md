@@ -1429,3 +1429,61 @@ Claude is the only model verbose enough to restate its reasoning after the verdi
 `f6dedf0a72` (16 Claude cells plus everything relaunched today). The diff between them is the
 env-gated branch and one `import os`; with the variable unset the execution path is
 byte-for-byte the legacy one, so the hash split does not imply a behavioural split.
+
+---
+
+## §V The submitted paper is the one the reviewers read (hard rule for every letter)
+
+**Rule.** Anything the letter attributes to *the paper* -- "the paper reports", "the appendix
+carries", "the abstract states", any quotation -- must be checkable in the **submitted** text,
+which is the revision with every `\blue{...}` span removed. Revision-only material may be cited,
+but only as work we did during the response period or as a camera-ready commitment. Never as
+something the reviewer could have read.
+
+**How to reconstruct the submitted text.** Strip `\blue{...}` by brace matching (the spans nest
+and contain escaped braces, so a regex will not do it). Across `neurips_content_en/*.tex` that
+removes 38,770 of 135,751 characters, 28.6%:
+
+| file | blue spans | removed | submitted |
+|---|---|---|---|
+| `4.neural.tex` | 24 | 16,968 (**83.2%**) | 3,425 |
+| `appendix.tex` | 44 | 18,411 (26.2%) | 51,862 |
+| `6.limitations.tex` | 2 | 1,417 (46.6%) | 1,622 |
+| `5.discussion.tex` | 3 | 754 (33.5%) | 1,494 |
+| `0.abstract.tex` | 1 | 368 (23.2%) | 1,219 |
+| `checklist.tex` | 0 | 0 | 10,454 |
+
+**What the submitted §4 actually contains.** No prose at all. Three tables and three figure
+includes whose captions are empty once the blue is stripped. This is why §4 attributions are the
+easy place to slip: almost every sentence a writer might quote from §4 is revision-only.
+
+Submitted, therefore quotable as the paper's own (verified 2026-07-28):
+
+- `0.167` for Gemma SM $I_\text{BA}$ at L22 -- `tab:neurips-sae-results` and
+  `tab:condition-modulation`, both outside blue.
+- readout transfer $R^2 < 0$ across all three tasks -- `tab:sharing-transfer`.
+- "does not claim circuit-level mechanism" -- abstract.
+- "Before fitting Ridge, balance and round count are statistically removed (residualised); we
+  then run 5-fold cross-validation with GroupKFold by game id" -- `appendix.tex:325` caption.
+- "within-fold RF deconfound" -- `_appendix_layer_sweep_table.tex`, which has zero blue spans.
+- The three null causal protocols (prompt swap, direction steering, paired patching) and the
+  L22 steering $r=+0.013$ -- `checklist.tex` (zero blue spans) and `appendix.tex`.
+- Gemma variable$-$fixed bootstrap gap $+0.054$ CI $[+0.043,+0.066]$ -- `appendix.tex:686`,
+  outside blue, added 2026-05-04.
+- "the language analysis is not evidence that the model independently discovers those
+  distortions, only that high-risk regimes are accompanied by loss-recovery and control-like
+  justifications in the generated reasoning" -- `3.behavior.tex:51`. **Quote it to the end of
+  the clause**; an earlier draft stopped at "justifications." and put a full stop there.
+
+**Revision-only -- do not attribute to the paper:**
+
+- That a single layer is not enough to move behaviour. The only submitted use of "single layer"
+  is `appendix.tex:354`, which says the *body cites* one layer (L22) for the readout and then
+  sweeps four more for robustness -- a statement about layer choice in the read analysis, not
+  about steering depth. The kuk5 draft said "which the paper reports is not enough" and it was
+  corrected on 2026-07-28 to name it as our own new finding.
+- Everything else in `4.neural.tex`: the causal battery, the write band, the dose ladder, the
+  norm-matched null, the cross-task sign-fixed transfer.
+
+**Check before posting.** Zero letter numbers may appear in the revision but not in the
+submitted text or this fact sheet. Last run 2026-07-28: 0 across all three letters.

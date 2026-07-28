@@ -84,6 +84,17 @@ def note_api_success() -> None:
     _FALLBACK_COUNT["run"] = 0
 
 
+def scoring_parser() -> Dict[str, object]:
+    """Which decision parser is active in this process, resolved at import time by game_logic."""
+    corrected = os.getenv("TRACK0_CORRECTED_PARSER", "0") == "1"
+    return {
+        "corrected": corrected,
+        "module": "corrected_parsing.parse_response" if corrected
+        else "improved_gpt_parsing.improved_parse_gpt_response",
+        "env_TRACK0_CORRECTED_PARSER": os.getenv("TRACK0_CORRECTED_PARSER", "0"),
+    }
+
+
 def fallback_count() -> int:
     return _FALLBACK_COUNT["n"]
 
@@ -207,6 +218,11 @@ def build_manifest(
         "finished_at": finished_at if finished_at is not None else now_iso(),
         "api_fallback_responses": fallback_count(),
         "api_fallback_text": FALLBACK_RESPONSE,
+        # Which parser scored the replies. `code_sha256` cannot answer this: the corrected rule
+        # is selected at import time by an environment variable, so the same game_logic.py hash
+        # covers both branches and a cell scored with the repaired parser is otherwise
+        # indistinguishable from one scored with the legacy rule. Record the resolved choice.
+        "parser": scoring_parser(),
         "env": {
             "python": sys.version.split()[0],
             "executable": sys.executable,

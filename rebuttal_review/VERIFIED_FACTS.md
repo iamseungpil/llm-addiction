@@ -1395,3 +1395,31 @@ different denominators.
 **Housekeeping.** Two runs of the superseded script from an earlier session were still live and
 one was pointed at a deliverable JSON; they were killed by PID (2948992, 2953494) so they could not
 overwrite the new results with unpaired estimates.
+
+---
+
+## §U Which parser scored which cell (provenance for data collected before 2026-07-28 19:40)
+
+`manifest.parser` records this from `run_manifest.py` onward. Cells written before that field
+existed cannot be told apart from their manifests, because the corrected rule is selected at
+import time by `TRACK0_CORRECTED_PARSER` and both branches live in the same `game_logic.py` --
+so the `code_sha256` entry is identical either way. The mapping for the existing corpus:
+
+| corpus | cells | parser | how it was set |
+|---|---|---|---|
+| mc32, `claude-haiku-4-5-20251001` | 16 | **corrected** | `run_mc_ladder.sh:84` sets `TRACK0_CORRECTED_PARSER=1` for Claude lanes only |
+| mc32, other three vendors | 35 | legacy | env var unset |
+| mc32, cells relaunched 2026-07-28 19:0x (6 OpenAI, 7 Gemini) | 13 | legacy | env var unset, matching their paired arms |
+| E7, `claude-haiku-4-5-20251001` | 8 | **corrected** | relaunched 2026-07-28 18:53 with the var set |
+| E7, other five models | 34 | legacy | env var unset |
+
+**This is not an arm-level confound.** The parser is chosen per model, never per arm, so every
+fixed-versus-choosing contrast is scored by one rule on both sides. It is a between-model
+difference, and it is the intended one: the legacy rule misclassifies 2.362% of Claude's
+decisions against 0.000-0.147% for the other three vendors (§corrected_parsing docstring), because
+Claude is the only model verbose enough to restate its reasoning after the verdict.
+
+`game_logic.py` carries two hashes across the corpus, `ac92662c2d` (35 mc32 cells) and
+`f6dedf0a72` (16 Claude cells plus everything relaunched today). The diff between them is the
+env-gated branch and one `import os`; with the variable unset the execution path is
+byte-for-byte the legacy one, so the hash split does not imply a behavioural split.

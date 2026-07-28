@@ -1613,3 +1613,31 @@ It exists in the `b236fee` draft and in the current revision, so the result is r
 cite, but it must be presented as work done for this response, never as something the reviewer
 could have read. The gbSA W4 sentence claiming "the submitted appendix already tests it" was
 corrected on 2026-07-28 to "we modelled it directly, in new work for this response".
+
+---
+
+## §X The cross-task sign-fixed transfer (revision §4.2) -- the causal result the letters omit
+
+Verbatim from `4.neural.tex` (blue, so **our new work**, not something the reviewer read):
+
+> ...these axes align across tasks exactly where the BK directions did not (pairwise cosines
+> $+0.43$ to $+0.67$, against at most $0.04$). We take the single direction these task axes most
+> agree on as a shared axis, and its signed loadings **fix the predicted sign of every steering
+> cell before any trial runs**. On Gemma every slot-machine and investment-choice target then
+> moves with the predicted sign: the shared axis lowers slot-machine betting ($z=-3.7$) while
+> raising investment-choice risk ($z=+3.5$), just as its loadings demand. The confident
+> mystery-wheel cells sit at that task's spin-rate ceiling and stay null, so the pre-registered
+> tally lands at **$7/10$**. LLaMA writes strongly within each task's own window, and the shared
+> axis carries over to it on slot machine and investment choice; the full cross-task matrix,
+> however, is clean only on Gemma.
+
+> The readout rule stays tied to its own task, yet the shared behavioural axis moves behaviour
+> across tasks with the sign fixed in advance. **Reading does not cross tasks; writing does.**
+
+**Why this matters for KuK5.** Their Q2 asks what a positive result would have looked like and
+whether the readout tracks an unresidualised correlate. A design whose *signs were fixed before
+any trial ran* is the strongest available answer to a circularity worry: the direction cannot
+have been chosen to fit the outcome. As of 2026-07-28 this appears in none of the three letters.
+
+**The self-limits to state with it.** 7 of 10, not 10 of 10; the three misses are mystery-wheel
+cells at that task's spin-rate ceiling; and the full cross-task matrix is clean only on Gemma.

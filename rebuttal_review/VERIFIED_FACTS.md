@@ -1565,3 +1565,25 @@ The submitted section already closes with "Causal patching tests return null on 
 direction, so we read this effect as the indicator becoming easier to read out, rather than as
 circuit-level control over what the model decides." The null is the authors' own, in the
 submission, and the letters may rely on it.
+
+---
+
+## §W Two items added 2026-07-28 evening
+
+**The top-200 feature cap is a compute ceiling (author testimony, not a document).** The number
+was chosen so the full pipeline -- five layers of the sweep, three tasks, two models, five folds
+per cell -- would finish inside the available budget. It is not a claim that 200 is optimal and
+nothing prevents 2,000. No configuration file or appendix passage records this rationale, so it
+is quotable as the authors' own design reason, not as something the submitted paper states.
+
+**The condition-slope interval, rounded for the letter.** `multilayer_causal/results/sec4_w14/`
+`sec4_w14_analysis.json` gives `gemma.primary_plusG_minus_plusM.diff = 0.023668` with
+`ci95 = [0.017890, 0.029731]` over 1,000 bootstraps. The letter prints **+0.0237, 95% interval
+[+0.018, +0.030]**. The four robustness variants in the same file all exclude zero:
+impute-stop [0.01843, 0.02946], extremes-removed [0.00542, 0.01141], grid-restricted
+[0.01750, 0.03266], drop-top-dose [0.02784, 0.04317].
+
+**Do not mix two condition analyses.** `sec4_w14` is the three-way split (+G, +M, neither) that
+the letters quote. `sec4_w3` is a different contrast, $\pm G$ within one window, and gives
+`slope_plusG 0.0535`, `slope_minusG 0.0457`, `diff 0.00784`, `ci95 [0.00397, 0.01232]`. Both are
+valid; quoting them in one paragraph is not.

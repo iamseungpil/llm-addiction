@@ -1,0 +1,120 @@
+{
+ "verdict": "NO_SHARED_AXIS",
+ "shared_moves_both": false,
+ "axes": {
+  "behav_iba": {
+   "i_ba": {
+    "spearman": NaN,
+    "slope": NaN,
+    "z": NaN,
+    "sign_ok": false,
+    "monotone": false,
+    "above_null": false,
+    "dose_means": {}
+   },
+   "i_ec": {
+    "spearman": NaN,
+    "slope": NaN,
+    "z": NaN,
+    "sign_ok": false,
+    "monotone": false,
+    "above_null": false,
+    "dose_means": {}
+   }
+  },
+  "behav_iec": {
+   "i_ba": {
+    "spearman": NaN,
+    "slope": NaN,
+    "z": NaN,
+    "sign_ok": false,
+    "monotone": false,
+    "above_null": false,
+    "dose_means": {}
+   },
+   "i_ec": {
+    "spearman": NaN,
+    "slope": NaN,
+    "z": NaN,
+    "sign_ok": false,
+    "monotone": false,
+    "above_null": false,
+    "dose_means": {}
+   }
+  },
+  "shared": {
+   "i_ba": {
+    "spearman": NaN,
+    "slope": NaN,
+    "z": NaN,
+    "sign_ok": false,
+    "monotone": false,
+    "above_null": false,
+    "dose_means": {}
+   },
+   "i_ec": {
+    "spearman": NaN,
+    "slope": NaN,
+    "z": NaN,
+    "sign_ok": false,
+    "monotone": false,
+    "above_null": false,
+    "dose_means": {}
+   }
+  },
+  "confound": {
+   "i_ba": {
+    "spearman": NaN,
+    "slope": NaN,
+    "z": NaN,
+    "sign_ok": false,
+    "monotone": false,
+    "above_null": false,
+    "dose_means": {}
+   },
+   "i_ec": {
+    "spearman": NaN,
+    "slope": NaN,
+    "z": NaN,
+    "sign_ok": false,
+    "monotone": false,
+    "above_null": false,
+    "dose_means": {}
+   }
+  }
+ },
+ "cross_indicator_slopes": {
+  "behav_iba": {
+   "i_ba": NaN,
+   "i_ec": NaN
+  },
+  "behav_iec": {
+   "i_ba": NaN,
+   "i_ec": NaN
+  },
+  "shared": {
+   "i_ba": NaN,
+   "i_ec": NaN
+  },
+  "confound": {
+   "i_ba": NaN,
+   "i_ec": NaN
+  }
+ },
+ "null_band": {
+  "i_ba": {
+   "mean": 0.0,
+   "sd": 0.0,
+   "delta": 0.005,
+   "n": 0
+  },
+  "i_ec": {
+   "mean": 0.0,
+   "sd": 0.0,
+   "delta": 0.005,
+   "n": 0
+  }
+ },
+ "n_null_directions": 0,
+ "baseline": null
+}

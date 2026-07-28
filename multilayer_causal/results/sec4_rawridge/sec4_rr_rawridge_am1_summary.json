@@ -1,0 +1,16 @@
+{
+ "arm": "sec4_rr_rawridge_am1",
+ "phase": "sec4_rawridge",
+ "n": 200,
+ "t_start": 1784012164.0608666,
+ "t_end": 1784013644.0267143,
+ "replay_hash": "8e5f88b28662accc",
+ "prompt_set": "addiction_role_gm",
+ "metrics": {
+  "n": 200,
+  "parse_rate": 0.99,
+  "mean_bet_ratio": 0.04914931572038505,
+  "mean_manip_proj": -8.108560643115098
+ },
+ "timestamp": "2026-07-14T07:20:44.026756"
+}

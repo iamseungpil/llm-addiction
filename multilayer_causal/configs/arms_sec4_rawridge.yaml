@@ -1,0 +1,29 @@
+# sec4 RAW-RIDGE (C axis) arm registry — reviewer rebuttal: read!=write is about
+# DIRECTION-TYPE, not the estimator. The C corner of the rq2 2x2 is ridge x RAW
+# hidden (same held-out RF-deconfounded I_BA target, same L16-21 write band, same
+# 0.03 sigma-unit scales borrowed from the behavioural axis as the readout arm
+# does). Prediction: dose-slope z INSIDE the Wave-2 20-direction null band
+# (mean 0.0007 sd 0.0101), like the readout axis (z=+0.75), NOT like the
+# behavioural mean-diff axis (z=+4.45). If a raw-space ridge probe were the
+# thing that writes, the reviewer's "estimator artifact" objection would stand;
+# it does not. Replays the EXACT Wave-2 protocol (seed_base 2000042, offset 300,
+# n 200, addiction_role_gm) so the slope is directly comparable to the Wave-2
+# behavioural/readout slopes. ISOLATION: loaded ONLY via MLC_ARMS_YAML; SM-only;
+# results/sec4_rawridge/; new asset gemma_slot_machine_i_ba_rawridge.npz.
+defaults:
+  model: gemma
+  task: sm
+  n: 200
+  seed_base: 2000042
+  state_offset: 300
+  prompt_set: addiction_role_gm
+  log_vectors: true
+
+arms:
+  - {id: sec4_rr_rawridge_am3, phase: sec4_rawridge, mode: steer, layers: [16, 21], alpha: -3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_rawridge.npz}
+  - {id: sec4_rr_rawridge_am2, phase: sec4_rawridge, mode: steer, layers: [16, 21], alpha: -2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_rawridge.npz}
+  - {id: sec4_rr_rawridge_am1, phase: sec4_rawridge, mode: steer, layers: [16, 21], alpha: -1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_rawridge.npz}
+  - {id: sec4_rr_rawridge_a0, phase: sec4_rawridge, mode: steer, layers: [16, 21], alpha: 0.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_rawridge.npz}
+  - {id: sec4_rr_rawridge_ap1, phase: sec4_rawridge, mode: steer, layers: [16, 21], alpha: 1.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_rawridge.npz}
+  - {id: sec4_rr_rawridge_ap2, phase: sec4_rawridge, mode: steer, layers: [16, 21], alpha: 2.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_rawridge.npz}
+  - {id: sec4_rr_rawridge_ap3, phase: sec4_rawridge, mode: steer, layers: [16, 21], alpha: 3.0, directions_npz: multilayer_causal/assets/sec4/gemma_slot_machine_i_ba_rawridge.npz}

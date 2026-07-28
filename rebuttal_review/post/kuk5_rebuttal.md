@@ -19,9 +19,9 @@ LLaMA is decisive there: at cap $70 the forced arm stakes $68.4 per round and ru
 
 **The cleanest cell.** Gemini with five modules is the only one where both arms play all 50 games, so refusal cannot explain the gap; there the forced arm stakes more per round ($64.5 vs $47.9) and ruins less (Fisher p = 3.6e-05). Equal caps equalise the per-round maximum, not the total staked; at matched cumulative stake (six thresholds) the choosing arm still ruins more in every cell at every threshold — 24 of 24, smallest gap +3.7 points; post-hoc, intervals overlap at n = 50.
 
-**A second, independently pre-registered factorial repeats it at that cap.** Gemini, no rationality instruction, n = 100 per cell: the forced arm bankrupts 12 games at 1.06 rounds per game, the choosing arm 32 at 8.43. LLaMA in that same cell: forced 6.0% against choosing 82.0%. 42 of 44 cells are complete; the eight Claude cells have been re-collected at 100% decision completeness, zero API fallbacks; the two open-weight cells left report by 3 August.
+**A second, independently pre-registered factorial repeats it at that cap.** Gemini, no rationality instruction, n = 100 per cell: the forced arm bankrupts 12 games at 1.06 rounds per game, the choosing arm 32 at 8.43. LLaMA in that same cell: forced 6.0% against choosing 82.0%. 43 of 44 cells are complete; the eight Claude cells have been re-collected at 100% decision completeness, zero API fallbacks; the last open-weight cell reports by 3 August.
 
-**Status.** Claude 3.5 Haiku is end-of-life (404), so the panels substitute Claude Haiku 4.5, a different model. They sit in a 64-cell matched-cap ladder; 51 clear our guard of 95% readable decisions, including all 16 cap-$70 cells, the source of every panel rate above. The rest report by 3 August.
+**Status.** Claude 3.5 Haiku is end-of-life (404), so the panels substitute Claude Haiku 4.5, a different model. They sit in a 64-cell matched-cap ladder; 59 clear our guard of 95% readable decisions, including all 16 cap-$70 cells, the source of every panel rate above. The rest report by 3 August.
 
 ## [W1, Q2] What the internal-state results show
 

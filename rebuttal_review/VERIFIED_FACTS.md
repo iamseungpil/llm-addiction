@@ -1193,23 +1193,48 @@ cell) and `sec4_w14_analysis.json`. This section exists because the letter had b
 causal work as testing "a different object", which understates it: it is the same question asked
 with a repaired intervention.
 
-### S.1 Why the earlier interventions returned null
+### S.1 What the SUBMITTED causal protocols actually were (appendix M3, `git show b236fee`)
 
-Two properties of the original protocol, both of which the paper states:
+**Corrected 2026-07-28 after reading the submitted appendix verbatim. Two earlier descriptions
+in this file and in the kuk5 draft were wrong; do not reuse them.**
 
-- **The autoencoder sits between the intervention and the model --- in the patching arm only.**
-  `pathway_token_analysis/src/phase1_patching_multifeature.py:219-233` encodes the hidden state,
-  sets one feature, then *replaces* the residual stream with `sae.decode(...)`, so the model
-  receives the autoencoder's lossy reconstruction of every direction, not just the edited one. It
-  also patches a single position, `feature_acts[0, -1, target_feature_id]`, the last token.
-  **This does not apply to the steering arm.** `llama_sae_analysis/src/phase5_multifeature_steering.py:137-167`
-  builds a unit vector from decoder columns and adds it, `h = h + alpha * steering_vec`; there is
-  no encode--decode round trip and therefore no reconstruction error. Do not write the blanket
-  claim "the original edit added reconstruction error" --- it is false for steering, and a
-  reviewer who opens phase5 will see the addition is exact.
-- **One layer is not enough.** The paper's own wording: "no single layer is enough on its own".
-  Steering the readout direction at layer 22 alone is flat across the dose ladder, correlation
-  +0.013 with interval [-0.10, +0.13].
+The submission ran three protocols on Gemma slot machine, all null, all at layer 22:
+
+1. **Prompt swap.** Swap the prompt at one mid-game decision from $-G$ to $+G$ and roll forward.
+   $n=200$ per condition. Bankruptcy 10.0% at the $-G$ baseline against 12.0% under the swap,
+   norm-matched random-direction control 12.5%, Cohen $h\approx0.06$. This is not a layer
+   intervention at all.
+2. **Direction steering.** The §4.1 Ridge weight vector projected *through the Gemma-Scope L22
+   decoder columns* into a unit direction in residual-stream space, added to **the last prompt
+   token's hidden state only**, six-point ladder $\alpha\in\{-2,\dots,+3\}$, **$n=50$ per dose**.
+   Bet ratio 0.064/0.056/0.051/0.062/0.060/0.064, Pearson $r=+0.013$, 95% CI $[-0.10,+0.13]$.
+   Adding a decoder-column direction is exact: **there is no encode-decode round trip and no
+   reconstruction error.**
+3. **Paired activation patching.** For matched $(\text{game},\text{round})$ pairs, cache the
+   **L22 transformer-block output of the $+G$ run** and write it into the $-G$ run at one of
+   three scopes: last prompt token, maximal common suffix, or **all positions**. Patched bet
+   ratios 0.068/0.079/0.081, indistinguishable from natural $-G$ ($p=0.31/0.15/0.21$).
+   **No autoencoder is involved and it is not confined to one token position.**
+
+**Two claims that must never appear in a letter again.**
+- "The patching arm replaced the residual stream with the autoencoder's lossy reconstruction."
+  False. It wrote the cached $+G$ activation. The encode-decode code in
+  `pathway_token_analysis/src/phase1_patching_multifeature.py` belongs to a *different*
+  experiment and is not the appendix M3 protocol.
+- "The original edits patched a single token position." False for patching, which included an
+  all-positions scope. It is true only of the steering arm.
+
+**What the submission itself concluded**, verbatim: the three protocols support "the
+interpretation that the §4.1 readout decodes the indicator **without being a single-layer
+controller** for it on Gemma slot machine." The submission therefore already scoped its own null
+to single-layer control. LLaMA was not attempted because LLaMA-Scope ships no L22 features.
+
+**The honest repair deltas** are therefore depth (one layer to a six-layer band), steering
+position (last prompt token to all positions on prefill and every decode step), sample
+($n=50$ to $n=200$ per dose), null (three specificity controls to twenty norm-matched random
+directions), and above all **the axis definition** -- the submission steered the probe-fitted
+readout direction; the repaired arms also steer a behaviourally defined axis with no probe
+fitted. That last one carries the result.
 
 ### S.2 The repaired intervention moves behaviour, and moves it in proportion
 

@@ -1,6 +1,6 @@
 # Response to Reviewer a3Zu
 
-**All answers in brief.** Where the answer is "not done", we say so and give a date.
+We thank the reviewer for reading our paper so closely, and for giving us a chance to improve it. Your weakness and your three questions all ask the same thing in different places — whether the instrument bears the weight the framing puts on it. Where the honest answer is "we have not done that", we say so rather than substitute a different number.
 
 - **Validated against human judgement? (W1)** No. Below: where the four frames come from, what we checked instead, and the limits we know of.
 - **Parsing error rate for the goal metric? (Q1)** Never measured for that extractor; below, the rates we did measure and the per-model worst case.
@@ -43,3 +43,5 @@
 **A related manipulation we did run.** An instruction stating that immediate stopping maximises expected value, with permission to stop at any round: 43 of 44 cells collected, the 8 Claude cells re-collected at 100% decision completeness and zero API fallbacks, 1 open-weight cell running, complete by 3 August. It works in part — participation (games containing a wager) falls by 91 to 100 points in Gemini, GPT-4.1-mini and GPT-4o-mini, and LLaMA's variable-arm ruin drops from its inherited matched-cap baseline of 81.5% (n = 200) to 3.0% (n = 100). But it is no off-switch: 69 of 100 LLaMA variable-arm games still contain a wager, and the model survives by wagering small rather than by stopping. That is the distinction your question turns on — an instruction tells the model what to conclude, while your demonstration would show it what a play-through looks like, and only the second tests the calibration reading.
 
 **Scope.** These are artificial negative-EV games: we claim condition-dependent risk-taking and decodable signals, not addiction, a stable trait, or a mechanism.
+
+If any part of our response falls short, we would be glad to take it further during the discussion period.

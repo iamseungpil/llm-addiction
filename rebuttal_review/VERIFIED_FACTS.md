@@ -564,8 +564,14 @@ Neither endpoint holds.
 **Replacement wording, persona-absent cells, GPT-4o-mini / GPT-4.1-mini / Gemini only, Claude
 excluded, expanded tier, first-round stops:**
 
-> safety-style declining appears in **0--13%** of refusals (0/99, 0/99, 12/92), against
-> expected-value reasoning in **94--100%** (93/99, 98/99, 92/92).
+> safety-style declining appears in **0--13%** of refusals (0/99, 2/99, 12/92), against
+> expected-value reasoning in **94--100%** (98/99, 93/99, 92/92).
+
+Both triples are ordered GPT-4.1-mini, GPT-4o-mini, Gemini. An earlier version of this block
+printed the safety triple as (0/99, **0/99**, 12/92) and the EV triple in the opposite model
+order; the expanded-tier GPT-4o-mini safety count is **2/99** (§J.2), not 0/99. The 0--13% and
+94--100% ranges are unaffected, but the middle fraction was wrong and reached the gbSA letter
+before it was caught on 2026-07-28.
 
 If the letter prefers the literal anchor phrase list, the same three cells give **0--5%** and
 **60--98%**. Under `--unit any_stop` the anchor range is 0.0--5.0% safety and 59.0--92.0% EV;

@@ -5,7 +5,7 @@ We thank the reviewer for reading our paper so closely, and for the chance to im
 - **W1 — can the neural decoding support a mechanistic reading?** No; the submitted abstract already says the analysis "does not claim circuit-level mechanism". But the null is direction-specific: the direction *fitted to predict* betting does not move behaviour; one *defined from* the model's betting does, across tasks, with the signs fixed beforehand.
 - **W2 — does the equal-cap claim rest on one model?** It did. Both arms now run at the same cap across the panel, under two prompt conditions and in a second harness; under the paper's own condition set the dissociation appears in four of six.
 - **Q1 — does it hold on the other five?** Four of six. Gemma is 0.0% in both arms at all four caps, Claude 0.0 in both panel arms — nulls, not absences.
-- **Q2 — a positive result, and a balance/round correlate?** Four criteria below, applied to both directions. We also steered the balance/round direction itself and ran the nested test your question implies; **it supports your point.**
+- **Q2 — a positive result, and a balance/round correlate?** Four criteria below, applied to both directions. We steered the balance/round direction itself and ran the nested test your question implies; **it supports your point.**
 
 ## [W2, Q1] The equal-cap test across the panel
 

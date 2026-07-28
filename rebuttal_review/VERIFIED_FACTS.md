@@ -1487,3 +1487,56 @@ Submitted, therefore quotable as the paper's own (verified 2026-07-28):
 
 **Check before posting.** Zero letter numbers may appear in the revision but not in the
 submitted text or this fact sheet. Last run 2026-07-28: 0 across all three letters.
+
+### §V.1 Correction: blue-stripping under-recovers the submitted text
+
+Stripping `\blue{...}` from the current files is **sound for deciding what may be quoted** --
+anything that survives the strip was in the submission -- but it is **unsound for deciding what
+the paper does not say.** The July revision did not only add: it *replaced* prose and wrapped
+the replacement in blue, deleting the submitted sentences from the file. Strip the blue and that
+deleted prose does not come back.
+
+Stripping blue from the current `4.neural.tex` leaves 3,425 characters, three tables and three
+figure includes with empty captions. That is not what the reviewers read. The submitted §4 is
+
+    git show 5950af6:neurips_content_en/4.neural.tex        # 17,258 chars, full prose
+
+on the `LLM_Addiction_NMT_KOR` repository. The last commit before the causal upgrade
+(`c3c39d1`, 2026-07-09) is `b236fee` (2026-05-14); every `neurips_content_en/*.tex` at that
+commit is the submitted text, blue marks in it included -- those marks tracked an earlier
+revision round and the reviewers saw the words regardless of their colour.
+
+**Use `git show b236fee:<file>` as the authority for "the submitted paper says / does not say".**
+Use blue-stripping only as a quick check that a quotation is safe.
+
+The one violation found on 2026-07-28 survives this correction: the submitted §4 discusses
+layer choice for the *readout* ("Layer 22 is the representative slice we report because three
+layers tie for the highest weakest-cell $R^2$") and reports that "Causal patching tests
+return null on the recovered direction", but nowhere states that a single layer is too shallow
+to move behaviour. That remains our own new finding.
+
+### §V.2 What the submitted §4 actually contained (`5950af6`)
+
+Three audits on decision-time activations from the two open-weight models, across three tasks
+(SM slot machine, IC investment choice, MW mystery wheel):
+
+1. **Indicator readout (§4.1).** Sparse-autoencoder features (Gemma-Scope / Llama-Scope) at a
+   decision-time residual-stream activation, in-fold random-forest residualisation against
+   balance and round count, top-200 features by rank correlation with the deconfounded target,
+   Ridge, 5-fold GroupKFold by game id. Three controls: per-game label shuffles, full-pipeline
+   permutation, unseen prompt conditions. Result: decodable, but the dominant indicator flips
+   by task -- SM and IC bind to $I_\text{BA}$, MW to $I_\text{LC}$.
+2. **Cross-task sharing (§4.2).** A per-task direction $v_\text{BK}=\mu_\text{stop}-\mu_\text{bankrupt}$,
+   then three tests of progressively weaker sharing: cosine alignment (fails, near-orthogonal),
+   sparse-feature readout transfer (fails, $R^2<0$), leave-one-task-out PCA subspace with a
+   centroid classifier (passes weakly). Nulls: 30 norm-matched random directions and
+   game-level label shuffles, per fold.
+3. **Autonomy modulation (§4.3).** The same Ridge readout re-fitted within each prompt
+   condition, $\pm G$ and $\pm M$; fixed betting excluded for degenerate label variance.
+   Goal-setting sharpens the SM $I_\text{BA}$ readout, Gemma $0.063\to0.153$, LLaMA $+38\%$.
+   Controls: bet variance matched between $-G$ and $+G$, refit inside fixed balance windows.
+
+The submitted section already closes with "Causal patching tests return null on the recovered
+direction, so we read this effect as the indicator becoming easier to read out, rather than as
+circuit-level control over what the model decides." The null is the authors' own, in the
+submission, and the letters may rely on it.

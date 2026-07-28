@@ -32,7 +32,7 @@ Gemini moves the same way with the preamble but *without* the five modules, so t
 
 **A second pre-registered factorial repeats this at that cap**, n = 100: Gemini 12 bankruptcies forced against 32 choosing, LLaMA 6.0% against 82.0%. All 44 cells complete.
 
-**Status.** Claude 3.5 Haiku is end-of-life (404), so the panels substitute Haiku 4.5, a different model. Of the 64-cell ladder, 60 clear our 95%-readable guard, including all 16 cap-$70 cells, where every panel rate comes from. The rest by 3 August.
+**Status.** Claude 3.5 Haiku is end-of-life (404), so the panels substitute Haiku 4.5, a different model. Of the 64-cell ladder, 63 clear our 95%-readable guard, including all 16 cap-$70 cells, where every panel rate comes from. The last by 3 August.
 
 ## [W1, Q2] What the internal-state results show
 

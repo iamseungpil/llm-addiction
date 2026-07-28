@@ -1613,3 +1613,35 @@ It exists in the `b236fee` draft and in the current revision, so the result is r
 cite, but it must be presented as work done for this response, never as something the reviewer
 could have read. The gbSA W4 sentence claiming "the submitted appendix already tests it" was
 corrected on 2026-07-28 to "we modelled it directly, in new work for this response".
+
+## Y. Matched-cap ladder: the guard tally, recounted 2026-07-28 23:5x
+
+Run with the guard's own code, not a reconstruction:
+
+    from sweep_quarantine import inspect          # track0_w3_replication/src
+    [f for f in Path('/home/v-seungplee/data/llm-addiction/mc32').glob('final_*.json')]
+
+`inspect()` rejects a cell on `manifest.api_fallback_responses != 0` or on under 95% of
+non-empty replies carrying a parseable `Final Decision:` line.
+
+| | count |
+|---|---|
+| `final_*.json` present in `mc32/` | 63 |
+| passing `inspect()` | **63** |
+| rejected | 0 |
+| distinct (model, cap, mode, combo) cells | 63 of 64 |
+| cap-$70 cells, all passing | 16 of 16 |
+
+The grid is 4 API models x 4 caps ($10/$30/$50/$70) x 2 modes x 2 combos (BASE, GMPRW) = 64.
+**The one cell not yet collected is `gemini-flash, cap $30, variable, GMPRW`.** Six earlier
+files sit in `mc32/QUARANTINE/` (three gemini-flash, three gpt-4.1-mini); each of those
+coordinates except the missing one has since been re-collected, which is why the passing count
+and the present count coincide.
+
+**So the letters say 63 of 64, not 60 of 64.** "60 of 64" was written before the last
+re-collections landed and was stale in `kuk5` and `gbsa` (and both Korean sections); corrected
+in all four places. Do not write "the rest by 3 August" -- it is one cell, so "the last".
+
+A caution for any future recount: `parse_reason` is a free-text diagnostic string, not a
+status field, and `results[].rounds[]` has no `parse_ok`. Counting rounds that merely carry a
+`decision` returns 63/63 for any input and measures nothing. Use `inspect()`.

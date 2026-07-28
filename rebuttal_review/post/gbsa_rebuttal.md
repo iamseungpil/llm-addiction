@@ -25,7 +25,7 @@ We thank the reviewer for reading our paper so closely, and for giving us a chan
 
 *Investment choice.* Both arms choose among the same four options, and the three risky ones share one expected loss (E[net]/b = −0.10), so a shift to high variance is variance preference, not EV optimisation — with the paper's own limit, that four legacy runs carry a slightly larger mid-variance loss.
 
-**[Q1]** No longer one model. Our base-prompt grid was uninformative — four of six never ruin in either arm — but the paper's five-module condition at cap $70 recovers three more, and with LLaMA that is **four of six** — decisively there, forced 3.0% against choosing 81.5% at n = 200. The panel for the other three is in our KuK5 response, W2/Q1. The missing two are Gemma, absent here, and Claude, whose 3.5 Haiku is end-of-life so the panel substitutes Haiku 4.5, which never ruins. The cap-$70 block is complete, 16 of 16; 60 of 64 cells pass our guard, the rest by 3 August.
+**[Q1]** No longer one model. Our base-prompt grid was uninformative — four of six never ruin in either arm — but the paper's five-module condition at cap $70 recovers three more, and with LLaMA that is **four of six** — decisively there, forced 3.0% against choosing 81.5% at n = 200. The panel for the other three is in our KuK5 response, W2/Q1. The missing two are Gemma, absent here, and Claude, whose 3.5 Haiku is end-of-life so the panel substitutes Haiku 4.5, which never ruins. The cap-$70 block is complete, 16 of 16; 63 of 64 cells pass our guard, the last by 3 August.
 
 **[Q2] Lists.** The four frames, their code names, their expressions, and the window each is scored in:
 

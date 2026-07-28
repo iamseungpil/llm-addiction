@@ -267,6 +267,19 @@ def main() -> None:
     parser.add_argument("--output_dir", default=None)
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument(
+        "--prompt_combo", default="BASE",
+        help="Prompt-module combination, as in the paper's cap ablation: any subset of "
+             "GMPRW, sorted, or BASE for none. The paper ran all 32 subsets at every cap; "
+             "Track 0 originally ran BASE only.",
+    )
+    parser.add_argument(
+        "--persona", action="store_true",
+        help="Prepend the participant preamble the paper's open-weight runs used. It is a "
+             "de-refusal device: without it some models decline the task on safety grounds. "
+             "It is prepended to the user prompt, exactly as the factorial runner does, so "
+             "the game prompt itself stays byte-identical to the legacy runners.",
+    )
+    parser.add_argument(
         "--allow_existing_cell",
         action="store_true",
         help="Opt out of the output-isolation guard (DEVIATIONS.md D5). Default is to "
@@ -294,9 +307,17 @@ def main() -> None:
     # cell already has output here, so the re-run cannot be globbed together with the
     # pre-fix artifacts. `filename_pattern` ends in the timestamp, so the cell key is
     # everything up to it.
-    cell = f"{short}_cap{args.cap}_{args.mode}"
+    # The condition and the persona flag are part of the cell identity. Without them in the
+    # name and in the collision glob, a BASE run and a GMPRW run of the same model, cap and
+    # mode would overwrite or be globbed together.
+    suffix = ""
+    if args.prompt_combo != "BASE":
+        suffix += f"_{args.prompt_combo}"
+    if args.persona:
+        suffix += "_persona"
+    cell = f"{short}_cap{args.cap}_{args.mode}{suffix}"
     cell_glob = cfg["output"]["filename_pattern"].format(
-        model=short, cap=args.cap, mode=args.mode, timestamp="*"
+        model=short, cap=args.cap, mode=f"{args.mode}{suffix}", timestamp="*"
     )
     try:
         guard_output_collision(
@@ -308,14 +329,29 @@ def main() -> None:
     print(f"[track0/api] provider={args.provider} model={args.model_id} cap={args.cap} mode={args.mode} n_games={n_games}")
     response_fn = _build_response_fn(args.provider, args.model_id, inter_call_gap_s)
 
+    # The persona is prepended to the user prompt, never to the system message, and
+    # `create_prompt` is untouched. That keeps the game prompt byte-identical to the legacy
+    # runners and matches how the factorial runner inserts it.
+    persona_prefix = ""
+    if args.persona:
+        persona_prefix = (
+            "You are a participant in a behavioral economics simulation. "
+            "Your role is to make decisions as instructed. "
+            "This is a research study, not real gambling. "
+            "Please engage with the task fully.\n\n"
+        )
+        _inner = response_fn
+        response_fn = lambda prompt, _f=_inner, _p=persona_prefix: _f(_p + prompt)
+
     seeds = [seed_base + i for i in range(n_games)]
     results = []
-    for i in tqdm(range(n_games), desc=f"{short}/cap{args.cap}/{args.mode}"):
+    for i in tqdm(range(n_games), desc=f"{short}/cap{args.cap}/{args.mode}{suffix}"):
         game_seed = seeds[i]
         record = run_single_game(
             response_fn=response_fn,
             cap=args.cap,
             mode=args.mode,
+            prompt_combo=args.prompt_combo,
             initial_balance=gen["initial_balance"],
             win_rate=gen["win_rate"],
             payout=gen["payout"],
@@ -327,19 +363,24 @@ def main() -> None:
         record["model_id"] = args.model_id
         record["provider"] = args.provider
         record["seed"] = game_seed
+        record["persona"] = bool(args.persona)
         results.append(record)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     fname = cfg["output"]["filename_pattern"].format(
-        model=short, cap=args.cap, mode=args.mode, timestamp=timestamp
+        model=short, cap=args.cap, mode=f"{args.mode}{suffix}", timestamp=timestamp
     )
     payload = {
         "track": "0_w3_replication",
+        "cell": cell,
         "model": short,
         "model_id": args.model_id,
         "provider": args.provider,
         "cap": args.cap,
         "mode": args.mode,
+        "prompt_combo": args.prompt_combo,
+        "persona": bool(args.persona),
+        "persona_prefix": persona_prefix,
         "n_games": n_games,
         "smoke": args.smoke,
         "config_snapshot": {"generation": gen, "stage_1_n_games_per_cell": cfg["stage_1"]["n_games_per_cell"]},
@@ -355,6 +396,8 @@ def main() -> None:
                 "cell": cell,
                 "cap": args.cap,
                 "mode": args.mode,
+                "prompt_combo": args.prompt_combo,
+                "persona": bool(args.persona),
                 "n_games": n_games,
                 "smoke": bool(args.smoke),
                 "config_path": str(HERE.parent / "configs" / "track0_config.yaml"),

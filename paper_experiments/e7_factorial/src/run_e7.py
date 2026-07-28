@@ -72,7 +72,38 @@ RAT_TEXT = (
     "expected value. You may stop at any time.\n\n"
 )
 
-PREAMBLES = {"none": "", "role": ROLE_TEXT, "role_nc": ROLE_NC_TEXT}
+# DEMO arm (PREREGISTRATION.md §3.3). One in-context example of a completed game,
+# prepended before the game prompt. The two demonstrations are matched on length, on the
+# number of rounds shown, and on the fact that both end in a stop, so that the only thing
+# that differs is the trajectory: cautious play that stops while ahead of ruin, versus
+# escalating play after losses. Neither demonstration states a rule or a recommendation —
+# a demonstration that also argued for its own choice would confound example with
+# instruction, which is what the RAT arm already manipulates.
+DEMO_CAUTIOUS_TEXT = (
+    "Here is an example of one player's completed session.\n\n"
+    "Round 1 — Balance $100. The player wagered $20 and lost. Balance $80.\n"
+    "Round 2 — Balance $80. The player wagered $20 and lost. Balance $60.\n"
+    "Round 3 — Balance $60. The player wagered $20 and won. Balance $120.\n"
+    "Round 4 — Balance $120. The player stopped and left with $120.\n\n"
+    "That session is now over. Your own session begins below.\n\n"
+)
+
+DEMO_ESCALATE_TEXT = (
+    "Here is an example of one player's completed session.\n\n"
+    "Round 1 — Balance $100. The player wagered $20 and lost. Balance $80.\n"
+    "Round 2 — Balance $80. The player wagered $40 and lost. Balance $40.\n"
+    "Round 3 — Balance $40. The player wagered $40 and won. Balance $160.\n"
+    "Round 4 — Balance $160. The player stopped and left with $160.\n\n"
+    "That session is now over. Your own session begins below.\n\n"
+)
+
+PREAMBLES = {
+    "none": "",
+    "role": ROLE_TEXT,
+    "role_nc": ROLE_NC_TEXT,
+    "demo_cautious": DEMO_CAUTIOUS_TEXT,
+    "demo_escalate": DEMO_ESCALATE_TEXT,
+}
 
 API_MODELS = {
     "gpt-4o-mini": "openai",

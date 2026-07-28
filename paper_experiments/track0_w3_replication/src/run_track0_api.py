@@ -48,6 +48,7 @@ from run_manifest import (  # noqa: E402,F401
     build_manifest,
     fallback_count,
     guard_output_collision,
+    note_api_success,
     note_fallback,
     now_iso,
 )
@@ -152,6 +153,7 @@ def _build_response_fn_openai(model_id: str, inter_call_gap_s: float) -> Callabl
                 resp = client.chat.completions.create(**kwargs)
                 text = (resp.choices[0].message.content or "").strip()
                 if text:
+                    note_api_success()
                     time.sleep(inter_call_gap_s)
                     return text
             except Exception:
@@ -195,6 +197,7 @@ def _build_response_fn_anthropic(model_id: str, inter_call_gap_s: float) -> Call
                         parts.append(block.text)
                 text = "\n".join(parts).strip()
                 if text:
+                    note_api_success()
                     time.sleep(inter_call_gap_s)
                     return text
             except Exception:
@@ -237,6 +240,7 @@ def _build_response_fn_google(model_id: str, inter_call_gap_s: float) -> Callabl
                                 parts.append(part.text)
                     text = "\n".join(parts).strip()
                 if text:
+                    note_api_success()
                     time.sleep(inter_call_gap_s)
                     return text
             except Exception:

@@ -47,13 +47,41 @@ _DEFAULT_PARSER = (
 # usable completion. Keep it in one place so the counter cannot drift from the string.
 FALLBACK_RESPONSE = "Final Decision: Stop"
 
-_FALLBACK_COUNT = {"n": 0}
+_FALLBACK_COUNT = {"n": 0, "run": 0}
+
+# A fallback is written only after the provider wrapper has exhausted its retries, so a run
+# of them back to back is not bad luck: it is the vendor refusing every call, which is what a
+# depleted prepayment balance looks like. On 2026-07-28 that state produced five cells whose
+# fallbacks sat in one contiguous block of games (34 of 344 decisions in the worst), each of
+# them silently recorded as the model choosing to stop. They had to be discarded, and the hours
+# spent producing them were wasted because nothing stopped the runner.
+#
+# Abort the cell instead. A cell that dies loudly can be relaunched; a cell that finishes with
+# manufactured stops has to be caught downstream, and biases ruin downward if it is not.
+_MAX_CONSECUTIVE_FALLBACKS = int(os.getenv("TRACK0_MAX_CONSECUTIVE_FALLBACKS", "5"))
+
+
+class VendorUnavailable(RuntimeError):
+    """Raised when the provider has failed every retry for several decisions in a row."""
 
 
 def note_fallback() -> str:
     """Record one API/generation fallback and return the substituted response text."""
     _FALLBACK_COUNT["n"] += 1
+    _FALLBACK_COUNT["run"] += 1
+    if 0 < _MAX_CONSECUTIVE_FALLBACKS <= _FALLBACK_COUNT["run"]:
+        raise VendorUnavailable(
+            f"{_FALLBACK_COUNT['run']} consecutive API fallbacks after full retry budget; "
+            f"the vendor is not serving this key (check billing/quota). Aborting the cell "
+            f"rather than writing substituted stops. Set TRACK0_MAX_CONSECUTIVE_FALLBACKS=0 "
+            f"to disable this guard."
+        )
     return FALLBACK_RESPONSE
+
+
+def note_api_success() -> None:
+    """Clear the consecutive-failure run. Called by each provider wrapper on a real completion."""
+    _FALLBACK_COUNT["run"] = 0
 
 
 def fallback_count() -> int:

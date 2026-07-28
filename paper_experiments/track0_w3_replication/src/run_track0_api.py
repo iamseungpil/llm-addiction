@@ -81,10 +81,17 @@ _OPENAI_SYSTEM_PROTOCOL_A = (
     "Explain your reasoning step by step, then ALWAYS end your reply with the exact format: "
     "Final Decision: <Bet $X or Stop>."
 )
+# Token budgets are set high enough that the cap never binds. A cap that is reached truncates
+# the reply before its "Final Decision:" line, and the parser then reads an unreadable reply as
+# a stop — so a low cap silently manufactures voluntary stopping. That is what happened to the
+# Claude cells at 300 tokens. Audited on the cells already collected: gpt-4.1-mini and
+# gemini-flash end with a complete, parseable decision in 100% of replies and gpt-4o-mini in
+# 99.7%, so their caps never bound; they are raised anyway so no future model can hit them.
+_MAX_TOKENS = 2048
 OPENAI_PROTOCOL = {
-    "gpt-4o-mini":  {"system": _OPENAI_SYSTEM_PROTOCOL_B, "max_tokens_kw": "max_tokens",            "max_tokens_val": 600,  "temperature": 0.7},
-    "gpt-4o":       {"system": _OPENAI_SYSTEM_PROTOCOL_B, "max_tokens_kw": "max_tokens",            "max_tokens_val": 600,  "temperature": 0.7},
-    "gpt-4.1-mini": {"system": _OPENAI_SYSTEM_PROTOCOL_A, "max_tokens_kw": "max_completion_tokens", "max_tokens_val": 1024, "temperature": None},
+    "gpt-4o-mini":  {"system": _OPENAI_SYSTEM_PROTOCOL_B, "max_tokens_kw": "max_tokens",            "max_tokens_val": _MAX_TOKENS, "temperature": 0.7},
+    "gpt-4o":       {"system": _OPENAI_SYSTEM_PROTOCOL_B, "max_tokens_kw": "max_tokens",            "max_tokens_val": _MAX_TOKENS, "temperature": 0.7},
+    "gpt-4.1-mini": {"system": _OPENAI_SYSTEM_PROTOCOL_A, "max_tokens_kw": "max_completion_tokens", "max_tokens_val": _MAX_TOKENS, "temperature": None},
 }
 # All other OpenAI sampling axes — top_p, frequency_penalty, presence_penalty,
 # response_format, seed, reasoning_effort, parallel_tool_calls, logit_bias,
@@ -166,10 +173,19 @@ def _build_response_fn_anthropic(model_id: str, inter_call_gap_s: float) -> Call
     def fn(prompt: str) -> str:
         for attempt in range(1, MAX_API_ATTEMPTS + 1):
             try:
-                # Legacy parity (run_claude_experiment.py:202-211): no system=, max_tokens=300.
+                # Legacy parity (run_claude_experiment.py:202-211) was no system= and
+                # max_tokens=300. The token cap does NOT transfer: the legacy runs used
+                # claude-3-5-haiku, and that model is now end-of-life and returns 404, so these
+                # runs substitute claude-haiku-4-5, which is far more verbose. At 300 tokens it
+                # was cut off before reaching its "Final Decision" line in 89% of decisions
+                # (73 of 681 carried the line, against 100% for every other vendor), and the
+                # legacy parser defaults an unreadable response to "stop". Claude's apparent
+                # instant stopping was therefore an artefact of the cap, not behaviour.
+                # Raised to the shared budget; the no-system-message part of legacy parity
+                # is unchanged.
                 resp = client.messages.create(
                     model=model_id,
-                    max_tokens=300,
+                    max_tokens=_MAX_TOKENS,
                     temperature=0.5,
                     messages=[{"role": "user", "content": [{"type": "text", "text": prompt}]}],
                 )

@@ -77,17 +77,47 @@ run_lane() {
         --n_games "$N_GAMES" --output_dir "$OUT" >> "$lanelog" 2>&1 \
         || { echo "FAIL  $stem" >> "$lanelog"; continue; }
 
-      # Fallback guard: quarantine any cell whose API calls were silently substituted.
+      # Two guards, both of which quarantine into a sibling directory rather than renaming in
+      # place. A renamed file still matches the skip glob above, so an in-place rename would
+      # make the cell permanently missing on the next run.
+      #   1. Silent substitution: the runner returns a stop response when an API call fails
+      #      after its retries, and records the count in manifest.api_fallback_responses.
+      #   2. Truncation: if a reply is cut off before its "Final Decision:" line, the parser
+      #      reads it as a stop, so a truncated cell manufactures voluntary stopping. This is
+      #      what a 300-token cap did to the Claude cells. Anything under 95% complete is
+      #      quarantined rather than analysed.
       local produced
       produced=$(ls -t "$OUT/${stem}"_*.json 2>/dev/null | head -1)
       if [ -n "$produced" ]; then
-        local nfb
-        nfb=$("$PY" -c "import json,sys;print(json.load(open(sys.argv[1]))['manifest'].get('api_fallback_responses',-1))" "$produced" 2>/dev/null)
-        if [ "$nfb" != "0" ]; then
-          mv "$produced" "${produced%.json}.QUARANTINE_fallback${nfb}.json"
-          echo "QUARANTINE $stem api_fallback_responses=$nfb" >> "$lanelog"
+        local verdict
+        verdict=$("$PY" - "$produced" <<'CHECK'
+import json, re, sys
+d = json.load(open(sys.argv[1]))
+nfb = d.get("manifest", {}).get("api_fallback_responses", -1)
+fd = re.compile(r"final decision:?\s*(bet\s*\$?\d+|stop)", re.I)
+tot = ok = 0
+for g in d.get("results", []):
+    for r in g.get("rounds", []):
+        t = r.get("response") or ""
+        if not t:
+            continue
+        tot += 1
+        ok += bool(fd.search(t))
+pct = 100.0 * ok / tot if tot else 0.0
+if nfb != 0:
+    print(f"BAD fallback={nfb}")
+elif tot and pct < 95.0:
+    print(f"BAD truncated={pct:.1f}pct_complete_of_{tot}")
+else:
+    print(f"GOOD complete={pct:.1f}pct")
+CHECK
+) || verdict="BAD checkfailed"
+        if [ "${verdict:0:3}" = "BAD" ]; then
+          mkdir -p "$OUT/QUARANTINE"
+          mv "$produced" "$OUT/QUARANTINE/$(basename "$produced")"
+          echo "QUARANTINE $stem $verdict" >> "$lanelog"
         else
-          echo "OK    $stem  $(date +%H:%M:%S)" >> "$lanelog"
+          echo "OK    $stem  $verdict  $(date +%H:%M:%S)" >> "$lanelog"
         fi
       fi
     done

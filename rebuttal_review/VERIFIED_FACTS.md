@@ -1587,3 +1587,29 @@ impute-stop [0.01843, 0.02946], extremes-removed [0.00542, 0.01141], grid-restri
 the letters quote. `sec4_w3` is a different contrast, $\pm G$ within one window, and gives
 `slope_plusG 0.0535`, `slope_minusG 0.0457`, `diff 0.00784`, `ci95 [0.00397, 0.01232]`. Both are
 valid; quoting them in one paragraph is not.
+
+
+### §V.3 Correction, second pass: the submitted baseline is `e3382c0`, not `b236fee`
+
+Verified 2026-07-28 against the OpenReview record. The posted abstract begins "This study
+identifies the conditions under which large language models drift into the choice patterns that
+clinical research labels pathological gambling." That text is at **`e3382c0`** ("old ver",
+2026-07-10, parent `b236fee`) -- a snapshot of the submitted source taken before the July
+revision. `b236fee` carries a *different* abstract, still wrapped in `\blue{}`. **`b236fee` is a
+pre-submission draft; `e3382c0` is what the reviewers read.**
+
+    git show e3382c0:neurips_content_en/<file>        # the authority for "the paper says"
+
+Re-checked every sentence the letters attribute to the paper. Eleven of twelve hold at
+`e3382c0`: the abstract's "does not claim circuit-level mechanism"; the Limitations' "single-layer
+patching", "distributed multi-layer pathway", "strictly behavioural", "research lens rather than
+a metaphysical claim", and the $R^2$ "0.06--0.30" band; the appendix's residualisation caption,
+the layer-sweep "within-fold" caption, the +0.054 bootstrap interval, appendix M3's three causal
+protocols; and §3's "the language analysis is not evidence..." scoping sentence.
+
+**One failed, and it had reached the gbSA letter.** The per-decision bankruptcy hazard (Track L,
+RR = 90.6, 95% CI [44.8, 183.4]) is **not in the submitted appendix** -- zero hits at `e3382c0`.
+It exists in the `b236fee` draft and in the current revision, so the result is real and ours to
+cite, but it must be presented as work done for this response, never as something the reviewer
+could have read. The gbSA W4 sentence claiming "the submitted appendix already tests it" was
+corrected on 2026-07-28 to "we modelled it directly, in new work for this response".

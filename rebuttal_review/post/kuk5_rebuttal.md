@@ -19,7 +19,7 @@ LLaMA is decisive there: at cap $70 the forced arm stakes $68.4 per round and ru
 
 **The cleanest cell.** Gemini with five modules is the only one where both arms play all 50 games, so refusal cannot explain the gap; there the forced arm stakes more per round ($64.5 vs $47.9) and ruins less (Fisher p = 3.6e-05). Equal caps equalise the per-round maximum, not the total staked; at matched cumulative stake the choosing arm still ruins more in every cell at every threshold — 24 of 24, post-hoc, intervals overlapping at n = 50.
 
-**A second, independently pre-registered factorial repeats it at that cap.** Gemini, no rationality instruction, n = 100 per cell: the forced arm bankrupts 12 games, the choosing arm 32. LLaMA in that cell: forced 6.0% against choosing 82.0%. All 44 cells are now complete.
+**A second pre-registered factorial repeats it at that cap.** Gemini, no rationality instruction, n = 100 per cell: the forced arm bankrupts 12 games, the choosing arm 32. LLaMA in that cell: forced 6.0% against choosing 82.0%. All 44 cells are now complete.
 
 **Status.** Claude 3.5 Haiku is end-of-life (404), so the panels substitute Claude Haiku 4.5, a different model. Of the 64-cell ladder, 60 clear our guard of 95% readable decisions, including all 16 cap-$70 cells, where every panel rate above comes from. The rest report by 3 August.
 

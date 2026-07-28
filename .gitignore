@@ -67,3 +67,8 @@ sae_v3_analysis/results/*status*.md
 multilayer_causal/out/
 multilayer_causal/amlt/*.rendered.yaml
 multilayer_causal/assets/*.npz
+
+# Causal per-trial traces: large, regenerable; the analysis/summary JSONs they roll up to are tracked.
+multilayer_causal/results/**/*.jsonl
+multilayer_causal/results/**/*.png
+multilayer_causal/results/**/*.pdf

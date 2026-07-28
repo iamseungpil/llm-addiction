@@ -65,13 +65,29 @@ def walk(game: dict) -> tuple[bool, float, float | None]:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--glob", default=DEFAULT_GLOB)
+    ap.add_argument("--cap", type=int, default=70,
+                    help="Bet cap to analyse. The letter's W4 numbers are the cap-$70 block.")
     ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/exposure_matched.json")
     args = ap.parse_args()
 
+    # The cap belongs in the key. Without it the loop silently keeps whichever file sorts last
+    # for a (model, condition, arm) triple: today that is cap70 for every triple, so the numbers
+    # happen to be right, but quarantining one cap-$70 cell would substitute a cap-$50 cell with
+    # no warning and change the reported rates. Select the cap explicitly instead.
     cells: dict[tuple[str, str, str], list[dict]] = {}
+    seen_caps: set[int] = set()
     for path in sorted(glob.glob(args.glob)):
         payload = json.load(open(path))
-        cells[(payload["model"], payload.get("prompt_combo", "BASE"), payload["mode"])] = payload["results"]
+        if payload["cap"] != args.cap:
+            continue
+        key = (payload["model"], payload.get("prompt_combo", "BASE"), payload["mode"])
+        if key in cells:
+            raise SystemExit(f"two files for {key} at cap {args.cap}; refusing to guess")
+        cells[key] = payload["results"]
+        seen_caps.add(payload["cap"])
+    if not cells:
+        raise SystemExit(f"no cells at cap {args.cap} under {args.glob}")
+    print(f"cap ${args.cap}: {len(cells)} cells\n")
 
     report: dict = {}
     for model in sorted({k[0] for k in cells}):

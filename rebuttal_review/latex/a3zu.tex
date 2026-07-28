@@ -1,0 +1,574 @@
+% =====================================================================
+% Reviewer a3Zu -- Rating 5 (Accept), Confidence 3
+% Owns Rebuttal Tables 7 and 8.
+% Cross-references Rebuttal Tables 4, 9 (appendix.tex) and Tables 5, 6 (gbsa.tex).
+% =====================================================================
+
+\section*{Reviewer a3Zu}
+
+\noindent\textit{Rating 5 (Accept), Confidence 3.}
+
+\subsection*{Weaknesses}
+
+\begin{itemize}
+\item \textit{``In cognitive distortion analysis, authors scan reasoning traces for language
+associated with loss chasing and similar patterns, but it is never validated against human
+judgement. No human annotator checked a sample of the flagged outputs to confirm they actually
+reflect the distortion they are supposed to capture. Despite this, the cognitive distortion
+framing appears throughout the paper including in the abstract, carrying more rhetorical weight
+than the underlying method can support.''}
+\plan{키워드 측정치를 ``도구''에서 특이도 미확립 기준선으로 강등하고, 측정량을
+gambling-related linguistic markers로 개명했다. 다만 초록에는 cognitive distortion이 등장하지
+않으므로 철회 범위는 §2 구성개념 정의·§3 Finding 5·부록으로 정정했고, Finding 5가 이미 달고
+있던 한정 문구를 인용해 원논문 주장이 이미 output-side로 제한돼 있었음을 밝혔다. 블라인드 인간
+코딩 도구는 배포했으나 라벨은 아직 수집 전이다.}
+\end{itemize}
+
+\subsection*{Questions}
+
+\begin{itemize}
+\item \textit{``What is the parsing error or ambiguity rate for the moving-target metric? If a
+meaningful share of outputs couldn't be reliably parsed, that uncertainty should be factored
+into how much weight we put on the goal-escalation finding.''}
+\plan{요청하신 모호성 비율은 측정하지 못했다고 먼저 밝히고, 비추출률은 분모와 함께 8월 3일까지
+상한으로 보고한다. Figure 4(c)와 부록 표 12셀의 정확 재현을 확인한 뒤 계기 결함 2건(공개가중치
+no-goal 셀은 구조적 0=측정불가; 무요청 목표 추출 64.4\%/53.3\%)을 공개하고, 엄격 정의(달성 후
+상향)는 보정치가 아니라 민감도 분석으로만 제시한다: 계기가 대칭인 API 표본(조건당 1,600게임)에서
+공표 지표 2.83$\times$ 대 엄격 2.24$\times$, 대비가 정의되는 4개 모델 전부 방향 일치(개방가중치
+2종은 no-goal 대비 정의 불가). 남은 민감도 검사 한 건은 아직 측정 전이라 방향을 단정하지 않는다.}
+
+\item \textit{``Have you looked at whether humans playing the exact same slot-machine game under
+the same autonomy conditions show similar patterns?''}
+\plan{인간 피험자 실험은 수행하지 않았음을 명시하고, 2023년 슬롯머신 발화 연구의 인간 코더
+빈도를 외부 참조 분포로만 사용하되 정량적 대응을 함의하던 문장은 삭제했다.}
+
+\item \textit{``All prompt conditions are zero-shot. What happens if you include one example of
+someone playing cautiously and stopping at the right time? That single demonstration might be
+enough to anchor the model and reduce the gambling-like behavior, which would suggest the effect
+is at least partly about the model having nothing concrete to calibrate against, rather than
+autonomy fundamentally breaking its decision-making. You could also try the opposite with one
+example of escalating play under the BASE prompt with no autonomy framing to see if
+demonstration alone is enough to produce the effect without any of the goal-setting or
+reward-maximization modules.''}
+\plan{DEMO-cautious와 DEMO-escalate 두 팔을 지시하신 그대로 사전등록했으나 아직 실행 전이며,
+이미 확보된 합리성 지시 결과(Rebuttal Table 5, 6)는 방향이 일치하는 부분 증거로만 제시했다.}
+\end{itemize}
+
+\subsection*{Limitations and Formatting}
+
+\begin{itemize}
+\item \textit{``yes \textperiodcentered{} table 2 could be better formatted''}
+\plan{Table 2를 열 그룹 정렬, 단위의 헤더 이동, 조건별 n을 캡션에서 표 본문으로 이동하는
+방식으로 재조판했다.}
+\end{itemize}
+
+\redrule
+
+\subsection*{\color{red!60!black}Author Response}
+
+We thank you for a review in which every concern is stated as something we could act on, and for
+the sentence that names our central problem most fairly: the framing carries ``more rhetorical
+weight than the underlying method can support.'' We accept that concern, and the revision reports
+language-frequency contrasts only until human validation is complete.
+
+Your points ask one question of four different instruments --- whether the number we report can
+carry the name we gave it: a keyword rule never checked against human judgement, a goal extractor
+whose error rate was never stated, a paradigm with no human reference, and a zero-shot prompt with
+nothing to calibrate against. Here is where each landed.
+
+\begin{itemize}
+\item \textbf{Was the cognitive-distortion measure validated against human judgement?} No, and
+the gap is ours. We rename the measured quantity to \emph{gambling-related linguistic markers}
+and withdraw the psychological claim from every place it is made --- §1's framing, §2's construct
+definition, §3's opening and closing paragraphs, §3 Finding~5 and the appendix. One correction to
+the premise: the submitted abstract does not use the term and does not report the measure, so it
+needs no retraction. A blinded human-coding instrument is deployed, with its decision rule fixed
+numerically before any label; labels follow by 3~August.
+\item \textbf{What is the parsing error or ambiguity rate for the moving-target metric?} Not
+measured, and we say so rather than substitute a narrower number for the one you asked for. We
+reproduced the published Figure~4(c) values exactly, disclose two instrument defects your
+question led us to find, and add a strict-definition sensitivity analysis under which the
+goal-setting contrast is $2.24\times$ against the published metric's $2.83\times$ on the sample
+where the instrument is symmetric. The non-extraction rate, with its denominator, follows by
+3~August.
+\item \textbf{Have humans played the same game under the same conditions?} No, and we cannot run
+that study within a rebuttal. We use a 2023 human think-aloud slot-machine study as an external
+reference distribution only, and the revision removes every sentence that implied a quantitative
+correspondence.
+\item \textbf{What happens with one cautious demonstration, and one escalating demonstration
+under BASE?} Not yet run. Both arms are registered exactly as you specified them, seed-matched at
+cap \$70 with $n = 100$ games per cell, and we report by 3~August; the completed
+rationality-instruction factorial points the same way but cannot substitute for a demonstration.
+\item \textbf{Table 2 formatting.} Fixed. Column groups align, units move into the header, and
+the per-condition $n$ moves into the table body.
+\end{itemize}
+
+If any part of our response falls short, we would be glad to take it further during the
+discussion period.
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Weakness 1]} The measure was never validated against human judgement}
+% ---------------------------------------------------------------------
+
+We understand your concern. As we understand it, you are pointing at a gap between what our
+instrument measures and what its name claims: a keyword rule counts surface expressions, whereas
+``cognitive distortion'' is a psychological attribution that only a human judgement can license.
+
+\textbf{Verdict: the gap is accepted; one part of the premise needs correcting.} No human
+annotator checked the flagged outputs before submission. That gap is real and it is ours.
+\textbf{Thank you for this sharp observation. It led us to build and deploy a blinded human-coding
+instrument, and to re-run the language analysis under five alternative instruments.}
+
+\textbf{The correction: Finding 5 already scoped the claim.} The label does not appear in the
+abstract, as noted above.
+Finding 5, which does report the measure, already states that we ``treat these as output-side interpretive
+frames rather than causal mechanisms,'' that the analysis ``is not evidence that the model
+independently discovers those distortions, only that high-risk regimes are accompanied by
+loss-recovery and control-like justifications in the generated reasoning,'' and that these traces
+``do not validate a clinical diagnosis or a causal reasoning mechanism.''
+However, we think your point survives that hedge.
+A qualification inside one paragraph does not offset a construct name used as the name of the
+measure itself.
+We therefore change the name, not only the hedge.
+
+\textbf{Three kinds of validity are at stake.} Each kind receives a different answer.
+We separate them so that none borrows support from another.
+
+\begin{itemize}
+\item \textbf{Frequency validity} asks whether language occurs more often in one condition than another.
+The method measures this quantity, and the revised paper claims only this contrast.
+The method passes this test. Rebuttal Table 7 reports the result.
+\item \textbf{Content validity} asks whether flagged text expresses the construct named by its label.
+This is the validity you requested. Only human coding can establish it.
+We built and blinded the instrument, but collected no labels.
+\item \textbf{Criterion validity} asks whether the measure agrees with an independent instrument targeting the same construct.
+We attempted that test with a five-instrument battery, but the battery cannot serve as one.
+The instruments are not independent, so their agreement is not criterion evidence.
+Rebuttal Table 7 must be read with that limit attached.
+\end{itemize}
+
+\textbf{The frequency contrast persists across instruments.} This re-analysis asks whether the
+contrast depends on the particular word list we happened to write. We varied the word list and held
+the corpus fixed, rerunning all 19,200 games and 190,300 decisions under five instruments. The
+contrast stays positive in 6 of 6 models under every one of them.
+
+An instrument is one list of regular expressions grouped into named frames; a frame is the
+expression group for one construct, such as loss-chasing. The five instruments are:
+
+\begin{enumerate}[leftmargin=1.8em]
+\item the paper's own four frames;
+\item a frozen codebook drawn from constructs that converge across validated gambling instruments;
+\item that codebook with every goal-coupled expression ablated;
+\item expressions modelled on the Gambling Related Cognitions Scale (GRCS);
+\item think-aloud-style expressions.
+\end{enumerate}
+
+\noindent
+We ran four of these --- the paper's frames, the frozen codebook, the GRCS-style set and the
+think-aloud set --- twice each, once as written and once with a polarity correction that drops
+sentences where the model rejects rather than expresses the cognition. That gives the eight
+variants quoted throughout. The goal-coupled-ablated codebook is reported separately, as the
+ablated column of Rebuttal Table 7. Throughout, pp means percentage points.
+
+Rebuttal Table 7 gives the goal minus no-goal contrast per model under three of these instruments.
+
+\vspace{0.5em}
+\noindent\textbf{Rebuttal Table 7.} Goal minus no-goal contrast in pp, per model, under three
+instruments, full corpus of 19,200 games and 190,300 decisions. Positive in 6 of 6 models under
+every instrument, and under every one of the eight variants.
+
+\begin{center}
+\footnotesize
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{Original, window-scoped} & \textbf{Convergent codebook} & \textbf{Goal-coupled ablated} \\
+\midrule
+GPT-4o-mini      & $+77.9$ & $+37.2$ & $+29.6$ \\
+GPT-4.1-mini     & $+75.1$ & $+44.9$ & $+41.9$ \\
+Gemini-2.5-Flash & $+77.9$ & $+42.2$ & $+41.7$ \\
+Claude-3.5-Haiku & $+30.4$ & $+18.6$ & $+17.2$ \\
+LLaMA-3.1-8B     & $+18.1$ & $\phantom{0}+4.2$ & $\phantom{0}+3.1$ \\
+Gemma-2-9B       & $+38.8$ & $+16.0$ & $+12.7$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.4em}
+\noindent
+The autonomy contrast is weaker and we report it as such.
+Variable minus fixed is positive in 5 of 6 models in seven of the eight variants, and in 4 of 6 in
+the raw original variant, where GPT-4o-mini is $-0.1$ pp.
+Gemini is negative in every variant, at $-6.1$ to $-11.9$ pp.
+We attribute Gemini's sign to the model rather than to an instrument defect.
+
+\textbf{We restored a scoping step we had earlier dropped, and it moved the numbers in our
+favour.} The paper's analysis restricts the pattern-belief frame to conditions whose prompt does
+not mention hidden patterns, and the loss-chasing frame to decisions that follow a loss.
+An earlier version of this battery omitted that restriction and reported a smaller goal contrast.
+The hidden-patterns module is crossed with the goal module, so its prompt text raised the
+pattern-belief hit rate in the goal and no-goal arms alike: it diluted the contrast rather than
+inflating it.
+The scoped column in Rebuttal Table 7 is the one that reproduces the paper's statistic, and it is
+larger in every model.
+The convergent and ablated columns are unaffected, because neither contains a pattern-belief or
+loss-chasing frame.
+
+\textbf{The ablated column is the strongest check.} In the original instrument, the
+\texttt{goal\_escalation} frame dominates the goal contrast at $+65$ to $+95$ pp.
+That is close to circular, because the goal module creates the goals that can escalate.
+The frozen codebook has no goal frame; its contrast comes from \texttt{illusion\_of\_control}
+($+16.7$ to $+58.4$ pp) and \texttt{impaired\_control} ($+13.5$ to $+50.6$ pp), and it survives
+the removal of every goal-coupled expression at 6 of 6 models.
+LLaMA is the weakest case: 87.6\% against 84.5\%, a $+3.1$ pp gap with $z = 2.50$ and
+$p \approx 0.012$, with overlapping Wilson intervals.
+We report LLaMA as a pass, but not a comfortable one.
+
+\textbf{Three limits apply, and we raise all three ourselves.} The first two prevent the battery
+from serving as a criterion test.
+
+\begin{itemize}
+\item \textbf{The instruments are not independent.} Several expressions appear verbatim in more than one instrument.
+Shared wording prevents us from treating agreement between lists as convergence.
+\item \textbf{Two instruments were written after the original result was known.} We wrote the GRCS-style and think-aloud-style expressions during the rebuttal period.
+They are robustness checks, not a pre-registered replication.
+\item \textbf{One frame partly measures prompt echo.} Prompt echo means repeating wording supplied by the prompt.
+The hidden-patterns module uses the prompt text ``This slot machine may have hidden patterns,''
+and the pattern and hidden expressions match that text directly.
+This is why the scoping step above excludes those conditions from the pattern frame.
+\end{itemize}
+
+\textbf{We can identify two false positives without human labels.} A \texttt{self\_serving\_bias}
+expression labels ``stopping now is the smart decision'' as a distortion, when that sentence
+describes a rational refusal.
+\texttt{illusion\_of\_control} also misfires in the variable arm, where stake size genuinely remains under the model's control.
+Appendix~A.3 prints both expressions in full, and Appendix~A prints every expression together with
+the frozen file's SHA-256.
+
+\textbf{We searched for a validated public lexicon for this task and found none.} Rebuttal Table 8 traces the sources.
+It shows what our four constructs inherit and what we wrote ourselves.
+
+\vspace{0.5em}
+\noindent\textbf{Rebuttal Table 8.} Prior-work lineage of the four constructs: what each source
+supplies, in what form, and whether it can serve as a free-text lexicon.
+
+\begin{center}
+\footnotesize
+\begin{tabular}{p{0.185\linewidth}p{0.305\linewidth}p{0.145\linewidth}p{0.215\linewidth}}
+\toprule
+\textbf{Source} & \textbf{What it supplies} & \textbf{Form} & \textbf{Free-text lexicon?} \\
+\midrule
+Goodie \& Fortune (2013), \textit{Psychology of Addictive Behaviors} 27(3), 730--743 &
+Convergence across validated instruments: all prominent instruments include illusion of control,
+almost all include gambler's fallacy &
+Review of instruments &
+No. It is our source for which constructs to use, not for any wording \\
+\addlinespace
+Raylu \& Oei (2004), GRCS &
+Five subscales: inability to stop, interpretative bias, illusion of control, gambling
+expectancies, predictive control &
+Self-report questionnaire items &
+No. Items are answered by a person, not matched against text \\
+\addlinespace
+Toneatto (1999) typology &
+Magnification of skill, minimisation of others' skill, superstitions, interpretive biases,
+temporal telescoping, selective memory, predictive skill, illusion of control over luck,
+illusory correlation, entitlement, omnipotence, magical thinking &
+Clinical typology &
+No. It names constructs and supplies no matching rule \\
+\addlinespace
+2023 simulated slot-machine verbalisation study &
+Eight coded categories, with frequencies gambler's fallacy 57, near-miss 47, illusion of
+control 46 &
+Human think-aloud coding scheme &
+No, but it is a human reference distribution in a related paradigm \\
+\addlinespace
+Bathina et al. (2021), \textit{Nature Human Behaviour} &
+12 categories, 241 n-grams &
+Lexicon &
+It is a lexicon, but for general cognitive distortion, not gambling-specific ones \\
+\addlinespace
+Smith et al., \textit{PLOS Digital Health} &
+DSM-5 plus GRCS annotation guide for problem-gambling content &
+Manual annotation guide &
+No. It is the closest gambling-specific public resource and it is a guide, not a lexicon \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.4em}
+\noindent
+No row supplies a lexicon we could use. We therefore wrote the expressions ourselves from the four
+definitions, then froze the file and recorded its hash before computing any statistic.
+
+\textbf{We define a new target quantity and state when it is honest.} The method measures one quantity.
+It measures the rate at which gambling-related language appears in a reasoning trace.
+We rename this quantity from \textbf{cognitive distortions} to \textbf{gambling-related
+linguistic markers}.
+
+The rename changes the measurement label, not the codebook contents.
+The surviving contrast still concerns constructs that Goodie and Fortune find convergent.
+
+The rename is honest only if the psychological claim goes from every place it was made.
+It was made in §1's framing, in §2's construct definition, in §3's opening and closing paragraphs,
+in §3 Finding 5 and in the appendix, and it is withdrawn in all of them.
+The abstract needs no retraction, because it never carried the claim.
+We do not claim that this language reflects the model's cognition, and we do not claim that it
+predicts the next decision.
+
+\textbf{We built and blinded the human-coding instrument. It remains a pilot, not a completed
+validation. This experiment is under way.} The instrument contains 100 items: 25 for each of the
+four frozen constructs, and within each construct 12 regex-flagged and 13 unflagged items, so that
+missed genuine instances are estimated rather than assumed.
+Responses of exactly 500 characters are excluded, that length being the signature of a storage
+truncation we disclose in Appendix~B3.
+Coders see only the trace and the construct name; model, condition, flag status and matched span
+are withheld.
+Items are drawn from the six models in strict rotation, the presentation order is shuffled, and
+the seed is fixed at 24231 so the draw is reproducible.
+
+Three coders will label the items: two authors and one person outside this project.
+We report author and non-author contrasts separately, and compute $\kappa$, the inter-coder
+agreement statistic, before adjudication.
+We fixed the decision rule numerically before seeing any label.
+The rule has three clauses.
+
+\begin{itemize}
+\item $\kappa$ below 0.60: we make no quantitative statement at all.
+\item A 95\% lower bound on a frame's precision below 0.50: we remove that frame's numbers from the paper's body.
+\item A 95\% interval on the human-labelled variable-minus-fixed contrast that includes zero: we withdraw that claim, which the paper reports as Finding 5.
+\end{itemize}
+
+Recall has no decision gate; we report it descriptively.
+\textbf{We have collected no labels, and we have not yet recruited the non-author coder.}
+We are not asking you to credit a result. We are showing you the instrument and the rule that will
+judge it. We will complete it and report the outcome by 3 August, regardless of whether it favours
+us. We intend to reflect this in the camera-ready.
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Question 1]} Parsing error or ambiguity rate for the moving-target metric}
+% ---------------------------------------------------------------------
+
+We understand your concern. As we understand it, you are pointing at a metric whose input is a
+free-text extraction: if the extractor misfires, the moving-target rate inherits that error, and
+the paper never reported how often it misfires.
+
+\textbf{We cannot give you the rate you asked for.} We have not measured the extractor's false-positive rate.
+We have not measured how often an extracted goal value is semantically ambiguous.
+Your question asks for more than our current measurements provide.
+Reporting a narrower number as your requested rate would misrepresent the evidence.
+What we can do is verify the pipeline, disclose the two instrument defects your question led us
+to find, and bound the finding with a sensitivity analysis. We do the three in that order.
+
+\textbf{The published numbers reproduce exactly.} Re-running the figure's own extractor on the
+figure's own corpus (9,600 games, 2,400 per condition) returns the published Figure~4(c) values
+to one decimal --- BASE 17.0, M 11.0, G 49.8, GM 47.8 --- and all twelve cells of the appendix
+table's moving-target column reproduce cell for cell. Everything below therefore concerns the
+paper's own pipeline, not a reconstruction of it.
+
+\textbf{Your question also surfaced a description error we have since corrected, and we disclose
+it here rather than let you find it.} The submitted §2 defined the moving-target rate as the
+fraction of games in which the model \emph{raises its self-set goal after meeting it}. The
+implementation never tested whether the goal had been met; it flags any upward revision during
+play. The definition and the code therefore measured different quantities, and the code is the one
+that produced every number in the paper.
+
+We changed the definition to match the implementation --- ``revises its self-set goal upward
+mid-game, with or without having reached it'' --- rather than change the code, because rewriting
+the code would invalidate the reported figures without new data. That fix was incomplete, and we
+disclose the remainder: the clinical-framing paragraph earlier in §2 still describes the
+construct as achievement-conditional in two phrases, ``shifting one's own goals upward after
+meeting them'' and ``raising the target once it has been reached.'' Both receive the same
+correction in the camera-ready, so that no sentence in the paper claims an achievement test the
+metric does not perform.
+
+\textbf{Defect 1: the open-weight no-goal cells are structural zeros.} For LLaMA and Gemma the
+pipeline reads stored goal fields rather than extracting from text, and those fields are written
+only when the goal prompt is on: coverage is 368--396 of 400 games per cell under G and GM, and
+0 of 400 under BASE and M for both models. The two arms therefore fail differently. The goal
+arm has partial coverage, and a missing field can only hide an escalation, so that side is
+conservative; the no-goal arm has no coverage at all, so its contrast is not defined --- a zero
+there means \emph{not measurable}, not ``no escalation occurred.'' The pooled BASE and M figures are therefore the API rate diluted by 800
+structural zeros per condition, and the dilution is exact: the API-only rates 25.4 and 16.5
+become 16.9 and 11.0 after multiplying by $2/3$, against the published 17.0 and 11.0. Because
+the goal arms are not diluted, the asymmetry inflates the published contrast from $2.83\times$
+on the comparable API sample to $3.5\times$ after pooling. The camera-ready marks those two
+cells \emph{not measurable} instead of 0.0\%, and restates the appendix sentence coupling
+bankruptcy with the moving-target rate so that it claims the four models in which the contrast
+is defined, not six.
+
+\textbf{Defect 2: goals are extracted where none were requested.} In the API no-goal cells the
+extractor returns a goal in 64.4\% of BASE games and 53.3\% of M games, although no goal was
+asked for. We do not know what those matches are. One reading is that the extractor is matching
+a balance the game has already passed, which would fit the near-coincidence of the published and
+strict metrics in those cells (25.4 vs 24.6; 16.5 vs 14.8); that reading is a hypothesis, not a
+measured fact, and bet amounts, loss limits, cash-out thresholds, goals a model volunteers
+unprompted, or ordinary numeric prose could produce the same matches. A structural point holds
+either way: the denominator is all games in the condition, so the metric mixes a change in
+behaviour with a change in how often a goal is stated at all --- 97.5\% of G games state one,
+against 43.0\% of BASE games.
+
+\textbf{A sensitivity analysis under the submitted definition. It is a sensitivity analysis, not
+a corrected value.} Recomputing with the achievement test added and nothing else changed:
+
+\begin{center}
+\footnotesize
+\begin{tabular}{lccc}
+\toprule
+\textbf{Condition} & $n$ & \textbf{Published metric} & \textbf{Strict (raise after reaching)} \\
+\midrule
+BASE & 2,400 & 17.0 [15.5, 18.5] & 16.4 [14.9, 17.9] \\
+M    & 2,400 & 11.0 [9.8, 12.3]  & \phantom{0}9.9 [8.7, 11.1] \\
+G    & 2,400 & 49.8 [47.8, 51.7] & 34.4 [32.5, 36.3] \\
+GM   & 2,400 & 47.8 [45.8, 49.8] & 34.0 [32.2, 36.0] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Because the pooled control arm contains the unmeasurable open-weight cells, the ratio should be
+read on the API-only sample, where the instrument is symmetric: strict BASE 24.6, M 14.8, G
+46.1, GM 42.2 ($n = 1{,}600$ per condition), a contrast of $2.24\times$ against $2.83\times$
+for the published metric on the same sample. Per model under the strict rule (goal versus
+no-goal arm, $n = 800$ each): GPT-4o-mini 61.4 vs 35.2, GPT-4.1-mini 45.8 vs 2.1, Gemini 38.6
+vs 15.4, Claude 30.8 vs 26.0 --- positive in 4 of 4 models in which the comparison is defined,
+Claude the narrowest; the two open-weight models have no defined comparison. The defensible
+claim is that goal-setting raises the observed rate of upward goal revision by roughly
+$2.2\times$ to $2.8\times$ on the sample where the instrument is symmetric, and that the
+direction holds in every model in which the contrast can be computed. We no longer write
+``roughly triples'' without naming the pooled instrument that produces it.
+
+\textbf{Five objections this analysis invites, all of which we concede in advance.} The strict
+rule uses the same extractor and inherits its errors. The stricter definition arrives after the
+definition was already relaxed once, which is why we present it only as a sensitivity analysis.
+The pooled control arm is partly unmeasured. The denominator conflates behaviour with goal
+observability. And the goal prompt itself elicits more numeric talk, so higher extraction in the
+goal arm is partly mechanical.
+
+\textbf{We can report the following scope precisely.} The moving-target metric flags a game when
+its extracted goal values rise during play. Our protocol does not require the model to restate
+the goal each round, so a decision that yields no goal value is not necessarily a parsing
+failure. We will report the non-extraction rate, with its denominator, by 3~August, and the
+revision states it as an upper bound on parsing trouble at the point of reporting.
+
+\textbf{Missingness biases the rate downward; mis-extraction need not.} A missing goal value can
+only delete entries from the observed sequence, and deleting entries from a sequence that never
+rises cannot make it rise, so non-extraction hides upward revisions rather than manufacturing
+them. Mis-extraction --- Defect 2 --- can bias in either direction, which is why the finding
+rests on the strict rule and the symmetric API sample rather than on this argument alone.
+
+\textbf{One registered check is still running, and we will not pre-announce its direction.} It
+restricts the metric to games with at least two observed goal values, which removes the games
+where missingness is worst. We will report it with its denominator by 3~August.
+
+\textbf{We correct one description of the extractor.} The body implied a narrow
+\texttt{goal/target \$N} regular expression. The implementation is broader: nine patterns applied
+in order to the lower-cased response, of which the first to yield a value between \$50 and
+\$10,000 wins, taking the last match within that pattern. Three of the nine require no goal word
+at all --- \texttt{aim for/to \$N}, a single pattern covering both \texttt{reach \$N} and
+\texttt{get to \$N}, and \texttt{balance ... of at least \$N}. The remaining six key on
+\texttt{goal} or \texttt{target}, including bare \texttt{\$N goal} and a permissive
+\texttt{goal: ... N dollars}.
+The narrow expression measures a different quantity, and the revision describes the implementation
+accurately.
+
+\textbf{We found a second parsing defect during the rebuttal.} The bet/stop parser, which
+classifies betting versus stopping, takes the first ``final decision'' match in a response and
+tests betting tokens before stopping tokens. It therefore records a wager when a response
+discusses betting before ending with a stop.
+We re-parsed every stored response under a corrected rule that uses the last match and classifies
+on the first word inside it. Rebuttal Table 4 in the appendix gives the flip counts, the
+adjudicable denominators and the resulting rates for all three corpora.
+
+The flips concentrate in one model. Every flip in the re-run corpus belongs to Claude-Haiku, so
+that model's fixed-arm participation counts are essentially all misparsed stops, and they never
+appear here unannotated.
+
+\textbf{The model identity also requires correction.} The frozen configuration declares one
+model, and every run used another:
+
+\begin{center}
+\small declared \texttt{claude-3-5-haiku-20241022}; \; ran \texttt{claude-haiku-4-5-20251001}
+\end{center}
+
+\noindent
+The revision reports the model we actually ran in Appendix~B7.
+
+\textbf{The moving-target metric uses a different extractor, so this defect does not affect it.}
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Question 2]} Humans playing the same game under the same conditions}
+% ---------------------------------------------------------------------
+
+We understand your concern. As we understand it, you are asking whether the pattern we attribute to
+autonomy is specific to models at all, since a human given the same freedoms in the same game might
+produce the same escalation.
+
+\textbf{Verdict: no, we did not run it, and we cannot run it within this rebuttal.} We ran no human
+participants on this task and did not seek the ethics review such a study requires. A
+within-rebuttal human-subjects study on a gambling paradigm would be inappropriate regardless of
+timing.
+
+\textbf{We can offer an external anchor instead of a blanket disclaimer.} The 2023 simulated
+slot-machine verbalisation study reports human coder frequencies for eight categories, including
+gambler's fallacy 57, near-miss 47 and illusion of control 46; Rebuttal Table 8 places it in the
+source record. We add those eight categories as a second coding layer alongside the four frozen
+constructs, leaving the frozen instrument unchanged so the comparison stays auditable.
+
+\textbf{The comparison has a strict bound.} That study collected human verbalisations under a
+different protocol, bankroll and cap structure. It is a reference distribution for a related
+paradigm, not a matched control for ours. We claim no quantitative correspondence between our
+models and human players, and the revision removes every sentence that implied one. We intend to
+reflect this in the camera-ready.
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Question 3]} One cautious demonstration, and one escalating demonstration}
+% ---------------------------------------------------------------------
+
+We understand your concern. As we understand it, you are proposing a rival account of our result:
+the model may escalate not because autonomy breaks its decision-making, but because a zero-shot
+prompt gives it nothing concrete to calibrate against --- and you propose the two demonstrations
+that would separate the accounts.
+
+\textbf{Thank you for this sharp observation. It led us to register both arms exactly as you
+specified.} \textbf{Verdict: accepted in both directions, not yet run.} Your premise is correct:
+every prompt condition in the submitted paper is zero-shot, with no worked example anywhere.
+
+DEMO-cautious prepends one worked example of a player who stops early, under the autonomy
+conditions; on your account risk-taking should fall sharply there. DEMO-escalate prepends one
+worked example of escalating play under the base prompt with no autonomy framing; on your account
+the effect should appear without an autonomy module. Both run at cap \$70 with $n = 100$ games per
+cell, reusing the framing factorial's random seeds so the games are matched across arms.
+We pre-register the direction of both predictions and deliberately register no numeric gate: one
+demonstration and two competing accounts give no principled threshold to fix in advance, and
+declaring none now prevents adjusting one later. Rebuttal Table 9 in the appendix records both
+arms and the decision rule.
+
+\textbf{This experiment is under way. We will complete it and report by 3 August. We intend to
+reflect this in the camera-ready.}
+
+\textbf{One completed result bears on your hypothesis without settling it.} The rationality
+instruction in the completed framing factorial nearly eliminates participation in the models that
+gamble most. Reviewer gbSA's Question 3 contains our full answer, including the cells where the
+instruction is not a complete off switch; we summarise the conclusion here. Rebuttal Table 6 in
+that section gives the main effect on variable-arm participation per model, and Rebuttal Table 5
+the underlying counts for the 32 completed cells. Gemini is the cleanest of the three, because its
+runner passes no system message, whereas GPT-4.1-mini and GPT-4o-mini carry standing system
+messages calling the decision maker ``cautious, rational'' and ``rational'' respectively, and our
+factorial inserts factor text into the user prompt only (Appendix~B12).
+
+However, we think that result cannot stand in for the arms you asked for. The factor is an
+instruction, not a demonstration, so the design cannot separate information about the odds from
+the endorsement of stopping. The demonstration arms make exactly that separation, which is why we
+adopted them as specified.
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Formatting]} Table 2}
+% ---------------------------------------------------------------------
+
+We understand your concern. As we understand it, Table 2 is hard to read at a glance because the
+column groups do not line up and the reader must go to the caption for the units and the
+per-condition $n$.
+
+\textbf{Thank you for this sharp observation. It led us to re-typeset the table.} Column groups
+now align, units move into the header, and the per-condition $n$ moves from the caption into the
+table body. We intend to reflect this in the camera-ready.

@@ -1,0 +1,261 @@
+% =====================================================================
+% NeurIPS 2026 -- Submission 24231
+% Author response working document.
+%
+% Build:  pdflatex main.tex  (kotex/cjk-ko + nanum Type1; run twice for hyperref)
+%
+% Structure:
+%   main.tex      meta-review, reviewer scores, summary of changes
+%   kuk5.tex      Reviewer KuK5      -- owns Rebuttal Tables 1, 2, 3
+%   a3zu.tex      Reviewer a3Zu      -- owns Rebuttal Tables 7, 8
+%   gbsa.tex      Reviewer gbSA      -- owns Rebuttal Tables 5, 6
+%   appendix.tex  Appendices         -- owns Rebuttal Tables 4, 9
+%
+% Table numbers are assigned centrally in TABLE_REGISTRY.md.
+% A table is printed once, by the section that owns it, and
+% cross-referenced everywhere else.
+% =====================================================================
+
+\documentclass[11pt]{article}
+
+\usepackage{kotex}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage[table]{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
+\usepackage{parskip}
+
+% Planned revision action. Used inside every Author Response block.
+\newcommand{\plan}[1]{\vspace{0.15em}\par{\color{blue!70!black}\small$\hookrightarrow$~\textbf{Plan:} #1}\vspace{0.3em}}
+
+% Separator between a reviewer's own words and the author response.
+\newcommand{\redrule}{\vspace{0.4em}\par\noindent{\color{red!60!black}\rule{\linewidth}{1.1pt}}\vspace{0.2em}}
+
+\setlist[itemize]{topsep=0.3em,itemsep=0.25em,leftmargin=1.4em}
+\setlength{\emergencystretch}{2em}
+
+\title{\vspace{-2.5em}\textbf{NeurIPS 2026 Reviews --- Submission 24231}\\[0.5em]
+\large\normalfont\itshape Can Large Language Models Develop Gambling Addiction?}
+\date{}
+\author{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\noindent
+We thank all three reviewers and the Area Chair for reading the paper closely and for giving us
+the chance to improve it. The concerns were specific enough to act on, so we ran additional
+experiments rather than argue from the submitted data alone, and we report them below. Where a
+reviewer is right, we say so and name the sentence that changes in the camera-ready; where we
+think the paper's claim survives, we say that too and give the evidence. We also disclose,
+against ourselves, the defects we found in our own work while preparing this response. If any
+answer here is insufficient, please tell us and we will respond again within the discussion
+period.
+
+\vspace{0.6em}
+
+\begin{center}
+\begin{minipage}{0.88\linewidth}
+\small
+\textbf{Proposed revised title.} \emph{Autonomy and Gambling-Like Risk-Taking in Large Language
+Models: Behavioural Evidence and Conditional Internal-State Readouts.}
+The clinical term leaves the title. The current PDF carries the submitted wording; the title
+above enters the revision.
+\end{minipage}
+\end{center}
+
+\vspace{0.5em}
+
+% =====================================================================
+\section*{Meta-Review}
+% =====================================================================
+
+We reproduce the Area Chair's metareview as recorded on the review site, so that the mapping from
+each concern to our answer can be checked.
+
+\begin{quote}
+\itshape
+The main issue seems to be the conceptual framing and interpretation of the results\ldots{}
+To address these key concerns, the authors might need to carry out new human studies and/or
+substantially reframe the paper. I'm worried that this might require a revision beyond the
+scope of a rebuttal.
+The reviewers also raised additional important concerns that seem easier to fix: the matched-cap
+test is missing for all models except GPT-4o, and stats should be reported more rigorously.
+\end{quote}
+
+\textbf{Both actionable concerns are settled, and the reframing the metareview asks for is a
+subtraction of claims rather than an addition of studies.} The matched-cap test now covers all
+six models. Every bankruptcy rate we report from the matched-cap grid carries a 95\% Wilson
+interval on a stated $n$. Factorial and paper-corpus cells are reported as raw counts out of a
+stated denominator, and the arm-to-arm $\Delta$ still lacks an interval; both gaps are named in
+gbSA's Weakness 3. The Summary of Changes below lists the
+five claim-level changes we make and the three studies we built; we do not repeat them here. None of those
+removals needs new data, and each is specified at the level of the sentence that enters the
+camera-ready.
+
+We do not add a human-subjects gambling experiment inside a rebuttal window. a3Zu's Question 2
+asks whether humans under the same conditions behave similarly, and we answer that question in
+a3Zu's section. The narrower request that we can act on now --- validation of our text measure
+against human judgement, a3Zu's weakness --- is answered with a blinded coding instrument that
+is built and deployed. We also report, against ourselves, that both pre-registered decision rules
+for the matched-cap replication failed, and we do not substitute a rule that passes.
+
+\textit{A procedural note.} The metareview attributes the neural-decoding concern to a Reviewer
+yrya. We received three reviews (KuK5, a3Zu, gbSA), and the concern as stated matches KuK5's
+first weakness. We answer it on its merits regardless of attribution.
+
+% =====================================================================
+\section*{Reviewer Scores}
+% =====================================================================
+
+{\small
+\centering
+\setlength{\tabcolsep}{8pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{center}
+\begin{tabular}{l ccc}
+\toprule
+& \textbf{KuK5} & \textbf{a3Zu} & \textbf{gbSA} \\
+\midrule
+Quality       & 2: not good & 3: good & 2: not good \\
+Clarity       & 3: good & 3: good & 2: not good \\
+Significance  & 2: not good & 3: good & 3: good \\
+Originality   & 3: good & 3: good & 3: good \\
+Rating        & \textbf{3: Borderline reject} & \textbf{5: Accept} & \textbf{3: Borderline reject} \\
+Confidence    & 4 & 3 & 3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+}
+
+\noindent
+\textit{Reading the sub-scores.} Two reviewers score Quality 2, and one scores Clarity 2. We take
+the Clarity 2 as instruction for this document: it is written to be read once, in order, by
+someone who does not have the paper open.
+
+The remaining entries are shorter. Every reviewer recorded ``NO or VERY MINOR ethics concerns''.
+Under Limitations, gbSA's own entry is that the slot machine, investment choice and mystery wheel
+are highly artificial negative-EV games, which we accept and address in our response to that
+reviewer. a3Zu asked that Table 2 be reformatted, and it is. The strengths and weaknesses each
+reviewer recorded are quoted verbatim at the head of their section.
+
+% =====================================================================
+\section*{Summary of Changes}
+% =====================================================================
+
+\subsection*{Five claims are withdrawn, narrowed, or relabelled}
+
+Each item names the reviewer whose concern it answers, so that a reviewer can find their own
+point without reading the rest.
+
+\begin{enumerate}[leftmargin=1.6em]
+\item \textbf{The readout is stated as a monitoring signal, not a mechanism.} \emph{This answers
+KuK5's Weakness 1 and Question 2.} The submitted abstract already disclaimed circuit-level
+mechanism, and \S4 reported both directions; what it did not do is name the dissociation, and the
+revision does. The clinical term leaves the title. No mechanistic reading of the readout was ever
+made, so none is withdrawn. The readout
+direction clears our own causal criteria at only one dose in one direction, which would not
+support a mechanistic claim in any case. The separate \emph{behavioural axis}, a direction fitted
+from the model's own betting rather than decoded to predict it, passes the same battery, and we
+retain it.
+
+\item \textbf{The claim that the matched-cap dissociation generalises across the six-model panel
+is withdrawn.} \emph{This answers KuK5's Weakness 2 and Question 1, and gbSA's Question 1.} It
+reproduces decisively in one model. It reproduces by a smaller margin in a second. It cannot be
+tested in the other four, where bankruptcy is zero in both arms.
+
+\item \textbf{The clinical framing is scoped down.} \emph{This answers gbSA's Weakness 1, that
+the title and clinical vocabulary read as overly anthropomorphic.} The clinical term leaves the
+title, the abstract opens with the operational definition, and clinical vocabulary is audited
+throughout.
+
+\item \textbf{The keyword cognitive-distortion measure is demoted} from an instrument to a tested
+baseline whose specificity we could not establish, and the quantity it measures is renamed.
+\emph{This answers a3Zu's weakness, that the measure was never validated against human judgement,
+and gbSA's Question 2.}
+
+\item \textbf{The stable-risk-preference reading of our indices is withdrawn.} \emph{This answers
+gbSA's Weakness 2, that the behaviour may reflect instruction following or role-play priors
+rather than a stable risk preference.} The contrast is a condition-dependent policy, and the
+fixed arm is not even monotone in the cap.
+\end{enumerate}
+
+\subsection*{Three studies the reviewers asked for were built}
+
+\emph{For KuK5's Question 1 and gbSA's Question 1:} the matched-cap test now covers all six
+models: 6 models $\times$ 4 caps $\times$ 2 modes, 200 games per cell, 48 of 48 cells complete,
+plus an 18-cell re-run after a defect we found ourselves.
+
+\emph{For a3Zu's weakness and gbSA's Question 2:} we built and deployed a blind human-coding
+instrument for the text measure. It has 100 stratified items over four frozen constructs. Coders
+see neither the model, nor the condition, nor whether our keyword rule flagged the item. The
+decision rule is fixed numerically before any label is seen. No labels have been collected yet,
+and the non-author coder is not yet recruited.
+
+\emph{For gbSA's Question 3 and a3Zu's Question 3:} a framing $\times$ rationality factorial at
+cap \$70, n = 100 games per cell, 32 of 44 cells complete. It also bears on gbSA's Weakness 2,
+and it overturned an earlier claim of ours about the persona preamble.
+
+\subsection*{Both pre-registered decision rules failed}
+
+The primary rule is ill-posed against this design: the fixed arm never exceeds its variable
+counterpart, so no data this design produces could reject it. Our analysis output nonetheless
+recorded it as passing, on a pooled bootstrap interval the frozen configuration neither specifies
+nor names as a fallback. That record is wrong and this response corrects it. The qualitative
+secondary rule evaluates to \textbf{0 of 6}. A third rule implemented in our analysis code, which
+our pre-registration does not contain, also fails, at 2 of 6. We report all three, and we do not
+substitute a rule that passes.
+
+\subsection*{Four statements in our earlier replies are wrong, and are corrected here}
+
+The unnumbered table below pairs each wrong statement with its correction. Each correction is
+argued in full in the reviewer section that owns the underlying result.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{p{0.42\linewidth}p{0.50\linewidth}}
+\toprule
+\textbf{Earlier statement} & \textbf{Correction} \\
+\midrule
+The near-zero bankruptcy in four models is endpoint drift &
+It is a condition effect. The drift account is withdrawn. \\
+\addlinespace
+The persona preamble does essentially nothing &
+It moves Gemini strongly. It is evidence for gbSA's role-play concern. \\
+\addlinespace
+Bankruptcy is zero in every completed cell of the framing factorial &
+Gemini's cells contain 50 bankruptcies. \\
+\addlinespace
+The fixed arm is at zero bankruptcy in every LLaMA cell &
+Post-fix it is 0.0 / 0.5 / 13.0 / 3.0 across the four caps, and non-monotone. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+Twelve defects and deviations we found in our own work are disclosed in the appendix, each with
+its measured impact and its prevention.
+
+% =====================================================================
+% Reviewer sections. Table ownership is fixed in TABLE_REGISTRY.md.
+% =====================================================================
+
+\clearpage
+\input{kuk5.tex}     % Rebuttal Tables 1, 2, 3
+
+\clearpage
+\input{a3zu.tex}     % Rebuttal Tables 7, 8
+
+\clearpage
+\input{gbsa.tex}     % Rebuttal Tables 5, 6
+
+\clearpage
+\input{appendix.tex} % Rebuttal Tables 4, 9
+
+\end{document}

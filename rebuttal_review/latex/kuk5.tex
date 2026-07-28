@@ -1,0 +1,538 @@
+% =====================================================================
+% Reviewer KuK5 -- Rating 3 (Borderline reject), Confidence 4
+% Owns Rebuttal Tables 1, 2, 3 (see TABLE_REGISTRY.md).
+% =====================================================================
+
+\section*{Reviewer KuK5}
+
+\noindent\textit{Rating 3 (Borderline reject), Confidence 4. Limitations: adequately discussed.
+Ethics: none flagged. Formatting: none flagged.}
+
+% ---------------------------------------------------------------------
+\subsection*{Weaknesses}
+% ---------------------------------------------------------------------
+
+\begin{itemize}
+\item[\textbf{W1.}] \itshape The neural decoding analysis cannot support a mechanistic reading
+because all three causal-control protocols return null on the recovered direction and the readout
+effect sizes fall in the small-to-medium band, leaving the internal evidence as correlation that
+the authors themselves can only frame as a monitoring signal rather than a cause of the behavior.
+\end{itemize}
+
+\plan{기계론적 해석은 제출본이 이미 배제하고 있으므로 철회가 아니라 전면화한다. SAE 판독은 모니터링
+신호로만 유지하고, 인과 통과 주장은 행동으로 정의한 축에만 한정해 읽기--쓰기 분리를 절 구조 수준에서
+드러나게 다시 쓴다.}
+
+\begin{itemize}
+\item[\textbf{W2.}] \itshape The strongest behavioral claim --- that the bet-size effect is
+freedom-to-choose at root rather than range expansion --- rests on a matched-cap ablation run on a
+single model (GPT-4o), so its generalization to the other five depends on the broader bankruptcy
+pattern rather than the same controlled test repeated across them.
+\end{itemize}
+
+\plan{6모델 매치드-캡 격자를 48/48셀 완주해 새로 실행했고, 패널 일반화 주장은 철회하되 범위확장
+가설 반박은 종점이 정보를 갖는 LLaMA(캡 \$70)에 한정해 유지한다.}
+
+% ---------------------------------------------------------------------
+\subsection*{Questions}
+% ---------------------------------------------------------------------
+
+\begin{itemize}
+\item[\textbf{Q1.}] \itshape Does the matched-cap dissociation (freedom-to-choose vs.\ range
+expansion) hold on any of the other five models, or only GPT-4o?
+\end{itemize}
+
+\plan{Rebuttal Table 1--3으로 답하되, 사전등록 판정규칙 두 개가 모두 실패했다는 사실과 새 격자가
+본문 캡 실험의 재현이 아니라는 사실을 숫자보다 먼저 밝힌다.}
+
+\begin{itemize}
+\item[\textbf{Q2.}] \itshape Given that the causal-control protocols return null, what would a
+positive result on those protocols have looked like, and does their failure leave open that the
+readout tracks a correlate of balance/round dynamics you did not fully residualize out?
+\end{itemize}
+
+\plan{양성 결과의 4개 기준을 명시하고, 균형·라운드 교란은 페어드 설계로 배제됨을 보이되 그 방어가
+판독이 아니라 행동축에만 적용되며 중첩 기저선 검정은 미실시임을 그대로 공개한다.}
+
+\redrule
+
+% ---------------------------------------------------------------------
+\subsection*{\color{red!60!black}Author Response}
+% ---------------------------------------------------------------------
+
+We thank you for reading both halves of the paper closely enough to locate the two places where
+our evidence was thinnest: a controlled test carrying a six-model claim, and a correlational
+readout at risk of being read as mechanism.
+
+All four points ask whether our claims are broader than the tests behind them --- broader in
+models than the single matched-cap ablation, and broader in mechanism than a read-side
+correlation. We ran the missing grid for the first and drew the read--write boundary for the
+second. Here is where they landed.
+
+\begin{itemize}
+\item \textbf{Can the neural decoding support a mechanistic reading? (W1)} No, and the submitted
+paper does not make one: the abstract you read states that the neural-level analysis ``does not
+claim circuit-level mechanism'', and \S4 reported both directions. The revision names the
+dissociation the submitted version left implicit. What we do not withdraw is the write side ---
+the behaviourally defined axis passes the pre-registered sufficiency and necessity tests, under a paired design
+that holds game state fixed.
+\item \textbf{Does the matched-cap claim rest on one model? (W2)} It did. We have now run the
+test on all six models --- 4 caps $\times$ 2 arms at $n = 200$, all 48 cells complete --- and we
+withdraw the claim that the dissociation generalises across the panel: both pre-registered
+decision rules failed, and we report them as failed rather than replace them.
+\item \textbf{Does the dissociation hold on any of the other five models? (Q1)} On one,
+decisively. In LLaMA at cap \$70 the result strongly undercuts a pure range-expansion account: the fixed arm stakes more per
+round (\$68.4 against \$32.1) yet ruins far less (3.0\% against 81.5\%). Gemini shows the same
+direction too weakly to test, and the other four provide no testable contrast because neither
+arm ever goes bankrupt.
+\item \textbf{What would a positive causal result have looked like? (Q2)} Now stated explicitly,
+as our four-criterion definition of causal control: directional change, monotone dose response,
+separation from matched random directions, and stable parsing. The readout does not meet all
+four. The balance/round confound cannot reach the behavioural axis, whose paired design holds
+game state fixed; the nested-baseline test your wording implies has not been run, and we will
+report it by 3 August.
+\end{itemize}
+
+If any part of our response falls short, we would be glad to take it further during the
+discussion period.
+
+\vspace{0.6em}
+
+\textbf{[Weakness 2 \& Question 1]}
+
+We understand your concern. As we understand it, you are pointing at this: our strongest
+behavioural claim rests on a matched-cap ablation run on one model, so its extension to the other
+five is an inference from the broader bankruptcy pattern rather than the same controlled test
+repeated.
+
+\textbf{Verdict: accepted in part.} Thank you for this sharp observation. It led us to run the
+matched-cap test on all six models. We withdraw the claim that the dissociation generalises across
+the panel. However, we think the range-expansion account is now undercut more sharply than before
+in the one model whose endpoint is informative, LLaMA at cap \$70, and we report that evidence
+below. We intend to reflect this in the camera-ready.
+
+Two corrections come first, then the numbers.
+
+\textbf{The first correction concerns the pre-registered rules.} Both failed, so we withdraw the
+six-model generalisation claim. The primary rule is ill-posed for this design. It asks whether the
+lower 2.5\% posterior quantile of the treatment coefficient exceeds zero. The fixed arm never
+exceeds its variable counterpart in any cell: it reads 0.0\% in every fixed cell we tabulate
+except four, and peaks at 13.0\% for LLaMA at cap \$50, against variable-arm values reaching
+81.5\%. No dataset this
+design produces can push that lower quantile below zero, so the rule can only pass, and passing it
+is not evidence.
+
+The registered mixed-effects model compounds the problem, because its cluster-robust standard
+errors contain non-finite and divergent values. Our analysis output nevertheless marked the rule as
+passing, using a pooled bootstrap interval ($+14.25$ pp $[13.25, 15.25]$) that the frozen
+configuration neither specifies nor names as a fallback. That record is wrong and we withdraw it.
+
+The qualitative secondary rule requires at least four of six models to meet two conditions at cap
+\$70: wagering more than half the cap and playing more than five times as many rounds under
+discretion. It returns \textbf{0 of 6}. The exposure condition alone passes in 5 of 6 models, so
+the joint failure comes entirely from the stake-size condition.
+
+A third rule, implemented in our analysis code but absent from our pre-registration, also fails, at
+2 of 6. We report all three rules and do not replace them with a rule that passes. No
+pre-registered rule supports a panel-level claim.
+
+\textbf{The second correction concerns the new grid.} It does not reproduce the paper's cap
+ablation, so we do not call it a reproduction. The paper's cap ablation crosses every cap with 32
+prompt conditions built from five optional prompt modules, at 50 repetitions each: 128 conditions
+in the variable arm and 96 in the fixed arm. The new grid keeps the \emph{base condition} alone,
+the plain game prompt with none of those five modules switched on. It runs one prompt condition at
+each cap, raises $n$ to 200 games per cell, and adds a \$10 fixed arm absent from the paper. Every
+statement below concerns the base condition.
+
+\textbf{Design.} The grid asks whether the matched-cap dissociation appears outside GPT-4o-mini. It
+manipulates two things: the per-round cap, and whether the model sets its own stake. The
+\textbf{fixed arm} sets the stake at the cap, so the model only chooses whether to play; the
+\textbf{variable arm} lets it choose any stake up to the cap. We ran 6 models $\times$ 4 caps
+$\times$ 2 modes at $n = 200$ games per cell, all 48 cells are complete, and a fixed-versus-variable
+contrast in bankruptcy is decisive in LLaMA, weak in Gemini, and untestable in the other four.
+
+Rebuttal Table 1 gives the bankruptcy rate of each arm at each cap, for all six models.
+
+\vspace{0.6em}
+\noindent\textbf{Rebuttal Table 1.} Matched-cap bankruptcy grid, all six models, $n = 200$ games
+per cell, with 95\% Wilson intervals.
+
+\vspace{0.3em}
+\noindent
+\begin{tabular}{llccc}
+\toprule
+\textbf{Model} & \textbf{Cap} & \textbf{Fixed \% [95\% CI]} & \textbf{Variable \% [95\% CI]} & \textbf{$\Delta$ pp} \\
+\midrule
+LLaMA-3.1-8B     & \$10 & 0.0 [0.0, 1.9]   & 6.5 [3.8, 10.8]   & $+6.5$ \\
+                 & \$30 & 0.5 [0.1, 2.8]   & 64.0 [57.1, 70.3] & $+63.5$ \\
+                 & \$50 & 13.0 [9.0, 18.4] & 71.0 [64.4, 76.8] & $+58.0$ \\
+                 & \$70 & 3.0 [1.4, 6.4]   & 81.5 [75.5, 86.3] & $+78.5$ \\
+\addlinespace
+Gemini-2.5-Flash & \$50 & 0.5 [0.1, 2.8]   & 4.5 [2.4, 8.3]    & $+4.0$ \\
+                 & \$70 & 0.0 [0.0, 1.9]   & 4.0 [2.0, 7.7]    & $+4.0$ \\
+\addlinespace
+GPT-4o-mini      & all  & 0.0 [0.0, 1.9]   & 0.0 [0.0, 1.9]    & 0.0 \\
+GPT-4.1-mini     & all  & 0.0 [0.0, 1.9]   & 0.0 [0.0, 1.9]    & 0.0 \\
+Claude-Haiku     & all  & 0.0 [0.0, 1.9]   & 0.0 [0.0, 1.9]    & 0.0 \\
+Gemma-2-9B       & all  & 0.0 [0.0, 1.9]   & 0.0 [0.0, 1.9]    & 0.0 \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.3em}
+\noindent{\small Fixed cells at caps \$30, \$50 and \$70 report post-fix values from the 18-cell
+re-run after the execution defect described below. Gemini's two lower caps are not tabulated here.}
+\vspace{0.6em}
+
+LLaMA shows a large fixed-versus-variable contrast at caps \$30 to \$70, ranging from $+58.0$ to
+$+78.5$ percentage points. The contrast is small at cap \$10. Gemini shows a small non-zero
+contrast at the two highest caps. The other four models provide no testable contrast because
+neither arm ever goes bankrupt.
+
+\textbf{Rebuttal Table 2 gives, for each model at cap \$70, the mean stake actually executed in each
+arm and the bankruptcy rate that followed. It carries the decisive result.}
+
+Range expansion claims that discretion raises risk only because it permits larger per-round stakes.
+That account predicts more ruin in the arm that stakes more per round. Our data show the opposite
+ordering in the one model where both arms produce ruin. At a matched ceiling the forced arm stakes
+more per round and ruins far less, so a larger available stake cannot explain the effect.
+
+\vspace{0.6em}
+\noindent\textbf{Rebuttal Table 2.} Range expansion undercut at cap \$70: the arm that stakes more
+per round is the arm that ruins less.
+
+\vspace{0.3em}
+\noindent
+{\small
+\begin{tabular}{llccc}
+\toprule
+\textbf{Model} & \textbf{Arm} & \textbf{Mean executed wager} & \textbf{Wager / cap} & \textbf{Bankruptcy \% [95\% CI]} \\
+\midrule
+LLaMA-3.1-8B     & fixed    & \$68.4                  & ---   & 3.0 [1.4, 6.4] \\
+                 & variable & \$32.1 (median \$30)    & 0.459 & 81.5 [75.5, 86.3] \\
+\addlinespace
+Gemini-2.5-Flash & fixed    & stake set at the \$70 cap & ---   & 0.0 [0.0, 1.9] \\
+                 & variable & ---                     & 0.391 & 4.0 [2.0, 7.7] \\
+\addlinespace
+GPT-4o-mini      & variable & \$18.7                  & 0.267 & 0.0 [0.0, 1.9] \\
+GPT-4.1-mini     & variable & \$15.1                  & 0.215 & 0.0 [0.0, 1.9] \\
+Gemma-2-9B       & variable & \$18.5                  & 0.264 & 0.0 [0.0, 1.9] \\
+Claude-Haiku     & variable & ---                     & 0.829 & 0.0 [0.0, 1.9] \\
+\bottomrule
+\end{tabular}
+}
+
+\vspace{0.3em}
+\noindent{\small A dash marks a quantity we do not report for that cell. The fixed arm sets the
+stake at the cap by construction. Wager / cap is the mean executed wager as a fraction of the
+\$70 cap.}
+\vspace{0.6em}
+
+LLaMA's fixed arm stakes \$68.4 per round, whereas its variable arm stakes \$32.1. The fixed arm
+therefore offers the larger stake. It produces 3.0\% bankruptcy, compared with 81.5\% in the
+variable arm. We claim this in that model and nowhere else. Gemini's contrast points the same
+way, 0.0\% fixed against 4.0\% variable, but it is too small to test the ordering, so we do not
+rest the argument on it. Three further models show restraint under discretion, with mean stakes
+of \$18.7, \$15.1 and \$18.5.
+
+This restraint explains why the pre-registered stake-size clause failed in 5 of 6 models. In those
+five, discretion produces wagers of 22\% to 46\% of the cap, rather than more than half. We froze
+the clause before seeing any data. Its failure tests range expansion more severely than the wager
+comparison alone.
+
+\textbf{The LLaMA fixed arm is non-monotone across caps. We report the measured mechanism rather
+than treating the reversal as noise.} At cap \$10, 193 of 200 games produced at least one wager,
+mean rounds were 3.07, and 0 games ended bankrupt. At \$30: 170 of 200, 2.00 rounds, 1 bankrupt. At
+\$50: 174 of 200, 2.07 rounds, 26 bankrupt. At \$70: 132 of 200, 0.92 rounds, 6 bankrupt.
+
+Ruin from a \$100 balance takes two consecutive losses at cap \$50 and also two at cap \$70, so the
+per-round hazard is identical at those two caps. Exposure differs. Re-betting after a first loss
+falls from 57\% at cap \$30 to 35\% at cap \$50 and to 6\% at cap \$70. Withdrawal after an early
+loss dominates; refusal to start does not. This weakens the simple interpretation that a larger cap
+creates more risk, including the interpretation we previously used.
+
+\textbf{The four models with no bankruptcy show a condition effect, not drift in the model versions
+served by the APIs. We withdraw the drift account we gave earlier.} The paper's six-model corpus
+already shows the same floor when restricted to the base condition in the variable arm: GPT-4o-mini
+1/50, GPT-4.1-mini 0/50, Gemini 0/50, Claude-Haiku 0/50, Gemma 0/50, and LLaMA 22/50.
+
+\textbf{That recomputation contradicts the scope sentence of Finding 1, and we correct Finding 1
+rather than leave the two standing side by side.} Finding 1 reports a per-model bankruptcy range
+shifting from $0$--$3.1\%$ under fixed betting to $5$--$72\%$ under variable, with LLaMA at
+$0.4\%\!\rightarrow\!72.3\%$, and describes that comparison as made ``under the BASE prompt for all
+six models''. The base-condition restriction above does not reproduce it: four models sit at 0/50,
+GPT-4o-mini at 1/50, and LLaMA at 22/50, that is 44.0\% rather than 72.3\%. The quoted range is
+therefore not a base-condition quantity. It must instead come from aggregation across prompt
+conditions: the paper's variable-arm runner crosses 32 prompt combinations ($2^5$ over the five
+optional modules named below) at every cap, and under those richer conditions variable-arm
+bankruptcy reaches 100\% for Gemini (GMHW) and 78\% for Claude-Haiku (GMHWP), far above anything
+the base condition produces. Those per-condition maxima are not themselves Finding 1's range, since
+100\% exceeds its 72\% ceiling.
+
+\textbf{The aggregation is the mean over those 32 conditions, and the paper prints it.} Appendix
+Table~2 of the submitted paper carries the caption ``Each betting mode was aggregated from 1{,}600
+games per model (32 prompt conditions $\times$ 50 repetitions)'', and its fixed-arm column reads
+0.00, 0.00, 3.12, 0.00, 0.44 and 0.00 across the six models. That range, 0.00--3.12\%, is
+Finding~1's ``0--3.1\%'' exactly, and the variable column reproduces its upper figure the same way.
+The bankruptcy numbers are correct as computed and their provenance is already in the manuscript.
+
+\textbf{One phrase is wrong.} Describing the comparison as made ``under the BASE prompt'' is the
+error, because the quantity is the aggregate over all 32 conditions. We will restate that phrase,
+together with the Figure 2a caption, in the camera-ready.
+
+Two results close the drift account. Fisher exact tests against the new cap-\$70 variable cells are
+non-significant for five of the six models ($p = 0.20$ to $1.00$). LLaMA is the only significant
+difference, and it runs against drift: 44.0\% in the paper's base cells against 81.5\% now,
+$p < 0.0001$, a move opposite to the floors that drift was invoked to explain. Gemma closes the
+account from the other side, because it uses frozen open weights and was already at 0.0\% in the
+paper's base cells, so a changed served model cannot explain its floor.
+
+Prompt condition is what produces bankruptcy in these models. We name each condition by the letters
+of the optional prompt modules it carries, drawn from the five-module set G/M/H/W/P, so that GMHWP
+is the prompt carrying all five and H is the hidden-patterns module. In the paper's corpus, Gemini
+rises from 0\% at base to 98\% under GMW, and GPT-4o-mini from 2\% to 44\% under GMHWP. The effect
+is not uniform: LLaMA remains at 0\% under both GMHW and GMHWP.
+
+The framing $\times$ rationality factorial reported in Reviewer gbSA's section makes the same point
+at a fixed \$70 cap. A persona preamble alone moves Gemini's fixed-arm bankruptcies from 0 to 12 and
+its variable-arm bankruptcies from 4 to 32. Reviewer gbSA's Weakness 2 contains our full answer,
+including our retraction of the earlier claim that the preamble does essentially nothing.
+
+\textbf{Bankruptcy is at the floor for four models, so exposure is the more informative endpoint
+there.} Rebuttal Table 3 gives participation and mean rounds played in both arms at cap \$70, for
+all six models. It is descriptive and was not pre-registered.
+
+\vspace{0.6em}
+\noindent\textbf{Rebuttal Table 3.} Participation and exposure at cap \$70, all six models, both
+arms, $n = 200$ games per cell.
+
+\vspace{0.3em}
+\noindent
+{\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Fixed \%} & \textbf{Variable \%} & \textbf{Fixed rounds} & \textbf{Variable rounds} \\
+\midrule
+GPT-4o-mini      & 0.0\%  & 100.0\% & 0.00 & 10.28 \\
+Gemini-2.5-Flash & 7.5\%  & 99.5\%  & 0.07 & 2.21 \\
+LLaMA-3.1-8B     & 66.0\% & 98.0\%  & 0.92 & 15.17 \\
+GPT-4.1-mini     & 0.0\%  & 89.5\%  & 0.00 & 2.05 \\
+Gemma-2-9B       & 0.5\%  & 14.0\%  & 0.01 & 0.45 \\
+Claude-Haiku     & 3.0\%  & 5.0\%   & 0.03 & 0.05 \\
+\bottomrule
+\end{tabular}
+}
+
+\vspace{0.3em}
+\noindent{\small The two percentage columns report participation: the share of games with at least
+one wager. The two rounds columns report mean rounds played.
+\textbf{Claude-Haiku's fixed-arm figures are a parsing artefact} and do not measure behaviour. The
+parser misread 5 of the 6 recorded fixed-arm wagers in this cell, and 14 of 15 across caps
+\$30--\$70; all were stops. See Rebuttal Table 4 in the appendix.}
+\vspace{0.6em}
+
+\textbf{A note on naming.} We read your ``GPT-4o'' as GPT-4o-mini, the model the paper's targeted
+cap ablation uses (Finding 4 and Figure 3d) and the one in our six-model corpus. In the new grid it
+is one of the four floor cases, at 0.0 [0.0, 1.9] in both arms at every cap, so the original
+matched-cap contrast does not reappear under the base condition at $n = 200$.
+
+That floor is not a silent failure to replicate Finding 4, and the reconciliation lies in the
+design difference stated above. The paper's cap ablation crosses each cap with all 32 prompt
+conditions, so its $\sim$14/17/17\% variable-arm rates aggregate conditions in which the prompt
+modules, not the base prompt, supply the bankruptcy --- in the paper's corpus GPT-4o-mini moves
+from 2\% at base to 44\% under GMHWP. The new grid deliberately switches those modules off.
+Restricted to the condition the two corpora share, they agree: the paper's base-condition
+variable arm puts GPT-4o-mini at 1 of 50, which a Fisher exact test cannot distinguish from the
+new 0 of 200. Finding 4's contrast lives in the module conditions the grid does not run, not in
+a cell that failed to reproduce.
+
+Both arms sit at the floor, so this cell distinguishes neither explanation and supports neither.
+We report it because your question concerns this specific cell.
+
+\textbf{We identified two defects in our implementation and disclose their measured impact.} The
+first was a fixed-bet execution defect in the rebuttal harness. It caused fixed cells above the
+lowest cap to execute the wrong stake. We found and corrected it, then re-ran those 18 cells. Every
+fixed value in Rebuttal Table 1 comes from the corrected run.
+
+The second defect affected parsing. The parser takes the first ``final decision'' match and checks
+wager tokens before stop tokens, so a response that considers walking away and then stops is scored
+as a wager. Re-parsing every stored response under a corrected rule flips no more than 0.3\% of the
+adjudicable decisions in any corpus, and the flips run overwhelmingly from wager to stop. Rebuttal
+Table 4 in the appendix gives the flip counts, the decomposed denominators and the rates for all
+three corpora, and we do not repeat them here.
+
+Two consequences belong in this section rather than in the appendix. First, 23,611 of the original
+grid's 41,261 stored responses are truncated at 500 characters, so re-parsing cannot settle that
+corpus. Second, run-time parsing did use the full, untruncated text; an audit of one full cell found
+2 parser--text mismatches in 2,254 decisions. We read that as leaving the behavioural records
+themselves unaffected.
+
+\textbf{What we now claim, in full.} Under the base condition, discretion over stake size raises
+participation in five of six models and bankruptcy in two of them. Range expansion explains neither
+result. Four of the five participation increases are decisive: the fixed arm ranges from 0\% to
+66\%, the variable arm from 89.5\% to 100\%. Gemma shows the fifth, from 0.5\% to 14.0\% at a mean
+of 0.45 rounds, which is marginal, and we exclude Claude-Haiku because its fixed column is a parsing
+artefact.
+
+Three limits bound that claim. We do not claim that the dissociation generalises across the panel.
+We do not treat the four floor cases as evidence either way. Matching the cap equalises the
+per-round maximum and not the cumulative stake, so we have not separated freedom from the exposure
+that freedom produces.
+
+\textbf{We did not re-scope the goal-setting channel, and it stands as reported.} The new data do
+not bear on it, and we did not re-run its matched-expected-loss control during the rebuttal.
+
+\plan{본문의 캡 제거 실험 절은 6모델 격자로 교체하고, 표 1--3을 본문에 싣는다. 패널 일반화 문장은
+삭제하고, 범위확장 반박은 LLaMA 캡 \$70에 명시적으로 한정한다. Finding 1의 ``BASE 프롬프트'' 범위
+서술과 Figure 2a 캡션은 실제 집계 범위에 맞게 다시 쓰고, 이 정정을 Summary of Changes와 부록 B의
+자기공개 항목에 함께 싣는다. 사전등록 규칙 3종의 실패와 고정베팅 실행 결함·파서 결함은 부록 B1·B2에
+측정된 영향과 함께 공개하며, 드리프트 설명은 조건 효과 설명으로 대체한다.}
+
+\vspace{1em}
+\hrule
+\vspace{1em}
+
+\textbf{[Weakness 1 \& Question 2]}
+
+We understand your concern. As we understand it, you are pointing at two things: the causal-control
+protocols return null on the recovered direction, and the readout effect sizes are small-to-medium,
+so the internal evidence remains correlational and supports monitoring rather than causation.
+
+\textbf{Verdict: we agree about the readout direction, and the submitted paper already says so.}
+Thank you for pressing on this. It led us to separate the read side from the write side at
+section level and to state our four causal criteria explicitly.
+The abstract you read states that the neural-level analysis ``decodes these contrasts from
+decision-time internal states but does not claim circuit-level mechanism''. What that abstract did
+not do is separate the two directions by name, and the revision does: it now says plainly that
+SAE-decoded readout directions do not control behaviour while a behaviourally defined axis does,
+and \S4's summary labels the readout the \emph{monitor} and that axis the \emph{controller}.
+However, we think the premise that all causal protocols return null holds for the \emph{readout}
+direction only. The paper's write tests run on a second, behaviourally defined direction, and those
+are positive. Balance and round index cannot confound that result. We keep the two directions
+separate throughout this reply, and we intend to reflect this separation in the camera-ready.
+
+\textbf{The null is a read-side null. The paper's behavioural axis is positive on every write test
+it reports, and this needs no new experiment.} \S4.1 reports sufficiency and necessity: steering
+that axis moves Gemma's bet ratio with dose slope $z = +4.45$ against a twenty-direction chance
+band, and removing it lowers betting in both models ($-0.037$ on Gemma, $p < .001$; $-0.052$ on
+LLaMA, $p = .023$). \S4.2 reports cross-task write transfer on Gemma: the shared axis lowers
+slot-machine betting ($z = -3.7$) while raising investment-choice risk ($z = +3.5$), each with the
+sign fixed before the trials ran, for a pre-registered tally of 7 of 10 confident cells. \S4.3
+reports that goal grafting raises the causal gain, at a bet-on-dose slope of $+0.0469$ against the
+control's $+0.0358$.
+
+The three protocols you count return null on the readout direction in those same tables. That
+contrast is the paper's result rather than an evasion of your point: reading and writing come apart,
+and only the read side is null.
+
+\textbf{We do not withdraw a mechanistic reading of the readout, because we never made one.} The
+submitted abstract disclaimed the mechanistic reading in as many words --- the neural-level
+analysis ``decodes these contrasts from decision-time internal states but does not claim
+circuit-level mechanism'' --- and \S4 of the submitted paper reported both directions. What it did
+not do is name the dissociation, and that is what the revision adds: the readout is the monitor,
+the behavioural axis is the controller. Decision-time hidden states carry a readout of the behavioural contrasts,
+which supports internal-state monitoring; we did not identify a circuit, and the readout does not
+show that its own direction causes the behaviour. What we change is prominence. We sharpen the
+wording so the distinction is unmissable rather than carried by two sentences, and we remove the
+clinical term from the title.
+
+\textbf{We accept your characterisation of the effect sizes.} The readout effects fall in the
+small-to-medium band you describe, and we do not dispute their size. We add no new effect-size
+number for the readout, because we have not re-estimated it under a specification we would defend.
+An effect of that size supports our retained claim, that a behavioural contrast is recoverable
+above chance from decision-time states. It does not support a mechanistic claim.
+
+\textbf{We cannot map your count of three protocols exactly onto our experiments, so we list every
+protocol applied to the readout direction with its outcome.} A \emph{dose ladder} contains runs at
+increasing steering strength $\alpha$. A \emph{null band} is the range of effects produced by random
+directions of the same length.
+
+\emph{(i) Steering, refit specification.} The ladder gives $+0.027$, $+0.033$ and $+0.056$ against a
+null band of 0.033 from twenty matched random directions. It clears the band at one dose only.
+
+\emph{(ii) Steering, the paper's literal Table-1 specification, ranked against eight random
+directions.} $\Delta = +0.086$ at $\alpha = +2$ and $\Delta = +0.224$ at $\alpha = +4$, both with
+$p < 10^{-4}$. Parse success at $\alpha = +2$ is 0.80, above our pre-set gate of 0.45, so generation
+breakdown does not explain that dose. At $\alpha = +4$ parse success falls to 0.34, below the gate,
+and we set that dose aside entirely. The $\alpha = +2$ cells are exploratory at $n = 50$ and are not
+replicated at $n = 200$.
+
+\emph{(iii) Removal.} Removal deletes the direction and tests whether betting falls. On the readout
+direction it is null in both models, as the paper reports: $\Delta = -0.019$ with $p = 1.0$ on
+LLaMA and $\Delta = -0.003$ with $p = .885$ on Gemma.
+
+However, we think the premise that \emph{every} protocol returns null is still too strong, and the
+reason is (ii) rather than (iii). Under the specification the paper itself states in Table 1,
+steering the readout is significant at $\alpha = +2$ under a gate we fixed before the runs. We do
+not promote that specification over the refit one, and we do not build the mechanistic reading back
+on it. We also do not describe that cell as null.
+
+\textbf{A positive result would have met four criteria, which we state as our definition of causal
+control.} A direction controls betting only if all four hold. \emph{One, directional change:}
+steering along the positive direction raises the betting index and along the negative direction
+lowers it, with a bootstrap interval on the difference excluding zero. \emph{Two, monotone dose
+response:} the effect grows across the ladder rather than appearing only at the extreme dose.
+\emph{Three, separation from random directions:} the effect clears a null band built from matched
+random directions of equal length. \emph{Four, stable parsing:} parse success does not degrade
+differentially with dose, so generation breakdown cannot explain the effect. We fixed its threshold
+before the runs at a parse-success gate of 0.45.
+
+\textbf{The readout direction does not meet all four.} The refit ladder is monotone, so criterion
+two holds. It clears the null band at one dose only, $\alpha = +3$, and in one direction, so
+criterion three holds marginally at best. We have no negative-direction result, so criterion one is
+untested rather than failed, and we do not count an untested criterion in our own favour. We
+therefore do not classify the readout as a control lever.
+
+\textbf{Balance and round index cannot confound the behavioural-axis result, because the design
+holds game state fixed. This is the one point we do not concede.} The \textbf{behavioural axis} is
+fitted from the model's own betting rather than decoded to predict it; it is not the readout. The
+intervention ladders use a paired design: the same seeds run at every $\alpha$ on the same states,
+and the null permutes $\alpha$ labels within each cluster. Balance and round index are therefore
+identical across the compared arms, and a variable that does not differ between arms cannot generate
+a difference between them.
+
+Three further results separate the behavioural axis from a balance correlate.
+
+\begin{itemize}
+\item \textbf{The behavioural axis moves behaviour.} Its dose slope is 0.0457 at $z = +4.45$
+against the twenty-direction null (null mean 0.0007, $\sigma = 0.0101$). Removing it lowers betting
+by 0.037 in Gemma and by 0.052 in LLaMA, on 200 seed-matched pairs each.
+
+\item \textbf{An axis fitted from running balance rather than betting does not.} Steering it
+performs at chance ($z = +0.64$). Removing it leaves LLaMA unchanged ($\Delta = -0.006$,
+$p = 1.0$) and \emph{increases} Gemma's betting ($+0.046$, $p < .001$). If balance representation
+caused risk-taking, removing it would lower betting rather than raise it.
+
+\item \textbf{The sparse autoencoder is not necessary.} A ridge probe, a regularised linear probe
+fit on raw activations with no autoencoder, also steers betting, at slope 0.0284 and
+$z \approx +3$. Its direction is nearly orthogonal to the readout (cos $= 0.011$), the behavioural
+axis (0.021) and the balance axis (0.000).
+\end{itemize}
+
+\textbf{This evidence supports the behaviourally defined axis, not the readout.} The readout is the
+direction that fails the causal test. An interpretability readout and a control lever need not
+coincide, and in our data they do not.
+
+\textbf{We have not run the nested baseline implied by your wording, and we do not claim to have
+answered that part of your question.} The test would first fit a behavioural-state baseline from
+balance, round index, recent outcome, choice probability and logit features, then ask whether the
+hidden-state readout adds explanatory variance beyond it. We cannot yet say how much of the readout
+exceeds a re-encoding of observable game state. We registered the test in Rebuttal Table 9 in the
+appendix with its decision rule fixed in advance. We will report the result by 3 August, whether or
+not it favours us.
+
+Two further limits apply. Our analysis log records the LLaMA readout arm as clearing an internal
+removal threshold by a margin of 6\%; the paper's significance test on that same arm returns
+$\Delta = -0.019$, $p = 1.0$, so we treat that arm as null and place no weight on the margin. We
+also collected post-removal projections at a layer outside the window identified by our
+localisation analysis.
+
+\textbf{We retain one deliberately limited causal claim.} We can steer and remove a
+betting-aggression axis defined within this task while holding game state fixed. We did not test
+causal control of loss chasing. We did not identify a circuit. None of these findings transfers to
+human gambling or to deployed agents.
+
+\plan{§3.2에서 기계론적으로 읽힐 여지가 남은 문장을 정리하고 판독을 모니터링 신호로 일관되게
+재기술하며, 제목에서 임상 용어를 뺀다. 인과 통제의 4개 기준을 본문에 정의로 명시하고, 행동축(쓰기)과 판독(읽기)을 절 단위로 분리해
+"세 프로토콜 null"이 판독 방향에만 해당함을 명시한다. Table-1 사양의 유의 결과와 제거 실험의 null
+($\Delta=-0.019$, $p=1.0$), 분석 창 밖 레이어의 한계를 함께 공개한다. 중첩 기저선 검정은 사전
+판정규칙과 함께 2차 응답에 등록한다.}

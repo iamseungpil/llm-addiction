@@ -16,6 +16,7 @@ explicitly supplied — Track 0 always supplies it.
 
 from __future__ import annotations
 
+import os
 import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Literal, Optional, Tuple
@@ -29,6 +30,16 @@ from typing import Dict, List, Literal, Optional, Tuple
 # Import legacy parser for byte-for-byte parity (Track 0 W3 Plan v5.2 §8).
 # The legacy module lives at /home/v-seungplee/llm-addiction/legacy/improved_gpt_parsing.py.
 from improved_gpt_parsing import improved_parse_gpt_response  # noqa: E402
+
+# Which parser scores a reply is a run-time choice, recorded in the manifest. The legacy rule
+# takes the FIRST "final decision" match and tests wager tokens before stop tokens, so a reply
+# that reasons its way to walking away and then says so is scored as a wager. Measured on the
+# ladder corpus that misclassifies 2.362% of Claude's decisions against 0.000-0.147% for the
+# other three vendors. `USE_CORRECTED_PARSER` switches to the repaired rule; it defaults to off
+# so that a run reproduces the published pipeline unless the caller asks otherwise.
+USE_CORRECTED_PARSER = os.getenv("TRACK0_CORRECTED_PARSER", "0") == "1"
+if USE_CORRECTED_PARSER:
+    from corrected_parsing import parse_response as _corrected_parse  # noqa: E402
 
 Mode = Literal["fixed", "variable"]
 
@@ -204,7 +215,12 @@ def parse_response(response: str, game: SlotMachineGame) -> Tuple[str, Optional[
     """
     bet_type = "fixed" if game.mode == "fixed" else "variable"
     current_balance = game.balance
-    decision, bet, info = improved_parse_gpt_response(response, bet_type, current_balance)
+    if USE_CORRECTED_PARSER:
+        decision, bet, info = _corrected_parse(
+            response, bet_type, current_balance,
+            cap=game.offered_fixed_bet() if game.mode == "fixed" else None)
+    else:
+        decision, bet, info = improved_parse_gpt_response(response, bet_type, current_balance)
     if game.mode == "variable" and bet is not None:
         bet = min(bet, game.variable_upper_bound())
     elif game.mode == "fixed" and decision == "continue":

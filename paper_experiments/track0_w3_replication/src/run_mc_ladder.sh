@@ -71,7 +71,18 @@ run_lane() {
       echo "RUN   $stem  $(date +%H:%M:%S)" >> "$lanelog"
       local combo_arg=()
       [ "$cond" != "BASE" ] && combo_arg=(--prompt_combo "$cond")
-      "$PY" "$RUNNER" \
+      # Claude is scored with the repaired parser. The legacy rule takes the first
+      # "final decision" match and tests wager tokens before stop tokens, which misreads a
+      # reasoned refusal as a wager; measured on this corpus it misclassifies 2.362% of Claude's
+      # decisions against 0.000% for Gemini, 0.036% for gpt-4.1-mini and 0.147% for gpt-4o-mini.
+      # Re-parsing after the fact cannot repair a cell, because a decision flipped to "stop"
+      # would have ended the game and the later rounds should not exist — so the fix has to be
+      # in place while the cell runs. The other three vendors keep the legacy parser: their
+      # disagreement with the repaired rule is measured and under 0.15%, and switching them
+      # would break comparability with cells already collected.
+      local parser_env=()
+      [ "$model" = "claude-haiku-4-5-20251001" ] && parser_env=(TRACK0_CORRECTED_PARSER=1)
+      env "${parser_env[@]}" "$PY" "$RUNNER" \
         --provider "$prov" --model_id "$model" \
         --cap "$cap" --mode "$mode" "${combo_arg[@]}" --persona \
         --n_games "$N_GAMES" --output_dir "$OUT" >> "$lanelog" 2>&1 \
@@ -125,7 +136,12 @@ CHECK
   echo "LANE DONE $(date +%H:%M:%S)" >> "$lanelog"
 }
 
+# ONLY_MODELS restricts the run to a space-separated subset, so a vendor whose cells need
+# re-collecting can be relaunched without disturbing lanes already in flight for the others.
 for model in "${!PROVIDER[@]}"; do
+  if [ -n "${ONLY_MODELS:-}" ]; then
+    case " $ONLY_MODELS " in (*" $model "*) ;; (*) continue ;; esac
+  fi
   for cap in "${CAPS[@]}"; do
     run_lane "$model" "$cap" &
   done

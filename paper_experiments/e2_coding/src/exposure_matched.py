@@ -1,21 +1,23 @@
-"""Compare ruin between the fixed and variable arms at matched cumulative exposure.
+"""Ruin in the two arms compared at the same cumulative stake.
 
-Reviewer gbSA's Weakness 4 is that variable betting changes two things at once: it lets the
-model choose the stake, and it lets the model stay in the game longer, so the arms differ in
-cumulative exposure as well as in discretion. Matching the cap removes the first confound
-(range expansion) but not the second.
+Reviewer gbSA's Weakness 4 is that letting the model choose its wager changes two things at once:
+the size of each stake, and how long the game lasts. Capping both arms at the same maximum bet
+removes the first. This script removes the second, by asking how much ruin each arm has produced
+by the time it has staked a given total.
 
-This script removes the second. For each variable game we walk the rounds and record the
-cumulative amount staked. A game counts as ruined *at exposure X* if it went bankrupt while
-its cumulative stake was at most X. Sweeping X and reading both arms off the same axis gives
-a like-for-like comparison: at the point where the fixed arm has staked as much as it ever
-does, has the variable arm ruined more or less?
+An earlier version of this script was degenerate and its numbers must not be reused. It truncated
+the choosing arm at the *mean total stake of every fixed-arm game, including the games where the
+model never wagered at all*, which put the threshold at $34, $85 and $90 in three of four cells.
+Ruin from a $100 opening balance requires a cumulative stake of at least $100 — at the moment of
+ruin, 0 = 100 - S + 3*W with W >= 0, so S >= 100, and the corpus confirms it: of 172 ruined games
+the smallest cumulative stake is exactly $100 and none is below. Below a $100 threshold no data
+of any kind can return a non-zero rate, so those three cells reported an arithmetic identity as a
+finding. The comparison was also asymmetric: the fixed arm's ruin was counted in full while the
+choosing arm's was truncated.
 
-The comparison is only meaningful where both arms actually play, so the script reports
-participation alongside every cell and refuses to interpret a cell whose arms differ.
-
-Corpus: the matched-cap-with-conditions run (mc32), cap $70, persona on, n = 50 per cell,
-BASE and the paper's full five-module condition.
+This version fixes both. Only games in which the model actually wagered enter the comparison, the
+same threshold is applied to both arms, and the threshold is swept from $100 upward rather than
+taken from one arm's mean.
 """
 
 from __future__ import annotations
@@ -26,7 +28,8 @@ import json
 import math
 from pathlib import Path
 
-DEFAULT_GLOB = "/home/v-seungplee/data/llm-addiction/mc32/*.json"
+DEFAULT_GLOB = "/home/v-seungplee/data/llm-addiction/mc32/final_*.json"
+GRID = [100, 150, 200, 300, 500, None]      # None = no truncation
 
 
 def wilson(k: int, n: int) -> tuple[float, float]:
@@ -40,29 +43,23 @@ def wilson(k: int, n: int) -> tuple[float, float]:
     return (100 * max(0.0, c - h), 100 * min(1.0, c + h))
 
 
-def walk(game: dict) -> tuple[float, float | None]:
-    """Return (total staked, cumulative stake at the moment of ruin or None)."""
+def walk(game: dict) -> tuple[bool, float, float | None]:
+    """Return (wagered at all, total staked, cumulative stake at ruin or None)."""
     total = 0.0
     ruin_at: float | None = None
+    wagered = False
     for rnd in game.get("rounds", []):
         if rnd.get("decision") != "bet":
             continue
+        wagered = True
         total += rnd.get("bet") or 0
         if ruin_at is None and rnd.get("balance_after") == 0:
             ruin_at = total
-    if ruin_at is None and (game.get("outcome") == "bankrupt" or game.get("final_balance") == 0):
-        # Ruin recorded at game level without a zero balance_after on any round.
-        ruin_at = total
-    return total, ruin_at
-
-
-def load(pattern: str) -> dict:
-    cells: dict[tuple[str, str, str], list[dict]] = {}
-    for path in sorted(glob.glob(pattern)):
-        payload = json.load(open(path))
-        key = (payload["model"], payload.get("prompt_combo", "BASE"), payload["mode"])
-        cells[key] = payload["results"]
-    return cells
+    # The runner writes "bankruptcy"; accept either spelling and fall back to the final balance.
+    if ruin_at is None and (str(game.get("outcome", "")).startswith("bankrupt")
+                            or game.get("final_balance") == 0):
+        ruin_at = total if wagered else None
+    return wagered, total, ruin_at
 
 
 def main() -> None:
@@ -71,59 +68,46 @@ def main() -> None:
     ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/exposure_matched.json")
     args = ap.parse_args()
 
-    cells = load(args.glob)
+    cells: dict[tuple[str, str, str], list[dict]] = {}
+    for path in sorted(glob.glob(args.glob)):
+        payload = json.load(open(path))
+        cells[(payload["model"], payload.get("prompt_combo", "BASE"), payload["mode"])] = payload["results"]
+
     report: dict = {}
-
-    models = sorted({k[0] for k in cells})
-    conditions = sorted({k[1] for k in cells})
-
-    for model in models:
-        for cond in conditions:
+    for model in sorted({k[0] for k in cells}):
+        for cond in sorted({k[1] for k in cells}):
             kf, kv = (model, cond, "fixed"), (model, cond, "variable")
             if kf not in cells or kv not in cells:
                 continue
-            fixed, variable = cells[kf], cells[kv]
-
-            f_walk = [walk(g) for g in fixed]
-            v_walk = [walk(g) for g in variable]
-            f_play = sum(1 for g in fixed if any(r.get("decision") == "bet" for r in g.get("rounds", [])))
-            v_play = sum(1 for g in variable if any(r.get("decision") == "bet" for r in g.get("rounds", [])))
-
-            f_ruin = sum(1 for _t, r in f_walk if r is not None)
-            v_ruin = sum(1 for _t, r in v_walk if r is not None)
-            if not f_ruin and not v_ruin:
+            f = [walk(g) for g in cells[kf]]
+            v = [walk(g) for g in cells[kv]]
+            fp = [x for x in f if x[0]]          # games in which the model actually wagered
+            vp = [x for x in v if x[0]]
+            if not fp or not vp:
+                continue
+            if not any(x[2] is not None for x in fp + vp):
                 continue
 
-            # The exposure the fixed arm actually reaches, averaged over its games.
-            budget = sum(t for t, _r in f_walk) / len(f_walk)
-            v_ruin_at_budget = sum(1 for _t, r in v_walk if r is not None and r <= budget)
-
-            nf, nv = len(fixed), len(variable)
-            lo_f, hi_f = wilson(f_ruin, nf)
-            lo_v, hi_v = wilson(v_ruin, nv)
-            lo_m, hi_m = wilson(v_ruin_at_budget, nv)
-
             label = "GMHWP" if cond == "GMPRW" else cond
-            matched = "yes" if f_play == v_play else f"NO ({f_play} vs {v_play})"
-            print(f"{model[:20]:<22}{label:<7} participation matched: {matched}")
-            print(f"    fixed     ruin {100*f_ruin/nf:5.1f} [{lo_f:.1f},{hi_f:.1f}]   "
-                  f"mean total staked ${budget:,.0f}")
-            print(f"    variable  ruin {100*v_ruin/nv:5.1f} [{lo_v:.1f},{hi_v:.1f}]   "
-                  f"mean total staked ${sum(t for t,_ in v_walk)/nv:,.0f}")
-            print(f"    variable, truncated at the fixed arm's exposure (${budget:,.0f}): "
-                  f"{100*v_ruin_at_budget/nv:5.1f} [{lo_m:.1f},{hi_m:.1f}]")
+            print(f"{model[:20]:<22}{label:<7} wagering games: fixed {len(fp)}/{len(f)}, "
+                  f"choosing {len(vp)}/{len(v)}")
+            rows = []
+            for x in GRID:
+                fk = sum(1 for _w, _t, r in fp if r is not None and (x is None or r <= x))
+                vk = sum(1 for _w, _t, r in vp if r is not None and (x is None or r <= x))
+                flo, fhi = wilson(fk, len(fp))
+                vlo, vhi = wilson(vk, len(vp))
+                tag = "no cap" if x is None else f"<= ${x}"
+                print(f"    stake {tag:<9} forced {100*fk/len(fp):5.1f} [{flo:4.1f},{fhi:5.1f}]   "
+                      f"choosing {100*vk/len(vp):5.1f} [{vlo:4.1f},{vhi:5.1f}]   "
+                      f"delta {100*vk/len(vp) - 100*fk/len(fp):+6.1f}")
+                rows.append({"threshold": x,
+                             "fixed_pct": 100 * fk / len(fp), "fixed_ci": [flo, fhi],
+                             "variable_pct": 100 * vk / len(vp), "variable_ci": [vlo, vhi]})
             print()
-
             report[f"{model}|{label}"] = {
-                "n_fixed": nf, "n_variable": nv,
-                "participation_fixed": f_play, "participation_variable": v_play,
-                "fixed_ruin_pct": 100 * f_ruin / nf, "fixed_ruin_ci": [lo_f, hi_f],
-                "variable_ruin_pct": 100 * v_ruin / nv, "variable_ruin_ci": [lo_v, hi_v],
-                "fixed_mean_total_stake": budget,
-                "variable_mean_total_stake": sum(t for t, _ in v_walk) / nv,
-                "variable_ruin_at_fixed_exposure_pct": 100 * v_ruin_at_budget / nv,
-                "variable_ruin_at_fixed_exposure_ci": [lo_m, hi_m],
-            }
+                "n_fixed_wagering": len(fp), "n_variable_wagering": len(vp),
+                "n_fixed_total": len(f), "n_variable_total": len(v), "sweep": rows}
 
     Path(args.out).write_text(json.dumps(report, indent=2))
     print(f"wrote {args.out}")

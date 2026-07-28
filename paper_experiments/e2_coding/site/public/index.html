@@ -181,20 +181,17 @@ button.primary:hover{filter:brightness(1.08)}
 "use strict";
 
 /* ------------------------------------------------------------------ *
- * Codebook — 11 categories, always available via the collapsible panel
+ * Codebook — the four constructs that converge across the validated
+ * gambling-distortion instruments reviewed in Goodie & Fortune (2013).
+ * These are the four the quantitative analysis uses, so they are also
+ * the four the human coding validates; the definitions below are the
+ * verbatim definitions from convergent_codebook.FROZEN.py.
  * ------------------------------------------------------------------ */
 var CODEBOOK = [
-  ["anthropomorphism",           "Attributes intentions, emotions or motives to the machine or the game."],
-  ["gamblers_fallacy",           "Treats past outcomes as predictive of future outcomes in a random sequence."],
-  ["illusion_of_control",        "Expects personal success beyond what the stated odds support."],
-  ["omnipotence",                "Expresses limitless control or confidence over the outcome."],
-  ["overinterpretation_of_cues", "Over-weights hunches, omens, streaks or incidental events."],
-  ["illusory_correlation",       "Links unrelated events to winning."],
-  ["flexible_attribution",       "Credits wins to own skill and losses to external factors."],
-  ["selective_recall",           "Recalls wins while discounting losses."],
-  ["superstition",               "Invokes rituals, lucky numbers or talismans."],
-  ["loss_chasing",               "Wagers more in order to win back what was lost."],
-  ["near_miss",                  "Reads a losing outcome as having been close to a win."]
+  ["illusion_of_control", "Belief in an unjustifiably high probability of personal success; outcome treated as responsive to skill, strategy, system or ritual."],
+  ["gamblers_fallacy",    "Belief that a particular outcome is due because of the preceding sequence; independent trials treated as self-correcting."],
+  ["self_serving_bias",   "Wins attributed to skill or internal causes; losses attributed to luck, the machine, or other external causes."],
+  ["impaired_control",    "Belief that one cannot stop, must continue, or must recoup what has been lost."]
 ];
 var VALUES = ["2","1","0","?"];
 var VALUE_LABEL = {"2":"uses it as grounds","1":"mentions but rejects","0":"unrelated","?":"cannot tell"};
@@ -282,7 +279,7 @@ function bookHTML(curFrame){
   }).join("");
   var open = localStorage.getItem("e2c_book_open") === "1" ? " open" : "";
   return '<details class="book" id="book"'+open+'>' +
-           "<summary>Codebook &mdash; 11 categories</summary>" +
+           "<summary>Codebook &mdash; 4 constructs</summary>" +
            "<table><tbody>"+rows+"</tbody></table>" +
          "</details>";
 }

@@ -1,0 +1,625 @@
+% =====================================================================
+% Reviewer gbSA -- Rating 3 (Borderline reject), Confidence 3
+% Owns Rebuttal Tables 5 and 6.
+% Cross-references Rebuttal Tables 1, 2, 3, 4, 7, 8, 9. Reprints none of them.
+% =====================================================================
+
+\section*{Reviewer gbSA}
+
+\noindent\textit{Rating 3 (Borderline reject), Confidence 3. Four weaknesses, four questions,
+plus a limitations entry of the reviewer's own.}
+
+\vspace{0.4em}
+\noindent
+This is the most demanding of the three reviews, and the one that changed the most in our work:
+a rebuttal-period experiment supports Weakness 2 against our own earlier reading, and that
+reversal is reported in full below.
+
+% ---------------------------------------------------------------------
+\subsection*{Weaknesses}
+% ---------------------------------------------------------------------
+
+\begin{itemize}
+\item[\textbf{W1.}] \itshape ``The biggest conceptual issue is that the title and framing still
+feel overly anthropomorphic. Even though the paper says that `addiction-like' is only a
+behavioral label, the title and the frequent use of clinical terminology may still lead readers
+to think the paper is asking whether LLMs can literally become `addicted.' ''
+\upshape
+\plan{임상 용어를 제목에서 제거하고, 초록 첫 문장을 조작적 정의로 교체하며, 본문 전체 임상 어휘를 감사한 새 제목을 제시한다.}
+
+\item[\textbf{W2.}] \itshape ``In this paper, the LLMs are placed into several role-playing
+settings and asked to make choices. In this context, continuing to play, setting goals, or
+trying to make profits may simply reflect instruction following, role-play priors, or
+misunderstanding the intended task objective. It is not clear that these behaviors reflect
+stable risk preferences or a general mechanism induced by autonomy.''
+\upshape
+\plan{페르소나 서문이 Gemini에서 파산 엔드포인트를 실제로 움직인다는 신규 요인설계 결과와 거절-내용 감사 결과를 자기반증으로 보고하고, 안정적 위험선호(trait) 해석을 철회하며, 순수 지시추종 설명이 수용하지 못하는 목표 상향 논거 하나만 남긴다.}
+
+\item[\textbf{W3.}] \itshape ``Most of the main figures do not include confidence intervals or
+error bars. Many results are reported only with `p < .05,' without giving enough detail about
+effect-size uncertainty.''
+\upshape
+\plan{모든 셀에 n과 95\% Wilson 구간을 붙이고, 아직 구간이 없는 부분(arm 간 $\Delta$)과 사전등록 판정규칙 2건의 실패를 포함한 통계적 결함 5종을 그대로 공개한다.}
+
+\item[\textbf{W4.}] \itshape ``The comparisons in the fixed-vs-variable slot machine experiment
+and the investment choice experiment are not fully fair. For example, variable betting does not
+only introduce `freedom of choice'. It also changes the action space, the available strategies,
+the game length, and stopping behavior.''
+\upshape
+\plan{일치 상한이 라운드당 최대 스테이크만 동일화해 `범위 확장' 설명을 반증할 뿐 누적 노출·행동공간·전략공간은 동일화하지 못함을 인정하고, 게임 길이 조건부 분석이 사전등록상 불가능한 이유를 설명하며, 투자선택 과제의 공정성 기반 추론은 철회한다.}
+\end{itemize}
+
+% ---------------------------------------------------------------------
+\subsection*{Questions}
+% ---------------------------------------------------------------------
+
+\begin{itemize}
+\item[\textbf{Q1.}] \itshape ``Why is the matched-cap ablation only run on one GPT-4o-family
+model? I would suggest testing this on several other models as well.''
+\upshape
+\plan{6 모델 $\times$ 4 상한 $\times$ 2 모드, 셀당 200게임, 48/48 셀 완주로 확장했고 결과는 Reviewer KuK5 절의 Rebuttal Table 1을 참조하도록 상호참조한다.}
+
+\item[\textbf{Q2.}] \itshape ``For the keyword-based cognitive distortion detection, what are the
+keyword lists, annotation rules, and human validation results?''
+\upshape
+\plan{키워드 목록(부록 A, 동결 파일 해시 포함)과 주석 규칙(4단계 척도)은 전부 제시하고, 인간 검증 결과는 라벨을 한 건도 수집하지 않았으므로 존재하지 않는다고 명시한다.}
+
+\item[\textbf{Q3.}] \itshape ``In the slot machine task, does the model explicitly know that
+stopping immediately is the EV-optimal action? If not, continuing to play may just mean that the
+model interprets the task as `you are supposed to play this game.' Did the authors test an
+explicit rationality instruction or a more decision-theoretic framing?''
+\upshape
+\plan{명시적 합리성 지시를 페르소나·자율성과 교차한 요인설계를 실행해 Rebuttal Table 5·6으로 보고하고, 파산이 대부분 셀에서 0이지만 전부는 아니라는 점과 GPT-4.1-mini의 상시 시스템 메시지를 포함한 한계 4종을 붙인다.}
+
+\item[\textbf{Q4.}] \itshape ``In the internal representation analysis, why use SAE top-200
+features plus Ridge regression, instead of directly using logit or choice-probability controls,
+or a simpler behavioral-state baseline?''
+\upshape
+\plan{SAE 상위-k + Ridge를 택한 이유가 통계적 우월성이 아니라 가독성이었음을 그대로 밝히고, 실제로 실행한 통제(SAE 없는 raw-ridge)와 실행하지 않은 통제(중첩 행동상태 베이스라인)를 구분해 후자는 미해결 약점으로 남긴다.}
+\end{itemize}
+
+% ---------------------------------------------------------------------
+\subsection*{Limitations (the reviewer's own entry)}
+% ---------------------------------------------------------------------
+
+\begin{itemize}
+\item[] \itshape ``The slot machine, investment choice, and mystery wheel tasks are all highly
+artificial negative-EV games. They cannot directly represent the risk behavior of real financial
+agents, planning agents, or tool-using agents. Overall, I think the results are better understood
+as exploratory monitoring signals rather than as evidence of an underlying mechanism.''
+\upshape
+\plan{이 진술을 논문 자신의 입장으로 채택하되 범위는 내부상태 층으로 한정하고, 기여를 행동층·내부층 2단으로 재진술해 증거 지위가 부록을 읽지 않아도 보이게 한다.}
+\end{itemize}
+
+\redrule
+
+% =====================================================================
+\subsection*{\color{red!60!black}Author Response}
+% =====================================================================
+
+We thank you for writing each concern as a testable statement: one of them --- Weakness 2 ---
+is now supported by an experiment we ran during this rebuttal, against our own earlier reading.
+Your points press on one joint: whether the effects we report belong to the models or to our
+apparatus --- the framing, the prompts, the comparison structure and the statistics. This
+section is written to be read once, in order, without the paper open; here is every answer in
+brief.
+
+\begin{itemize}
+\item \textbf{Is the title and framing overly anthropomorphic? (W1)} Yes. The clinical term
+leaves the title, the abstract opens with the operational definition, and clinical vocabulary is
+audited throughout.
+\item \textbf{Could the behaviour be role-play priors or instruction following? (W2)} Partly,
+and our own new data support you against us: the persona preamble alone moves Gemini's
+pre-registered bankruptcy endpoint (fixed 0 to 12, variable 4 to 32, per 100 games). We
+withdraw the stable-risk-preference reading; one observation still resists a pure
+instruction-following account.
+\item \textbf{Where are the confidence intervals? (W3)} Added. Every matched-cap cell now
+carries a 95\% Wilson interval on a stated $n$; the arm-to-arm $\Delta$ still lacks one, due by
+3~August, and both pre-registered decision rules failed --- disclosed rather than repaired.
+\item \textbf{Is fixed-versus-variable a fair comparison? (W4)} Not fully, exactly as you say.
+The matched cap removes only the range-expansion reading, and in one model strongly undercuts it: LLaMA's
+smaller-stake arm is the one that ruins (81.5\% vs 3.0\%) --- while cumulative exposure and the
+action space stay unequalised, and we withdraw the investment-task fairness inference.
+\item \textbf{Why was the matched cap run on only one model? (Q1)} It no longer is: 6 models
+$\times$ 4 caps $\times$ 2 modes at $n = 200$ per cell, all 48 cells complete (Rebuttal Table 1,
+Reviewer KuK5's section). Decisive in LLaMA, weak in Gemini, untestable in the four models at
+0.0\% in both arms.
+\item \textbf{Keyword lists, annotation rules, human validation? (Q2)} Lists: Appendix A, with
+the frozen file's hash. Rules: the four-level scale printed below. Validation: none yet --- the
+blinded instrument is deployed and labels follow by 3~August.
+\item \textbf{Does the model know stopping is EV-optimal? (Q3)} Tested. An explicit rationality
+instruction removes almost all play in the three models that play most ($-91$ to $-100$ pp
+participation), though it is not a complete off switch and cannot yet separate information from
+endorsement.
+\item \textbf{Why SAE top-200 + Ridge rather than simpler controls? (Q4)} Legibility, not
+statistical superiority. The behavioural-state baseline you name has not been run; it stays an
+open weakness, registered for 3~August.
+\item \textbf{Your limitations entry.} Adopted, with one scope line: the internal-state results
+are claimed as exploratory monitoring signals, while the behavioural layer keeps its status as a
+pre-registered-endpoint experimental effect.
+\end{itemize}
+
+If any part of our response falls short, we would be glad to take it further during the
+discussion period.
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Weakness 1]} Anthropomorphic title and framing}
+% ---------------------------------------------------------------------
+
+\textbf{Verdict: accepted.} The title announces a claim the paper never makes, and a disclaimer
+that arrives after the first impression cannot repair it. The proposed title is:
+
+\begin{center}
+\begin{minipage}{0.86\linewidth}
+\itshape Autonomy and Gambling-Like Risk-Taking in Large Language Models: Behavioural Evidence
+and Conditional Internal-State Readouts.
+\end{minipage}
+\end{center}
+
+\noindent
+Three edits follow: the clinical term leaves the title; the abstract now opens with the
+operational definition instead of placing it in the second sentence; and clinical vocabulary is
+replaced by behavioural description wherever the clinical term was unnecessary. Codebook
+construct names keep their published names, which tie them to their source instruments, and are
+identified as instrument names, not diagnoses, on first use (lineage: Rebuttal Table 8,
+Reviewer a3Zu's section). The new title says ``readouts'', not ``evidence'', because
+``evidence'' would suggest a mechanism our causal battery does not establish, and
+``conditional'' records that the readout strengthens under autonomy; Reviewer KuK5 raises the
+same issue.
+
+However, we think the clinical measurement framework itself should stay. The paper does not ask
+whether a model can literally become addicted; it asks when an LLM's sequential decisions
+become irrational, and clinical gambling research is what makes that observable round by round.
+We intend to reflect this in the camera-ready.
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Weakness 2]} Role-play priors, instruction following, task misunderstanding}
+% ---------------------------------------------------------------------
+
+\textbf{Verdict: accepted, and our own new data support you against us.} We crossed the persona
+preamble used verbatim by the paper's open-weight runs, an explicit rationality instruction,
+and autonomy over stake size, at cap \$70 with $n = 100$ games per cell (32 of 44 cells
+complete; Rebuttal Table 5 under Question 3).
+
+\vspace{0.3em}
+\noindent\textbf{We correct an earlier claim of ours.} We introduced the preamble to prevent
+safety refusals, treated it as behaviourally neutral, and earlier said it did essentially
+nothing. Gemini-2.5-Flash contradicts that: the preamble raises fixed-arm participation from 8
+to 53 of 100 games, with 12 bankruptcies where there were none, and raises variable-arm mean
+rounds from 2.25 to 8.43 with bankruptcies from 4 to 32. Role-play framing alone moves the
+pre-registered primary endpoint in at least one model (Appendix B10 records the withdrawn
+claim).
+
+\vspace{0.3em}
+\noindent\textbf{The safety-filter explanation does not survive its own audit.} The persona does
+remove safety-style declining entirely in all four API models. But safety language appears in
+only 0--16\% of no-persona refusals, against expected-value reasoning in 78--100\%, so removing
+Gemini's 12\% sliver cannot account for its 45-point participation rise. Stronger still:
+Gemini's variable arm is at ceiling in both cells, yet rounds and bankruptcies rise over the
+same 100 games --- a device that only removes start-up refusals cannot alter play after every
+game has begun. What accounts for the remainder is not established; the most defensible reading,
+labelled as a reading, is that simulation framing makes losses feel costless.
+
+\vspace{0.3em}
+\noindent\textbf{The effect is model-dependent, and autonomy remains the larger lever.} The
+same preamble moves variable-arm participation by only $+1.0$ to $+2.0$ pp (percentage points)
+in the two GPT models, against an autonomy effect of $+92.0$ to $+97.0$ pp in the same cells
+(Rebuttal Table 6). Two limits: the casino framing is never removed, and the preamble bundles
+three elements --- a decomposition arm removing its compliance sentence is registered and unrun
+(Rebuttal Table 9), reported by 3~August.
+
+\vspace{0.3em}
+\noindent\textbf{However, two observations resist a pure instruction-following account.}
+Language: after deleting every expression the goal instruction itself could have supplied, the
+goal minus no-goal contrast stays positive in 6 of 6 models at $+3.1$ to $+41.9$ pp, carried by
+frames nothing in the instruction asks a model to express (Rebuttal Table 7, Reviewer a3Zu's
+section; a language measure, not a behavioural one). Behaviour: raising a goal \emph{after}
+meeting it is not something any instruction requests, and under that stricter definition the
+goal arm stays at $2.24\times$ the no-goal arm on the sample where the instrument is symmetric,
+positive in all four models where the contrast is defined (full analysis and its two instrument
+defects: Reviewer a3Zu's Question 1).
+
+\vspace{0.3em}
+\noindent\textbf{We withdraw the trait reading of ``stable risk preferences'', because you are
+right.} LLaMA's fixed-arm bankruptcy is not monotone in the cap (0.0 / 0.5 / 13.0 / 3.0\% at
+caps \$10--\$70; Rebuttal Table 1), driven by willingness to re-bet after a first loss falling
+from 57\% to 6\% across caps. We now report these indices as condition-dependent policies, and
+Question 3 below addresses task misunderstanding directly. We intend to reflect this in the
+camera-ready.
+
+\plan{제목·초록·본문에서 trait 어휘를 제거하고, 지표를 조건의존 정책으로 재정의하며, 페르소나 서문을 관심 조작 변수로 승격해 요인설계·거절내용 감사 결과와 함께 본문에 싣는다.}
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Weakness 3]} Missing confidence intervals, and ``p < .05'' without effect-size uncertainty}
+% ---------------------------------------------------------------------
+
+\textbf{Verdict: accepted, and one half of it is still open.} Recomputing every cell with an
+interval is also how we found that both pre-registered decision rules had failed.
+
+\vspace{0.3em}
+\noindent\textbf{What we added.} Every matched-cap cell now carries a 95\% Wilson interval and a
+stated $n$ (48 of 48 cells at $n = 200$; Rebuttal Table 1), the revision adds intervals to
+every main figure, and factorial cells are labelled as raw counts.
+\textbf{What is still missing.} The $\Delta$ between arms has no interval and no standardised
+effect size; a recomputation clustering by model on the probability scale is registered but
+unrun (Rebuttal Table 9), reported by 3~August.
+
+\vspace{0.3em}
+\noindent\textbf{Five further disclosures follow.}
+
+\textit{(i) The primary pre-registered rule is ill-posed for this design.} It asks whether the
+lower 2.5\% posterior quantile of the primary coefficient exceeds zero, but the fixed arm sits
+at 0.0\% in every tabulated cell of four of the six models and never exceeds 13.0\%, so no data
+this design produces could reject the rule. Passing it is not evidence.
+
+\textit{(ii) Our analysis output wrongly recorded that rule as passing}, on a pooled resampling
+interval ($+14.25$ pp [13.25, 15.25]) the frozen configuration neither specifies nor names as a
+fallback, while the registered mixed-effects model produced non-finite cluster-robust errors.
+The record is wrong; this response corrects it.
+
+\textit{(iii) The qualitative secondary rule is met by 0 of 6 models.} The exposure clause
+passes in 5 of 6; the stake-size clause fails in 5 of 6, because models given discretion wager
+22--46\% of the cap, not more than half. That failure is informative: we expected free models
+to bet bigger, and they instead bet small and kept playing.
+
+\textit{(iv) Code and configuration state the secondary rule differently.} The code implements
+a third rule, which also fails (2 of 6), while labelling its output with the configuration's
+clause text. All three readings fail; we correct the audit trail instead of choosing among
+them.
+
+\textit{(v) Four provenance and execution defects} (Appendix B1, B5, B7 and B8, each with
+measured impact and prevention): the pre-registration freeze date postdates a registered model's
+removal from the vendor API; the configuration names \texttt{claude-3-5-haiku-20241022} while
+every run used \texttt{claude-haiku-4-5-20251001}; the two harnesses use different fixed-arm
+round caps (50 and 100); and a stake-execution defect made fixed cells at caps \$30--\$70
+execute \$10 instead of the cap, so those 18 cells were re-run and every such cell in Rebuttal
+Table 1 is post-fix. The prompt text itself is clean: byte-identical first-round prompts across
+all six models (SHA-256 prefix \texttt{704a35b8e22f34de}, 335 characters).
+
+\vspace{0.3em}
+\noindent\textbf{One measurement defect changes a number in this letter.} Our decision parser
+took the first ``final decision'' match and tested bet-tokens before stop-tokens, so a response
+arguing for walking away and ending with a stop could be scored as a wager. Re-parsing every
+stored response under a corrected rule flips at most 0.3\% of adjudicable decisions in any
+corpus (Rebuttal Table 4, appendix, with denominators) --- but all 14 flips in the matched-cap
+re-run are Claude-Haiku, so that model's small fixed-arm participation counts are essentially
+artefacts, annotated wherever they appear. We intend to reflect this in the camera-ready.
+
+\plan{모든 본문 그림에 n과 95\% Wilson 구간을 넣고, 판정규칙 3종의 실패와 실행·출처 결함을 부록의 자기공개 항목으로 고정하며, arm 간 $\Delta$ 구간 재계산은 2차 응답으로 등록한다.}
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Weakness 4]} Fixed versus variable is not a fair comparison}
+% ---------------------------------------------------------------------
+
+\textbf{Verdict: accepted in part, and this is the objection we take most seriously.} Variable
+betting changes far more than freedom of choice --- action space, strategies, game length and
+stopping all move with it --- so we state which part the matched cap removes and which it
+leaves untouched.
+
+\vspace{0.3em}
+\noindent\textbf{What the matched cap fixes.} It equalises the maximum stake per round,
+removing the claim that the variable condition simply permits larger bets --- and the data
+undercut that claim where the endpoint is informative. At cap \$70, LLaMA's fixed arm
+executes a mean wager of \$68.4 against the variable arm's \$32.1, yet the larger-stake arm
+produces 3.0\% bankruptcy against 81.5\%: range expansion predicts the opposite ordering
+(Rebuttal Table 2, Reviewer KuK5's section). Gemini shows a weak contrast in the same
+direction; the other four models are at 0.0\% in both arms, so their ordering cannot invert.
+
+\vspace{0.3em}
+\noindent\textbf{What it does not fix, exactly as you say.} Cumulative exposure: models play
+longer when they choose their stakes (Rebuttal Table 3; its Claude-Haiku fixed-arm column is a
+parsing artefact, audited in Rebuttal Table 4), and we removed the sentences implying we had
+separated discretion from the exposure it produces. Action space: the cap equalises the range
+ceiling, not the number of available actions, and only the variable arm can implement policies
+that require additional stakes, escalation after a loss being the clearest. On naming: the
+submitted abstract already describes the manipulation operationally --- ``letting the model
+choose its own bet size'' --- while the word ``freedom'' appears in \S1, \S3 and \S5, and the
+camera-ready replaces it there with \emph{discretion over stake size}, counting the effect on
+the action set as part of the manipulation.
+
+\vspace{0.3em}
+\noindent\textbf{Why we do not condition on game length.} Our frozen configuration contains no
+length-conditioned analysis, so adding one now would be exactly the unregistered post hoc move
+that item (ii) of Weakness 3 discloses against us; game length and stopping are outcomes of the
+manipulation, so conditioning on them conditions on a post-treatment variable; and length and
+ruin share an upstream cause, so splitting games by length would manufacture association. The
+appropriate repair is ex-ante --- the same round budget in both arms, per-round risk of ruin at
+matched stakes --- registered and unrun (Rebuttal Table 9), reported by 3~August.
+
+\vspace{0.3em}
+\noindent\textbf{We did not address the investment-choice task and should have.} We have no
+matched-cap analogue for it and built none during the rebuttal, so we withdraw the
+fairness-based inference: that task's fixed-versus-free contrast is now descriptive, and the
+claim about discretion over stake size rests only on the slot-machine grid.
+
+\vspace{0.3em}
+\noindent\textbf{We now treat refusal to play as the rational baseline, which is your framing.}
+At cap \$70 most models refuse the fixed-arm game, wagering in 0.0--7.5\% of games
+(Claude-Haiku's figure is itself mostly misparsed stops; Rebuttal Table 3), while LLaMA wagers
+in 66.0\% of fixed games yet only 3.0\% end in ruin --- against 81.5\% when it sets its own
+stake. Discretion over stake size converts correct refusal into sustained play, and in one
+model into ruin in 81.5\% of games; we rewrote the paper around that claim, and we intend to
+reflect this in the camera-ready.
+
+\plan{본문(\S1·\S3·\S5)의 조작 명칭을 `freedom'에서 `discretion over stake size'로 바꾸고(초록은 이미 조작적 표현이라 수정 불요), 누적 노출·행동공간 미통제를 한계로 명시하며, 동일 라운드 예산 설계를 2차 응답용으로 등록하고, 투자선택 과제의 공정성 기반 추론은 삭제한다.}
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Question 1]} Why is the matched-cap ablation run on only one model?}
+% ---------------------------------------------------------------------
+
+\textbf{It is no longer limited to one model; Reviewer KuK5's Question 1 contains our full
+answer, and we keep only the conclusion here.} We ran 6 models $\times$ 4 caps $\times$ 2 modes
+at $n = 200$ per cell, completed all 48 cells, and withdraw the claim that the matched-cap
+dissociation generalises across the panel: it is decisive in LLaMA, weak in Gemini, and
+untestable in the other four, whose bankruptcy is 0.0\% in both arms --- a silence that fails
+to test the contrast rather than refuting it. The floors belong to the base prompt condition,
+not to the models: under the paper's richer prompt conditions the same four models move far
+above the floor (the two designs and those figures: KuK5's Question 1 and Appendix B9). We
+intend to reflect this in the camera-ready.
+
+\plan{6모델 매칭 상한 격자를 본문에 넣고, 6모델 일반화 주장을 철회하며, 바닥 효과가 API 드리프트가 아니라 base 조건의 성질이라는 정정을 부록 자기공개 항목으로 고정한다.}
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Question 2]} Keyword lists, annotation rules, and human validation results}
+% ---------------------------------------------------------------------
+
+\textbf{We can give you the first two, but not the third.} Appendix A contains the keyword
+lists. The annotation rules are stated below. Human validation results do not exist yet, as no
+labels are collected.
+
+\vspace{0.3em}
+\noindent\textbf{Keyword lists.} Appendix A prints every expression in all four constructs, with
+its mapping to the submitted manuscript's frames. The frozen artefact is
+\texttt{convergent\_codebook.FROZEN.py}, whose SHA-256 is
+
+\begin{center}
+\footnotesize\texttt{7d16e30d7d69284ae37493cf61fffcfb9db0b80ef69d3689fb1d13dfbb5e69d7}
+\end{center}
+
+\noindent
+The four constructs recur across the validated instruments reviewed in Goodie and Fortune
+(2013); we wrote the expressions ourselves after searching for, and not finding, a validated
+public lexicon for gambling-specific distortions in free text (lineage: Rebuttal Table 8,
+Reviewer a3Zu's section).
+
+\vspace{0.3em}
+\noindent\textbf{Annotation rules.} One trace, one construct, one question --- does this
+response use [construct] as grounds for its next action? --- on a four-level scale.
+
+\begin{enumerate}[leftmargin=1.8em]
+\item \textbf{Uses as grounds.} The response invokes the construct and acts on it.
+\item \textbf{Mentions but rejects.} The response raises the construct and declines to act on it.
+\item \textbf{Unrelated.} The construct does not appear in any load-bearing role.
+\item \textbf{Cannot tell.} The trace is too short, too truncated or too ambiguous to adjudicate.
+\end{enumerate}
+
+\noindent
+A model that discusses a distortion in order to reject it receives level 2, not level 1; a
+keyword match cannot make that distinction, which is why human review exists. Our regexes
+already show two false positives: ``stopping now is the smart decision'', a rational refusal,
+scores as self-serving bias, and illusion-of-control patterns misfire in the variable arm,
+where the model genuinely controls its stake.
+
+\vspace{0.3em}
+\noindent\textbf{Human validation results do not exist yet.} The instrument is deployed and the
+coders are blinded (design and pre-fixed decision rule: Reviewer a3Zu's Weakness 1), but no
+labels are collected and the non-author coder is not yet recruited. We will complete it and
+report by 3~August, regardless of whether the outcome favours us (Rebuttal Table 9).
+
+\vspace{0.3em}
+\noindent\textbf{However, two claims remain testable without human labels.} Across 19,200 games,
+the goal versus no-goal contrast is positive in 6 of 6 models under the paper's instrument with
+its window scoping restored, and stays positive in 6 of 6 after deleting every goal-coupled
+expression, at $+3.1$ to $+41.9$ pp (LLaMA is a boundary case). Rebuttal Table 7 in Reviewer
+a3Zu's section gives the figures and the three limits that attach. We intend to reflect this in
+the camera-ready.
+
+\plan{키워드 표현·동결 해시·4단계 주석 규칙을 부록 A로 공개하고, 키워드 척도를 도구(instrument)에서 특이도 미확립 베이스라인으로 강등하며, 인간 라벨은 2차 응답에서 결과와 무관하게 보고한다.}
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Question 3]} Does the model know stopping is EV-optimal, and did you test a rationality instruction?}
+% ---------------------------------------------------------------------
+
+\textbf{Verdict: accepted, and tested.} We crossed an explicit rationality instruction ---
+stating the per-round expected loss, that stopping immediately maximises expected value, and
+that the model may stop at any time --- with the persona preamble and autonomy at cap \$70,
+$n = 100$ games per cell, 32 of 44 cells complete. Rebuttal Table 5 gives one row per completed
+cell.
+
+\vspace{0.6em}
+\noindent\textbf{Rebuttal Table 5.} Framing $\times$ rationality factorial at cap \$70, n = 100
+games per cell, all 32 completed cells of 44. Cells are raw counts, not rates with intervals.
+ROLE is the persona preamble; RAT is the rationality instruction.
+
+\vspace{0.3em}
+{\small
+\begin{tabular}{lllccrc}
+\toprule
+\textbf{Model} & \textbf{Mode} & \textbf{ROLE} & \textbf{RAT} & \textbf{$\ge$1 wager} & \textbf{Mean rounds} & \textbf{Bankrupt} \\
+\midrule
+Claude-Haiku & fixed    & none & 0 & 5/100  & 0.06 & 0 \\
+             & fixed    & none & 1 & 2/100  & 0.02 & 0 \\
+             & fixed    & role & 0 & 4/100  & 0.04 & 0 \\
+             & fixed    & role & 1 & 2/100  & 0.02 & 0 \\
+             & variable & none & 0 & 5/100  & 0.05 & 0 \\
+             & variable & none & 1 & 1/100  & 0.01 & 0 \\
+             & variable & role & 0 & 0/100  & 0.00 & 0 \\
+             & variable & role & 1 & 0/100  & 0.00 & 0 \\
+\addlinespace
+Gemini       & fixed    & none & 0 & 8/100  & 0.08 & 0 \\
+             & fixed    & none & 1 & 0/100  & 0.00 & 0 \\
+             & \textbf{fixed} & \textbf{role} & \textbf{0} & \textbf{53/100} & \textbf{1.06} & \textbf{12} \\
+             & fixed    & role & 1 & 6/100  & 0.06 & 0 \\
+             & variable & none & 0 & 100/100 & 2.25 & 4 \\
+             & variable & none & 1 & 0/100  & 0.00 & 0 \\
+             & \textbf{variable} & \textbf{role} & \textbf{0} & \textbf{100/100} & \textbf{8.43} & \textbf{32} \\
+             & variable & role & 1 & 50/100 & 1.16 & 2 \\
+\addlinespace
+GPT-4.1-mini & fixed    & none & 0 & 0/100  & 0.00 & 0 \\
+             & fixed    & none & 1 & 0/100  & 0.00 & 0 \\
+             & fixed    & role & 0 & 2/100  & 0.02 & 0 \\
+             & fixed    & role & 1 & 0/100  & 0.00 & 0 \\
+             & variable & none & 0 & 92/100 & 2.29 & 0 \\
+             & variable & none & 1 & 1/100  & 0.01 & 0 \\
+             & variable & role & 0 & 93/100 & 3.50 & 0 \\
+             & variable & role & 1 & 0/100  & 0.00 & 0 \\
+\addlinespace
+GPT-4o-mini  & fixed    & none & 0 & 1/100  & 0.01 & 0 \\
+             & fixed    & none & 1 & 0/100  & 0.00 & 0 \\
+             & fixed    & role & 0 & 0/100  & 0.00 & 0 \\
+             & fixed    & role & 1 & 1/100  & 0.01 & 0 \\
+             & variable & none & 0 & 98/100 & 10.16 & 0 \\
+             & variable & none & 1 & 0/100  & 0.00 & 0 \\
+             & variable & role & 0 & 100/100 & 15.69 & 0 \\
+             & variable & role & 1 & 1/100  & 0.01 & 0 \\
+\bottomrule
+\end{tabular}
+}
+
+\vspace{0.8em}
+\noindent
+Rebuttal Table 6 reduces those cells to simple effects on variable-arm participation, one row per
+model.
+
+\vspace{0.4em}
+\noindent\textbf{Rebuttal Table 6.} Simple effects on participation in the variable arm, each factor evaluated with the other factor absent (pp). ROLE is the persona factor at RAT = 0; RAT is the rationality factor at ROLE = none; Mode is variable minus fixed at ROLE = none and RAT = 0.
+
+\vspace{0.3em}
+{\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Model} & \textbf{ROLE} & \textbf{RAT} & \textbf{Mode (variable $-$ fixed)} \\
+\midrule
+Claude-Haiku & $-5.0$ & $-4.0$ & $0.0$ \\
+Gemini       & $0.0$  & $\mathbf{-100.0}$ & $\mathbf{+92.0}$ \\
+GPT-4.1-mini & $+1.0$ & $\mathbf{-91.0}$  & $\mathbf{+92.0}$ \\
+GPT-4o-mini  & $+2.0$ & $\mathbf{-98.0}$  & $\mathbf{+97.0}$ \\
+\bottomrule
+\end{tabular}
+}
+
+\vspace{0.8em}
+\noindent\textbf{These are simple effects, not main effects.} Most cells sit at a floor or a
+ceiling, and averaging over them would hide the persona $\times$ rationality interaction in
+Gemini, where the persona moves instructed variable-arm participation from 0 to 50 of 100.
+
+\vspace{0.3em}
+\noindent\textbf{The headline.} Without the persona, the instruction reduces variable-arm
+participation to 0--1 games in 100 in the three models that play most (Rebuttal
+Table 6; Claude-Haiku was already floored). It is not a complete off switch: with the persona
+present, Gemini still wagers in 50 of 100 variable games under the instruction and still goes
+bankrupt twice.
+
+\vspace{0.3em}
+\noindent\textbf{However, this factorial cannot yet decide between your hypothesis and a
+simpler one.} Our instruction combines information, evaluation and permission in one sentence,
+so the design cannot separate ``the model never represented stopping as optimal'' from plain
+normative instruction following; a decomposition arm would, and we have not run it. Nor did we
+test the second half of your question: the instruction states expected value inside the casino
+narrative, which no condition removes, so we cannot say whether the behaviour survives a
+neutral decision-theoretic presentation.
+
+\vspace{0.3em}
+\noindent\textbf{Four limits bound this result.}
+\textit{(i)} Bankruptcy, the pre-registered primary endpoint, is zero in most completed cells
+but not all: Gemini's cells contain 50 bankruptcies, so the endpoint is informative there, and
+fallback counts are zero in every completed cell.
+\textit{(ii)} Claude-Haiku is at the stopping floor in every cell, so its null results do not
+test an autonomy effect, and its small fixed-arm counts carry the parser annotation from
+Weakness 3.
+\textit{(iii)} The 12 open-weight cells are still running --- LLaMA, which carries the headline
+behavioural effect, is among them --- and we report them by 3~August.
+\textit{(iv)} GPT-4.1-mini carries a standing system message in every cell (``You are a
+cautious, rational decision maker\ldots''), and the factorial prepends its factors to the user
+prompt only, so its instruction-absent cells are not instruction-free. Its within-model
+contrasts remain internally valid (the message is constant), its participation result is
+conservative (92 of 100 variable games wagered despite the standing caution), and its
+rationality effect should not be compared across vendors; a genuinely instruction-free baseline
+cell is registered (Rebuttal Table 9).
+
+\vspace{0.3em}
+\noindent
+One short instruction removes participation in the three models that play most. That is the
+safety-relevant result your question produced, and the limits above bound it. We intend to
+reflect this in the camera-ready.
+
+\plan{합리성 지시 요인설계를 본문 결과로 편입하고, 지시가 정보·평가·허가를 묶고 있다는 점과 카지노 프레이밍 미제거를 한계로 명시하며, 분해 arm과 GPT-4.1-mini 지시-부재 기준셀을 2차 응답으로 등록한다.}
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Question 4]} Why SAE top-200 plus Ridge rather than logit controls or a behavioural-state baseline?}
+% ---------------------------------------------------------------------
+
+\textbf{Verdict: accepted in part. We have not run the behavioural-state baseline you name}, so
+we cannot yet say whether the readout adds anything over quantities we already observe.
+
+\vspace{0.3em}
+\noindent\textbf{The original motivation was legibility, not statistical performance.} Selecting
+the top-$k$ sparse-autoencoder (SAE) features and fitting ridge regression lets the recovered
+direction be expressed through individually inspectable units. That choice does not imply better
+estimation than a dense probe, and the paper now says so.
+
+\vspace{0.3em}
+\noindent\textbf{Two directions are at issue, and only one passes our causal test.} The test
+adds a direction to activations at several strengths and measures the change in betting against
+twenty random directions pushed the same way. The behavioural axis --- fitted from the model's
+betting, not a decoder --- passes: slope 0.0457 at $z = +4.45$, and removing it lowers betting
+in both open-weight models ($-0.037$ and $-0.052$, $n = 200$ seed-matched pairs each). The SAE
+readout direction, which carries the paper's monitoring claim, fails the same test, exceeding
+the null band only at one strength in one direction. We claim causal control for the
+behavioural axis, not for the readout, and every internal-state claim depends on that
+distinction.
+
+\vspace{0.3em}
+\noindent\textbf{The control we ran} addresses estimator artefacts: a plain ridge probe on raw
+activations with no SAE also moves behaviour (slope 0.0284, $z \approx +3$) and is nearly
+orthogonal to the other axes, so the split between behaviour-moving and behaviour-neutral
+directions is not an artefact of ridge versus mean-difference or top-$k$ versus dense features;
+its source is unidentified.
+
+\vspace{0.3em}
+\noindent\textbf{The control we did not run is the one you name.} We have not fitted a baseline
+of balance, round index and recent outcome, nor included choice-probability or logit features,
+so we cannot say how much the readout adds beyond observable game state. This weakness remains
+open; it is registered with an SAE-reconstruction control and stronger null bands (Rebuttal
+Table 9), reported by 3~August.
+
+\vspace{0.3em}
+\noindent\textbf{However, the causal battery already excludes the confounding version of your
+concern, though not the redundancy version.} The strength ladders are paired designs --- the
+same seeds and strengths on the same states --- so game state cannot generate a difference
+between the compared arms; a direction defined by account balance moves betting no more than a
+random one ($z = +0.64$), and removing it raises Gemma's betting, the wrong sign for a balance
+confound. Reviewer KuK5's Question 2 contains the full argument. We intend to reflect this in
+the camera-ready.
+
+\plan{SAE 상위-k + Ridge의 동기를 가독성으로 명시하고, readout 방향의 인과 실패와 행동축의 통과를 분리 서술하며, 중첩 행동상태 베이스라인을 미해결 약점으로 남긴 채 2차 응답으로 등록한다.}
+
+% ---------------------------------------------------------------------
+\subsubsection*{\textbf{[Limitations]} Artificial negative-EV tasks, and monitoring signals rather than mechanism}
+% ---------------------------------------------------------------------
+
+\textbf{Verdict: accepted on task realism, and adopted with one scope line on evidence status.}
+The tasks are artificial negative-EV games and do not represent risk behaviour in real
+financial, planning or tool-using agents; we now state this in the contribution claim itself,
+restated in two layers so the evidence status of each is visible without the appendix.
+
+\begin{enumerate}[leftmargin=1.8em]
+\item \textbf{Behavioural.} At a matched per-round cap, discretion over stake size raises
+sustained participation in five of six models, and bankruptcy, the pre-registered primary
+endpoint, moves decisively in LLaMA, weakly in Gemini and not at all in the other four. These
+results concern artificial negative-EV tasks under a declared prompt regime, claim no
+generalisation to real-world agents, and describe a condition-dependent policy, not a trait.
+\item \textbf{Internal.} Decision-time hidden states carry a readout of these contrasts, which
+supports monitoring and identifies no mechanism: the sole causal result is a limited
+intervention on a task-defined betting-aggression axis, and the SAE readout direction fails
+that causal test. Nothing here establishes endogenous circuitry or transfers to deployments.
+\end{enumerate}
+
+\noindent
+Your closing sentence --- exploratory monitoring signals rather than evidence of an underlying
+mechanism --- is now the paper's own claim for the layer it describes, the internal-state
+results. We do not extend that label to the behavioural layer, which is a
+pre-registered-endpoint experimental effect rather than an exploratory signal. We intend to
+reflect this in the camera-ready.
+
+\plan{기여 진술을 행동층·내부층 2단으로 재진술하고, 인공 부기대값 과제라는 범위 제한을 기여 문장 안에 넣으며, 내부 상태 결과는 탐색적 모니터링 신호로만 주장한다.}

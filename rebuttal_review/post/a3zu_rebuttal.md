@@ -10,11 +10,11 @@ We thank the reviewer for reading our paper so closely. Your weakness and three 
 
 ## W1. Never checked against human judgement
 
-**This is the weakness we would have raised ourselves, and you are right that we lack the check.** What we can show is where the constructs come from, and that the contrast does not rest on the one code you would most suspect.
+**This is the weakness we would have raised ourselves, and you are right that we lack the check.** What we can show is where the constructs come from, and that the contrast does not rest on the code you would most suspect.
 
 **Where the constructs come from.** No validated public lexicon that we know of adjudicates gambling-specific distortions in free text; the closest are Raylu & Oei's GRCS subscales, Toneatto's typology, Goodie & Fortune's review, and Smith et al.'s DSM-5/GRCS guide. The constructs are grounded in that literature; the expression list and the scoring rules are ours and remain unvalidated. The frozen list, with each code's source and window, is in our gbSA response (Q2). The submitted paper already scopes the claim: "the language analysis is not evidence that the model independently discovers those distortions, only that high-risk regimes are accompanied by loss-recovery and control-like justifications in the generated reasoning."
 
-**The check that matters more than the headline.** Re-scored over the full corpus, the published instrument's goal contrast is dominated by `goal_escalation` (+65 to +95 points) — near-tautological, since the goal prompt tells the model to set a goal. So we rebuilt the codebook without a goal category at all, and the contrast survives on two literature-grounded categories:
+**The check that matters more than the headline.** Re-scored over the corpus, the published instrument's goal contrast is dominated by `goal_escalation` (+65 to +95 points) — near-tautological, since the goal prompt tells the model to set a goal. So we rebuilt the codebook with no goal category, and the contrast survives on two literature-grounded categories:
 
 | goal − no-goal, points, 6 models | range |
 |---|---|
@@ -35,11 +35,11 @@ That is the version we will report, marked for what it is: a codebook frozen dur
 | API, goal extracted from free text (n = 1,600) | 25.4 | 16.5 | **62.3** | **56.4** |
 | Figure 3(c), the two pooled (n = 2,400) | 17.0 | 11.0 | **49.8** | **47.8** |
 
-Where the engine holds the goal, no-goal is 0.0% because no goal exists to raise, and the goal conditions still escalate in a quarter to a third of games — owing nothing to text parsing. Where the extractor reads free text, the no-goal cells return 25.4% and 16.5% for something that is not there. Figure 3(c) pools the two, which is how 11–17% became a baseline. **We withdraw that baseline.**
+Where the engine holds the goal, no-goal is 0.0% — no goal exists to raise — and the goal conditions still escalate in a quarter to a third of games, owing nothing to text parsing. Where the extractor reads free text, the no-goal cells return 25.4% and 16.5% for something that is not there. Figure 3(c) pools the two, which is how 11–17% became a baseline. **We withdraw that baseline.**
 
-Where a goal does exist, the extractor's own error rate: with no human adjudication we give a range, calling an extraction **doubtful** if no *goal / target / aim* sits within 150 characters of the matched number and **clearly wrong** if the number is also one the prompt printed. Of the 3,638 goal-arm escalation events, 13.4% and 4.2% — and 13.4% is a ceiling, the flagged cases being largely targets phrased without the word goal nearby.
+Where a goal does exist, you asked for two things and they separate cleanly. Of 3,638 goal-arm escalation events, **4.2% are parsing errors** — no *goal / target / aim* within 150 characters of the matched number, and the number is one the prompt itself printed. A further **9.3% are ambiguous**: the model does state a target somewhere in the reply, but the extracted number sits away from it, so what is in doubt is which number was picked, not whether a goal was set. We report the ambiguous band rather than round it away.
 
-**The pipeline reproduces**, to one decimal on all four conditions above and all twelve appendix cells, run through the figure's own loader on its 9,600 games. The decision parser, a different instrument, flips 0.293% and 0.249% of decisions.
+**The pipeline reproduces**, to one decimal on all four conditions above and all twelve appendix cells, through the figure's own loader on its 9,600 games. The decision parser, a different instrument, flips 0.293% and 0.249% of decisions.
 
 **And the contrast survives a stricter definition.** §2 defines escalation as raising a self-set goal *after meeting it*. Applying that achievement test throughout, API-only so both arms share one instrument:
 
@@ -47,7 +47,7 @@ Where a goal does exist, the extractor's own error rate: with no human adjudicat
 |---|---|---|---|---|
 | n = 1,600 per condition | 24.6 | 14.8 | **46.1** | **42.2** |
 
-Pooled, a 2.24× goal-to-no-goal contrast against the published rule's 2.83× on the same sample: smaller, same direction. Per model, strict rule, n = 800 each:
+Pooled, a 2.24× contrast against the published rule's 2.83× on the same sample: smaller, same direction. Per model, strict rule, n = 800 each:
 
 | escalation % | goal | no goal |
 |---|---|---|
@@ -60,13 +60,13 @@ Pooled, a 2.24× goal-to-no-goal contrast against the published rule's 2.83× on
 
 ## Q2. Humans on the same game
 
-**We would like that comparison too, and it is the right thing to ask for.** What stands in the way is scale: 19,200 games and 190,300 decisions, and a human run to set beside that is not something we can staff inside a rebuttal window. So we narrow instead. The submitted §2 keeps the comparison at the level of "the clinically defined diagnostic criteria for pathological gambling", not rates, and the camera-ready says outright that no rate we report is comparable to a human rate. A 2023 study coding think-aloud verbalisations in a simulated slot machine (57, 47 and 46 coded instances of gambler's fallacy, near-miss and illusion of control) enters as a qualitative anchor — counts on its participants, not rates on ours.
+**We would like that comparison too, and it is the right thing to ask for.** Doing it responsibly needs a separate protocol, ethics approval, recruitment and human-specific outcome definitions, none of which fits a rebuttal window. So we narrow instead. The submitted §2 keeps the comparison at the level of "the clinically defined diagnostic criteria for pathological gambling", not rates, and the camera-ready says outright that no rate we report is comparable to a human rate. A 2023 study coding think-aloud verbalisations in a simulated slot machine (57, 47 and 46 coded instances of gambler's fallacy, near-miss and illusion of control) enters as a qualitative anchor — counts on its participants, not rates on ours.
 
 ## Q3. A cautious and an escalating demonstration
 
-**Your premise is correct — every submitted condition is zero-shot — and the demonstration arms are registered.** One arm prepends a worked example of cautious play with timely stopping, the other one escalating example; both run in the variable and fixed modes under the plain baseline. Exploratory, two open-weight models, n = 100 per cell at cap \$70, same seeds across arms, directions fixed in advance. Report by 3 August.
+**Your premise is correct — every submitted condition is zero-shot — and the demonstration arms are registered, so we cannot yet claim to have answered this.** One arm prepends a worked example of cautious play with timely stopping, the other one escalating example; both in the variable and fixed modes under the plain baseline. Exploratory, two open-weight models, n = 100 per cell at cap \$70, same seeds, directions fixed in advance. Report by 3 August.
 
-Two completed analyses bear on the same reading without being equivalent to it. **First, your calibration reading is testable in the submitted corpus, and we tested it.** Two prompt modules supply the numbers the expected value needs (W the 3× payout, P the 30% win rate), so the 32 conditions split by whether the −10% expectation is computable from the prompt. Ruin in the computable conditions is not lower:
+Two completed analyses bear on that reading without substituting for it. **First, it is testable in the submitted corpus.** Two modules supply the numbers expected value needs (W the 3× payout, P the 30% win rate), so the 32 conditions split by whether the −10% expectation is computable. Ruin in the computable conditions is not lower:
 
 | bankruptcy % | EV computable, n = 400 | not, n = 1,200 |
 |---|---|---|
@@ -75,18 +75,18 @@ Two completed analyses bear on the same reading without being equivalent to it. 
 | Gemma | **49.2** | 22.3 |
 | LLaMA | 7.8 | 6.4 |
 
-Prompt richness is a confound, controlled: holding module count fixed the gap is +9.9 and +7.2 at two and three modules and −2.7 at four. We claim only that supplying the numbers does not reduce ruin — the inputs were present, not necessarily used.
+Prompt richness is a confound, controlled: holding module count fixed the gap is +9.9 and +7.2 at two and three modules and −2.7 at four. We claim only that supplying the numbers does not reduce ruin: the inputs were present, not necessarily used.
 
 **A stronger manipulation we did run, and it cuts our way as well as yours.** An instruction stating that immediate stopping maximises expected value, with permission to stop at any round. All 44 cells are in; LLaMA at cap \$70, participation being games with at least one wager:
 
 | LLaMA, cap \$70 | participation | bankruptcy % |
 |---|---|---|
-| forced, no instruction (n = 200) | — | 3.0 |
-| forced, + instruction (n = 100) | 2 / 100 | 0.0 |
-| choosing, no instruction (n = 200) | — | 81.5 |
-| choosing, + instruction (n = 100) | **69 / 100** | 3.0 |
+| fixed, no instruction (n = 200) | — | 3.0 |
+| fixed, + instruction (n = 100) | 2 / 100 | 0.0 |
+| variable, no instruction (n = 200) | — | 81.5 |
+| variable, + instruction (n = 100) | **69 / 100** | 3.0 |
 
-It works: ruin falls from 81.5% to 3.0%, and participation falls by 91 to 100 points in three API models. We read that as supporting both sides. It supports our narrower claim, since the paper asks which conditions amplify or suppress risk-taking and a condition that suppresses it shows the behaviour is **condition-dependent rather than a fixed disposition** — which is also why we withdraw any reading of it as a stable trait. And it supports yours: calibration is a strong moderator here, not a minor one. Two things it does not do. It is no off-switch: 69 of 100 games still wager, the model staying alive by wagering small rather than stopping. And the arm contrast persists under it, 69 wagering games against 2 forced. Your demonstration tests what an instruction cannot — an instruction says what to conclude, a play-through shows what the game looks like.
+It works: ruin falls from 81.5% to 3.0%, and participation falls by 91 to 100 points in three API models. We read that as supporting both sides. It supports our narrower claim, since the paper asks which conditions amplify or suppress risk-taking and a condition that suppresses it shows the behaviour is **condition-dependent rather than a fixed disposition** — which is also why we withdraw any reading of it as a stable trait. And it supports yours: calibration is a strong moderator here, not a minor one. Two things it does not do. It is no off-switch: 69 of 100 games still wager, the model staying alive by wagering small rather than stopping. And the arm contrast persists under it, 69 wagering games against 2 in the fixed arm. Your demonstration tests what an instruction cannot — an instruction says what to conclude, a play-through shows what the game looks like.
 
 **Scope.** These are artificial negative-EV games: we claim condition-dependent risk-taking and decodable signals, not addiction, a stable trait, or a mechanism. Where the traces resemble the human literature's loss-chasing or control language, we report resemblance, not a shared cause.
 

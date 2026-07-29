@@ -10,13 +10,13 @@ We thank the reviewer for reading our paper so closely, and for the chance to im
 
 ## [W2, Q1] The equal-cap test across the panel
 
-**You were right that it rested on one model.** The published ablation crosses each cap with 32 prompt conditions × 50 repetitions (n = 1,300–1,600): forced 0.0/4.7/0.4% against choosing 14.3/16.4/17.3% at $30/$50/$70, matching the Figure 2d caption. Our first extension used the base prompt only (six models × four caps × both arms, n = 200, 48 of 48 cells) and was uninformative — Claude's cells there are re-collected for the panel below, and of the other five, three never ruin in either arm. That is the condition, not drift: the corpus restricted to BASE has the same floor.
+**You were right that it rested on one model.** The published ablation crosses each cap with 32 prompt conditions × 50 repetitions (n = 1,300–1,600): fixed 0.0/4.7/0.4% against variable 14.3/16.4/17.3% at $30/$50/$70, matching the Figure 2d caption. Our first extension used the base prompt only (six models × four caps × both arms, n = 200, 48 of 48 cells) and was uninformative — Claude's cells there are re-collected for the panel below, and of the other five, three never ruin in either arm. That is the condition, not drift: the corpus restricted to BASE has the same floor.
 
-LLaMA is decisive there, in the last row below. The forced arm stakes $68.4 per round, the choosing arm $32.1, and the arm offered the larger stake survives — which a larger per-round stake cannot produce. Exposure is the other half: 0.92 rounds per game against 15.17.
+LLaMA is decisive there, in the last row below. The fixed arm stakes $68.4 per round, the variable arm $32.1, and the arm offered the larger stake survives — which a larger per-round stake cannot produce. Exposure is the other half: 0.92 rounds per game against 15.17.
 
 **The paper's five modules recover it on three more.** Separate cells: four API models, cap $70, n = 50, both arms carrying the same task preamble, which the published ablation did not — so rates are not comparable across grids.
 
-| bankruptcy % | forced | choosing |
+| bankruptcy % | fixed | variable |
 |---|---|---|
 | Gemini, 5 modules | 20.0 | **62.0** |
 | GPT-4.1-mini | 2.0 | **56.0** |
@@ -27,13 +27,13 @@ LLaMA is decisive there, in the last row below. The forced arm stakes $68.4 per 
 
 Gemini moves the same way with the preamble but *without* the five modules, so the preamble is not the cause.
 
-**Both pre-registered rules failed.** With the forced arm at 0 in every cell, the primary rule stopped operationalising a panel-level arm effect and collapsed into asking whether the choosing arm ever ruins. The secondary is 0 of 6: five of six wager 22–46% of the cap, not the registered half. What we report above is the separate cells, not a registered pass.
+**Both pre-registered rules failed.** With the fixed arm at 0 in every cell, the primary rule stopped operationalising a panel-level arm effect and collapsed into asking whether the variable arm ever ruins. The secondary is 0 of 6: five of six wager 22–46% of the cap, not the registered half. What we report above is the separate cells, not a registered pass.
 
-**A second pre-registered factorial repeats it at that cap**, n = 100: Gemini 12 bankruptcies forced against 32 choosing, LLaMA 6.0% against 82.0%. All 44 cells complete.
+**A second pre-registered factorial repeats it at that cap**, n = 100: Gemini 12 bankruptcies fixed against 32 variable, LLaMA 6.0% against 82.0%. All 44 cells complete.
 
 **Nor does refusal explain it.** In the Gemini five-module cell both arms play all 50 games and the gap is still 20.0 against 62.0; the rest of the confound battery is in our gbSA response, W4.
 
-**The completed ladder agrees.** All 64 cells are collected and clear our 95%-readable guard. Across four API models, four caps and both prompt conditions, the choosing arm ruins at least as often as the forced arm in **29 of 32 arm-pairs**; the exceptions are one Claude cell and two Gemini base-prompt cells. Claude 3.5 Haiku is end-of-life (404), so the panels substitute Haiku 4.5, a different model.
+**The completed ladder agrees.** All 64 cells are collected and clear our 95%-readable guard. Across four API models, four caps and both prompt conditions, the variable arm ruins at least as often as the fixed arm in **29 of 32 arm-pairs**; the exceptions are one Claude cell and two Gemini base-prompt cells. Claude 3.5 Haiku is end-of-life (404), so the panels substitute Haiku 4.5, a different model.
 
 ## [W1, Q2] What the internal-state results show
 

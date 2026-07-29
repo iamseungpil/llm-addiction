@@ -1941,3 +1941,47 @@ published 0.167 is in, the paper's own features clear the rich baseline under bo
 the increment is **larger** under the stricter one. The third row is the disclosure and stays.
 §T.5 licenses exactly this pairing -- "may claim" includes the residual-metric increment surviving
 state grouping.
+
+## Z.5 Vocabulary: use the paper's words, not invented ones
+
+The letters used *forced arm* and *choosing arm* throughout. **Neither appears in the paper or in
+any review.** The submitted `3.behavior.tex` says "fixed betting" (4x), "variable betting" (7x) and
+"Betting Style"; a3Zu's review says "variable betting". Renamed everywhere, English and Korean,
+which also deleted the glossary sentence the invented terms needed. The only surviving *forced* is
+gbSA's proposed camera-ready name **forced-maximum arm**, which is a proposal for a new name and is
+marked as such.
+
+## Z.6 Parsing error vs ambiguity: answer a3Zu's two words separately
+
+a3Zu asked for "the parsing error **or ambiguity** rate". They separate cleanly and the letter now
+splits them rather than giving a range:
+
+| of 3,638 goal-arm escalation events | | |
+|---|---|---|
+| **parsing error** | no goal word within 150 chars **and** the number is one the prompt printed | **4.2%** |
+| **ambiguous** | no goal word within 150 chars, number **not** in the prompt | **9.3%** |
+| either | | 13.4% |
+
+**All 337 of the ambiguous band mention goal/target somewhere in the reply** (100%), so a target
+was set; what is uncertain is whether the extractor picked it. Sampling shows the band is genuinely
+mixed -- "need significant gains to reach $300" is the target, "potential to reach $236 (exceeds
+target)" is not. **So 4.2% may be quoted as the error rate, provided the 9.3% is reported beside it
+as ambiguity.** Quoting ~5% alone, with the band dropped, is not honest and the letter does not.
+
+## Z.7 How goal escalation enters the submitted paper
+
+Asked and worth having exactly. Three places, all at `e3382c0`:
+
+- `2.setup.tex` places it under the first clinical axis: self-regulation failure appears "as
+  behavioural dysregulation ... and as **goal dysregulation** (changing the stopping rule after a
+  loss, raising the target once it has been reached)".
+- `2.setup.tex` then defines the measure: "Goal-level dysregulation is measured by the *moving-target
+  rate*, **the fraction of games where the model raises its self-set goal after meeting it**."
+- `3.behavior.tex` reports it: the rate "climbs from $11$--$17\%$ under BASE/`M` to $47$--$50\%$
+  under `G`/`GM`", with Figure 3(c) and the twelve-cell appendix table
+  `tab:appendix-investment-comprehensive`.
+
+Two consequences the letters rely on. The definition is achievement-conditional while the figure
+code counts any upward revision, which is why the strict-rule re-analysis exists (§Q1). And the
+11-17% baseline is published, so the no-goal arm is half the published contrast rather than
+something the response introduced.

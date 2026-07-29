@@ -6,9 +6,9 @@ Your two weaknesses ask different questions and we answer them separately: wheth
 
 Your reading of the submitted evidence is right: the ablation ran on one model, and one model cannot show the dissociation is general. Repeated across the panel, it holds in four of six models, though not uniformly. Three things.
 
-**First, we repeated the design across the panel.** Four API models at cap $70, both conditions, plus the open-weight run:
+**First, we repeated the design across the panel.** Four API models at cap \$70, both conditions, plus the open-weight run:
 
-| bankruptcy %, cap $70 | condition | n per arm | fixed | variable |
+| bankruptcy %, cap \$70 | condition | n per arm | fixed | variable |
 |---|---|---|---|---|
 | Gemini | 5 modules | 50 | 20.0 | **62.0** |
 | GPT-4.1-mini | 5 modules | 50 | 2.0 | **56.0** |
@@ -17,7 +17,7 @@ Your reading of the submitted evidence is right: the ablation ran on one model, 
 | Gemini | base prompt | 50 | 6.0 | **34.0** |
 | LLaMA (separate run) | base prompt | 200 | 3.0 | **81.5** |
 
-Four of six, though not under one common condition — LLaMA under the base prompt, three API models under the paper's five modules. On precision: Newcombe 95% intervals on the fixed−variable difference exclude zero — Gemini +42.0 [+23.0, +57.0] points, GPT-4.1-mini +54.0 [+37.9, +66.9], LLaMA +78.5 [+71.6, +83.5]. The LLaMA row rules out the simple explanation: the fixed condition stakes $68.4 per round against $32.1, so the condition offered the larger stake is the one that survives.
+Four of six, though not under one common condition — LLaMA under the base prompt, three API models under the paper's five modules. On precision: Newcombe 95% intervals on the fixed−variable difference exclude zero — Gemini +42.0 [+23.0, +57.0] points, GPT-4.1-mini +54.0 [+37.9, +66.9], LLaMA +78.5 [+71.6, +83.5]. The LLaMA row rules out the simple explanation: the fixed condition stakes \$68.4 per round against \$32.1, so the condition offered the larger stake is the one that survives.
 
 Our own base-prompt extension across all six models was uninformative rather than negative — four of six sit at 0.0% in both conditions, a floor the paper's corpus also shows — and Claude's cells come from a newer replacement (the submitted model is retired and no longer answers requests) that never reaches bankruptcy, so they speak to the replacement.
 

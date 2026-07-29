@@ -29,6 +29,8 @@ Our own first extension, on the base prompt across all six models, was uninforma
 
 ## [W1] What the submitted readout establishes
 
+**Two analyses, answering different questions, with different controls.** The first is a *prediction* test: is the readout re-reading observable state? Its controls are the deconfound the paper already runs — balance and round residualised within fold, before Ridge — and the 65-covariate baseline below. The second is an *intervention* test (Q2): does an activation direction move behaviour? Its controls are a paired design that holds game state fixed across the compared doses, a balance/round direction steered and removed in its own right, and twenty norm-matched random directions. The submitted readout is the subject of the first and fails the second; the behavioural axis is the subject of the second only.
+
 This is the right distinction to press on. A direction fitted to predict the next wager may influence the decision, or may simply encode observable state — balance, round, recent losses. The paper uses the readout to ask whether decision-relevant information is internally detectable, not to claim a circuit-level mechanism, and the abstract says so. Two things sharpen that.
 
 **First, the predictive result is not a re-reading of the game log.** We fitted the rich observable baseline your question implies — 65 game-log covariates (balance, round, drawdown, streaks, cumulative stake, lagged bet ratios) on the published cell's own 12,246 decisions, with balance and round already removed before Ridge. What each internal block adds on top, against a 0.017 margin fixed beforehand:

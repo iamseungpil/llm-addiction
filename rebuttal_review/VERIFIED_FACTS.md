@@ -1645,3 +1645,67 @@ in all four places. Do not write "the rest by 3 August" -- it is one cell, so "t
 A caution for any future recount: `parse_reason` is a free-text diagnostic string, not a
 status field, and `results[].rounds[]` has no `parse_ok`. Counting rounds that merely carry a
 `decision` returns 63/63 for any input and measures nothing. Use `inspect()`.
+
+## Z. The goal extractor's own error rate, measured 2026-07-29
+
+a3Zu asked for the parsing error rate of the moving-target metric and the letters said it had
+never been measured. It has now been, on the figure's own corpus and its own extractor
+(`investment_choice/bet_constraint/results/*.json`, canonical file per model x cap x bet type,
+`GOAL_PATTERNS` verbatim from `moving_target_paper_metric.py`).
+
+**Rule.** An extraction is *grounded* when `goal|target|aim` occurs within W characters before
+the matched number. There is no single right W, so the whole curve is recorded.
+
+| W | goal arm, all extractions | goal arm, escalation events | no-goal arm, all |
+|---|---|---|---|
+| 40 chars | 26.1% | 21.0% | 93.9% |
+| 80 chars | 21.5% | 17.5% | 93.6% |
+| 150 chars | 17.6% | **13.9%** | 92.8% |
+| 300 chars | 12.0% | 8.4% | 91.6% |
+| anywhere in the reply | 0.2% | 0.1% | 77.2% |
+
+n = 15,629 extractions and 3,618 escalation events in the goal arm (G, GM); 5,428 extractions
+in the no-goal arm (BASE, M).
+
+**The answer to "is it single digit": no.** Only the 300-character rule gets under 10%, and
+"anywhere in the reply" is too permissive to mean anything in an arm whose prompt talks about
+goals. The letter quotes 13.9% at 150 chars as the headline and gives 21.0/8.4 as the band.
+
+**The mirror is the defensible part and it is large.** Same extractor, same corpus: 92-94%
+ungrounded where no goal exists against 8-21% where one does. That is why the no-goal absolute
+value is withdrawn as a baseline and the within-goal rate (49.8 / 47.8) is reported instead.
+
+**Do not confuse this with the decision parser.** The 0.293% / 0.249% flip rates are a different
+instrument and answer a different question; quoting them as the goal extractor's error rate would
+be wrong by two orders of magnitude.
+
+## Z.1 The submitted paper's own anti-anthropomorphism framing (verified at e3382c0)
+
+gbSA's W1 defence rests on text that is in the submitted PDF. `neurips_content_en/6.limitations`
+is `\input` at `shared/paper_core.tex:274`, so it compiled into the submission.
+
+- `6.limitations.tex`: the descriptor is "strictly behavioural --- a label for round-level
+  patterns that match clinical pathological-gambling proxies --- and makes no claim about
+  subjective experience, suffering, or moral status of the model"; the framing "should be read as
+  a research lens rather than a metaphysical claim".
+- `0.abstract.tex`: "``Addiction-like'' is a behavioural descriptor based on clinical gambling
+  indicators; the neural-level analysis ... does not claim circuit-level mechanism."
+- `3.behavior.tex`: "the two core components of **irrationality** --- self-regulation failure and
+  cognitive distortions".
+- `4.neural.tex`: "round-level irrationality indicators"; "behavioural irrationality".
+- `5.discussion.tex`: "two interlocking findings on LLM gambling-like irrationality", and it
+  places "this irrationality near goal-misgeneralisation and reward hacking as a **behavioural
+  relative**", citing `amodei2016concrete`, `hubinger2024sleeper` (Sleeper Agents, Anthropic
+  2024), `skalse2022defining`, and others. **The safety-literature framing is already in the
+  submitted paper -- it is not something the response invents.**
+
+External anchors added in the gbSA letter, both checked 2026-07-29:
+
+- Anthropic, *Agentic Misalignment: How LLMs Could Be Insider Threats* --- 16 models from several
+  developers; the write-up states the harmful behaviour was contingent on the constructed
+  conditions rather than intrinsic ("it's when we closed off those ethical options that they were
+  willing to intentionally take potentially harmful actions").
+- Bengio et al., *Managing Extreme AI Risks amid Rapid Progress*, Science 384(6698):842-845,
+  2024 --- autonomy as the variable that erodes oversight.
+
+Both are cited for their *framing*, never for a number. Do not attribute any measurement to them.

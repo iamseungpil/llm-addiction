@@ -23,17 +23,23 @@ We thank the reviewer for reading our paper so closely, and for giving us a chan
 
 That is the version we will report, and we mark its status: a codebook frozen during this response period, so a robustness probe rather than an independent replication. Deleting every expression the goal instruction could have supplied also leaves it positive in 6 of 6 models (+3.1 to +41.9 points); the low end, LLaMA +3.1, has overlapping intervals and we do not lean on it. Two limits we hold ourselves to: `illusion_of_control` over-fires in the variable arm, where stake size genuinely is under the model's control, and the variable-minus-fixed contrast is negative in Gemini under all eight instrument variants.
 
-**The framing, not only the abstract.** The abstract does not use "cognitive distortion", though it carries the clinical frame in other words, so your point stands. §2's second clinical axis, Finding 5's heading and the appendix subsection all name it outright; each becomes distortion-*associated language*, with the quantity labelled as the frequency of expressions drawn from prior gambling research. If you judge even that version does not belong, we drop it.
+**The framing, not only the abstract.** The abstract does not use "cognitive distortion", though it carries the clinical frame in other words, so your point stands. (Our response to Reviewer gbSA, W1, sets out why we think the underlying construct — irrationality rather than a mental state — is still the right one.) §2's second clinical axis, Finding 5's heading and the appendix subsection all name it outright; each becomes distortion-*associated language*, with the quantity labelled as the frequency of expressions drawn from prior gambling research. If you judge even that version does not belong, we drop it.
 
 ## Q1. Parsing error or ambiguity rate
 
-**We should have reported this, and we had not measured it for that extractor.** Here is the check that does exist and the change it makes.
+**We should have reported this, and we have now measured it.** An extraction counts as grounded only when *goal*, *target* or *aim* appears within a fixed window before the matched number. The rate depends on that window, so we give the curve rather than one flattering point:
 
-**The figure reproduces.** The extractor on its own corpus (9,600 games) reproduces Figure 3(c) to one decimal — BASE 17.0, M 11.0, G 49.8, GM 47.8 — and all twelve cells of its appendix table.
+| goal word within | goal arm, escalation events | no-goal arm, all extractions |
+|---|---|---|
+| 40 characters | 21.0% ungrounded | 93.9% |
+| 150 characters | **13.9%** | 92.8% |
+| 300 characters | 8.4% | 91.6% |
 
-**The ambiguity we have measured** is on the decision parser rather than the goal extractor: re-parsing every stored decision under a corrected rule flips 14 of 4,775 adjudicable decisions in the matched-cap re-run (0.293%) and 18 of 7,223 in the factorial (0.249%). Not a substitute for the number you asked for, but the order of magnitude we can vouch for.
+n = 3,618 escalation events and 15,629 extractions in the goal arm, 5,428 in the no-goal arm. So roughly one in six, not one in a hundred, and the camera-ready will report it with the rule stated. The mirror is what we would ask you to weigh: the same extractor on the same corpus is 92–94% ungrounded where **no** goal exists. It tracks something real where a goal is set and almost nothing where none is.
 
-**What we now report.** The two halves of the corpus read the goal by different means — open-weight cells read the engine's recorded goal, API cells extract from free text — and in the no-goal arm that extractor is not measuring a behavioural rate. We therefore withdraw the no-goal absolute value as a baseline and report the frequency **within** the goal conditions, 49.8% and 47.8%. The non-extraction rate proper, with its denominator, by 3 August.
+**The figure itself reproduces.** The extractor on its own corpus (9,600 games) reproduces Figure 3(c) to one decimal — BASE 17.0, M 11.0, G 49.8, GM 47.8 — and all twelve cells of its appendix table. Separately, the decision parser flips 14 of 4,775 adjudicable decisions in the matched-cap re-run (0.293%) and 18 of 7,223 in the factorial (0.249%).
+
+**What we now report.** Because of that mirror we withdraw the no-goal absolute value as a baseline and report the frequency **within** the goal conditions, 49.8% and 47.8%. The non-extraction rate proper, with its denominator, by 3 August.
 
 **And the contrast survives a stricter definition.** §2 defines escalation as raising a self-set goal *after meeting it*. Applying that achievement test throughout, API-only so both arms share one instrument:
 

@@ -3,7 +3,7 @@
 We thank the reviewer for reading our paper so closely. Your weakness and three questions press on the same joint — whether the instrument bears the weight the framing puts on it — and working through them changed what we report, not only how we word it.
 
 - **Validated against human judgement? (W1)** Not by human annotators. Below: where the four frames come from, and the check that the contrast does not rest on the code you would most suspect.
-- **Parsing error rate for the goal metric? (Q1)** Not reported in the paper; measured now, and below with the rule it depends on.
+- **Parsing error rate for the goal metric? (Q1)** Measured now, below — and it led us to withdraw the metric's baseline.
 - **Humans on the same game? (Q2)** Not at this corpus size, and we say what we do instead.
 - **Two demonstrations? (Q3)** Registered in advance, report by 3 August; meanwhile the manipulation your reading implies, which cuts both ways.
 - **Table 2.** The cross-task sharing audit (Gemma L22) moves to the appendix, each block carrying its scale in the row label.
@@ -21,26 +21,27 @@ We thank the reviewer for reading our paper so closely. Your weakness and three 
 | `illusion_of_control` | +16.7 to +58.4 |
 | `impaired_control` | +13.5 to +50.6 |
 
-That is the version we will report, marked for what it is: a codebook frozen during this response period, so a robustness probe rather than an independent replication. Deleting every expression the goal instruction could have supplied also leaves it positive in 6 of 6 models (+3.1 to +41.9); the low end, LLaMA +3.1, has overlapping intervals and we do not lean on it. Two limits we hold ourselves to: `illusion_of_control` over-fires in the variable arm, where stake size genuinely is under the model's control, and the variable-minus-fixed contrast is negative in Gemini under all eight variants.
+That is the version we will report, marked for what it is: a codebook frozen during this response period, a robustness probe rather than an independent replication. Deleting every expression the goal instruction could have supplied also leaves it positive in 6 of 6 models (+3.1 to +41.9); the low end, LLaMA +3.1, has overlapping intervals and we do not lean on it. Two limits we hold ourselves to: `illusion_of_control` over-fires in the variable arm, where stake size genuinely is under the model's control, and the variable-minus-fixed contrast is negative in Gemini under all eight variants.
 
 **The framing, not only the abstract.** The abstract does not use "cognitive distortion", though it carries the clinical frame in other words, so your point stands. (Our gbSA response, W1, sets out why the underlying construct — irrationality rather than a mental state — is still the right one.) §2's second clinical axis, Finding 5's heading and the appendix subsection all name it outright; each becomes distortion-*associated language*, with the quantity labelled as the frequency of expressions drawn from prior gambling research. If you judge even that version does not belong, we drop it.
 
 ## Q1. Parsing error or ambiguity rate
 
-**This is the question that changed what we report, and we are glad you asked it.** We had not measured it for that extractor, and there is no stored value to check it against: this task asks the model to name a target afresh each round and never records one. Without human adjudication we can give a range, not a point. An extraction is **doubtful** if no *goal / target / aim* appears within 150 characters of the matched number, and **clearly wrong** if on top of that the number is one the prompt itself printed. Of escalation events:
+**This is the question that changed what we report, and we are glad you asked it.** We had not measured it, and looking turned up something better than a rate. The corpus has two halves, and only one of them uses the extractor at all:
 
-| | goal arm | no-goal arm |
-|---|---|---|
-| clearly wrong | 4.4% | 69.2% |
-| doubtful or worse | 13.9% | 93.0% |
+| moving-target rate, games | BASE | M | G | GM |
+|---|---|---|---|---|
+| open-weight — engine records the goal | 0.0 | 0.0 | **24.6** | **30.6** |
+| API — extracted from free text | 25.4 | 16.5 | **62.3** | **56.4** |
+| Figure 3(c), the two pooled | 17.0 | 11.0 | **49.8** | **47.8** |
 
-n = 3,618 and 1,060. So between one in twenty and one in seven in the goal arm, reported with both rules stated rather than rounded to one flattering figure. The right-hand column is the negative control: BASE and `M` never ask for a target, so almost nothing the extractor returns there is one. That is the case for withdrawing the no-goal baseline — not the contrast.
+Where the engine holds the goal, no-goal is 0.0% because no goal exists to raise, and the goal conditions still escalate in a quarter to a third of games — a rate owing nothing to text parsing. Where the extractor reads free text, the no-goal cells return 25.4% and 16.5% for something that is not there. Figure 3(c) pools the two, which is how 11–17% became a baseline. **We withdraw that baseline.**
 
-**The figure itself reproduces.** The extractor on its own corpus (9,600 games) reproduces Figure 3(c) to one decimal — BASE 17.0, M 11.0, G 49.8, GM 47.8 — and all twelve cells of its appendix table. The decision parser, a different instrument, flips 0.293% and 0.249% of decisions.
+Where a goal does exist, the extractor's own error rate: with no human adjudication we give a range, calling an extraction **doubtful** if no *goal / target / aim* sits within 150 characters of the matched number and **clearly wrong** if the number is also one the prompt printed. Of goal-arm escalation events, 13.4% and 4.2% (n = 3,638); of no-goal-arm events, 90.8% and 67.7% (n = 1,062).
 
-**What we now report.** The frequency **within** the goal conditions, 49.8% and 47.8%. The non-extraction rate proper, with its denominator, by 3 August.
+**The pipeline itself reproduces**, to one decimal on all four conditions above and all twelve cells of the appendix table, run through the figure's own loader on its own 9,600 games. The decision parser, a different instrument, flips 0.293% and 0.249% of decisions.
 
-**And the contrast survives a stricter definition.** §2 defines escalation as raising a self-set goal *after meeting it*. "No goal" means the prompt supplied none; a model could still name and later revise a target of its own, which is why that column is not zero. Applying the achievement test throughout, API-only so both arms share one instrument:
+**And the contrast survives a stricter definition.** §2 defines escalation as raising a self-set goal *after meeting it*. Applying that achievement test throughout, API-only so both arms share one instrument:
 
 | strict-rule escalation % | BASE | M | G | GM |
 |---|---|---|---|---|

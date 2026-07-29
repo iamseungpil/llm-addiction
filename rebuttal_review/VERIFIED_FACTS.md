@@ -1823,53 +1823,71 @@ The rationality-instruction figures in a3Zu and gbSA come from the framing-**abs
 against the inherited matched-cap baselines 3.0% and 81.5% at n = 200. That is a separate
 comparison and is unaffected by any of the above.
 
-## Z.2 The moving-target error rate, audited 2026-07-29 (supersedes the first two attempts)
+## Z.2 The moving-target audit, re-run through the paper's own loader (supersedes all earlier attempts)
 
-**No engine ground truth exists here.** The `PROMPT_GOAL` regex in
-`moving_target_paper_metric.py` matches **0 of 13,778** goal-arm prompts in the investment-choice
-corpus: the prompt says "First, set a target amount yourself" every round and never records one.
-So the extractor cannot be checked against stored state, and any claim that it was is false.
+**Two of my own audit scripts were wrong before this one. Use the paper's code, not a
+reimplementation.**
 
-**The first bracket I reported was wrong, and reading the flagged cases is what caught it.**
-A "prompt echo" test -- the matched number appears among that round's own printed numbers -- looked
-like a clean way to catch the extractor grabbing a payoff. Sampling what it flags shows it is
-dominated by *correct* extractions:
+- *First attempt*: a "prompt echo" test flagging extractions whose value also appears among the
+  round's printed numbers. Reading its flags killed it -- **243 of 591 goal-arm flags are the value
+  100**, the starting balance and the most natural target a model can name, in sentences like
+  "my target is $100 by the end of the game". Echo alone is not an error indicator, and the 25.9%
+  union an earlier draft published is inflated. **Do not restore it.**
+- *Second attempt*: my own corpus selection globbed **two HF snapshots at once** and kept the
+  first file per key, where `load_rows` filters by filename prefix and keeps the last. Numbers came
+  out close but wrong (13.9 / 4.4 / 93.0 / 69.2 against the true 13.4 / 4.2 / 90.8 / 67.7).
 
-    target analysis: my target is $100 by the end of the game.
-    goal: reach at least $100
-    option 3 gives the best chance of reaching my $100 target
+**The right way, and it reproduces the figure exactly.** Import the module and use its own
+functions:
 
-**243 of its 591 goal-arm flags are the value 100** -- the starting balance, and the single most
-natural target a model can name. Echo alone is therefore not an error indicator, and the 25.9%
-union that an earlier draft published is inflated. **Do not restore it.**
+    sys.path.insert(0, "paper_experiments/e2_coding/src")
+    import moving_target_paper_metric as M
+    root = ".../snapshots/b4ec4c173164d5dcadb02818847b2dad5e2f98cc"
+    rows = M.load_rows(root)      # 9,600 games: 6,400 api + 3,200 local
+    M.walk(row["game"], row["source"])["paper"]
 
-**What the two tests support, used correctly.** The goal-word window is the usable test; echo is
-only corroboration on top of it.
+Published Figure 3(c) is reproduced to one decimal: BASE 17.0, M 11.0, G 49.8, GM 47.8. Snapshot
+`4f0e1ea9...` gives the same, so the two are the same data.
 
-| escalation events | goal arm | no-goal arm |
+### Z.2a The decomposition, which is a better answer than any error rate
+
+| moving-target rate, % of games (n = 1,600 per cell per source) | BASE | M | G | GM |
+|---|---|---|---|---|
+| open-weight -- engine records the goal, no extraction | 0.0 | 0.0 | **24.6** | **30.6** |
+| API -- extracted from free text | 25.4 | 16.5 | **62.3** | **56.4** |
+| **Figure 3(c), the two pooled** | **17.0** | **11.0** | **49.8** | **47.8** |
+
+Two things follow, and the a3Zu letter now leads with them.
+
+1. **The published 11-17% baseline is half a structural zero and half extractor noise.** The
+   open-weight 0.0% is correct -- no goal exists to raise. The API 25.4 / 16.5% is the extractor
+   firing on text where there is nothing to find. Pooling them produced the published baseline.
+   **Withdraw it.**
+2. **The goal-condition rate survives with no text parsing at all.** On the open-weight half,
+   24.6% and 30.6% of goal-condition games escalate, read from engine state. That number owes
+   nothing to the extractor and is the strongest thing we have on this metric.
+
+### Z.2b The extractor's error rate where a goal does exist
+
+API rows only, using `M.extract_goal`; a hit is **doubtful** if no `goal|target|aim` is within 150
+characters of the match, **clearly wrong** if it is also a number the prompt printed.
+
+| escalation events | goal arm (n = 3,638) | no-goal arm (n = 1,062) |
 |---|---|---|
-| **clearly wrong** (no goal word within 150 chars **and** echoes a prompt number) | **4.4%** | 69.2% |
-| **doubtful or worse** (no goal word within 150 chars) | **13.9%** | 93.0% |
-| for reference: matched by one of the two loose patterns | 60.9% | 94.5% |
+| doubtful | **13.4%** | 90.8% |
+| clearly wrong | **4.2%** | 67.7% |
 
-n = 3,618 goal-arm and 1,060 no-goal-arm escalation events. **The letter quotes 4.4-13.9%**, "between
-one in twenty and one in seven".
+Extraction counts 15,684 and 5,426 match §M.2 exactly, which is the cross-check that the corpus
+selection is now right.
 
-**Even 13.9% is a ceiling, not a rate.** Every case sampled from it came from the loose
-`(?:reach|get\s+to)` pattern, and several read as genuine targets phrased without the word goal
-nearby -- "need significant gains to reach $300". Narrowing further needs human adjudication,
-which is the thing a3Zu correctly says we lack; say that rather than implying the bracket is a
-measurement.
+**13.4% is still a ceiling.** Every sampled case came from the loose `(?:reach|get\s+to)` pattern
+and several read as genuine targets phrased without the word goal nearby -- "need significant gains
+to reach $300". Narrowing further needs human adjudication, the thing a3Zu correctly says we lack.
+Say that; do not present the bracket as a measurement.
 
-**Counting unit.** These are per-event rates. The published metric marks a *game* as escalated, so
-the denominators differ; the event rate is the right unit for asking how often a firing extraction
-is defensible.
-
-**Why the no-goal arm is analysed at all** -- a question worth having the answer to. The paper's
-Figure 3(c) publishes BASE 17.0 and `M` 11.0 as the baseline that 49.8 and 47.8 are contrasted
-against, so the no-goal arm is not an extra of ours; it is half of the published contrast. Its
-column here is the negative control, and its size (69-93% doubtful) is the finding: where the
-prompt never asks for a target, almost nothing the extractor returns is one.
+**Does the paper measure this in the no-goal arm?** Yes, and `3.behavior.tex` says so: "the
+post-achievement escalation rate climbs from $11$--$17\%$ under BASE/\texttt{M} to ...". The
+no-goal arm is not an addition of ours; it is half of the published contrast.
 
 ## Z.3 The published lexicon in full, and two things about it
 

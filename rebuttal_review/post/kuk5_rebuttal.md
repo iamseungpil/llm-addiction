@@ -1,6 +1,6 @@
 # Response to Reviewer KuK5
 
-Your two weaknesses ask different questions and we answer them separately below. The first is whether a control run on one model can carry a general claim; the second is what a decoding result establishes, and what a positive causal result would even look like. We ran new experiments for each and report what came back, including where it went against us. For this response we ran a 64-cell equal-cap ladder, a nested test of the readout against a rich behavioural baseline, and a multi-layer intervention battery with matched controls. We are grateful for a review that has made the paper better; the details follow.
+Your two weaknesses ask different questions and we answer them separately: whether a control run on one model can carry a general claim, and what a decoding result establishes — including what a positive causal result would even look like. For this response we ran a 64-cell equal-cap ladder, a nested test of the readout against a rich behavioural baseline, and a multi-layer intervention battery with matched controls, and we report what came back, including where it went against us. We are grateful for a review that has made the paper better; the details follow.
 
 ## [W2, Q1] Whether the equal-cap result rests on one model
 
@@ -17,15 +17,15 @@ Your reading of the submitted evidence is right: the ablation ran on one model, 
 | Gemini | base prompt | 50 | 6.0 | **34.0** |
 | LLaMA (separate run) | base prompt | 200 | 3.0 | **81.5** |
 
-Four of six, though not under one common condition — LLaMA under the base prompt, three API models under the paper's five modules, and we would rather say that than let the count stand unqualified. Gemini moves the same way with the task preamble but without the modules, so the preamble is not the cause. The LLaMA row is the one that rules out the simple explanation: there the fixed condition stakes $68.4 per round against $32.1, so the condition offered the larger stake is the one that survives.
+Four of six, though not under one common condition — LLaMA under the base prompt, three API models under the paper's five modules, and we would rather say that than let the count stand unqualified. On precision: a Wilson 95% interval spans roughly ±13 points at n = 50 and ±3–6 at n = 200, so the Gemini, GPT-4.1-mini and LLaMA contrasts each clear their intervals. Gemini moves the same way with the task preamble but without the modules, so the preamble is not the cause. The LLaMA row is the one that rules out the simple explanation: there the fixed condition stakes $68.4 per round against $32.1, so the condition offered the larger stake is the one that survives.
 
-Our own first extension, on the base prompt across all six models, was uninformative rather than negative: four of six sit at 0.0% in both conditions there, a floor the paper's own corpus also shows under that prompt. On Claude, the model the paper used has since been retired and no longer answers requests at all, so its cells come from a newer replacement model — and that replacement never reaches bankruptcy in either condition, which makes the cell evidence about the replacement rather than about the submitted model.
+Our own first extension, on the base prompt across all six models, was uninformative rather than negative: four of six sit at 0.0% in both conditions there, a floor the paper's own corpus also shows under that prompt. On Claude, the model the paper used has been retired and no longer answers requests, so its cells come from a newer replacement — which never reaches bankruptcy in either condition, making that cell evidence about the replacement rather than the submitted model.
 
-**Second, both pre-registered decision rules came out negative, and we report them as they fell.** With the fixed condition at zero in every cell, the primary rule reduced to asking whether the variable condition ever reaches bankruptcy, and the secondary failed in all six models. The table above is therefore separate cells, not a registered pass.
+**Second, both pre-registered decision rules came out negative.** With the fixed condition at zero in every cell, the primary rule reduced to asking whether the variable condition ever reaches bankruptcy, and the secondary failed in all six models. The table above is therefore separate cells, not a registered pass.
 
 **Third, the completed grid agrees.** All 64 cells pass our readability guard, and the variable condition reaches bankruptcy at least as often in **29 of 32 condition-pairs**; a second pre-registered factorial at the same cap runs the same way (Gemini 12 bankruptcies fixed against 32 variable, LLaMA 6.0% against 82.0%, one hundred games per cell).
 
-**What remains open.** Refusal does not explain the gap — in the Gemini five-module cell both conditions play all 50 games and it is still 20.0 against 62.0 — but equal caps leave stopping and cumulative exposure unequal; that battery is in our response to Reviewer gbSA.
+**What remains open.** Refusal does not explain the gap — in the Gemini five-module cell both conditions play all 50 games and it is still 20.0 against 62.0 — but equal caps leave stopping and exposure unequal; that battery is in our gbSA response.
 
 ## [W1] What the submitted readout establishes
 
@@ -55,7 +55,7 @@ Two questions here, and we took them in that order: what would count as positive
 
 **What we ran.** The submitted protocols all wrote at a single layer, and the paper left the true locus open. So we first located where writing works with a window scan over the layers of both models, then added and removed a frozen direction during generation inside that band. The design is paired: the same seeds at the same doses on the same game states, so the activation edit is the only difference between compared arms, and a confound operating through balance or round cannot produce the effect by construction. Controls were twenty size-matched random directions and a direction fitted to balance and round, steered and removed in its own right.
 
-One metric throughout: the bet ratio, the wager as a share of the current balance, so every entry below is on the same scale. The slope is its change per unit dose; the z-score is how far that slope sits outside twenty size-matched random directions; removal is the change in the same ratio when the direction is subtracted.
+One metric throughout: the bet ratio, the wager as a share of the current balance. The dose α scales the added direction in steps of the layer's own activation spread, from −3 to +3, so α = +2 adds twice that spread and −2 subtracts it. The slope is the bet ratio's change per unit of α; the z-score is how far that slope sits outside twenty size-matched random directions; removal is the change in the same ratio when the direction is projected out.
 
 | direction, 200 games/dose | dose slope on bet ratio | z vs 20 random | removal effect on bet ratio | removal p |
 |---|---|---|---|---|

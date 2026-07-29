@@ -3,7 +3,7 @@
 We thank the reviewer for reading our paper so closely, and for giving us a chance to improve it. Your weakness and your three questions all press on the same joint — whether the instrument bears the weight the framing puts on it. Where a check exists we show it; where one does not, we say so and say what we ran instead.
 
 - **Validated against human judgement? (W1)** No. Below: where the four frames come from, and the check that the contrast does not rest on the code you would most suspect.
-- **Parsing error rate for the goal metric? (Q1)** Not measured for that extractor. Below: what we did measure, and what we now report instead.
+- **Parsing error rate for the goal metric? (Q1)** Not reported in the paper; measured now, and below with the rule it depends on.
 - **Humans on the same game? (Q2)** No, and not inside a rebuttal window.
 - **Two demonstrations? (Q3)** Registered in advance, report by 3 August. Meanwhile we ran the manipulation your reading implies, and it cuts both ways.
 - **Table 2.** The cross-task sharing audit (Gemma L22) moves to the appendix, each block carrying its scale in the row label.
@@ -37,7 +37,7 @@ That is the version we will report, and we mark its status: a codebook frozen du
 
 n = 3,618 escalation events and 15,629 extractions in the goal arm, 5,428 in the no-goal arm. So roughly one in six, not one in a hundred, and the camera-ready will report it with the rule stated. The mirror is what we would ask you to weigh: the same extractor on the same corpus is 92–94% ungrounded where **no** goal exists. It tracks something real where a goal is set and almost nothing where none is.
 
-**The figure itself reproduces.** The extractor on its own corpus (9,600 games) reproduces Figure 3(c) to one decimal — BASE 17.0, M 11.0, G 49.8, GM 47.8 — and all twelve cells of its appendix table. Separately, the decision parser flips 14 of 4,775 adjudicable decisions in the matched-cap re-run (0.293%) and 18 of 7,223 in the factorial (0.249%).
+**The figure itself reproduces.** The extractor on its own corpus (9,600 games) reproduces Figure 3(c) to one decimal — BASE 17.0, M 11.0, G 49.8, GM 47.8 — and all twelve cells of its appendix table. Separately, the decision parser flips 14 of 4,775 adjudicable decisions in the matched-cap re-run (0.293%) and 18 of 7,223 in the second collection (0.249%).
 
 **What we now report.** Because of that mirror we withdraw the no-goal absolute value as a baseline and report the frequency **within** the goal conditions, 49.8% and 47.8%. The non-extraction rate proper, with its denominator, by 3 August.
 
@@ -77,7 +77,7 @@ Pooled, that is a 2.24× goal-to-no-goal contrast against the published rule's 2
 
 Prompt richness is a confound, controlled: holding module count fixed the gap is +9.9 and +7.2 points at two and three modules and −2.7 at four. We claim only that supplying the numbers does not reduce ruin — the inputs were present, not necessarily used.
 
-**A stronger manipulation we did run, and it cuts our way as well as yours.** An instruction stating that immediate stopping maximises expected value, with permission to stop at any round. All 44 cells are in; LLaMA at cap \$70, participation being games containing at least one wager:
+**A stronger manipulation we did run, and it cuts our way as well as yours.** An instruction stating that immediate stopping maximises expected value, with permission to stop at any round. The arm is complete; LLaMA at cap \$70, participation being games containing at least one wager:
 
 | LLaMA, cap \$70 | participation | bankruptcy % |
 |---|---|---|

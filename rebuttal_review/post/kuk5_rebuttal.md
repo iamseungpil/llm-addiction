@@ -3,13 +3,13 @@
 We thank the reviewer for reading our paper so closely, and for the chance to improve it. Both weaknesses named real gaps, and both sent us back to the bench. We ran a new experiment for each and report what came back, whichever way it fell.
 
 - **W1 — can the neural decoding support a mechanistic reading?** No, and the submitted abstract already says so. What holds is the readout as a *predictive* signal: it clears a rich behavioural baseline and a stricter fold rule. What we add is a causal result the paper did not have, and the null there is direction-specific.
-- **W2 — does the equal-cap claim rest on one model?** It did. Both arms now run at the same cap across the panel, under two prompt conditions and in a second harness; under the paper's own condition set the dissociation appears in four of six.
+- **W2 — does the equal-cap claim rest on one model?** It did. Both arms now run at the same cap across the panel, at four caps and under two prompt conditions; under the paper's own condition set the dissociation appears in four of six.
 - **Q1 — does it hold on the other five?** Four of six. Gemma is 0.0% in both arms at all four caps, Claude 0.0 in both panel arms — nulls, not absences.
 - **Q2 — a positive result, and a balance/round correlate?** Four criteria below, applied to both directions. We steered the balance/round direction itself and ran the nested test your question implies: the hidden state clears it, the sparse basis does not.
 
 ## [W2, Q1] The equal-cap test across the panel
 
-**You were right that it rested on one model.** The published ablation crosses each cap with 32 prompt conditions × 50 repetitions (n = 1,300–1,600): forced 0.0/4.7/0.4% against choosing 14.3/16.4/17.3% at $30/$50/$70, matching the Figure 3d caption. Our first extension used the base prompt only (six models × four caps × both arms, n = 200, 48 of 48 cells) and was uninformative — Claude's cells there are re-collected for the panel below, and of the other five, three never ruin in either arm. That is the condition, not drift: the paper's corpus restricted to BASE has the same floor.
+**You were right that it rested on one model.** The published ablation crosses each cap with 32 prompt conditions × 50 repetitions (n = 1,300–1,600): forced 0.0/4.7/0.4% against choosing 14.3/16.4/17.3% at $30/$50/$70, matching the Figure 2d caption. Our first extension used the base prompt only (six models × four caps × both arms, n = 200, 48 of 48 cells) and was uninformative — Claude's cells there are re-collected for the panel below, and of the other five, three never ruin in either arm. That is the condition, not drift: the paper's corpus restricted to BASE has the same floor.
 
 LLaMA is decisive there, in the last row below. The forced arm stakes $68.4 per round, the choosing arm $32.1, and the arm offered the larger stake survives — which a larger per-round stake cannot produce. Exposure is the other half: 0.92 rounds per game against 15.17.
 
@@ -28,7 +28,7 @@ Gemini moves the same way with the preamble but *without* the five modules, so t
 
 **Both pre-registered rules failed.** With the forced arm at 0 in every cell, the primary rule stopped operationalising a panel-level arm effect and collapsed into asking whether the choosing arm ever ruins. The secondary is 0 of 6: given the choice, five of six wager 22–46% of the cap, not the registered half. What we report above is therefore the separate cells, not a registered pass.
 
-**A second pre-registered factorial repeats it at that cap**, n = 100 per cell and all 44 complete. Its two Gemini pairs run 0.0% forced against 4.0% choosing and 12.0% against 32.0%; LLaMA runs 6.0% against 82.0%. Refusal does not explain the gap in the one cell where both arms play every game, and the rest of the confound battery — action space, game length, exposure, stopping — is in our response to Reviewer gbSA, W4.
+**Nor does refusal explain it.** In the Gemini five-module cell both arms play all 50 games and the gap is still 20.0 against 62.0. The rest of the confound battery — action space, game length, exposure, stopping — is in our response to Reviewer gbSA, W4.
 
 **The completed ladder agrees.** All 64 cells are now collected and all clear our 95%-readable guard. Across the four API models, four caps and both prompt conditions, the choosing arm ruins at least as often as the forced arm in **29 of 32 arm-pairs**; the three exceptions are one Claude cell and two Gemini base-prompt cells. Claude 3.5 Haiku is end-of-life (404), so the panels substitute Haiku 4.5, a different model.
 

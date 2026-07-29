@@ -697,7 +697,7 @@ canonical file per model x cap x bet type) for the four API models, plus
 
 ### M.1 The published figure reproduces exactly
 
-Figure 4(c) reports 11-17% under BASE/M and 47.8-49.8% under G/GM. Recomputed: BASE 17.0,
+Figure 3(c) reports 11-17% under BASE/M and 47.8-49.8% under G/GM. Recomputed: BASE 17.0,
 M 11.0, G 49.8, GM 47.8. All four match the caption to one decimal, so the corpus and the
 instrument are the right ones.
 
@@ -1776,3 +1776,38 @@ Not in this file until now, which is why an audit flagged `0.112` as untraceable
 `IC_API` is descriptive only -- 0 of 6,600 bankruptcy events, so the per-decision RR is not
 estimable. The gbSA letter quotes 90.6 for the four API providers and 0.112 as the open-weight
 investment-choice inversion, which matches rows 1 and 3.
+
+
+## Y.4 Figure numbering, settled 2026-07-29 -- two letters had one wrong between them
+
+The submitted document has exactly four `figure` environments, in this order:
+
+| # | label | file | what the letters cite it for |
+|---|---|---|---|
+| 1 | `fig:experimental-overview` | 1.introduction | --- |
+| 2 | `fig:slot-machine` | 3.behavior | **(d)** the cap ablation, 0.0/4.7/0.4 vs 14.3/16.4/17.3 |
+| 3 | `fig:investment-choice` | 3.behavior | **(c)** the moving-target rate, BASE 17.0 / M 11.0 / G 49.8 / GM 47.8 |
+| 4 | `fig:sharing` | 4.neural | --- |
+
+**kuk5 said "Figure 3d" for the cap ablation. It is Figure 2d** -- corrected. a3Zu's "Figure 3(c)"
+for the moving-target rate was already right. Section M above said "Figure 4(c)", which came from
+the generation directory name `fig04_investment_choice`; that directory name does **not** track
+the compiled float number, and section M is corrected to 3(c). Section R.1 had it right all along
+("The paper's Figure 2d caption"), which is what settled it.
+
+## Y.5 The framing factor is out of the response, and the letters no longer depend on it
+
+Standing instruction: the role/framing preamble is not to be named in the rebuttal, and those
+cells are to be dropped from the released data. An earlier kuk5 draft quoted E7's
+`role`-condition arm contrasts (Gemini 12.0/32.0, LLaMA 6.0/82.0) as a second replication. **That
+sentence is deleted**, not rebalanced -- the completed 64-cell matched-cap ladder (§Y.1) carries
+the replication claim on its own, and quoting numbers that will not exist in the released data
+would be worse than quoting one condition of two.
+
+What survives is safe: every E7 figure still in the letters comes from a **no-framing** cell ---
+`llama_cap70_fixed_none_rat1` (participation 2/100, ruin 0.0%) and
+`llama_cap70_variable_none_rat1` (69/100, 3.0%), against the inherited matched-cap baselines
+3.0% and 81.5% at n = 200. Verified cell by cell on 2026-07-29.
+
+"All 44 cells are in" is also gone from both letters. The 44 counts framing cells, so the claim
+would go stale the moment they are dropped; the letters now say the arm is complete.

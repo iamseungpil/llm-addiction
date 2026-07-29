@@ -19,13 +19,13 @@ Your reading of the submitted evidence is right: the ablation ran on one model, 
 
 Four of six, though not under one common condition — LLaMA under the base prompt, three API models under the paper's five modules, and we would rather say that than let the count stand unqualified. Gemini moves the same way with the task preamble but without the modules, so the preamble is not the cause. The LLaMA row is the one that rules out the simple explanation: there the fixed condition stakes $68.4 per round against $32.1, so the condition offered the larger stake is the one that survives.
 
-Our own first extension, on the base prompt across all six models, was uninformative rather than negative: four of six sit at 0.0% in both conditions there, a floor the paper's corpus also shows under BASE. The published ablation it extends reads fixed 0.0/4.7/0.4% against variable 14.3/16.4/17.3% at $30/$50/$70, matching the Figure 2d caption.
+Our own first extension, on the base prompt across all six models, was uninformative rather than negative: four of six sit at 0.0% in both conditions there, a floor the paper's own corpus also shows under that prompt. On Claude, the model the paper used has since been retired and no longer answers requests at all, so its cells come from a newer replacement model — and that replacement never reaches bankruptcy in either condition, which makes the cell evidence about the replacement rather than about the submitted model.
 
-**Second, both pre-registered rules came out negative, and we report them as they fell.** With the fixed condition at 0 in every cell the primary rule stopped operationalising a panel-level effect and reduced to asking whether the variable condition ever reaches bankruptcy. Our analysis output recorded a pass from a pooled interval the configuration does not name, and we do not count it. The secondary is 0 of 6: five of six wager 22–46% of the cap rather than the registered half. So the table above is separate cells, not a registered pass.
+**Second, both pre-registered decision rules came out negative, and we report them as they fell.** With the fixed condition at zero in every cell, the primary rule reduced to asking whether the variable condition ever reaches bankruptcy, and the secondary failed in all six models. The table above is therefore separate cells, not a registered pass.
 
-**Third, the completed ladder agrees.** All 64 cells are collected and clear our 95%-readable guard. Across four API models, four caps and both prompt conditions, the variable condition reaches bankruptcy at least as often in **29 of 32 condition-pairs**; the exceptions are one Claude cell and two Gemini base-prompt cells. A second pre-registered factorial at the same cap runs the same way (n = 100: Gemini 12 bankruptcies fixed against 32 variable, LLaMA 6.0% against 82.0%).
+**Third, the completed grid agrees.** All 64 cells pass our readability guard, and the variable condition reaches bankruptcy at least as often in **29 of 32 condition-pairs**; a second pre-registered factorial at the same cap runs the same way (Gemini 12 bankruptcies fixed against 32 variable, LLaMA 6.0% against 82.0%, one hundred games per cell).
 
-**What remains open.** Refusal does not explain the gap — in the Gemini five-module cell both conditions play all 50 games and it is still 20.0 against 62.0 — but equal caps leave stopping affordance and cumulative exposure unequal. That battery is in our gbSA response, W4. Claude 3.5 Haiku is end-of-life, so the panel substitutes Haiku 4.5, a different model, and Gemma stays at the floor throughout.
+**What remains open.** Refusal does not explain the gap — in the Gemini five-module cell both conditions play all 50 games and it is still 20.0 against 62.0 — but equal caps leave stopping and cumulative exposure unequal; that battery is in our response to Reviewer gbSA.
 
 ## [W1] What the submitted readout establishes
 
@@ -37,9 +37,9 @@ This is the right distinction to press on. A direction fitted to predict the nex
 
 | held-out R², added over the 65-covariate log | folds by game | folds by state hash |
 |---|---|---|
-| **paper's own metric** (deconfounded residual): SAE features | +0.037 | **+0.045** |
+| **paper's own metric** (deconfounded residual): sparse-autoencoder features | +0.037 | **+0.045** |
 | raw bet-ratio target: raw hidden state | +0.059 | **+0.059** |
-| raw bet-ratio target: SAE features | +0.044 | **+0.0024** |
+| raw bet-ratio target: sparse-autoencoder features | +0.044 | **+0.0024** |
 
 The fold rule matters because 4,808 rows (39.3%) repeat a state from a *different* game, so grouping by game id cannot keep a state off both sides of a split; the published cell survives regrouping, 0.16736 → 0.16095. On the metric the paper reports, the published readout clears the baseline under both rules and its increment is larger under the stricter one. On the raw target we built for this test the internal state clears it and the sparse basis does not, which locates the loss in the compression rather than the state. The game log alone reaches 0.140, 84% of the published cell, and we report that too.
 
@@ -53,7 +53,7 @@ Two questions here, and we took them in that order: what would count as positive
 
 **The criteria, fixed before the runs.** (1) Up raises the betting index and down lowers it, with the interval on the difference excluding zero. (2) The effect grows across the dose ladder, not only at the extreme. (3) It clears a band of norm-matched random directions. (4) Parse success does not degrade with dose, so behaviour is not changing because generation is breaking.
 
-**What we ran.** The submitted protocols all acted at layer 22, and the Limitations left the locus open, naming an "earlier-layer, distributed multi-layer pathway, or SAE-feature subspace target" as the open question. So we located where writing works with a layer-window scan over both models, then within that band added and removed frozen unit axes during generation, holding prompt, game state and seed fixed so the activation edit is the only difference. Controls were twenty norm-matched random directions and a direction fitted to balance and round.
+**What we ran.** The submitted protocols all wrote at a single layer, and the paper left the true locus open. So we first located where writing works with a window scan over the layers of both models, then added and removed a frozen direction during generation inside that band. The design is paired: the same seeds at the same doses on the same game states, so the activation edit is the only difference between compared arms, and a confound operating through balance or round cannot produce the effect by construction. Controls were twenty size-matched random directions and a direction fitted to balance and round, steered and removed in its own right.
 
 | direction, 200 games/dose | dose slope on bet ratio | z vs 20 norm-matched | removal effect | removal p |
 |---|---|---|---|---|

@@ -159,3 +159,14 @@ never enter the analyses in §6.
 
 Any departure from this document is recorded in `DEVIATIONS.md` in this directory, with
 the reason and the date, before the affected analysis is reported.
+
+## Amendment 1 — 2026-07-29 (pre-launch, outcome-blind)
+
+Demonstration cells (§3.3): n per cell raised from 100 to 200.
+Rationale: power. At n = 100 a 15-point cautious-vs-escalating contrast at a
+high baseline has ~70% power (two-sided 5%); n = 200 gives ~93%.
+No outcome data informed this change: the only demonstration runs to date are
+the 10-game pipeline pilot on GPT-4.1-mini (pilot_demo/), a different model
+from the two registered here. Directional predictions in §3.3 are unchanged.
+Cells: {demo_cautious, demo_escalate} x {fixed, variable} x cap $70 x
+{llama, gemma}, n = 200, seeds 70000+i shared across cells.

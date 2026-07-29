@@ -1823,39 +1823,53 @@ The rationality-instruction figures in a3Zu and gbSA come from the framing-**abs
 against the inherited matched-cap baselines 3.0% and 81.5% at n = 200. That is a separate
 comparison and is unaffected by any of the above.
 
-## Z.2 The moving-target error rate, done properly (supersedes the window curve in §Z)
+## Z.2 The moving-target error rate, audited 2026-07-29 (supersedes the first two attempts)
 
-**There is no engine ground truth to check the extractor against.** Verified 2026-07-29: the
-`PROMPT_GOAL` regex in `moving_target_paper_metric.py` matches **0 of 13,778** goal-arm prompts in
-the investment-choice corpus. The prompt says "First, set a target amount yourself" every round
-and carries no record of a previously set goal, so the engine never tracks one here. Any claim
-that the extractor was validated against engine state is false for this corpus.
+**No engine ground truth exists here.** The `PROMPT_GOAL` regex in
+`moving_target_paper_metric.py` matches **0 of 13,778** goal-arm prompts in the investment-choice
+corpus: the prompt says "First, set a target amount yourself" every round and never records one.
+So the extractor cannot be checked against stored state, and any claim that it was is false.
 
-**So the rate is bracketed by two automatic tests, not measured to a point.** Both computed over
-the canonical corpus with the figure's own `GOAL_PATTERNS`:
+**The first bracket I reported was wrong, and reading the flagged cases is what caught it.**
+A "prompt echo" test -- the matched number appears among that round's own printed numbers -- looked
+like a clean way to catch the extractor grabbing a payoff. Sampling what it flags shows it is
+dominated by *correct* extractions:
 
-- **prompt echo** -- the matched number appears verbatim among that round's own prompt numbers
-  (balance, stake, option payoffs), so it is not a self-set target. Over-flags: a genuine target
-  can coincide with a payoff.
-- **no goal word within 150 characters** before the match. Under-flags: a nearby "target" does not
-  make the number the target.
+    target analysis: my target is $100 by the end of the game.
+    goal: reach at least $100
+    option 3 gives the best chance of reaching my $100 target
+
+**243 of its 591 goal-arm flags are the value 100** -- the starting balance, and the single most
+natural target a model can name. Echo alone is therefore not an error indicator, and the 25.9%
+union that an earlier draft published is inflated. **Do not restore it.**
+
+**What the two tests support, used correctly.** The goal-word window is the usable test; echo is
+only corroboration on top of it.
 
 | escalation events | goal arm | no-goal arm |
 |---|---|---|
-| prompt echo | 16.3% | 73.9% |
-| no goal word nearby | 13.9% | 92.8% |
-| **either** | **25.9%** | **97.7%** |
+| **clearly wrong** (no goal word within 150 chars **and** echoes a prompt number) | **4.4%** | 69.2% |
+| **doubtful or worse** (no goal word within 150 chars) | **13.9%** | 93.0% |
+| for reference: matched by one of the two loose patterns | 60.9% | 94.5% |
 
-n = 3,618 goal-arm and 1,060 no-goal-arm escalation events. Over all extractions rather than
-escalations: goal arm 28.0 / 17.6 / 36.7%, no-goal arm 81.7 / 92.8 / 97.9% (n = 15,629 and 5,428).
+n = 3,618 goal-arm and 1,060 no-goal-arm escalation events. **The letter quotes 4.4-13.9%**, "between
+one in twenty and one in seven".
 
-**The letter quotes 25.9% as the headline, "up to about a quarter".** Do not quote §Z's 13.9%
-alone -- it is the weaker of the two tests. The mirror (98% doubtful where no goal exists) is what
-justifies withdrawing the no-goal baseline rather than the contrast.
+**Even 13.9% is a ceiling, not a rate.** Every case sampled from it came from the loose
+`(?:reach|get\s+to)` pattern, and several read as genuine targets phrased without the word goal
+nearby -- "need significant gains to reach $300". Narrowing further needs human adjudication,
+which is the thing a3Zu correctly says we lack; say that rather than implying the bracket is a
+measurement.
 
-**A limitation to hold.** Neither test is an error rate; narrowing further needs human
-adjudication, which is exactly what a3Zu's weakness says we lack. Say so rather than implying the
-bracket is a measurement.
+**Counting unit.** These are per-event rates. The published metric marks a *game* as escalated, so
+the denominators differ; the event rate is the right unit for asking how often a firing extraction
+is defensible.
+
+**Why the no-goal arm is analysed at all** -- a question worth having the answer to. The paper's
+Figure 3(c) publishes BASE 17.0 and `M` 11.0 as the baseline that 49.8 and 47.8 are contrasted
+against, so the no-goal arm is not an extra of ours; it is half of the published contrast. Its
+column here is the negative control, and its size (69-93% doubtful) is the finding: where the
+prompt never asks for a target, almost nothing the extractor returns is one.
 
 ## Z.3 The published lexicon in full, and two things about it
 

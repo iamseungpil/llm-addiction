@@ -23,7 +23,7 @@ Our own base-prompt extension across all six models was uninformative rather tha
 
 **Second, both pre-registered decision rules came out negative.** With the fixed condition at zero in every cell of the frozen evaluation run, the primary rule reduced to whether the variable condition ever reaches bankruptcy, and the secondary failed in all six models; the table above is separate cells, not a registered pass.
 
-**Third, the completed grid agrees.** All 64 cells pass our readability guard, and the variable condition reaches bankruptcy at least as often in **29 of 32 condition-pairs**. Equal caps still leave stopping and exposure unequal; that battery is in our gbSA response.
+**Third, the completed grid agrees.** All 64 cells pass our integrity guard, and the variable condition reaches bankruptcy at least as often in **29 of 32 condition-pairs**. Equal caps still leave stopping and exposure unequal; that battery is in our gbSA response.
 
 ## [W1] What the submitted readout establishes
 
@@ -51,15 +51,21 @@ Two questions: what would count as positive, and could balance and round dynamic
 
 **What we ran.** A window scan located where writing works — the submitted protocols wrote at a single layer — and we then added and removed a frozen direction during generation inside that band. The design is paired: the same seeds at the same doses on the same game states, so differences in observed balance and round are removed across the compared arms. Controls were twenty size-matched random directions and a direction fitted to balance and round, steered and removed in its own right.
 
-The metric is the bet ratio, the wager as a share of the current balance. The dose α scales the direction in steps of the layer's own activation spread (−3 to +3); slope is the bet ratio's change per unit of α, z its distance outside the twenty random directions, removal the change when the direction is projected out.
+The metric is the bet ratio, the wager as a share of the current balance. The dose α scales the direction in steps of the layer's own activation spread. First, what the behavioural axis does as α rises, Gemma, 200 games per dose:
 
-| direction, 200 games/dose | dose slope on bet ratio | z vs 20 random | removal effect on bet ratio | removal p |
+| dose α | −3 | −2 | −1 | 0 | +1 | +2 | +3 |
+|---|---|---|---|---|---|---|---|
+| mean bet ratio | 0.009 | 0.049 | 0.127 | **0.182** | 0.247 | 0.271 | 0.286 |
+
+Monotone across all seven doses — the negative extreme effectively stops betting, the positive extreme raises it half again over the unperturbed 0.182 — and LLaMA moves the same way, 0.156 at −3, 0.207 unperturbed, 0.251 at +3. Then each direction against its controls: the slope is the bet ratio's change per unit of α; z is how far that slope sits outside twenty size-matched random directions (whose slopes average 0.0007 with spread 0.0101); removal is the change when the direction is projected out.
+
+| direction | dose slope | z vs 20 random | removal, Gemma | removal, LLaMA |
 |---|---|---|---|---|
-| behaviourally defined axis | 0.0457 | **+4.45** | −0.037 Gemma, −0.052 LLaMA | — |
-| same, fitted with no autoencoder | 0.0284 | ≈ +3 | — | — |
-| balance/round confound | — | +0.64 | +0.046 Gemma (wrong sign) | <.001 / 1.0 |
-| **the fitted readout direction** | — | **+0.75** | none | **.885 / 1.0** |
+| behavioural axis | 0.0457 | **+4.45** | −0.037 | −0.052 |
+| same, no autoencoder | 0.0284 | ≈ +3 | — | — |
+| balance/round confound | at chance | +0.64 | +0.046 (wrong sign, p < .001) | −0.006 (p = 1.0) |
+| **fitted readout direction** | — | **+0.75** | none (p = .885) | none (p = 1.0) |
 
-**What it shows, and what it does not.** The behavioural axis meets (2) and (3): it moves Gemma monotonically across all seven doses, 0.009 at α = −3 through 0.182 unperturbed to 0.286 at +3, and clears the random band at z = +4.45. On (1) we count it **partially** satisfied — up raises betting and down lowers it, but we have not put an interval on that difference, so the interval clause is unmet. The fitted readout meets (2), meets (3) at one dose in one direction, is untested on (1), and fails (4) where it moves, parse success falling from 0.80 to 0.34 against our 0.45 gate.
+**What it shows, and what it does not.** The behavioural axis meets (2) and (3): the ladder above is monotone across all seven doses and clears the random band at z = +4.45. On (1) we count it **partially** satisfied — up raises betting and down lowers it, but we have not put an interval on that difference, so the interval clause is unmet. The fitted readout meets (2), meets (3) at one dose in one direction, is untested on (1), and fails (4) where it moves, parse success falling from 0.80 to 0.34 against our 0.45 gate.
 
-On your confound directly: the direction fitted to balance and round steers at chance and its removal moves Gemma the wrong way, so a simple linear state explanation does not reproduce the pattern — distributed or nonlinear state correlates remain possible. One self-limit: the LLaMA readout arm passes the removal criterion by only a 6% margin. The camera-ready carries these tables, the criteria and the registered rules as they fell, plus one deviation: choice probability and logits are out, since conditioning on the model's own decision would rig the test.
+On your confound directly: the direction fitted to balance and round steers at chance and its removal moves Gemma the wrong way (the +0.046 above), so a simple linear state explanation does not reproduce the pattern — distributed or nonlinear state correlates remain possible. One self-limit: the LLaMA readout arm passes the removal criterion by only a 6% margin. The camera-ready carries these tables, the criteria and the registered rules as they fell, plus one deviation: choice probability and logits are out, since conditioning on the model's own decision would rig the test.

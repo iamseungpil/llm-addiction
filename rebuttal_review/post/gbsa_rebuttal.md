@@ -41,7 +41,7 @@ What we cannot offer is human-annotated validation, the honest limit here: the e
 
 **Second, stating the conclusion does change behaviour.** An instruction giving the per-round expected loss and permitting a stop at any round cuts LLaMA's variable-condition bankruptcy from 81.5% to 3.0% — you are right that explicit framing suppresses risk-taking. It is no off-switch: 69 of 100 variable-condition games still wager against 2 fixed, so calibration alone does not carry the contrast.
 
-**[Q4] Why sparse-autoencoder features and Ridge regression.** **Whether 200 is principled**: a compute ceiling, not a claim; nothing prevents 2,000.
+**[Q4] Why sparse-autoencoder features and Ridge regression.** **Whether top-200 features is principled**: a compute ceiling, not a claim; nothing prevents 2,000.
 
 **Whether a simpler baseline suffices**: we built the one you name — 65 game-log covariates on the published cell, reaching 0.590 on the raw bet-ratio target and 0.140 in the paper's own metric. There the published readout still adds +0.037 to +0.045 under both fold rules; on a raw target built for this test the internal state adds +0.059 while the sparse features add +0.0024 once duplicated states are separated (table in our KuK5 response). We kept the sparse basis for feature-level inspectability rather than statistical necessity — steering itself does not require it — and +0.0024 is its cost.
 

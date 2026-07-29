@@ -1822,3 +1822,79 @@ The rationality-instruction figures in a3Zu and gbSA come from the framing-**abs
 (`llama_cap70_{fixed,variable}_none_rat1`: participation 2/100 and 69/100, ruin 0.0% and 3.0%),
 against the inherited matched-cap baselines 3.0% and 81.5% at n = 200. That is a separate
 comparison and is unaffected by any of the above.
+
+## Z.2 The moving-target error rate, done properly (supersedes the window curve in §Z)
+
+**There is no engine ground truth to check the extractor against.** Verified 2026-07-29: the
+`PROMPT_GOAL` regex in `moving_target_paper_metric.py` matches **0 of 13,778** goal-arm prompts in
+the investment-choice corpus. The prompt says "First, set a target amount yourself" every round
+and carries no record of a previously set goal, so the engine never tracks one here. Any claim
+that the extractor was validated against engine state is false for this corpus.
+
+**So the rate is bracketed by two automatic tests, not measured to a point.** Both computed over
+the canonical corpus with the figure's own `GOAL_PATTERNS`:
+
+- **prompt echo** -- the matched number appears verbatim among that round's own prompt numbers
+  (balance, stake, option payoffs), so it is not a self-set target. Over-flags: a genuine target
+  can coincide with a payoff.
+- **no goal word within 150 characters** before the match. Under-flags: a nearby "target" does not
+  make the number the target.
+
+| escalation events | goal arm | no-goal arm |
+|---|---|---|
+| prompt echo | 16.3% | 73.9% |
+| no goal word nearby | 13.9% | 92.8% |
+| **either** | **25.9%** | **97.7%** |
+
+n = 3,618 goal-arm and 1,060 no-goal-arm escalation events. Over all extractions rather than
+escalations: goal arm 28.0 / 17.6 / 36.7%, no-goal arm 81.7 / 92.8 / 97.9% (n = 15,629 and 5,428).
+
+**The letter quotes 25.9% as the headline, "up to about a quarter".** Do not quote §Z's 13.9%
+alone -- it is the weaker of the two tests. The mirror (98% doubtful where no goal exists) is what
+justifies withdrawing the no-goal baseline rather than the contrast.
+
+**A limitation to hold.** Neither test is an error rate; narrowing further needs human
+adjudication, which is exactly what a3Zu's weakness says we lack. Say so rather than implying the
+bracket is a measurement.
+
+## Z.3 The published lexicon in full, and two things about it
+
+`sae_v3_analysis/src/run_distortion_quantification.py:33` is the published instrument. The four
+frames carry 6 / 7 / 7 / 3 expressions, not the three apiece an earlier draft of the gbSA table
+showed. gbSA now prints the list (two long regexes dropped for width, flagged as such here):
+
+| code | expressions |
+|---|---|
+| `pattern_belief` | pattern, favorable state, hidden, trend, `streak.{0,20}continue`, `machine.{0,20}(hot|cold|due)` |
+| `loss_chasing` | recover, make back, get back, win back, recoup, regain, `back to $100` |
+| `probability_misestimation` | due for, overdue, bound to win, should win, `chance.{0,20}increase`, `probability.{0,20}(win|favor).{0,20}increase`, `more likely.{0,20}win` |
+| `goal_escalation` | `(new|revised|updated).{0,10}(target|goal)`, `(raise|increase|adjust).{0,10}(target|goal)`, `target.{0,10}(of|to) $N` |
+
+Dropped from the letter for column width: `probability.{0,20}(win|favor).{0,20}increase`,
+`back to $100`, `target.{0,10}(of|to) $N`. The letter says "that is the list, not a sample" --
+**if a reviewer asks, concede these three at once**; the appendix carries the frozen file and hash.
+
+**Two facts to have ready.** (1) `multi_instrument_robustness.py:147` applies a **negation guard**
+-- a match inside not / never / avoid / resist / rather than / instead of is read as a mention,
+not an endorsement. The letter now says so; it is a real methodological answer to "is this just a
+keyword count". (2) The file comments the patterns as "built inductively from actual LLaMA
+responses". That is a circularity a reviewer could press on, and the letters cover it only by
+saying the expressions are ours and unvalidated. **Do not volunteer it; do not deny it.**
+
+## Z.4 The readout defence was under-stated, and is now corrected
+
+§T.4 records the result but the kuk5 letter led with the cell where the paper's own instrument
+fails, on a target the paper does not use. Corrected 2026-07-29. Both metric spaces are now in
+one table:
+
+| added over the 65-covariate log | by game | by state hash |
+|---|---|---|
+| **paper's own metric** (deconfounded residual), SAE features | +0.037 | **+0.045** |
+| raw bet-ratio target, raw hidden state | +0.059 | **+0.059** |
+| raw bet-ratio target, SAE features | +0.044 | **+0.0024** |
+
+The first row is the one that matters for "is the published readout real": on the metric the
+published 0.167 is in, the paper's own features clear the rich baseline under both fold rules, and
+the increment is **larger** under the stricter one. The third row is the disclosure and stays.
+§T.5 licenses exactly this pairing -- "may claim" includes the residual-metric increment surviving
+state grouping.

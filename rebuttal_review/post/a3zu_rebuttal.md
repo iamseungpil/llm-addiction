@@ -12,7 +12,7 @@ We thank the reviewer for reading our paper so closely, and for the chance to im
 
 **You are right, and we do not have that check.** What we can show is where the constructs come from, and that the contrast does not depend on the one code you would most suspect.
 
-**Where the constructs come from.** No validated public lexicon that we know of adjudicates gambling-specific distortions in free text; the closest are Raylu & Oei's GRCS subscales, Toneatto's typology, Goodie & Fortune's review, and Smith et al.'s DSM-5/GRCS coding guide. The constructs are grounded in that literature; the expression list and the scoring rules are ours and remain unvalidated. The frozen list, with each code's source, window and expressions, is tabulated in our response to Reviewer gbSA (Q2). The submitted paper already scopes the claim: "the language analysis is not evidence that the model independently discovers those distortions, only that high-risk regimes are accompanied by loss-recovery and control-like justifications in the generated reasoning."
+**Where the constructs come from.** No validated public lexicon that we know of adjudicates gambling-specific distortions in free text; the closest are Raylu & Oei's GRCS subscales, Toneatto's typology, Goodie & Fortune's review, and Smith et al.'s DSM-5/GRCS guide. The constructs are grounded in that literature; the expression list and the scoring rules are ours and remain unvalidated. The frozen list, with each code's source, window and expressions, is tabulated in our response to Reviewer gbSA (Q2). The submitted paper already scopes the claim: "the language analysis is not evidence that the model independently discovers those distortions, only that high-risk regimes are accompanied by loss-recovery and control-like justifications in the generated reasoning."
 
 **The check that matters more than the headline.** Re-scored over the full corpus (19,200 games, 190,300 decisions), the published instrument's goal contrast is dominated by `goal_escalation` (+65 to +95 points) — near-tautological, since the goal prompt tells the model to set a goal. So we rebuilt the codebook without a goal category at all, and the contrast survives on two literature-grounded language categories:
 
@@ -27,19 +27,19 @@ That is the version we will report, and we mark its status: a codebook frozen du
 
 ## Q1. Parsing error or ambiguity rate
 
-**We should have reported this, and we have now measured it.** An extraction counts as grounded only when *goal*, *target* or *aim* appears within a fixed window before the matched number. The rate depends on that window, so we give the curve rather than one flattering point:
+**We should have reported this, and we have now measured it.** With no human adjudication we cannot give one exact figure, so we ran the two strictest automatic tests we could define and report the bracket. A hit is doubtful if the matched number is **echoed from that round's own prompt** (a balance, stake or payoff, so not a self-set target), or if no *goal / target / aim* appears within 150 characters before it. Of escalation events:
 
-| % of extractions with **no** goal word nearby | goal arm, escalation events | no-goal arm, all |
+| doubtful by | goal arm | no-goal arm |
 |---|---|---|
-| goal word allowed within 40 characters | 21.0% | 93.9% |
-| within 150 characters | **13.9%** | 92.8% |
-| within 300 characters | 8.4% | 91.6% |
+| prompt echo | 16.3% | 73.9% |
+| no goal word nearby | 13.9% | 92.8% |
+| **either test** | **25.9%** | **97.7%** |
 
-n = 3,618 escalation events and 15,629 extractions in the goal arm, 5,428 in the no-goal arm. So roughly one in six, not one in a hundred, and the camera-ready reports it with the rule stated. The mirror is what we would ask you to weigh: the same extractor on the same corpus is 92–94% ungrounded where **no** goal exists — it tracks something real where a goal is set and almost nothing where none is.
+n = 3,618 escalation events in the goal arm and 1,060 in the no-goal arm. So the honest figure is **up to about a quarter**, not one in a hundred, and the camera-ready reports it with both rules stated. The mirror is what we would ask you to weigh: the same extractor, same corpus, is 98% doubtful where **no** goal exists. It tracks something real where a goal is set and almost nothing where none is — which is the case for withdrawing the no-goal baseline rather than the contrast.
 
-**The figure itself reproduces.** The extractor on its own corpus (9,600 games) reproduces Figure 3(c) to one decimal — BASE 17.0, M 11.0, G 49.8, GM 47.8 — and all twelve cells of its appendix table. The decision parser, separately, flips 14 of 4,775 decisions in the matched-cap re-run (0.293%) and 18 of 7,223 in the second collection (0.249%).
+**The figure itself reproduces.** The extractor on its own corpus (9,600 games) reproduces Figure 3(c) to one decimal — BASE 17.0, M 11.0, G 49.8, GM 47.8 — and all twelve cells of its appendix table. The decision parser, a different instrument, flips 0.293% and 0.249% of decisions in the two collections.
 
-**What we now report.** Because of that mirror we withdraw the no-goal absolute value as a baseline and report the frequency **within** the goal conditions, 49.8% and 47.8%. The non-extraction rate proper, with its denominator, by 3 August.
+**What we now report.** The frequency **within** the goal conditions, 49.8% and 47.8%. The non-extraction rate proper, with its denominator, by 3 August.
 
 **And the contrast survives a stricter definition.** §2 defines escalation as raising a self-set goal *after meeting it*. "No goal" means the prompt supplied none — a model could still state and later revise a target of its own, which is why the no-goal column is not zero. Applying that achievement test throughout, API-only so both arms share one instrument:
 

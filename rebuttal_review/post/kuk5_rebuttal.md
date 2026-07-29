@@ -55,7 +55,9 @@ Two questions here, and we took them in that order: what would count as positive
 
 **What we ran.** The submitted protocols all wrote at a single layer, and the paper left the true locus open. So we first located where writing works with a window scan over the layers of both models, then added and removed a frozen direction during generation inside that band. The design is paired: the same seeds at the same doses on the same game states, so the activation edit is the only difference between compared arms, and a confound operating through balance or round cannot produce the effect by construction. Controls were twenty size-matched random directions and a direction fitted to balance and round, steered and removed in its own right.
 
-| direction, 200 games/dose | dose slope on bet ratio | z vs 20 norm-matched | removal effect | removal p |
+One metric throughout: the bet ratio, the wager as a share of the current balance, so every entry below is on the same scale. The slope is its change per unit dose; the z-score is how far that slope sits outside twenty size-matched random directions; removal is the change in the same ratio when the direction is subtracted.
+
+| direction, 200 games/dose | dose slope on bet ratio | z vs 20 random | removal effect on bet ratio | removal p |
 |---|---|---|---|---|
 | behaviourally defined axis | 0.0457 | **+4.45** | −0.037 Gemma, −0.052 LLaMA | — |
 | same, fitted with no autoencoder | 0.0284 | ≈ +3 | — | — |

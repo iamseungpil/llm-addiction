@@ -1985,3 +1985,22 @@ Two consequences the letters rely on. The definition is achievement-conditional 
 code counts any upward revision, which is why the strict-rule re-analysis exists (§Q1). And the
 11-17% baseline is published, so the no-goal arm is half the published contrast rather than
 something the response introduced.
+
+## Y.6 Newcombe 95% intervals on the fixed-variable bankruptcy difference, cap-$70 panel (computed 2026-07-29)
+
+Method 10 (Wilson-hybrid) intervals on d = p_variable - p_fixed, computed from the ledgered cell
+proportions in Y.1/A1 (Gemini 5-module 10/50 vs 31/50; GPT-4.1-mini 5-module 1/50 vs 28/50;
+LLaMA base prompt 6/200 vs 163/200). Independently reproduced by two implementations (session and
+verifier agent), exact agreement to 0.1pp.
+
+| contrast | diff (pp) | Newcombe 95% |
+|---|---|---|
+| Gemini 5-module, n=50/arm | +42.0 | [+23.0, +57.0] |
+| GPT-4.1-mini 5-module, n=50/arm | +54.0 | [+37.9, +66.9] |
+| LLaMA base, n=200/arm | +78.5 | [+71.6, +83.5] |
+
+All three exclude zero. These replace the letter's earlier marginal-Wilson-halfwidth sentence,
+which certified contrasts off per-arm intervals — the practice the gbSA letter itself disavows.
+The "7 of 10 confident cells" cross-task tally (SUBMIT.md:231) remains UNLEDGERED: not in this
+file, not in the submitted paper at e3382c0. The letter now states the transfer qualitatively
+without the count; do not restore the count without an artefact recount.

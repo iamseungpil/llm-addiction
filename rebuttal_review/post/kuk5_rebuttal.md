@@ -26,11 +26,11 @@ LLaMA is decisive there, in the last row below. The forced arm stakes $68.4 per 
 
 Gemini moves the same way with the preamble but *without* the five modules, so the preamble is not the cause. Four of six.
 
-**Both pre-registered rules failed.** With the forced arm at 0 in every cell, the primary rule stopped operationalising a panel-level arm effect and collapsed into asking whether the choosing arm ever ruins. The secondary is 0 of 6: given the choice, models wager 22–46% of the cap, not the registered half. What we report above is therefore the separate cells, not a registered pass.
+**Both pre-registered rules failed.** With the forced arm at 0 in every cell, the primary rule stopped operationalising a panel-level arm effect and collapsed into asking whether the choosing arm ever ruins. The secondary is 0 of 6: given the choice, five of six wager 22–46% of the cap, not the registered half. What we report above is therefore the separate cells, not a registered pass.
 
-**A second pre-registered factorial repeats it at that cap**, n = 100: Gemini 12 bankruptcies forced against 32 choosing, LLaMA 6.0% against 82.0%. All 44 cells complete. Refusal does not explain the gap in the one cell where both arms play every game, and the rest of the confound battery — action space, game length, exposure, stopping — is in our response to Reviewer gbSA, W4.
+**A second pre-registered factorial repeats it at that cap**, n = 100 per cell and all 44 complete. Its two Gemini pairs run 0.0% forced against 4.0% choosing and 12.0% against 32.0%; LLaMA runs 6.0% against 82.0%. Refusal does not explain the gap in the one cell where both arms play every game, and the rest of the confound battery — action space, game length, exposure, stopping — is in our response to Reviewer gbSA, W4.
 
-**Status.** Claude 3.5 Haiku is end-of-life (404), so the panels substitute Haiku 4.5, a different model. Of the 64-cell ladder, 63 clear our 95%-readable guard, including all 16 cap-$70 cells, where every panel rate comes from. The last by 3 August.
+**The completed ladder agrees.** All 64 cells are now collected and all clear our 95%-readable guard. Across the four API models, four caps and both prompt conditions, the choosing arm ruins at least as often as the forced arm in **29 of 32 arm-pairs**; the three exceptions are one Claude cell and two Gemini base-prompt cells. Claude 3.5 Haiku is end-of-life (404), so the panels substitute Haiku 4.5, a different model.
 
 ## [W1, Q2] What the internal-state results show
 

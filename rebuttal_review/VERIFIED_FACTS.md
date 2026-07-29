@@ -1709,3 +1709,70 @@ External anchors added in the gbSA letter, both checked 2026-07-29:
   2024 --- autonomy as the variable that erodes oversight.
 
 Both are cited for their *framing*, never for a number. Do not attribute any measurement to them.
+
+## Y.1 The matched-cap ladder completed, 2026-07-29 — 64 of 64
+
+The last cell (`gemini-flash, cap $30, variable, GMPRW`) landed after §Y was written. Re-run with
+`sweep_quarantine.inspect()` over `mc32/final_*.json`:
+
+| | count |
+|---|---|
+| files present | 64 |
+| passing `inspect()` | **64** |
+| rejected | 0 |
+| distinct (model, cap, mode, combo) | **64 of 64** |
+
+**§Y's "63 of 64" and every "the last by 3 August" attached to it are superseded.** Both letters
+now say all 64 are in.
+
+**A result the completed grid licenses, and the letters now use it.** Over the whole ladder --
+4 API models x 4 caps ($10/$30/$50/$70) x 2 prompt conditions = 32 arm-pairs -- the choosing arm
+bankrupts **at least as often as the forced arm in 29 of 32 pairs**. The three exceptions,
+forced/choosing:
+
+| cell | forced | choosing |
+|---|---|---|
+| claude-haiku-4-5, GMPRW, cap $50 | 12.0 | 0.0 |
+| gemini-flash, BASE, cap $10 | 2.0 | 0.0 |
+| gemini-flash, BASE, cap $50 | 34.0 | 26.0 |
+
+Name them; **do not** write that all three sit at the floor -- the Gemini $50 pair does not.
+
+**Panel figures re-verified against the raw files on 2026-07-29**, all exact: cap $70 GMPRW
+forced/choosing gemini 20.0/62.0, gpt-4.1-mini 2.0/56.0, gpt-4o-mini 0.0/40.0, claude 0.0/0.0;
+gemini BASE 6.0/34.0; the Gemini cleanest cell $64.5 vs $47.9 per round, 2.9 vs 5.9 wagering
+rounds, 50/50 games played in both arms, Fisher p = 3.61e-05. LLaMA cap $70 base, n = 200:
+forced 3.0% at $68.4/round over 0.92 rounds, choosing 81.5% at $32.1 over 15.17
+(`final_llama_cap70_{fixed_20260727_101046,variable_20260725_103120}.json`; the earlier
+`fixed_20260725_054514` file is the superseded $10/round run and must not be quoted).
+
+## Y.2 E7 at cap $70: quote both framing conditions, never one
+
+Counted from `e7_factorial/*.json`, n = 100 per cell, rationality factor off:
+
+| model | framing | forced | choosing |
+|---|---|---|---|
+| gemini-2.5-flash | absent | 0.0 | 4.0 |
+| gemini-2.5-flash | present | 12.0 | **32.0** |
+| LLaMA | present | 6.0 | **82.0** |
+
+**An earlier kuk5 draft quoted only the second Gemini row.** Both Gemini pairs run the same
+direction, but 0.0/4.0 is much the weaker of the two, and quoting the stronger alone is
+cherry-picking inside a factorial that a reviewer can obtain. The letter now gives both pairs.
+The framing factor itself stays unnamed in the response, per the standing instruction; naming the
+*cells* is not the same as naming the factor.
+
+## Y.3 Track L hazard figures: where they live
+
+Not in this file until now, which is why an audit flagged `0.112` as untraceable. Source is
+`paper_experiments/track_L_length_confound/README.md`, "Quick result":
+
+| dataset | n_bankrupt | RR per decision | 95% CI | Holm p |
+|---|---|---|---|---|
+| SM_API (claude / gemini / gpt-4.1-mini / gpt-4o-mini-corrected) | 926 | **90.6** | [44.8, 183.4] | < 1e-34 |
+| SM_OW (LLaMA + Gemma) | 313 | 104 | [7.5, 1479] | 5.6e-4 |
+| IC_OW (LLaMA + Gemma, max_rounds=100) | 307 | **0.112** | [0.079, 0.158] | < 1e-34 |
+
+`IC_API` is descriptive only -- 0 of 6,600 bankruptcy events, so the per-decision RR is not
+estimable. The gbSA letter quotes 90.6 for the four API providers and 0.112 as the open-weight
+investment-choice inversion, which matches rows 1 and 3.

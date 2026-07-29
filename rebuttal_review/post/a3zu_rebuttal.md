@@ -1,6 +1,6 @@
 # Response to Reviewer a3Zu
 
-We thank the reviewer for reading our paper so closely. Your weakness and three questions press on the same joint — whether the instrument bears the weight the framing puts on it — and working through them changed what we report, not only how we word it.
+We thank the reviewer for reading our paper so closely. Your weakness and three questions press on one joint — whether the instrument bears the weight the framing puts on it — and working through them changed what we report, not only how we word it.
 
 - **Validated against human judgement? (W1)** Not by human annotators. Below: where the four frames come from, and the check that the contrast does not rest on the code you would most suspect.
 - **Parsing error rate for the goal metric? (Q1)** Measured now, below — and it led us to withdraw the metric's baseline.
@@ -29,17 +29,17 @@ That is the version we will report, marked for what it is: a codebook frozen dur
 
 **This is the question that changed what we report, and we are glad you asked it.** We had not measured it, and looking turned up something better than a rate. The corpus has two halves, and only one of them uses the extractor at all:
 
-| moving-target rate, games | BASE | M | G | GM |
+| moving-target rate, % of games | BASE | M | G | GM |
 |---|---|---|---|---|
-| open-weight — engine records the goal | 0.0 | 0.0 | **24.6** | **30.6** |
-| API — extracted from free text | 25.4 | 16.5 | **62.3** | **56.4** |
-| Figure 3(c), the two pooled | 17.0 | 11.0 | **49.8** | **47.8** |
+| open-weight, goal from engine state (n = 800) | 0.0 | 0.0 | **24.6** | **30.6** |
+| API, goal extracted from free text (n = 1,600) | 25.4 | 16.5 | **62.3** | **56.4** |
+| Figure 3(c), the two pooled (n = 2,400) | 17.0 | 11.0 | **49.8** | **47.8** |
 
-Where the engine holds the goal, no-goal is 0.0% because no goal exists to raise, and the goal conditions still escalate in a quarter to a third of games — a rate owing nothing to text parsing. Where the extractor reads free text, the no-goal cells return 25.4% and 16.5% for something that is not there. Figure 3(c) pools the two, which is how 11–17% became a baseline. **We withdraw that baseline.**
+Where the engine holds the goal, no-goal is 0.0% because no goal exists to raise, and the goal conditions still escalate in a quarter to a third of games — owing nothing to text parsing. Where the extractor reads free text, the no-goal cells return 25.4% and 16.5% for something that is not there. Figure 3(c) pools the two, which is how 11–17% became a baseline. **We withdraw that baseline.**
 
-Where a goal does exist, the extractor's own error rate: with no human adjudication we give a range, calling an extraction **doubtful** if no *goal / target / aim* sits within 150 characters of the matched number and **clearly wrong** if the number is also one the prompt printed. Of goal-arm escalation events, 13.4% and 4.2% (n = 3,638); of no-goal-arm events, 90.8% and 67.7% (n = 1,062).
+Where a goal does exist, the extractor's own error rate: with no human adjudication we give a range, calling an extraction **doubtful** if no *goal / target / aim* sits within 150 characters of the matched number and **clearly wrong** if the number is also one the prompt printed. Of the 3,638 goal-arm escalation events, 13.4% and 4.2% — and 13.4% is a ceiling, the flagged cases being largely targets phrased without the word goal nearby.
 
-**The pipeline itself reproduces**, to one decimal on all four conditions above and all twelve cells of the appendix table, run through the figure's own loader on its own 9,600 games. The decision parser, a different instrument, flips 0.293% and 0.249% of decisions.
+**The pipeline reproduces**, to one decimal on all four conditions above and all twelve appendix cells, run through the figure's own loader on its 9,600 games. The decision parser, a different instrument, flips 0.293% and 0.249% of decisions.
 
 **And the contrast survives a stricter definition.** §2 defines escalation as raising a self-set goal *after meeting it*. Applying that achievement test throughout, API-only so both arms share one instrument:
 
@@ -60,7 +60,7 @@ Pooled, a 2.24× goal-to-no-goal contrast against the published rule's 2.83× on
 
 ## Q2. Humans on the same game
 
-**We would like that comparison too, and it is the right thing to ask for.** What stands in the way is scale: 19,200 games and 190,300 decisions, and a human run that could be set beside that is not something we can stand up inside a rebuttal window. So we narrow instead. The submitted §2 keeps the comparison at the level of "the clinically defined diagnostic criteria for pathological gambling", not rates, and the camera-ready says outright that no rate we report is comparable to a human rate. A 2023 study coding think-aloud verbalisations in a simulated slot machine (57, 47 and 46 coded instances of gambler's fallacy, near-miss and illusion of control) enters as a qualitative anchor — counts on its participants, not rates on ours.
+**We would like that comparison too, and it is the right thing to ask for.** What stands in the way is scale: 19,200 games and 190,300 decisions, and a human run to set beside that is not something we can staff inside a rebuttal window. So we narrow instead. The submitted §2 keeps the comparison at the level of "the clinically defined diagnostic criteria for pathological gambling", not rates, and the camera-ready says outright that no rate we report is comparable to a human rate. A 2023 study coding think-aloud verbalisations in a simulated slot machine (57, 47 and 46 coded instances of gambler's fallacy, near-miss and illusion of control) enters as a qualitative anchor — counts on its participants, not rates on ours.
 
 ## Q3. A cautious and an escalating demonstration
 
@@ -86,8 +86,8 @@ Prompt richness is a confound, controlled: holding module count fixed the gap is
 | choosing, no instruction (n = 200) | — | 81.5 |
 | choosing, + instruction (n = 100) | **69 / 100** | 3.0 |
 
-It works: ruin falls from 81.5% to 3.0%, and participation falls by 91 to 100 points in three API models. We read that as supporting both sides. It supports our narrower claim, since the paper asks which conditions amplify or suppress risk-taking and a condition that suppresses it shows the behaviour is **condition-dependent rather than a fixed disposition** — which is also why we withdraw any reading of it as a stable trait. And it supports yours: calibration is a strong moderator here, not a minor one. Two things it does not do. It is no off-switch: 69 of 100 games still contain a wager, the model staying alive by wagering small rather than stopping. And the arm contrast persists under it, 69 wagering games against 2 forced. Your demonstration tests what an instruction cannot — an instruction says what to conclude, a play-through shows what the game looks like.
+It works: ruin falls from 81.5% to 3.0%, and participation falls by 91 to 100 points in three API models. We read that as supporting both sides. It supports our narrower claim, since the paper asks which conditions amplify or suppress risk-taking and a condition that suppresses it shows the behaviour is **condition-dependent rather than a fixed disposition** — which is also why we withdraw any reading of it as a stable trait. And it supports yours: calibration is a strong moderator here, not a minor one. Two things it does not do. It is no off-switch: 69 of 100 games still wager, the model staying alive by wagering small rather than stopping. And the arm contrast persists under it, 69 wagering games against 2 forced. Your demonstration tests what an instruction cannot — an instruction says what to conclude, a play-through shows what the game looks like.
 
-**Scope.** These are artificial negative-EV games: we claim condition-dependent risk-taking and decodable signals, not addiction, a stable trait, or a mechanism. Where the traces resemble loss-chasing or control language from the human literature, we report resemblance, not a shared cause.
+**Scope.** These are artificial negative-EV games: we claim condition-dependent risk-taking and decodable signals, not addiction, a stable trait, or a mechanism. Where the traces resemble the human literature's loss-chasing or control language, we report resemblance, not a shared cause.
 
 If any part falls short, we would be glad to take it further during the discussion.

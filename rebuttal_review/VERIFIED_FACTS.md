@@ -1851,7 +1851,7 @@ Published Figure 3(c) is reproduced to one decimal: BASE 17.0, M 11.0, G 49.8, G
 
 ### Z.2a The decomposition, which is a better answer than any error rate
 
-| moving-target rate, % of games (n = 1,600 per cell per source) | BASE | M | G | GM |
+| moving-target rate, % of games (api n = 1,600; open-weight n = 800; pooled 2,400) | BASE | M | G | GM |
 |---|---|---|---|---|
 | open-weight -- engine records the goal, no extraction | 0.0 | 0.0 | **24.6** | **30.6** |
 | API -- extracted from free text | 25.4 | 16.5 | **62.3** | **56.4** |
@@ -1876,6 +1876,17 @@ characters of the match, **clearly wrong** if it is also a number the prompt pri
 |---|---|---|
 | doubtful | **13.4%** | 90.8% |
 | clearly wrong | **4.2%** | 67.7% |
+
+**The no-goal column is not in the letter.** It is a negative control on an arm whose baseline we
+withdraw anyway, and a reader stumbles on 67.7% before reaching the point. The decomposition above
+makes the same case without it.
+
+**Both instrument paths verified against the engine code, 2026-07-29.** API rows: 21,110 of 39,057
+decisions yield a goal from the response text and `PROMPT_GOAL` fires **0 times**, so that half is
+genuinely free-text extraction with no prompt fallback in play. Open-weight rows: `goal_before` /
+`goal_after` are present on all 12,410 decisions and are set in 0 BASE and 0 `M` decisions against
+2,626 (G) and 3,239 (GM), so the 0.0% is structural, not missing data. The pooling arithmetic
+closes: (1,600 x 25.4 + 800 x 0.0) / 2,400 = 16.9, the published 17.0.
 
 Extraction counts 15,684 and 5,426 match §M.2 exactly, which is the cross-check that the corpus
 selection is now right.

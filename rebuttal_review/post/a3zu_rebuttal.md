@@ -77,7 +77,7 @@ Pooled, that is a 2.24× goal-to-no-goal contrast against the published rule's 2
 
 Prompt richness is a confound, controlled: holding module count fixed the gap is +9.9 and +7.2 points at two and three modules and −2.7 at four. We claim only that supplying the numbers does not reduce ruin — the inputs were present, not necessarily used.
 
-**A stronger manipulation we did run, and it cuts our way as well as yours.** An instruction stating that immediate stopping maximises expected value, with permission to stop at any round. The arm is complete; LLaMA at cap \$70, participation being games containing at least one wager:
+**A stronger manipulation we did run, and it cuts our way as well as yours.** An instruction stating that immediate stopping maximises expected value, with permission to stop at any round. All 44 cells are in; LLaMA at cap \$70, participation being games containing at least one wager:
 
 | LLaMA, cap \$70 | participation | bankruptcy % |
 |---|---|---|

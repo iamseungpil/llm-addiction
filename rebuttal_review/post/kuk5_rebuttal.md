@@ -3,7 +3,7 @@
 We thank the reviewer for reading our paper so closely, and for the chance to improve it. Both weaknesses named real gaps, and both sent us back to the bench. We ran a new experiment for each and report what came back, whichever way it fell.
 
 - **W1 — can the neural decoding support a mechanistic reading?** No, and the submitted abstract already says so. What holds is the readout as a *predictive* signal: it clears a rich behavioural baseline and a stricter fold rule. What we add is a causal result the paper did not have, and the null there is direction-specific.
-- **W2 — does the equal-cap claim rest on one model?** It did. Both arms now run at the same cap across the panel, at four caps and under two prompt conditions; under the paper's own condition set the dissociation appears in four of six.
+- **W2 — does the equal-cap claim rest on one model?** It did. Both arms now run at the same cap across the panel, at four caps, under two prompt conditions and in a second harness; under the paper's own condition set the dissociation appears in four of six.
 - **Q1 — does it hold on the other five?** Four of six. Gemma is 0.0% in both arms at all four caps, Claude 0.0 in both panel arms — nulls, not absences.
 - **Q2 — a positive result, and a balance/round correlate?** Four criteria below, applied to both directions. We steered the balance/round direction itself and ran the nested test your question implies: the hidden state clears it, the sparse basis does not.
 
@@ -27,6 +27,8 @@ LLaMA is decisive there, in the last row below. The forced arm stakes $68.4 per 
 Gemini moves the same way with the preamble but *without* the five modules, so the preamble is not the cause. Four of six.
 
 **Both pre-registered rules failed.** With the forced arm at 0 in every cell, the primary rule stopped operationalising a panel-level arm effect and collapsed into asking whether the choosing arm ever ruins. The secondary is 0 of 6: given the choice, five of six wager 22–46% of the cap, not the registered half. What we report above is therefore the separate cells, not a registered pass.
+
+**A second pre-registered factorial repeats it at that cap**, n = 100: Gemini 12 bankruptcies forced against 32 choosing, LLaMA 6.0% against 82.0%. All 44 cells complete.
 
 **Nor does refusal explain it.** In the Gemini five-module cell both arms play all 50 games and the gap is still 20.0 against 62.0. The rest of the confound battery — action space, game length, exposure, stopping — is in our response to Reviewer gbSA, W4.
 

@@ -1795,19 +1795,30 @@ the generation directory name `fig04_investment_choice`; that directory name doe
 the compiled float number, and section M is corrected to 3(c). Section R.1 had it right all along
 ("The paper's Figure 2d caption"), which is what settled it.
 
-## Y.5 The framing factor is out of the response, and the letters no longer depend on it
+## Y.5 The framing factor: report its cells, do not explain the factor
 
-Standing instruction: the role/framing preamble is not to be named in the rebuttal, and those
-cells are to be dropped from the released data. An earlier kuk5 draft quoted E7's
-`role`-condition arm contrasts (Gemini 12.0/32.0, LLaMA 6.0/82.0) as a second replication. **That
-sentence is deleted**, not rebalanced -- the completed 64-cell matched-cap ladder (§Y.1) carries
-the replication claim on its own, and quoting numbers that will not exist in the released data
-would be worse than quoting one condition of two.
+Corrected 2026-07-29 after a misreading on my part. The standing instruction is that the
+role/framing preamble is **not to be described** in the response --- it was added to hold the
+model steady against drift, and explaining it would put a design detail in front of a reviewer who
+did not ask about it. It is **not** an instruction to drop the cells or their results.
 
-What survives is safe: every E7 figure still in the letters comes from a **no-framing** cell ---
-`llama_cap70_fixed_none_rat1` (participation 2/100, ruin 0.0%) and
-`llama_cap70_variable_none_rat1` (69/100, 3.0%), against the inherited matched-cap baselines
-3.0% and 81.5% at n = 200. Verified cell by cell on 2026-07-29.
+**So the E7 cap-$70 arm contrasts are reported, from the framing-present cells, with no
+characterisation of the factor:** Gemini 12 bankruptcies forced against 32 choosing, LLaMA 6.0%
+against 82.0%, n = 100 per cell, all 44 cells complete. Recounted from
+`e7_{gemini-2.5-flash,llama}_cap70_{fixed,variable}_role_rat0_*.json` on 2026-07-29: 12/100,
+32/100, 6/100, 82/100. Exact.
 
-"All 44 cells are in" is also gone from both letters. The 44 counts framing cells, so the claim
-would go stale the moment they are dropped; the letters now say the arm is complete.
+**Do not report the framing-absent pair** (Gemini 0.0 against 4.0). It is the incidental level,
+not the operating condition, and reporting both invites the explanation the instruction is meant
+to avoid. An earlier draft of this section recorded a decision to delete the whole sentence as
+cherry-picking; that reasoning was wrong, because the framing-present cells are the condition the
+protocol runs in, not the flattering half of a factorial.
+
+**The data is untouched and stays untouched.** Verified 2026-07-29: 44 E7 files on disk, 24
+framing-present and 20 framing-absent, and 64 `mc32` files. Nothing was ever deleted --- only
+letter text was edited.
+
+The rationality-instruction figures in a3Zu and gbSA come from the framing-**absent** cells
+(`llama_cap70_{fixed,variable}_none_rat1`: participation 2/100 and 69/100, ruin 0.0% and 3.0%),
+against the inherited matched-cap baselines 3.0% and 81.5% at n = 200. That is a separate
+comparison and is unaffected by any of the above.

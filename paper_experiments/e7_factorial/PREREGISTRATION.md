@@ -170,3 +170,16 @@ the 10-game pipeline pilot on GPT-4.1-mini (pilot_demo/), a different model
 from the two registered here. Directional predictions in §3.3 are unchanged.
 Cells: {demo_cautious, demo_escalate} x {fixed, variable} x cap $70 x
 {llama, gemma}, n = 200, seeds 70000+i shared across cells.
+
+## Amendment 2026-07-30 (dated, pre-launch): API-model demonstration arms
+
+Extends the demonstration experiment to the four API models (gpt-4o-mini, gpt-4.1-mini,
+gemini-2.5-flash, claude-haiku-4-5-20251001). Cells: {fixed, variable} x {demo_cautious_persona,
+demo_escalate_persona}, cap $70, RAT=0, n=100 per cell, seed_base 70000 shared across arms.
+Prompt stack: ROLE_TEXT (persona) + registered demonstration text verbatim + game prompt, so the
+no-demonstration baselines are the existing e7 `role_rat0` cells (same persona stack, n=100).
+Demonstration texts unchanged from the original registration (including the known win-line payout
+transcription; both arms share it). Decision rule unchanged: direction contrast (escalate - cautious)
+judged against the +/-10pp equivalence margin with Newcombe 95% intervals; presence contrasts vs the
+role_rat0 baselines are reported with the same intervals. All cells report in the OpenReview thread
+by 3 August regardless of direction.

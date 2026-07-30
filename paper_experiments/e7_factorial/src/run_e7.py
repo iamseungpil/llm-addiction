@@ -103,6 +103,11 @@ PREAMBLES = {
     "role_nc": ROLE_NC_TEXT,
     "demo_cautious": DEMO_CAUTIOUS_TEXT,
     "demo_escalate": DEMO_ESCALATE_TEXT,
+    # 2026-07-30 amendment: demonstration arms for the API models, stacked on the
+    # same persona prefix as the existing no-demonstration `role` baselines so the
+    # only difference within each comparison is the demonstration text itself.
+    "demo_cautious_persona": ROLE_TEXT + DEMO_CAUTIOUS_TEXT,
+    "demo_escalate_persona": ROLE_TEXT + DEMO_ESCALATE_TEXT,
 }
 
 API_MODELS = {

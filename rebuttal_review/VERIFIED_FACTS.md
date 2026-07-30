@@ -2065,3 +2065,42 @@ Newcombe contrasts (llama): chosen-fixed vs forced70 +3.0 pp [−2.5, +7.2] (equ
 (no gemma bet ≥ $100; llama open arm has 47 bets of $100 but the mean is unchanged).
 Participation: llama choose_fixed 87.0%, forced70 61.0%, variable70 97.0%, open 96.0%;
 gemma choose_fixed 0.5%, variable 14.0→12.0%.
+
+## F.6 Paper-attribution authority is the COMPILED PDF, not the repo tex (correction, 2026-07-30)
+
+`/home/v-seungplee/24231_Can_Large_Language_Model.pdf` (the submitted reviewer copy) does NOT
+contain the standalone Limitations section: `6.limitations.tex` ("strictly behavioural ... moral
+status") exists in the repo at e3382c0 but was not compiled into the submission. The PDF's
+"Limitations" hit is the NeurIPS checklist, whose answer points to Section 5 (Conclusion) for the
+scope caveats (correlational internal evidence; three causal-control protocols null; two open-weight
+models; small-to-medium R^2). The Section 2 boundary sentence IS in the PDF: "'addiction-like' is
+not a claim that an LLM experiences craving or withdrawal; it names a behavioural pattern."
+RULE going forward: every "the paper says X" sentence in a letter must be verified against the PDF
+text extraction (scratchpad 24231.txt), not only `git show e3382c0`. Re-audit 2026-07-30: all other
+letter attributions pass in the PDF (independently-discovers quote, "drawn from clinical gambling
+research", 16-19 rounds mechanism, four frames incl. house-money, FDR keyword scan, moving-target
+figures 24.6/30.6/47.8). The gbSA W1 Limitations quote was replaced with the Section 2 quote.
+
+## F.4 Full mc32 persona grid, all four caps, per-cell stats (computed 2026-07-30, scratchpad mc32_f4.py)
+
+All 64 cells carry the persona prefix; two prompt conditions: GMPRW_persona (five modules) and
+persona (BASE). n=50/cell. Bankruptcy% fixed->variable, Newcombe 95% on diff; participation%.
+
+GMPRW_persona (five modules), bankruptcy fix/var, diff [95%], participation fix/var:
+| model | cap10 | cap30 | cap50 | cap70 |
+| GPT-4o-mini | 0/2 +2.0[-5.3,+10.5] 96/100 | 0/20 +20.0[+8.7,+33.0] 98/100 | 4/26 +22.0[+8.1,+35.9] 74/100 | 0/40 +40.0[+25.7,+53.8] 36/100 |
+| GPT-4.1-mini | 0/12 +12.0[+2.4,+23.8] 92/98 | 2/40 +38.0[+23.0,+51.9] 96/100 | 30/56 +26.0[+6.6,+42.8] 92/100 | 2/56 +54.0[+37.9,+66.9] 64/100 |
+| Gemini-2.5-Flash | 8/16 +8.0[-5.3,+21.4] 98/96 | 12/66 +54.0[+35.8,+67.2] 98/100 | 66/84 +18.0[+1.0,+33.8] 100/100 | 20/62 +42.0[+23.0,+57.0] 100/100 |
+| Claude-replacement | 0/0 96/98 | 0/0 96/100 | 12/0 -12.0[-23.8,-2.4] 76/100 | 0/0 40/98 |
+
+persona (BASE), same format:
+| GPT-4o-mini | 0/0 76/98 | 0/0 16/100 | 0/0 4/100 | 0/0 2/100 |
+| GPT-4.1-mini | 0/0 76/96 | 0/0 16/94 | 0/0 2/98 | 0/0 0/96 |
+| Gemini-2.5-Flash | 2/0 -2.0[-10.5,+5.3] 98/100 | 0/26 +26.0[+13.6,+39.6] 92/100 | 34/26 -8.0[-25.2,+9.8] 86/100 | 6/34 +28.0[+12.6,+42.4] 58/100 |
+| Claude-replacement | 0/0 6/6 | 0/0 0/8 | 0/0 0/10 | 0/0 0/6 |
+
+Tally reproduced: variable >= fixed in 29 of 32 pairs; the three exceptions match Y.1's:
+Gemini persona cap50 (17 vs 13) and cap10 (1 vs 0), Claude GMPRW cap50 (6 vs 0).
+Mean executed wagers available in script output; key: five-module fixed arms stake at/near cap
+while variable stakes ~1/3 of cap, yet variable ruins more at every informative cell.
+Cross-check: cap70 five-module cells equal Y.6 exactly.

@@ -21,7 +21,7 @@ This result shows that explicit goal-setting language does not wholly account fo
 
 ## Q1. Parsing error or ambiguity in the moving-target metric
 
-**The audit revealed two distinct issues: 4.2% of goal-condition events meet a conservative automated error criterion, and the submitted figure pools two different measurement instruments.**
+The moving-target rate is the fraction of games in which the model raises its self-set goal after meeting it. **The audit revealed two distinct issues: 4.2% of goal-condition events meet a conservative automated error criterion, and the submitted figure pools two different measurement instruments.**
 
 The columns below are the paper's four prompt conditions: BASE; M, reward maximisation; G, self-directed goal setting; and GM, both.
 

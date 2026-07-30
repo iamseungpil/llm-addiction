@@ -23,7 +23,7 @@ The BASE extension across all six models was largely floor-limited: four of six 
 
 Both pre-registered panel-level decision rules were negative, and we report them as such. The primary, a posterior bound on the pooled effect, is ill-posed with the fixed arm at zero; the secondary required four of six models to wager over half the cap, where models given freedom wager 22–46% of it. The table therefore represents separate model-condition estimates, not a registered panel-wide pass.
 
-As a broader descriptive check, all 64 grid cells pass the integrity guard and the variable condition reaches bankruptcy at least as often as fixed in 29 of 32 condition-pairs, ties included. Equal caps still leave stopping and exposure unequal; that battery and the registered follow-up are in our gbSA response.
+As a broader descriptive check, all 64 grid cells pass the integrity guard (a parse- and storage-completeness check) and the variable condition reaches bankruptcy at least as often as fixed in 29 of 32 condition-pairs, ties included. Equal caps still leave stopping and exposure unequal; that battery and the registered follow-up are in our gbSA response.
 
 ## [W1] What the submitted readout establishes
 
@@ -31,7 +31,7 @@ As a broader descriptive check, all 64 grid cells pass the integrity guard and t
 
 The first question is predictive: does the representation add information beyond the visible game log? We fitted a 65-covariate baseline (balance, round, drawdown, streaks, cumulative stake, lagged bet ratios) on the published cell's 12,246 decisions, with balance and round already residualised within fold before Ridge. One deviation from the registered baseline specification: choice probability and logits are excluded, since conditioning on the model's own decision would rig the test.
 
-Because the same observable state recurs across games, we evaluated two split rules: by game, and a stricter state-hash rule keeping repeated states on one side of the split. Each entry below is the held-out variance added over the same baseline.
+Because the same observable state recurs across games, we evaluated two split rules: by game, and a stricter state-hash rule keeping repeated states on one side of the split. Each entry below is the held-out variance added over the same baseline, judged against a margin of 0.017 fixed beforehand.
 
 | prediction target | representation added | ΔR², game folds | ΔR², state folds |
 |---|---|---|---|
@@ -49,9 +49,9 @@ The second question is causal: does intervening on the submitted fitted directio
 
 **Positive criteria, fixed before the runs.** (1) Increasing the direction raises the betting index and decreasing it lowers the index, with the interval on that difference excluding zero. (2) The effect changes consistently across the dose ladder rather than appearing only at an extreme. (3) It exceeds a band of norm-matched random directions. (4) Parse success stays above the validity gate, so apparent change is not broken generation.
 
-**Method.** The submitted protocols wrote at one layer; a window scan located the write bands at Gemma layers 16–21 and LLaMA layers 14–19, and we added or removed the frozen direction there during generation. The design is paired: prompt, seed, dose and game state are matched across compared runs, so the activation edit is the only difference. The same procedure ran on twenty norm-matched random directions and on a direction fitted to balance and round. That last control is your confound, steered directly.
+**Method.** The submitted protocols wrote at one layer; a window scan located the write bands at Gemma layers 16–21 and LLaMA layers 14–19, and we added or removed the frozen direction there during generation. The strength α is measured in units of the layer's own activation spread, so α = +2 adds twice that typical magnitude and −2 subtracts it. The design is paired: prompt, seed, dose and game state are matched across compared runs, so the activation edit is the only difference. The same procedure ran on twenty norm-matched random directions and on a direction fitted to balance and round. That last control is your confound, steered directly.
 
-The outcome is the bet ratio, the wager divided by current balance; the slope is its change per unit of α; z says how far that slope sits outside the twenty random directions. For Gemma the axis moves monotonically across the whole ladder:
+The outcome is the bet ratio, the wager divided by current balance. The slope is its change per unit of α — 0.0457 means each dose step moves the average wager by about 4.6 percentage points of the balance. The z-score compares that slope with the twenty random directions, whose slopes average 0.0007 with spread 0.0101. For Gemma the axis moves monotonically across the whole ladder:
 
 | dose α | −3 | −2 | −1 | 0 | +1 | +2 | +3 |
 |---|---|---|---|---|---|---|---|

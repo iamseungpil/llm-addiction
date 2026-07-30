@@ -30,7 +30,7 @@ A registered follow-up is running in the same harness: the model first chooses o
 
 **[Q1] The equal-cap test on other models.** **The matched-cap result no longer rests on one model.** The strongest additional result is LLaMA: the fixed condition stakes \$68.4 per played round yet reaches 3.0% bankruptcy, whereas the variable condition stakes \$32.1 and reaches 81.5%. Under the five modules at cap \$70, Gemini and GPT-4.1-mini move the same way, as does the submitted GPT-4o-mini ablation; several BASE cells are floor-limited in both arms, so we do not claim a homogeneous panel. The full table and the negative pre-registered panel criteria are in our KuK5 response.
 
-The completed 64-cell ladder passes the integrity guard, and the variable condition reaches bankruptcy at least as often as fixed in 29 of 32 condition-pairs, ties included. The three exceptions are one Claude cell and two Gemini BASE cells; the Claude cells come from a replacement model (the submitted checkpoint is retired) and speak to the replacement only.
+The completed 64-cell ladder passes the integrity guard (a parse- and storage-completeness check), and the variable condition reaches bankruptcy at least as often as fixed in 29 of 32 condition-pairs, ties included. The three exceptions are one Claude cell and two Gemini BASE cells; the Claude cells come from a replacement model (the submitted checkpoint is retired) and speak to the replacement only.
 
 **[Q2] The keyword lists and rules.** The longest regular expressions are abbreviated for width; the frozen file and its hash carry them in full, and the camera-ready appendix prints them.
 

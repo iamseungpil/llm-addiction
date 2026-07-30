@@ -2004,3 +2004,11 @@ which certified contrasts off per-arm intervals — the practice the gbSA letter
 The "7 of 10 confident cells" cross-task tally (SUBMIT.md:231) remains UNLEDGERED: not in this
 file, not in the submitted paper at e3382c0. The letter now states the transfer qualitatively
 without the count; do not restore the count without an artefact recount.
+
+## F.1 Causal-battery write windows (ledgered 2026-07-30)
+
+The window scan located the write band at **Gemma layers 16-21** and **LLaMA layers 14-19**.
+Source: multilayer_causal/configs/arms_sec4_w14.yaml (registry header lines 19-20:
+"dosed at the model's write window: Gemma L16-21, LLaMA L14-19") and every steer arm's
+`layers:` field (gemma [16,21], llama [14,19]). Consistent with the S.3 note that the
+behavioural axis decodes across L16-21 in Gemma. The letters may cite both windows.

@@ -2012,3 +2012,56 @@ Source: multilayer_causal/configs/arms_sec4_w14.yaml (registry header lines 19-2
 "dosed at the model's write window: Gemma L16-21, LLaMA L14-19") and every steer arm's
 `layers:` field (gemma [16,21], llama [14,19]). Consistent with the S.3 note that the
 behavioural axis decodes across L16-21 in Gemma. The letters may cite both windows.
+
+## F.2 Demonstration experiment (E7 demo arms) completed — results ledgered 2026-07-30
+
+Data: `/home/v-seungplee/data/llm-addiction/demo_mains/*.json` (8 cells, n=200 each, seeds shared
+across arms, cap $70, BASE prompt, RAT=0). Script: scratchpad `demo_e8_stats.py` (Wilson +
+Newcombe method-10). Baselines: ledger A1 (bankruptcy) and A4 (participation), n=200.
+
+Bankruptcy % (n=200/cell):
+| model, mode | cautious | escalate | esc−cau, Newcombe 95% |
+|---|---|---|---|
+| gemma fixed | 0.0 | 0.0 | +0.0 pp [−1.9, +1.9] |
+| gemma variable | 0.0 | 0.5 | +0.5 pp [−1.4, +2.8] |
+| llama fixed | 20.5 | 18.0 | −2.5 pp [−10.2, +5.3] |
+| llama variable | 81.5 | 82.0 | +0.5 pp [−7.1, +8.1] |
+
+Direction verdict vs registered ±10 pp margin: gemma fixed/variable and llama variable EQUIVALENT;
+llama fixed INCONCLUSIVE (lower bound −10.2 crosses the margin edge). No cell shows a detected
+direction effect.
+
+Demonstration-PRESENCE contrasts vs no-demo baselines:
+- llama fixed: 3.0% → 20.5% cautious (+17.5 [+11.4, +23.8]); → 18.0% escalate (+15.0 [+9.2, +21.1]).
+  Participation 66.0% → 73.5/75.0%.
+- llama variable: 81.5% → 81.5/82.0% (+0.0 [−7.6, +7.6]; +0.5 [−7.1, +8.1]). Saturated.
+- gemma variable: bankruptcy 0→0/0.5%; participation 14.0% → 67.0% (cautious) / 73.0% (escalate);
+  mean executed wager $18.4 / $19.9 (both demo texts stake $20 per round; imitation channel).
+- gemma fixed: participation 0.5% → 8.5/11.0%; mean wager $70 (forced); zero ruin.
+
+**Demo-text payout inconsistency (disclose one line in letters).** The registered demo texts
+(`run_e7.py:82-98`, verified against stored `prompt_prefix`) show win rows implying net +3×bet
+(60−20 win → 120; 40−40 win → 160), but `game_logic.py:84-89` deducts the bet then adds
+int(3.0×bet), i.e. net +2×bet (60→100; 40→120). Loss rows are consistent. Both arms share the
+same text, so the direction contrast is unaffected; presence effects are effects of these
+specific optimistic examples.
+
+## F.3 E8 constraint-choice experiment completed — results ledgered 2026-07-30
+
+Data: `/home/v-seungplee/data/llm-addiction/e8_constraint_choice/*.json`. Arms per model:
+choose_fixed n=200; forced_fixed cap 10/30/50/70 n=100 each; variable cap70 n=100;
+variable open-$100 n=100. Same harness/prompts as track0; BASE prompt.
+
+Chosen stakes (choose_fixed): llama $70 **0/200**, $30 110 (55.0%), $50 85 (42.5%), $10 5 (2.5%);
+gemma $30 124/198 (62.6%), $10 19.7%, $50 15.2%, $70 5 (2.5%).
+
+Bankruptcy: llama choose_fixed 5.0%; forced70 2.0%; forced ladder 0/2/15/2% (caps 10/30/50/70,
+replicating A2 non-monotonicity); variable cap70 85.0%; variable open 80.0%.
+gemma: 0.0% in every arm.
+
+Newcombe contrasts (llama): chosen-fixed vs forced70 +3.0 pp [−2.5, +7.2] (equivalent within
+±10 pp); variable70 vs chosen-fixed +80.0 pp [+70.8, +86.1]; open vs variable70 −5.0 pp
+[−15.6, +5.6]. Mean executed wager: llama variable 30.9 → open 31.1; gemma 18.2 → 20.3
+(no gemma bet ≥ $100; llama open arm has 47 bets of $100 but the mean is unchanged).
+Participation: llama choose_fixed 87.0%, forced70 61.0%, variable70 97.0%, open 96.0%;
+gemma choose_fixed 0.5%, variable 14.0→12.0%.

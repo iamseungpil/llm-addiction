@@ -2395,3 +2395,11 @@ quoted, but **no letter may generalise the hazard result beyond the slot machine
 - **The persona, demonstration and E8 results the letters quote are local-only**; HF has no
   `persona`, `demo_`, `role_rat` or `e8_` rollouts. This is a reproducibility gap to close
   before camera-ready, not a letter defect.
+
+**Correction 2026-07-31, gbSA Q3 participation claim.** The letter said the rationality
+instruction "barely changes whether the model plays", citing LLaMA's 99/100. §F.7 shows Gemma's
+variable participation falls **100% to 71%** under the same instruction, so the claim was true of
+one model and stated of both. Both places are fixed: Q3 now reads "It moderates how much is lost
+more than whether they play: 99 of 100 LLaMA games still carry a wager, though Gemma's
+participation does fall to 71%", and the W1/W2 check reads "cuts bankruptcy sharply while leaving
+most games still played". Do not reinstate the unscoped wording. gbSA 9,847 -> 9,735 chars.

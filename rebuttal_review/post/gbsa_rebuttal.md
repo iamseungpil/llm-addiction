@@ -1,6 +1,6 @@
 # Response to Reviewer gbSA
 
-Thank you for naming the alternative explanations precisely. We corrected the framing you flag and tested how far role-play and task understanding explain the fixed-variable gap; tables already in another response are pointed to, not repeated.
+Thank you for naming the alternative explanations precisely. We corrected the framing you flag and tested how far role-play and task understanding explain the fixed-variable gap; tables in another response are pointed to, not repeated.
 
 ## [W1, W2] Clinical framing, role-play, and stable risk preferences
 
@@ -10,7 +10,7 @@ Thank you for naming the alternative explanations precisely. We corrected the fr
 
 You are right that the title can be read as claiming an LLM has a mind that suffers a pathology. The camera-ready title becomes *Gambling-Like Risk-Taking in Large Language Models*, with diagnostic vocabulary replaced by behavioural description. The study never asked whether a psychiatric state exists: Section 2 states that "'addiction-like' is not a claim that an LLM experiences craving or withdrawal; it names a behavioural pattern". What we measure is how participation, wager size, persistence and stopping change across prompts and freedoms, which is a setting-dependent policy, not a context-independent risk preference.
 
-Three checks say none of them carries the contrast alone: the reward-maximisation instruction and system message are identical across both arms of every compared cell; with the maximum held equal, fixed puts more money on each round yet ruins less (W4); and telling the model that stopping is optimal cuts bankruptcy sharply yet barely changes whether it plays (Q3).
+Three checks say none of them carries the contrast alone: the reward-maximisation instruction and system message are identical across both arms of every compared cell; with the maximum held equal, fixed puts more money on each round yet ruins less (W4); and telling the model that stopping is optimal cuts bankruptcy sharply while leaving most games still played (Q3).
 
 The internal analysis adds what prompt-level checks cannot. With prompt, seed and game state held fixed, editing a behaviour-linked internal direction changes the bet ratio in proportion to the edit (method in KuK5). This neither removes role-play priors nor shows a human-like mind, but it does show the choices are not mere surface repetition of the prompt.
 
@@ -76,9 +76,9 @@ In part it does by construction, though neither module alone suffices: `P` gives
 | Gemma-2-9B | 49.2 | 22.3 |
 | LLaMA-3.1-8B | 7.8 | 6.4 |
 
-One honest control cuts into this: those conditions carry more prompt modules and ruin rises with module count, so holding it fixed shrinks the gap and reverses it at four modules. We therefore claim only that supplying the numbers does not reduce risk.
+One honest control cuts into this: those conditions carry more prompt modules and ruin rises with module count, so holding it fixed shrinks the gap and reverses it at four modules. We claim only that supplying the numbers does not reduce risk.
 
-Supplying the conclusion is different. The instruction that immediate stopping maximises expected value, with stopping permitted at any round, cuts LLaMA's variable bankruptcy from 82.0% to 47.0% (−35.0 pp [−46.4, −22.0]) and Gemma's from 15.0% to 0.0% (−15.0 pp [−23.3, −8.2]) at 100 games per arm, yet 99 of 100 LLaMA variable games still contain a wager. Calibration strongly moderates how much is lost and barely whether the model plays; whether an example does the same is the demonstration experiment in a3Zu.
+Supplying the conclusion is different. Told that immediate stopping is EV-optimal and free to stop at any round, LLaMA's variable bankruptcy falls from 82.0% to 47.0% (−35.0 pp [−46.4, −22.0]) and Gemma's from 15.0% to 0.0% (−15.0 pp [−23.3, −8.2]) at 100 games per arm. It moderates how much is lost more than whether they play: 99 of 100 LLaMA games still carry a wager, though Gemma's participation does fall to 71%.
 
 ## [Q4] Why sparse-autoencoder features and Ridge
 

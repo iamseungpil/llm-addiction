@@ -2856,3 +2856,63 @@ Do not close it by reinstating a prefix label.
 commitments are conditional camera-ready ones: limit the expressions and the claim if content
 validity is judged insufficient, add human annotation of a stratified sample, and not generalise the
 demonstration result. No new experiment is promised anywhere.
+
+## Z.21 Codebook provenance named, E8 scoped to LLaMA, fenced blocks fixed (2026-07-31)
+
+**E8 has no closed-model arm and could not have one as written.**
+`paper_experiments/e8_constraint_choice/src/run_e8.py:85` is
+`--model required=True choices=["llama","gemma"]` and the driver passes `--gpu 0`;
+`data/llm-addiction/e8_constraint_choice/` holds 14 result JSONs, all llama/gemma,
+no GPT/Gemini/Claude file. Combined with §F.3 (gemma 0.0% in every arm) the whole
+E8 table rests on ONE model. gbSA W4 and the AC letter now say so, and both record
+that the ablation was not extended to the API models within the response period.
+
+**Why +80.0 pp is that large (asked 2026-07-31).** Not stake size -- the forced arm
+stakes $70/round against the variable arm's $30.9. It is rounds. forced70 plays 1.01
+rounds; with $100 balance a single $70 loss leaves $30, so bankruptcy needs >= 2
+rounds, and only 10 of 57 games re-bet after the first loss; 2 of those 10 ruined.
+variable70 re-bets 97/97 and plays 15.87 rounds. Per-game exposure ~$476 vs ~$43,
+about 11x. CONSEQUENCE: the contrast does not isolate post-loss revision from
+continued play. Codex (019fb8ec) independently reached the same verdict. Letters
+now state the limit instead of claiming "the structure that lets a decision be
+revised after a loss".
+
+**Codebook provenance was under-stated.** `e2_coding/src/convergent_codebook.py`
+docstring names Goodie & Fortune (2013), *Measuring cognitive distortions in
+pathological gambling*, Psych. Addictive Behaviors 27(3):730-743 -- VERIFIED as
+reference **[13]** of the submitted PDF. The four constructs converge across the
+validated instruments that review covers. Letters previously said only "the
+gambling-cognition work the paper already cites in Section 2". a3Zu now prints the
+four definitions as a table and gbSA Q2 names the citation.
+RULE: "why not use prior work's own words" has a real answer -- those instruments
+are self-report questionnaires and think-aloud coding uses trained human raters, so
+no published lexicon for free text exists. Do not concede this as a gap; state it.
+GRCS/GBQ/IBS/GCI are NOT named in our PDF (0 hits) -- do not enumerate them.
+
+**Over-concession found in KuK5 (LLaMA).** §2356: five norm-matched random
+directions at +3 span 0.1894-0.2297 against a 0.2132 baseline; behavioural at +3 is
+0.2743 (above all five), balance/round control is 0.2289 (inside them). So LLaMA
+shows the SAME pattern as Gemma with a weaker null (5 directions vs 20), yet the
+letter framed it as a specificity failure. Rewritten: the control's steering slope
+is comparable (+0.0188 vs +0.0201) but only the behavioural axis clears the random
+null and only its removal changes behaviour.
+
+**Two claim-vs-evidence gaps closed.** (a) The dR^2 table carried no intervals while
+gbSA W3 promises intervals on "every result added here"; sae/state is +0.0024 with
+boot IQR [-0.1633, +0.0924], so KuK5 now says "indistinguishable from zero".
+(b) "the fixed condition staked more per round" had no wager figure in any letter
+(KuK5's grid is bankruptcy-only); reworded to "stakes the cap whenever it plays",
+true by construction.
+
+**Build defect (pre-existing, PDF only).** `latex/build.py::convert()` had no branch
+for ``` fences, so all thirty regexes went through the inline rules and rendered as
+one run-on paragraph with the fence printed as `"'text`. Fixed with a verbatim
+branch. The posted markdown was never affected. Raising the table column floor from
+1.9 to 2.6cm to widen the construct column produced 18 overfull boxes -- reverted;
+the narrow first column is cosmetic and stays.
+
+State after: a3zu 9,429 / gbsa 9,978 / kuk5 9,554 / meta 6,242 chars, all under
+10,000; 27/27 reviewer quotes verbatim; main_en 16pp and main_ko 14pp, 0 overfull
+each; Korean figure audit 0 missing / 0 extra on all four. Persona still absent from
+every posted letter ("personal success" in the new table is a substring, not a
+mention). KOR repo commit 9a9cac3.

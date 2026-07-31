@@ -17,18 +17,6 @@ Research project (ICLR 2026 submission) studying addictive-like gambling behavio
 | **Conda Environment** | `llm-addiction` |
 | **Python Version** | 3.11 |
 
-### Storage Layout
-
-```
-/scratch/x3415a02/
-├── projects/llm-addiction/    # Code repository (~280MB)
-└── data/llm-addiction/        # Experiment outputs (NPZ, JSON, logs)
-    ├── investment_choice/     # Investment choice experiment data
-    ├── blackjack/             # Blackjack experiment data
-    ├── slot_machine/          # Slot machine experiment data
-    └── logs/                  # SLURM job logs (.out, .err)
-```
-
 ## Quick Start
 
 ```bash
@@ -56,25 +44,6 @@ srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
 3. **Autonomy effect**: Variable betting → +3.3% bankruptcy rate vs Fixed betting
 4. **Neural mechanisms**: LLaMA encodes betting conditions (L12-15), Gemma encodes outcomes (L26-40)
 5. **Causal validation**: SAE feature patching changes behavior (+29.6% stopping rate)
-
-## Repository Structure
-
-```
-paper_experiments/              # Publication experiments (ICLR 2026)
-├── slot_machine_6models/       # Section 3.1: 6-model gambling behavior
-├── investment_choice_experiment/ # Section 3.1: Ablation study
-├── llama_sae_analysis/         # Section 3.2: Neural mechanisms (112 causal features)
-└── pathway_token_analysis/     # Section 5: Token-level temporal analysis
-
-exploratory_experiments/        # Non-paper experiments
-├── steering_vector_analysis/   # CAA-based steering vectors
-├── gemma_sae_experiment/       # Gemma SAE with domain boost
-├── lr_classification_experiment/ # Hidden state → bankruptcy prediction
-├── alternative_paradigms/      # Domain generalization (IGT, Near-Miss)
-└── additional_experiments/     # Post-submission extensions
-
-legacy/                         # Archived experiments
-```
 
 ## Architecture
 
@@ -161,35 +130,7 @@ python paper_experiments/slot_machine_6models/src/run_gemini_experiment.py
 
 ### SLURM Batch Jobs (HPC Cluster)
 
-For long-running experiments, use SLURM job submission:
-
-```bash
-# Interactive GPU session (2 hours, V100)
-srun -p cas_v100_4 --gres=gpu:1 --time=02:00:00 --pty bash
-
-# Submit batch job
-sbatch scripts/run_experiment.sh
-
-# Monitor jobs
-squeue -u $USER
-
-# Check logs
-tail -f /scratch/x3415a02/data/llm-addiction/logs/experiment_<JOBID>.out
-```
-
-See `SLURM_GUIDE.md` for detailed SLURM usage and partition information.
-
-**Available GPU Partitions:**
-- `cas_v100_4` - V100 32GB (recommended for LLaMA/Gemma)
-- `cas_v100_2`, `cas_v100nv_4`, `cas_v100nv_8` - Other V100 variants
-- `amd_a100_4`, `amd_a100nv_8` - A100 80GB (large models)
-- `amd_h200nv_8` - H200 141GB (very large models)
-
-**SLURM job template:** Always set output/error logs to `/scratch/x3415a02/data/llm-addiction/logs/` and activate conda environment with:
-```bash
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-```
+See `SLURM_GUIDE.md` for interactive/batch submission, partitions, and the job-script template (conda init block is REQUIRED in batch scripts: `source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh && conda activate llm-addiction`).
 
 ## GPU Requirements
 
@@ -262,44 +203,7 @@ No formal package requirements file exists. Install dependencies as needed.
 
 ## Shared Utilities
 
-All experiments use common utility functions:
-
-```python
-from common.utils import clear_gpu_memory, set_random_seed, setup_logger, save_json, load_json
-
-# GPU memory management (call between phases)
-clear_gpu_memory()
-
-# Reproducibility (call before experiments)
-set_random_seed(42)
-
-# Logging
-logger = setup_logger(__name__)
-```
-
-**Location**: `exploratory_experiments/alternative_paradigms/src/common/utils.py` (canonical)
-
-## Debugging & Monitoring
-
-```bash
-# Check GPU usage
-nvidia-smi
-
-# Watch GPU in real-time
-watch -n 1 nvidia-smi
-
-# Check running processes
-ps aux | grep python
-
-# Monitor experiment logs
-tail -f /scratch/x3415a02/data/llm-addiction/logs/*.log
-
-# Check SLURM job status
-squeue -u $USER
-
-# Detailed job info
-scontrol show job <JOBID>
-```
+**Location**: `exploratory_experiments/alternative_paradigms/src/common/utils.py` (canonical) — `clear_gpu_memory`, `set_random_seed`, `setup_logger`, `save_json`, `load_json`.
 
 ## Common Issues
 
@@ -324,16 +228,6 @@ scontrol show job <JOBID>
 - Variable bet experiments may have parsing issues
 - Check `.jsonl` logs for raw model outputs
 - Phase 4 v2 improved parsing from 86% UNKNOWN to <10%
-
-## Analysis Scripts
-
-Post-experiment analysis typically involves:
-1. Loading JSON results from `/scratch/x3415a02/data/llm-addiction/`
-2. Computing behavioral metrics (bankruptcy rate, bet patterns, loss chasing)
-3. Statistical tests (FDR correction, Cohen's d, effect sizes)
-4. Visualization (matplotlib/seaborn)
-
-Analysis scripts are embedded in phase files (e.g., `phase2_correlation_analysis.py`).
 
 ## File Naming Conventions
 
@@ -363,49 +257,6 @@ Key indicators of gambling addiction-like behavior:
 Experiments use YAML configs in `configs/` directories:
 - `analysis_config.yaml` - SAE analysis parameters
 - `experiment_config.yaml` - Model, layers, paths
-
-**Key config fields**:
-```yaml
-data:
-  experiment_file: /path/to/game_results.json
-  output_dir: /path/to/output/
-
-models:
-  llama:
-    name: meta-llama/Llama-3.1-8B
-    layers: [25, 26, 27, 28, 29, 30, 31]  # LlamaScope layers
-
-correlation:
-  fdr_alpha: 0.05                   # FDR threshold
-  min_cohens_d: 0.3                 # Effect size threshold
-```
-
-## SLURM Job Script Template
-
-When writing SLURM batch scripts, **always include** the conda initialization block:
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=experiment-name
-#SBATCH --partition=cas_v100_4
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --time=04:00:00
-#SBATCH --output=/scratch/x3415a02/data/llm-addiction/logs/%x_%j.out
-#SBATCH --error=/scratch/x3415a02/data/llm-addiction/logs/%x_%j.err
-
-# REQUIRED: Conda initialization on HPC cluster
-source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
-conda activate llm-addiction
-
-# Navigate to repository
-cd /scratch/x3415a02/projects/llm-addiction
-
-# Run experiment
-python your_experiment.py --gpu 0
-```
-
-**Note**: This conda initialization is only required in SLURM scripts. Interactive sessions already have conda initialized.
 
 ## Session Management (Important!)
 
@@ -494,57 +345,6 @@ Do NOT ask the user what name to use - automatically generate an appropriate nam
    - List files modified
    - Note experiments completed or in progress
    - State next steps clearly
-
-### Auto Memory Usage
-
-Claude should **proactively save** to auto memory when discovering:
-- Recurring error patterns and their solutions
-- HPC cluster-specific behaviors (GPU memory, SLURM quirks)
-- Model-specific patterns (layer encodings, parsing issues)
-- File path patterns and data locations
-- Successful debugging approaches
-
-**DO NOT save to memory:**
-- Session-specific temporary state
-- Information already in CLAUDE.md
-- Incomplete or unverified findings
-
-### Resuming Previous Sessions
-
-**To resume a session:**
-
-```bash
-# Command line
-claude --resume llm-addiction-blackjack-experiment
-
-# Or interactively
-claude --resume  # Opens session picker
-
-# Continue most recent
-claude --continue
-```
-
-**In session picker (keyboard shortcuts):**
-- `↑`/`↓`: Navigate sessions
-- `P`: Preview session content
-- `R`: Rename session
-- `/`: Search/filter sessions
-- `Enter`: Open selected session
-
-### Context Management
-
-**To keep sessions focused:**
-- Use `/clear` when switching to unrelated investigation
-- Use subagents for exploratory research (keeps main context clean)
-- Create separate sessions for distinct experiments/debugging tasks
-
-### Recovery from Lost Sessions
-
-If you forgot to name a session:
-1. Use `claude --resume` to open session picker
-2. Use `P` (preview) to find the right session by content
-3. Use `R` (rename) to give it a proper name
-4. Resume that session
 
 ## Notes
 

@@ -35,7 +35,7 @@ sys.path.insert(0, str(_REPO / "paper_experiments/sm_cap_ablation/src"))
 sys.path.insert(0, str(_REPO / "paper_experiments/e7_factorial/src"))
 
 from game_logic import run_single_game  # noqa: E402  (frozen harness)
-from run_e7 import build_response_fn_open_weight  # noqa: E402  (same OW path as e7)
+from run_e7 import build_response_fn_open_weight, ROLE_TEXT  # noqa: E402  (same OW path as e7)
 
 SEED_BASE = 80000  # PREREGISTRATION: seeds 80000+i shared across arms.
 STAKES = [10, 30, 50, 70]
@@ -89,6 +89,9 @@ def main() -> None:
                     help="forced_fixed only: the stake (10/30/50/70)")
     ap.add_argument("--n_games", type=int, required=True)
     ap.add_argument("--gpu", type=int, default=0)
+    # 2026-07-31 amendment: persona prefix, matching the e7 role_rat0 stack used
+    # everywhere else in the response. Prepended to every prompt (choice + rounds).
+    ap.add_argument("--persona", action="store_true")
     ap.add_argument("--output_dir", required=True)
     args = ap.parse_args()
 
@@ -96,6 +99,11 @@ def main() -> None:
         raise SystemExit("forced_fixed needs --cap in {10,30,50,70}")
 
     fn = build_response_fn_open_weight(args.model, args.gpu)
+    prompt_prefix = ""
+    if args.persona:
+        prompt_prefix = ROLE_TEXT
+        _inner = fn
+        fn = lambda p, _f=_inner, _p=prompt_prefix: _f(_p + p)
     commit = subprocess.run(["git", "-C", str(_REPO), "rev-parse", "--short", "HEAD"],
                             capture_output=True, text=True).stdout.strip()
 
@@ -147,6 +155,7 @@ def main() -> None:
         "commit": commit,
         "argv": sys.argv,
         "model": args.model, "arm": args.arm, "cap": args.cap,
+        "prompt_prefix": prompt_prefix,
         "seed_base": SEED_BASE,
         "parser": "legacy improved_parse_gpt_response via game_logic.parse_response; "
                   "round-0 stake parser defined in this file",

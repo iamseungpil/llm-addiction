@@ -51,3 +51,13 @@ labelled exploratory demonstration cells, as §3.3 already has them.
 Letters now: "registered and running, report by 3 August" only. No pilot
 numbers, no predicted directions. Results go to the discussion thread
 whichever way they fall.
+
+## Amendment 2026-07-31 (dated, pre-launch): persona-stack rerun
+
+Every arm is rerun with the persona prefix (--persona; the same ROLE_TEXT used by the e7
+role_rat0 cells and the matched-cap grid), so that the whole response reports one uniform prompt
+stack. Arms, caps, seeds and decision rules are unchanged: choose_fixed n=200, forced_fixed at
+caps 10/30/50/70 n=100 each, variable_cap70 n=100, variable_open ($100 bound) n=100, on llama and
+gemma. The earlier no-persona cells (2026-07-29/30) stay on record but are not quoted in the
+response. Report every specified cell in the OpenReview thread by 3 August, regardless of
+direction.

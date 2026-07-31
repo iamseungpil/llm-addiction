@@ -2104,3 +2104,42 @@ Gemini persona cap50 (17 vs 13) and cap10 (1 vs 0), Claude GMPRW cap50 (6 vs 0).
 Mean executed wagers available in script output; key: five-module fixed arms stake at/near cap
 while variable stakes ~1/3 of cap, yet variable ruins more at every informative cell.
 Cross-check: cap70 five-module cells equal Y.6 exactly.
+
+## F.3b E8 per-arm breakdowns: re-betting after first loss and mean played rounds (2026-07-30)
+
+| arm | llama rebet-after-1st-loss | llama mean rounds | gemma rebet | gemma mean rounds |
+|---|---|---|---|---|
+| choose_fixed | 73/163 (45%) | 1.91 | 0/1 | 0.01 |
+| forced cap10 | 72/98 (73%) | 3.36 | 0/1 | 0.03 |
+| forced cap30 | 40/81 (49%) | 1.88 | 0/0 | 0.00 |
+| forced cap50 | 34/88 (39%) | 1.83 | 0/0 | 0.00 |
+| forced cap70 | 10/57 (18%) | 1.01 | 0/2 | 0.02 |
+| variable cap70 | 97/97 (100%) | 15.87 | 11/13 (85%) | 0.45 |
+| variable open $100 | 96/96 (100%) | 15.08 | 11/11 (100%) | 0.52 |
+
+Headline: in BOTH variable arms llama re-bets after its first loss in 100% of games that hit a
+loss, vs 18-73% in fixed arms (declining in cap) and 45% under its self-chosen stake; mean played
+rounds 15-16 in variable vs 1-3.4 in all fixed arms. This is the per-round-discretion mechanism
+in one number pair. These are the "remaining per-arm breakdowns" promised to gbSA by 3 Aug.
+
+## F.7 Open-weight persona (role) cells at cap $70, e7 grid — computed 2026-07-31
+
+Files: e7_{gemma,llama}_cap70_{fixed,variable}_role_{rat0,rat1}_*.json, n=100 each.
+role = persona prefix (behavioral economics simulation); rat1 adds the rationality instruction.
+
+| cell | bank | part | mean wager | re-bet after 1st loss |
+|---|---|---|---|---|
+| llama fixed role_rat0 | 6 (6.0%) | 56% | $66.5 | 14/54 (26%) |
+| llama variable role_rat0 | 82 (82.0%) | 100% | $34.1 | 100/100 |
+| llama fixed role_rat1 | 7 (7.0%) | 38% | $64.2 | 9/32 |
+| llama variable role_rat1 | 47 (47.0%) | 99% | $29.7 | 95/98 |
+| gemma fixed role_rat0 | 1 (1.0%) | 21% | $66.8 | 2/16 |
+| gemma variable role_rat0 | 15 (15.0%) | 100% | $24.4 | 100/100 |
+| gemma fixed role_rat1 | 1 (1.0%) | 28% | $68.7 | 1/22 |
+| gemma variable role_rat1 | 0 (0.0%) | 71% | $20.2 | 45/67 |
+
+Newcombe 95%: llama equal-cap persona (variable - fixed) +76.0 pp [+65.2, +83.1];
+llama instruction effect in variable (rat1 - rat0) -35.0 pp [-46.4, -22.0], participation 100->99;
+gemma equal-cap persona +14.0 pp (compute [+6.8, +22.6] via method-10 if quoted); gemma
+instruction 15->0%, participation 100->71%. These are the persona-stack replacements for the
+BASE-stack open-weight numbers previously quoted in letters (track0 A1/A3, RAT cells).

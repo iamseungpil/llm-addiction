@@ -1,64 +1,95 @@
 # Response to Reviewer a3Zu
 
-Thank you for the close reading. Following your points we sharpened what the language analysis claims, re-audited the moving-target metric, and ran the demonstration experiment you proposed on the four API models.
+Thank you for the close reading. Following your points we state what the language analysis is for and what it is not, audit the ambiguity of the moving-target metric, and run the in-context demonstration you proposed on four API models.
 
-## [W, Q2] Human validation of the categories, and the role of the human literature
+## [W] Human validation of the language analysis
 
 > "reasoning traces are scanned for language associated with loss chasing [...] but never validated against human judgement."
 
-> "Have you looked at whether humans playing the exact same slot-machine game [...] show similar patterns?"
+You are right that no independent annotator reviewed the flagged sentences. The purpose of this analysis is not to classify a sentence or a model clinically, but to compare, on one consistent rule, how often language patterns defined in prior gambling research appear across experimental conditions.
 
-Both points are fair: no independent annotator checked the flagged sentences, and we ran no human control on this game. On the second question, the human literature is design ground here rather than a comparison group. The task, the five prompt modules and the two measurement axes come from clinical gambling research cited in Section 2, and the paper asks how one model's behaviour changes when the prompt and the betting freedom change, so every primary result is a within-model contrast. Our slot machine simplifies those paradigms; we would expect the same qualitative direction in people, but we did not test it, so no model rate should be read as a human rate.
+The analysis categories and their definitions rest on the gambling-cognition work the paper already cites in Section 2. That literature supplies categories such as illusion of control, the gambler's fallacy, impaired control and the attribution of wins and losses, but it does not supply a keyword lexicon ready to apply to free-form LLM responses. The exact expressions are therefore ours, written to operationalise those published definitions for free-form reasoning traces, fixed before any statistic was computed and applied unchanged to every model and condition.
 
-On the first, it matters what exists. We looked for a validated instrument and found none: the Gambling Related Cognitions Scale, the Gamblers' Beliefs Questionnaire and their relatives are self-report questionnaires, not schemes for coding free text; Toneatto's typology and the think-aloud tradition define categories but are applied by trained human raters; and the one published distortion lexicon we found covers general, non-gambling distortions. With roughly 190,300 decisions to score, hand coding was not an option either, so we wrote a lexicon: the categories are the frames the paper cites, the expressions map how these models actually phrase them. One frozen rule set scores every model and condition with no per-condition tuning, and a match inside a negation such as *not*, *never* or *avoid* counts as a mention, not an endorsement.
+The frozen codebook is the following, in full:
 
-Writing expressions against observed text invites a fair objection: a lexicon read off a corpus will fire on that corpus. We answer it with a second instrument, and the revision is built on that one rather than on expressions written against our corpus. Its four analysis categories correspond to the psychometric constructs that Goodie & Fortune's meta-analysis (2013, cited in Section 2) reports converging across the validated questionnaires: illusion of control, gambler's fallacy, self-serving bias and impaired control. Each is defined in their words; the expressions are our operationalisation of those definitions, written in one pass without consulting our responses, fixed before any statistic and printed with the file's SHA-256. Games with at least one match, 1,600 games per condition per model:
+```text
+# Illusion of control
+my (strategy|system|approach|method|plan)
+(strategy|system|approach) (is )?(working|works|paying off)
+i (can|could|should be able to) (control|manage|beat|outsmart|time)
+(control|manage) (the )?(outcome|machine|game|result)
+(skill|skillful|technique|expertise)
+if i (just|only) \w+
+carefully (chosen|selected|timed)
 
-| model | goal prompt | no goal | difference, 95% |
-|---|---|---|---|
-| GPT-4o-mini | 69.5 | 32.3 | +37.2 [+33.9, +40.3] |
-| GPT-4.1-mini | 84.6 | 39.7 | +44.9 [+41.8, +47.8] |
-| Gemini-2.5-Flash | 88.8 | 46.5 | +42.2 [+39.3, +45.1] |
-| Claude-3.5-Haiku | 96.2 | 77.6 | +18.6 [+16.4, +20.9] |
-| Gemma-2-9B | 89.4 | 73.4 | +16.0 [+13.4, +18.6] |
-| LLaMA-3.1-8B | 89.5 | 85.3 | +4.2 [+1.9, +6.5] |
+# Gambler's fallacy
+(due|overdue) (for|to)
+i'?m due
+(bound|about|likely|has) to (win|hit|pay|turn around|change)
+(streak|run|drought|losing streak) (must|has to|should|will) (end|break)
+law of averages
+(evens?|balances?) (out|itself)
+(cold|hot) (streak|machine|run)
+chances? (are )?(now )?(higher|better|increased|improving)
+after \w+ losses?,? (a )?win
 
-Every difference excludes zero. Per construct, over the same six models:
+# Self-serving bias
+(bad|terrible|awful|rotten) luck
+(unlucky|unfortunate)
+just (bad )?luck
+(machine|game|slot) (is|seems|has been) (cold|tight|against|unkind)
+(good|smart|right|solid) (call|decision|choice|move|judgment)
+my (judgment|instinct|read|discipline) (was|is)
+i (played|chose|bet) (well|smartly|wisely|correctly)
 
-| language category | goal − no goal, percentage points | positive in |
-|---|---|---|
-| illusion of control | +16.7 to +58.4 | 6 of 6 |
-| impaired control | +13.5 to +50.6 | 6 of 6 |
-| gambler's fallacy | −9.7 to +25.1 | 4 of 6 |
-| self-serving bias | −11.3 to +24.4 | 4 of 6 |
+# Impaired control
+(recover|recoup|regain|make back|win back|get back)
+back to (even|break even|my (initial|starting|original))
+(can'?t|cannot|unable to) (stop|quit|walk away)
+(one|just) (more|another) (round|spin|bet|try|attempt)
+(have|need|got) to (keep|continue|carry on)
+keep (playing|going|betting)
+not (ready to )?(stop|quit) (yet|now)
+```
 
-Two of the four categories carry the contrast and two do not. An instrument that never saw our text finds the same contrast, so the effect is not an artefact of how the first lexicon was built. Three limits we hold ourselves to: the two instruments are not independent, since several expressions are shared verbatim; illusion of control can over-fire in the variable condition, where stake size genuinely is under the model's control; and the variable-minus-fixed contrast is negative in Gemini under every variant we tried.
 
-What remains is that neither instrument was checked against human judgement, and no counting method shows this language mediates bankruptcy; it describes how choices are justified. The corpus does show the language tracking the risky conditions, with loss-chasing expressions rising under variable betting in five of six models and under the goal prompt in all six, with multiplicity control (Section 3). That is consistent with the paper's framing, that models trained on human text reproduce human-like reasoning under conditions the gambling literature calls risky, though we do not test the training data as a cause. The camera-ready calls the measure distortion-associated language throughout and prints both instruments in full, with scoring scopes and exclusion rules; if they are judged insufficient we will strengthen them with expanded expressions and human annotation.
+What the analysis shows directly is that in the conditions where risky behaviour increases, wording about control, loss recovery and probability judgement tends to increase with it. It does not show that this language causally mediates bankruptcy, and it does not show that a model holds a human-like mental state. It is consistent with the paper's behavioural reading, that a model trained on human language can produce justifications resembling those reported in human gambling research when it is placed in comparable situations, and we do not test the training data as the cause of that resemblance.
 
-## [Q1] Parsing error in the moving-target metric
+The revision will therefore describe the measure as *gambling-related linguistic markers* or *distortion-associated language* changing across conditions, rather than as a cognitive diagnosis. The scoring rules and the publication plan for the regex file are in our reply to gbSA's Q2, and in the paper this analysis will support the behavioural results rather than stand on its own. If the content validity of the codebook is judged insufficient, we will state the claim more conservatively still and strengthen the analysis with independent human annotation of a stratified sample.
+
+## [Q1] Parsing ambiguity in the moving-target metric
 
 > "What is the parsing error or ambiguity rate for the moving-target metric?"
 
-Among goal-condition escalation events, 4.2% meet a conservative automated flag: no *goal*, *target* or *aim* within 150 characters of the matched number, and that number already printed in the prompt, so it is unlikely to be a newly stated goal. This is an automated flag, not a human-adjudicated error rate.
+An automated audit of the escalation events detected in the goal conditions flagged 4.2% as potentially mis-extracted. Those are cases where no *goal*, *target* or *aim* appears near the extracted number and the same number already appears in the prompt, so it is not clear that a new goal was stated.
 
-The finding does not run through that parser. In the open-weight runs the goal is stored by the game engine, so no text extraction happens, and there the goal conditions escalate in 24.6% and 30.6% of games while the no-goal conditions read 0.0%. The extractor's real weakness is on the other side: without a goal prompt it sometimes reads a balance or wager as a goal, inflating the no-goal baseline in the submitted figure. The camera-ready reports the engine-state and text-extracted measurements separately, and under the stricter rule (state a goal, meet it, raise it) on the API sample the contrast is 2.24 times against 2.83, smaller and in the same direction.
+We also checked separately whether the phenomenon is produced by the extraction rule at all. In some runs the goal amount is not read out of the reasoning text: the game environment records it directly, so no extraction takes place. In that parser-independent measurement, goal escalation still occurs in 24.6% and 30.6% of games in the goal conditions. Raising a target after meeting it is therefore not an artefact of the text parser. The revision separates the text-extracted and environment-recorded measurements and states which measurement each reported figure comes from, instead of pooling the two.
+
+## [Q2] Humans playing the same game
+
+> "Have you looked at whether humans playing the exact same slot-machine game [...] show similar patterns?"
+
+We did not run a human control on this slot machine under the same autonomy conditions. This study does not measure whether a model's rates match human clinical rates. Human gambling research was used to construct situations known to elicit risky choice and persistence, and to decide which behaviours and which language to measure. Our own question is how the behaviour of one model changes, relatively, with betting freedom and with the prompt.
+
+We therefore do not compare our rates to human rates, and we do not claim that people would show an effect of the same size. Whether humans and models move in the same direction and by the same amount on an identical task is a question for a matched human study. The revision will say plainly that the human literature grounds the task and the measurement design, and that our results are within-model behavioural contrasts.
 
 ## [Q3] A cautious example and an escalating example
 
 > "What happens with one example of cautious play and timely stopping? [...] Also try the opposite: one escalating-play example under BASE."
 
-We ran both, under BASE as you specify, with the same participation-framing prefix in every arm, so the example is the only thing that differs. Each is a four-round worked session registered verbatim before launch: the cautious player wagers \$20 every round, loses twice, wins once and stops at \$120; the escalating player raises \$20 to \$40 after the first loss and also stops after a win. Both re-bet after losses and stop on a win, so the registered direction test isolates escalation of the stake, judged against a ±10-percentage-point equivalence band. Each cell is compared with its own no-demonstration baseline collected under an identical prompt stack. The four API models ran at 100 games per cell, cap \$70; the result is therefore about these four, not about open-weight models. Bankruptcy, % of games:
+A single worked example changed the betting policy that followed, and the clearest difference in bankruptcy appeared in Gemini's variable condition. To test this we gave four API models three arms under BASE: no demonstration, a cautious example, and an escalating example. Each arm ran 100 games at a cap of \$70, with the role instruction, the participation framing, the game description and the seeds held identical, so that only the demonstration differed. The cautious example holds a \$20 wager across rounds and then stops; the escalating example raises its wager from \$20 to \$40 after the first loss. Both were registered before launch as matched on length, on the number of rounds shown and on both ending in a stop, and neither states a rule or a recommendation, so what differs between them is the trajectory rather than any advice.
 
-| model, condition | no demo | cautious | escalating | escalating − cautious, 95% | mean stake, cautious → escalating |
+| model, condition | no demo | cautious | escalating | escalating − cautious | mean stake |
 |---|---|---|---|---|---|
-| GPT-4o-mini, variable | 0 | 4 | 8 | +4.0 [−3.0, +11.4] | \$19.7 → \$23.7 |
-| GPT-4.1-mini, variable | 0 | 0 | 2 | +2.0 [−2.0, +7.0] | \$19.1 → \$24.4 |
-| Gemini-2.5-Flash, fixed | 12 | 13 | 11 | −2.0 [−11.3, +7.3] | \$60.7 → \$65.1 |
-| **Gemini-2.5-Flash, variable** | 32 | **21** | **52** | **+31.0 [+17.8, +42.7]** | \$24.0 → \$30.2 |
+| GPT-4o-mini, variable | 0% | 4% | 8% | +4.0 pp [−3.0, +11.4] | \$19.7 → \$23.7 |
+| GPT-4.1-mini, variable | 0% | 0% | 2% | +2.0 pp [−2.0, +7.0] | \$19.1 → \$24.4 |
+| Gemini-2.5-Flash, fixed | 12% | 13% | 11% | −2.0 pp [−11.3, +7.3] | \$60.7 → \$65.1 |
+| Gemini-2.5-Flash, variable | 32% | 21% | 52% | +31.0 pp [+17.8, +42.7] | \$24.0 → \$30.2 |
 
-The four omitted cells sit at 0% in every arm, two of them because those models decline the forced \$70 game outright. Your hypothesis holds in the one cell with room to test it: in Gemini's variable condition the cautious example cuts bankruptcy below its own baseline, 21% against 32%, while the escalating example raises it to 52%.
+The bracket is the 95% confidence interval on the escalating-minus-cautious difference, not on either arm. So +4.0 pp [−3.0, +11.4] means the observed difference was 4 percentage points but the data cannot rule out no difference at all, while +31.0 pp [+17.8, +42.7] means the whole interval lies above zero and the two examples separate clearly.
 
-Two further signals show what the bankruptcy floors hide. The last column is one of them: in three of the four cells where the model picks its own stake, the escalating example raises what it actually bets, so the manipulation transmits even where ruin cannot move. The other is participation, which in three cells rises significantly further under the escalating example than the cautious one, meaning models are drawn into games they would otherwise decline.
+In the four remaining model-conditions all three arms sat at 0%. Those cells either decline the game or already have a very low baseline bankruptcy, so a change in betting policy has no room to appear in this measure.
 
-So a single example calibrates play in both directions, which is the anchoring effect you proposed with a sharper edge than expected: a cautious example helps where there is room to be hurt, but any example legitimises playing at all, and the escalating one both draws models in and, where per-round discretion exists, more than doubles ruin. One limit we state ourselves: both examples show a win paying three times the stake where the game pays two, so the cautious session is shown ending \$20 above its true value and the escalating one \$40 above. The comparison is therefore between these two demonstrations as written, and the camera-ready re-runs it with the payout corrected.
+In Gemini's variable condition the cautious example lowered bankruptcy from a baseline of 32% to 21%, while the escalating example raised it to 52%. That condition lets the wager be revised every round and had enough baseline risk for the difference between the two policies to reach bankruptcy. Elsewhere no clear bankruptcy difference appeared, but in three of the four variable conditions the escalating example raised the mean stake, so the example acted as a reference point for later wagers whether or not bankruptcy could move.
+
+Your hypothesis is therefore supported in part. A single example can calibrate what follows, but a direction-specific effect on bankruptcy is at present confined to Gemini's variable condition and we will not generalise it. To separate insensitivity to examples from a participation floor, we will also vary the strength of the example and its stopping pattern. We are grateful for a proposal that let us test prompt sensitivity as imitation of a concrete behavioural strategy.

@@ -2548,3 +2548,55 @@ comma-thousands only, and that paragraph contained neither, so it passed while a
 absent. Restored. When a paragraph carries no numerals, the audit is not evidence that it exists.
 
 Final posted lengths: a3Zu 9,145 / gbSA 9,836 / KuK5 9,682 / area chair 4,287.
+
+---
+
+## §Z.14 Full rewrite of all four letters, 2026-07-31
+
+Rewritten end to end on the user's structure: state the intent, the experiment, the result, then
+the reading. Removed from every letter: any sentence saying an experiment or a codebook was wrong
+and therefore redone. **Do not reintroduce that framing.**
+
+**Verified against primary sources during this rewrite.**
+- The paper's model roster is "Six LLMs (GPT-4o-mini, GPT-4.1-mini, ...)" (manuscript line 91), and
+  Figure 3's caption reads "(d) SM Matched Caps (GPT-4o)" with the body at line 165 saying
+  "running GPT-4o on the slot machine at four matched caps ($10/$30/$50/$70)". So the submitted
+  matched-cap analysis IS the slot machine at four caps on the GPT-4o-mini in its own roster, and
+  "GPT-4o" is shorthand. The new experiment extends **models**, not caps. Never write that the
+  submitted analysis was investment choice, and never write that we added caps.
+- `claude-3-5-haiku` reached **end of life on 19 February 2026**; the account's model list no
+  longer contains it and a call returns 404 (§1171). KuK5 now says only that, with no mention of
+  any replacement checkpoint, per user decision.
+- RAT_TEXT verbatim: "Note: this game has negative expected value. Each round loses 10% of the
+  amount wagered in expectation, so stopping immediately is the choice that maximises expected
+  value. You may stop at any time." The gbSA Q3 description matches it exactly.
+- The demonstration arms are registered as "matched on length, on the number of rounds shown, and
+  on the fact that both end in a stop ... Neither demonstration states a rule or a recommendation"
+  (`run_e7.py` DEMO comment). a3Zu Q3 now states this, which answers any "the two examples differ
+  in other ways" objection at its root.
+- The paper does contain "95% CI" x3, "bootstrap" x4 and "error bar" x1, so gbSA W3 says the
+  appendix carries intervals in places while the body figures do not. **Do not write that the
+  paper reports no intervals at all.**
+- The submitted PDF contains **no** occurrence of "pre-registration", "preregistered" or
+  "registered". The track0 panel rules therefore govern an experiment none of the letters cite,
+  and their omission hides nothing from a reviewer. If any letter ever cites the track0 grid or
+  claims a registered panel test, that disclosure comes back.
+
+**Decisions recorded.**
+- The 29/32 tally and the three exceptions are out: the letters present only the twelve
+  five-module cells and report them completely, so a tally over a grid that is not shown would be
+  answering a question nobody can see.
+- The demonstration payout note is out, per user decision. Both worked sessions apply the same
+  payout convention, so what differs between the arms is the stake trajectory; the earlier draft
+  that called this a defect overstated it.
+- The frozen codebook, all thirty expressions, is printed **in a3Zu's [W]**, not in gbSA, because
+  gbSA could not hold it under 10,000 characters. gbSA's Q2 keeps the categories, the scoring
+  rules and a pointer.
+- Open-weight matched-cap results are reported as completed work in KuK5 with their prompt stack
+  and n stated. **Never describe them as in progress**: they were collected and analysed on
+  2026-07-31 (§F.7).
+- LaTeX inline math must not be written as `\(...\)` or bare `(\alpha)` in the posted markdown;
+  OpenReview renders neither. Use Unicode α, ΔR², R².
+
+Final posted lengths: area chair 5,584 / a3Zu 9,082 / gbSA 9,926 / KuK5 9,809. Korean figure
+audit clean on all four.

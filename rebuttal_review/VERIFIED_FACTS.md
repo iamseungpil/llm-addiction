@@ -2770,3 +2770,50 @@ arm is n=200 and the other three are n=100 (§F.3), and the table does not print
 were computed with the correct per-arm n. If a reviewer asks, the answer is the ledger's arm list.
 
 Final posted lengths: area chair 5,555 / a3Zu 9,053 / gbSA 9,928 / KuK5 9,596.
+
+---
+
+## §Z.19 Final revision pass, 2026-07-31
+
+**An error the review caught that earlier passes missed.** KuK5 said "the same direction appears
+in **the two open-weight models**, in a separate experiment reported in our gbSA reply". Two things
+were wrong. gbSA's E8 table is **LLaMA only** (its caption names LLaMA-3.1-8B), and §F.3 records
+**Gemma at 0.0% bankruptcy in every E8 arm**, so there is no direction to report for Gemma in that
+experiment. The sentence was introduced when the open-weight table was replaced by a pointer.
+Deleted. **Never assert a cross-letter result the target letter does not actually show.**
+
+**The dose table now carries all seven doses**, at the user's request, because the ladder is the
+evidence for proportionality and three points hid it. Gemma 0.014 / 0.020 / 0.019 / 0.061 / 0.150 /
+0.229 / 0.256 (Wave-2) and LLaMA 0.162 / 0.164 / 0.177 / 0.213 / 0.218 / 0.256 / 0.274 (w10a), 200
+games per dose. LLaMA is strictly increasing across all seven; **Gemma is not** (−2 at 0.0199
+against −1 at 0.0192), so the letter says "rises across all seven doses in LLaMA, and in Gemma
+apart from one flat step between −2 and −1". Do not write that Gemma is monotone.
+
+**Other changes in this pass.**
+- The area chair's three-concern list now names the unvalidated language analysis inside the
+  framing concern, which is how the metareview itself frames it, and the framing paragraph closes
+  with the scope the revision will give that analysis.
+- a3Zu's codebook section states the instrument and its validity gap and **reports no result**:
+  it can say whether pre-specified expressions appear more or less often, it cannot decide whether
+  a flagged sentence instantiates the construct. The goal-versus-no-goal contrast is deliberately
+  absent, since the reviewer asked about validation, not findings.
+- gbSA W1/W2 no longer claims task misunderstanding is excluded; it claims only that the immediate
+  choice is not explained by the wording the two arms share.
+- gbSA Q4 now answers the whole question: Ridge is explained as a stable linear readout over
+  correlated high-dimensional features, and the false "both baselines are now in place" is
+  replaced by "we added the behavioural-state baseline and examined the other alternative
+  separately", which matches the logit/choice-probability paragraph that follows.
+- gbSA Q3 says the instruction lowered bankruptcy, not "how much is lost", because total loss was
+  never measured.
+
+**Prior work: nothing to misquote.** No letter names Goodie & Fortune, Toneatto, Langer,
+Ladouceur & Walker or any questionnaire. They say only "the gambling-cognition work the paper
+already cites in Section 2", which is verified to be that citation group. Keep it that way; naming
+a source in the letters would create an attribution that has to be defended sentence by sentence.
+
+**Reading copy.** The at-a-glance evidence map and the experiment-flow figure were removed from
+`main.tex` at the user's request, so both PDFs now open on the responses. 16 pages English, 14
+Korean, zero overfull boxes.
+
+Final posted lengths: area chair 5,948 / a3Zu 8,805 / gbSA 9,927 / KuK5 9,368. Reviewer quotes
+16 of 16 verbatim.

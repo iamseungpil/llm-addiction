@@ -12,7 +12,7 @@ We agree that the title and some wording can be read as claiming that an LLM has
 
 Role-play and task understanding do shape what these models do, as the sensitivity to a rationality instruction and to a worked example shows, and which prompts amplify or suppress risky behaviour is what the paper asks. The reward-maximisation instruction and the system message are identical in both arms of every compared cell, so shared wording cannot produce the difference between them.
 
-We also tested whether the behaviour is only repetition of the prompt. Holding prompt, seed and game state fixed, moving a betting-related activation direction changed the bet ratio in proportion to the edit in both models, and removing that component lowered betting; controls and model-specific limits are in our reply to KuK5's W1 and Q2. Part of the internal state therefore affects the immediate choice, and the fixed-variable difference is not explained by shared instructions or task misunderstanding.
+We also tested whether the behaviour is only repetition of the prompt. Holding prompt, seed and game state fixed, moving a betting-related activation direction changed the bet ratio in proportion to the edit in both models, and removing that component lowered betting; controls and model-specific limits are in our reply to KuK5's W1 and Q2. So at least the immediate choice is not explained by the prompt wording the two arms share.
 
 ## [W3] Uncertainty reporting
 
@@ -41,23 +41,23 @@ To separate action structure we added a condition in which the model chooses the
 | amount chosen each round | 85.0% | +80.0 pp [+70.8, +86.1] | 100% | 15.9 |
 | amount chosen each round, wider bound | 80.0% | −5.0 pp [−15.6, +5.6] | 100% | 15.1 |
 
-Each bracket is the 95% interval on the difference against the row above, so +3.0 pp [−2.5, +7.2] includes zero while +80.0 pp [+70.8, +86.1] lies entirely above it. Letting the model set its own amount once therefore behaved like the environment setting it; only choosing again each round raised bankruptcy and re-betting, and widening the range added nothing. Given the choice, LLaMA never picks \$70 in 200 games. The result fits per-round discretion, the ability to revise after a loss, better than the existence of a choice or the width of the choice set.
+Each bracket is the 95% interval on the difference against the row above, so +3.0 pp [−2.5, +7.2] includes zero while +80.0 pp [+70.8, +86.1] lies entirely above it. Setting its own amount once therefore behaved like the environment setting it; only choosing again each round raised bankruptcy and re-betting, and widening the range added nothing. Given the choice, LLaMA never picks \$70 in 200 games. The result fits per-round discretion, the ability to revise after a loss, better than the existence of a choice or the width of the choice set.
 
 ## [Q2] Keyword lists, scoring rules, human validation
 
 > "keyword lists, annotation rules, human validation results?"
 
-This is a codebook analysis looking in reasoning traces for language patterns studied in gambling-cognition research. The categories and definitions come from that prior work, which supplies no keyword lexicon ready for free-form LLM responses; the expressions are ours, written to operationalise those definitions, fixed before any statistic was computed and used unchanged for every model and condition. The complete frozen codebook, all thirty expressions across the four categories, is printed in our reply to a3Zu's first weakness.
+This is a codebook analysis looking in reasoning traces for language patterns studied in gambling-cognition research. The categories and definitions come from that prior work, which supplies no keyword lexicon for free-form LLM responses; the expressions are ours, written to operationalise those definitions, fixed before any statistic was computed and used unchanged for every model and condition. All thirty expressions across the four categories are printed in our reply to a3Zu's first weakness.
 
-These figures apply no temporal window: every decision is scored. The revision adds a stricter sensitivity analysis that excludes decisions where the prompt supplies the cue and restricts impaired-control expressions to decisions after a loss. A match inside a negation counts as a mention rather than an endorsement, and goal escalation is scored separately as behavioural persistence. The regex file with its hash and worked examples are published with the revision.
+These figures apply no temporal window: every decision is scored. The revision adds a stricter sensitivity analysis that excludes decisions where the prompt supplies the cue and restricts impaired-control expressions to decisions after a loss. A match inside a negation counts as a mention rather than an endorsement, and goal escalation is scored separately as behavioural persistence.
 
-Without independent human annotation we do not present this as a validated classifier, and it is not used to diagnose sentences or to argue that this language mediates bankruptcy; it asks whether related wording is more frequent where risk increases. If the content validity is judged insufficient we will limit both the expressions and the claim further, and add human annotation of a stratified sample.
+Without independent human annotation we do not present this as a validated classifier, and it is not used to diagnose sentences or to argue that this language mediates bankruptcy; it asks whether related wording is more frequent where risk increases. The revision publishes the regex file with its hash, the scoring rules and worked examples, and if the content validity is judged insufficient we will limit both the expressions and the claim further and add human annotation of a stratified sample.
 
 ## [Q3] Does the model know that stopping is EV-optimal?
 
 > "Does the model explicitly know stopping immediately is EV-optimal? [...] Did you test an explicit rationality instruction [...]?"
 
-The submitted results alone cannot establish that a model knows immediate stopping is optimal and acts on it. The P component supplies the win rate and the W component the payout structure, so conditions containing both state everything needed to compute a negative expected value per bet, yet bankruptcy did not fall consistently there. Some tallies show it higher, but those conditions also carry more prompt components, so we claim only that supplying the information did not consistently reduce risky behaviour.
+The submitted results alone cannot establish that a model knows immediate stopping is optimal and acts on it. The P component supplies the win rate and the W component the payout structure, so conditions containing both state everything needed to compute a negative expected value per bet, yet bankruptcy did not fall consistently there. Some tallies show it higher, but those conditions carry more prompt components too, so we claim only that supplying the information did not consistently reduce risk.
 
 We then tested the conclusion directly. The prompt stated that the game has negative expected value, that each round loses 10% of the amount wagered in expectation, that stopping immediately therefore maximises expected value, and that the model may stop at any time.
 
@@ -66,12 +66,12 @@ We then tested the conclusion directly. The prompt stated that the game has nega
 | LLaMA-3.1-8B | 82.0% | 47.0% | −35.0 pp [−46.4, −22.0] | 100 → 99 |
 | Gemma-2-9B | 15.0% | 0.0% | −15.0 pp [−23.3, −8.2] | 100 → 71 |
 
-Both intervals lie entirely below zero. In Gemma participation fell as well, while LLaMA still wagered at least once in 99 of 100 games, so the instruction moderates how much is lost without removing participation. Having the information needed to compute expected value does not mean a model acts on it, and supplying the conclusion moves behaviour in the safer direction without eliminating betting.
+Both intervals lie entirely below zero. In Gemma participation fell as well, while LLaMA still wagered at least once in 99 of 100 games, so the instruction lowered bankruptcy without removing participation. Having the information needed to compute expected value does not mean a model acts on it, and supplying the conclusion moves behaviour in the safer direction without eliminating betting.
 
 ## [Q4] Why sparse-autoencoder features and Ridge
 
 > "why SAE top-200 + Ridge instead of logit/choice-probability controls or a simpler behavioral-state baseline?"
 
-The autoencoder was for inspecting internal representations at the feature level, not for accuracy, and the top-200 cut bounded compute rather than claiming 200 is optimal. That readout carried a small signal in the expected direction, which is why we did not present it as causal evidence.
+The autoencoder was for inspecting internal representations at the feature level, not for accuracy. The top-200 cut bounded compute, and Ridge gave a stable linear readout over correlated high-dimensional features; neither is claimed to be optimal. That readout carried only a small signal in the expected direction, which is why we did not present it as causal evidence.
 
-Both baselines you name are now in place, with full results in our reply to KuK5's W1 and Q2. Over a 65-variable behavioural-state baseline the sparse representation still added held-out variance on the paper's deconfounded target, and on the raw bet-ratio target the dense hidden state kept its increment even under an evaluation separating repeated states. Logit and choice probability come from the same decision computation as the target, so they are not an independent state control. Building the behavioural direction in the raw residual stream, with no autoencoder, reproduced the dose-response, so the sparse basis is an inspection tool rather than a requirement.
+We added the behavioural-state baseline you propose, and examined the other alternative separately. Over a 65-variable baseline the sparse representation still added held-out variance on the paper's deconfounded target, and on the raw bet-ratio target the dense hidden state kept its increment even under an evaluation separating repeated states. Logit and choice probability come from the same decision computation as the target, so we do not treat them as an independent state control. Building the behavioural direction in the raw residual stream, with no autoencoder, reproduced the dose-response, so the sparse basis is an inspection tool rather than a requirement. Full results are in our reply to KuK5's W1 and Q2.

@@ -12,12 +12,12 @@ The intervention experiment found that a separate direction able to change the b
 
 We judged a causal intervention by whether adding the direction raises betting, removing the same component lowers it, and size-matched random directions fail to reproduce either. After removing the influence of balance and round, the behavioural axis is the difference in mean activation between high and low bet-ratio decisions. The games used to build the axis are disjoint from those used to evaluate it, and the same prompt, seed and game state are replayed at every dose. The band is layers 16 to 21 in Gemma and 14 to 19 in LLaMA, and one unit of dose is 3% of that layer's median residual norm.
 
-| model | α = −3 | α = 0 | α = +3 | dose effect | component removal |
-|---|---|---|---|---|---|
-| Gemma-2-9B | 0.014 | 0.061 | 0.256 | +0.244 [+0.224, +0.263] | −0.037 [−0.052, −0.022] |
-| LLaMA-3.1-8B | 0.162 | 0.213 | 0.274 | +0.092 [+0.049, +0.136] | −0.052 [−0.081, −0.026] |
+| model | α = −3 | −2 | −1 | 0 | +1 | +2 | +3 |
+|---|---|---|---|---|---|---|---|
+| Gemma-2-9B | 0.014 | 0.020 | 0.019 | 0.061 | 0.150 | 0.229 | 0.256 |
+| LLaMA-3.1-8B | 0.162 | 0.164 | 0.177 | 0.213 | 0.218 | 0.256 | 0.274 |
 
-The values are mean bet ratios, the wager divided by the current balance. α is how strongly the axis is added to the activations: −3 suppresses it, 0 is the unedited run, +3 strengthens it. The dose effect is the difference between α = −3 and α = +3, and removal is the change when the direction's component is projected out. Each bracket is the 95% interval on that difference, over seed-matched pairs.
+Values are mean bet ratios, the wager divided by the current balance, at 200 games per dose. α is how strongly the axis is added to the activations: −3 suppresses it, 0 is the unedited run, +3 strengthens it. The ladder rises across all seven doses in LLaMA, and in Gemma apart from one flat step between −2 and −1. The difference between +3 and −3 is +0.244 [+0.224, +0.263] in Gemma and +0.092 [+0.049, +0.136] in LLaMA, and projecting the component out of the original activation lowers the bet ratio by −0.037 [−0.052, −0.022] and −0.052 [−0.081, −0.026]. Each interval is 95% over seed-matched pairs.
 
 Betting rose with the dose in both models and fell when the component was removed. Gemma's dose effect was larger than all 20 norm-matched random directions, and a control direction fitted to predict balance and round stayed inside the random band, so a simple linear reading of game state does not reproduce the result there.
 
@@ -57,10 +57,8 @@ Each cell reads fixed bankruptcy → variable bankruptcy, then the difference wi
 | GPT-4.1-mini | 0 → 12; +12 [+2.4, +23.8] | 2 → 40; +38 [+23.0, +51.9] | 30 → 56; +26 [+6.6, +42.8] | 2 → 56; +54 [+37.9, +66.9] |
 | Gemini-2.5-Flash | 8 → 16; +8 [−5.3, +21.4] | 12 → 66; +54 [+35.8, +67.2] | 66 → 84; +18 [+1.0, +33.8] | 20 → 62; +42 [+23.0, +57.0] |
 
-In GPT-4o-mini at cap \$10, 0 → 2; +2 [−5.3, +10.5] means fixed ruined in no games and variable in one of fifty. The point difference is +2 percentage points, but the interval includes zero, so at this cap no difference can be established; with fifty games per arm a single game is two points, and at the smallest cap almost nothing ruins either arm. At cap \$30 the same model reads +20 [+8.7, +33.0], where the whole interval is above zero and the difference is clear.
+In GPT-4o-mini at cap \$10, 0 → 2; +2 [−5.3, +10.5] means fixed ruined in no games and variable in one of fifty: with fifty games per arm a single game is two points, so the interval includes zero and no difference can be established there. At cap \$30 the same model reads +20 [+8.7, +33.0], where the whole interval lies above zero.
 
 Ten of the twelve intervals exclude zero, and there is no cell where the variable arm ruined less than the fixed arm. The two that include zero are both at cap \$10, which is where the submitted analysis also reported no effect. Participation is close in nine of the twelve cells; the exceptions are GPT-4o-mini at caps \$50 and \$70, where the fixed arm played 74% and 36% of its games against 100% in the variable arm, and GPT-4.1-mini at cap \$70, 64% against 100%. Declining to play is a reasonable response to being forced to stake most of the balance in a negative-expected-value game, and where it happens it contributes to the lower bankruptcy of the fixed arm. Seven of the nine participation-matched cells still exclude zero, and at Gemini's cap \$70 both arms played all fifty games, so there the 20% against 62% cannot come from participation at all.
-
-The same direction appears in the two open-weight models, in a separate experiment reported in our gbSA reply: at the same cap, an environment-set wager ruins 2.0% of LLaMA's games against 85.0% when the amount is chosen again each round.
 
 Part of what the fixed arm buys is therefore not choosing amounts better but entering less often and stopping earlier, and the revision reports participation, realised wager and first-loss re-betting beside every bankruptcy figure. We are grateful for a question that let us show which models and which behavioural routes reproduce the difference, rather than generalising from one model.

@@ -63,7 +63,7 @@ not (ready to )?(stop|quit) (yet|now)
 ```
 
 
-What the analysis shows directly is that in the conditions where risky behaviour increases, wording about control, loss recovery and probability judgement tends to increase with it. It does not show that this language causally mediates bankruptcy, and it does not show that a model holds a human-like mental state. It is consistent with the paper's behavioural reading, that a model trained on human language can produce justifications resembling those reported in human gambling research when placed in comparable situations, and we do not test the training data as the cause.
+Because this is a keyword count rather than annotation validated against human judgement, its content validity is not established. It can report whether pre-specified expressions appear more or less often across conditions. It cannot decide whether a flagged sentence really instantiates the construct, it does not show that this language causally mediates bankruptcy, and it does not show that a model holds a human-like mental state.
 
 The revision will therefore describe the measure as *gambling-related linguistic markers* or *distortion-associated language* changing across conditions, rather than as a cognitive diagnosis. The scoring rules and the publication plan for the regex file are in our reply to gbSA's Q2, and in the paper this analysis will support the behavioural results rather than stand on its own. If the content validity of the codebook is judged insufficient, we will state the claim more conservatively still and strengthen the analysis with independent human annotation of a stratified sample.
 
@@ -94,7 +94,7 @@ A single worked example changed the betting policy that followed, and the cleare
 | Gemini-2.5-Flash, fixed | 12% | 13% | 11% | −2.0 pp [−11.3, +7.3] | \$60.7 → \$65.1 |
 | Gemini-2.5-Flash, variable | 32% | 21% | 52% | +31.0 pp [+17.8, +42.7] | \$24.0 → \$30.2 |
 
-The bracket is the 95% confidence interval on the escalating-minus-cautious difference, not on either arm. So +4.0 pp [−3.0, +11.4] means the observed difference was 4 percentage points but the data cannot rule out no difference at all, while +31.0 pp [+17.8, +42.7] means the whole interval lies above zero and the two examples separate clearly.
+The bracket is the 95% confidence interval on the escalating-minus-cautious difference, not on either arm: +4.0 pp [−3.0, +11.4] includes zero, so no difference can be established there, while +31.0 pp [+17.8, +42.7] lies entirely above it.
 
 In the four remaining model-conditions all three arms sat at 0%. Those cells either decline the game or already have a very low baseline bankruptcy, so a change in betting policy has no room to appear in this measure.
 

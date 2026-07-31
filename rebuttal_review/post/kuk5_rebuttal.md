@@ -41,13 +41,13 @@ The axis moves betting in both directions while size-matched randoms do not, so 
 
 > "Does the matched-cap dissociation [...] hold on any of the other five models, or only GPT-4o?"
 
-Agreed, and we repeated the controlled test rather than leaning on the broader pattern. The submitted ablation ran on GPT-4o-mini; the paper's "GPT-4o" label is shorthand the camera-ready corrects throughout. In the new runs, choosing to play in the fixed condition commits the model to the cap-sized wager, while the variable condition picks any wager up to the same cap each round. Bankruptcy in % of games, fixed → variable, with the 95% interval on the difference, under the five-module prompt at 50 games per arm:
+Agreed, and we repeated the controlled test rather than leaning on the broader pattern. The submitted ablation ran on GPT-4o-mini; the paper's "GPT-4o" label is shorthand the camera-ready corrects throughout. In the new runs, choosing to play in the fixed condition commits the model to the cap-sized wager, while the variable condition picks any wager up to the same cap each round. Bankruptcy in % of games, fixed → variable, then the difference between the two arms with its 95% interval, under the five-module prompt at 50 games per arm:
 
 | model | cap \$10 | cap \$30 | cap \$50 | cap \$70 |
 |---|---|---|---|---|
-| GPT-4o-mini | 0 → 2 [−5.3, +10.5] | 0 → 20 [+8.7, +33.0] | 4 → 26 [+8.1, +35.9] | 0 → 40 [+25.7, +53.8] |
-| GPT-4.1-mini | 0 → 12 [+2.4, +23.8] | 2 → 40 [+23.0, +51.9] | 30 → 56 [+6.6, +42.8] | 2 → 56 [+37.9, +66.9] |
-| Gemini-2.5-Flash | 8 → 16 [−5.3, +21.4] | 12 → 66 [+35.8, +67.2] | 66 → 84 [+1.0, +33.8] | 20 → 62 [+23.0, +57.0] |
+| GPT-4o-mini | 0 → 2, +2.0 [−5.3, +10.5] | 0 → 20, +20.0 [+8.7, +33.0] | 4 → 26, +22.0 [+8.1, +35.9] | 0 → 40, +40.0 [+25.7, +53.8] |
+| GPT-4.1-mini | 0 → 12, +12.0 [+2.4, +23.8] | 2 → 40, +38.0 [+23.0, +51.9] | 30 → 56, +26.0 [+6.6, +42.8] | 2 → 56, +54.0 [+37.9, +66.9] |
+| Gemini-2.5-Flash | 8 → 16, +8.0 [−5.3, +21.4] | 12 → 66, +54.0 [+35.8, +67.2] | 66 → 84, +18.0 [+1.0, +33.8] | 20 → 62, +42.0 [+23.0, +57.0] |
 
 Nine of the twelve differences exclude zero and none is negative. At cap \$70 Gemini plays all 50 games in both arms, so refusal cannot explain its gap. The submitted Claude-3.5-Haiku checkpoint has been retired by the provider, so that row cannot be re-run; its replacement sits at 0% in both arms and is uninformative.
 

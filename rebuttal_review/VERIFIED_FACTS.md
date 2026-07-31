@@ -2817,3 +2817,42 @@ Korean, zero overfull boxes.
 
 Final posted lengths: area chair 5,948 / a3Zu 8,805 / gbSA 9,927 / KuK5 9,368. Reviewer quotes
 16 of 16 verbatim.
+
+---
+
+## §Z.20 Standing rule: the persona prefix is never named in posted text (2026-07-31)
+
+**User instruction, 2026-07-31: do not talk about the persona in anything that goes to reviewers.**
+Naming it introduces a term the submitted paper does not use and advertises that the response-period
+runs carry a prompt the paper did not. Removed from the letters:
+- gbSA's rationality table header, "model, variable condition, participation-framing prompt", is now
+  "model, variable condition, 100 games per arm".
+- a3Zu's demonstration setup said the arms held "the role instruction, the participation framing, the
+  game description and the seeds" identical; it now says "the instructions, the game description and
+  the seeds", which carries the same guarantee that only the demonstration differed.
+Nothing in the four posted letters now contains persona, participation framing, role instruction,
+behavioral economics simulation or research study. Korean mirrors this. The word survives only in
+`followup_2nd_round.md`, an internal drafting file that is not posted.
+
+**Consequence that must be watched, not written.** The stack composition is still true and is
+recorded here: every response-period behavioural experiment cited in the letters carries the persona
+prefix (mc32 matched-cap grid, §F.4 "All 64 cells carry the persona prefix"; the demonstration cells,
+§F.5; the rationality cells, §F.7) **except E8, which has none** (§F.3, verified from the raw JSON:
+no `prompt_prefix` key and no `--persona` in argv). The E8 table is captioned "BASE prompt", which is
+the paper's own vocabulary and does not name the prefix.
+
+**The residual ambiguity this leaves, unresolved by design.** gbSA now carries two figures for what a
+reader may treat as the same cell: the E8 action-structure table gives LLaMA at cap $70 with the
+amount chosen each round as **85.0%**, and the rationality table gives the LLaMA variable baseline as
+**82.0%**. Both are correct for their own run and the runs differ only in the prefix, which we are no
+longer allowed to name. The options, if a reviewer asks or if we decide to close it:
+1. Report the rationality result as a change only (−35.0 pp and −15.0 pp) and drop the 82.0/47.0
+   absolute column, which removes 82.0 from the letter entirely.
+2. Answer in the discussion thread that the two arms come from separate runs of the same game.
+Do not close it by reinstating a prefix label.
+
+**No experiment promises remain.** A sweep for "3 August", "will run", "will report", "in progress",
+"follow-up" and "forthcoming" over the four posted letters returns nothing. The only forward
+commitments are conditional camera-ready ones: limit the expressions and the claim if content
+validity is judged insufficient, add human annotation of a stratified sample, and not generalise the
+demonstration result. No new experiment is promised anywhere.

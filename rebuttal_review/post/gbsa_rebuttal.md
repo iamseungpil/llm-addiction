@@ -61,7 +61,7 @@ The submitted results alone cannot establish that a model knows immediate stoppi
 
 We then tested the conclusion directly. The prompt stated that the game has negative expected value, that each round loses 10% of the amount wagered in expectation, that stopping immediately therefore maximises expected value, and that the model may stop at any time.
 
-| model, variable condition, participation-framing prompt | bankruptcy before | with the instruction | difference | games with a wager |
+| model, variable condition, 100 games per arm | bankruptcy before | with the instruction | difference | games with a wager |
 |---|---|---|---|---|
 | LLaMA-3.1-8B | 82.0% | 47.0% | −35.0 pp [−46.4, −22.0] | 100 → 99 |
 | Gemma-2-9B | 15.0% | 0.0% | −15.0 pp [−23.3, −8.2] | 100 → 71 |

@@ -2643,3 +2643,43 @@ caps $10/$30/$50/$70 (§F.3, "replicating A2 non-monotonicity"). This is a repro
 the game, not a data error, and is worth being ready to explain rather than putting in a letter.
 
 Final posted lengths: area chair 5,584 / a3Zu 9,082 / gbSA 9,956 / KuK5 9,460.
+
+---
+
+## §Z.16 Wording pass and build hygiene, 2026-07-31
+
+**Six wording changes, all verified before applying.**
+1. The codebook is now four labelled blocks rather than one block with comment lines, in both
+   languages, so a reader scanning a3Zu sees the four category names without entering the code.
+2. **"registered before launch" is gone.** Our preregistration is the repository's
+   `PREREGISTRATION.md`, not a public registry, and "registered" invites a request for a link.
+   a3Zu now says the two demonstrations were "specified before the experiment and matched on
+   length, on the number of rounds shown and on both ending in a stop". **Do not write
+   "registered" of our own design decisions in any posted text.**
+3. a3Zu's Q2 is one paragraph; it had said twice that no human control was run.
+4. Q1's vague "in some runs" is now "in the two runs where the game environment stores the goal
+   itself", which is the accurate count and keeps the model family out of a parsing answer.
+5. The demonstration table's last column is now **mean stake per played round**. The underlying
+   quantity is F.5b's "mean executed wager", so the bare label could have been read as an average
+   over all games including those never played.
+6. The follow-up promise at the end of a3Zu's Q3 became a diagnosis with no new commitment:
+   whether the other cells reflect insensitivity or a participation floor is not separable from
+   these data.
+
+**"one model" disambiguated by position, not globally.** In the AC opening and gbSA W1/W2 it
+meant *the same model across conditions* and is now written that way; in the AC's second paragraph
+and KuK5's closing it means *literally one model* and was left alone. A blind replace would have
+inverted the sense in two places.
+
+**Build hygiene.** `build.py`'s table sizer switched to p-columns above 30 characters; the
+matched-cap cells sit just under that and overran a fixed l/c layout, so the trigger is now 22.
+The Korean matched-cap and E8 tables were given explicit column widths. Both PDFs now build with
+**0 overfull boxes** (were 3 in English and 3 in Korean).
+
+**Pipeline, for the record.** `post/*.md` is the only hand-edited source of the posted text.
+`latex/build.sh` runs `build.py`, which regenerates `latex/sections_en/*.tex` and the combined
+`main.md`, then builds `main_en.pdf` and `main_ko.pdf` and prints the character counts and the
+Korean figure audit. `latex/sections_ko/*.tex` is the one thing written by hand, and the audit is
+what keeps it honest.
+
+Final posted lengths: area chair 5,488 / a3Zu 9,048 / gbSA 9,885 / KuK5 9,396.

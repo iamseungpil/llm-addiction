@@ -10,7 +10,7 @@ Thank you for pressing directly on the two weakest points. We agree that the eff
 
 The intervention experiment found that a separate direction able to change the betting choice does exist in the activations. It is built independently of the submitted fitted readout, and the result is clearest in Gemma, while in LLaMA it separates less sharply from a direction related to game state.
 
-We judged a causal intervention by whether adding the direction raises betting, removing the same component lowers it, and size-matched random directions fail to reproduce either. After first removing the influence of balance and round, the behavioural axis is the difference in mean activation between high and low bet-ratio decisions. The games used to build the axis are disjoint from the games used to evaluate it, and the same prompt, seed and game state are replayed at every dose. The band is layers 16 to 21 in Gemma and 14 to 19 in LLaMA, and one unit of dose is 3% of that layer's median residual norm.
+We judged a causal intervention by whether adding the direction raises betting, removing the same component lowers it, and size-matched random directions fail to reproduce either. After removing the influence of balance and round, the behavioural axis is the difference in mean activation between high and low bet-ratio decisions. The games used to build the axis are disjoint from those used to evaluate it, and the same prompt, seed and game state are replayed at every dose. The band is layers 16 to 21 in Gemma and 14 to 19 in LLaMA, and one unit of dose is 3% of that layer's median residual norm.
 
 | model | α = −3 | α = 0 | α = +3 | dose effect | component removal |
 |---|---|---|---|---|---|
@@ -19,7 +19,7 @@ We judged a causal intervention by whether adding the direction raises betting, 
 
 The values are mean bet ratios, the wager divided by the current balance. α is how strongly the axis is added to the activations: −3 suppresses it, 0 is the unedited run, +3 strengthens it. The dose effect is the difference between α = −3 and α = +3, and removal is the change when the direction's component is projected out. Each bracket is the 95% interval on that difference, over seed-matched pairs.
 
-Betting rose with the dose in both models and fell when the component was removed. Gemma's dose effect was larger than all 20 norm-matched random directions, and a control direction fitted to predict balance and round stayed inside the random band, so a simple linear reading of game state does not reproduce the behavioural-axis result in Gemma.
+Betting rose with the dose in both models and fell when the component was removed. Gemma's dose effect was larger than all 20 norm-matched random directions, and a control direction fitted to predict balance and round stayed inside the random band, so a simple linear reading of game state does not reproduce the result there.
 
 In LLaMA the steering and the removal went the same way, but the balance-and-round control direction also changed betting under steering. Removing that control direction produced no behavioural change, whereas removing the behavioural axis lowered betting. LLaMA therefore also supplies intervention evidence, but the specificity of the direction is less clear-cut than in Gemma. Building the same high-versus-low betting contrast in the raw residual stream, with no sparse autoencoder involved, also produced a positive dose-response, so the intervention effect does not depend on the sparse basis.
 
@@ -35,7 +35,7 @@ We then asked whether the hidden representation merely repeats the observable ga
 
 ΔR² is the increase in held-out explained variance when the internal representation is added on top of the observable-variable baseline. The game split keeps decisions from one game on one side; the state-hash split is stricter and also prevents the same observable state from appearing on both sides.
 
-Observable game state explained much of the prediction. The dense hidden state nevertheless kept its increment on the raw bet ratio even under the stricter split, while the increment from the sparse representation fell sharply there. The effect of the submitted readout is therefore limited, but the hidden state as a whole is not simply a restatement of the visible game log.
+Observable game state explained much of the prediction. The dense hidden state nevertheless kept its increment on the raw bet ratio even under the stricter split, while the sparse representation's increment fell sharply there. The submitted readout's effect is therefore limited, but the hidden state as a whole is not simply a restatement of the visible game log.
 
 The two experiments answer different questions: whether the hidden representation holds information beyond the observable game state, and whether changing the activations changes the choice. The submitted readout is not causal, but predictive information beyond the visible log and a separately defined direction that moves behaviour together strengthen the neural analysis. We are grateful for a question that made us separate prediction from intervention.
 
@@ -45,7 +45,7 @@ The two experiments answer different questions: whether the hidden representatio
 
 > "Does the matched-cap dissociation [...] hold on any of the other five models?"
 
-The direction of the matched-cap result is not confined to GPT-4o-mini. The submitted analysis evaluated that model on the slot machine at caps of \$10, \$30, \$50 and \$70, and the paper writes GPT-4o for it, which the camera-ready corrects. Following your point, the new experiment does not add caps but extends the same controlled comparison to other models.
+The direction of the matched-cap result is not confined to GPT-4o-mini. The submitted analysis evaluated that model on the slot machine at caps of \$10, \$30, \$50 and \$70, and the paper writes GPT-4o for it, which the camera-ready corrects. The new experiment does not add caps but extends the same controlled comparison to other models.
 
 Under the BASE prompt several models sit at zero bankruptcy, which leaves nothing to compare, so during the response period we evaluated the five-module prompt, where bankruptcy events are observable. Three API models ran the same four caps at 50 games per condition. The Claude-3.5-Haiku checkpoint the submitted runs used reached end of life in February 2026 and no longer resolves, so it could not be re-run, and this is how far we were able to take the comparison.
 

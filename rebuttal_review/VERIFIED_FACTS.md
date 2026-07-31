@@ -2248,3 +2248,81 @@ Lexicon expansion belongs in the camera-ready, pre-registered, with human annota
 
 **Camera-ready title (user decision 2026-07-31): _Gambling-Like Risk-Taking in Large Language
 Models_** — "Autonomy and" dropped; autonomy is one of two levers, not the whole paper.
+
+---
+
+## §Z.9 Causal-battery settings and paired intervals, recomputed 2026-07-31 from raw rollouts
+
+Every number in the KuK5 intervention table was recomputed today with the repo's own
+`multilayer_causal.src.sec4_stats` helpers (`_dose_cells`, `_pooled`, `_ols_slope`, `_bet`),
+not copied from a summary. Provenance below is per row.
+
+**Design facts (verified in code, not inferred).**
+- Window: Gemma L16-21, LLaMA L14-19 (`configs/arms_sec4_p0.yaml`; W13 arms reuse the same).
+- Dose scale: `MultiLayerSteerer` adds `alpha * scales[l] * unit_direction`, with
+  `scales[l] = SCALE_FRAC * median(||X_l||)` and `SCALE_FRAC = 0.03` (`src/axes.py:40`,
+  `src/indicator_axes.py:254`). One dose unit = **3% of that layer's median residual-stream
+  norm**. This is the only defensible phrasing of "alpha normalisation".
+- Replayed states: `prompt_set: addiction_role_gm`, `state_offset 300`, n=200. The replayed
+  pool is the **G-free** slice, all `bet_type: variable`; combos observed in
+  `sec4_w2_behav_iba_a0.jsonl` are BASE/M/R/W/P mixtures with **no G**. So the correct
+  description is "decision states from the paper's own corpus, variable betting, none carrying
+  the goal module" -- NOT "BASE" and NOT "five-module".
+- Seeds: `seed_base + 997*i`, alpha-independent, so every dose replays the same seeds and the
+  same states. Paired by construction.
+- Build/eval separation: `indicator_axes.py` SM branch excludes every game in the runner's
+  replay window from the axis build (`excluded_game_ids(..., n_eval=EVAL_EXCLUDE_N)`), matched
+  to the runner's positional replay. The axis never saw the evaluated games.
+- Axis definition: `build_behavioural_axis_from_arrays` residualises the indicator against
+  balance+round with the same within-fold RF the readout uses, then takes
+  mean(top quartile) - mean(bottom quartile). q = 0.25.
+- Parse gates are pre-registered per task: **SM 0.80**, IC 0.45, MW 0.45 (INDEX rung line;
+  `PARSE_GATE = 0.8` in `sec4_stats.py:37`). W13 uses 0.5.
+
+**Wave-2 behavioural ladder (`results/sec4_w2/`, Gemma, i_ba = bet ratio, 200 games/dose).**
+Dose means -3..+3: 0.0137 / 0.0199 / 0.0192 / 0.0608 / 0.1499 / 0.2290 / 0.2559.
+Trial-level OLS slope **0.04566**; seed-cluster bootstrap 95% CI **[0.0426, 0.0486]** (2,000
+resamples). Parse rate per dose: 0.96 / 0.99 / 0.98 / 1.00 / 0.995 / 1.00 / 0.965 -- all clear
+the 0.80 gate. Paired +3 minus -3 on the 185 seeds present in both: **+0.2437**, 95% bootstrap
+CI **[+0.2237, +0.2625]**, 173 up / 2 down / 10 tied.
+
+**Twenty-direction null, per-direction slopes recomputed.** mean 0.000692, sd 0.010116,
+**min -0.0178, max +0.0141, and 0 of 20 reach the observed 0.0457.** The letter therefore says
+"above all twenty, the largest of which reaches 0.0141" instead of quoting 4.45 SD.
+
+**Raw-ridge (no-SAE) ladder (`results/sec4_rawridge/`, same prompt_set, n=200/dose).**
+Means -3..+3: 0.0316 / 0.0337 / 0.0491 / 0.0804 / 0.1109 / 0.1389 / 0.2058; parse
+0.57 / 0.99 x6. The **-3 cell fails the registered 0.80 SM gate**. Slope with the gate applied
+(doses -2..+3, trial-level) **0.03316**, z = **+3.21** against the Wave-2 band. The ledger's
+older "slope 0.0284, z ~ +3" is the ungated **dose-mean** OLS over all seven doses; both are
+reproducible, but the letter quotes the gated figure because every other row is gated.
+
+**W13 removal (project-out), recomputed from HF rollouts.** Files
+`experiments/sec4_causal/checkpoints/sec4_w13/sec4_w13_{gemma,llama}_{base,behavioural,readout,confound}.jsonl`
+(not present locally; pulled from the HF dataset mirror 2026-07-31). Seed-matched pairs,
+parse_ok both sides, 10,000-resample bootstrap:
+
+| model | direction removed | n pairs | base | removed | paired diff | 95% CI | up/down |
+|---|---|---|---|---|---|---|---|
+| Gemma | behavioural | 196 | 0.0651 | 0.0283 | **-0.0369** | [-0.0519, -0.0217] | 17/62 |
+| Gemma | readout | 196 | 0.0664 | 0.0638 | -0.0026 | [-0.0153, +0.0097] | 27/34 |
+| Gemma | balance/round | 195 | 0.0668 | 0.1124 | **+0.0456** | [+0.0292, +0.0621] | 78/30 |
+| LLaMA | behavioural | 179 | 0.2061 | 0.1536 | **-0.0525** | [-0.0814, -0.0258] | 24/46 |
+| LLaMA | readout | 178 | 0.2110 | 0.1922 | -0.0187 | [-0.0514, +0.0129] | 46/50 |
+| LLaMA | balance/round | 179 | 0.2127 | 0.2071 | -0.0056 | [-0.0396, +0.0282] | 43/47 |
+
+These reproduce the INDEX point estimates and sign counts exactly, and they close the three
+items the KuK5 letter had promised "by 3 August": paired endpoint interval, slope bootstrap
+interval, and dose-wise parse validity. **The promise sentence has been removed from the
+letter; do not reinstate it.**
+
+**Do not mix waves.** The ladder 0.009/0.049/0.127/0.182/0.247/0.271/0.286 with baseline 0.182
+is `sec4_w14`'s **+G** ladder (slope 0.0469), a different pool and prompt condition from Wave-2
+(-G pool, baseline 0.061, slope 0.0457). An earlier draft printed the w14 ladder beside the w2
+slope and z. That pairing is now removed; the letter quotes Wave-2 end to end.
+
+**Open-weight lanes stopped (user decision 2026-07-31).** The persona demonstration cells
+(8 planned, 2 complete) and the E8 persona rerun (14 cells, 0 complete) were killed by PID.
+Every "reports by 3 August" promise has been struck from all three letters; a3Zu's Q3 now scopes
+the demonstration result to the four API models, and gbSA's W4 states the E8 arms'
+participation-framing mismatch as a scope limit with no promised remedy.

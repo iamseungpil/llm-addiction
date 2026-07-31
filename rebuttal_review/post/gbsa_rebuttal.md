@@ -1,58 +1,89 @@
 # Response to Reviewer gbSA
 
-Your four weaknesses identify different explanations that may travel with the fixed-versus-variable contrast: clinical framing, role-play and instruction following, uncertainty reporting, and differences in the available policies. We answer each with its most direct evidence; analyses that went against us are reported as such. We sincerely thank the reviewer for helping us improve the paper.
+Thank you for naming the alternative explanations precisely. We corrected the framing you flag and tested how far role-play and task understanding explain the fixed-variable gap; tables already in another response are pointed to, not repeated.
 
-**[W1] The label and the title.** **We agree that "addiction" can imply a clinical and experiential claim the study does not test.** The camera-ready title becomes *Autonomy and Gambling-Like Risk-Taking in Large Language Models*, with diagnostic terms replaced by behavioural ones.
+## [W1, W2] Clinical framing, role-play, and stable risk preferences
 
-The submitted Limitations already call the label "strictly behavioural", making "no claim about subjective experience, suffering, or moral status of the model". Our contribution is narrower — which conditions change observable participation, wager size, persistence, stopping and distortion-associated language — and the revised framing makes that boundary explicit.
+> "Title and framing feel overly anthropomorphic [...]"
 
-**[W2] Role-play, instruction following, and misreading the objective.** **Role framing and task calibration clearly influence behaviour, but none of the proposed explanations accounts for the full fixed-versus-variable contrast by itself.** You are also right that the paper tests a setting-dependent policy, not a stable context-independent risk preference; the camera-ready will say so directly.
+> "may reflect instruction following, role-play priors, or misunderstanding the task objective [...]"
 
-**First, shared wording alone is insufficient.** The reward module instructs the model to maximise final balance in both conditions, and GPT-4.1-mini carries the same rational-decision-maker message in every cell. Common wording may interact with each condition's affordances, but it cannot by itself explain the divergence.
+You are right that the title can be read as claiming an LLM has a mind that suffers a pathology. The camera-ready title becomes *Gambling-Like Risk-Taking in Large Language Models*, with diagnostic vocabulary replaced by behavioural description. The study never asked whether a psychiatric state exists: Section 2 states that "'addiction-like' is not a claim that an LLM experiences craving or withdrawal; it names a behavioural pattern". What we measure is how participation, wager size, persistence and stopping change across prompts and freedoms, which is a setting-dependent policy, not a context-independent risk preference.
 
-**Second, a larger wager range is insufficient**: in the matched-cap cells the fixed condition stakes more per round yet ruins less (W4; KuK5 response).
+Three checks say none of them carries the contrast alone: the reward-maximisation instruction and system message are identical across both arms of every compared cell; with the maximum held equal, fixed puts more money on each round yet ruins less (W4); and telling the model that stopping is optimal cuts bankruptcy sharply yet barely changes whether it plays (Q3).
 
-**Third, misunderstanding contributes but does not carry the contrast**: the calibration instruction that cuts LLaMA's variable-condition bankruptcy from 81.5% to 3.0% still leaves 69 of 100 games wagering, against 2 fixed (Q3).
+The internal analysis adds what prompt-level checks cannot. With prompt, seed and game state held fixed, editing a behaviour-linked internal direction changes the bet ratio in proportion to the edit (method in KuK5). This neither removes role-play priors nor shows a human-like mind, but it does show the choices are not mere surface repetition of the prompt, since part of the decision state moves the immediate choice.
 
-A same-state intervention adds one more piece: with prompt, seed and game state fixed, manipulating a behaviour-linked internal direction changes the betting outcome. That claims no trait; it shows only that the decision state carries behaviourally operative information. We will describe the finding as a *setting-dependent policy effect*.
+## [W3] Uncertainty reporting
 
-**[W3] Uncertainty.** **We agree that point estimates and bare p-values are insufficient.** Every primary body figure gains its sample size and a 95% interval; condition comparisons carry the interval on the difference itself, not two marginals; Finding 5's keyword analysis and the internal-state tables gain effect sizes with uncertainty.
+> "Most main figures lack confidence intervals or error bars [...]"
 
-**[W4] Whether the comparison is fair.** **Equal caps make wager size alone insufficient as an explanation, but they do not equalise stopping, cumulative exposure, or the policy space.**
+Agreed: the appendix carries bootstrap intervals in places, for instance on the variable-minus-fixed bankruptcy gap, but not the body figures a reader sees first. The camera-ready adds sample sizes and 95% intervals to every primary figure and table, puts the interval on the condition difference rather than two marginals, and reports effect sizes with uncertainty throughout.
 
-*Wager size.* At cap \$70 under five modules, Gemini is the cell where both conditions play all 50 games, so refusal cannot explain the result. The fixed condition nevertheless stakes **more** per played round (\$64.5 versus \$47.9) and reaches bankruptcy **less** (20.0% versus 62.0%, Fisher p = 3.6e-05); LLaMA shows the same dissociation under BASE.
+## [W4, Q1] Whether the comparison is fair, and whether it holds on other models
 
-*Game length and exposure.* For this response we fitted a cause-specific hazard model across the four API models. It compares bankruptcy risk decision by decision, so longer games do not mechanically accumulate risk, adjusting for cap, balance, round and prompt, clustered by game. The variable condition's per-decision bankruptcy hazard ratio against fixed is 90.6 [44.8, 183.4] — a wide interval, but far above one. It does not causally equalise stopping or exposure, and we do not present it as doing so.
+> "variable betting changes not only freedom of choice but also action space, available strategies, game length, and stopping behaviour."
 
-*Stopping.* Conceded. The remaining difference sits in re-betting after a first loss: in LLaMA's fixed condition, re-betting after a first loss falls from 57% at a \$30 cap to 35% at \$50 and 6% at \$70, and at a forced \$70 stake five of six models play fewer than 8% of games. The camera-ready therefore renames the fixed condition the *forced-maximum condition*; this response keeps fixed/variable to match the submitted paper and the review.
+> "Why is the matched-cap ablation only run on one GPT-4o-family model? [...]"
 
-A registered follow-up is running in the same harness: the model first chooses one fixed stake from the four caps, with fresh fixed and variable comparators collected alongside, separating a one-time policy choice from per-round discretion. Every specified cell reports by **3 August**, regardless of direction.
+The submitted ablation found variable betting ruining more while wagering smaller amounts over 16 to 19 rounds against fixed's 1 to 2, reading that as freedom-to-choose rather than range expansion (Section 3, Figure 3d). Your four channels could confound that reading, so we tested them one at a time:
 
-**[Q1] The equal-cap test on other models.** **The matched-cap result no longer rests on one model.** The strongest additional result is LLaMA: the fixed condition stakes \$68.4 per played round yet reaches 3.0% bankruptcy, whereas the variable condition stakes \$32.1 and reaches 81.5%. Under the five modules at cap \$70, Gemini and GPT-4.1-mini move the same way, as does the submitted GPT-4o-mini ablation; several BASE cells are floor-limited in both arms, so we do not claim a homogeneous panel. The full table and the negative pre-registered panel criteria are in our KuK5 response.
+| channel you name | how we tested it | result | verdict |
+|---|---|---|---|
+| wager size | equal caps: fixed must stake the cap, variable chooses up to it | at cap \$70 Gemini stakes \$64.5 per round against \$47.9 yet ruins 20% against 62%; LLaMA \$66.5 against \$34.1, ruin 6.0% against 82.0% | ruled out |
+| game length | decision-level hazard model over four API models, adjusting for cap, balance, round and prompt | per-decision bankruptcy ratio 90.6 [44.8, 183.4] | ruled out |
+| stopping | re-betting after a first loss, cap \$70 | LLaMA re-bets in 26% of fixed games against 100% of variable | a real difference |
+| action space | one-time stake choice against per-round discretion, plus a widened bound | a self-chosen stake behaves like the forced one; only per-round choice raises ruin (table below) | repeated discretion, not choice-set size |
 
-The completed 64-cell ladder passes the integrity guard (a parse- and storage-completeness check), and the variable condition reaches bankruptcy at least as often as fixed in 29 of 32 condition-pairs, ties included. The three exceptions are one Claude cell and two Gemini BASE cells; the Claude cells come from a replacement model (the submitted checkpoint is retired) and speak to the replacement only.
+Two channels are ruled out: fixed is safer even when it puts more money on each round and even after adjusting for how long games run. Stopping does differ, and part of what fixed buys is halting early rather than betting better, which is why the camera-ready renames it the forced-maximum condition. Cross-model coverage is in KuK5, whose table gives every cap and model with intervals: the direction holds in five models, and both prespecified panel rules were negative, so this is a controlled dissociation, not a universal effect.
 
-**[Q2] The keyword lists and rules.** The longest regular expressions are abbreviated for width; the frozen file and its hash carry them in full, and the camera-ready appendix prints them.
+The fourth channel needed its own experiment: is fixed safe only because the policy was imposed, and variable risky only because its space is wider? The model picks one stake from \$10/\$30/\$50/\$70 before play and cannot revise it, against fresh forced-maximum arms and fresh variable arms including one whose bound opens to \$100, so model-chosen minus forced isolates choosing once, variable minus model-chosen isolates per-round discretion, and the \$100 arm isolates range.
 
-| code | expressions matched | scored only on |
+| arm (LLaMA-3.1-8B, cap \$70) | bankruptcy | re-bets after a first loss | rounds played |
+|---|---|---|---|
+| forced maximum | 2.0% | 18% | 1.0 |
+| stake chosen once by the model | 5.0% | 45% | 1.9 |
+| chosen anew each round | 85.0% | 100% | 15.9 |
+| chosen each round, bound widened to \$100 | 80.0% | 100% | 15.1 |
+
+Given the choice, LLaMA never picks \$70 (0 of 200 games), and its self-chosen stake is equivalent to the forced one (+3.0 pp [−2.5, +7.2]) while per-round choice is not (+80.0 pp [+70.8, +86.1]); widening the bound changes nothing (−5.0 pp [−15.6, +5.6]) and Gemma never goes bankrupt in any arm. Neither the act of choosing nor the width of the choice set carries the risk; revisiting the choice every round does, and the re-betting column shows how. One scope limit we state ourselves: these arms ran without the participation-framing prefix the equal-cap cells carry, so they are matched to each other but not to that table.
+
+## [Q2] Keyword lists, scoring rules, human validation
+
+> "keyword lists, annotation rules, human validation results?"
+
+The categories are the frames the paper cites in Section 2; the expressions were written to match how these models phrase them, frozen before analysis and never checked against human annotation, so they are not a validated classifier. No public lexicon for coding gambling distortions in free text exists to adopt instead, and a3Zu reports a second instrument that reproduces the contrast in all six models. The complete list:
+
+| frame (Section 2 grounding) | expressions | scored on |
 |---|---|---|
-| `pattern_belief` | pattern, favorable state, hidden, trend, streak … continue; machine … hot / cold / due | decisions whose prompt does not mention hidden patterns |
-| `probability_misestimation` | due for, overdue, bound to win, should win, more likely … win | any decision |
-| `loss_chasing` | recover, make back, get back, win back, recoup, regain | decisions following a loss |
-| `goal_escalation` | new / revised / updated target; raise / increase / adjust target | any decision |
+| pattern belief (illusion of control) | pattern, favorable state, hidden, streak…continue, machine…hot/cold/due | prompt silent on patterns |
+| probability misestimation (gambler's fallacy) | due for, overdue, bound to win, should win, chance…increase, probability…win/favor…increase, more likely…win | any |
+| loss chasing (DSM-5) | recover, make back, get back, win back, recoup, regain, back to \$100 | after losses |
+| goal escalation (persistence) | new/revised/updated target, raise/increase/adjust target, target of \$N | any |
 
-The first three correspond to established gambling-cognition constructs — illusion or predictive control, probability misjudgement, loss chasing — while the lexical mappings are our unvalidated operationalisation. The fourth is not clinical; goal escalation is reported separately as behavioural persistence.
+Two scoring rules matter as much as the words: a match inside a negation (*not*, *never*, *avoid*) counts as a mention, not an endorsement, and a frame is scored only where the prompt does not supply the cue itself. Goal escalation sits apart because it measures persistence, not distortion. The camera-ready prints the frozen file and hash, the exclusion rules and worked examples; if the lexicon is judged insufficient we will strengthen it with expanded expressions and human annotation.
 
-We cannot provide human-annotated validation, and the expressions can over-fire. As a robustness check rather than a substitute, a frozen codebook with no goal category retains a positive goal contrast in all six models; the ranges and limitations are in our a3Zu response.
+## [Q3] Does the model know that stopping is EV-optimal?
 
-**[Q3] Whether the model knows stopping maximises expected value.** **Having the numbers did not help; being told the conclusion did.**
+> "Does the model explicitly know stopping immediately is EV-optimal? [...] Did you test an explicit rationality instruction?"
 
-Two prompt modules hand over the payout and win probability, from which the −10% expectation follows, yet the conditions where it is computable do not reach bankruptcy less in any of the four models with stored text. Inputs present does not mean inputs used; the numbers and the prompt-richness control are in our a3Zu response (Q3).
+In part it does by construction, though neither module alone suffices: `P` gives the 30% win rate, `W` the 3× payout, and only with both does −10% per dollar follow. Those conditions ruin *more*, not less. Variable arm, bankruptcy in % of games:
 
-A direct instruction — immediate stopping maximises expected value, stopping permitted at any round — cuts LLaMA's variable-condition bankruptcy from 81.5% to 3.0%, so you are right that task interpretation is a major moderator. It does not eliminate participation: 69 of 100 variable-condition games still wager, against 2 of 100 fixed. Calibration explains much, not all, of the contrast.
+| model | payout and win rate both given (n = 400) | not both given (n = 1,200) |
+|---|---|---|
+| GPT-4o-mini | 18.8 | 2.2 |
+| Claude-3.5-Haiku | 32.2 | 16.6 |
+| Gemma-2-9B | 49.2 | 22.3 |
+| LLaMA-3.1-8B | 7.8 | 6.4 |
 
-**[Q4] Why sparse-autoencoder features and Ridge regression.** **The sparse autoencoder is there for feature-level inspectability, not because sparse features were expected to outperform dense or behavioural baselines.** The top-200 limit was a computational ceiling rather than an optimality claim.
+One honest control cuts into this: those conditions carry more prompt modules and ruin rises with module count, so holding it fixed shrinks the gap and reverses it at four modules. We therefore claim only that supplying the numbers does not reduce risk.
 
-The requested 65-covariate baseline reaches 0.590 on the raw bet-ratio target and 0.140 on the paper's deconfounded target; the two are different outcomes and not directly comparable. On the submitted target the readout adds +0.037 to +0.045 under both fold rules; on the raw target the raw hidden state adds +0.059 while the sparse features add +0.0024 once repeated states are grouped (table in our KuK5 response). Steering does not require the autoencoder either: a direction fitted directly in the raw residual stream also moves behaviour. The sparse basis buys inspectability, not statistical necessity.
+Supplying the conclusion is different. The instruction that immediate stopping maximises expected value, with stopping permitted at any round, cuts LLaMA's variable bankruptcy from 82.0% to 47.0% (−35.0 pp [−46.4, −22.0]) and Gemma's from 15.0% to 0.0% (−15.0 pp [−23.3, −8.2]) at 100 games per arm, yet 99 of 100 LLaMA variable games still contain a wager. Calibration strongly moderates how much is lost and barely whether the model plays; whether an example does the same is the demonstration experiment in a3Zu.
 
-**[Limitations]** We adopt the reviewer's limitation in the contribution statement: these are artificial negative-expected-value games and cannot stand in for real financial or tool-using agents. The internal-state results provide predictive monitoring and intervention evidence, not a complete mechanism.
+## [Q4] Why sparse-autoencoder features and Ridge
+
+> "why SAE top-200 + Ridge instead of logit/choice-probability controls or a simpler behavioral-state baseline?"
+
+The autoencoder was for feature-level inspectability, not accuracy, and the top-200 cut was a compute ceiling. Both baselines you name are now in place. A 65-covariate behavioural baseline (balance, round, drawdown, streaks, cumulative stake, lagged bet ratios) explains a large share of the raw bet ratio and much less of the deconfounded target; over it the readout still adds variance on the deconfounded target, while sparse features lose almost all of theirs on the raw target once repeated states are separated (table in KuK5). Logit and choice probability come from the same decision step as the target, so a pre-decision baseline with them is nearer leakage than control.
+
+The intervention settles necessity: a direction built in the raw residual stream, with no autoencoder involved, moves betting the same way (method and controls in KuK5). The sparse basis is an inspection tool, not a requirement.

@@ -1,75 +1,56 @@
 # Response to Reviewer KuK5
 
-Your two weaknesses concern different claims: whether the matched-cap result generalises beyond one model, and what the submitted decoding result establishes relative to causal control. We address them separately and report negative response-period results alongside the supportive ones. We sincerely thank the reviewer for helping us improve the paper.
+Thank you for pressing on the two places the paper is weakest. Below we separate what the submitted readout establishes from what a new intervention establishes, and repeat the matched-cap test on more models and caps.
 
-## [W2, Q1] Whether the equal-cap result rests on one model
+## [W1, Q2] What the internal evidence shows, and what a positive causal result would look like
 
-**The reviewer is correct that the submitted one-model ablation cannot establish generality.** We therefore repeated the comparison across the panel. One clarification first: the submitted ablation's model is GPT-4o-mini, and the caption's "GPT-4o" is shorthand we will correct in the camera-ready.
+> "leaving the internal evidence as correlation that the authors themselves can only frame as a monitoring signal rather than a cause of the behavior."
 
-| model | prompt | n per arm | fixed % | variable % |
-|---|---|---|---|---|
-| Gemini | five modules | 50 | 20.0 | **62.0** |
-| GPT-4.1-mini | five modules | 50 | 2.0 | **56.0** |
-| GPT-4o-mini | five modules | 50 | 0.0 | **40.0** |
-| Claude (substitute) | five modules | 50 | 0.0 | 0.0 |
-| Gemini | BASE | 50 | 6.0 | **34.0** |
-| LLaMA | BASE | 200 | 3.0 | **81.5** |
+> "what would a positive result on those protocols have looked like, and does their failure leave open that the readout tracks a correlate of balance/round dynamics [...]?"
 
-The rows are model-and-prompt-specific tests, not one common-condition replication: LLaMA uses BASE, the three informative API rows the paper's five modules.
+Your reading is correct and we adopt it: the fitted readout is a monitoring signal, not a demonstrated cause, and its effect size is modest partly because the submitted analysis reads one sparse-autoencoder feature set from a single cell. Following your feedback we ran two further analyses: whether that signal carries anything beyond the visible game, and whether a separately built direction changes behaviour under intervention.
 
-The clearest result is LLaMA: the fixed condition executes the larger realised stake, \$68.4 per played round versus \$32.1, yet reaches far less bankruptcy, so a larger wager range cannot explain the difference on its own. Gemini moves the same way under BASE and under the five modules, so the module text is not the sole explanation either. Newcombe 95% intervals on the variable-minus-fixed risk difference exclude zero for the three largest contrasts: Gemini +42.0 percentage points [+23.0, +57.0], GPT-4.1-mini +54.0 [+37.9, +66.9], LLaMA +78.5 [+71.6, +83.5].
+The predictive analysis uses the published readout cell, not the whole corpus: the behavioural corpus holds roughly 190,300 decisions, while hidden activations were stored for one model, prompt family and betting condition, giving 12,246 decisions in Gemma's slot-machine variable arm at layer 22. Those are different scopes, not a conflict. On those decisions we predict first from 65 observable covariates (balance, round, drawdown, streaks, cumulative stake, lagged bet ratios), then add the internal representation and measure ΔR², the extra held-out variance explained. Because identical states recur across games we use game-grouped folds and a stricter state-hash rule keeping any repeated state on one side of the split; choice probability and logits are excluded as post-decision quantities that would leak the target.
 
-The BASE extension across all six models was largely floor-limited: four of six sit at 0.0% in both conditions. Claude's cells use a newer replacement (the submitted checkpoint is retired) that also stays at the floor, so they speak to the replacement.
-
-Both pre-registered panel-level decision rules were negative, and we report them as such. The primary, a posterior bound on the pooled effect, is ill-posed with the fixed arm at zero; the secondary required four of six models to wager over half the cap, where models given freedom wager 22–46% of it. The table therefore represents separate model-condition estimates, not a registered panel-wide pass.
-
-As a broader descriptive check, all 64 grid cells pass the integrity guard (a parse- and storage-completeness check) and the variable condition reaches bankruptcy at least as often as fixed in 29 of 32 condition-pairs, ties included. Equal caps still leave stopping and exposure unequal; that battery and the registered follow-up are in our gbSA response.
-
-## [W1] What the submitted readout establishes
-
-**The direct answer is that the submitted readout supports monitoring, not causal control.** The submitted presentation combined two questions, and we now keep them apart.
-
-The first question is predictive: does the representation add information beyond the visible game log? We fitted a 65-covariate baseline (balance, round, drawdown, streaks, cumulative stake, lagged bet ratios) on the published cell's 12,246 decisions, with balance and round already residualised within fold before Ridge. One deviation from the registered baseline specification: choice probability and logits are excluded, since conditioning on the model's own decision would rig the test.
-
-Because the same observable state recurs across games, we evaluated two split rules: by game, and a stricter state-hash rule keeping repeated states on one side of the split. Each entry below is the held-out variance added over the same baseline, judged against a margin of 0.017 fixed beforehand.
-
-| prediction target | representation added | ΔR², game folds | ΔR², state folds |
+| prediction target | representation added | game folds ΔR² | state-hash folds ΔR² |
 |---|---|---|---|
-| *submitted deconfounded residual* | sparse-autoencoder features | +0.037 | **+0.045** |
-| *raw bet ratio* | raw hidden state | +0.059 | **+0.059** |
-| *raw bet ratio* | sparse-autoencoder features | +0.044 | **+0.0024** |
+| submitted deconfounded target | sparse-autoencoder features | +0.037 | **+0.045** |
+| raw bet-ratio target | raw hidden state | +0.059 | **+0.059** |
+| raw bet-ratio target | sparse-autoencoder features | +0.044 | **+0.0024** |
 
-Compare within prediction target — the two targets are different problems. On the submitted metric the readout clears the baseline under both rules; on the raw target the raw hidden state keeps its increment under the stricter split while the sparse representation keeps little. In plain terms, the dense state carries information beyond the game log, and the sparse compression loses much of it. The log alone reaches 0.140 on the submitted target, 84% of the published cell.
+Observable state explains much of the prediction, but the dense hidden state keeps its increment under the stricter split, so the readout monitors something beyond the visible log; sparse compression loses most of it.
 
-The second question is causal: does intervening on the submitted fitted direction alter behaviour? It does not satisfy the criteria below, so it remains a monitoring signal. The intervention result concerns a **separately constructed behavioural axis**, the mean activation difference between high-bet and low-bet decisions, near-orthogonal to the readout. It is not a causal validation of the readout, and the revised paper keeps the two apart.
+The intervention answers your first question. A positive causal result has to show four things at once: adding the direction raises betting, removing it lowers betting, size-matched control directions fail to reproduce the pattern, and outputs stay parseable.
 
-## [Q2] What a positive causal result looks like, and the state confound
+Every arm below edits Gemma-2-9B's raw residual stream across layers 16 to 21, and LLaMA-3.1-8B's across its matched window of 14 to 19, while the model replays decision states taken from the paper's own corpus under variable betting, none of them carrying the goal module, at 200 games per arm. One unit of dose adds 3% of that layer's median residual-stream norm along a unit-length direction, and the ladder runs from α = −3 to +3. Doses share seeds and therefore replay identical game states, so a confound running through balance or round index cannot produce the difference, and the axis was built on games disjoint from those replayed here. The behavioural axis is the difference in mean activation between the top and bottom quarter of decisions ranked by betting once balance and round are residualised out; no probe is fitted to it.
 
-**Purpose.** A readout can predict without being behaviourally operative. If the high-bet-minus-low-bet component contributes to the decision, adding it should raise betting, removing it should lower betting, and matched controls should not reproduce the pattern.
+| analysis | the direction, and what it tests | dose response | removing the component |
+|---|---|---|---|
+| behavioural axis | high-bet minus low-bet activation: does editing a behaviourally defined direction change the choice | bet ratio 0.014 at −3, 0.061 unedited, 0.256 at +3; slope 0.0457 [0.0426, 0.0486]; +3 against −3 paired +0.244 [+0.224, +0.263], rising on 173 of 185 shared seeds; above all twenty size-matched random directions, the largest of which reaches 0.0141 | Gemma 0.065 → 0.028, −0.037 [−0.052, −0.022]; LLaMA 0.206 → 0.154, −0.052 [−0.081, −0.026] |
+| specificity controls | the same contrast rebuilt in the raw residual stream with no autoencoder, and a direction fitted to predict balance and round | raw-stream axis 0.034 at −2 to 0.206 at +3, slope 0.0332, z = +3.21 against the same twenty-direction band; the balance/round direction slope 0.0072, z = +0.64, inside it | balance/round removal *raises* Gemma's betting, +0.046 [+0.029, +0.062], and leaves LLaMA unchanged, −0.006 [−0.040, +0.028] |
 
-**Positive criteria, fixed before the runs.** (1) Increasing the direction raises the betting index and decreasing it lowers the index, with the interval on that difference excluding zero. (2) The effect changes consistently across the dose ladder rather than appearing only at an extreme. (3) It exceeds a band of norm-matched random directions. (4) Parse success stays above the validity gate, so apparent change is not broken generation.
+Intervals are 95% bootstrap intervals on seed-matched pairs. Parse validity holds between 0.96 and 1.00 across the seven doses of the behavioural ladder; the raw-stream ladder's α = −3 cell falls to 0.57 and is excluded by the 0.80 validity threshold registered for this task.
 
-**Method.** The submitted protocols wrote at one layer; a window scan located the write bands at Gemma layers 16–21 and LLaMA layers 14–19, and we added or removed the frozen direction there during generation. The strength α is measured in units of the layer's own activation spread, so α = +2 adds twice that typical magnitude and −2 subtracts it. The design is paired: prompt, seed, dose and game state are matched across compared runs, so the activation edit is the only difference. The same procedure ran on twenty norm-matched random directions and on a direction fitted to balance and round. That last control is your confound, steered directly.
+The submitted fitted readout went through the same protocol and did not move behaviour: steering leaves it inside the random band, z = +0.75, and removing it changes nothing in either model, −0.003 [−0.015, +0.010] in Gemma and −0.019 [−0.051, +0.013] in LLaMA. One alternative specification appears to move behaviour, but parse success falls from 0.80 to 0.34 there, below even the loosest validity threshold used anywhere in the battery, so we do not count it.
 
-The outcome is the bet ratio, the wager divided by current balance. The slope is its change per unit of α — 0.0457 means each dose step moves the average wager by about 4.6 percentage points of the balance. The z-score compares that slope with the twenty random directions, whose slopes average 0.0007 with spread 0.0101. For Gemma the axis moves monotonically across the whole ladder:
+The axis moves betting in both directions while size-matched randoms do not, so it is behaviourally operative rather than merely predictive in this setting, and the controls locate the effect further: it does not depend on the sparse basis, and it is not what a linear balance/round account predicts, since that direction sits inside the random band and its removal points the wrong way. What we cannot exclude is a nonlinear or distributed state correlate that neither the fitted direction nor the 65 covariates capture. So the internal evidence stands on two legs, a readout that monitors and an axis that writes. We do not claim the second validates the first, and the revision keeps them apart.
 
-| dose α | −3 | −2 | −1 | 0 | +1 | +2 | +3 |
-|---|---|---|---|---|---|---|---|
-| mean bet ratio | 0.009 | 0.049 | 0.127 | **0.182** | 0.247 | 0.271 | 0.286 |
+## [W2, Q1] Whether the matched-cap dissociation holds beyond one model
 
-The targeted direction and its controls compare as follows; paired removal p-values are Gemma / LLaMA where both exist.
+> "The strongest behavioral claim [...] rests on a matched-cap ablation run on a single model (GPT-4o) [...]"
 
-| direction, 200 games/dose | dose slope | z vs 20 matched | removal effect | removal p |
+> "Does the matched-cap dissociation [...] hold on any of the other five models, or only GPT-4o?"
+
+Agreed, and we repeated the controlled test rather than leaning on the broader pattern. The submitted ablation ran on GPT-4o-mini; the paper's "GPT-4o" label is shorthand the camera-ready corrects throughout. In the new runs, choosing to play in the fixed condition commits the model to the cap-sized wager, while the variable condition picks any wager up to the same cap each round. Bankruptcy in % of games, fixed → variable, with the 95% interval on the difference, under the five-module prompt at 50 games per arm:
+
+| model | cap \$10 | cap \$30 | cap \$50 | cap \$70 |
 |---|---|---|---|---|
-| behavioural axis | 0.0457 | **+4.45** | −0.037 Gemma; −0.052 LLaMA | — |
-| same, fitted without an autoencoder | 0.0284 | ≈ +3 | — | — |
-| balance/round direction | — | +0.64 | +0.046 Gemma (wrong sign); −0.006 LLaMA | <.001 / 1.0 |
-| submitted fitted-readout direction | — | +0.75 | no detectable effect | .885 / 1.0 |
+| GPT-4o-mini | 0 → 2 [−5.3, +10.5] | 0 → 20 [+8.7, +33.0] | 4 → 26 [+8.1, +35.9] | 0 → 40 [+25.7, +53.8] |
+| GPT-4.1-mini | 0 → 12 [+2.4, +23.8] | 2 → 40 [+23.0, +51.9] | 30 → 56 [+6.6, +42.8] | 2 → 56 [+37.9, +66.9] |
+| Gemini-2.5-Flash | 8 → 16 [−5.3, +21.4] | 12 → 66 [+35.8, +67.2] | 66 → 84 [+1.0, +33.8] | 20 → 62 [+23.0, +57.0] |
 
-**Result.** The axis meets the dose-consistency and matched-control criteria — monotone across all seven doses, slope outside the random band — and removing it lowers betting in both models. Criterion (1) we count as only partially met: the downward evidence comes mainly from removal, not from an interval contrasting positive and negative doses. That interval, with the dose-wise parse rates for criterion (4), reports by **3 August**, whichever way they fall.
+Nine of the twelve differences exclude zero and none is negative. At cap \$70 Gemini plays all 50 games in both arms, so refusal cannot explain its gap. The submitted Claude-3.5-Haiku checkpoint has been retired by the provider, so that row cannot be re-run; its replacement sits at 0% in both arms and is uninformative. At cap \$70 we also ran both open-weight models at 100 games per arm: LLaMA-3.1-8B 6.0% → 82.0% (+76.0 pp [+65.2, +83.1]) and Gemma-2-9B 1.0% → 15.0% (+14.0 pp [+6.8, +22.3]). LLaMA is the cleanest case for your dissociation: its fixed arm wagers more per played round, \$66.5 against \$34.1, and still ruins far less.
 
-The submitted fitted-readout direction remains null under valid outputs. Under one alternative specification it shows apparent movement, but parse success falls from 0.80 to 0.34, below the 0.45 validity gate, so we do not count that setting as a positive intervention.
+These cells look unlike the submitted figure's 14–17% because that ablation averaged over prompt conditions while these are per-condition cells; its fixed arms, near 0/5/1%, match ours. Across the grid the variable arm ruins at least as often as fixed in 29 of 32 pairs. The three exceptions are informative rather than contradictory: two are Gemini under the plain prompt, where the reversal is small and its interval spans zero (34% against 26% at cap \$50, 2% against 0% at cap \$10), and the third is the retired Claude checkpoint's replacement. Both prespecified panel rules were negative, so we claim the same controlled dissociation in five models and four caps, not a registered panel-wide effect.
 
-On your confound directly: the balance/round direction steers at chance, and its removal moves Gemma the wrong way, so a simple linear state account does not reproduce the pattern. Nonlinear or distributed correlates remain possible, and we say so. One self-limit: the LLaMA readout arm passes its removal criterion by only a 6% margin.
-
-The resulting claim is deliberately narrow: the response-period evidence identifies an *intervention-sensitive behavioural direction*, not complete causal validation of the submitted readout. The readout remains a monitoring signal; the behavioural axis is a separate result about the model's internal state.
+One caveat on the fixed arms: part of what they buy is stopping early rather than betting better. At cap \$70 LLaMA re-bets after a first loss in 26% of fixed games against 100% of variable games, which is why the camera-ready renames the condition forced-maximum and reports realised stake and re-betting beside every bankruptcy number. The remaining freedom channel, a one-time stake choice against per-round discretion and against a widened bound, was run for this response and is reported in our gbSA reply.

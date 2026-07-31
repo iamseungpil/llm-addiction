@@ -1,68 +1,44 @@
 # Response to Reviewer a3Zu
 
-Your weakness and three questions concern whether our measurement instruments support the weight placed on them. We address each directly below, distinguishing what the submitted analyses establish, what the response-period checks add, and what remains unresolved. We sincerely thank the reviewer for helping us improve the paper.
+Thank you for the close reading. Following your points we sharpened what the language analysis claims, re-audited the moving-target metric, and ran the demonstration experiment you proposed on the four API models.
 
-## W. Validation of the distortion categories against human judgement
+## [W, Q2] Human validation of the categories, and the role of the human literature
 
-**The reviewer is correct that literature-grounded categories do not make our lexical classifier human-validated.** We did not validate the submitted expression rules against independent human judgements, and we will not present them as a validated psychological instrument.
+> "reasoning traces are scanned for language associated with loss chasing [...] but never validated against human judgement."
 
-The constructs come from prior gambling-cognition research — Raylu & Oei's Gambling Related Cognitions Scale, Toneatto's typology, Goodie & Fortune's review, Smith et al.'s DSM-5/GRCS guide — while the expression lists and scoring rules are our own operationalisation. The submitted paper already limits the interpretation: "the language analysis is not evidence that the model independently discovers those distortions, only that high-risk regimes are accompanied by loss-recovery and control-like justifications in the generated reasoning".
+> "Have you looked at whether humans playing the exact same slot-machine game [...] show similar patterns?"
 
-We performed a second check to determine whether the reported contrast is driven by the category most directly induced by the prompt. In the submitted codebook, the goal-versus-no-goal contrast is dominated by `goal_escalation` (+65 to +95 percentage points), which is near-tautological because the goal prompt instructs the model to set a goal. We therefore rescored the complete corpus of 19,200 games using a frozen response-period codebook with the goal category removed:
+Both points are fair: no independent annotator checked the flagged sentences, and we ran no human control on this game. On the second question, the human literature is design ground here rather than a comparison group. The task, the five prompt modules and the two measurement axes come from clinical gambling research cited in Section 2, and the paper asks how one model's behaviour changes when the prompt and the betting freedom change, so every primary result is a within-model contrast. Our slot machine simplifies those paradigms; we would expect the same qualitative direction in people, but we did not test it, so no model rate should be read as a human rate.
 
-| category | positive models | goal − no-goal difference | main limitation |
-|---|---|---|---|
-| `illusion_of_control` | 6/6 | +16.7 to +58.4 pp | may over-fire where wager size is genuinely under model control |
-| `impaired_control` | 6/6 | +13.5 to +50.6 pp | author-defined lexical rule without human validation |
+On the first, it matters what exists. We looked for a validated instrument and found none: the gambling-cognition instruments (the Gambling Related Cognitions Scale, the Gamblers' Beliefs Questionnaire and their relatives) are self-report questionnaires, not schemes for coding free text; Toneatto's typology and the think-aloud tradition define categories but are applied by trained human raters; the closest gambling-specific public resource, a DSM-5 and GRCS annotation guide, is also for human coders; and the one published distortion lexicon we found covers general, non-gambling distortions. With roughly 190,300 decisions to score, hand coding was not an option either, so we wrote a lexicon: the categories are the frames the paper cites, the expressions map how these models actually phrase them. One frozen rule set scores every model and condition with no per-condition tuning, and a match inside a negation such as *not*, *never* or *avoid* counts as a mention, not an endorsement.
 
-This result shows that explicit goal-setting language does not wholly account for the contrast. It is a response-period robustness probe, not an independent replication or a substitute for human validation. Two limits we hold ourselves to: `illusion_of_control` can over-fire in the variable condition, and the variable-minus-fixed contrast is negative in Gemini under every instrument variant we tested.
+Writing expressions against observed text invites a fair objection: a lexicon read off a corpus will fire on that corpus. We answer it with a second instrument. Its four constructs are the ones Goodie & Fortune's meta-analysis (2013, cited in the paper) finds converging across the validated instruments; its expressions were deduced from those published definitions alone, without consulting our responses, and frozen before any statistic. Re-scoring the full corpus reproduces the goal-versus-no-goal contrast in all six models: illusion of control +16.7 to +58.4 percentage points, impaired control +13.5 to +50.6. An instrument that never saw our text finds the same contrast, so the effect is not an artefact of how the first lexicon was built. Two limits we hold ourselves to: illusion of control can over-fire in the variable condition, where stake size genuinely is under the model's control, and the variable-minus-fixed contrast is negative in Gemini under every variant we tried.
 
-**Revision.** The camera-ready labels the measure *distortion-associated language*, reports goal escalation separately as behavioural persistence, and prints the expression lists, scoring scopes and worked examples in its appendix.
+What remains is that neither instrument was checked against human judgement, and no counting method shows this language mediates bankruptcy; it describes how choices are justified. The corpus does show the language tracking the risky conditions, with loss-chasing expressions rising under variable betting in five of six models and under the goal prompt in all six, with multiplicity control (Section 3). We read that resemblance as consistent with the paper's framing, that models trained on human-generated text can reproduce human-like reasoning patterns under conditions the gambling literature calls risky, while noting this study does not test the training data as a cause. The camera-ready calls the measure distortion-associated language throughout and prints the full expression list, scoring scopes, exclusion rules and worked examples in the appendix; if the lexicon is judged insufficient we will strengthen it further, expanding the expressions and adding human annotation.
 
-## Q1. Parsing error or ambiguity in the moving-target metric
+## [Q1] Parsing error in the moving-target metric
 
-The moving-target rate is the fraction of games in which the model raises its self-set goal after meeting it. **The audit revealed two distinct issues: 4.2% of goal-condition events meet a conservative automated error criterion, and the submitted figure pools two different measurement instruments.**
+> "What is the parsing error or ambiguity rate for the moving-target metric?"
 
-The columns below are the paper's four prompt conditions: BASE; M, reward maximisation; G, self-directed goal setting; and GM, both.
+Among goal-condition escalation events, 4.2% meet a conservative automated flag: no *goal*, *target* or *aim* within 150 characters of the matched number, and that number already printed in the prompt, so it is unlikely to be a newly stated goal. This is an automated flag, not a human-adjudicated error rate.
 
-| moving-target rate, % of games | BASE | M | G | GM |
-|---|---|---|---|---|
-| open-weight, goal read from engine state (n = 800) | 0.0 | 0.0 | **24.6** | **30.6** |
-| API, goal extracted from free text (n = 1,600) | 25.4 | 16.5 | **62.3** | **56.4** |
-| Figure 3(c), the two pooled (n = 2,400) | 17.0 | 11.0 | **49.8** | **47.8** |
+The finding does not run through that parser. In the open-weight runs the goal is stored by the game engine, so no text extraction happens, and there the goal conditions escalate in 24.6% and 30.6% of games while the no-goal conditions read 0.0%. The extractor's real weakness is on the other side: without a goal prompt it sometimes reads a balance or wager as a goal, inflating the no-goal baseline in the submitted figure. The camera-ready reports the engine-state and text-extracted measurements separately, and under the stricter rule (state a goal, meet it, raise it) on the API sample the contrast is 2.24 times against 2.83, smaller and in the same direction.
 
-For the open-weight models the environment stores the goal directly, so no text parser is involved: the no-goal conditions read 0.0%, while the goal conditions still escalate in 24.6% and 30.6% of games — the strongest parsing-independent evidence for the finding.
+## [Q3] A cautious example and an escalating example
 
-For the API models, goals must be extracted from text, and the extractor returns 25.4% and 16.5% where no goal exists — balances and wagers mistaken for goals. Pooling those values with the engine-state rows is how 11–17% came to stand as a baseline; we will replace the pooled figure and report the two instruments separately.
+> "What happens with one example of cautious play and timely stopping? [...] Also try the opposite: one escalating-play example under BASE."
 
-Among the 3,638 goal-condition escalation events, **4.2% meet our conservative automated error criterion**: no instance of *goal*, *target*, or *aim* occurs within 150 characters of the matched number, and that number was already printed in the prompt, so it cannot be a newly stated goal. This is a conservative flagged-error rate rather than a human-adjudicated error rate. The pipeline reproduces the submitted values to one decimal across the four conditions and the corresponding appendix cells.
+We ran both, under BASE as you specify, with the same participation-framing prefix in every arm, so the example is the only thing that differs. Each is a four-round worked session registered verbatim before launch: the cautious player wagers \$20 every round, loses twice, wins once and stops at \$120; the escalating player raises \$20 to \$40 after the first loss and also stops after a win. Both re-bet after losses and stop on a win, so the registered direction test isolates escalation of the stake, judged against a ±10-percentage-point equivalence band. Each cell is compared with its own no-demonstration baseline collected under an identical prompt stack. The four API models ran at 100 games per cell, cap \$70; the result is therefore about these four, not about open-weight models. Bankruptcy, % of games:
 
-We also repeated the analysis using the paper's stricter behavioural definition: the model must state a goal, achieve it, and then raise it. Restricting the comparison to API runs so both sides use the same instrument:
+| model, condition | no demo | cautious | escalating | escalating − cautious, 95% | mean stake, cautious → escalating |
+|---|---|---|---|---|---|
+| GPT-4o-mini, variable | 0 | 4 | 8 | +4.0 [−3.0, +11.4] | \$19.7 → \$23.7 |
+| GPT-4.1-mini, variable | 0 | 0 | 2 | +2.0 [−2.0, +7.0] | \$19.1 → \$24.4 |
+| Gemini-2.5-Flash, fixed | 12 | 13 | 11 | −2.0 [−11.3, +7.3] | \$60.7 → \$65.1 |
+| **Gemini-2.5-Flash, variable** | 32 | **21** | **52** | **+31.0 [+17.8, +42.7]** | \$24.0 → \$30.2 |
 
-| strict-rule escalation % | BASE | M | G | GM |
-|---|---|---|---|---|
-| n = 1,600 per condition | 24.6 | 14.8 | **46.1** | **42.2** |
+The four omitted cells sit at 0% in every arm, two of them because those models decline the forced \$70 game outright. Your hypothesis holds in the one cell with room to test it: in Gemini's variable condition the cautious example cuts bankruptcy below its own baseline, 21% against 32%, while the escalating example raises it to 52%.
 
-The pooled goal-to-no-goal contrast becomes 2.24×, compared with 2.83× under the submitted rule on the same sample: smaller, but in the same direction.
+Two further signals show what the bankruptcy floors hide. The last column is one of them: wherever the model chooses its own stake, the escalating example raises what it actually bets, so the manipulation transmits even in cells where ruin cannot move. The other is participation, which in three cells rises significantly further under the escalating example than the cautious one, meaning models are drawn into games they would otherwise decline.
 
-## Q2. Whether humans show the same pattern in the same game
-
-**We have not conducted a matched human experiment.** A responsible comparison would require a separate human-subject protocol, ethics approval, recruitment, and human-specific definitions of participation, escalation, and stopping. It cannot be completed within the rebuttal period.
-
-Our indicators have a narrower purpose: they are **relative audit instruments** that measure how the same model changes when one task condition changes. Their absolute levels were not calibrated to human prevalence or behavioural rates, and every primary result in the paper is a within-model contrast.
-
-Human slot-machine research motivates the task and the categories examined, but it is not a matched control. The camera-ready will explicitly state that no model rate should be interpreted as a human rate. Prior human think-aloud work will be used only as qualitative context for the language categories.
-
-## Q3. Cautious and escalating demonstrations
-
-**The requested direct experiment is registered and running, and every specified cell reports by 3 August regardless of direction.** All submitted conditions were zero-shot. One new arm prepends a worked example of cautious play with timely stopping; the other an escalating-play example. Both run in the fixed and variable conditions under the plain BASE prompt, on the two open-weight models, 200 games per cell at cap \$70 — raised from the registered 100 before launch by a dated amendment — with seeds shared across arms and directions fixed in advance. Until the runs complete, we do not treat this question as answered.
-
-Two completed analyses provide relevant calibration evidence without replacing the requested test.
-
-**First, making the numerical inputs for expected value available did not reduce bankruptcy.** Across the submitted 32 conditions, the conditions in which the −10% expectation is computable reach bankruptcy more often, not less, in all four models with stored text: GPT-4o-mini 18.8% versus 2.2%, Claude 32.2% versus 16.6%, Gemma 49.2% versus 22.3%, and LLaMA 7.8% versus 6.4%. Prompt richness remains a potential confound: holding module count fixed, the gaps are +9.9 and +7.2 percentage points at two and three modules and −2.7 at four. We therefore claim only that numerical availability does not itself reduce risk; it does not establish that the model performed or used the calculation.
-
-**Second, stating the decision-theoretic conclusion directly does change behaviour.** An instruction that immediate stopping maximises expected value, while permitting stopping at any round, reduces LLaMA's variable-condition bankruptcy from 81.5% (n = 200) to 3.0% (n = 100). This supports the reviewer's interpretation that calibration is a strong moderator. It does not eliminate participation: 69 of 100 variable-condition games still contain a wager, compared with 2 of 100 fixed-condition games.
-
-An instruction supplies the conclusion; only a worked example tests calibration by demonstration, which is what the running experiment measures.
-
-**Scope.** These are artificial negative-expected-value games. We claim condition-dependent risk-taking and decodable signals, not addiction, a fixed disposition, or a shared psychological mechanism. Where generated traces resemble loss-chasing or control language from the human literature, we report resemblance rather than a shared cause.
+So a single example calibrates play in both directions, which is the anchoring effect you proposed with a sharper edge than expected: a cautious example helps where there is room to be hurt, but any example legitimises playing at all, and the escalating one both draws models in and, where per-round discretion exists, more than doubles ruin. One limit we flag ourselves: the examples' win lines imply a more generous payout than the game implements, and since both arms share that text the direction contrast is unaffected.

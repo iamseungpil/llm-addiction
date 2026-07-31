@@ -59,15 +59,8 @@ Each cell reads fixed bankruptcy → variable bankruptcy, then the difference wi
 
 In GPT-4o-mini at cap \$10, 0 → 2; +2 [−5.3, +10.5] means fixed ruined in no games and variable in one of fifty. The point difference is +2 percentage points, but the interval includes zero, so at this cap no difference can be established; with fifty games per arm a single game is two points, and at the smallest cap almost nothing ruins either arm. At cap \$30 the same model reads +20 [+8.7, +33.0], where the whole interval is above zero and the difference is clear.
 
-Nine of the twelve intervals exclude zero, and there is no cell where the variable arm ruined less than the fixed arm. At Gemini's cap \$70 both conditions played all fifty games, so a difference in participation cannot account for 20% against 62%.
+Nine of the twelve intervals exclude zero, and there is no cell where the variable arm ruined less than the fixed arm. Participation is close in nine of the twelve cells; the exceptions are GPT-4o-mini at caps \$50 and \$70, where the fixed arm played 74% and 36% of its games against 100% in the variable arm, and GPT-4.1-mini at cap \$70, 64% against 100%. Declining to play is a reasonable response to being forced to stake most of the balance in a negative-expected-value game, and where it happens it contributes to the lower bankruptcy of the fixed arm. Seven of the nine participation-matched cells still exclude zero, and at Gemini's cap \$70 both arms played all fifty games, so there the 20% against 62% cannot come from participation at all.
 
-Two open-weight models were also compared at cap \$70, at 100 games per condition, under the participation-framing prompt rather than the five-module prompt, so they are matched to each other and not to the table above.
+The same direction appears in the two open-weight models, in a separate experiment reported in our gbSA reply: at the same cap, an environment-set wager ruins 2.0% of LLaMA's games against 85.0% when the amount is chosen again each round.
 
-| model | fixed → variable | difference | mean wager per played round |
-|---|---|---|---|
-| LLaMA-3.1-8B | 6.0% → 82.0% | +76.0 pp [+65.2, +83.1] | \$66.5 → \$34.1 |
-| Gemma-2-9B | 1.0% → 15.0% | +14.0 pp [+6.8, +22.3] | \$66.8 → \$24.4 |
-
-In both open-weight models the fixed condition staked roughly twice as much per played round and still went bankrupt far less often. The submitted matched-cap result therefore does not rest on GPT-4o-mini alone, and the reading that the maximum stake or the realised wager cannot by itself account for the fixed-variable difference is supported in further models.
-
-Because these experiments used different prompt conditions and sample sizes, we do not read them as one homogeneous panel effect; they show that the direction recurs wherever bankruptcy events are observable. Part of the lower bankruptcy of the fixed condition also comes from stopping: at cap \$70 LLaMA re-bet after its first loss in 26% of fixed games against 100% of variable games, so the revision reports participation, realised wager and first-loss re-betting beside every bankruptcy figure. We are grateful for a question that let us show which models and which behavioural routes reproduce the difference, rather than generalising from one model.
+Part of what the fixed arm buys is therefore not choosing amounts better but entering less often and stopping earlier, and the revision reports participation, realised wager and first-loss re-betting beside every bankruptcy figure. We are grateful for a question that let us show which models and which behavioural routes reproduce the difference, rather than generalising from one model.

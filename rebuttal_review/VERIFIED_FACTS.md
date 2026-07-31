@@ -2600,3 +2600,46 @@ and therefore redone. **Do not reintroduce that framing.**
 
 Final posted lengths: area chair 5,584 / a3Zu 9,082 / gbSA 9,926 / KuK5 9,809. Korean figure
 audit clean on all four.
+
+---
+
+## §Z.15 One experiment per claim, and participation as a finding (2026-07-31)
+
+**The problem.** The letters had been quoting two different experiments for the same-sounding
+cell, producing pairs a reviewer would read as contradictions: LLaMA cap $70 fixed bankruptcy
+2.0% (E8, BASE prompt, §F.3) beside 6.0% (e7 persona cells, §F.7); first-loss re-betting 18%
+(E8) beside 26% (persona); variable 85.0% (E8) beside 82.0% (persona). All four figures are
+correct for their own run. The defect was that only one of the two tables named its prompt stack.
+
+**The fix, per user decision: one experiment per claim.**
+- KuK5's matched-cap answer is now the mc32 five-module grid alone: three API models, four caps,
+  50 games per arm, one experiment. The persona open-weight table was removed; LLaMA's open-weight
+  evidence is carried by a one-sentence pointer to the E8 comparison in gbSA (2.0% against 85.0%),
+  which is itself a single experiment.
+- gbSA's E8 table is captioned **BASE prompt** and its Q3 table **participation-framing prompt**,
+  so the two runs in that letter can never be read as one.
+- The 26% re-betting figure (persona) is gone from gbSA; the same route is now shown by the E8
+  table's own re-betting column (18% against 100%).
+Cross-letter scan after the fix: 6.0% and 26% no longer appear anywhere; 2.0% and 85.0% appear in
+both letters and refer to the same E8 cells; 82.0% appears only in gbSA's labelled Q3 table.
+
+**Participation, from §F.4, is now reported rather than defended.** Fixed-arm participation
+against variable, five-module grid: GPT-4o-mini 96/100, 98/100, **74/100**, **36/100**;
+GPT-4.1-mini 92/98, 96/100, 92/100, **64/100**; Gemini 98/96, 98/100, 100/100, 100/100.
+So nine of the twelve cells are participation-matched and three are not. Of the nine matched
+cells, **seven still exclude zero** (GPT-4o-mini cap$30; GPT-4.1-mini caps $10/$30/$50; Gemini
+caps $30/$50/$70); the two that include zero are both cap $10. The claim therefore stands on
+participation-matched cells alone.
+
+**The reading the user supplied, and it is the right one.** Declining to stake most of the balance
+in a negative-expected-value game is a sensible response, not a nuisance confound. So the fixed
+arm's lower bankruptcy runs through two routes, not entering and stopping early, and the letters
+now say that plainly instead of treating participation as something to be explained away. Do not
+reintroduce wording that presents the fixed arm as simply "safer".
+
+**Known non-monotonicity, verified as real.** Gemini's fixed arm ruins 66% at cap $50 and 20% at
+cap $70 with 100% participation in both; the E8 forced ladder independently shows 0/2/15/2% across
+caps $10/$30/$50/$70 (§F.3, "replicating A2 non-monotonicity"). This is a reproduced property of
+the game, not a data error, and is worth being ready to explain rather than putting in a letter.
+
+Final posted lengths: area chair 5,584 / a3Zu 9,082 / gbSA 9,956 / KuK5 9,460.

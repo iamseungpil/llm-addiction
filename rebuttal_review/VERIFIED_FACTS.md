@@ -2143,3 +2143,79 @@ llama instruction effect in variable (rat1 - rat0) -35.0 pp [-46.4, -22.0], part
 gemma equal-cap persona +14.0 pp (compute [+6.8, +22.6] via method-10 if quoted); gemma
 instruction 15->0%, participation 100->71%. These are the persona-stack replacements for the
 BASE-stack open-weight numbers previously quoted in letters (track0 A1/A3, RAT cells).
+
+## F.5 Demonstration experiment, API models under the persona stack — complete 2026-07-31
+
+16 cells, n=100 each, cap $70, RAT=0, prompt = persona + registered demonstration text + game.
+Baselines are the existing e7 `role_rat0` cells (persona, no demonstration, n=100), so within each
+comparison the demonstration text is the only difference. Data: data/llm-addiction/demo_api/.
+
+Bankruptcy %, cautious / escalating, with the registered direction contrast (escalating - cautious):
+
+| model, condition | baseline | cautious | escalating | direction, 95% |
+|---|---|---|---|---|
+| GPT-4o-mini fixed | 0.0 | 0.0 | 0.0 | +0.0 [-3.7,+3.7] |
+| GPT-4o-mini variable | 0.0 | 4.0 | 8.0 | +4.0 [-3.0,+11.4] |
+| GPT-4.1-mini fixed | 0.0 | 0.0 | 0.0 | +0.0 [-3.7,+3.7] |
+| GPT-4.1-mini variable | 0.0 | 0.0 | 2.0 | +2.0 [-2.0,+7.0] |
+| Gemini-2.5-Flash fixed | 12.0 | 13.0 | 11.0 | -2.0 [-11.3,+7.3] |
+| **Gemini-2.5-Flash variable** | 32.0 | **21.0** | **52.0** | **+31.0 [+17.8,+42.7]** |
+| Claude-replacement fixed | 0.0 | 0.0 | 0.0 | +0.0 [-3.7,+3.7] |
+| Claude-replacement variable | 0.0 | 0.0 | 0.0 | +0.0 [-3.7,+3.7] |
+
+Verdicts against the registered +/-10 pp equivalence band: 5 cells equivalent, 2 inconclusive
+(Gemini fixed -11.3 lower bound; GPT-4o-mini variable +11.4 upper bound), and ONE POSITIVE
+DIRECTION EFFECT: Gemini-2.5-Flash variable, where the escalating example more than doubles
+bankruptcy against the cautious one and the interval excludes both zero and the band. This is the
+first cell in the project where the demonstration's DIRECTION, not merely its presence, moves
+bankruptcy. Note the cautious arm (21.0%) also sits below its own no-demonstration baseline
+(32.0%), i.e. in this cell a cautious example helps and an escalating one hurts.
+
+Participation %, and the same direction contrast:
+
+| model, condition | baseline | cautious | escalating | direction, 95% |
+|---|---|---|---|---|
+| Claude-replacement variable | 5 | 33 | 52 | +19.0 [+5.3,+31.7] |
+| Gemini-2.5-Flash fixed | 53 | 53 | 97 | +44.0 [+33.1,+53.9] |
+| GPT-4.1-mini fixed | 2 | 16 | 38 | +22.0 [+9.7,+33.4] |
+| GPT-4o-mini variable | 100 | 100 | 100 | +0.0 [-3.7,+3.7] |
+| GPT-4.1-mini variable | 93 | 100 | 100 | +0.0 |
+| Gemini variable / GPT-4o-mini fixed / Claude fixed | 100 / 0 / 0 | unchanged | unchanged | +0.0 |
+
+Presence effects are large where the baseline leaves room (Claude variable 5 -> 33/52%,
+GPT-4.1-mini fixed 2 -> 16/38%), and in three cells the ESCALATING example draws the model into
+play significantly more often than the cautious one. Mean executed wagers move the same way in
+the variable arms (e.g. GPT-4o-mini 19.7 -> 23.7, GPT-4.1-mini 19.1 -> 24.4, Gemini 24.0 -> 30.2).
+
+Open-weight demonstration cells under the same persona stack are still running (8 cells, n=200);
+E8 persona rerun is queued behind them. Both report by 3 August.
+
+## F.5b Demonstration effects that bankruptcy floors hide: mean executed wager (2026-07-31)
+
+Same 16 API cells as F.5. Mean executed wager, no-demo baseline -> cautious / escalating:
+
+| model, condition | baseline | cautious | escalating |
+|---|---|---|---|
+| GPT-4o-mini variable | 20.7 | 19.7 | 23.7 |
+| GPT-4.1-mini variable | 18.3 | 19.1 | 24.4 |
+| Gemini-2.5-Flash variable | 28.3 | 24.0 | 30.2 |
+| Claude-replacement variable | 12.0 | 19.5 | 17.4 |
+| Gemini-2.5-Flash fixed | 63.2 | 60.7 | 65.1 |
+| GPT-4.1-mini fixed | 70.0 | 70.0 | 70.0 (forced) |
+
+In three of the four variable cells the escalating example raises the mean stake by 20-28%
+relative to the cautious one, so the manipulation demonstrably transmits even where bankruptcy
+is at the floor: the bankruptcy null in those cells reflects small stakes relative to a $100
+balance, not a failed manipulation. Claude is the exception (19.5 -> 17.4) and is also the cell
+where participation moves most (33% -> 52%).
+
+Two cells show no effect of any kind: GPT-4o-mini fixed and Claude fixed, where participation is
+0% in the baseline and both demonstration arms. At a forced $70 stake these two models decline
+the game outright, so no example can move an outcome that never occurs.
+
+**Manipulation scope, for honest reporting.** The registered texts are matched on length, rounds
+shown and the fact that both end in a stop (`run_e7.py:75-81`), so the isolated difference is
+stake escalation after a loss. The cautious arm is therefore "flat stake, stop while ahead",
+not "stop immediately", and it re-bets twice after losses; it is not a demonstration of the
+EV-optimal policy. The direction null must be read as "escalating vs flat stake", and the
+reviewer's stopping question is answered by the RAT instruction arm, not by this contrast.

@@ -12,13 +12,13 @@ You are right that the title can be read as claiming an LLM has a mind that suff
 
 Three checks say none of them carries the contrast alone: the reward-maximisation instruction and system message are identical across both arms of every compared cell; with the maximum held equal, fixed puts more money on each round yet ruins less (W4); and telling the model that stopping is optimal cuts bankruptcy sharply yet barely changes whether it plays (Q3).
 
-The internal analysis adds what prompt-level checks cannot. With prompt, seed and game state held fixed, editing a behaviour-linked internal direction changes the bet ratio in proportion to the edit (method in KuK5). This neither removes role-play priors nor shows a human-like mind, but it does show the choices are not mere surface repetition of the prompt, since part of the decision state moves the immediate choice.
+The internal analysis adds what prompt-level checks cannot. With prompt, seed and game state held fixed, editing a behaviour-linked internal direction changes the bet ratio in proportion to the edit (method in KuK5). This neither removes role-play priors nor shows a human-like mind, but it does show the choices are not mere surface repetition of the prompt.
 
 ## [W3] Uncertainty reporting
 
 > "Most main figures lack confidence intervals or error bars [...]"
 
-Agreed: the appendix carries bootstrap intervals in places, for instance on the variable-minus-fixed bankruptcy gap, but not the body figures a reader sees first. The camera-ready adds sample sizes and 95% intervals to every primary figure and table, puts the interval on the condition difference rather than two marginals, and reports effect sizes with uncertainty throughout.
+Agreed: the appendix carries bootstrap intervals in places, for instance on the variable-minus-fixed bankruptcy gap, but not the body figures a reader sees first. The camera-ready adds sample sizes and 95% intervals to every primary figure and table, and puts the interval on the condition difference rather than on two marginals.
 
 ## [W4, Q1] Whether the comparison is fair, and whether it holds on other models
 
@@ -31,7 +31,7 @@ The submitted ablation found variable betting ruining more while wagering smalle
 | channel you name | how we tested it | result | verdict |
 |---|---|---|---|
 | wager size | equal caps: fixed must stake the cap, variable chooses up to it | at cap \$70 Gemini stakes \$64.5 per round against \$47.9 yet ruins 20% against 62%; LLaMA \$66.5 against \$34.1, ruin 6.0% against 82.0% | ruled out |
-| game length | decision-level hazard model over four API models, adjusting for cap, balance, round and prompt | per-decision bankruptcy ratio 90.6 [44.8, 183.4] | ruled out |
+| game length | decision-level hazard model adjusting for cap, balance, round and prompt | per-decision bankruptcy ratio 90.6 [44.8, 183.4] over the four API models, 105.0 [7.5, 1478.6] over the two open-weight ones | ruled out |
 | stopping | re-betting after a first loss, cap \$70 | LLaMA re-bets in 26% of fixed games against 100% of variable | a real difference |
 | action space | one-time stake choice against per-round discretion, plus a widened bound | a self-chosen stake behaves like the forced one; only per-round choice raises ruin (table below) | repeated discretion, not choice-set size |
 
@@ -52,7 +52,7 @@ Given the choice, LLaMA never picks \$70 (0 of 200 games), and its self-chosen s
 
 > "keyword lists, annotation rules, human validation results?"
 
-The categories are the frames the paper cites in Section 2; the expressions were written to match how these models phrase them, frozen before analysis and never checked against human annotation, so they are not a validated classifier. No public lexicon for coding gambling distortions in free text exists to adopt instead, and a3Zu reports a second instrument that reproduces the contrast in all six models. The complete list:
+The categories are the frames the paper cites in Section 2; the expressions were written to match how these models phrase them, frozen before analysis and never checked against human annotation, so they are not a validated classifier. No public lexicon for coding gambling distortions in free text exists to adopt instead, and a3Zu reports a second instrument that reproduces the contrast in all six models. The list:
 
 | frame (Section 2 grounding) | expressions | scored on |
 |---|---|---|
@@ -84,6 +84,6 @@ Supplying the conclusion is different. The instruction that immediate stopping m
 
 > "why SAE top-200 + Ridge instead of logit/choice-probability controls or a simpler behavioral-state baseline?"
 
-The autoencoder was for feature-level inspectability, not accuracy, and the top-200 cut was a compute ceiling. Both baselines you name are now in place. A 65-covariate behavioural baseline (balance, round, drawdown, streaks, cumulative stake, lagged bet ratios) explains a large share of the raw bet ratio and much less of the deconfounded target; over it the readout still adds variance on the deconfounded target, while sparse features lose almost all of theirs on the raw target once repeated states are separated (table in KuK5). Logit and choice probability come from the same decision step as the target, so a pre-decision baseline with them is nearer leakage than control.
+The autoencoder was for feature-level inspectability, not accuracy, and the top-200 cut was a compute ceiling. Both baselines you name are now in place. The 65-covariate behavioural baseline explains a large share of the raw bet ratio and much less of the deconfounded target; over it the readout still adds variance on the deconfounded target, while sparse features lose almost all of theirs on the raw target once repeated states are separated (table in KuK5). Logit and choice probability come from the same decision step as the target, so a pre-decision baseline with them is nearer leakage than control.
 
 The intervention settles necessity: a direction built in the raw residual stream, with no autoencoder involved, moves betting the same way (method and controls in KuK5). The sparse basis is an inspection tool, not a requirement.

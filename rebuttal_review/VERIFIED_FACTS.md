@@ -2326,3 +2326,72 @@ slope and z. That pairing is now removed; the letter quotes Wave-2 end to end.
 Every "reports by 3 August" promise has been struck from all three letters; a3Zu's Q3 now scopes
 the demonstration result to the four API models, and gbSA's W4 states the E8 arms'
 participation-framing mismatch as a scope limit with no promised remedy.
+
+---
+
+## §Z.10 HF full census 2026-07-31, and what it changed in the letters
+
+`HfApi.list_repo_files` over the only dataset repo, `llm-addiction-research/llm-addiction`:
+**8,905 files**. Largest trees: `analysis/pathway_token_analysis` 1,719,
+`experiments/sec4_causal` 980, `investment_choice/*` 2,577 across four subtrees,
+`experiments/spine` 524, `sae_v3_analysis/results` 380, `analysis/fixed_variable_comparison` 227,
+`experiments/multilayer_causal` 182, `paper_neurips_2026/*` 226, `experiments/track0_w3` 61.
+Census cached at `scratchpad/hf_census.json`.
+
+### Z.10.1 What the census ADDED to the letters
+
+**LLaMA slot-machine dose ladder exists on HF and was not local.**
+`experiments/sec4_causal/checkpoints/sec4_w10/sec4_w10a_*` -- LLaMA at L14-19, 200 games per
+dose, `prompt_set: addiction_role_gm`, the same replay pool as Gemma's Wave-2.
+
+| dose | -3 | -2 | -1 | 0 | +1 | +2 | +3 | slope |
+|---|---|---|---|---|---|---|---|---|
+| behavioural | 0.1616 | 0.1642 | 0.1770 | 0.2132 | 0.2182 | 0.2561 | 0.2743 | **+0.0201** |
+| readout | 0.2230 | 0.2254 | 0.1989 | 0.2132 | 0.1924 | 0.1933 | 0.1885 | -0.0062 |
+| balance/round | 0.1184 | 0.1496 | 0.1895 | 0.2132 | 0.2073 | 0.2333 | 0.2289 | +0.0188 |
+
+Parse per dose 0.765-0.960 (all clear the 0.5 gate this wave uses; the letter states the range).
+Paired +3 vs -3, seed-matched, 10k bootstrap: behavioural **+0.0924 [+0.0487, +0.1357]**
+(n=134), readout -0.0284 [-0.0621, +0.0052] (n=181), balance/round **+0.1031 [+0.0733, +0.1338]**
+(n=158). Five norm-matched random directions at +3 give 0.1894-0.2297 against a 0.2132 baseline;
+behavioural at +3 (0.2743) is above all five, balance/round at +3 (0.2289) is inside them.
+
+**The honest asymmetry this forces into the letter.** On LLaMA the balance/round direction
+*does* steer, so sufficiency alone does not separate it from the behavioural axis there. What
+separates them is necessity: removal of the behavioural axis lowers betting
+(-0.0525 [-0.0814, -0.0258]) while removal of the balance/round direction does nothing
+(-0.0056 [-0.0396, +0.0282]). The KuK5 letter now says this in its own voice rather than
+letting a reviewer find it. Do not restore any wording that implies the balance/round direction
+is inert in both models.
+
+**LLaMA's layer window was chosen by a scan, and the reported ladder is a different run.**
+`sec4_w8scan` (n=150) steered the behavioural axis at four windows; +3 minus -3 swing:
+**L14-19 +0.142**, L18-23 +0.090, L20-25 +0.057, L16-21 +0.055. `sec4_w10a` is a separate
+n=200 run at the winner. The letter states this, because "we scanned and report the winner"
+without that distinction would be a selection objection.
+
+**Second hazard panel.** `paper_neurips_2026/track_L_length_confound/track_L_results.json`
+holds three panels, not one: SM_API RR **90.62 [44.77, 183.44]** (n_rows 58,901, 926
+bankruptcies, 12,800 clusters, 4 models) -- the number already in gbSA; SM_OW RR **104.99
+[7.46, 1478.56]** (binary ridge fallback, 2 open-weight models) -- now added to gbSA's
+game-length row; and **IC_OW RR 0.112 [0.079, 0.158], verdict "L-fails"** -- the investment-choice
+task inverts. IC is a different manipulation and gbSA claims nothing about it, so it is not
+quoted, but **no letter may generalise the hazard result beyond the slot machine.**
+
+### Z.10.2 What the census confirmed and deliberately did NOT change
+
+- **`experiments/track0_w3` is a 6-model x 4-cap x n=200 BASE-prompt sweep** (9,600 games;
+  `summary.json`, `sanity.md`). It contains gemma and llama cells at all four caps. These are
+  **BASE-stack cells and stay out of the letters** by the standing user instruction; §F.7's
+  persona cells are their replacement. Its `primary_passes: true` is the artefact §A5 documents
+  (ill-posed registered rule, pass recorded on an unspecified `bootstrap_pooled` interval), so
+  the letters' "both prespecified panel rules were negative" stands as written.
+- `sanity.md` corroborates the wager-size row from a second run: variable mean wager is
+  22-46% of the cap for five of six models (claude 0.829 is the exception), and variable rounds
+  exceed fixed rounds in all six.
+- **No human-annotation or coding-result data exists anywhere on HF** (regex sweep for
+  cod*/annotat*/rater/kappa returns only two figure PNGs). a3Zu's "never validated against
+  human judgement" is accurate.
+- **The persona, demonstration and E8 results the letters quote are local-only**; HF has no
+  `persona`, `demo_`, `role_rat` or `e8_` rollouts. This is a reproducibility gap to close
+  before camera-ready, not a letter defect.

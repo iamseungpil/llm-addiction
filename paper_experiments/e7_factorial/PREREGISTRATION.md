@@ -183,3 +183,13 @@ transcription; both arms share it). Decision rule unchanged: direction contrast 
 judged against the +/-10pp equivalence margin with Newcombe 95% intervals; presence contrasts vs the
 role_rat0 baselines are reported with the same intervals. All cells report in the OpenReview thread
 by 3 August regardless of direction.
+
+## Amendment 2026-07-31 (dated, pre-launch): open-weight demonstration arms rerun under the persona stack
+
+The response will report the demonstration experiment under one uniform prompt stack (persona
+prefix, matching the role_rat0 no-demonstration baselines). The open-weight arms are therefore
+rerun with preambles demo_cautious_persona / demo_escalate_persona (gemma, llama; fixed/variable;
+cap $70; n=200; seed_base 70000). Baselines: existing open-weight role_rat0 cells. The earlier
+BASE-stack open-weight demonstration cells (2026-07-29) remain on record but are not quoted in
+the response, per the uniform-stack reporting rule. Decision rules unchanged; report in-thread by
+3 August regardless of direction.

@@ -2219,3 +2219,32 @@ stake escalation after a loss. The cautious arm is therefore "flat stake, stop w
 not "stop immediately", and it re-bets twice after losses; it is not a demonstration of the
 EV-optimal policy. The direction null must be read as "escalating vs flat stake", and the
 reviewer's stopping question is answered by the RAT instruction arm, not by this contrast.
+
+## F.10 Codebook provenance: what may and may not be claimed (decision, 2026-07-31)
+
+The submitted lexicon (`sae_v3_analysis/src/run_distortion_quantification.py:33`) carries the
+comment "built inductively from actual LLaMA responses". Therefore:
+
+- ALLOWED: "the categories are the frames the paper cites; the expressions were written to match
+  how these models phrase them, frozen before analysis, applied identically to every condition".
+- FORBIDDEN: any sentence saying the expressions were taken from, adapted from, or based on a
+  published human codebook. No such lexicon exists for gambling free text (see §H).
+- FORBIDDEN: listing "house-money effect" as a lexicon category. The four codes are
+  pattern_belief, probability_misestimation, loss_chasing, goal_escalation. House-money is a
+  frame discussed in Section 3 of the paper, not a scored code.
+- FORBIDDEN: keywords not in Z.3 (e.g. timing, strategy, control, influence, turn to win,
+  profit cushion, playing with profit). A GPT-drafted table proposed these on 2026-07-31.
+
+**The circularity answer is empirical, not rhetorical.** `convergent_codebook.py` takes its four
+constructs from Goodie & Fortune (2013) — cited in the paper — and its docstring records that the
+expressions were "deduced from the four definitions above in a single pass, and frozen before any
+statistic was computed", i.e. without consulting our corpus. Re-scoring reproduces the goal
+contrast in 6/6 models (illusion_of_control +16.7 to +58.4 pp; impaired_control +13.5 to +50.6).
+The letters now use this as the answer to "your lexicon was read off your own corpus".
+
+**Do not modify the lexicon during the response period.** Adding expressions now and re-reporting
+would destroy the frozen/no-tuning property, which is the strongest defence currently available.
+Lexicon expansion belongs in the camera-ready, pre-registered, with human annotation.
+
+**Camera-ready title (user decision 2026-07-31): _Gambling-Like Risk-Taking in Large Language
+Models_** — "Autonomy and" dropped; autonomy is one of two levers, not the whole paper.

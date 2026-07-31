@@ -83,7 +83,7 @@ We did not run a human control on this slot machine under the same autonomy cond
 
 ## [Q3] A cautious example and an escalating example
 
-> "What happens with one example of cautious play and timely stopping? [...] Also try the opposite: one escalating-play example under BASE."
+> "What happens with one example of cautious play and timely stopping? [...] Also try the opposite: one escalating-play example under BASE [...]"
 
 A single worked example changed the betting policy that followed, and the clearest difference in bankruptcy appeared in Gemini's variable condition. To test this we gave four API models three arms under BASE: no demonstration, a cautious example, and an escalating example. Each arm ran 100 games at a cap of \$70, with the role instruction, the participation framing, the game description and the seeds held identical, so that only the demonstration differed. The cautious example holds a \$20 wager across rounds and then stops; the escalating example raises its wager from \$20 to \$40 after the first loss. Both were specified before the experiment and matched on length, on the number of rounds shown and on both ending in a stop, and neither states a rule or a recommendation, so what differs between them is the trajectory rather than any advice.
 

@@ -55,7 +55,7 @@ Without independent human annotation we do not present this as a validated class
 
 ## [Q3] Does the model know that stopping is EV-optimal?
 
-> "Does the model explicitly know stopping immediately is EV-optimal? [...] an explicit rationality instruction?"
+> "Does the model explicitly know stopping immediately is EV-optimal? [...] Did you test an explicit rationality instruction [...]?"
 
 The submitted results alone cannot establish that a model knows immediate stopping is optimal and acts on it. The P component supplies the win rate and the W component the payout structure, so conditions containing both state everything needed to compute a negative expected value per bet, yet bankruptcy did not fall consistently there. Some tallies show it higher, but those conditions also carry more prompt components, so we claim only that supplying the information did not consistently reduce risky behaviour.
 

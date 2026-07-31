@@ -43,7 +43,7 @@ The two experiments answer different questions: whether the hidden representatio
 
 > "The strongest behavioral claim [...] rests on a matched-cap ablation run on a single model [...]"
 
-> "Does the matched-cap dissociation [...] hold on any of the other five models?"
+> "Does the matched-cap dissociation [...] hold on any of the other five models, or only GPT-4o?"
 
 The direction of the matched-cap result is not confined to GPT-4o-mini. The submitted analysis evaluated that model on the slot machine at caps of \$10, \$30, \$50 and \$70, and the paper writes GPT-4o for it, which the camera-ready corrects. The new experiment does not add caps but extends the same controlled comparison to other models.
 

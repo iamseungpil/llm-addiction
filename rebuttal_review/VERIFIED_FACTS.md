@@ -2726,3 +2726,47 @@ carry the same "above $10" qualifier, which they previously omitted.
 
 Final posted lengths: area chair 5,555 / a3Zu 9,048 / gbSA 9,909 / KuK5 9,580. Both PDFs build
 with zero overfull boxes and the Korean figure audit is clean on all four documents.
+
+---
+
+## §Z.18 Quote audit and prompt-module check, 2026-07-31
+
+**Reviewer quotations are now machine-checked against `reviews_received.md`.** Every `> "..."`
+line in the three letters is split on its `[...]` elisions and each fragment must appear verbatim
+in the received reviews after Unicode and whitespace normalisation. **16 of 16 pass.** Re-run this
+check after any edit to a quote block:
+
+    split each quote on "[...]", normalise, and require every fragment in reviews_received.md
+
+**Three quotes failed the first run and were repaired.** In each case the words were the
+reviewer's but the punctuation was ours, because a quote had been truncated mid-sentence and
+closed with a full stop or a question mark that the reviewer never wrote.
+- a3Zu Q3 ended "one escalating-play example under BASE." The reviewer continues ", to see if
+  demonstration alone produces the effect without goal/reward modules." Now closed with `[...]`.
+- gbSA Q3 read "[...] an explicit rationality instruction?" The reviewer wrote "Did you test an
+  explicit rationality instruction or decision-theoretic framing?" Now "Did you test an explicit
+  rationality instruction [...]?". This one was introduced by an earlier character-count trim;
+  **never shorten text inside a quotation to save characters.**
+- KuK5 Q1 ended "hold on any of the other five models?" The reviewer wrote "... or only GPT-4o?"
+  Now restored.
+
+**Prompt modules verified in code** (`track0_w3_replication/src/game_logic.py:152-162`). The five
+are **G, M, P, R, W**: G self-set target, M maximise reward, P win rate, R "This slot machine may
+have hidden patterns", W payout multiple. The source carries an explicit warning that the
+hidden-pattern hint is **R, not H**. "Five-module prompt" in KuK5 and gbSA is therefore right, and
+no letter names an H module.
+
+**Prior-work attribution checked at the sentence level.** §2's distortion list (manuscript line
+50-51) is "the gambler's fallacy, the hot-hand fallacy, the illusion of control, streak
+attribution, and the house-money effect", citing [20, 26, 13, 31, 21, 12, 30]. **Impaired control
+is not in that list**; it is supported instead by §2's clinical-criteria sentence at line 42,
+"loss of bet-size control, loss-chasing, and shifting one's own goals upward". a3Zu's phrasing,
+that the cited literature supplies categories "such as illusion of control, the gambler's fallacy,
+impaired control and the attribution of wins and losses", is therefore defensible but rests on two
+different sentences of §2 rather than one. Do not upgrade it to "the paper lists these four".
+
+**One presentational item left as is.** gbSA's E8 table mixes sample sizes: the amount-chosen-once
+arm is n=200 and the other three are n=100 (§F.3), and the table does not print n. The intervals
+were computed with the correct per-arm n. If a reviewer asks, the answer is the ledger's arm list.
+
+Final posted lengths: area chair 5,555 / a3Zu 9,053 / gbSA 9,928 / KuK5 9,596.

@@ -2403,3 +2403,68 @@ one model and stated of both. Both places are fixed: Q3 now reads "It moderates 
 more than whether they play: 99 of 100 LLaMA games still carry a wager, though Gemma's
 participation does fall to 71%", and the W1/W2 check reads "cuts bankruptcy sharply while leaving
 most games still played". Do not reinstate the unscoped wording. gbSA 9,847 -> 9,735 chars.
+
+---
+
+## §Z.11 Codebook decision and full accuracy pass, 2026-07-31
+
+**Decision (user, 2026-07-31): put the better codebook in the rebuttal now, fix the paper later.**
+Executed as *promotion of the existing frozen instrument*, NOT as a new lexicon. Writing fresh
+expressions during the response period would be post-hoc by construction and would forfeit the one
+property that makes the answer work. `convergent_codebook.FROZEN.py` (SHA-256 7d16e30d...) already
+is the better instrument: constructs from Goodie & Fortune (2013), expressions deduced from the
+published definitions in one pass without consulting the corpus, frozen before any statistic.
+a3Zu now carries it as a **table** and says the camera-ready leads with it; the submitted lexicon
+stays as the thing being superseded. **The standing ban on editing the lexicon during the response
+period is unchanged.**
+
+Per-model goal vs no-goal prevalence under the convergent instrument, recomputed today from
+`multi_instrument_results_FULL.json` with Newcombe method-10 intervals (1,600 games per condition
+per model): GPT-4o-mini 69.5/32.3 (+37.2 [+33.9,+40.3]), GPT-4.1-mini 84.6/39.7
+(+44.9 [+41.8,+47.8]), Gemini 88.8/46.5 (+42.2 [+39.3,+45.1]), Claude 96.2/77.6
+(+18.6 [+16.4,+20.9]), Gemma 89.4/73.4 (+16.0 [+13.4,+18.6]), LLaMA 89.5/85.3 (+4.2 [+1.9,+6.5]).
+6/6 exclude zero.
+
+Per-construct goal contrasts recomputed at run time from the corpus (not from a cached figure):
+illusion_of_control +16.7 to +58.4 (6/6 positive), impaired_control +13.5 to +50.6 (6/6),
+**gamblers_fallacy -9.7 to +25.1 (negative in LLaMA and Gemma), self_serving_bias -11.3 to +24.4
+(negative in LLaMA and Claude)**. The letter now states the last point rather than only naming the
+two constructs that carry the effect.
+
+### Z.11.1 Errors found in this pass and fixed
+
+1. **gbSA lexicon table was incomplete.** `pattern_belief` has six expressions in
+   `run_distortion_quantification.py` and in the paper's appendix code
+   (`tableA04_distortion_keywords/code/run_multimodel_distortion_analysis.py`, byte-identical
+   pattern block); the table omitted **`trend`**. Added.
+2. **gbSA goal-escalation row understated the regex.** The code matches `(target|goal)` and
+   `target.{0,10}(of|to) \$N`; the table said "target" only and "target of \$N". Fixed to
+   "target or goal" and "of or to".
+3. **a3Zu overgeneralised the demonstration stake effect.** "wherever the model chooses its own
+   stake, the escalating example raises what it actually bets" is false for Claude-replacement
+   variable, where the mean stake falls 19.5 -> 17.4 (F.5b). Changed to "in three of the four
+   cells where the model picks its own stake".
+4. **Ledger correction.** F.7 noted the Gemma equal-cap interval as "[+6.8, +22.6] via method-10".
+   Recomputed: **[+6.8, +22.3]**, which is what the letters print. The letters were right; the
+   ledger note was the loose one.
+
+### Z.11.2 What this pass verified as correct
+
+- **Every Newcombe interval quoted in the three letters reproduces exactly** from its raw counts:
+  gemma equal-cap +14.0 [+6.8,+22.3], llama equal-cap +76.0 [+65.2,+83.1], Gemini demo variable
+  +31.0 [+17.8,+42.7], GPT-4o-mini demo variable +4.0 [-3.0,+11.4], llama EV -35.0 [-46.4,-22.0],
+  gemma EV -15.0 [-23.3,-8.2], E8 chosen-vs-forced +3.0 [-2.5,+7.2], E8 variable-vs-chosen
+  +80.0 [+70.8,+86.1], E8 open-bound -5.0 [-15.6,+5.6].
+- **Prior work.** Goodie & Fortune (2013) is reference [13] and IS cited in the body, in Section 2's
+  cognitive-distortion sentence ("[20, 26, 13, 31, 21, 12, 30]", manuscript line 51). Toneatto is
+  [31], same citation group. So "cited in Section 2" is exact. Bathina et al. is not cited by the
+  paper and the letters never claim it is.
+- **Scoring scopes.** The paper's appendix code carries `PRIMARY_WINDOWS`: pattern_belief
+  all_decisions with `exclude_h: True`, loss_chasing `post_loss_only`, probability_misestimation
+  all_decisions unrestricted, goal_escalation absent. gbSA's "scored on" column matches exactly.
+- **Negation.** No negation filter exists in the scoring code, which is precisely what the letters
+  say ("a match inside a negation counts as a mention, not an endorsement"). Accurate as written.
+- a3Zu's demonstration table, mean-stake column, the "four omitted cells" claim (GPT-4o-mini fixed,
+  GPT-4.1-mini fixed, Claude fixed, Claude variable, all 0%), the "two decline outright" claim
+  (GPT-4o-mini fixed and Claude fixed are the two at 0% participation) and the "three cells"
+  participation claim all check out against F.5.

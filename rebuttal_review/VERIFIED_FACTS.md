@@ -2503,3 +2503,48 @@ flagged on 0731) and KuK5's submitted-readout null (the user asked for it below 
 in it).
 
 Final posted lengths: a3Zu 8,873 / gbSA 9,708 / KuK5 9,682 / area chair 4,067.
+
+---
+
+## §Z.13 Metareview restructure, demonstration payout, and the W1/W2 rebuild (2026-07-31)
+
+**The area-chair response now runs on three axes** (user decision): clinical framing, the
+behavioural evidence's fairness and generality, and causality. a3Zu's human-validation concern is
+folded into the framing axis rather than made a fourth, because the metareview itself writes that
+the cognitive-distortion analysis is "key to the framing of the paper". Bold run-in heads removed;
+the letter now leads each paragraph with its judgement. 4,067 -> 4,287 chars.
+
+**Demonstration payout, exact arithmetic (do not paraphrase loosely).** Registered texts in
+`run_e7.py:82-98`. Cautious round 3: balance $60, wager $20, win, shown $120. Escalating round 3:
+balance $40, wager $40, win, shown $160. `game_logic.py` deducts the bet and adds int(3.0*bet), so
+a win is balance + 2*bet: the true values are **$100** and **$120**. The demonstrations therefore
+show a win paying 3x the stake where the game pays 2x, and because the overstatement scales with
+the stake, **the gap between the two demonstrated policies is doubled** ($40 shown against $20
+true). Final balances: shown +20% and +60%; true 0% and +20%.
+
+Consequence for the letter: the previous sentence "since both arms share that text the direction
+contrast is unaffected" **overstated**. a3Zu now states the arithmetic and says the comparison is
+between the two demonstrations as written, with the camera-ready re-running at the corrected
+payout. **User decision 2026-07-31: no re-run inside the response period.** Note for any future
+draft: the payout defect is not the reason most demonstration cells sit at a floor (that is
+refusal and non-bankruptcy), and the two must not be merged into one explanation.
+
+**gbSA W1/W2 rebuilt by alternative explanation**, each paragraph running intent, test, direction
+of result, and pointer to the table that holds the numbers: shared wording, wager range (with the
+equal-cap design defined at first use, which it never was before), task misunderstanding, then the
+internal intervention, closing on one consolidated scope sentence instead of four scattered ones.
+The channel table's verdict column was deleted because the prose after it said the same thing.
+Q2 now opens by naming which codebook is which: the list shown is the submitted instrument, the
+revision stands on the frozen literature-grounded codebook in a3Zu, and the camera-ready prints
+both. Goal escalation is described as behavioural persistence scored separately.
+
+**Terminology.** `construct` -> `analysis category` / `language category` throughout a3Zu, with a
+single mention that the four categories correspond to psychometric constructs in prior gambling
+research. Do not reintroduce bare "construct" in the letters.
+
+**A gap the figure audit could not see.** The Korean a3Zu was missing its entire closing
+paragraph (the anchoring interpretation plus the payout limit). The audit compares decimals and
+comma-thousands only, and that paragraph contained neither, so it passed while a paragraph was
+absent. Restored. When a paragraph carries no numerals, the audit is not evidence that it exists.
+
+Final posted lengths: a3Zu 9,145 / gbSA 9,836 / KuK5 9,682 / area chair 4,287.

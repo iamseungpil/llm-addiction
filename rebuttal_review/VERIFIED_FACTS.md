@@ -2468,3 +2468,38 @@ two constructs that carry the effect.
   GPT-4.1-mini fixed, Claude fixed, Claude variable, all 0%), the "two decline outright" claim
   (GPT-4o-mini fixed and Claude fixed are the two at 0% participation) and the "three cells"
   participation claim all check out against F.5.
+
+---
+
+## §Z.12 Area-chair response and the numbers-into-tables pass, 2026-07-31
+
+**New deliverable: `post/meta_review_response.md`, 4,067 chars.** Answers the metareview
+directly on its own framing (is this beyond rebuttal scope?), with a six-row table of the
+experiments run for this response. Wired into the build: `build.py` renders
+`sections_en/meta.tex`, `sections_ko/meta.tex` is the hand-written Korean, `main.tex` inputs it
+after the three letters, and the figure audit in `build.sh` now covers it too.
+
+**The yrya attribution.** The metareview attributes the neural-decoding concern to a Reviewer
+yrya; we hold three reviews (KuK5, a3Zu, gbSA) and the concern matches KuK5's W1. The letter
+carries a one-sentence procedural note and answers on the merits. This handling was already
+settled in the 0726 archive; it is restated here because the archive is superseded.
+
+**Do not reuse the 0726 archived AC response.** It quotes BASE-stack track0 numbers the user has
+since excluded (+78.5 pp, 27x, the 6.5/64.0/71.0/81.5 cap ladder), uses "withdraw" of our own
+result, and claims a human coding study with "three coders including one non-author" that never
+produced labels (see E.2). Every one of those is now forbidden.
+
+**Numbers moved out of prose into tables** (user's standing preference, applied this pass):
+- a3Zu: per-construct goal contrasts became a four-row table, which is also where the honest
+  disclosure now lives (gambler's fallacy and self-serving bias positive in only 4 of 6).
+- gbSA: the three E8 contrasts became a "difference from the row above" column, and the
+  rationality-instruction result became a two-row table carrying participation beside it.
+- KuK5: the two open-weight equal-cap cells left the prose for their own table, captioned with
+  the prompt stack and n so they are never read as part of the five-module API grid.
+
+Left in prose deliberately: a3Zu Q1 (4.2%, 24.6/30.6/0.0, 2.24 vs 2.83 are four different kinds
+of quantity; one table would repeat the "incomparable numbers in one column" defect the user
+flagged on 0731) and KuK5's submitted-readout null (the user asked for it below the table, not
+in it).
+
+Final posted lengths: a3Zu 8,873 / gbSA 9,708 / KuK5 9,682 / area chair 4,067.

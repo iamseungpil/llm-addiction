@@ -23,7 +23,16 @@ Writing expressions against observed text invites a fair objection: a lexicon re
 | Gemma-2-9B | 89.4 | 73.4 | +16.0 [+13.4, +18.6] |
 | LLaMA-3.1-8B | 89.5 | 85.3 | +4.2 [+1.9, +6.5] |
 
-Every difference excludes zero. Per construct the contrast is carried by illusion of control, +16.7 to +58.4 percentage points in all six models, and impaired control, +13.5 to +50.6 in all six; the other two constructs, gambler's fallacy and self-serving bias, do not move consistently and are negative in two models each. An instrument that never saw our text finds the same contrast, so the effect is not an artefact of how the first lexicon was built. Three limits we hold ourselves to: the two instruments are not independent, since several expressions are shared verbatim; illusion of control can over-fire in the variable condition, where stake size genuinely is under the model's control; and the variable-minus-fixed contrast is negative in Gemini under every variant we tried.
+Every difference excludes zero. Per construct, over the same six models:
+
+| construct | goal − no goal, percentage points | positive in |
+|---|---|---|
+| illusion of control | +16.7 to +58.4 | 6 of 6 |
+| impaired control | +13.5 to +50.6 | 6 of 6 |
+| gambler's fallacy | −9.7 to +25.1 | 4 of 6 |
+| self-serving bias | −11.3 to +24.4 | 4 of 6 |
+
+Two of the four constructs carry the contrast and two do not. An instrument that never saw our text finds the same contrast, so the effect is not an artefact of how the first lexicon was built. Three limits we hold ourselves to: the two instruments are not independent, since several expressions are shared verbatim; illusion of control can over-fire in the variable condition, where stake size genuinely is under the model's control; and the variable-minus-fixed contrast is negative in Gemini under every variant we tried.
 
 What remains is that neither instrument was checked against human judgement, and no counting method shows this language mediates bankruptcy; it describes how choices are justified. The corpus does show the language tracking the risky conditions, with loss-chasing expressions rising under variable betting in five of six models and under the goal prompt in all six, with multiplicity control (Section 3). That is consistent with the paper's framing, that models trained on human text reproduce human-like reasoning under conditions the gambling literature calls risky, though we do not test the training data as a cause. The camera-ready calls the measure distortion-associated language throughout and prints both instruments in full, with scoring scopes and exclusion rules; if they are judged insufficient we will strengthen them with expanded expressions and human annotation.
 

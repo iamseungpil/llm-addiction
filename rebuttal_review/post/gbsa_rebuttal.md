@@ -39,14 +39,14 @@ Two channels are ruled out: fixed is safer even when it puts more money on each 
 
 The fourth channel needed its own experiment: is fixed safe only because the policy was imposed, and variable risky only because its space is wider? The model picks one stake from \$10/\$30/\$50/\$70 before play and cannot revise it, against fresh forced-maximum arms and fresh variable arms including one whose bound opens to \$100, so model-chosen minus forced isolates choosing once, variable minus model-chosen isolates per-round discretion, and the \$100 arm isolates range.
 
-| arm (LLaMA-3.1-8B, cap \$70) | bankruptcy | re-bets after a first loss | rounds played |
-|---|---|---|---|
-| forced maximum | 2.0% | 18% | 1.0 |
-| stake chosen once by the model | 5.0% | 45% | 1.9 |
-| chosen anew each round | 85.0% | 100% | 15.9 |
-| chosen each round, bound widened to \$100 | 80.0% | 100% | 15.1 |
+| arm (LLaMA-3.1-8B, cap \$70) | bankruptcy | difference from the row above, 95% | re-bets after a first loss | rounds played |
+|---|---|---|---|---|
+| forced maximum | 2.0% | — | 18% | 1.0 |
+| stake chosen once by the model | 5.0% | +3.0 [−2.5, +7.2] | 45% | 1.9 |
+| chosen anew each round | 85.0% | +80.0 [+70.8, +86.1] | 100% | 15.9 |
+| chosen each round, bound widened to \$100 | 80.0% | −5.0 [−15.6, +5.6] | 100% | 15.1 |
 
-Given the choice, LLaMA never picks \$70 (0 of 200 games), and its self-chosen stake is equivalent to the forced one (+3.0 pp [−2.5, +7.2]) while per-round choice is not (+80.0 pp [+70.8, +86.1]); widening the bound changes nothing (−5.0 pp [−15.6, +5.6]) and Gemma never goes bankrupt in any arm. Neither the act of choosing nor the width of the choice set carries the risk; revisiting the choice every round does, and the re-betting column shows how. One scope limit we state ourselves: these arms ran without the participation-framing prefix the equal-cap cells carry, so they are matched to each other but not to that table.
+Given the choice, LLaMA never picks \$70 (0 of 200 games), and Gemma never goes bankrupt in any arm. Neither the act of choosing nor the width of the choice set carries the risk; revisiting the choice every round does, and the re-betting column shows how. One scope limit we state ourselves: these arms ran without the participation-framing prefix the equal-cap cells carry, so they are matched to each other but not to that table.
 
 ## [Q2] Keyword lists, scoring rules, human validation
 
@@ -78,7 +78,14 @@ In part it does by construction, though neither module alone suffices: `P` gives
 
 One honest control cuts into this: those conditions carry more prompt modules and ruin rises with module count, so holding it fixed shrinks the gap and reverses it at four modules. We claim only that supplying the numbers does not reduce risk.
 
-Supplying the conclusion is different. Told that immediate stopping is EV-optimal and free to stop at any round, LLaMA's variable bankruptcy falls from 82.0% to 47.0% (−35.0 pp [−46.4, −22.0]) and Gemma's from 15.0% to 0.0% (−15.0 pp [−23.3, −8.2]) at 100 games per arm. It moderates how much is lost more than whether they play: 99 of 100 LLaMA games still carry a wager, though Gemma's participation does fall to 71%.
+Supplying the conclusion is different. Told that immediate stopping is EV-optimal and free to stop at any round, variable arm, 100 games per arm:
+
+| model | bankruptcy without | with | difference, 95% | games played |
+|---|---|---|---|---|
+| LLaMA-3.1-8B | 82.0 | 47.0 | −35.0 [−46.4, −22.0] | 100 → 99 |
+| Gemma-2-9B | 15.0 | 0.0 | −15.0 [−23.3, −8.2] | 100 → 71 |
+
+The instruction moderates how much is lost more than whether the models play at all.
 
 ## [Q4] Why sparse-autoencoder features and Ridge
 

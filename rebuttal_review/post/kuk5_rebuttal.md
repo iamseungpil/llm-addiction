@@ -49,7 +49,16 @@ Agreed, and we repeated the controlled test rather than leaning on the broader p
 | GPT-4.1-mini | 0 → 12 [+2.4, +23.8] | 2 → 40 [+23.0, +51.9] | 30 → 56 [+6.6, +42.8] | 2 → 56 [+37.9, +66.9] |
 | Gemini-2.5-Flash | 8 → 16 [−5.3, +21.4] | 12 → 66 [+35.8, +67.2] | 66 → 84 [+1.0, +33.8] | 20 → 62 [+23.0, +57.0] |
 
-Nine of the twelve differences exclude zero and none is negative. At cap \$70 Gemini plays all 50 games in both arms, so refusal cannot explain its gap. The submitted Claude-3.5-Haiku checkpoint has been retired by the provider, so that row cannot be re-run; its replacement sits at 0% in both arms and is uninformative. At cap \$70 we also ran both open-weight models at 100 games per arm: LLaMA-3.1-8B 6.0% → 82.0% (+76.0 pp [+65.2, +83.1]) and Gemma-2-9B 1.0% → 15.0% (+14.0 pp [+6.8, +22.3]). LLaMA is the cleanest case for your dissociation: its fixed arm wagers more per played round, \$66.5 against \$34.1, and still ruins far less.
+Nine of the twelve differences exclude zero and none is negative. At cap \$70 Gemini plays all 50 games in both arms, so refusal cannot explain its gap. The submitted Claude-3.5-Haiku checkpoint has been retired by the provider, so that row cannot be re-run; its replacement sits at 0% in both arms and is uninformative.
+
+The two open-weight models were run under the participation-framing prompt, cap \$70 only, at 100 games per arm:
+
+| model | fixed → variable | difference, 95% | mean wager per played round, fixed → variable |
+|---|---|---|---|
+| LLaMA-3.1-8B | 6.0 → 82.0 | +76.0 [+65.2, +83.1] | \$66.5 → \$34.1 |
+| Gemma-2-9B | 1.0 → 15.0 | +14.0 [+6.8, +22.3] | \$66.8 → \$24.4 |
+
+LLaMA is the cleanest case for your dissociation: the fixed arm puts twice as much on each round and still ruins far less.
 
 These cells look unlike the submitted figure's 14–17% because that ablation averaged over prompt conditions while these are per-condition cells; its fixed arms, near 0/5/1%, match ours. Across the grid the variable arm ruins at least as often as fixed in 29 of 32 pairs. The three exceptions are informative rather than contradictory: two are Gemini under the plain prompt, where the reversal is small and its interval spans zero (34% against 26% at cap \$50, 2% against 0% at cap \$10), and the third is the retired Claude checkpoint's replacement. Both prespecified panel rules were negative, so we claim the same controlled dissociation in five models and four caps, not a registered panel-wide effect.
 

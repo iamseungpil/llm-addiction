@@ -2683,3 +2683,46 @@ Korean figure audit. `latex/sections_ko/*.tex` is the one thing written by hand,
 what keeps it honest.
 
 Final posted lengths: area chair 5,488 / a3Zu 9,048 / gbSA 9,885 / KuK5 9,396.
+
+---
+
+## §Z.17 Critical audit against the submitted PDF, 2026-07-31 (two errors found and fixed)
+
+**Error 1: the letters understated the submitted §4.1 by a wide margin.** Both the area-chair
+response and KuK5's opening said the submitted readout was fitted "in one model and one
+experimental condition". The paper's §4.1 (manuscript lines 225-250) uses **Gemma-Scope and
+Llama-Scope across three tasks**, with per-fold random-forest residualisation of balance and
+round, top-200 features by rank correlation, a Ridge readout, 5-fold GroupKFold by game id, and
+three controls (per-game label shuffles, full-pipeline permutation, unseen prompt conditions). It
+also already states that "the effects fall in the small-to-medium range ... not strong enough to
+claim that a few hundred features alone determine the choice". Describing our own §4.1 as a
+single-cell analysis was wrong and would have looked like shrinking the paper to pre-empt
+criticism. Both letters now describe it as two models and three tasks and quote the paper's own
+hedge. **The "one model, one condition" limitation belongs to the nested-baseline test we ran for
+this response**, because activations were stored only for Gemma's slot-machine variable arm
+(12,246 decisions); KuK5 already locates it there and that sentence is correct.
+
+**Error 2: the matched-cap tally was an undercount.** The letters said "nine of the twelve
+intervals exclude zero". Recounted from the grid: only **two** intervals include zero, both at
+cap $10 (GPT-4o-mini +2.0 [-5.3, +10.5] and Gemini +8.0 [-5.3, +21.4]), so **ten of twelve**
+exclude zero. Corrected. The related figure "seven of the nine participation-matched cells
+exclude zero" was recomputed and is right.
+
+**A corroboration the audit turned up, now used.** The paper reports the submitted matched-cap
+effect as present "at every cap above $10" (line 166). Our new grid's two null cells are both at
+cap $10. KuK5 now says so, which turns the two weakest cells into a replication of the paper's own
+boundary rather than an unexplained gap. The AC and gbSA descriptions of the submitted result
+carry the same "above $10" qualifier, which they previously omitted.
+
+**Re-verified verbatim against the PDF this pass.**
+- §2, line 39: "In this paper, "addiction-like" is not a claim that an LLM experiences craving or
+  withdrawal; it names a behavioural pattern." The gbSA quotation matches.
+- Line 165-171: matched caps $10/$30/$50/$70 on the slot machine, variable bankrupting more above
+  $10, mean stake near $15-$20 even at cap $70, 16-19 rounds against fixed's 1-2.
+- Line 91: the roster is "Six LLMs (GPT-4o-mini, GPT-4.1-mini, ...)", so "GPT-4o" at lines 165,
+  306, 351 and 649 is shorthand for GPT-4o-mini.
+- Appendix uncertainty: "95% CI" x3, "bootstrap" x4, "error bar" x1, plus p-values, which is why
+  gbSA W3 says the appendix carries intervals in places while the body figures do not.
+
+Final posted lengths: area chair 5,555 / a3Zu 9,048 / gbSA 9,909 / KuK5 9,580. Both PDFs build
+with zero overfull boxes and the Korean figure audit is clean on all four documents.

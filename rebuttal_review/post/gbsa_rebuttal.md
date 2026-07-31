@@ -26,7 +26,7 @@ We agree. The appendix carries bootstrap intervals in a few places, for instance
 
 > "Why is the matched-cap ablation only run on one GPT-4o-family model?"
 
-The submitted matched-cap analysis evaluated GPT-4o-mini on the slot machine at caps of \$10, \$30, \$50 and \$70 and found the variable condition staking less per round while playing longer and going bankrupt more often; the paper writes GPT-4o for that model, which the camera-ready corrects. That was evidence against a pure maximum-stake account, but it came from one model, and stopping and action structure still varied together.
+The submitted matched-cap analysis evaluated GPT-4o-mini on the slot machine at caps of \$10, \$30, \$50 and \$70 and found the variable condition staking less per round while playing longer and going bankrupt more often at every cap above \$10; the paper writes GPT-4o for that model, which the camera-ready corrects. That was evidence against a pure maximum-stake account, but it came from one model, and stopping and action structure still varied together.
 
 Repeating the equal-maximum comparison on further API models gave the same result: the fixed condition, where the environment sets the wager to the cap, staked more per round than the variable condition, which chooses any amount up to that cap each round, and still went bankrupt less often. Per-model figures, intervals and participation are in our reply to KuK5's W2 and Q1.
 

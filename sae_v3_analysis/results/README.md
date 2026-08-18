@@ -56,7 +56,7 @@ valid_mask. Body uses the GroupKFold + `target>0` mask + continuous I_LC trio.
 If you are validating a number or claim that appears in the Korean paper, check
 these files before reading historical study markdown:
 
-- `paper_neural_audit.json`
+- `paper_neural_audit.json` — deprecated (leaky pipeline, moved to `legacy/v17_leaky_pipeline/`); for current paper claims use the strict-CV GroupKFold canonical files: Table 1 = `table1_groupkfold_L22.json`; Table 3 = `condition_modulation_groupkfold_L22.json`; Table 2 = `rq2_aligned_hidden_transfer_*L22_r1*.json`
 - `shared_subspace_hidden_audit_20260410.json`
 - `v17_nonlinear_deconfound.txt`
 - `robustness/permutation_null_ilc.json`
@@ -112,8 +112,9 @@ Reviewer-facing robustness and selectivity outputs.
 
 ### Paper-safe manifests
 
-- `paper_neural_audit.json`
-  - canonical paper-facing neural numbers for the current Korean paper
+- strict-CV GroupKFold canonical files
+  - canonical paper-facing neural numbers for the current Korean paper: Table 1 = `table1_groupkfold_L22.json`; Table 3 = `condition_modulation_groupkfold_L22.json`; Table 2 = `rq2_aligned_hidden_transfer_*L22_r1*.json`
+  - (`paper_neural_audit.json` is deprecated and moved to `legacy/v17_leaky_pipeline/`)
 - `shared_subspace_hidden_audit_20260410.json`
   - auxiliary hidden-state audit used to qualify the RQ2 shared-geometry claim
 

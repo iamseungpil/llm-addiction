@@ -20,7 +20,7 @@ files before opening older reports:
 - `docs/PAPER_CANONICAL.md`
 - `docs/EXPERIMENT_INDEX.md`
 - `docs/HIDDEN_SUBSPACE_AUDIT.md`
-- `results/paper_neural_audit.json`
+- Table 1 = `results/table1_groupkfold_L22.json`; Table 3 = `results/condition_modulation_groupkfold_L22.json`; Table 2 = `results/rq2_aligned_hidden_transfer_*L22_r1*.json` (strict-CV GroupKFold pipeline)
 - `results/shared_subspace_hidden_audit_20260410.json`
 
 These files define the shortest reproducible path from paper text to code/data.
@@ -55,7 +55,7 @@ For cleanup policy and legacy rules, also read:
 - Robustness outputs: `results/robustness/`
 - Plans and status docs: `results/reports/`
 - Paper-safe neural manifests:
-  - `results/paper_neural_audit.json`
+  - Table 1 = `results/table1_groupkfold_L22.json`; Table 3 = `results/condition_modulation_groupkfold_L22.json`; Table 2 = `results/rq2_aligned_hidden_transfer_*L22_r1*.json` (strict-CV GroupKFold pipeline)
   - `results/shared_subspace_hidden_audit_20260410.json`
 - Historical integrated studies: `results/sae_v*_*.md`, `results/sae_v*_*.pdf`
 

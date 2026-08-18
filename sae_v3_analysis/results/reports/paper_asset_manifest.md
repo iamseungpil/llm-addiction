@@ -2,7 +2,7 @@
 
 Every paper claim → exact file that produced it. All file paths verified by direct inspection.
 
-**Master source of truth for all neural numbers**: `sae_v3_analysis/results/paper_neural_audit.json` (5.2 KB). This single file contains the numbers appearing in Table 1, Table 2, and the RQ3 steering paragraph.
+**Master source of truth for all neural numbers** (strict-CV GroupKFold pipeline): Table 1 = `sae_v3_analysis/results/table1_groupkfold_L22.json`; Table 3 = `sae_v3_analysis/results/condition_modulation_groupkfold_L22.json`; Table 2 = `sae_v3_analysis/results/rq2_aligned_hidden_transfer_*L22_r1*.json`. (The older `paper_neural_audit.json` is deprecated, produced by a leaky pipeline, and moved to `legacy/v17_leaky_pipeline/`.)
 
 Path conventions:
 - `code/` → `/home/v-seungplee/llm-addiction/`
@@ -37,7 +37,7 @@ Path conventions:
 
 ### Table 1 (`tab:sae-results`) — SAE per-round readout R²
 
-**Master file**: `code/sae_v3_analysis/results/paper_neural_audit.json` → sections `rq1_ilc` and `rq1_direct`.
+**Master file**: `code/sae_v3_analysis/results/table1_groupkfold_L22.json` (strict-CV GroupKFold; supersedes the deprecated `paper_neural_audit.json` `rq1_ilc`/`rq1_direct` sections now in `legacy/v17_leaky_pipeline/`).
 
 | Paper cell | audit file section | Value |
 |---|---|---|
@@ -74,9 +74,9 @@ Path conventions:
 
 ### Table 3 (`tab:condition-modulation`) — RQ3 condition-wise R²
 
-**Master file**: `code/sae_v3_analysis/results/paper_neural_audit.json` → `rq3_condition_i_ba`.
+**Master file**: `code/sae_v3_analysis/results/condition_modulation_groupkfold_L22.json` (strict-CV GroupKFold; supersedes the deprecated `paper_neural_audit.json → rq3_condition_i_ba` now in `legacy/v17_leaky_pipeline/`).
 
-Every cell in Table 3 comes from `rq3_condition_i_ba.{gemma,llama}_sm_i_ba.subsets.{all_variable,plus_G,minus_G,plus_M,minus_M,fixed_all}.r2`.
+Every cell in Table 3 comes from the per-condition R² subsets (`all_variable`, `plus_G`, `minus_G`, `plus_M`, `minus_M`, `fixed_all`) for Gemma/LLaMA SM `i_ba`.
 
 ### Table — `tab:selectivity-controls` (RQ1 selectivity)
 
@@ -101,7 +101,7 @@ Every cell in Table 3 comes from `rq3_condition_i_ba.{gemma,llama}_sm_i_ba.subse
 ### Figure `fig:neural-analysis` — Layer profile + condition modulation
 
 - **Panel (a) layer profile**: input from raw SAE features L0–L41 + v18 pipeline result. Direct CSV: `code/sae_v3_analysis/results/gemma_sm_42layer_sweep.csv` (Gemma) and `gemma_sm_42layer_sweep_sae.csv` (SAE version). LLaMA equivalent is computed inline in the figure generation script.
-- **Panel (b) condition modulation**: `paper_neural_audit.json → rq3_condition_i_ba`
+- **Panel (b) condition modulation**: `results/condition_modulation_groupkfold_L22.json` (strict-CV GroupKFold)
 - **Figure generator**: `paper/generate_paper_figures.py` (in paper repo root)
 - **Output**: `paper/images/neural_analysis_combined.pdf`
 
@@ -112,7 +112,7 @@ Every cell in Table 3 comes from `rq3_condition_i_ba.{gemma,llama}_sm_i_ba.subse
 
 ### Figure `fig:condition-modulation`
 
-- **Source**: same as Table 3 (`paper_neural_audit.json → rq3_condition_i_ba`)
+- **Source**: same as Table 3 (`results/condition_modulation_groupkfold_L22.json`, strict-CV GroupKFold)
 - **Figure output**: `paper/images/condition_modulation_iba.pdf`
 
 ---
@@ -138,7 +138,7 @@ Every cell in Table 3 comes from `rq3_condition_i_ba.{gemma,llama}_sm_i_ba.subse
 
 **Paper claim**: LLaMA SM L22, ρ=0.919, p=0.003, perm p=0.048, BK 38%→60%
 
-**Master file**: `paper_neural_audit.json → steering.same_domain`
+**Master source**: `causal_supplements/M3prime_direction_steering/` (the paper's NULL causal-steering result). The `paper_neural_audit.json → steering.same_domain` snippet below is deprecated (leaky pipeline, moved to `legacy/v17_leaky_pipeline/`):
 ```json
 {"model":"llama","task":"sm","layer":22,"rho":0.919,"p":0.003437,"permutation_p":0.0476,"baseline_bk":0.55}
 ```
@@ -151,7 +151,7 @@ Every cell in Table 3 comes from `rq3_condition_i_ba.{gemma,llama}_sm_i_ba.subse
 
 **Cross-task steering** (paper: sign reversal ρ=−0.964, −0.818)
 - `code/sae_v3_analysis/results/json/v12_crossdomain_steering.json` → `within_domain_rho`, `cross_domain_results`
-- `paper_neural_audit.json → steering.cross_domain_significant`
+- `causal_supplements/M3pp_paired_full_prompt_patch/` (the paper's NULL causal-steering result; supersedes the deprecated `paper_neural_audit.json → steering.cross_domain_significant` now in `legacy/v17_leaky_pipeline/`)
 
 **Multi-layer robustness** (V16, local VM):
 - `code/sae_v3_analysis/results/json/v16_llama_20260408_175255.json` — L8, L12, L22, L25 completed (ρ=0.929, −0.179, 0.793, 0.750)
@@ -237,7 +237,7 @@ The HF repo's README.md (root) should point to this manifest and the paper PDF.
 
 ## Verification checklist (2026-04-13)
 
-- [x] All master numbers resolved to `paper_neural_audit.json`
+- [x] All master numbers resolved to the strict-CV GroupKFold canonical files (Table 1 = `table1_groupkfold_L22.json`; Table 3 = `condition_modulation_groupkfold_L22.json`; Table 2 = `rq2_aligned_hidden_transfer_*L22_r1*.json`); legacy `paper_neural_audit.json` deprecated to `legacy/v17_leaky_pipeline/`
 - [x] v18 report marked as Table 1 interpretation, not source
 - [x] Selectivity controls JSON verified (`probe_selectivity_controls.json`)
 - [x] Permutation nulls verified (`permutation_null.json`, `permutation_null_ilc.json`)

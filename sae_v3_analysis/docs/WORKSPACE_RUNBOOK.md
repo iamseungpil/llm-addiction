@@ -23,12 +23,12 @@ These are the first files to inspect when validating the Korean paper.
 - `docs/PAPER_MANIFEST.md`
 - `docs/EXPERIMENT_INDEX.md`
 - `docs/HIDDEN_SUBSPACE_AUDIT.md`
-- `results/paper_neural_audit.json`
+- Table 1 = `results/table1_groupkfold_L22.json`; Table 3 = `results/condition_modulation_groupkfold_L22.json`; Table 2 = `results/rq2_aligned_hidden_transfer_*L22_r1*.json` (strict-CV GroupKFold pipeline)
 - `results/shared_subspace_hidden_audit_20260410.json`
 
 ### Neural paper code
 
-- `src/build_paper_neural_audit.py`
+- `src/run_groupkfold_recompute.py` (current generator; `src/build_paper_neural_audit.py` is deprecated, moved to `legacy/v17_leaky_pipeline/`)
 - `src/plot_neural_figures.py`
 - `src/run_comprehensive_robustness.py`
 - `src/run_perm_null_ilc.py`

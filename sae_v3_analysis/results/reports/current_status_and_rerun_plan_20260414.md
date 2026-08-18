@@ -121,7 +121,11 @@ The following are still pending:
 Until new replay-based reruns finish:
 
 - RQ1 and most audited non-steering neural tables remain traceable through
-  `results/paper_neural_audit.json` and related audited artifacts.
+  the strict-CV GroupKFold canonical files (Table 1 = `results/table1_groupkfold_L22.json`;
+  Table 3 = `results/condition_modulation_groupkfold_L22.json`;
+  Table 2 = `results/rq2_aligned_hidden_transfer_*L22_r1*.json`) and related audited
+  artifacts. (The older `results/paper_neural_audit.json` is deprecated, moved to
+  `legacy/v17_leaky_pipeline/`.)
 - Steering claims in the paper should be treated as **awaiting post-audit
   refresh** unless they are explicitly labeled archived or exploratory.
 - Older V12/V14/V16 steering outputs can still be read for historical context,

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Research project (ICLR 2026 submission) studying addictive-like gambling behaviors in LLMs using slot machine and investment choice paradigms. Analyzes decision patterns across models (LLaMA-3.1-8B, Gemma-2-9B, GPT-4o-mini, GPT-4.1-mini, Claude-3.5-Haiku, Gemini-2.5-Flash) and uses Sparse Autoencoder (SAE) interpretability + activation patching to identify causal neural features driving risk-taking.
+Research project (NeurIPS 2026 submission 24231) studying addictive-like gambling behaviors in LLMs using slot machine and investment choice paradigms. Analyzes decision patterns across models (LLaMA-3.1-8B, Gemma-2-9B, GPT-4o-mini, GPT-4.1-mini, Claude-3.5-Haiku, Gemini-2.5-Flash) and uses Sparse Autoencoder (SAE) interpretability + activation patching to identify causal neural features driving risk-taking.
 
 ## Environment Configuration
 
@@ -350,7 +350,7 @@ Do NOT ask the user what name to use - automatically generate an appropriate nam
 
 - `.gitignore` excludes experiment outputs (JSON, NPZ, logs)
 - No formal test suite - validation within pipelines
-- Active development for ICLR 2026 submission
+- Active development for NeurIPS 2026 submission 24231 (reviews received 2026-07-24; revision in progress)
 - Bilingual project (Korean/English) - both acceptable in code/docs
 - Always run `clear_gpu_memory()` between phases to avoid OOM errors
 - Use `set_random_seed(42)` for reproducible results

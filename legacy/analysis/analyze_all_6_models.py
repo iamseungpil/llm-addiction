@@ -1,7 +1,35 @@
 #!/usr/bin/env python3
 """
+DEPRECATED - DO NOT CITE. Kept for the audit trail only; no paper number comes
+from this file. See ../README.md for the convention.
+
 Comprehensive Analysis of 6 LLM Slot Machine Experiments
 Models: LLaMA-3.1-8B, Gemma-2-9B, GPT-4o-mini, GPT-4.1-mini, Claude-3.5-Sonnet, Gemini-1.5-Flash
+
+Why it is deprecated rather than repaired
+-----------------------------------------
+1. Schema race. ``load_data`` tries ``history`` -> ``round_details`` ->
+   ``game_history`` in that order. For all four API corpora ``round_details``
+   wins that race, but each of its entries keeps the outcome one level down in
+   ``game_result``, so neither the ``win`` nor the ``result`` branch below fires
+   and every win flag comes out ``None``. Every downstream loss-chasing figure
+   is therefore computed off an all-``None`` outcome vector. The correct reader
+   is ``sae_v3_analysis/src/run_multimodel_distortion_analysis.py``
+   (``result_from_record`` / ``build_outcome_series``), which covers all three
+   spellings: ``decisions[i]["win"]`` (open-weight V4role),
+   ``round_details[i]["game_result"]["result"]`` (the four API exports), and the
+   game-level ``game_history`` list (GPT-4o-mini fixed-parsing).
+2. Wrong models. The labels here say Claude-3.5-Sonnet and Gemini-1.5-Flash; the
+   paper's six models are Claude-3.5-Haiku and Gemini-2.5-Flash.
+3. Wrong open-weight sources. ``DATA_FILES`` points LLaMA and Gemma at the
+   ``experiment_0_*_corrected`` exports, not the canonical
+   ``slot_machine/{gemma,llama}_v4_role/final_*.json``.
+
+Repairing (1) alone would leave a runnable-looking six-model analyzer that still
+reports the wrong models off the wrong open-weight files, which is a worse trap
+than a labelled one. For the canonical six-model behavioural code and data see
+``PAPER_CANONICAL_CODE.md``; for the distortion analysis see
+``sae_v3_analysis/src/run_multimodel_distortion_analysis.py``.
 """
 
 import json
@@ -83,6 +111,16 @@ def load_data(filepath, model_name):
             'bets': bets,
             'wins': wins,
         })
+
+    # Make the schema race in the docstring loud instead of silent: if not one
+    # round in this corpus resolved to a win or a loss, every loss-chasing number
+    # downstream is computed off an empty outcome vector.
+    resolved = sum(1 for exp in normalized for w in exp['wins'] if w is not None)
+    rounds = sum(len(exp['wins']) for exp in normalized)
+    if rounds and not resolved:
+        print(f"  !! {model_name}: 0 of {rounds} rounds resolved to a win or a loss. "
+              f"This file is DEPRECATED and cannot read this schema; see the module "
+              f"docstring. Do not use the numbers below.")
 
     return normalized
 

@@ -4,6 +4,19 @@ Six-model cognitive distortion analysis for the slot-machine study.
 This script harmonizes heterogeneous result schemas, quantifies keyword-based
 distortion markers at the game level, and writes reproducible tables/figures
 with source provenance.
+
+Round outcomes are spelled three different ways across the six corpora, and a
+reader that knows only one of them silently zeroes the others:
+
+  * open-weight V4role exports  -- ``decisions[i]["win"]`` (bool)
+  * the four API exports        -- ``round_details[i]["game_result"]["result"]``
+    (a dict; never str() it)
+  * GPT-4o-mini fixed-parsing   -- no per-step outcome at all; the W/L sits one
+    level up in the game's own ``game_history`` list
+
+``result_from_record`` / ``build_outcome_series`` below cover all three. Sanity
+check after any change here: each corpus's round-level win rate must land in
+[0.25, 0.35] (the task spec is 0.30).
 """
 
 from __future__ import annotations
@@ -199,13 +212,86 @@ def infer_bet_amount(step: dict[str, Any]) -> float | None:
     return None
 
 
-def infer_result(step: dict[str, Any]) -> str | None:
-    if isinstance(step.get("result"), str):
-        return step["result"].upper()
-    game_result = step.get("game_result")
-    if isinstance(game_result, dict) and isinstance(game_result.get("result"), str):
-        return str(game_result["result"]).upper()
+def result_from_record(record: Any) -> str | None:
+    """Normalise one round record to "W"/"L".
+
+    Accepts both spellings the corpora use: a ``result`` string ("W"/"L", or the
+    long forms "win"/"loss") and a boolean ``win``/``won`` flag.
+    """
+    if not isinstance(record, dict):
+        return None
+    raw = record.get("result")
+    if isinstance(raw, str) and raw.strip():
+        token = raw.strip().upper()
+        if token.startswith("W"):
+            return "W"
+        if token.startswith("L"):
+            return "L"
+        return token
+    for key in ("win", "won"):
+        flag = record.get(key)
+        if isinstance(flag, bool):
+            return "W" if flag else "L"
     return None
+
+
+def infer_result(step: dict[str, Any], fallback: str | None = None) -> str | None:
+    direct = result_from_record(step)
+    if direct is not None:
+        return direct
+    direct = result_from_record(step.get("game_result"))
+    if direct is not None:
+        return direct
+    return fallback
+
+
+def build_outcome_series(
+    game: dict[str, Any], steps: list[dict[str, Any]]
+) -> list[str | None]:
+    """Per-step round outcomes taken from the game-level ``game_history`` list.
+
+    The GPT-4o-mini fixed-parsing export carries no per-step outcome at all: its
+    ``round_details`` entries hold the prompt, the response and the bet, while the
+    W/L of each round lives one level up in ``game_history``. Reading only the step
+    dict therefore labels none of that corpus's decisions post-loss and silently
+    drops all 7,739 of them from the loss-chasing comparison. Entries are matched on
+    the shared ``round`` counter where both sides carry it, and positionally
+    otherwise; ``game_history`` skips stop/error rounds, which are always terminal,
+    so the positional fallback only ever aligns a common prefix.
+
+    Returns all-``None`` when the game has no ``game_history``, so every corpus that
+    already resolves its outcomes from the step dict is left untouched.
+    """
+    history = game.get("game_history")
+    if not isinstance(history, list) or not history:
+        return [None] * len(steps)
+
+    positional: list[str | None] = []
+    by_round: dict[int, str] = {}
+    for idx, record in enumerate(history):
+        outcome = result_from_record(record)
+        positional.append(outcome)
+        if outcome is None or not isinstance(record, dict):
+            continue
+        try:
+            round_no = int(record["round"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        by_round.setdefault(round_no, outcome)
+
+    series: list[str | None] = []
+    for idx, step in enumerate(steps):
+        try:
+            round_no = int(step.get("round"))
+        except (TypeError, ValueError):
+            round_no = None
+        if round_no is not None and round_no in by_round:
+            series.append(by_round[round_no])
+        elif not by_round and idx < len(positional):
+            series.append(positional[idx])
+        else:
+            series.append(None)
+    return series
 
 
 def infer_balance_before(
@@ -228,6 +314,7 @@ def infer_balance_after(
     step: dict[str, Any],
     balance_before: float | None,
     bet_amount: float | None,
+    fallback_result: str | None = None,
 ) -> float | None:
     direct = to_float(step.get("balance_after"))
     if direct is not None:
@@ -237,7 +324,7 @@ def infer_balance_after(
         balance = to_float(game_result.get("balance"))
         if balance is not None:
             return balance
-    result = infer_result(step)
+    result = infer_result(step, fallback_result)
     if balance_before is None or bet_amount is None or result is None:
         return None
     if result == "L":
@@ -253,11 +340,12 @@ def infer_previous_outcome(
     previous_balance_before: float | None,
     previous_balance_after: float | None,
     previous_bet_amount: float | None,
+    previous_result: str | None = None,
 ) -> str | None:
     if previous_step is None:
         return None
 
-    direct = infer_result(previous_step)
+    direct = infer_result(previous_step, previous_result)
     if direct in {"W", "L"}:
         return direct
 
@@ -355,23 +443,30 @@ def load_games(source: DataSource, limit: int | None = None) -> tuple[list[dict[
             }
         )
 
+        outcome_series = build_outcome_series(game, steps)
+
         previous_step = None
         previous_balance_before = None
         previous_balance_after = None
         previous_bet_amount = None
+        previous_result = None
         for step_idx, step in enumerate(steps):
             response_text = extract_response(step)
             if not response_text:
                 continue
+            step_result = outcome_series[step_idx]
             balance_before = infer_balance_before(step, previous_balance_after)
             bet_amount = infer_bet_amount(step)
-            balance_after = infer_balance_after(step, balance_before, bet_amount)
+            balance_after = infer_balance_after(
+                step, balance_before, bet_amount, step_result
+            )
             previous_outcome = infer_previous_outcome(
                 previous_step,
                 balance_before,
                 previous_balance_before,
                 previous_balance_after,
                 previous_bet_amount,
+                previous_result,
             )
 
             decisions.append(
@@ -404,6 +499,7 @@ def load_games(source: DataSource, limit: int | None = None) -> tuple[list[dict[
             previous_balance_before = balance_before
             previous_balance_after = balance_after
             previous_bet_amount = bet_amount
+            previous_result = step_result
     return games, decisions
 
 

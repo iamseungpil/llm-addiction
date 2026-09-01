@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+> **Stale environment, and one withdrawn finding.** The paths, cluster and conda setup below describe the HPC machine the experiments ran on, not this checkout; the entry point for the repository is [`README.md`](README.md), the figure-to-code map is `PAPER_CANONICAL_CODE.md`, and Key Research Finding 5 (SAE feature patching, "+29.6% stopping rate") was **withdrawn** — the SAE-feature steering and patching claims were removed from §4, and the paper reports patching on the readout direction as null. What §4 does claim causally is narrower: a *behaviour-built* direction that raises and lowers betting on Gemma, with removal alone confirmed on LLaMA. Finding 4's layer ranges are also superseded; the paper fixes a single representative layer, L22. The architecture and conventions sections remain accurate.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview

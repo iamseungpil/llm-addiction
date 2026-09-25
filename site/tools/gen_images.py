@@ -1,96 +1,221 @@
-"""Generate the illustrative images of the project page.
+"""Generate the pixel-art sprites of the project page with gpt-image-2.
 
-The images are decoration only. Every number on the page is drawn from
-data by the page's own SVG code, never baked into a generated image.
+The sprites are decoration only. Every number on the page is drawn by the
+page's own code from ``assets/data.js`` and ``assets/games.js``; no number is
+baked into an image.
 
     source ~/.config/secrets/tokens.env
-    python3 site/tools/gen_images.py            # all images
-    python3 site/tools/gen_images.py hero       # one image
+    python3 site/tools/gen_images.py                 # generate + process every sprite
+    python3 site/tools/gen_images.py robot slot      # only these
+    python3 site/tools/gen_images.py --process-only  # re-run the pixel pass on cached raws
+    python3 site/tools/gen_images.py --og            # rebuild assets/img/og.jpg from the sprites
+
+Raw 1024px PNGs are cached outside the site (``$SPRITE_RAW_DIR``, default
+``$TMPDIR/llm-addiction-sprites``) so they are never deployed. The pixel pass
+crops each raw to its content, shrinks it to a small native size with an
+area filter, snaps it to a limited palette and a hard alpha edge, and writes
+``assets/img/<name>.png``. The page shows them at 3-5x with
+``image-rendering: pixelated``.
 """
 import base64
 import json
 import os
+import subprocess
 import sys
+import tempfile
+import urllib.error
 import urllib.request
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / "assets" / "img"
+SITE = Path(__file__).resolve().parent.parent
+OUT = SITE / "assets" / "img"
+RAW = Path(os.environ.get("SPRITE_RAW_DIR", Path(tempfile.gettempdir()) / "llm-addiction-sprites"))
 MODEL = "gpt-image-2"
+NAVY = (11, 20, 38)
 
 STYLE = (
-    "Editorial illustration in a flat, slightly textured vector style, like a "
-    "science magazine feature. Limited palette: deep midnight navy background, "
-    "warm casino gold, signal red accents, soft teal highlights, off-white. "
-    "Clean shapes, gentle grain, subtle glow. No text, no letters, no numbers, "
-    "no logos, no watermarks."
+    "16-bit pixel art, limited palette: deep navy #0b1426, neon gold #f3c14b, "
+    "casino red #e0453a, teal #3fb6a8, off-white; crisp pixels, no anti-aliasing, "
+    "no text, no letters, no numbers, no logos. A single isolated game sprite, "
+    "centered, with generous empty margin, on a fully transparent background, "
+    "no floor, no shadow, no scenery."
 )
 
-IMAGES = {
-    "hero": (
-        "1536x1024",
-        "A small, sleek humanoid robot sits alone on a stool in front of a tall "
-        "retro slot machine at night. The reels glow gold. The robot's head is "
-        "partly translucent, showing a faint lattice of glowing neural lines. "
-        "Its hand rests on the lever; a modest stack of chips sits beside it and "
-        "a few chips are scattered on the floor. Mood: quiet, uncanny, a little "
-        "ominous but not dark. Wide composition with empty navy space on the "
-        "left third for a headline.",
+# name: (subject, native height in px of the processed sprite, palette size)
+SPRITES = {
+    "robot": (
+        "A small friendly retro robot mascot standing, facing the viewer. Boxy "
+        "off-white head with a navy face screen and two big square glowing teal "
+        "eyes, a short antenna with a gold bulb, compact off-white body with a "
+        "small red chest light, short arms, stubby legs. Cute, iconic, readable "
+        "at small size.",
+        96, 20,
     ),
-    "lever_bet": (
-        "1024x1024",
-        "Close-up of a robot hand on green casino felt, pushing forward chips "
-        "chosen from stacks of very different heights: a choice of how much to "
-        "wager. One tall stack is being pushed toward the centre. Top-down "
-        "three-quarter view.",
+    "slot": (
+        "A classic three-reel casino slot machine seen straight from the front, "
+        "perfectly symmetric. Gold cabinet with red trim and a row of round "
+        "marquee light bulbs on top, a lever with a red ball on the right side, "
+        "a coin tray at the bottom. The three reel windows are side by side in "
+        "the middle and are EMPTY: three plain flat off-white rectangles with no "
+        "symbols in them.",
+        104, 24,
     ),
-    "lever_goal": (
-        "1024x1024",
-        "A small robot climbs a staircase made of stacked gold coins toward a "
-        "red flag on top; as it approaches, the staircase keeps growing and the "
-        "flag is lifted higher by a mechanical arm. A metaphor for a target "
-        "that moves every time it is nearly reached. Surreal, minimal.",
+    "chip": (
+        "One casino poker chip seen from a low three-quarter angle, red with "
+        "off-white edge stripes and a gold ring. Just the chip.",
+        24, 12,
     ),
-    "inside": (
-        "1024x1024",
-        "Cross-section of a robot head in profile. Inside, a lattice of glowing "
-        "teal nodes; one single golden line runs straight through the lattice, "
-        "and a small brass dial is attached to that line, as if turning it "
-        "could change behaviour. Calm, precise, diagrammatic mood.",
+    "coins": (
+        "One short stack of about five gold coins seen from the side, flat "
+        "tops, like one step of a staircase. Just the stack.",
+        28, 12,
     ),
-    "game": (
-        "1024x1024",
-        "A retro three-reel slot machine seen from the front, glowing gold "
-        "frame, reels showing simple abstract shapes (circle, triangle, "
-        "diamond), a lever on the right, coins in the tray. Centered, "
-        "symmetric, iconic.",
+    "flag": (
+        "A small red pennant flag on a thin gold pole, waving slightly. Just the "
+        "flag and pole.",
+        40, 10,
+    ),
+    "dial": (
+        "A round brass control knob seen from the front, with one short "
+        "off-white pointer line from the centre to the top edge, a teal ring "
+        "around it. Just the knob.",
+        40, 12,
     ),
 }
 
 
-def generate(name: str) -> None:
-    size, subject = IMAGES[name]
-    body = json.dumps({
+def generate(name: str) -> Path:
+    subject = SPRITES[name][0]
+    payload = {
         "model": MODEL,
         "prompt": f"{subject}\n\nStyle: {STYLE}",
-        "size": size,
+        "size": "1024x1024",
         "n": 1,
-    }).encode()
-    req = urllib.request.Request(
-        "https://api.openai.com/v1/images/generations",
-        data=body,
-        headers={
-            "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
-            "Content-Type": "application/json",
-        },
-    )
-    with urllib.request.urlopen(req, timeout=600) as resp:
-        data = json.load(resp)["data"][0]
+        "background": "transparent",
+        "output_format": "png",
+    }
+
+    def call(body: dict) -> dict:
+        req = urllib.request.Request(
+            "https://api.openai.com/v1/images/generations",
+            data=json.dumps(body).encode(),
+            headers={
+                "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
+                "Content-Type": "application/json",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=600) as resp:
+            return json.load(resp)["data"][0]
+
+    try:
+        data = call(payload)
+    except urllib.error.HTTPError as err:
+        # Fall back to a flat navy backdrop that the pixel pass keys out.
+        print(f"{name}: transparent request refused ({err.code}); retrying on navy")
+        payload.pop("background")
+        payload["prompt"] = payload["prompt"].replace(
+            "on a fully transparent background", "on a flat solid deep navy #0b1426 background"
+        )
+        data = call(payload)
+    RAW.mkdir(parents=True, exist_ok=True)
+    path = RAW / f"{name}.png"
+    path.write_bytes(base64.b64decode(data["b64_json"]))
+    print(f"raw  {path} ({path.stat().st_size // 1024} KB)")
+    return path
+
+
+def pixelate(name: str) -> None:
+    from PIL import Image
+
+    _, height, colors = SPRITES[name]
+    img = Image.open(RAW / f"{name}.png").convert("RGBA")
+    px = img.load()
+    w, h = img.size
+    # Key out a navy backdrop if the model did not return transparency.
+    if px[2, 2][3] == 255:
+        for y in range(h):
+            for x in range(w):
+                r, g, b, _a = px[x, y]
+                if abs(r - NAVY[0]) + abs(g - NAVY[1]) + abs(b - NAVY[2]) < 40:
+                    px[x, y] = (0, 0, 0, 0)
+    alpha = img.getchannel("A").point(lambda a: 255 if a > 96 else 0)
+    img.putalpha(alpha)
+    img = img.crop(alpha.getbbox())
+    width = max(1, round(img.width * height / img.height))
+    small = img.resize((width, height), Image.Resampling.BOX)
+    a = small.getchannel("A").point(lambda v: 255 if v > 128 else 0)
+    rgb = small.convert("RGB").quantize(colors=colors, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    out = rgb.convert("RGBA")
+    out.putalpha(a)
     OUT.mkdir(parents=True, exist_ok=True)
-    raw = base64.b64decode(data["b64_json"])
-    (OUT / f"{name}.png").write_bytes(raw)
-    print(f"wrote {OUT / name}.png ({len(raw) // 1024} KB)")
+    dest = OUT / f"{name}.png"
+    out.save(dest, optimize=True)
+    print(f"sprite {dest} {out.size[0]}x{out.size[1]} ({dest.stat().st_size} B)")
+
+
+def blink_frame() -> None:
+    """robot-blink.png: the processed robot with its eyes shut.
+
+    Paints the two eye boxes with the face-screen colour and draws a one-row
+    teal lid line, so the two frames stay pixel-aligned for the CSS blink.
+    The boxes were read off the processed 56x96 robot; re-check them if the
+    robot sprite is regenerated.
+    """
+    from PIL import Image
+
+    img = Image.open(OUT / "robot.png").convert("RGBA")
+    px = img.load()
+    face = px[27, 38]
+    lid = (63, 182, 168, 255)
+    for x0, x1 in ((17, 24), (31, 38)):
+        for y in range(33, 42):
+            for x in range(x0, x1 + 1):
+                px[x, y] = face
+        for x in range(x0, x1 + 1):
+            px[x, 39] = lid
+    img.save(OUT / "robot-blink.png", optimize=True)
+    print(f"sprite {OUT / 'robot-blink.png'}")
+
+
+def build_og() -> None:
+    """1200x630 share card: sprites at 4x on navy, title set with ImageMagick."""
+    from PIL import Image
+
+    card = Image.new("RGB", (1200, 630), NAVY)
+    for name, scale, pos in (("slot", 4, (790, 150)), ("robot", 4, (600, 182))):
+        sp = Image.open(OUT / f"{name}.png").convert("RGBA")
+        sp = sp.resize((sp.width * scale, sp.height * scale), Image.Resampling.NEAREST)
+        card.paste(sp, pos, sp)
+    tmp = RAW / "og_base.png"
+    RAW.mkdir(parents=True, exist_ok=True)
+    card.save(tmp)
+    font = "/System/Library/Fonts/Menlo.ttc"
+    subprocess.run(
+        [
+            "magick", str(tmp),
+            "-font", font, "-fill", "#f3c14b", "-pointsize", "58",
+            "-annotate", "+64+170", "Can an AI get\nhooked on\ngambling?",
+            "-fill", "#e8edf6", "-pointsize", "26",
+            "-annotate", "+64+470", "Can Large Language Models\nDevelop Gambling Addiction?",
+            "-fill", "#3fb6a8", "-pointsize", "24",
+            "-annotate", "+64+575", "NeurIPS 2026",
+            "-quality", "86", str(OUT / "og.jpg"),
+        ],
+        check=True,
+    )
+    print(f"og   {OUT / 'og.jpg'} ({(OUT / 'og.jpg').stat().st_size // 1024} KB)")
 
 
 if __name__ == "__main__":
-    for key in sys.argv[1:] or IMAGES:
-        generate(key)
+    args = sys.argv[1:]
+    if "--og" in args:
+        build_og()
+        sys.exit(0)
+    process_only = "--process-only" in args
+    names = [a for a in args if not a.startswith("--")] or list(SPRITES)
+    for key in names:
+        if not process_only:
+            generate(key)
+        pixelate(key)
+        if key == "robot":
+            blink_frame()

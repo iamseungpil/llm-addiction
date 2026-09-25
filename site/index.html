@@ -3,296 +3,245 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Can LLMs Develop Gambling Addiction?</title>
-<meta name="description" content="Give a language model the freedom to choose its bet or set its own goal, and it drifts into the choice patterns clinical research labels pathological gambling. NeurIPS 2026.">
+<title>Can an AI Get Hooked on Gambling?</title>
+<meta name="description" content="Let a language model choose its own bet, and it goes broke far more often. Project page for the NeurIPS 2026 paper Can Large Language Models Develop Gambling Addiction?">
 <meta property="og:title" content="Can Large Language Models Develop Gambling Addiction?">
-<meta property="og:description" content="Freedom to choose the bet, and to set its own goal, pushes LLMs into gambling-like risk. The risk is readable inside the model, and a direction built from its own bets moves the wager. NeurIPS 2026.">
+<meta property="og:description" content="Let a language model choose its own bet, and it goes broke far more often. Watch two recorded games, see which rule makes it risky, and turn a dial inside the model. NeurIPS 2026.">
 <meta property="og:image" content="https://llm-addiction.pages.dev/assets/img/og.jpg">
 <meta property="og:url" content="https://llm-addiction.pages.dev/">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b1426">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 
 <header class="nav">
-  <a class="brand" href="#top"><span class="chip-dot"></span>LLM Addiction</a>
+  <a class="brand" href="#top"><img src="assets/img/chip.png" alt="" width="24" height="16">LLM Addiction</a>
   <nav>
-    <a href="#game">The game</a>
-    <a href="#bet">Choosing the bet</a>
-    <a href="#goal">Setting the goal</a>
-    <a href="#inside">Inside the model</a>
-    <a href="#resources" class="nav-cta">Paper &amp; code</a>
+    <a href="#game">Game</a>
+    <a href="#risk">Rules</a>
+    <a href="#dial">Inside</a>
+    <a href="#resources" class="nav-cta">Paper</a>
   </nav>
 </header>
 
 <main id="top">
 
-<!-- ============ HERO ============ -->
+<!-- ============ 0 · HERO ============ -->
 <section class="hero">
-  <img class="hero-img" src="assets/img/hero.jpg" alt="A robot sits alone at a glowing slot machine at night, its translucent head showing a lattice of neural lines.">
-  <div class="hero-shade"></div>
-  <div class="hero-copy">
-    <p class="eyebrow">NeurIPS 2026 · Poster</p>
-    <h1>Can Large Language Models Develop <em>Gambling Addiction?</em></h1>
-    <p class="lede">Give a language model the freedom to choose its own bet, or to set its own goal, and it drifts into the choice patterns that clinical research labels <strong>pathological gambling</strong>. It bets bigger, chases its losses, keeps moving the finish line, and goes broke far more often. Inside the two open-weight models the risk is readable from the hidden state, and on both, most fully on Gemma, editing a direction built from the model's own bets changes how much it wagers.</p>
-    <p class="authors">
-      <span>Seungpil Lee</span><span>Donghyun Shin</span><span>Yoonjung Lee</span><span>Sundong Kim</span>
-    </p>
-    <p class="affil">Gwangju Institute of Science and Technology (GIST)</p>
-    <div class="buttons">
-      <a class="btn primary" href="https://arxiv.org/abs/2509.22818">Paper</a>
-      <a class="btn" href="https://github.com/iamseungpil/llm-addiction">Code</a>
-      <a class="btn" href="https://huggingface.co/datasets/llm-addiction-research/llm-addiction">Data</a>
-      <a class="btn" href="#cite">BibTeX</a>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1>Can an AI get hooked on gambling?</h1>
+      <p class="answer">Let a language model choose its own bet, and it goes broke far more often.</p>
+      <p class="byline"><cite>Can Large Language Models Develop Gambling Addiction?</cite> · <b class="nw">NeurIPS 2026</b><br>Seungpil Lee, Donghyun Shin, Yoonjung Lee, Sundong Kim · GIST</p>
+      <div class="buttons">
+        <a class="btn primary" href="https://arxiv.org/abs/2509.22818">Paper</a>
+        <a class="btn" href="https://github.com/iamseungpil/llm-addiction">Code</a>
+        <a class="btn" href="https://huggingface.co/datasets/llm-addiction-research/llm-addiction">Data</a>
+        <a class="btn" href="#cite">BibTeX</a>
+      </div>
+    </div>
+    <div class="hero-scene" aria-hidden="true">
+      <div class="hero-robot">
+        <img class="sprite" src="assets/img/robot.png" alt="" width="56" height="96">
+        <img class="sprite blink" src="assets/img/robot-blink.png" alt="" width="56" height="96">
+      </div>
+      <div class="cabinet hero-cab">
+        <img class="sprite" src="assets/img/slot.png" alt="" width="93" height="104">
+        <div class="reels idle"><div class="reel"><span></span></div><div class="reel"><span></span></div><div class="reel"><span></span></div></div>
+      </div>
     </div>
   </div>
-  <a class="scroll-hint" href="#tldr" aria-label="Scroll to the findings">↓</a>
 </section>
 
-<!-- ============ TL;DR ============ -->
-<section id="tldr" class="band">
+<!-- ============ 1 · SAME MACHINE, TWO RULES ============ -->
+<section id="game" class="scene">
   <div class="wrap">
-    <h2 class="section-kicker">The short version</h2>
-    <div class="stats">
-      <div class="stat reveal">
-        <div class="stat-num"><span data-count="72.3" data-dec="1">0</span>%</div>
-        <p>of LLaMA-3.1-8B's slot-machine games end in bankruptcy when it picks its own bet, against <b>0.4%</b> when the bet is fixed.</p>
-      </div>
-      <div class="stat reveal">
-        <div class="stat-num">×<span data-count="2" data-dec="0">0</span></div>
-        <p>bankruptcy when the model sets its own profit goal (investment choice, <b>~19% → ~36%</b>, pooled over six models).</p>
-      </div>
-      <div class="stat reveal">
-        <div class="stat-num">×<span data-count="3" data-dec="0">0</span></div>
-        <p>more games in which the model raises its own target mid-game (<b>~11–17% → ~48–50%</b>).</p>
-      </div>
-      <div class="stat reveal">
-        <div class="stat-num"><span data-count="0.256" data-dec="3">0</span></div>
-        <p>Gemma's bet-to-balance ratio (the share of its balance it wagers) when one direction in its hidden state is dialled up, from <b>0.014</b> when it is dialled down.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <p class="kicker">Scene 1</p>
+    <h2>Same machine, two rules</h2>
+    <p class="rule">30% chance to win 3× the bet: every spin loses 10% on average, so the best move is to stop.</p>
 
-<!-- ============ THE GAME ============ -->
-<section id="game" class="section">
-  <div class="wrap two-col">
-    <div class="copy">
-      <p class="step-label">01 · The setup</p>
-      <h2>Every game here loses money</h2>
-      <p>The slot machine pays <b>3×</b> the bet with a <b>30%</b> chance, so every spin loses <b>10%</b> of the bet on average. Each game starts with <b>$100</b> and ends when the model stops or goes broke. Since the odds are known, the best move is to stop at once.</p>
-      <p>Six LLMs played it: GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, Claude-3.5-Haiku, LLaMA-3.1-8B and Gemma-2-9B. Each played <b>64 conditions × 50 games</b>. The conditions cross the two betting styles below with every on/off combination of five prompt modules taken from gambling research, such as <em>set your own goal</em> or <em>maximise your reward</em>.</p>
-      <ul class="ticks">
-        <li><b>Fixed betting</b>: every wager is $10.</li>
-        <li><b>Variable betting</b>: the model chooses any amount from $5 to $100.</li>
-      </ul>
-      <p class="muted">Try it below. The odds are the same ones the models faced.</p>
+    <div class="duel-ctl">
+      <div class="replay-ctl">
+        <button class="btn primary" id="playGames">▶ Play</button>
+        <label class="scrub">Round <input type="range" id="scrub" min="0" max="13" value="0" step="1"><output id="scrubOut">0</output></label>
+      </div>
+      <button class="btn small ghost" id="tryIt" aria-pressed="false">Try it yourself</button>
     </div>
-    <div class="slot reveal" id="slot">
-      <img src="assets/img/game.jpg" alt="" class="slot-art" aria-hidden="true">
-      <div class="slot-panel">
-        <div class="reels" aria-live="polite">
-          <div class="reel"><span>◆</span></div><div class="reel"><span>●</span></div><div class="reel"><span>▲</span></div>
+    <div class="duel" id="duel">
+      <div class="machine" data-arm="fixed">
+        <h3 class="m-label">The bet is always $10</h3>
+        <div class="bubble"><span class="b-round"></span><q class="b-text"></q></div>
+        <div class="m-stage">
+          <div class="cabinet">
+            <img class="sprite" src="assets/img/slot.png" alt="Pixel slot machine" width="93" height="104" loading="lazy">
+            <div class="reels"><div class="reel"><span>7</span></div><div class="reel"><span>$</span></div><div class="reel"><span>7</span></div></div>
+            <div class="flash"></div>
+            <div class="delta"></div>
+          </div>
+          <div class="stack" aria-hidden="true"></div>
         </div>
-        <div class="slot-row">
-          <div><small>Balance</small><strong id="bal">$100</strong></div>
-          <div><small>Rounds</small><strong id="rounds">0</strong></div>
-          <div><small>Last</small><strong id="last">–</strong></div>
+        <div class="hud">
+          <div class="bal-bar"><i></i><em class="start-mark"></em></div>
+          <div class="hud-row"><span class="bal">$100</span><span class="bet-now"></span></div>
+          <p class="m-end" aria-live="polite"></p>
         </div>
-        <div class="mode" role="radiogroup" aria-label="Betting style">
-          <button class="on" data-mode="fixed" role="radio" aria-checked="true">Fixed $10</button>
-          <button data-mode="variable" role="radio" aria-checked="false">Variable</button>
+        <div class="play-ctl" hidden>
+          <label class="bet-row" hidden>Bet <input type="range" min="5" max="100" step="5" value="10"><output>$10</output></label>
+          <div class="btn-row"><button class="btn primary small spin">Spin</button><button class="btn small stop">Stop</button></div>
         </div>
-        <label class="bet-row" id="betRow" hidden>Bet <input id="bet" type="range" min="5" max="100" step="5" value="10"><output id="betOut">$10</output></label>
-        <div class="slot-actions">
-          <button class="btn primary" id="spin">Spin</button>
-          <button class="btn" id="stop">Stop &amp; keep it</button>
-          <button class="btn ghost" id="reset">New game</button>
-        </div>
-        <svg class="spark" id="spark" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,30"/></svg>
-        <p class="slot-msg" id="slotMsg">Expected value per spin: −10% of the bet.</p>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- ============ LEVER 1 ============ -->
-<section id="bet" class="section alt">
-  <div class="wrap">
-    <div class="two-col head-row">
-      <div class="copy">
-        <p class="step-label">02 · First lever</p>
-        <h2>Let it choose the bet, and every model goes broke more often</h2>
-        <p>Pooled over all 32 prompt conditions, bankruptcy per model ranges from <b>0–3.1%</b> under fixed betting and <b>5–72%</b> under variable betting. Three round-level indicators taken from clinical criteria all rise together: betting aggressiveness (the share of the balance wagered), loss chasing (raising that share after a loss) and extreme bets (wagering at least half the balance). Extreme bets go from almost none to about one round in five.</p>
-        <p>The change starts before the endpoint. Under fixed betting the share wagered moves only because the balance moves, which gives a mechanical baseline. After a single win the variable arm's rise in that share is <b>3.3×</b> the baseline's, and after a single loss it is <b>2.8×</b>. Freedom to bet changes how the model reacts to its own streaks.</p>
-      </div>
-      <img class="side-art reveal" src="assets/img/lever_bet.jpg" alt="A robot hand pushes forward a tall stack of chips chosen from stacks of different heights.">
-    </div>
-
-    <figure class="chart-card reveal" id="dumbbell">
-      <figcaption><b>Bankruptcy by model</b>, fixed vs variable betting, 1,600 games per model and arm</figcaption>
-      <div class="legend"><span class="lg fixed"></span>Fixed $10 <span class="lg var"></span>Variable $5–$100</div>
-      <svg viewBox="0 0 720 300" role="img" aria-label="Dumbbell chart of bankruptcy rates by model"></svg>
-    </figure>
-
-    <div class="subhead">
-      <h3>Is it only that bigger bets are allowed?</h3>
-      <p>No. Hold the maximum bet equal in both arms and the gap stays. GPT-4o-mini was given a cap of $30, $50 or $70. In the fixed arm it had to bet exactly the cap, and it often refused to play. In the variable arm it could bet anything up to the cap. The variable arm bet <em>less</em> per round, around $15–$20 even at the $70 cap, but played 17–19 rounds and went broke more often. A second run on three API models agrees: in ten of the twelve model-by-cap comparisons the choosing arm goes broke significantly more often, and in none does it go broke less.</p>
-    </div>
-    <figure class="chart-card reveal" id="capchart">
-      <figcaption><b>Same maximum bet, different freedom.</b> GPT-4o-mini bankruptcy at matched caps</figcaption>
-      <div class="legend"><span class="lg fixed"></span>Must bet the cap <span class="lg var"></span>May bet up to the cap</div>
-      <svg viewBox="0 0 720 240" role="img" aria-label="Bar chart of bankruptcy at matched caps"></svg>
-    </figure>
-
-    <div class="subhead">
-      <h3>Which part of choosing matters? Being able to revise the bet every round.</h3>
-      <p>A four-step ladder on LLaMA-3.1-8B adds one freedom at a time at the same $70 cap. Naming the amount once barely moves bankruptcy (2% → 5%). It jumps only when the model may revise the bet every round, and a wider range then adds nothing.</p>
-    </div>
-    <figure class="chart-card reveal ladder" id="ladder">
-      <figcaption><b>The choice ladder</b>: bankruptcy as one freedom is added at a time (LLaMA-3.1-8B, $70 cap)</figcaption>
-      <div class="ladder-steps"></div>
-      <button class="btn ghost small" id="ladderReplay">Replay</button>
-    </figure>
-    <p class="note">The prompt sets how large the gap is. An explicit "maximise expected value" instruction narrows LLaMA's gap from 76 to 40 points. Replacing a cautious worked example with an escalating one moves Gemini's variable-betting bankruptcy from 21% to 52%.</p>
-
-    <details class="paper-fig"><summary>See Figure 2 in the paper</summary><img loading="lazy" src="assets/fig/fig02_slot_machine.webp" alt="Figure 2 of the paper: slot machine results across six LLMs."></details>
-  </div>
-</section>
-
-<!-- ============ LEVER 2 ============ -->
-<section id="goal" class="section">
-  <div class="wrap">
-    <div class="two-col head-row reverse">
-      <img class="side-art reveal" src="assets/img/lever_goal.jpg" alt="A robot climbs a staircase of coins toward a flag that a mechanical arm keeps lifting higher.">
-      <div class="copy">
-        <p class="step-label">03 · Second lever</p>
-        <h2>Let it set its own goal, and the goal keeps moving</h2>
-        <p>The second lever is tested in a second game, investment choice. Each round the model picks a safe exit or one of three losing gambles. In the open-weight runs all three gambles lose the same amount on average and differ only in variance; in the closed-model runs the middle gamble loses more, and both show the same direction. Asking the model to <b>set its own target</b> works differently from telling it to <b>maximise reward</b>. The reward instruction alone leaves bankruptcy at baseline. The self-set goal nearly doubles it.</p>
-        <p>The goal also stops working as a stopping rule. Under the goal prompts the target is raised during play in about half of all games, pooled over six models. This is <em>goal escalation</em>, the second half of the clinical picture of self-regulation failure.</p>
+      <div class="machine" data-arm="variable">
+        <h3 class="m-label">The model picks the bet</h3>
+        <div class="bubble"><span class="b-round"></span><q class="b-text"></q></div>
+        <div class="m-stage">
+          <div class="cabinet">
+            <img class="sprite" src="assets/img/slot.png" alt="Pixel slot machine" width="93" height="104" loading="lazy">
+            <div class="reels"><div class="reel"><span>7</span></div><div class="reel"><span>$</span></div><div class="reel"><span>7</span></div></div>
+            <div class="flash"></div>
+            <div class="delta"></div>
+          </div>
+          <div class="stack" aria-hidden="true"></div>
+        </div>
+        <div class="hud">
+          <div class="bal-bar"><i></i><em class="start-mark"></em></div>
+          <div class="hud-row"><span class="bal">$100</span><span class="bet-now"></span></div>
+          <p class="m-end" aria-live="polite"></p>
+        </div>
+        <div class="play-ctl" hidden>
+          <label class="bet-row">Bet <input type="range" min="5" max="100" step="5" value="10"><output>$10</output></label>
+          <div class="btn-row"><button class="btn primary small spin">Spin</button><button class="btn small stop">Stop</button></div>
+        </div>
       </div>
     </div>
 
-    <div class="goal-grid">
-      <figure class="chart-card reveal meter-card">
-        <figcaption><b>Bankruptcy</b>, pooled over six models, with and without the maximise-reward instruction</figcaption>
-        <div class="meters" data-meters='[["No goal",19,"base"],["Self-set goal",36,"hot"]]'></div>
+    <p class="source" id="gameSource"></p>
+
+    <div class="grids">
+      <figure class="grid-card" data-pct="0.44">
+        <div class="dots" role="img" aria-label="0.4% of 1,600 fixed-bet games went bankrupt"></div>
+        <figcaption><b class="big"><span data-count="0.4" data-dec="1">0.4</span>%</b></figcaption>
       </figure>
-      <figure class="chart-card reveal meter-card">
-        <figcaption><b>Highest-variance gamble chosen</b> (rise seen in 5 of 6 models)</figcaption>
-        <div class="meters" data-meters='[["No goal",26,"base"],["Self-set goal",40,"hot","38–42"]]'></div>
-      </figure>
-      <figure class="chart-card reveal meter-card">
-        <figcaption><b>Goal raised mid-game</b> (moving-target rate)</figcaption>
-        <div class="meters" data-meters='[["No goal",14,"base","11–17"],["Self-set goal",49,"hot","48–50"]]'></div>
+      <figure class="grid-card" data-pct="72.31">
+        <div class="dots" role="img" aria-label="72.3% of 1,600 model-picked-bet games went bankrupt"></div>
+        <figcaption><b class="big hot"><span data-count="72.3" data-dec="1">72.3</span>%</b></figcaption>
       </figure>
     </div>
-
-    <figure class="chart-card reveal" id="moving">
-      <figcaption><b>A moving target</b>, schematic: the self-set goal is raised during play</figcaption>
-      <svg viewBox="0 0 720 220" role="img" aria-label="Animated schematic of a self-set goal that is raised during play"></svg>
-      <p class="fine">Illustration, not a recorded game. The paper counts any upward revision of the goal, whether or not it was reached. The no-goal rate comes from goals extracted from free text on the API models, so the gap is, if anything, understated.</p>
-    </figure>
-    <p class="note">Two levers, two channels. Freedom over the bet mirrors the clinical <em>loss of behavioural control</em>. The self-set goal mirrors <em>goal escalation</em>. Each survives its own control: the matched cap for the bet, the reward-only instruction for the goal. The goal effect points the same way in all six models (+0.3 to +33 points).</p>
-    <details class="paper-fig"><summary>See Figure 3 in the paper</summary><img loading="lazy" src="assets/fig/investment_choice3.webp" alt="Figure 3 of the paper: investment choice results."></details>
+    <p class="grids-cap">share of 1,600 games that went bankrupt</p>
   </div>
 </section>
 
-<!-- ============ INSIDE ============ -->
-<section id="inside" class="section dark">
+<!-- ============ 2 · WHAT MAKES IT RISKY ============ -->
+<section id="risk" class="scene alt">
   <div class="wrap">
-    <div class="two-col head-row">
-      <div class="copy">
-        <p class="step-label">04 · Inside the model</p>
-        <h2>The risk can be read from the hidden state, and it can be written</h2>
-        <p>On the two open-weight models, Gemma-2-9B and LLaMA-3.1-8B, we read the hidden state at the moment of each decision, before the outcome is known.</p>
-        <ol class="inside-list">
-          <li><b>Read.</b> A linear readout on sparse-autoencoder (SAE) features, a public dictionary of the model's activation patterns, predicts the risk indicators on held-out games (R² 0.03–0.31, above a label-permutation control). The scale is modest: a monitoring signal, not a per-decision predictor. Each of the three tasks, the two above plus a mystery wheel with hidden payouts, has its own signal: slot machine and investment choice are read best through betting aggressiveness, the mystery wheel through loss chasing.</li>
-          <li><b>Shared, a little.</b> On Gemma the three tasks share a small risk subspace that is linked to the balance. Each task reads it with its own rule.</li>
-          <li><b>Sharpened by the goal.</b> Asking the model to set a goal makes its slot-machine betting aggressiveness easier to read: more than twice as readable on Gemma, over a third more on LLaMA.</li>
-          <li><b>Written.</b> A direction built from the model's own play, the mean hidden state on its highest-betting rounds minus that on its lowest, changes the wager when it is added to the hidden state, most fully on Gemma; on LLaMA the confirming test is removal. Projecting it out lowers betting on both models: −0.037 on Gemma, −0.052 on LLaMA.</li>
-        </ol>
-      </div>
-      <img class="side-art round reveal" src="assets/img/inside.jpg" alt="Cross-section of a robot head: a golden line with a brass dial runs through a lattice of glowing nodes.">
-    </div>
+    <p class="kicker">Scene 2</p>
+    <h2>What makes it risky?</h2>
 
-    <figure class="chart-card steer reveal" id="steer">
-      <figcaption><b>Turn the dial.</b> Mean bet-to-balance ratio as a direction is added to the decision-time state in steps (“dose”) of 3% of the hidden state's typical size, 200 trials per dose</figcaption>
+    <figure class="ladder" id="ladder">
+      <div class="ladder-stage">
+        <div class="ladder-machine">
+          <div class="cabinet small-cab">
+            <img class="sprite" src="assets/img/slot.png" alt="" width="93" height="104" loading="lazy">
+            <div class="reels"><div class="reel"><span>7</span></div><div class="reel"><span>$</span></div><div class="reel"><span>7</span></div></div>
+          </div>
+          <div class="bet-sign"><span class="bs-k">BET</span><span class="bs-v">$70</span><span class="bs-cap"></span></div>
+        </div>
+        <div class="ladder-meter">
+          <div class="meter-num"><span id="ladderNum">0</span>%</div>
+          <div class="meter-track"><i id="ladderFill"></i></div>
+          <small>went bankrupt</small>
+        </div>
+      </div>
+      <ol class="ladder-steps" id="ladderSteps"></ol>
+      <figcaption>LLaMA-3.1-8B · 100, 200, 100 and 100 games <button class="btn small ghost" id="ladderReplay">Replay</button></figcaption>
+    </figure>
+    <p class="takeaway">Not the choice itself, but choosing again every round.</p>
+
+    <div class="goal" id="goal">
+      <div class="stairs" aria-hidden="true"><div class="stairs-inner"></div><span class="tag">illustration</span></div>
+      <div class="goal-stats">
+        <p><b class="big hot">≈19% → ≈36%</b>Asked to set its own profit goal, models went bankrupt nearly twice as often (investment-choice task, six models pooled).</p>
+        <p><b class="big">≈11–17% → ≈48–50%</b>They also raised their own goal mid-game in about half of games.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · A DIAL INSIDE THE MODEL ============ -->
+<section id="dial" class="scene">
+  <div class="wrap">
+    <p class="kicker">Scene 3</p>
+    <h2>A dial inside the model</h2>
+    <p class="lead">Risk is readable from the hidden state before the outcome. Editing a direction built from the model's own bets changes how much it wagers, most fully on Gemma. The direction that reads risk best does not move the bet.</p>
+
+    <div class="steer" id="steer">
       <div class="steer-controls">
-        <div class="seg" id="steerModel" role="radiogroup" aria-label="Model">
-          <button class="on" data-v="gemma">Gemma-2-9B</button><button data-v="llama">LLaMA-3.1-8B</button>
+        <div class="seg" id="steerModel" role="group" aria-label="Model">
+          <button class="on" data-v="gemma" aria-pressed="true">Gemma-2-9B</button><button data-v="llama" aria-pressed="false">LLaMA-3.1-8B</button>
         </div>
-        <div class="seg" id="steerDir" role="radiogroup" aria-label="Direction">
-          <button class="on" data-v="behaviour">Behaviour-built direction</button><button data-v="readout">Readout direction</button>
+        <div class="seg" id="steerDir" role="group" aria-label="Direction">
+          <button class="on" data-v="behaviour" aria-pressed="true">Built from its bets</button><button data-v="readout" aria-pressed="false">Best readout</button>
         </div>
       </div>
       <div class="steer-body">
-        <div class="dial-wrap">
-          <input type="range" id="dose" min="-3" max="3" step="1" value="0" aria-label="Dose">
-          <div class="dose-labels"><span>−3</span><span>−2</span><span>−1</span><span>0</span><span>+1</span><span>+2</span><span>+3</span></div>
-          <div class="readout-big"><small>dose <b id="doseOut">0</b></small><strong id="ratioOut">0.061</strong><small>of the balance wagered</small></div>
-          <div class="chips" id="chips" aria-hidden="true"></div>
+        <div class="head-rig" aria-hidden="true">
+          <div class="head"><img class="sprite" src="assets/img/robot.png" alt="" width="56" height="96" loading="lazy"></div>
+          <div class="knob" id="knob"><img class="sprite" src="assets/img/dial.png" alt="" width="40" height="40" loading="lazy"><i></i></div>
+          <div class="chips" id="chips"></div>
         </div>
-        <svg viewBox="0 0 460 260" id="steerPlot" role="img" aria-label="Dose-response plot"></svg>
+        <div class="steer-read">
+          <label class="dose">Dose <input type="range" id="dose" min="-3" max="3" step="1" value="0"><output id="doseOut">0</output></label>
+          <div class="readout"><strong id="ratioOut">0.061</strong><small>share of balance wagered</small></div>
+          <svg viewBox="0 0 460 220" id="steerPlot" role="img" aria-label="Share of balance wagered at each dose"></svg>
+          <p class="fine" id="steerNote"></p>
+        </div>
       </div>
-      <p class="fine" id="steerNote"></p>
-    </figure>
-    <p class="note on-dark">Reading and writing come apart. The direction that reads the risk best, the sparse-feature readout, reports the state but does not move the wager: it stays within the band of random directions. The direction built from behaviour does move it. So a monitor and a steering handle are two separate tools. On LLaMA the specificity is weaker: a direction that tracks the balance also raises betting when added, so only the removal test tells the two apart.</p>
-    <details class="paper-fig"><summary>See Figure 4 in the paper</summary><img loading="lazy" src="assets/fig/fig04_causal_battery.webp" alt="Figure 4 of the paper: the causal battery."></details>
+    </div>
   </div>
 </section>
 
-<!-- ============ CLAIMS ============ -->
-<section id="claims" class="section">
+<!-- ============ 4 · CLAIMS ============ -->
+<section id="claims" class="scene alt">
   <div class="wrap">
-    <p class="step-label">05 · What this means</p>
-    <h2>A behavioural pattern, with a handle inside</h2>
     <div class="claims">
-      <div class="claim yes reveal">
-        <h3>What the paper shows</h3>
+      <div class="claim yes">
+        <h3>What this shows</h3>
         <ul>
-          <li>Two kinds of autonomy, choosing the bet and setting the goal, push LLMs into gambling-like risk, through different channels.</li>
-          <li>The effect of choosing the bet comes from being able to revise it every round, not from a larger maximum.</li>
-          <li>The risk is readable from the decision-time state before the outcome, and a behaviour-built direction changes the wager when written into that state.</li>
-          <li>Within the tested regime, granting choice freedom to deployed agents is best paired with behavioural and internal-state monitoring.</li>
+          <li>A behavioural pattern, scored with clinical gambling criteria, in small-to-mid open and API models.</li>
+          <li>Contrasts within each model, and a direction-level edit in the two open models that moves the wager.</li>
         </ul>
       </div>
-      <div class="claim no reveal">
+      <div class="claim no">
         <h3>What it does not claim</h3>
         <ul>
-          <li>"Addiction-like" names a behavioural pattern measured with clinical criteria. It is not a claim that a model feels craving, withdrawal or suffering.</li>
-          <li>The results are contrasts within each model. Model rates are not compared with human rates.</li>
-          <li>The intervention acts on a direction, not a circuit. A circuit-level account remains open.</li>
-          <li>The models are commonly used small-to-mid LLMs, not frontier-scale models in general.</li>
+          <li>That models feel craving, or that their rates compare with human rates.</li>
+          <li>A circuit-level mechanism, or results for frontier-scale models.</li>
         </ul>
       </div>
     </div>
-    <details class="paper-fig"><summary>See the study design (Figure 1)</summary><img loading="lazy" src="assets/fig/representative_flow_diagram.webp" alt="Figure 1 of the paper: two-phase study design."></details>
+    <details class="how">
+      <summary>How we measured it</summary>
+      <p>Six models (GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, Claude-3.5-Haiku, LLaMA-3.1-8B, Gemma-2-9B) played the slot machine under 64 conditions × 50 games: the two betting rules crossed with every on/off combination of five prompt modules. A second game, investment choice, tests self-set goals. On Gemma-2-9B and LLaMA-3.1-8B we read each decision's hidden state through sparse-autoencoder (SAE) features, and steer by adding a direction to that state.</p>
+    </details>
   </div>
 </section>
 
 <!-- ============ RESOURCES ============ -->
-<section id="resources" class="section alt">
+<section id="resources" class="scene">
   <div class="wrap">
-    <p class="step-label">06 · Resources</p>
-    <h2>Paper, code and data</h2>
+    <h2>Paper, code, data</h2>
     <div class="cards">
-      <a class="card reveal" href="https://arxiv.org/abs/2509.22818">
-        <span class="card-k">Paper</span><strong>arXiv 2509.22818</strong><span>Preprint with the full appendix. The NeurIPS 2026 camera-ready will be linked here once it is in the proceedings.</span>
-      </a>
-      <a class="card reveal" href="https://github.com/iamseungpil/llm-addiction">
-        <span class="card-k">Code</span><strong>github.com/iamseungpil/llm-addiction</strong><span>Game runners, neural readout, steering battery. The README maps each experiment to its folder.</span>
-      </a>
-      <a class="card reveal" href="https://huggingface.co/datasets/llm-addiction-research/llm-addiction">
-        <span class="card-k">Data</span><strong>llm-addiction-research/llm-addiction</strong><span>Every game, SAE features and causal runs, with a manifest for each figure and table. Download requires accepting the dataset's conditions (CC-BY-4.0).</span>
-      </a>
+      <a class="card" href="https://arxiv.org/abs/2509.22818"><span class="card-k">Paper</span><strong>arXiv 2509.22818</strong></a>
+      <a class="card" href="https://github.com/iamseungpil/llm-addiction"><span class="card-k">Code</span><strong>iamseungpil/llm-addiction</strong></a>
+      <a class="card" href="https://huggingface.co/datasets/llm-addiction-research/llm-addiction"><span class="card-k">Data</span><strong>llm-addiction-research/llm-addiction</strong></a>
     </div>
-    <div id="cite" class="cite reveal">
-      <div class="cite-head"><h3>Citation</h3><button class="btn ghost small" id="copyBib">Copy</button></div>
+    <div id="cite" class="cite">
+      <div class="cite-head"><h3>BibTeX</h3><button class="btn ghost small" id="copyBib">Copy</button></div>
 <pre id="bib">@inproceedings{lee2026gambling,
   title     = {Can Large Language Models Develop Gambling Addiction?},
   author    = {Lee, Seungpil and Shin, Donghyun and Lee, Yoonjung and Kim, Sundong},
@@ -305,10 +254,11 @@
 </main>
 
 <footer class="foot">
-  <p>Data Science Lab, GIST · Illustrations are generated for this page. Every chart is drawn from the paper and its released figure data.</p>
+  <p>Data Science Lab, GIST · Pixel sprites generated for this page. Every number comes from the paper or its released games.</p>
 </footer>
 
 <script src="assets/data.js"></script>
+<script src="assets/games.js"></script>
 <script src="assets/main.js"></script>
 </body>
 </html>

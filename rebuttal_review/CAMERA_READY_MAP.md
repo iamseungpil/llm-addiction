@@ -9,6 +9,19 @@ Sources: the three reviewer replies (`post/kuk5_rebuttal.md`, `post/gbsa_rebutta
 
 **Summary: 33 promises. 20 Done, 10 Partial, 3 Not done.**
 
+## Update, 2026-09-26 (after a data audit of every number added for the camera-ready)
+
+These changes move rows below; the rows keep their original wording, so read them with this list.
+
+| Row | What changed in the paper |
+|---|---|
+| 8 (95% intervals) | New appendix Table `tab:appendix-diff-intervals` gives 95% intervals on every condition **difference** behind Fig. 2 (per model; indicators) and Fig. 3 (goal − no-goal pooled, API and open-weight separately; per-model goal deltas; Fig. 3d mean; GPT-4o-mini matched cap). Fig. 2 and Fig. 3 captions point to it. Finding 9 now prints removal intervals and exact sign-test p. Table 1 permutation p is written as the floor $p\le.005$. §3.4's bare "p<0.05" is replaced by the named test and $q<10^{-20}$. Still missing: an interval on the Table 3 ΔG difference. Status: Partial → mostly Done. |
+| 9, 12 (matched cap) | Finding 4's GPT-4o-mini run now uses all 1,600 variable games per cap (the earlier text read only the restart files, ~1,290): variable bankruptcy ~15/16/18%, 17–20 rounds. The three-API run is disclosed as carrying the role sentence. |
+| 15–17 (ladder, rationality, worked example) | The ladder runs carry no role sentence (disclosed); they supply LLaMA's missing no-role cell (gap +83 pp). Gemma without the frame enters 2 and 14 of 100 games and never ruins. The worked-example API cells carry the role sentence (disclosed). The factorial caption's parser audit is corrected to 0.063% (8 of 12,694 decisions) over the printed cells; the old 0.249% included quarantined files. |
+| 21–22 (language markers) | The hidden-pattern module filter now excludes each corpus's own label (H for LLaMA, R for the other five); pattern-search rises in 4 of 6 models at decision level. Loss chasing: per game, up under variable betting in 5 of 6 and under the goal prompt in 6 of 6 (BH $q<10^{-20}$); on post-loss decisions, goal rise in 4 of 6. Figure 9 regenerated. |
+| 25–27 (moving target) | §2 now defines the rate as raising the self-set goal **during play**, which is what the code counts; the rebuttal's "after meeting it" repeated the submitted wording. The strict after-reaching rule (2.24×) stays in App. G.6. Fig. 3a–c pools 10-round API games with 100-round open-weight games; this is now stated, and the goal effect on bankruptcy is attributed to the API runs. |
+| 29 (steering) | Random-direction band recomputed from complete files: z 4.42 (was 4.45), readout +0.76, balance +0.65; Figure 4 regenerated. Verdicts unchanged. |
+
 ## A. Promise-by-promise map
 
 | # | Reviewer / item | What we promised (rebuttal quote) | Where in the camera-ready | How it is reflected | Status |

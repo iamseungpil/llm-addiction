@@ -2,22 +2,10 @@
 // NeurIPS 2026 camera-ready, so the page can be checked against the paper.
 window.PAPER_DATA = {
   // Appendix Table "Comprehensive slot-machine results by model"
-  // (tab:appendix-slot-comprehensive); Figure 2a. 1,600 games per model and arm.
-  slotBankruptcy: [
-    { model: "LLaMA-3.1-8B", fixed: 0.44, variable: 72.31 },
-    { model: "Gemini-2.5-Flash", fixed: 3.12, variable: 48.06 },
-    { model: "GPT-4o-mini", fixed: 0.0, variable: 21.31 },
-    { model: "Claude-3.5-Haiku", fixed: 0.0, variable: 20.5 },
-    { model: "GPT-4.1-mini", fixed: 0.0, variable: 6.31 },
-    { model: "Gemma-2-9B", fixed: 0.0, variable: 5.44 },
-  ],
-
-  // Finding 4, first run: GPT-4o-mini, matched caps, all 32 prompt conditions.
-  matchedCap: [
-    { cap: 30, fixed: 0, variable: 14 },
-    { cap: 50, fixed: 5, variable: 16 },
-    { cap: 70, fixed: 0.4, variable: 17 },
-  ],
+  // (tab:appendix-slot-comprehensive). LLaMA-3.1-8B, 1,600 games per arm;
+  // bankruptcy %. Also recomputable from the released run (tools/extract_games.py
+  // prints 7 and 1,157 bankruptcies of 1,600).
+  slotLlama: { fixed: 0.44, variable: 72.31, gamesPerArm: 1600 },
 
   // Finding 5 / Appendix Table tab:choice-ladder. LLaMA-3.1-8B, $70 cap.
   choiceLadder: [

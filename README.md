@@ -71,7 +71,7 @@ relative to the root of the Hugging Face dataset.
 | Slot machine, six models | Does choosing the bet size raise bankruptcy? | F1–F2, Fig. 2; `tab:appendix-slot-comprehensive` | `paper_experiments/slot_machine_6models/` | `src/llama_gemma_experiment.py` (LLaMA, Gemma); `src/run_gpt5_experiment.py` (GPT-4.1-mini); `src/run_claude_experiment.py`; `src/run_gemini_experiment.py` | `behavioral/slot_machine/{llama,gemma}_v4_role/`; `slot_machine/{gpt,claude,gemini}/`; `analysis/gpt_results_fixed_parsing/` (GPT-4o-mini) |
 | Investment choice | Does a self-set goal change risk preference? | F3–F4, Fig. 3a–c; `tab:appendix-investment-comprehensive` | API models: `paper_experiments/investment_choice_experiment/`, `paper_experiments/investment_choice_extended_cot/`. Open-weight: `exploratory_experiments/alternative_paradigms/src/investment_choice/` | API: `investment_choice_extended_cot/src/run_experiment.py` (same code as `investment_choice_experiment/src/src/`); open-weight: `run_experiment.py` in the folder named. See the note below the table | `investment_choice/bet_constraint/`; `investment_choice/bet_constraint_cot/`; `behavioral/investment_choice/v2_role_{llama,gemma}/` |
 | Matched cap, GPT-4o-mini | Is the bet effect the freedom to choose or the larger range? | F4 (first run) | `paper_experiments/sm_cap_ablation/` | `src/gpt_fixed_bet_size_experiment.py`; `src/gpt_variable_max_bet_experiment.py` | `analysis/fixed_variable_comparison/` |
-| Matched cap, three API models | Does the matched-cap result hold beyond one model? | F4 (second run), Fig. 3d; `fig:matched-cap-forest`, `tab:matched-cap-intervals`, `tab:matched-cap-companion` | `paper_experiments/track0_w3_replication/` | `src/run_track0_api.py`; driver `src/run_mc_ladder.sh` | `rebuttal_neurips_2026/matched_cap_mc32/` |
+| Matched cap, three API models | Does the matched-cap result hold beyond one model? | F4 (second run), Fig. 3d; Appendix Figure 18, `tab:matched-cap-intervals`, `tab:matched-cap-companion` | `paper_experiments/track0_w3_replication/` | `src/run_track0_api.py`; driver `src/run_mc_ladder.sh` | `rebuttal_neurips_2026/matched_cap_mc32/` |
 | Choice ladder | Which part of choosing matters: choosing once, revising each round, or a wider cap? | F5; `tab:choice-ladder` | `paper_experiments/e8_constraint_choice/` | `src/run_e8.py` | `rebuttal_neurips_2026/policy_choice_ladder_e8/` |
 | Role framing × rationality instruction; worked example | Is the gap role-play or instruction following? Can one example move it? | F5; `tab:e7-per-model`, `tab:worked-example-intervals` | `paper_experiments/e7_factorial/` | `src/run_e7.py` | `rebuttal_neurips_2026/framing_rationality_factorial_e7/`; `rebuttal_neurips_2026/in_context_demo_{api,open_weight,open_weight_persona}/` |
 | Game-log baseline and audits | Does the internal state add information beyond the game log? Is ruin higher at the same cumulative stake? Do the language findings survive other codebooks? | Appendix: `tab:added-controls`, `tab:exposure-matched`, `tab:convergent-codebook`, `tab:instrument-robustness`, moving-target sensitivity | `paper_experiments/e2_coding/` | `src/nested_baseline.py`; `src/exposure_matched.py`; `src/multi_instrument_robustness.py`; `src/moving_target_paper_metric.py` | `rebuttal_neurips_2026/nested_baseline_and_audits_e2/` |
@@ -94,7 +94,7 @@ Notes on the table:
   API data (`bet_constraint`, `bet_constraint_cot`) are in `legacy/investment_choice_bet_constraint/src/`
   and `legacy/investment_choice_bet_constraint_cot/src/`. The 100-round version is
   `investment_choice_extended_cot/src/` (released as `investment_choice/extended_cot/`). The
-  dataset's `MANIFEST.md` names the files behind each panel of Figure 3.
+  dataset's `paper_neurips_2026/camera_ready/paper_index/` names the files behind each panel of Figure 3.
 - The folders that answer questions raised after submission (matched cap on three API models,
   choice ladder, framing factorial, audits) are the "additional controls" of the paper's appendix.
   Their data sits under `rebuttal_neurips_2026/` on the dataset.
@@ -112,17 +112,17 @@ snapshot_download(
     "llm-addiction-research/llm-addiction",
     repo_type="dataset",
     local_dir="data",
-    allow_patterns=["slot_machine/*", "behavioral/*", "MANIFEST.md"],
+    allow_patterns=["behavioral/*", "paper_neurips_2026/camera_ready/paper_index/*"],
 )
 ```
 
 The full dataset is large: `sae_features_v3/` alone holds hidden-state files of tens of GB. The
-dataset's `MANIFEST.md` maps each figure and table to its files.
+dataset's `paper_neurips_2026/camera_ready/paper_index/` holds one manifest per figure and table, naming its files.
 
 ## Setup
 
 - **Python 3.10 or 3.11.** The cloud jobs ran on images with Python 3.10, PyTorch 2.7–2.8 and CUDA
-  12.6; the HPC environment described in `CLAUDE.md` used Python 3.11.
+  12.6; the HPC runs used Python 3.11.
 - **No requirements file.** The packages the code imports are:
 
   ```bash
@@ -179,7 +179,7 @@ private. They can be regenerated from the Hugging Face data:
 
 - the dataset's `paper_neurips_2026/camera_ready/` holds the figure and table scripts (`scripts/`),
   one index file per figure and table (`paper_index/`) and `PAPER_ASSET_MAP.md`;
-- the dataset's `MANIFEST.md` maps each paper element to the files behind it.
+- the dataset card says which of its older maps (`MANIFEST.md`, `DATA_README.md`) are historical.
 
 In this repository, [`PAPER_CANONICAL_CODE.md`](PAPER_CANONICAL_CODE.md) (figure → code → data) and
 [`MANIFEST.md`](MANIFEST.md) (paper claim → file) are earlier maps. Use them with care: they use

@@ -1,3 +1,8 @@
+> **For the paper.** Figure 3(d) and the matched-cap run on three API models (Finding 4) come from
+> `src/run_mc_ladder.sh`, which drives `src/run_track0_api.py`; the data are on Hugging Face at
+> `rebuttal_neurips_2026/matched_cap_mc32/`. The planning notes below describe the wider design
+> this folder started from, and absolute paths in them refer to the original cluster.
+
 # Track 0 — W3 Cross-Model Matched-Cap Replication
 
 ## Intent

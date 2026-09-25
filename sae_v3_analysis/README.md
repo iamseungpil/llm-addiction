@@ -1,3 +1,10 @@
+> **For the paper.** Table 1 (readout) and Table 3 (condition modulation) come from
+> `src/run_groupkfold_recompute.py` (permutation null: `src/run_table1_perm_null.py`); Table 2
+> (cross-task sharing) from `src/cross_domain.py`. Results are on Hugging Face under
+> `sae_v3_analysis/results/`. The steering scripts named below (v12/v14/v16) are superseded by the
+> Figure 4 battery in `multilayer_causal/`; the dataset keeps them under `legacy/` as do-not-cite.
+> Absolute paths below refer to the original cluster. See the [top-level README](../README.md).
+
 # SAE V3 Analysis
 
 This directory is the main analysis workspace for the SAE-based gambling experiments used by the paper and follow-up robustness work.

@@ -16,7 +16,7 @@ on Gemma-2-9B and LLaMA-3.1-8B.
 
 - **[`INDEX.md`](INDEX.md)** is the wave-by-wave log: one entry per wave with its config, key
   numbers and verdict. Read it first.
-- Each wave is one config in `../../configs/arms_sec4_*.yaml` (`p0`, `w2` … `w14`, `rawridge`).
+- Each wave is one config in `../../configs/arms_sec4_*.yaml` (`p0`, `w2` … `w9`, `w10a`, `w10b`, `w11ic`, `w11mw`, `w13`, `w14`, `rawridge`).
 - The harness is `../../run_experiment.py`, which calls `../../src/runner.py`. The directions are
   built in `../../src/indicator_axes.py`.
 

@@ -1,3 +1,7 @@
+> **Reading note.** This is the working log of the Figure 4 causal battery, kept as it was written.
+> Where the ledger table at the top and the wave entries below disagree, the wave entries are the
+> later record. For what the paper reports, start from the [README](README.md) in this folder.
+
 # §4 Causal-Strengthening — Rung Ledger
 
 Pre-registered causal study (design: `docs/specs/2026-07-05-section4-causal-unified-design.md`;

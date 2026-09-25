@@ -14,8 +14,8 @@ Nothing is ever deleted here. Files that turn out to be wrong are kept and label
 
 The HF dataset `llm-addiction-research/llm-addiction` also has a top-level `legacy/`,
 and **there the word does mean retired and do-not-cite**: `v12_steering_invalidated/`,
-`v14_steering/`, `v16_steering/`, `v17_leaky_pipeline/`, `pre_groupkfold_sweep/`. Every
-directory there carries a `README.md` and a `DEPRECATION_WARNING.md` saying so. The
+`v14_steering/`, `v16_steering/`, `v17_leaky_pipeline/`, `pre_groupkfold_sweep/`. The
+dataset card lists them in its historical table. The
 label files for that tree are staged in this repository at
 [`../sae_v3_analysis/release_labels/legacy/`](../sae_v3_analysis/release_labels/legacy/).
 
@@ -37,5 +37,5 @@ permissive one.
 ## If you are about to cite something from here
 
 1. Check `../PAPER_CANONICAL_CODE.md` for the figure-to-code map.
-2. Check `NEURIPS_CANONICAL_INDEX.md` §5 (in the paper repo) for the do-not-cite list.
+2. Check the historical table in the Hugging Face dataset card for the do-not-cite list.
 3. Where a README and an executable generator disagree, the generator decides.

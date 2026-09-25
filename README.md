@@ -5,7 +5,7 @@ Seungpil Lee, Donghyun Shin, Yoonjung Lee, Sundong Kim · Gwangju Institute of S
 **[Paper](https://arxiv.org/abs/2509.22818)** · **[Project page](https://llm-addiction.pages.dev)** · **[Data](https://huggingface.co/datasets/llm-addiction-research/llm-addiction)**
 
 <p align="center">
-  <img src="site/assets/img/hero.jpg" alt="Illustration of a language model at a slot machine" width="720">
+  <img src="site/assets/img/og.jpg" alt="Project page share card: a pixel robot at a slot machine" width="720">
   <br><sub>Illustration from the project page. It shows no data.</sub>
 </p>
 

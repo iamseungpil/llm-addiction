@@ -1,3 +1,7 @@
+> **Not cited in the NeurIPS 2026 paper.** An earlier draft presented the activation-patching results
+> below as causal evidence; that claim was withdrawn. The paper's neural results come from
+> `sae_v3_analysis/` and `multilayer_causal/`; see the [top-level README](../../README.md#experiments).
+
 # LLaMA SAE Analysis
 
 ## 🔬 Paper Section 4: "Mechanistic Causes of Risk-Taking Behavior in LLMs"

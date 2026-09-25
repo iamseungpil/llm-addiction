@@ -1,3 +1,7 @@
+> **Out of date.** This page describes the ICLR 2026 layout and lists only four of the folders here.
+> For the camera-ready paper (NeurIPS 2026, Findings 1–9) and the status of every folder, see the
+> [top-level README](../README.md#experiments).
+
 # Paper Experiments - ICLR 2026 Submission
 
 > Archive note: this directory reflects an older paper-specific organization

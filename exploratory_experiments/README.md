@@ -1,3 +1,7 @@
+> **Two runners here produced paper data despite the folder name:** `alternative_paradigms/src/investment_choice/run_experiment.py`
+> (open-weight investment choice, Findings 3–4) and `alternative_paradigms/src/mystery_wheel/run_experiment.py`
+> (mystery wheel, used in the neural analyses). The rest is not cited; see the [top-level README](../README.md#experiments).
+
 # Exploratory Experiments
 
 This directory contains experiments that were **not directly included in the main paper** ("Can Large Language Models Develop Gambling Addiction?"). These experiments were conducted for:

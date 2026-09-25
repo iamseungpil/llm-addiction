@@ -1,3 +1,7 @@
+> **This page describes the E1–E3 pilot.** The Figure 4 steering and removal battery (Finding 9) uses the
+> same harness with `configs/arms_sec4_*.yaml`; see [`experiments/sec4_causal/README.md`](experiments/sec4_causal/README.md)
+> and its wave log [`INDEX.md`](experiments/sec4_causal/INDEX.md). Repository map: [top-level README](../README.md).
+
 # multilayer_causal — Multi-Layer Causal Intervention (E1→E2→E3)
 
 Follow-up to the M3/M3′/M3″ single-layer causal nulls: where (E1), at what rank

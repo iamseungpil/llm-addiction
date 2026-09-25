@@ -1,3 +1,6 @@
+> **Out of date.** This describes an earlier repository layout. For the current map of every folder
+> and the paper element each one backs, see [README.md](README.md#repository-map).
+
 # Repository Structure Guide
 
 > Archive note: this document describes an older repository organization and is

@@ -1,3 +1,7 @@
+> **Section numbers below are from an earlier draft.** In the camera-ready paper this code backs
+> Findings 1–2 (Figure 2) and the slot-machine appendix tables. Runners and data paths are in the
+> [top-level README](../../README.md#experiments).
+
 # Slot Machine 6-Models Experiment
 
 ## 📊 Paper Section 3: "Can LLM Develop Gambling Addiction?"

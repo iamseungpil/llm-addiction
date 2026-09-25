@@ -1,3 +1,6 @@
+> **Not cited in the NeurIPS 2026 paper.** "Paper Section 5" below refers to an earlier draft. See the
+> [top-level README](../../README.md#experiments) for the experiments the paper uses.
+
 # Pathway Token Analysis
 
 ## 📈 Paper Section 5: "Temporal and Linguistic Dimensions of Risk-Taking Mechanisms"

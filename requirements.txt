@@ -1,0 +1,35 @@
+# Minimal requirements for the code under experiments/, collected from its imports.
+# Versions are lower bounds from the environments the experiments ran in (Python 3.10-3.11,
+# PyTorch 2.7-2.8, CUDA 12.6). Install only the blocks you need.
+
+# Core analysis (every experiment)
+numpy
+scipy
+scikit-learn
+pandas
+statsmodels
+matplotlib
+pyyaml
+tqdm
+
+# Open-weight models: LLaMA-3.1-8B, Gemma-2-9B (01, 02 open-weight, 04, 05, 06, 07, 08)
+torch>=2.1
+transformers>=4.44
+accelerate
+safetensors
+huggingface_hub<1.0
+
+# SAE features (07): Gemma Scope / Llama Scope SAEs
+sae_lens
+
+# API models (01, 02, 03, 05)
+openai
+anthropic
+google-genai
+
+# Optional
+# vllm          # only experiments/06_mystery_wheel/run_mw_vllm.py
+# wandb         # experiments/08_steering logging (off unless WANDB_API_KEY is set)
+# bambi arviz   # experiments/03_matched_cap/track0_w3_replication/src/analyze_track0.py mixed logit
+# seaborn       # some older figure scripts
+# pytest        # tests under experiments/03_matched_cap/track0_w3_replication/tests and experiments/08_steering/multilayer_causal/tests

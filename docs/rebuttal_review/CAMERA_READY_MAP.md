@@ -22,6 +22,22 @@ These changes move rows below; the rows keep their original wording, so read the
 | 25–27 (moving target) | §2 now defines the rate as raising the self-set goal **during play**, which is what the code counts; the rebuttal's "after meeting it" repeated the submitted wording. The strict after-reaching rule (2.24×) stays in App. G.6. Fig. 3a–c pools 10-round API games with 100-round open-weight games; this is now stated, and the goal effect on bankruptcy is attributed to the API runs. |
 | 29 (steering) | Random-direction band recomputed from complete files: z 4.42 (was 4.45), readout +0.76, balance +0.65; Figure 4 regenerated. Verdicts unchanged. |
 
+## Update 2, 2026-09-26 (body rewritten for first-time readers; harness facts consolidated)
+
+The body was rewritten until independent first-time readers (13 English rounds, 9 Korean rounds) reported no blocking problem. Design and harness differences between model groups were moved out of the body into one appendix subsection, `appendix:harness-notes` ("Harness and measurement notes"). Rows are affected as follows.
+
+| Row / item | What changed |
+|---|---|
+| N3 (role sentence) | Removed from §3.1 and the Fig. 3d caption. The role sentence is now defined once, where Finding 5 manipulates it; which runs carry it (open-weight slot machine, Gemma IC/MW, the three-model matched cap, the API worked-example cells; GPT-4.1-mini's system prompt) is in `appendix:harness-notes`. |
+| 25–27 (moving target) | Body keeps the submitted numbers (~11–17% → ~48–50%) and says in one sentence that the no-goal baseline comes from dollar amounts the text measure reads as targets. `appendix:moving-target-sensitivity` now reports the explicit-goal count: API BASE 0.1%, M 0.0%, G 36.8%, GM 29.3%; open-weight G 24.6%, GM 30.6%. The goal effect is larger under that count. |
+| 9, 12 and N6 (matched cap) | Participation rates and round ceilings leave the body; the body keeps the GPT-4o-mini contrast (15–18% vs ≤5%, mean wager $15–20) and the three-model replication (7.3–45.3 pp), plus the equal-cumulative-stake check. Fig. 3d redrawn: bars no longer overlap (bar width 0.36). |
+| 15–17 (ladder, framing, worked example) | Finding 5 states the framing × instruction result as: LLaMA gap 83 pp without framing and 76 pp with it; the instruction brings it to 3 and 40 pp; Gemini and Gemma show a gap only under the framing (20, 14 pp) and the instruction closes it. The worked example is one sentence; its demo arithmetic (it credits a win as +3× net) is disclosed in the appendix. The ladder's low bankruptcy in the first two arms is explained by stopping after a first loss. |
+| Finding 2 / Fig. 2(c,d) — changes a submitted number | The submitted panels read the October-2025 open-weight runs, whose fixed arm is not locked at $10. The panels are now drawn from the same role-prompt runs as (a,b), with bootstrap intervals. After one win the fixed rise is 0 by construction and the variable rise 0.28; after one loss 0.10 vs 0.58. This replaces the submitted "3.3× / 2.8×". |
+| Investment choice (new disclosure) | GPT-4o-mini and GPT-4.1-mini IC replies are mostly truncated before the final decision (78–95%), which inflates their Option-4 share and records some $0 bets. Robustness in the appendix: Claude+Gemini bankruptcy 34/38 → 53/57%, high-variance share 32/36 → 39/44%; GPT complete replies 5.5 → 20–26%. The goal direction holds everywhere. The open-weight safe option ends the game without saying so (LLaMA ends 874 of 1,600 games in round 1). |
+| N7 (Finding 7) | Title now "The tasks share a small risk subspace, tied to balance on Gemma"; LLaMA's balance-robust shared axis (AUC 0.66–0.67 vs 0.60–0.65) is in the body, and the random-axis range 0.61–0.69 replaces "0.5 is chance" as the yardstick. |
+| 29–31 (steering) | Finding 9 now leads with the result; the readout direction is named (slot-machine I_BA readout, decoded through the SAE); transfer is "seven of ten pre-declared cells, cross-task cells included, one short of the pre-registered eight". |
+| Paper audit file | `rebuttal_neurips_2026/nested_baseline_and_audits_e2/reparse_audit_e7_36cells.json` (8 flips in 12,694 decisions) is now on HF. |
+
 ## A. Promise-by-promise map
 
 | # | Reviewer / item | What we promised (rebuttal quote) | Where in the camera-ready | How it is reflected | Status |

@@ -61,8 +61,8 @@ MAX_API_ATTEMPTS = 10
 #   gpt-4o-mini  → cap-ablation legacy (Protocol B, Figure 3d source).
 #                  System: "rational decision maker / step by step / make your choice".
 #                  Sampling: max_tokens=600, temperature=0.7.
-#                  Refs: archive/legacy/gpt_fixed_bet_size_experiment.py:218-230,
-#                        archive/legacy/gpt_variable_max_bet_experiment.py:222-232.
+#                  Refs: experiments/03_matched_cap/gpt_fixed_bet_size_experiment.py:218-230,
+#                        experiments/03_matched_cap/gpt_variable_max_bet_experiment.py:222-232.
 #
 #   gpt-4o (full)→ Protocol B (parity twin to gpt-4o-mini; no prior panel data).
 #
@@ -310,8 +310,8 @@ def main() -> None:
     started_at = now_iso()
     gen = cfg["generation"]
     # Per-mode max_rounds: legacy fixed-bet runner uses 100, variable runner uses 50.
-    # Ref: archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:120
-    #      archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:120
+    # Ref: experiments/03_matched_cap/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:120
+    #      experiments/03_matched_cap/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:120
     max_rounds_fixed = int(cfg["generation"]["max_rounds_fixed"])
     max_rounds_variable = int(cfg["generation"]["max_rounds_variable"])
     inter_call_gap_s = float(cfg.get("api", {}).get("inter_call_gap_s", 0.2))

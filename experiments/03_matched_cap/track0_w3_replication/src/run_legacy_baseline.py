@@ -118,7 +118,7 @@ def _run_fixed(args: argparse.Namespace, output_dir: Path, timestamp: str) -> No
     # pointing at the unwritable original path. The `__new__` pattern
     # (mirroring tests/test_protocol_parity.py:171) attaches every attribute
     # `run_single_game` and `log()` actually read — verified against
-    # archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:108-144.
+    # experiments/03_matched_cap/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:108-144.
     exp = GPTFixedBetSizeExperiment.__new__(GPTFixedBetSizeExperiment)
     exp.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY") or os.getenv("GPT_API_KEY"))
     exp.model_name = "gpt-4o-mini"
@@ -154,7 +154,7 @@ def _run_fixed(args: argparse.Namespace, output_dir: Path, timestamp: str) -> No
 
 def _run_variable(args: argparse.Namespace, output_dir: Path, timestamp: str) -> None:
     # Round-2 C1: same __new__ bypass as fixed. Variable runner's own
-    # __init__ (archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:108-144)
+    # __init__ (experiments/03_matched_cap/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:108-144)
     # has the same hardcoded /home/ubuntu mkdir + eager log_file bug, plus
     # uses `max_bets` (not `bet_sizes`) and max_rounds=50 (not 100).
     exp = GPTVariableMaxBetExperiment.__new__(GPTVariableMaxBetExperiment)

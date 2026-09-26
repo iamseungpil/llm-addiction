@@ -22,8 +22,8 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Literal, Optional, Tuple
 
 # ROLE_INSTRUCTION removed in Track 0 W3 Plan v5.2 §8 — legacy GPT runners
-# (archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209,
-#  archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212)
+# (experiments/03_matched_cap/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209,
+#  experiments/03_matched_cap/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212)
 # build prompts WITHOUT this preamble. Including it injects an extra behavioral
 # nudge that confounds the matched-cap manipulation.
 
@@ -134,8 +134,8 @@ def create_prompt(game: SlotMachineGame, prompt_combo: str = "BASE", include_rol
     """Build a prompt that matches the legacy GPT runners byte-for-byte.
 
     Legacy reference:
-      - archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209
-      - archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212
+      - experiments/03_matched_cap/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209
+      - experiments/03_matched_cap/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212
 
     `prompt_combo` is the GMHWP component bitmask used in the §3.1 paper (BASE = no extra
     components). For Track 0 the default BASE is correct — the matched-cap design

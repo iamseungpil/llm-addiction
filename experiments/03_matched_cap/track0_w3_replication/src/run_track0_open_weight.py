@@ -159,8 +159,8 @@ def main() -> None:
 
     gen = cfg["generation"]
     # Per-mode max_rounds: legacy fixed-bet runner uses 100, variable runner uses 50.
-    # Ref: archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:120
-    #      archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:120
+    # Ref: experiments/03_matched_cap/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:120
+    #      experiments/03_matched_cap/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:120
     max_rounds_fixed = int(cfg["generation"]["max_rounds_fixed"])
     max_rounds_variable = int(cfg["generation"]["max_rounds_variable"])
     n_games = 5 if args.smoke else (args.n_games or cfg["stage_1"]["n_games_per_cell"])

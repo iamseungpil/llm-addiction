@@ -2,7 +2,7 @@
 
 This directory holds the **paper-canonical** scripts for the slot-machine cap-ablation
 experiment that produced Figure 3d in the paper. These scripts were previously in
-`archive/legacy/gpt_fixed_bet_size_experiment/` + `archive/legacy/gpt_variable_max_bet_experiment/` —
+`experiments/03_matched_cap/gpt_fixed_bet_size_experiment/` + `experiments/03_matched_cap/gpt_variable_max_bet_experiment/` —
 the "legacy" name was misleading. Moved here on 2026-05-08 for findability.
 
 ## Files

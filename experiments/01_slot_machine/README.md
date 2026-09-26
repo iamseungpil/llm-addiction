@@ -47,7 +47,7 @@ running elsewhere.
 | `src/llama_gemma_experiment.py` | LLaMA / Gemma runner with the role sentence; produced the `*_v4_role` corpora (Figure 2a–b) |
 | `src/run_gpt5_experiment.py`, `src/run_claude_experiment.py`, `src/run_gemini_experiment.py` | Later copies of the three API runners in `original_api_runners/`. They play the same game with the same parser; they label the hidden-pattern module `H` where the originals (and the released files) write `R`, and the GPT copy has clearer names and messages |
 | `original_api_runners/` | The runners that actually produced the released API exports: `gpt_experiments/src/gpt_fixed_parsing_experiment.py` (GPT-4o-mini), `gpt5_experiment/run_gpt5_experiment.py` (GPT-4.1-mini), `claude_experiment/run_claude_experiment.py`, `gemini_experiment/run_gemini_experiment.py`, each with the analysis scripts of the time |
-| `experiment_0_llama_gemma_restart/` | The October 2025 LLaMA / Gemma runs without the role sentence (`launch.sh` → `experiment_0_restart.py`); Figure 2(c,d) streak panels read these |
+| `experiment_0_llama_gemma_restart/` | The October 2025 LLaMA / Gemma runs without the role sentence (`launch.sh` → `experiment_0_restart.py`). Not read by the camera-ready: their fixed arm does not hold every wager at $10 (HF `DEPRECATION_WARNING.md`). The submitted Figure 2(c,d) read them |
 | `data/results` | Symlink to the data folder on the original machine (dangling elsewhere) |
 
 `gpt_fixed_parsing_experiment.py` imports `improved_gpt_parsing` from `/home/ubuntu/llm_addiction`,
@@ -66,8 +66,8 @@ which is not in the repository; a copy of that parser is at
 
 ## Figures and tables (paper repository, private)
 
-- `scripts/figures/fig02_slot_machine.py` — Figure 2a–b.
-- `scripts/figures/fig02_cd_streaks.py` — Figure 2c–d, recomputed from the six corpora above.
+- `scripts/figures/fig02_slot_machine.py` — all of Figure 2 (panels c–d from the same six corpora as a–b, with the open-weight role-prompt runs).
+- `scripts/figures/fig02_cd_streaks.py` — reproduces the submitted Figure 2c–d, which read the October 2025 open-weight runs.
 - `scripts/tables/appendix_behavioural_tables.py` — `tab:appendix-slot-comprehensive`.
 - `paper_data/tables/appendix/code/gbsa_companion_metrics.py` — `tab:companion-metrics`
   (participation, realised wager and first-loss re-betting for the primary cells).

@@ -2,7 +2,7 @@
 
 The repository was reorganised into one folder per experiment (`experiments/NN_name/`). Everything
 was moved with `git mv`, so `git log --follow <new path>` shows each file's full history. The git
-tag **`pre-reorg`** marks the last commit with the old layout (`36fe502`); check it out to run a
+tag **`pre-reorg`** marks the last commit with the old layout (`07a903c`); check it out to run a
 script exactly as it was, or to follow an old path written in a plan, note or HF manifest.
 
 One row per moved unit. A trailing `/` means the folder moved with everything in it.

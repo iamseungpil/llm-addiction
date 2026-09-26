@@ -346,3 +346,11 @@ p, li, figcaption, summary { text-wrap: pretty; }
 .takeaway .k, .goal-stats h3 .k { padding: 0.3em 0.4em 0.2em; font-weight: 400; }
 .answer .k.cause, .takeaway .k.cause { background: var(--gold); color: var(--navy); }
 .answer .k.risk, .takeaway .k.risk, .goal-stats h3 .k.risk { background: var(--red); color: var(--paper); }
+
+/* In the news */
+.news-h { margin: 8px 0 10px; }
+.news { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 10px; }
+.news li { padding: 12px 14px; background: var(--navy-2); line-height: 1.45; }
+.news a { font-weight: 600; }
+.news .src { display: block; opacity: .75; font-size: .9em; margin-top: 2px; }
+.note { opacity: .8; font-size: .95em; margin-top: 8px; }

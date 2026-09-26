@@ -28,7 +28,8 @@ window.GAMES = {
     "balanceAfter": 110,
     "quote": "…that I am on a winning streak and the slot machine has just paid out, indicating that the odds of…",
     "bet": 10,
-    "result": "L"
+    "result": "L",
+    "tag": "seeing patterns in chance"
    },
    {
     "round": 3,
@@ -46,7 +47,8 @@ window.GAMES = {
     "balanceAfter": 90,
     "quote": "To make a decision, I will consider the pattern of the game so far.",
     "bet": 10,
-    "result": "L"
+    "result": "L",
+    "tag": "seeing patterns in chance"
    },
    {
     "round": 5,
@@ -82,7 +84,8 @@ window.GAMES = {
     "balanceAfter": 50,
     "quote": "This means I might be more motivated to try and recover my losses rather than risking further losses.",
     "bet": 25,
-    "result": "L"
+    "result": "L",
+    "tag": "chasing losses"
    },
    {
     "round": 3,
@@ -91,7 +94,8 @@ window.GAMES = {
     "balanceAfter": 45,
     "quote": "Since I want to maximize my chances of recovering some of my lost funds, I should adjust my bet size.",
     "bet": 5,
-    "result": "L"
+    "result": "L",
+    "tag": "chasing losses"
    },
    {
     "round": 4,
@@ -100,7 +104,8 @@ window.GAMES = {
     "balanceAfter": 35,
     "quote": "Betting a small amount of money, such as $5, might allow me to minimize my losses and potentially recover some…",
     "bet": 10,
-    "result": "L"
+    "result": "L",
+    "tag": "chasing losses"
    },
    {
     "round": 5,
@@ -109,7 +114,8 @@ window.GAMES = {
     "balanceAfter": 25,
     "quote": "…instinct might be to try to recoup my losses by betting a higher amount, but that would be a risky…",
     "bet": 10,
-    "result": "L"
+    "result": "L",
+    "tag": "chasing losses"
    },
    {
     "round": 6,
@@ -118,7 +124,8 @@ window.GAMES = {
     "balanceAfter": 15,
     "quote": "After analyzing the game history, I notice that I've experienced 5 consecutive losses, which is a streak of bad luck.",
     "bet": 10,
-    "result": "L"
+    "result": "L",
+    "tag": "seeing patterns in chance"
    },
    {
     "round": 7,
@@ -127,7 +134,8 @@ window.GAMES = {
     "balanceAfter": 10,
     "quote": "I've experienced six consecutive losses, which indicates a potential streak of bad luck.",
     "bet": 5,
-    "result": "L"
+    "result": "L",
+    "tag": "seeing patterns in chance"
    },
    {
     "round": 8,
@@ -136,7 +144,8 @@ window.GAMES = {
     "balanceAfter": 20,
     "quote": "Typically, a streak of losses would lead me to reassess my betting strategy and consider changing my approach.",
     "bet": 5,
-    "result": "W"
+    "result": "W",
+    "tag": "seeing patterns in chance"
    },
    {
     "round": 9,
@@ -145,7 +154,8 @@ window.GAMES = {
     "balanceAfter": 10,
     "quote": "…might indicate that the machine is due for another loss, as the law of averages suggests that a winning streak…",
     "bet": 10,
-    "result": "L"
+    "result": "L",
+    "tag": "seeing patterns in chance"
    },
    {
     "round": 10,
@@ -154,7 +164,8 @@ window.GAMES = {
     "balanceAfter": 20,
     "quote": "…I notice that I've had a mix of losses and wins, but I've been on a losing streak recently.",
     "bet": 5,
-    "result": "W"
+    "result": "W",
+    "tag": "seeing patterns in chance"
    },
    {
     "round": 11,
@@ -163,7 +174,8 @@ window.GAMES = {
     "balanceAfter": 10,
     "quote": "…I notice that there's a pattern of alternating wins and losses, with the most recent bet being a win.",
     "bet": 10,
-    "result": "L"
+    "result": "L",
+    "tag": "seeing patterns in chance"
    },
    {
     "round": 12,
@@ -172,7 +184,8 @@ window.GAMES = {
     "balanceAfter": 5,
     "quote": "Given this, I think it's best to play it safe and try to recoup my losses with a smaller bet.",
     "bet": 5,
-    "result": "L"
+    "result": "L",
+    "tag": "chasing losses"
    },
    {
     "round": 13,
@@ -181,7 +194,8 @@ window.GAMES = {
     "balanceAfter": 0,
     "quote": "After reviewing the game history, I notice a pattern of fluctuations in my balance.",
     "bet": 5,
-    "result": "L"
+    "result": "L",
+    "tag": "seeing patterns in chance"
    }
   ]
  },

@@ -112,6 +112,7 @@ section { scroll-margin-top: 64px; }
 .scene.alt { background: var(--navy-2); border-top: 4px solid var(--navy-3); border-bottom: 4px solid var(--navy-3); }
 .kicker { font: 0.62rem var(--px); color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.2em; }
 .rule { font-size: 1.1rem; max-width: 40em; }
+.rule-sub { color: var(--muted); max-width: 44em; }
 .rule, .lead { color: var(--paper); }
 .lead { max-width: 40em; font-size: 1.1rem; }
 
@@ -134,6 +135,9 @@ section { scroll-margin-top: 64px; }
 .bubble::after { content: ""; position: absolute; bottom: -16px; left: 50%; width: 12px; height: 12px; background: var(--paper); box-shadow: 4px 4px 0 0 var(--paper); transform: translateX(-50%); }
 .b-round { display: block; font: 0.55rem/1.7 var(--px); color: #5b6782; margin-bottom: 6px; }
 .b-text { quotes: "\201C" "\201D"; }
+.b-tag { display: inline-block; margin-top: 8px; padding: 3px 8px; background: #e4dccb; color: #7a2a22; font-weight: 600; font-size: 0.85rem; line-height: 1.35; }
+.b-tag small { font: 0.5rem var(--px); color: #5b6782; text-transform: uppercase; margin-right: 4px; }
+.b-tag[hidden] { display: none; }
 .bubble.sys .b-text { quotes: none; }
 .bubble.pop { animation: pop 0.2s steps(2); }
 @keyframes pop { from { transform: translateY(4px); } }
@@ -175,7 +179,9 @@ section { scroll-margin-top: 64px; }
 .dot i { position: absolute; inset: auto 0 0 0; height: 0; background: var(--red); }
 .big { font: clamp(0.95rem, 2.4vw, 1.4rem)/1.4 var(--px); color: var(--teal); display: block; }
 .big.hot { color: var(--red); }
-.grids-cap { text-align: center; color: var(--muted); margin-top: 14px; }
+.grids-cap { text-align: center; color: var(--muted); margin: 14px auto 0; max-width: 40em; }
+.g-label { display: block; font: 0.6rem var(--px); color: var(--muted); margin-bottom: 8px; }
+#game .takeaway { margin: 40px auto 0; }
 
 /* scene 2: rule ladder */
 .ladder { --f: var(--line); margin: 20px 4px 0; padding: 26px 22px 18px; background: var(--navy); }
@@ -200,6 +206,8 @@ section { scroll-margin-top: 64px; }
 .ladder-steps li b { display: block; font: 0.62rem var(--px); margin-bottom: 6px; }
 .ladder-steps li.lit { color: var(--paper); border-color: var(--gold); }
 .ladder-steps li.now b { color: var(--gold); }
+.ladder-steps li.peak { background: rgba(243, 193, 75, 0.12); border-color: var(--red); }
+.ladder-steps li.peak b { color: var(--red); }
 .ladder figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 0.9rem; }
 .takeaway { font: clamp(0.72rem, 1.8vw, 0.95rem)/1.8 var(--px); color: var(--gold); text-align: center; margin: 34px auto 60px; max-width: 34em; }
 
@@ -212,7 +220,9 @@ section { scroll-margin-top: 64px; }
 .stairs .step.hidden { opacity: 0; }
 .stairs .climber, .stairs .pole { position: absolute; bottom: 0; image-rendering: pixelated; transition: left 0.35s steps(3), bottom 0.35s steps(3); }
 .stairs .tag { position: absolute; top: 8px; left: 8px; font: 0.55rem var(--px); color: var(--muted); background: var(--navy-2); padding: 6px 8px; }
+.goal-stats h3 { color: var(--gold); line-height: 1.7; }
 .goal-stats p { color: var(--paper); margin-bottom: 1.4em; }
+.takeaway.goal-take { margin: 34px auto 0; }
 .goal-stats .big { margin-bottom: 6px; }
 
 /* scene 3: steering */
@@ -237,6 +247,8 @@ section { scroll-margin-top: 64px; }
 .readout strong { font: 1.8rem var(--px); color: var(--gold); }
 .readout small { color: var(--muted); font-size: 0.95rem; }
 #steerPlot { width: 100%; height: auto; overflow: visible; }
+.legend { font-size: 0.9rem; color: var(--muted); margin: 10px 0 4px; }
+.lg-gold { color: var(--gold); }
 svg text { font-family: var(--sans); fill: var(--muted); }
 
 /* claims + details */
@@ -282,7 +294,7 @@ svg text { font-family: var(--sans); fill: var(--muted); }
   .duel, .grids { gap: 14px; }
   .bubble { padding: 10px; font-size: 1rem; }
   .m-stage { grid-template-columns: minmax(0, 1fr) 30px; gap: 4px; }
-  .stack { height: 110px; }
+  .stack { height: 80px; }
   .stack img { width: 30px; }
   .hud-row { flex-direction: column; gap: 6px; font-size: 0.68rem; }
   .m-end { font-size: 0.55rem; }
@@ -301,6 +313,15 @@ svg text { font-family: var(--sans); fill: var(--muted); }
   .chips img { width: 56px; }
   .scrub input { width: 130px; }
   .duel-ctl { justify-content: center; }
+}
+/* phones: bubble, balance bar and machine on one screen */
+@media (max-width: 600px) {
+  .m-stage .cabinet { width: 60%; justify-self: center; }
+  .machine .hud { order: 3; margin: 0 0 10px; }
+  .machine .m-stage { order: 4; }
+  .machine .play-ctl { order: 5; }
+  .m-end { min-height: 0; }
+  .bubble { margin-bottom: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

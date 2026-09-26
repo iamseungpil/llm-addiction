@@ -54,14 +54,14 @@
     const scrub = $("#scrub");
     const scrubOut = $("#scrubOut");
     const tryBtn = $("#tryIt");
-    const ROUND_MS = 900;
+    const ROUND_MS = 2200;
     const BAR_MAX = 150;
     const games = { fixed: G.fixed, variable: G.variable };
     const maxR = Math.max(G.fixed.steps.length, G.variable.steps.length);
     scrub.max = maxR;
 
     $("#gameSource").textContent =
-      `Recorded game · ${G.variable.model} · prompt ${G.variable.promptCombo}, game #${G.variable.repetition}`;
+      `Recorded game (picked for its reasoning) · ${G.variable.model} · same prompt, game #${G.variable.repetition} in both · bubbles: the model's words before each bet, trimmed.`;
 
     const machines = {};
     $$(".machine", duel).forEach((root) => {
@@ -69,6 +69,7 @@
       machines[arm] = {
         arm, root,
         bubble: $(".bubble", root), round: $(".b-round", root), text: $(".b-text", root),
+        tag: $(".b-tag", root), tagText: $(".b-tag > span", root),
         reels: $$(".reel", root), flash: $(".flash", root), delta: $(".delta", root),
         stack: $(".stack", root), bar: $(".bal-bar i", root), mark: $(".start-mark", root),
         bal: $(".bal", root), betNow: $(".bet-now", root), end: $(".m-end", root),
@@ -111,9 +112,11 @@
       m.bar.classList.toggle("low", v < 30);
       m.mark.style.left = `calc(${(100 / max) * 100}% - 2px)`;
     };
-    const say = (m, label, text, sys = false) => {
+    const say = (m, label, text, sys = false, tag = null) => {
       m.round.textContent = label;
       m.text.textContent = text;
+      m.tag.hidden = !tag;
+      m.tagText.textContent = tag || "";
       m.bubble.classList.toggle("sys", sys);
       if (!reduce) { m.bubble.classList.remove("pop"); void m.bubble.offsetWidth; m.bubble.classList.add("pop"); }
     };
@@ -155,7 +158,7 @@
       const fresh = round <= steps.length;
       if (!fresh && animate) return; // this game is already over
       const label = s.action === "stop" ? `ROUND ${s.round} · STOPS` : `ROUND ${s.round} · BETS ${money(s.bet)}`;
-      say(m, label, s.quote);
+      say(m, label, s.quote, false, s.tag);
       setStack(m, s.action === "bet" ? s.bet : 0);
       m.betNow.textContent = s.action === "bet" ? `BET ${money(s.bet)}` : "";
       const mine = gen;
@@ -163,6 +166,7 @@
         if (mine !== gen || mode !== "replay") return; // a newer render or free play took over
         setBalance(m, s.balanceAfter, BAR_MAX);
         const over = k === steps.length;
+        if (over) { m.betNow.textContent = ""; setStack(m, 0); }
         m.end.textContent = over ? endText(g) : "";
         m.end.className = "m-end" + (over ? (g.outcome === "bankruptcy" ? " bust" : " stop") : "");
       };
@@ -191,6 +195,7 @@
       if (r >= maxR) { r = 0; render(false); }
       playBtn.textContent = "❚❚ Pause";
       const tick = () => {
+        if (hovering) return; // hold the round while a bubble is being read
         r += 1; render(true);
         if (r >= maxR) stopPlay();
       };
@@ -198,6 +203,11 @@
       timer = setInterval(tick, ROUND_MS);
     };
     playBtn.addEventListener("click", play);
+    let hovering = false;
+    Object.values(machines).forEach((m) => {
+      m.bubble.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") hovering = true; });
+      m.bubble.addEventListener("pointerleave", () => { hovering = false; });
+    });
     scrub.addEventListener("input", () => { stopPlay(); r = parseInt(scrub.value, 10); render(false); stopPlay(); });
 
     // Keep the bubbles from jumping: reserve the height of the longest quote.
@@ -210,6 +220,8 @@
         for (const s of games[arm].steps) {
           m.round.textContent = "ROUND 13 · BETS $25";
           m.text.textContent = s.quote;
+          m.tag.hidden = false;
+          m.tagText.textContent = "seeing patterns in chance";
           h = Math.max(h, m.bubble.offsetHeight);
         }
       }
@@ -368,11 +380,16 @@
       fill.classList.toggle("hot", v > 50);
       num.parentNode.classList.toggle("hot", v > 50);
     };
+    // The jump happens at step 3 (85%); leave that step highlighted after the last one.
+    const peak = D.choiceLadder.reduce((a, d, i, arr) => (d.bankrupt > arr[a].bankrupt ? i : a), 0);
+    const markPeak = () => items.forEach((li, k) => { li.classList.toggle("now", k === peak); li.classList.toggle("peak", k === peak); });
     const play = () => {
       timers.forEach(clearTimeout); timers = [];
-      if (reduce) { show(D.choiceLadder.length - 1); items.forEach((li) => li.classList.add("lit")); return; }
+      items.forEach((li) => li.classList.remove("peak"));
+      if (reduce) { show(D.choiceLadder.length - 1); items.forEach((li) => li.classList.add("lit")); markPeak(); return; }
       shown = 0; fill.style.width = "0";
       D.choiceLadder.forEach((_, i) => timers.push(setTimeout(() => show(i), 300 + i * 1700)));
+      timers.push(setTimeout(markPeak, 300 + D.choiceLadder.length * 1700));
     };
     onVisible(fig, play, 0.4);
     $("#ladderReplay").addEventListener("click", play);
@@ -480,7 +497,6 @@
       Object.entries(m.band).forEach(([d, [lo, hi]]) => {
         el("rect", { x: x(+d) - 12, y: y(hi), width: 24, height: y(lo) - y(hi), fill: "#b3bdd1", opacity: 0.18, "shape-rendering": "crispEdges" }, svg);
       });
-      txt(svg, X1, Y1 - 2, "shaded: random directions", { "text-anchor": "end", "font-size": 12 });
       const other = state.dir === "behaviour" ? "readout" : "behaviour";
       el("polyline", { points: m[other].map((v, k) => `${x(S.doses[k])},${y(v)}`).join(" "), fill: "none", stroke: "#b3bdd1", "stroke-opacity": 0.35, "stroke-width": 2, "stroke-dasharray": "4 4" }, svg);
       el("polyline", { points: m[state.dir].map((v, k) => `${x(S.doses[k])},${y(v)}`).join(" "), fill: "none", stroke: "#f3c14b", "stroke-width": 3 }, svg);
@@ -494,7 +510,7 @@
       renderChips(v);
       note.textContent = state.dir === "behaviour"
         ? `${name()}: ${m.behaviour[0].toFixed(3)} at −3, ${m.behaviour[6].toFixed(3)} at +3. Removing the direction lowers betting by ${Math.abs(m.removal).toFixed(3)}.`
-        : `${name()}: the readout direction stays inside the random band. It reads risk but does not move the bet.`;
+        : `${name()}: the best risk-reader stays inside the random band. It reads risk but does not move the bet.`;
     };
     const renderChips = (v) => {
       const n = Math.round((v / maxY) * 14) + 1;

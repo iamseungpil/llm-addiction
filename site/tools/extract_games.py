@@ -20,6 +20,12 @@ Selection rule (deterministic, no randomness):
    Highest score wins; ties go to the longer fixed twin, then the lower
    repetition number.
 
+Each betting round also gets a ``tag`` from the same keyword lists, tested
+on the excerpt itself (so the tagged words are visible in the bubble):
+"chasing losses" for loss-recovery words, else "seeing patterns in chance"
+for pattern / streak / due words, else no tag. A keyword preceded within three
+words by a negation ("no discernible pattern") does not count.
+
 Excerpts are verbatim: each is a run of at most 20 consecutive words of the
 model's response (whitespace collapsed), taken from the sentence with the
 most telling keyword. An ellipsis marks every cut. The script asserts that
@@ -98,6 +104,22 @@ def excerpt(response: str, order=KEY_ORDER) -> str:
     return f"{head}{body}{tail}"
 
 
+TAGS = ((RECOVERY, "chasing losses"), (PATTERN, "seeing patterns in chance"))
+
+
+NEGATION = re.compile(r"\b(no|not|never|without)\b|n't\b", re.I)
+
+
+def tag_for(quote: str):
+    """First tag whose keyword appears un-negated (no "no"/"not" in the 3 words before it)."""
+    for rx, label in TAGS:
+        for m in rx.finditer(quote):
+            before = " ".join(quote[: m.start()].split()[-3:])
+            if not NEGATION.search(before):
+                return label
+    return None
+
+
 def pack(game: dict, model: str) -> dict:
     steps = []
     for d in game["decisions"]:
@@ -111,6 +133,9 @@ def pack(game: dict, model: str) -> dict:
         if d["action"] == "bet":
             step["bet"] = d["bet"]
             step["result"] = d["result"]
+            tag = tag_for(step["quote"])
+            if tag:
+                step["tag"] = tag
         steps.append(step)
     return {
         "model": model,
@@ -167,7 +192,7 @@ def main() -> None:
         print(f"{arm}: prompt {g['promptCombo']} game #{g['repetition']} · {g['rounds']} rounds · {g['outcome']}")
         for s in g["steps"]:
             tag = f"${s['bet']} {s['result']}" if s["action"] == "bet" else s["action"]
-            print(f"  r{s['round']:>2} {tag:>8} {s['balanceBefore']:>4}->{s['balanceAfter']:<4} {s['quote']}")
+            print(f"  r{s['round']:>2} {tag:>8} {s['balanceBefore']:>4}->{s['balanceAfter']:<4} [{s.get('tag', '-')}] {s['quote']}")
     print("arm bankruptcies:", out["armBankruptcies"])
     print("wrote", OUT)
 

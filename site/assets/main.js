@@ -6,6 +6,15 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
   const money = (v) => (v < 0 ? "−$" : "$") + Math.abs(v);
+  // Text as phrases that each stay on one line, so lines break between clauses.
+  const phrases = (node, ...parts) => {
+    node.replaceChildren(...parts.flatMap((s, i) => {
+      const sp = document.createElement("span");
+      sp.className = "ph";
+      sp.textContent = s;
+      return i ? [" ", sp] : [sp];
+    }));
+  };
 
   const el = (tag, attrs = {}, parent) => {
     const n = document.createElementNS(NS, tag);
@@ -60,8 +69,9 @@
     const maxR = Math.max(G.fixed.steps.length, G.variable.steps.length);
     scrub.max = maxR;
 
-    $("#gameSource").textContent =
-      `Recorded game (picked for its reasoning) · ${G.variable.model} · same prompt, game #${G.variable.repetition} in both · bubbles: the model's words before each bet, trimmed.`;
+    phrases($("#gameSource"),
+      "Recorded game (picked for its reasoning) ·", `${G.variable.model} ·`,
+      `same prompt, game #${G.variable.repetition} in both ·`, "bubbles: the model's words before each bet, trimmed.");
 
     const machines = {};
     $$(".machine", duel).forEach((root) => {
@@ -140,8 +150,8 @@
     let r = 0, timer = null, mode = "replay", gen = 0;
     const endText = (g) =>
       g.outcome === "bankruptcy"
-        ? `Bankrupt after ${g.rounds} rounds`
-        : `Stopped after ${g.rounds} rounds with ${money(g.finalBalance)}`;
+        ? [`Bankrupt after ${g.rounds} rounds`]
+        : [`Stopped after ${g.rounds} rounds`, `with ${money(g.finalBalance)}`];
 
     const renderArm = (m, g, round, animate) => {
       const steps = g.steps;
@@ -167,7 +177,7 @@
         setBalance(m, s.balanceAfter, BAR_MAX);
         const over = k === steps.length;
         if (over) { m.betNow.textContent = ""; setStack(m, 0); }
-        m.end.textContent = over ? endText(g) : "";
+        if (over) phrases(m.end, ...endText(g)); else m.end.textContent = "";
         m.end.className = "m-end" + (over ? (g.outcome === "bankruptcy" ? " bust" : " stop") : "");
       };
       if (animate && s.action === "bet") {
@@ -314,7 +324,7 @@
         const st = free[m.arm];
         st.over = true;
         say(m, "STOP", `You keep ${money(st.balance)}.`, true);
-        m.end.textContent = `Stopped after ${st.rounds} rounds with ${money(st.balance)}`; m.end.className = "m-end stop";
+        phrases(m.end, `Stopped after ${st.rounds} rounds`, `with ${money(st.balance)}`); m.end.className = "m-end stop";
         freeRender(m, st);
       });
     });
@@ -350,9 +360,9 @@
     const signCap = $(".bs-cap", fig);
     const labels = [
       "The game sets $70",
-      "The model names its bet once",
-      "It may change the bet every round",
-      "…and the cap rises to $100",
+      ["The model names", "its bet once"],
+      ["It may change", "the bet every round"],
+      ["…and the cap", "rises to $100"],
     ];
     const sign = [
       ["$70", "set by the game", false],
@@ -362,7 +372,11 @@
     ];
     const items = D.choiceLadder.map((d, i) => {
       const li = document.createElement("li");
-      li.innerHTML = `<b>${d.bankrupt.toFixed(0)}%</b>${labels[i]}`;
+      const b = document.createElement("b");
+      b.textContent = `${d.bankrupt.toFixed(0)}%`;
+      const label = document.createElement("span");
+      phrases(label, ...[].concat(labels[i]));
+      li.append(b, label);
       list.appendChild(li);
       return li;
     });
@@ -508,9 +522,12 @@
       doseOut.textContent = (state.dose > 0 ? "+" : state.dose < 0 ? "−" : "") + Math.abs(state.dose);
       knob.style.transform = `rotate(${state.dose * 40}deg)`;
       renderChips(v);
-      note.textContent = state.dir === "behaviour"
-        ? `${name()}: ${m.behaviour[0].toFixed(3)} at −3, ${m.behaviour[6].toFixed(3)} at +3. Removing the direction lowers betting by ${Math.abs(m.removal).toFixed(3)}.`
-        : `${name()}: the best risk-reader stays inside the random band. It reads risk but does not move the bet.`;
+      if (state.dir === "behaviour")
+        phrases(note, `${name()}: ${m.behaviour[0].toFixed(3)} at −3, ${m.behaviour[6].toFixed(3)} at +3.`,
+          "Removing the direction", `lowers betting by ${Math.abs(m.removal).toFixed(3)}.`);
+      else
+        phrases(note, `${name()}: the best risk-reader`, "stays inside the random band.",
+          "It reads risk", "but does not move the bet.");
     };
     const renderChips = (v) => {
       const n = Math.round((v / maxY) * 14) + 1;

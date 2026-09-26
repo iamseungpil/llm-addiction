@@ -209,7 +209,7 @@ section { scroll-margin-top: 64px; }
 .ladder-steps li.peak { background: rgba(243, 193, 75, 0.12); border-color: var(--red); }
 .ladder-steps li.peak b { color: var(--red); }
 .ladder figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 0.9rem; }
-.takeaway { font: clamp(0.72rem, 1.8vw, 0.95rem)/1.8 var(--px); color: var(--gold); text-align: center; margin: 34px auto 60px; max-width: 34em; }
+.takeaway { font: clamp(0.72rem, 1.8vw, 0.95rem)/1.8 var(--px); color: var(--gold); text-align: center; margin: 34px auto 60px; max-width: 44em; }
 
 /* scene 2: goal stairs */
 .goal { --f: var(--line); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center; margin: 0 4px; padding: 22px; background: var(--navy); }
@@ -328,3 +328,21 @@ svg text { font-family: var(--sans); fill: var(--muted); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 .nw { white-space: nowrap; }
+/* Line breaks fall between phrases: each .ph stays on one line unless it is
+   wider than the column, and headings and takeaways balance their lines. */
+.ph { display: inline-block; text-wrap: balance; }
+h1, h2, h3, .takeaway, .m-label, .m-end { text-wrap: balance; }
+p, li, figcaption, summary { text-wrap: pretty; }
+/* Key words: gold = the freedom the model is given, red = the risk it runs,
+   teal = the safe move. In gold text (hero answer, takeaways, goal heading)
+   the same roles become solid pixel markers. */
+.k { font-style: normal; font-weight: 700; }
+.k.cause { color: var(--gold); }
+.k.risk { color: #ff6f61; }
+.k.safe { color: var(--teal); }
+.answer .k, .takeaway .k, .goal-stats h3 .k {
+  padding: 0 0.3em; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.takeaway .k, .goal-stats h3 .k { padding: 0.3em 0.4em 0.2em; font-weight: 400; }
+.answer .k.cause, .takeaway .k.cause { background: var(--gold); color: var(--navy); }
+.answer .k.risk, .takeaway .k.risk, .goal-stats h3 .k.risk { background: var(--red); color: var(--paper); }

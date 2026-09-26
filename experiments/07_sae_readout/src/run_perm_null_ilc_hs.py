@@ -18,7 +18,7 @@ warnings.filterwarnings('ignore')
 RNG = np.random.RandomState(42)
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
 BEHAVIORAL_ROOT = Path("/home/v-seungplee/data/llm-addiction/behavioral")
-RESULTS_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/robustness")
+RESULTS_DIR = (Path(__file__).resolve().parents[1] / "results/robustness")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 N_PERM = 200
 

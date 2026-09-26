@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-BASE_DIR="/home/v-seungplee/llm-addiction/sae_v3_analysis"
+BASE_DIR="/home/v-seungplee/llm-addiction/experiments/07_sae_readout"
 SRC_DIR="${BASE_DIR}/src"
 RESULTS_DIR="${BASE_DIR}/results"
 PYTHON="/home/v-seungplee/miniconda3/envs/llm-addiction/bin/python"

@@ -1,8 +1,8 @@
 #!/bin/bash
 # [SLURM-DISABLED] #SBATCH --job-name=debug_prompt
 # [SLURM-DISABLED] #SBATCH --partition=cas_v100_4
-# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/logs/debug_prompt_%j.log
-# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/logs/debug_prompt_%j.err
+# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/logs/debug_prompt_%j.log
+# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/logs/debug_prompt_%j.err
 # [SLURM-DISABLED] #SBATCH --time=00:30:00
 # [SLURM-DISABLED] #SBATCH --gres=gpu:1
 # [SLURM-DISABLED] #SBATCH --cpus-per-task=4
@@ -16,7 +16,7 @@ echo "=============================="
 # [OpenHPC] conda already activated
 # conda activate llm-addiction
 
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms
 
 python scripts/debug_completion_prompt.py --test blackjack
 

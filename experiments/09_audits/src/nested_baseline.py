@@ -99,7 +99,7 @@ HIDDEN = SNAP / "sae_features_v3/slot_machine/gemma/checkpoint/phase_a_hidden_st
 
 # The paper's own SAE array, reached through the same symlink the published pipeline uses.
 SAE_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
-PAPER_SRC = "/home/v-seungplee/llm-addiction/sae_v3_analysis/src"
+PAPER_SRC = str(Path(__file__).resolve().parents[2] / "07_sae_readout" / "src")
 
 DELTA = 0.017          # one tenth of the paper's published R^2 = 0.167
 PUBLISHED_R2 = 0.167
@@ -497,7 +497,7 @@ def main() -> None:
     ap.add_argument("--strict-boot", action="store_true",
                     help="re-raise the first bootstrap exception instead of tallying it")
     ap.add_argument("--cache", default="", help="npz cache for the design, to skip the 12.9GB load")
-    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/nested_baseline.json")
+    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/experiments/09_audits/nested_baseline.json")
     args = ap.parse_args()
 
     # ---- design -----------------------------------------------------------

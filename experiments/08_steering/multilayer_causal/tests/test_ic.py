@@ -8,7 +8,7 @@ from pathlib import Path
 from multilayer_causal.src import ic
 
 REPO = Path(__file__).resolve().parents[2]
-IC_RUNNER = (REPO / "exploratory_experiments" / "alternative_paradigms" / "src"
+IC_RUNNER = (REPO.parents[1] / "experiments" / "02_investment_choice" / "open_weight"
              / "investment_choice" / "run_experiment.py")
 
 

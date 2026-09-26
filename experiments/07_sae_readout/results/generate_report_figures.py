@@ -22,7 +22,7 @@ plt.rcParams.update({
 
 COLORS = {'ic': '#2ecc71', 'sm': '#e74c3c', 'mw': '#3498db'}
 LABELS = {'ic': 'Investment Choice', 'sm': 'Slot Machine', 'mw': 'Mystery Wheel'}
-FIGDIR = "/home/jovyan/llm-addiction/sae_v3_analysis/results/figures"
+FIGDIR = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/figures"
 
 # ============================================================
 # Data from log (source: run_all_20260306_091055.log)

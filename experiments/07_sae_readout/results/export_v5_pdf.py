@@ -4,9 +4,9 @@ import os
 import re
 import sys
 
-STUDY_MD = "/home/jovyan/llm-addiction/sae_v3_analysis/results/sae_v5_comprehensive_study.md"
-FIG_DIR = "/home/jovyan/llm-addiction/sae_v3_analysis/results/figures"
-OUTPUT_DIR = "/home/jovyan/llm-addiction/sae_v3_analysis/results"
+STUDY_MD = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/sae_v5_comprehensive_study.md"
+FIG_DIR = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/figures"
+OUTPUT_DIR = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results"
 
 def md_to_latex(md_content):
     """Convert markdown to LaTeX"""

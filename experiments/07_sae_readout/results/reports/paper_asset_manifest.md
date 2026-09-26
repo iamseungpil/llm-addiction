@@ -229,7 +229,7 @@ Top-level folders:
 - `behavioral/` — raw game JSONs, mirrors `data/behavioral/`
 - `sae_features_v3/` — SAE sparse features per layer per task per model, mirrors `data/sae_features_v3/`
 - `sae_v3_analysis/` — analysis scripts, reports, and results (to be refreshed with this manifest)
-- `paper_experiments/` — original behavioral runner scripts
+- `archive/paper_experiments/` — original behavioral runner scripts
 
 The HF repo's README.md (root) should point to this manifest and the paper PDF.
 

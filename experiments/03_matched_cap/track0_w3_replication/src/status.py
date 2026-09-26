@@ -15,7 +15,7 @@ import time
 from pathlib import Path
 
 DATA = Path("/home/v-seungplee/data/llm-addiction")
-RB = Path("/home/v-seungplee/llm-addiction/rebuttal_review")
+RB = Path("/home/v-seungplee/llm-addiction/docs/rebuttal_review")
 DECISION = re.compile(r"final decision:?\s*(bet\s*\$?\d+|stop)", re.I)
 
 

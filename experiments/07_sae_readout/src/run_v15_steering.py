@@ -25,7 +25,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
-RESULTS_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
+RESULTS_DIR = (Path(__file__).resolve().parents[1] / "results/json")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"

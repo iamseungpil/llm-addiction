@@ -5,7 +5,7 @@ Organized by 3 Research Questions. Outputs Python dict to stdout.
 import json
 from pathlib import Path
 
-J = Path("/home/jovyan/llm-addiction/sae_v3_analysis/results/json")
+J = Path("/home/jovyan/llm-addiction/experiments/07_sae_readout/results/json")
 
 def load(name):
     with open(J / name) as f:
@@ -556,7 +556,7 @@ for rq_name, rq_data in results.items():
     pprint.pprint(rq_data, width=140, depth=5)
 
 # Save to JSON
-out = "/home/jovyan/llm-addiction/sae_v3_analysis/results/rq_comprehensive_results.json"
+out = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/rq_comprehensive_results.json"
 with open(out, "w") as f:
     json.dump(results, f, indent=2, default=str)
 print(f"\n\nSaved to: {out}")

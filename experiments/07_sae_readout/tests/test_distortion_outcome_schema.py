@@ -12,7 +12,7 @@ than failing. This test pins all three spellings against
 
 Synthetic games only, so it runs anywhere with no dataset present.
 
-    python3 sae_v3_analysis/tests/test_distortion_outcome_schema.py
+    python3 experiments/07_sae_readout/tests/test_distortion_outcome_schema.py
 """
 
 from __future__ import annotations

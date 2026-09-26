@@ -6,7 +6,7 @@ whether the *frequency* claim survives replacing the instrument. This script ans
 question by re-running the same two contrasts under several independently-written
 instruments and reporting every cell.
 
-It reuses the loader from `sae_v3_analysis/run_multimodel_distortion_analysis.py` rather
+It reuses the loader from `experiments/07_sae_readout/src/run_multimodel_distortion_analysis.py` rather
 than re-implementing it, so the corpus, the per-model schema handling, and the definition
 of a "decision" are identical to the analysis the paper reports. Two paths in that module
 are stale and are repaired here: `HF_SNAPSHOT` points at a pruned revision, and the module
@@ -50,9 +50,8 @@ import re
 import sys
 from pathlib import Path
 
-ANALYSIS_MODULE = Path(
-    "/home/v-seungplee/llm-addiction/sae_v3_analysis/src/run_multimodel_distortion_analysis.py"
-)
+ANALYSIS_MODULE = (Path(__file__).resolve().parents[2] / "07_sae_readout" / "src"
+                   / "run_multimodel_distortion_analysis.py")
 # The revision named in the analysis module has been pruned from the local cache; this is
 # the revision that still carries the slot-machine exports.
 LIVE_SNAPSHOT = Path(

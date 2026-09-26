@@ -8,8 +8,8 @@ This file maps each experiment family to its code, input data, main outputs, and
 | --- | --- | --- |
 | Behavioral root | `/home/v-seungplee/data/llm-addiction/behavioral` | Raw model-game logs |
 | SAE root | `/home/v-seungplee/data/llm-addiction/sae_features_v3` | Round-level sparse SAE features |
-| Analysis code | `/home/v-seungplee/llm-addiction/sae_v3_analysis/src` | Main scripts |
-| Analysis outputs | `/home/v-seungplee/llm-addiction/sae_v3_analysis/results` | Figures, JSON, logs, reports |
+| Analysis code | `/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src` | Main scripts |
+| Analysis outputs | `/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results` | Figures, JSON, logs, reports |
 | Paper repo | `/home/v-seungplee/LLM_Addiction_NMT_KOR` | Korean paper source |
 
 ## 2. Paradigm and model map

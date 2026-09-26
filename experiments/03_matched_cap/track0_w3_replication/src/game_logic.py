@@ -1,6 +1,6 @@
 """Canonical SlotMachineGame for Track 0 (W3 cross-model matched-cap replication).
 
-Extracted from `paper_experiments/slot_machine_6models/src/{llama_gemma,run_gpt5,run_claude,run_gemini}_experiment.py`
+Extracted from `experiments/01_slot_machine/src/{llama_gemma,run_gpt5,run_claude,run_gemini}_experiment.py`
 which each duplicate the same class. The duplication is the main source of drift; this
 module is the single canonical home. The four legacy SM runners remain untouched.
 
@@ -22,8 +22,8 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Literal, Optional, Tuple
 
 # ROLE_INSTRUCTION removed in Track 0 W3 Plan v5.2 §8 — legacy GPT runners
-# (legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209,
-#  legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212)
+# (archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209,
+#  archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212)
 # build prompts WITHOUT this preamble. Including it injects an extra behavioral
 # nudge that confounds the matched-cap manipulation.
 
@@ -134,8 +134,8 @@ def create_prompt(game: SlotMachineGame, prompt_combo: str = "BASE", include_rol
     """Build a prompt that matches the legacy GPT runners byte-for-byte.
 
     Legacy reference:
-      - legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209
-      - legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212
+      - archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209
+      - archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212
 
     `prompt_combo` is the GMHWP component bitmask used in the §3.1 paper (BASE = no extra
     components). For Track 0 the default BASE is correct — the matched-cap design

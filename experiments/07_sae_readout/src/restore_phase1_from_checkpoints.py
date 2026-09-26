@@ -24,7 +24,7 @@ from scipy import stats
 
 CKPT_DIR = Path("/tmp/hf_ckpt/sae_v3_analysis/results/checkpoints")
 EXTRA_CKPT = CKPT_DIR / "ckpt_C_llama_sm.json"
-OUT_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json/phase1_restored_20260420")
+OUT_DIR = (Path(__file__).resolve().parents[1] / "results/json/phase1_restored_20260420")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 EXP_LAYERS = {"A_llama": 25, "B_gemma": 12, "C_llama": 25}

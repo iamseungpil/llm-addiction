@@ -14,6 +14,7 @@ from datetime import datetime
 from collections import defaultdict
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "shared"))  # experiments/shared/common
 from common import ModelLoader, setup_logger, save_json, set_random_seed
 from investment_choice.game_logic import InvestmentChoiceGame
 # 수정된 build_prompt를 run_experiment에서 직접 가져옴

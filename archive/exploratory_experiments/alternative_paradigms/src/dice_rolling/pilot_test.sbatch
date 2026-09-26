@@ -14,7 +14,7 @@ source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
 conda activate llm-addiction
 
 # Navigate to repository
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /scratch/x3415a02/projects/llm-addiction/archive/exploratory_experiments/alternative_paradigms
 
 # Print environment info
 echo "=========================================="

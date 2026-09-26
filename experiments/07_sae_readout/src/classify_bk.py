@@ -14,7 +14,7 @@ For each mode:
   - Top discriminative features
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python classify_bk.py --paradigm ic
     python classify_bk.py --paradigm ic sm mw  # all available
     python classify_bk.py --paradigm ic --layers 18,26,30  # specific layers

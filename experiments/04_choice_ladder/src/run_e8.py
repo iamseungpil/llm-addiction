@@ -30,9 +30,9 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 _REPO = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(_REPO / "paper_experiments/track0_w3_replication/src"))
-sys.path.insert(0, str(_REPO / "paper_experiments/sm_cap_ablation/src"))
-sys.path.insert(0, str(_REPO / "paper_experiments/e7_factorial/src"))
+sys.path.insert(0, str(_REPO / "experiments/03_matched_cap/track0_w3_replication/src"))
+sys.path.insert(0, str(_REPO / "experiments/03_matched_cap/sm_cap_ablation/src"))
+sys.path.insert(0, str(_REPO / "experiments/05_framing_worked_example/src"))
 
 from game_logic import run_single_game  # noqa: E402  (frozen harness)
 from run_e7 import build_response_fn_open_weight, ROLE_TEXT  # noqa: E402  (same OW path as e7)
@@ -151,7 +151,7 @@ def main() -> None:
     included = [r for r in results if not r.get("dropped")]
     payload = {
         "experiment": "e8_constraint_choice",
-        "preregistration": "paper_experiments/e8_constraint_choice/PREREGISTRATION.md",
+        "preregistration": "experiments/04_choice_ladder/PREREGISTRATION.md",
         "commit": commit,
         "argv": sys.argv,
         "model": args.model, "arm": args.arm, "cap": args.cap,

@@ -30,7 +30,7 @@ EXPECT = {"n_rounds": 21421, "n_games": 3200, "n_bankruptcy": 87}
 
 def load_round_labels(catalog_path):
     """Replicate extract_all_rounds.SMAdapter ordering (PROVENANCE:
-    sae_v3_analysis/src/extract_all_rounds.py SMAdapter.load_rounds)."""
+    experiments/07_sae_readout/src/extract_all_rounds.py SMAdapter.load_rounds)."""
     data = json.load(open(catalog_path))
     results = data.get("results", data if isinstance(data, list) else [])
     rows, game_counter = [], 0

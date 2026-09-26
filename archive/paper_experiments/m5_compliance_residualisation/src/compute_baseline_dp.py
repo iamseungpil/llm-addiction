@@ -56,7 +56,7 @@ logging.basicConfig(
 log = logging.getLogger("m5.baseline_dp")
 
 # Reuse canonical pipeline (same as refit_table3_residualised).
-SAE_V3_SRC = Path(__file__).resolve().parents[3] / "sae_v3_analysis" / "src"
+SAE_V3_SRC = Path(__file__).resolve().parents[4] / "experiments" / "07_sae_readout" / "src"
 if str(SAE_V3_SRC) not in sys.path:
     sys.path.insert(0, str(SAE_V3_SRC))
 

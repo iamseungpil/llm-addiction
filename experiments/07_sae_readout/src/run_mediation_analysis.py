@@ -33,7 +33,7 @@ SEED = 42
 np.random.seed(SEED)
 
 DATA_PATH = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3/slot_machine/llama/hidden_states_dp.npz")
-OUT_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/mediation")
+OUT_DIR = (Path(__file__).resolve().parents[1] / "results/mediation")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 TARGET_LAYER_IDX = 2  # L22

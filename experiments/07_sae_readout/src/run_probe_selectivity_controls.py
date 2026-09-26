@@ -41,7 +41,7 @@ from run_comprehensive_robustness import (
 from run_perm_null_ilc import compute_loss_chasing
 
 
-RESULTS_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/robustness")
+RESULTS_DIR = (Path(__file__).resolve().parents[1] / "results/robustness")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 DEFAULT_CONFIGS = [

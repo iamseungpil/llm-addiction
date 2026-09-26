@@ -22,10 +22,10 @@
 
 set -euo pipefail
 
-cd /scratch/llm_addiction/sae_v3_analysis
+cd /scratch/llm_addiction/experiments/07_sae_readout
 
 ENV_COMMON=(
-    LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm_addiction/sae_v3_analysis
+    LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm_addiction/experiments/07_sae_readout
     LLM_ADDICTION_DATA_ROOT=/scratch/llm_addiction/data/sae_features_v3
     LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/llm_addiction/data/behavioral
     LOCAL_RANK=0 RANK=0 WORLD_SIZE=1

@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 OUT_DIR = Path(os.environ.get(
     'SPINE_OUT_DIR',
-    Path(__file__).resolve().parents[2] / 'multilayer_causal/results/spine'))
+    Path(__file__).resolve().parents[2] / '08_steering/multilayer_causal/results/spine'))
 # CLI task name -> short paradigm code used by the paper loaders.
 TASK_SHORT = {'slot_machine': 'sm', 'investment_choice': 'ic', 'mystery_wheel': 'mw'}
 

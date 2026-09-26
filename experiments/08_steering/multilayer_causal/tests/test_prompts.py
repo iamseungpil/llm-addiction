@@ -8,7 +8,7 @@ REPO = Path(__file__).resolve().parents[2]
 
 def _load_m3pp():
     spec = importlib.util.spec_from_file_location(
-        "m3pp", REPO / "sae_v3_analysis" / "src" / "run_m3pp_strong_patching.py")
+        "m3pp", REPO.parents[1] / "experiments" / "07_sae_readout" / "src" / "run_m3pp_strong_patching.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod

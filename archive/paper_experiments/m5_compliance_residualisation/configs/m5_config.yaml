@@ -1,5 +1,5 @@
 # M5 — Internal-state residualisation configuration
-# Plan v4 Track A2 spec at /home/v-seungplee/llm-addiction/PLAN_4NODE_EXECUTION_2026_05_07.md §3
+# Plan v4 Track A2 spec at /home/v-seungplee/llm-addiction/docs/PLAN_4NODE_EXECUTION_2026_05_07.md §3
 #
 # This config drives:
 #   src/extract_compliance_directions.py    (forward-pass probe direction extraction)
@@ -16,7 +16,7 @@ models:
     n_sae_features: 131072
     sae_kind: gemma_scope          # uses sae_lens.SAE.from_pretrained
   llama:
-    # parity with sae_v3_analysis/src/extract_llama_sm.py:51 — Instruct variant
+    # parity with experiments/07_sae_readout/src/extract_llama_sm.py:51 — Instruct variant
     # has different residual streams than the base model; cached SAE features
     # were extracted from this checkpoint.
     name_hf: meta-llama/Llama-3.1-8B-Instruct
@@ -71,7 +71,7 @@ thresholds:
   individual_absolute: 0.01
   joint_absolute: 0.015
 
-# GroupKFold protocol — must match sae_v3_analysis/src/run_groupkfold_recompute.py
+# GroupKFold protocol — must match experiments/07_sae_readout/src/run_groupkfold_recompute.py
 groupkfold:
   n_splits: 5
   top_k: 200
@@ -81,7 +81,7 @@ groupkfold:
   group_by: game_id
 
 # Source of original Table 3 Δ_G (read by analyze_m5.py and tests)
-original_table3_path: /home/v-seungplee/llm-addiction/sae_v3_analysis/results/condition_modulation_groupkfold_L22.json
+original_table3_path: /home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/condition_modulation_groupkfold_L22.json
 original_table3_key_template: "{model}_{task}_{indicator}_L{layer}"
 plus_g_subset: plus_G
 minus_g_subset: minus_G

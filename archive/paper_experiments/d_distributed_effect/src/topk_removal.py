@@ -1,6 +1,6 @@
 """Top-K vs random-K SAE feature removal primitive for §4.3 distributed-effect robustness.
 
-Pipeline parity (must match `sae_v3_analysis/src/run_groupkfold_recompute.py`):
+Pipeline parity (must match `experiments/07_sae_readout/src/run_groupkfold_recompute.py`):
   - 5-fold GroupKFold by game_id (no shuffle; deterministic group→fold map)
   - within-fold RandomForest deconfound on [bal, rn, bal², log1p(bal), bal·rn]
   - active-feature filter: nnz > 10 across rows (matches reference)
@@ -44,7 +44,7 @@ from sklearn.model_selection import GroupKFold
 from sklearn.metrics import r2_score
 
 # Reuse the canonical deconfound + constants — single source of truth.
-SAE_V3_SRC = Path(__file__).resolve().parents[3] / "sae_v3_analysis" / "src"
+SAE_V3_SRC = Path(__file__).resolve().parents[4] / "experiments" / "07_sae_readout" / "src"
 if str(SAE_V3_SRC) not in sys.path:
     sys.path.insert(0, str(SAE_V3_SRC))
 

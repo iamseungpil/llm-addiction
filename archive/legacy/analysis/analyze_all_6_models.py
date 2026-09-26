@@ -14,7 +14,7 @@ Why it is deprecated rather than repaired
    ``game_result``, so neither the ``win`` nor the ``result`` branch below fires
    and every win flag comes out ``None``. Every downstream loss-chasing figure
    is therefore computed off an all-``None`` outcome vector. The correct reader
-   is ``sae_v3_analysis/src/run_multimodel_distortion_analysis.py``
+   is ``experiments/07_sae_readout/src/run_multimodel_distortion_analysis.py``
    (``result_from_record`` / ``build_outcome_series``), which covers all three
    spellings: ``decisions[i]["win"]`` (open-weight V4role),
    ``round_details[i]["game_result"]["result"]`` (the four API exports), and the
@@ -29,7 +29,7 @@ Repairing (1) alone would leave a runnable-looking six-model analyzer that still
 reports the wrong models off the wrong open-weight files, which is a worse trap
 than a labelled one. For the canonical six-model behavioural code and data see
 ``PAPER_CANONICAL_CODE.md``; for the distortion analysis see
-``sae_v3_analysis/src/run_multimodel_distortion_analysis.py``.
+``experiments/07_sae_readout/src/run_multimodel_distortion_analysis.py``.
 """
 
 import json

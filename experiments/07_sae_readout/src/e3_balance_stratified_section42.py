@@ -26,10 +26,10 @@ from pathlib import Path
 import numpy as np
 from sklearn.metrics import roc_auc_score
 
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/sae_v3_analysis/src')
+sys.path.insert(0, '/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
 
 DATA = Path('/home/v-seungplee/data/llm-addiction/sae_features_v3')
-OUT_DIR = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/'
+OUT_DIR = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/'
                'v19_multi_patching/E3_balance_stratified')
 TASK_DIRS = {'sm': 'slot_machine', 'ic': 'investment_choice', 'mw': 'mystery_wheel'}
 

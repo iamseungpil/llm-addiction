@@ -25,7 +25,7 @@ from sklearn.preprocessing import StandardScaler
 ANALYSIS_ROOT = Path(
     os.environ.get(
         "LLM_ADDICTION_ANALYSIS_ROOT",
-        "/home/v-seungplee/llm-addiction/sae_v3_analysis",
+        "/home/v-seungplee/llm-addiction/experiments/07_sae_readout",
     )
 )
 DATA_ROOT = Path(

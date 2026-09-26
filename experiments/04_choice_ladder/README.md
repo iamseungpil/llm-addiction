@@ -28,10 +28,10 @@ The design was fixed before data collection in [`PREREGISTRATION.md`](PREREGISTR
 checkout without extra setup.
 
 ```bash
-python paper_experiments/e8_constraint_choice/src/run_e8.py \
+python experiments/04_choice_ladder/src/run_e8.py \
     --model llama --arm choose_fixed --n_games 200 --gpu 0 --output_dir out/e8
 
-python paper_experiments/e8_constraint_choice/src/run_e8.py \
+python experiments/04_choice_ladder/src/run_e8.py \
     --model llama --arm forced_fixed --cap 70 --n_games 100 --gpu 0 --output_dir out/e8
 ```
 

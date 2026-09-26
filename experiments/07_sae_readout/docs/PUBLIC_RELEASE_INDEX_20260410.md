@@ -8,7 +8,7 @@ guesswork.
 
 | Role | Local path | Remote |
 | --- | --- | --- |
-| Analysis code + results + manifests | `/home/v-seungplee/llm-addiction/sae_v3_analysis` | `github.com/iamseungpil/llm-addiction` |
+| Analysis code + results + manifests | `/home/v-seungplee/llm-addiction/experiments/07_sae_readout` | `github.com/iamseungpil/llm-addiction` |
 | Korean paper source | `/home/v-seungplee/LLM_Addiction_NMT_KOR` | `github.com/iamseungpil/LLM_Addiction_NMT_KOR` |
 
 ## 2. Hugging Face dataset layout

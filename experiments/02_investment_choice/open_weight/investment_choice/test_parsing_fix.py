@@ -16,6 +16,7 @@ from datetime import datetime
 from collections import Counter
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "shared"))  # experiments/shared/common
 from common import ModelLoader, setup_logger, set_random_seed
 from investment_choice.run_experiment import InvestmentChoiceExperiment
 

@@ -8,7 +8,7 @@ Leverages ALL rounds (not just decision-point) to analyze:
   3. Feature dynamics: Which features change most between early/late rounds?
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python round_trajectory.py --paradigm ic --layer 18
     python round_trajectory.py --paradigm ic sm --layer 18 26 30
 """

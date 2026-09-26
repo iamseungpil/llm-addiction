@@ -12,7 +12,7 @@ as possible by:
 This module is the canonical bridge between:
   - raw behavioral data under data/behavioral/*
   - hidden-state extraction under data/sae_features_v3/*
-  - steering follow-up experiments under sae_v3_analysis/src/*
+  - steering follow-up experiments under experiments/07_sae_readout/src/*
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ import os
 
 import numpy as np
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[3]
 BEHAVIORAL_ROOT = Path(
     os.environ.get(
         "LLM_ADDICTION_BEHAVIORAL_ROOT",
@@ -39,10 +39,16 @@ BEHAVIORAL_ROOT = Path(
     )
 )
 
-SLOT_MACHINE_SRC = REPO_ROOT / "paper_experiments" / "slot_machine_6models" / "src"
-ALT_PARADIGMS_SRC = REPO_ROOT / "exploratory_experiments" / "alternative_paradigms" / "src"
+SLOT_MACHINE_SRC = REPO_ROOT / "experiments" / "01_slot_machine" / "src"
+# The alternative-paradigm harness is split across three import roots:
+# common/ (shared), investment_choice/ (02) and mystery_wheel/ (06).
+ALT_PARADIGMS_SRCS = (
+    REPO_ROOT / "experiments" / "shared",
+    REPO_ROOT / "experiments" / "02_investment_choice" / "open_weight",
+    REPO_ROOT / "experiments" / "06_mystery_wheel",
+)
 
-for path in (str(SLOT_MACHINE_SRC), str(ALT_PARADIGMS_SRC)):
+for path in (str(SLOT_MACHINE_SRC), *map(str, ALT_PARADIGMS_SRCS)):
     if path not in sys.path:
         sys.path.insert(0, path)
 

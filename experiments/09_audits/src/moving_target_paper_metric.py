@@ -151,7 +151,7 @@ def main() -> None:
         / "snapshots/*/investment_choice/bet_constraint")))), None)
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=str(Path(default_root).parents[1]) if default_root else "")
-    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/moving_target_paper_metric.json")
+    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/experiments/09_audits/moving_target_paper_metric.json")
     args = ap.parse_args()
 
     root = Path(args.root)

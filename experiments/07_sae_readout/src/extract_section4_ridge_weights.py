@@ -25,7 +25,7 @@ from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GroupKFold
 
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/sae_v3_analysis/src')
+sys.path.insert(0, '/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
 from run_perm_null_ilc import (
     load_sae_and_meta, nl_deconfound_split, TOP_K, RIDGE_ALPHA,
 )
@@ -33,7 +33,7 @@ from run_groupkfold_recompute import compute_loss_chasing_continuous
 from run_comprehensive_robustness import compute_iba
 
 LAYER = 22
-OUT_DIR = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/v19_multi_patching/'
+OUT_DIR = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/v19_multi_patching/'
                'M3prime_indicator_steering/direction_metadata')
 
 

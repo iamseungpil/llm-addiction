@@ -30,9 +30,9 @@ import seaborn as sns
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-JSON_DIR = Path("/home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/"
+JSON_DIR = Path("/home/jovyan/llm-addiction/archive/exploratory_experiments/additional_experiments/"
                 "sae_feature_analysis/slot_machine_condition_comparison/results/within_model/json")
-OUTPUT_DIR = Path("/home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/"
+OUTPUT_DIR = Path("/home/jovyan/llm-addiction/archive/exploratory_experiments/additional_experiments/"
                   "sae_feature_analysis/results/within_model/figures_improved")
 
 MODEL_LABELS = {"llama": "LLaMA-3.1-8B", "gemma": "Gemma-2-9B"}

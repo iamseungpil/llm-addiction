@@ -23,7 +23,7 @@ echo "========================================================================"
 # conda activate llm-addiction
 
 # Navigate to project directory
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms
 
 # Check GPU
 echo ""

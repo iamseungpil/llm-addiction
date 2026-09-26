@@ -6,8 +6,8 @@ CONNECTOR="${CONNECTOR:-/home/v-seungplee/.azure/cliextensions/ml/azext_mlv2/man
 SSH_KEY="${SSH_KEY:-/home/v-seungplee/.ssh/id_rsa}"
 URL_E8="${URL_E8:-wss://ssh-2etszrmvdrq4cwqdql4al50f38gyq2afb9nhuq49bngbf1buj3c.westus2.nodes.azureml.ms}"
 
-LOCAL_ANALYSIS_ROOT="${LOCAL_ANALYSIS_ROOT:-/home/v-seungplee/llm-addiction/sae_v3_analysis}"
-REMOTE_ROOT="${REMOTE_ROOT:-/scratch/llm_addiction/sae_v3_analysis}"
+LOCAL_ANALYSIS_ROOT="${LOCAL_ANALYSIS_ROOT:-/home/v-seungplee/llm-addiction/experiments/07_sae_readout}"
+REMOTE_ROOT="${REMOTE_ROOT:-/scratch/llm_addiction/experiments/07_sae_readout}"
 REMOTE_DATA_ROOT="${REMOTE_DATA_ROOT:-/scratch/llm_addiction/data/sae_features_v3}"
 REMOTE_PYTHON="${REMOTE_PYTHON:-/opt/conda/envs/ptca/bin/python}"
 

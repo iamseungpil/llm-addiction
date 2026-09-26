@@ -19,7 +19,7 @@ from pathlib import Path
 
 # Paths
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
-RESULTS_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
+RESULTS_DIR = (Path(__file__).resolve().parents[1] / "results/json")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Global settings
@@ -241,7 +241,7 @@ def main():
     print(f"Device: {DEVICE}")
 
     # Add source directory to path
-    sys.path.insert(0, "/home/v-seungplee/llm-addiction/sae_v3_analysis/src")
+    sys.path.insert(0, "/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src")
 
     alpha_values = [-2.0, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0]
     all_results = {}

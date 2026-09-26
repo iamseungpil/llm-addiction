@@ -14,7 +14,7 @@ np.random.seed(42)
 
 IC_HS = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3/investment_choice/llama/hidden_states_dp.npz")
 SM_HS = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3/slot_machine/llama/hidden_states_dp.npz")
-OUT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
+OUT = (Path(__file__).resolve().parents[1] / "results/json")
 
 def log(msg):
     print(f"[{datetime.now().strftime('%H:%M:%S')}] {msg}", flush=True)

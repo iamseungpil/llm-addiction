@@ -60,21 +60,21 @@ track0_w3_replication/
 Open-weight (5 games on Gemma at cap=$30, variable mode):
 
 ```
-python paper_experiments/track0_w3_replication/src/run_track0_open_weight.py \
+python experiments/03_matched_cap/track0_w3_replication/src/run_track0_open_weight.py \
   --model gemma --gpu 0 --cap 30 --mode variable --smoke
 ```
 
 API (5 games on GPT-4o-mini at cap=$30, variable mode; needs `OPENAI_API_KEY`):
 
 ```
-python paper_experiments/track0_w3_replication/src/run_track0_api.py \
+python experiments/03_matched_cap/track0_w3_replication/src/run_track0_api.py \
   --provider openai --model_id gpt-4o-mini --cap 30 --mode variable --smoke
 ```
 
 Pytest:
 
 ```
-cd paper_experiments/track0_w3_replication
+cd experiments/03_matched_cap/track0_w3_replication
 pytest tests/ -v
 ```
 
@@ -85,14 +85,14 @@ The grid is 6 models × 4 caps × 2 modes = 48 cells. Each cell is one CLI invoc
 Example single live cell (LLaMA, cap=$70, variable, 200 games):
 
 ```
-python paper_experiments/track0_w3_replication/src/run_track0_open_weight.py \
+python experiments/03_matched_cap/track0_w3_replication/src/run_track0_open_weight.py \
   --model llama --gpu 0 --cap 70 --mode variable --n_games 200
 ```
 
 API live cell:
 
 ```
-python paper_experiments/track0_w3_replication/src/run_track0_api.py \
+python experiments/03_matched_cap/track0_w3_replication/src/run_track0_api.py \
   --provider anthropic --model_id claude-3-5-haiku-20241022 --cap 70 --mode variable --n_games 200
 ```
 
@@ -103,7 +103,7 @@ Output: `final_{model}_cap{cap}_{mode}_{timestamp}.json` under `output.base_dir`
 Once all 48 cells have produced JSON files:
 
 ```
-python paper_experiments/track0_w3_replication/src/analyze_track0.py \
+python experiments/03_matched_cap/track0_w3_replication/src/analyze_track0.py \
   --input_dir /scratch/x3415a02/data/llm-addiction/track0_w3/ \
   --output_path /scratch/x3415a02/data/llm-addiction/track0_w3/summary.json
 ```
@@ -111,7 +111,7 @@ python paper_experiments/track0_w3_replication/src/analyze_track0.py \
 Sanity checks:
 
 ```
-python paper_experiments/track0_w3_replication/src/sanity_checks.py \
+python experiments/03_matched_cap/track0_w3_replication/src/sanity_checks.py \
   --input_dir /scratch/x3415a02/data/llm-addiction/track0_w3/ \
   --output_path /scratch/x3415a02/data/llm-addiction/track0_w3/sanity.md
 ```

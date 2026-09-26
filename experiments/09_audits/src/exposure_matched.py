@@ -67,7 +67,7 @@ def main() -> None:
     ap.add_argument("--glob", default=DEFAULT_GLOB)
     ap.add_argument("--cap", type=int, default=70,
                     help="Bet cap to analyse. The letter's W4 numbers are the cap-$70 block.")
-    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/exposure_matched.json")
+    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/experiments/09_audits/exposure_matched.json")
     args = ap.parse_args()
 
     # The cap belongs in the key. Without it the loop silently keeps whichever file sorts last

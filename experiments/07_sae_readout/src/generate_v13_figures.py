@@ -14,7 +14,7 @@ Figures:
   9: Overall Verdict Matrix (Summary)
 
 Usage:
-    conda run -n llm-addiction python sae_v3_analysis/src/generate_v13_figures.py
+    conda run -n llm-addiction python experiments/07_sae_readout/src/generate_v13_figures.py
 """
 
 from __future__ import annotations

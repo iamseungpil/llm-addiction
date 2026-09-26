@@ -10,9 +10,9 @@ import pytest
 from multilayer_causal.src import mw
 
 REPO = Path(__file__).resolve().parents[2]
-MW_RUNNER = (REPO / "exploratory_experiments" / "alternative_paradigms" / "src"
+MW_RUNNER = (REPO.parents[1] / "experiments" / "06_mystery_wheel"
              / "mystery_wheel" / "run_experiment.py")
-MW_SRC_DIR = REPO / "exploratory_experiments" / "alternative_paradigms" / "src"
+MW_SRC_DIR = REPO.parents[1] / "experiments" / "06_mystery_wheel"
 
 
 # ---------------------------------------------------------------- pool

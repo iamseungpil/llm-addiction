@@ -23,8 +23,8 @@ plt.rcParams.update({
 })
 
 COLORS = ['#0072B2', '#D55E00', '#009E73', '#CC79A7', '#F0E442', '#56B4E9']
-FIG_DIR = "/home/jovyan/llm-addiction/sae_v3_analysis/results/figures"
-R = "/home/jovyan/llm-addiction/sae_v3_analysis/results/json"
+FIG_DIR = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/figures"
+R = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/json"
 
 
 def fig1_comprehensive_bk_matrix():

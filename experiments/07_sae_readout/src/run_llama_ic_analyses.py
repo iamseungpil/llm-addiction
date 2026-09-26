@@ -36,7 +36,7 @@ warnings.filterwarnings("ignore")
 # ===================================================================
 LLAMA_SAE_DIR = Path("/home/jovyan/beomi/llm-addiction-data/sae_features_v3/investment_choice/llama")
 GEMMA_SAE_DIR = Path("/home/jovyan/beomi/llm-addiction-data/sae_features_v3/investment_choice/gemma")
-RESULTS_DIR = Path("/home/jovyan/llm-addiction/sae_v3_analysis/results")
+RESULTS_DIR = Path("/home/jovyan/llm-addiction/experiments/07_sae_readout/results")
 FIGURE_DIR = RESULTS_DIR / "figures"
 JSON_DIR = RESULTS_DIR / "json"
 LOG_DIR = RESULTS_DIR / "logs"

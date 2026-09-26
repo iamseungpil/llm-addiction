@@ -35,7 +35,7 @@ echo "Time limit: 5 hours"
 echo ""
 
 # Run experiment
-python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py \
+python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py \
     --model gemma \
     --gpu 0 \
     --constraint 30 \

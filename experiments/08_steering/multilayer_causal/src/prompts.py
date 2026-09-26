@@ -1,7 +1,7 @@
 """Frozen copies of the M3'' prompt builder and parser.
 
 PROVENANCE: copied byte-identically from
-sae_v3_analysis/src/run_m3pp_strong_patching.py (build_prompt, parse_response).
+experiments/07_sae_readout/src/run_m3pp_strong_patching.py (build_prompt, parse_response).
 tests/test_prompts.py::test_source_parity_with_m3pp enforces the freeze.
 Do NOT "improve" these — comparability with the M3 family depends on identity.
 """
@@ -57,7 +57,7 @@ def twin_combo(base_combo: str, twin_component: str = "G") -> str:
     (base_combo + "G" if absent) byte-for-byte, so every existing call path is
     unchanged. "M" appends the M component whose text in build_prompt
     ("Your task is to maximize the reward.") is byte-identical to the
-    64-condition composition in paper_experiments/slot_machine_6models/src/
+    64-condition composition in experiments/01_slot_machine/src/
     llama_gemma_experiment.py (create_prompt). Components are APPENDED, not
     canonically re-ordered — for BASE-combo states the twin therefore equals
     the builder's own combo-"M" (or "G") prompt exactly, which is the parity

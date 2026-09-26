@@ -3,7 +3,7 @@
 Phase 1: SAE Feature Extraction for Alternative Paradigms
 
 Extracts SAE features from gambling experiments (Blackjack).
-Follows the same structure as paper_experiments/llama_sae_analysis/phase1_feature_extraction.py
+Follows the same structure as archive/paper_experiments/llama_sae_analysis/phase1_feature_extraction.py
 
 Usage:
     python src/common/phase1_feature_extraction.py --paradigm blackjack --model llama --gpu 0

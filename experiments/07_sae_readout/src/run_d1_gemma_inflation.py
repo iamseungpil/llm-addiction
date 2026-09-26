@@ -77,7 +77,7 @@ logging.basicConfig(
 logger = logging.getLogger("d1_gemma_inflation")
 
 
-ANALYSIS_ROOT = Path(os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/scratch/llm_addiction/sae_v3_analysis"))
+ANALYSIS_ROOT = Path(os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/scratch/llm_addiction/experiments/07_sae_readout"))
 RESULTS_DIR = ANALYSIS_ROOT / "results"
 JSON_DIR = RESULTS_DIR / "json"
 CHECKPOINT_DIR = RESULTS_DIR / "checkpoints"

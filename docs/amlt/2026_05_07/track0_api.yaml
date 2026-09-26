@@ -30,6 +30,6 @@ jobs:
         TRACK: track0_api
     command:
       - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
-      - cd /scratch/code/llm-addiction && bash paper_experiments/track0_w3_replication/amlt/run_grid.sh api
-      - cd /scratch/code/llm-addiction && python paper_experiments/track0_w3_replication/src/analyze_track0.py --input_dir /scratch/x3415a02/data/llm-addiction/track0_w3/ --output_path /scratch/x3415a02/data/llm-addiction/track0_w3/_analysis.json
+      - cd /scratch/code/llm-addiction && bash experiments/03_matched_cap/track0_w3_replication/amlt/run_grid.sh api
+      - cd /scratch/code/llm-addiction && python experiments/03_matched_cap/track0_w3_replication/src/analyze_track0.py --input_dir /scratch/x3415a02/data/llm-addiction/track0_w3/ --output_path /scratch/x3415a02/data/llm-addiction/track0_w3/_analysis.json
       - sleep 86400

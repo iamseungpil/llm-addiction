@@ -12,7 +12,7 @@ import argparse
 import json
 from pathlib import Path
 
-PAPER_AUDIT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/paper_neural_audit.json")
+PAPER_AUDIT = (Path(__file__).resolve().parents[1] / "results/paper_neural_audit.json")
 
 
 def load_audit() -> dict:

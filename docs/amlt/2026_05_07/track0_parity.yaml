@@ -27,5 +27,5 @@ jobs:
         TRACK: track0_parity
     command:
       - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
-      - cd /scratch/code/llm-addiction && bash paper_experiments/track0_w3_replication/amlt/run_grid.sh parity
+      - cd /scratch/code/llm-addiction && bash experiments/03_matched_cap/track0_w3_replication/amlt/run_grid.sh parity
       - sleep 86400

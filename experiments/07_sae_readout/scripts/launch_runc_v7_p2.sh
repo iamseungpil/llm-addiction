@@ -2,13 +2,13 @@
 # run_c P2 (optional): Exp B Gemma SM/MW Phase 2 null (Gemma floor conditions)
 # Launch after P1 canonical if time permits.
 set -euo pipefail
-cd /scratch/llm_addiction/sae_v3_analysis
+cd /scratch/llm_addiction/experiments/07_sae_readout
 
 ENV_COMMON=(
-    LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm_addiction/sae_v3_analysis
+    LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm_addiction/experiments/07_sae_readout
     LLM_ADDICTION_DATA_ROOT=/scratch/llm_addiction/data/sae_features_v3
     LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/llm_addiction/data/behavioral
-    PYTHONPATH=/scratch/llm_addiction/paper_experiments/slot_machine_6models/src:/scratch/llm_addiction/exploratory_experiments/alternative_paradigms/src
+    PYTHONPATH=/scratch/llm_addiction/experiments/01_slot_machine/src:/scratch/llm_addiction/experiments/shared:/scratch/llm_addiction/experiments/02_investment_choice/open_weight:/scratch/llm_addiction/experiments/06_mystery_wheel
     PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
     LOCAL_RANK=0 RANK=0 WORLD_SIZE=1
     TORCHDYNAMO_DISABLE=1

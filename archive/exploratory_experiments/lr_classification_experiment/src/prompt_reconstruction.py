@@ -3,7 +3,7 @@
 Prompt Reconstruction from Experiment Data
 
 Reconstructs prompts from saved JSON game data for hidden state extraction.
-Based on: paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py
+Based on: experiments/01_slot_machine/src/llama_gemma_experiment.py
 
 Author: LLM Addiction Research Team
 Last Updated: 2025-01

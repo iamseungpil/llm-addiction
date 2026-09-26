@@ -5,10 +5,10 @@ cd /home/jovyan/llm-addiction
 export CUDA_VISIBLE_DEVICES=1
 OUT=/home/jovyan/beomi/llm-addiction-data
 LOG=/home/jovyan/beomi/llm-addiction-data/logs
-SRC=exploratory_experiments/alternative_paradigms/src
+SRC=archive/exploratory_experiments/alternative_paradigms/src
 
 echo "=== Slot Machine === $(date)"
-python paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py \
+python experiments/01_slot_machine/src/llama_gemma_experiment.py \
   --model gemma --gpu 0 \
   2>&1 | tee $LOG/sm_v4_role.log
 

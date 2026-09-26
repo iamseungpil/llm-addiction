@@ -1,8 +1,8 @@
 #!/bin/bash
 # [SLURM-DISABLED] #SBATCH --job-name=quick_all_exp
 # [SLURM-DISABLED] #SBATCH --partition=cas_v100_4
-# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/logs/quick_all_%j.log
-# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/logs/quick_all_%j.err
+# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/logs/quick_all_%j.log
+# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/logs/quick_all_%j.err
 # [SLURM-DISABLED] #SBATCH --time=04:00:00
 # [SLURM-DISABLED] #SBATCH --gres=gpu:1
 # [SLURM-DISABLED] #SBATCH --cpus-per-task=4
@@ -29,7 +29,7 @@ echo "=========================================="
 # conda activate llm-addiction
 
 # Set working directory
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms
 
 # Create log directory
 mkdir -p logs

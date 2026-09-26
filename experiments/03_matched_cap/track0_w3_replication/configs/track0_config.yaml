@@ -30,8 +30,8 @@ generation:
   win_rate: 0.30
   payout: 3.0
   # Legacy SM parity (per-mode): the legacy GPT runners use different round caps.
-  # Fixed-bet runner: legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:120 (100 rounds)
-  # Variable-bet runner: legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:120 (50 rounds, "REDUCED from 100 to 50 for efficiency")
+  # Fixed-bet runner: archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:120 (100 rounds)
+  # Variable-bet runner: archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:120 (50 rounds, "REDUCED from 100 to 50 for efficiency")
   max_rounds_fixed: 100
   max_rounds_variable: 50
   seed_base: 42

@@ -1,10 +1,10 @@
 #!/bin/bash
 set -uo pipefail
-cd /scratch/llm-addiction/sae_v3_analysis
-export PYTHONPATH=src:/scratch/llm-addiction/paper_experiments/slot_machine_6models/src:/scratch/llm-addiction/exploratory_experiments/alternative_paradigms/src:${PYTHONPATH:-}
+cd /scratch/llm-addiction/experiments/07_sae_readout
+export PYTHONPATH=src:/scratch/llm-addiction/experiments/01_slot_machine/src:/scratch/llm-addiction/experiments/shared:/scratch/llm-addiction/experiments/02_investment_choice/open_weight:/scratch/llm-addiction/experiments/06_mystery_wheel:${PYTHONPATH:-}
 export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/llm-addiction-data/behavioral
 export LLM_ADDICTION_DATA_ROOT=/scratch/llm-addiction-data/sae_features_v3
-export LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm-addiction/sae_v3_analysis
+export LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm-addiction/experiments/07_sae_readout
 export TRANSFORMERS_NO_ADVISORY_WARNINGS=1
 ALPHAS="-2.0 -1.0 -0.5 0.0 0.5 1.0 2.0"
 

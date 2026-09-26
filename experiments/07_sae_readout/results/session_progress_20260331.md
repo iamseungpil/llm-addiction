@@ -220,7 +220,7 @@ BK Direction (MW dir → IC task):
 
 ### 실험 결과 JSON
 ```
-/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json/
+/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/json/
 ├── v12_n200_20260327_030745.json          # LLaMA SM gold standard
 ├── v12_llama_ic_L22_20260329_022313.json   # LLaMA IC
 ├── v12_llama_mw_L22_20260329_072818.json   # LLaMA MW
@@ -243,7 +243,7 @@ BK Direction (MW dir → IC task):
 
 ### 실험 로그
 ```
-/home/v-seungplee/llm-addiction/sae_v3_analysis/results/
+/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/
 ├── v14_log.txt          # Exp1 (main sequential)
 ├── v14_exp2a_log.txt    # LLaMA IC parallel
 ├── v14_exp2b_log.txt    # LLaMA MW parallel
@@ -253,7 +253,7 @@ BK Direction (MW dir → IC task):
 
 ### 실험 코드
 ```
-/home/v-seungplee/llm-addiction/sae_v3_analysis/src/
+/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src/
 ├── run_v14_experiments.py    # Exp1 메인 (순차)
 ├── run_v14_parallel.py       # Exp2a/2b/3/4 병렬 워커
 ├── run_v14_validation.sh     # 래퍼 스크립트
@@ -331,9 +331,9 @@ ps aux | grep run_v14 | grep -v grep
 nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv,noheader
 
 # 각 실험 최신 로그
-tail -5 /home/v-seungplee/llm-addiction/sae_v3_analysis/results/v14_log.txt
-tail -5 /home/v-seungplee/llm-addiction/sae_v3_analysis/results/v14_exp{2a,2b,3,4}_log.txt
+tail -5 /home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/v14_log.txt
+tail -5 /home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/v14_exp{2a,2b,3,4}_log.txt
 
 # 완료된 결과 확인
-ls -lt /home/v-seungplee/llm-addiction/sae_v3_analysis/results/json/v14_*.json
+ls -lt /home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/json/v14_*.json
 ```

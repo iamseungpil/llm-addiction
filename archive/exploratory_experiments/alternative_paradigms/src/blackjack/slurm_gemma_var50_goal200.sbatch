@@ -24,7 +24,7 @@ cd /home/jovyan/llm-addiction
 # Run experiment - Variable max $50 with Goal $200
 echo "Starting Variable max \$50 with Goal \$200..."
 
-python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
+python archive/exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
     --model gemma \
     --gpu 0 \
     --bet-type variable \

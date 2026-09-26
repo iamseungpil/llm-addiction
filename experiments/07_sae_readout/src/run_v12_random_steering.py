@@ -12,7 +12,7 @@ from scipy.stats import spearmanr
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("v12_random")
 
-OUT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
+OUT = (Path(__file__).resolve().parents[1] / "results/json")
 N_TRIALS = 50
 TARGET_LAYER = 22
 ALPHAS = [-2.0, -1.0, -0.5, 0.5, 1.0, 2.0]

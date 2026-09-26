@@ -19,7 +19,7 @@ from .hooks import (HookGroup, MultiLayerPatcher, MultiLayerProjector,
 from .prompts import build_prompt, parse_response, twin_combo
 from .states import ensure_sm_catalog, exclude_combo_states, load_minusG_states
 
-# Model ids mirror paper_experiments/slot_machine_6models/src/
+# Model ids mirror experiments/01_slot_machine/src/
 # llama_gemma_experiment.py::load_model exactly (the §3 behavioural corpus).
 MODEL_PATHS = {
     "gemma": "google/gemma-2-9b-it",

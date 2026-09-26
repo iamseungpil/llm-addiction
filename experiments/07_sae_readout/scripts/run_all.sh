@@ -4,7 +4,7 @@
 #   sae_features_v3/{investment_choice,slot_machine,mystery_wheel}/gemma/
 
 set -e
-cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
 
 echo "============================================"
 echo "V3 SAE Analysis Pipeline"
@@ -29,5 +29,5 @@ python round_trajectory.py --paradigm ic sm mw --layer 18 26 30
 echo ""
 echo "============================================"
 echo "ALL COMPLETE"
-echo "Results: /home/jovyan/llm-addiction/sae_v3_analysis/results/"
+echo "Results: /home/jovyan/llm-addiction/experiments/07_sae_readout/results/"
 echo "============================================"

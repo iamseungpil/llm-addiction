@@ -43,10 +43,10 @@ import seaborn as sns
 # Configuration
 # ===========================================================================
 IC_V2_DIR = Path("/home/jovyan/beomi/llm-addiction-data/sae_features_v2/investment_choice/gemma")
-SM_V2_RESULTS = Path("/home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/"
+SM_V2_RESULTS = Path("/home/jovyan/llm-addiction/archive/exploratory_experiments/additional_experiments/"
                      "sae_feature_analysis/results/within_model_v2/json")
 
-OUTPUT_DIR = Path("/home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/"
+OUTPUT_DIR = Path("/home/jovyan/llm-addiction/archive/exploratory_experiments/additional_experiments/"
                   "sae_feature_analysis/results/ic_v2")
 FIG_DIR = OUTPUT_DIR / "figures"
 JSON_DIR = OUTPUT_DIR / "json"

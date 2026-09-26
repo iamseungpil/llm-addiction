@@ -18,7 +18,7 @@ Data integrity:
 - LLaMA SM V1: EXCLUDED (corrupted data)
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python run_improved_v4.py
 """
 

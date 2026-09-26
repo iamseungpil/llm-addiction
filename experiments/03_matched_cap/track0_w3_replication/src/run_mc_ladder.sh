@@ -32,7 +32,7 @@ for v in OPENAI_API_KEY ANTHROPIC_API_KEY GOOGLE_API_KEY; do
 done
 
 PY=/home/v-seungplee/miniconda3/envs/metaprobe/bin/python
-RUNNER=paper_experiments/track0_w3_replication/src/run_track0_api.py
+RUNNER=experiments/03_matched_cap/track0_w3_replication/src/run_track0_api.py
 OUT=/home/v-seungplee/data/llm-addiction/mc32
 LOG=/home/v-seungplee/llm-addiction/logs/mc_ladder
 mkdir -p "$OUT" "$LOG"

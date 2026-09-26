@@ -2,7 +2,7 @@
 # Run c10 then c50 sequentially on GPU 0
 set -e
 
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/src
 OUTPUT_DIR=/home/jovyan/beomi/llm-addiction-data/investment_choice/gemma_parser_fixed_v2
 LOG_DIR=/home/jovyan/beomi/llm-addiction-data/logs
 

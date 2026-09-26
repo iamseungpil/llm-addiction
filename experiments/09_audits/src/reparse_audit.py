@@ -67,7 +67,7 @@ def main() -> None:
         "/home/v-seungplee/data/llm-addiction/track0_w3/final_*.json",
         "/home/v-seungplee/data/llm-addiction/e7_factorial/e7_*.json",
     ])
-    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/reparse_audit.json")
+    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/experiments/09_audits/reparse_audit.json")
     args = ap.parse_args()
 
     report = {}

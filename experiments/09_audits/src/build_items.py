@@ -96,8 +96,8 @@ SOURCE_GLOBS = {
 # docstring for the measurement that forced this. These are the only track0 cells where
 # both arms are stored uncapped, and they also put both arms on the same three caps.
 ARM_FILTER = {"models": {"llama"}, "caps": {30, 50, 70}}
-OUT_ITEMS = Path("/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/site/public/items.json")
-OUT_KEY = Path("/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/items_key.json")
+OUT_ITEMS = Path("/home/v-seungplee/llm-addiction/experiments/09_audits/site/public/items.json")
+OUT_KEY = Path("/home/v-seungplee/llm-addiction/experiments/09_audits/items_key.json")
 
 SEED = 24231  # the submission number; fixed here so the draw is reproducible
 N_PER_FRAME = 25

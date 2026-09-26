@@ -4,7 +4,7 @@ from pathlib import Path
 
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction")
 SAE_V3_ROOT = DATA_ROOT / "sae_features_v3"
-REPO_ROOT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis")
+REPO_ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = REPO_ROOT / "results"
 FIGURE_DIR = RESULTS_DIR / "figures"
 JSON_DIR = RESULTS_DIR / "json"

@@ -7,7 +7,7 @@ convention) + schema_version + gate fields recorded INSIDE the npz so a
 failed builder gate auto-excludes the arm (RUN_PLAN_W3.md 구현 원칙).
 
 saerd  The LITERAL Table-1 readout direction. PROVENANCE: the paper's §4.1
-       pipeline (sae_v3_analysis/src/run_groupkfold_recompute.py via
+       pipeline (experiments/07_sae_readout/src/run_groupkfold_recompute.py via
        extract_section4_ridge_weights.py) — SAE features at L22, valid =
        variable-bet rows with I_BA>0, active features = columns with nnz>10,
        per-fold RF deconfound of I_BA on [bal, rn, bal^2, log1p(bal), bal*rn]
@@ -40,7 +40,7 @@ saerd  The LITERAL Table-1 readout direction. PROVENANCE: the paper's §4.1
        directions move behavior.
 
 bk_sm / bk_ic / bk_sm_balres  LOTO rank-1 shared BK axes. PROVENANCE:
-       endpoint labels mirror sae_v3_analysis/src/data_loader.get_labels /
+       endpoint labels mirror experiments/07_sae_readout/src/data_loader.get_labels /
        cross_domain.py (every decision row of a game carries the game's
        outcome; bankruptcy vs voluntary_stop) and the per-task contrast
        mirrors run_rq2_aligned_hidden_transfer.centroid_direction (raw L22
@@ -570,7 +570,7 @@ def load_gemmascope_l22_wdec(token):
 # The §4.1 llama readout axis maps its Ridge readout through the LlamaScope
 # decoder at the L14-19 write window. sae_lens is NOT installed in the project
 # envs, so the SAE is loaded DIRECTLY from the fnlp HF repo (the same path the
-# in-repo paper_experiments/llama_sae_analysis phases use), one SAE per layer:
+# in-repo archive/paper_experiments/llama_sae_analysis phases use), one SAE per layer:
 # a single safetensors holding BOTH encoder and decoder. `decoder.weight` is
 # stored (d_model=4096, d_sae=32768); the per-feature W_dec the readout
 # decoder_map needs is decoder.weight.T -> (n_feat=32768, 4096), matching the

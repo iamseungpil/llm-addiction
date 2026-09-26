@@ -45,7 +45,7 @@ HF_SNAPSHOT = Path(
     "snapshots/5b5ce148ee815bd5dd599ef10c1cac702087625a"
 )
 DEFAULT_OUT_DIR = Path(
-    "/home/v-seungplee/llm-addiction/sae_v3_analysis/results/distortion_multimodel"
+    "/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/distortion_multimodel"
 )
 
 

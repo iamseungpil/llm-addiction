@@ -20,7 +20,7 @@ from .states import HF_REPO, SEED_BASE, behavioral_root
 
 logger = logging.getLogger(__name__)
 
-# PROVENANCE: exploratory_experiments/alternative_paradigms/src/investment_choice/
+# PROVENANCE: experiments/02_investment_choice/open_weight/investment_choice/
 # run_experiment.py — prompt Option k (riskiest first) → game choice (4 = riskiest,
 # 1 = safe stop). Value-identity with the source is asserted in tests/test_ic.py.
 PROMPT_TO_GAME = {1: 4, 2: 3, 3: 2, 4: 1}
@@ -105,10 +105,10 @@ def replay_game_ids(model: str = "gemma", n: int = IC_REPLAY_EXCLUDE_N) -> set:
 class _FrozenICParser:
     """Byte-identical frozen copy of the v2_role IC response parser.
 
-    PROVENANCE: exploratory_experiments/alternative_paradigms/src/investment_choice/
+    PROVENANCE: experiments/02_investment_choice/open_weight/investment_choice/
     run_experiment.py lines 262-313, InvestmentChoiceExperiment.parse_choice_fixed.
     That class wrote the v2_role_gemma catalog (json header == its run_experiment
-    final_output; sae_v3_analysis/src/exact_behavioral_replay.py replays IC through
+    final_output; experiments/07_sae_readout/src/exact_behavioral_replay.py replays IC through
     the same class). Copied verbatim — single quotes and self-style kept; parity
     enforced by tests/test_ic.py via inspect.getsource. The stub model_loader
     reproduces ModelLoader.MODEL_CONFIGS['gemma'] chat_template=True (instruction-

@@ -1,7 +1,7 @@
 """Portfolio allocation simulator for Track B / M1 discriminant validity test.
 
 This is NEW code — the repo has no portfolio analogue of `SlotMachineGame`. The class
-mirrors `paper_experiments/track0_w3_replication/src/game_logic.SlotMachineGame` in
+mirrors `experiments/03_matched_cap/track0_w3_replication/src/game_logic.SlotMachineGame` in
 shape so analyses, runners, and tests can follow identical patterns. The non-trivial
 piece is the return distribution: per-round shocks must be deterministic given a seed
 (reproducibility) yet realistic enough that leveraged/volatile/OTM are plausibly

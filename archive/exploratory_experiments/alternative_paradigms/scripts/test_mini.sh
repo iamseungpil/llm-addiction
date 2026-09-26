@@ -1,8 +1,8 @@
 #!/bin/bash
 # [SLURM-DISABLED] #SBATCH --job-name=mini_exp_test
 # [SLURM-DISABLED] #SBATCH --partition=cas_v100_4
-# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/logs/mini_%j.log
-# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/logs/mini_%j.err
+# [SLURM-DISABLED] #SBATCH --output=/home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/logs/mini_%j.log
+# [SLURM-DISABLED] #SBATCH --error=/home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/logs/mini_%j.err
 # [SLURM-DISABLED] #SBATCH --time=00:30:00
 # [SLURM-DISABLED] #SBATCH --gres=gpu:1
 # [SLURM-DISABLED] #SBATCH --cpus-per-task=4
@@ -39,7 +39,7 @@ echo "=========================================="
 # export HF_TOKEN="your_token_here"
 
 # Set working directory
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms
 
 # Run mini experiment
 python test_mini_experiment.py --experiment $EXPERIMENT --model $MODEL --n-games $N_GAMES --gpu 0

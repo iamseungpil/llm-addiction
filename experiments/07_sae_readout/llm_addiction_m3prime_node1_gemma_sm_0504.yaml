@@ -9,7 +9,7 @@ environment:
   image: amlt-sing/acpt-torch2.7.1-py3.10-cuda12.6-ubuntu22.04
 
 code:
-  local_dir: /home/v-seungplee/llm-addiction/sae_v3_analysis/
+  local_dir: /home/v-seungplee/llm-addiction/experiments/07_sae_readout/
 
 storage:
   external:
@@ -42,4 +42,4 @@ jobs:
       - "if [ ! -d llm-addiction ]; then git clone --depth 1 https://github.com/iamseungpil/llm-addiction.git; fi"
       - cd /scratch/code/llm-addiction
       - git fetch && git pull --rebase || true
-      - bash sae_v3_analysis/scripts/remote_m3prime_launcher.sh
+      - bash experiments/07_sae_readout/scripts/remote_m3prime_launcher.sh

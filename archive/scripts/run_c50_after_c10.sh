@@ -10,7 +10,7 @@ while kill -0 $C10_PID 2>/dev/null; do
 done
 echo "=== c10 finished at $(date), starting c50 ==="
 
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/src
 python investment_choice/run_experiment.py \
   --model gemma --gpu 0 --constraint 50 \
   --output-dir $OUTPUT_DIR

@@ -4,7 +4,7 @@ complement of one or more compliance directions.
 Coordinate-space contract — clarifies the open issue flagged in the spec
 =========================================================================
 
-The §4.3 readout in `sae_v3_analysis/src/run_groupkfold_recompute.py` runs
+The §4.3 readout in `experiments/07_sae_readout/src/run_groupkfold_recompute.py` runs
 Ridge on **SAE features** (sparse codes from GemmaScope/LlamaScope), not on
 raw hidden states. The compliance directions, however, are derived in
 **hidden-state space** (R^d_model). These two spaces are linked by the SAE

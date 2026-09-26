@@ -379,7 +379,7 @@ def main():
                   f"{r['efficiency_sm_mw']:>10.1%}")
 
     # Save
-    out_path = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/iba_cross_task_transfer.json")
+    out_path = (Path(__file__).resolve().parents[1] / "results/iba_cross_task_transfer.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     import json as jlib
     with open(out_path, "w") as f:

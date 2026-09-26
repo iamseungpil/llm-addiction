@@ -4,7 +4,7 @@
 # and v1.5 (indicator-direction steering).
 set -uo pipefail
 
-LOG=/home/v-seungplee/llm-addiction/sae_v3_analysis/logs/watch_m3prime.log
+LOG=/home/v-seungplee/llm-addiction/experiments/07_sae_readout/logs/watch_m3prime.log
 mkdir -p "$(dirname "$LOG")"
 exec >"$LOG" 2>&1
 
@@ -25,7 +25,7 @@ echo "=== [watcher $(date '+%H:%M:%S')] v1 has exited; starting M3' ladder ==="
     -c "
 import json
 from pathlib import Path
-ROOT = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/v19_multi_patching/M3_swap')
+ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/v19_multi_patching/M3_swap')
 out = {}
 for cond in ['baseline_minusG', 'swap_plusG', 'random_swap_ctrl']:
     fp = ROOT / f'gemma_sm_{cond}_n200/trials.jsonl'
@@ -46,4 +46,4 @@ print(json.dumps(out, indent=2))
 "
 
 # Launch M3' dose ladder
-exec bash /home/v-seungplee/llm-addiction/sae_v3_analysis/scripts/launch_m3prime_dose_ladder.sh
+exec bash /home/v-seungplee/llm-addiction/experiments/07_sae_readout/scripts/launch_m3prime_dose_ladder.sh

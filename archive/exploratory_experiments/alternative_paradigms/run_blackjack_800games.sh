@@ -34,7 +34,7 @@ echo "Start time: $(date)"
 echo "========================================="
 
 # Navigate to experiment directory
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms
 
 # Run experiment (modified to use 50 reps instead of 20)
 python src/blackjack/run_experiment_800.py \

@@ -6,7 +6,7 @@ Every interval (default 600s = 10 min):
   - Pulls the latest progress.json from HF (count of completed trials per
     cell) so we know whether the GPU work is actually advancing
   - Auto-resume any paused job (using the same monkey-patch wrapper)
-  - Logs to /home/v-seungplee/llm-addiction/sae_v3_analysis/logs/amlt_monitor.log
+  - Logs to /home/v-seungplee/llm-addiction/experiments/07_sae_readout/logs/amlt_monitor.log
 
 Designed to be left running with `nohup`. Stateless — no SSH required since
 we observe progress via HF, which the remote launcher pushes every 10 min.
@@ -19,7 +19,7 @@ import json, os, subprocess, sys, time
 from datetime import datetime
 from pathlib import Path
 
-ROOT = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis')
+ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout')
 LOG_DIR = ROOT / 'logs'
 LOG_FILE = LOG_DIR / 'amlt_monitor.log'
 

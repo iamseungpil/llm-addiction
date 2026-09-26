@@ -22,6 +22,7 @@ from typing import Dict, List
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "shared"))  # experiments/shared/common
 
 from common import setup_logger, clear_gpu_memory, set_random_seed
 from transformers import AutoModelForCausalLM, AutoTokenizer

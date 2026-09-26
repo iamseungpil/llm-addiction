@@ -29,7 +29,7 @@ from run_perm_null_ilc import compute_loss_chasing
 
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
 BEHAVIORAL_ROOT = Path("/home/v-seungplee/data/llm-addiction/behavioral")
-RESULTS_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/robustness")
+RESULTS_DIR = (Path(__file__).resolve().parents[1] / "results/robustness")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 TOP_K = 200; RF_TREES = 50; RF_DEPTH = 8; RIDGE_ALPHA = 100.0

@@ -8,7 +8,7 @@ Exp 3:  Round-level risk choice classification (invest/non-invest)
 Exp 4:  Condition-level activation analysis (bet_type, constraint, prompt)
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python run_extended_analyses.py
 """
 

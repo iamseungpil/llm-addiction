@@ -8,7 +8,7 @@ set -e
 export HF_TOKEN="${HF_TOKEN:?Set HF_TOKEN environment variable}"
 
 GPU_ID=${1:-0}
-SCRIPT_DIR="/home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src"
+SCRIPT_DIR="/home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/src"
 OUTPUT_DIR="/home/jovyan/beomi/llm-addiction-data/investment_choice/gemma_50trials"
 LOG_DIR="/home/jovyan/beomi/llm-addiction-data/investment_choice/logs"
 

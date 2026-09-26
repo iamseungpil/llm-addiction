@@ -34,7 +34,7 @@ echo "Starting Gemma c30 Full Mode (400 games)..."
 echo "Expected time: ~7-8 hours"
 echo "================================================================"
 
-python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py \
+python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py \
   --model gemma \
   --gpu 0 \
   --constraint 30
@@ -58,7 +58,7 @@ echo "Starting Gemma c50 Full Mode (400 games)..."
 echo "Expected time: ~7-8 hours"
 echo "================================================================"
 
-python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py \
+python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py \
   --model gemma \
   --gpu 0 \
   --constraint 50

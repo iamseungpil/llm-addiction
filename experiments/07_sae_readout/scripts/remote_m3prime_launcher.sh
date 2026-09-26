@@ -78,15 +78,15 @@ print('[data] done')
 PYEOF
 
 # --- 4) Patch hardcoded paths in the cloned scripts (no /home write permission on AMLT) ---
-SCRIPT_DIR=/scratch/code/llm-addiction/sae_v3_analysis/src
+SCRIPT_DIR=/scratch/code/llm-addiction/experiments/07_sae_readout/src
 echo "[patch] rewriting hardcoded /home/v-seungplee/* paths in $SCRIPT_DIR/*.py"
 sed -i "s|/home/v-seungplee/data/llm-addiction|$DATA_ROOT|g" "$SCRIPT_DIR"/*.py || true
-sed -i "s|/home/v-seungplee/llm-addiction/sae_v3_analysis|/scratch/code/llm-addiction/sae_v3_analysis|g" \
+sed -i "s|/home/v-seungplee/llm-addiction/experiments/07_sae_readout|/scratch/code/llm-addiction/experiments/07_sae_readout|g" \
     "$SCRIPT_DIR"/*.py || true
-sed -i "s|/home/v-seungplee/llm-addiction/sae_v3_analysis|/scratch/code/llm-addiction/sae_v3_analysis|g" \
-    /scratch/code/llm-addiction/sae_v3_analysis/scripts/*.py 2>/dev/null || true
+sed -i "s|/home/v-seungplee/llm-addiction/experiments/07_sae_readout|/scratch/code/llm-addiction/experiments/07_sae_readout|g" \
+    /scratch/code/llm-addiction/experiments/07_sae_readout/scripts/*.py 2>/dev/null || true
 
-cd /scratch/code/llm-addiction/sae_v3_analysis
+cd /scratch/code/llm-addiction/experiments/07_sae_readout
 
 # --- 5) Background HF push scheduler ---
 nohup python scripts/m3_push_scheduler.py --interval 600 \

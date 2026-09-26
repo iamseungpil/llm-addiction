@@ -23,10 +23,10 @@ plt.rcParams.update({
 })
 
 COLORS = ['#0072B2', '#D55E00', '#009E73', '#CC79A7', '#F0E442', '#56B4E9']
-FIGURES_DIR = "/home/jovyan/llm-addiction/sae_v3_analysis/results/figures"
+FIGURES_DIR = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/figures"
 
 # Load JSON results
-with open("/home/jovyan/llm-addiction/sae_v3_analysis/results/json/improved_v4_20260308_032435.json") as f:
+with open("/home/jovyan/llm-addiction/experiments/07_sae_readout/results/json/improved_v4_20260308_032435.json") as f:
     data = json.load(f)
 
 

@@ -10,8 +10,9 @@ deterministic -- either way that is worth knowing before any +- goes into a lett
 """
 import sys
 import numpy as np
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/src')
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/sae_v3_analysis/src')
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / '07_sae_readout' / 'src'))
 import nested_baseline as nb
 from run_perm_null_ilc import nl_deconfound_split, TOP_K, RIDGE_ALPHA
 from scipy.stats import spearmanr

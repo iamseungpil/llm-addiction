@@ -38,8 +38,8 @@ The script adds two absolute paths from the original machine to `sys.path` (line
 another machine, put the harness on `PYTHONPATH` yourself:
 
 ```bash
-PYTHONPATH=paper_experiments/track0_w3_replication/src:paper_experiments/sm_cap_ablation/src \
-python paper_experiments/e7_factorial/src/run_e7.py \
+PYTHONPATH=experiments/03_matched_cap/track0_w3_replication/src:experiments/03_matched_cap/sm_cap_ablation/src \
+python experiments/05_framing_worked_example/src/run_e7.py \
     --model gemini-2.5-flash --mode variable --preamble role --rat \
     --n_games 100 --output_dir out/e7
 ```

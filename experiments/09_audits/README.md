@@ -36,11 +36,11 @@ Every script has hard-coded input and output paths from the original machine
 dataset downloaded to `data/`:
 
 ```bash
-python paper_experiments/e2_coding/src/exposure_matched.py \
+python experiments/09_audits/src/exposure_matched.py \
     --glob 'data/rebuttal_neurips_2026/matched_cap_mc32/final_*.json' --cap 70 \
     --out exposure_matched.json
 
-python paper_experiments/e2_coding/src/moving_target_paper_metric.py \
+python experiments/09_audits/src/moving_target_paper_metric.py \
     --root data --out moving_target_paper_metric.json
 ```
 

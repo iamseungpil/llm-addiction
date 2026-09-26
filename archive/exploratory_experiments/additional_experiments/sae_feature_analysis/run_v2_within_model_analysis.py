@@ -11,7 +11,7 @@ Uses DECISION-POINT-FIXED V2 SAE features:
 Data source: /home/jovyan/beomi/llm-addiction-data/sae_features_v2/{llama,gemma}/
 Verified: safe games match old NPZ within float32 precision (max_diff < 0.0002)
 
-Output: /home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/
+Output: /home/jovyan/llm-addiction/archive/exploratory_experiments/additional_experiments/
         sae_feature_analysis/results/within_model_v2/
 
 Run:
@@ -70,7 +70,7 @@ LLAMA_LAYERS = list(range(0, 32))  # 0-31 (all 32 layers)
 GEMMA_LAYERS = list(range(0, 42))  # 0-41 (all 42 layers)
 
 # Output directories — clearly labeled V2
-BASE_OUTPUT = Path("/home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/"
+BASE_OUTPUT = Path("/home/jovyan/llm-addiction/archive/exploratory_experiments/additional_experiments/"
                    "sae_feature_analysis/results/within_model_v2")
 FIGURE_DIR = BASE_OUTPUT / "figures_improved"
 RESULTS_DIR = BASE_OUTPUT / "json"

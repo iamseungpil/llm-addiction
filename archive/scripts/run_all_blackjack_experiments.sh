@@ -42,11 +42,11 @@ run_exp() {
     echo "Time: $(date)"
 
     if [ "$constraint" == "unconstrained" ]; then
-        CUDA_VISIBLE_DEVICES=$gpu python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
+        CUDA_VISIBLE_DEVICES=$gpu python archive/exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
             --model $model --gpu 0 --bet-type $bet_type --quick \
             2>&1 | tee /home/jovyan/beomi/llm-addiction-data/logs/${name}_${SLURM_JOB_ID}.log
     else
-        CUDA_VISIBLE_DEVICES=$gpu python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
+        CUDA_VISIBLE_DEVICES=$gpu python archive/exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
             --model $model --gpu 0 --bet-type $bet_type --constraint $constraint --quick \
             2>&1 | tee /home/jovyan/beomi/llm-addiction-data/logs/${name}_${SLURM_JOB_ID}.log
     fi

@@ -6,10 +6,10 @@ import subprocess
 from pathlib import Path
 
 
-MD_PATH = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sae_v14_causal_validation_study.md")
-TEX_PATH = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sae_v14_causal_validation_study.tex")
-PDF_PATH = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sae_v14_causal_validation_study.pdf")
-FIG_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/figures")
+MD_PATH = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/sae_v14_causal_validation_study.md")
+TEX_PATH = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/sae_v14_causal_validation_study.tex")
+PDF_PATH = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/sae_v14_causal_validation_study.pdf")
+FIG_DIR = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/figures")
 
 
 def escape_latex(text: str) -> str:

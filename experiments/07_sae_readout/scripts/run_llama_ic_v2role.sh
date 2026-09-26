@@ -17,7 +17,7 @@ echo "=========================================="
 for CONSTRAINT in 10 30 50 70; do
     echo ""
     echo ">>> Constraint: c${CONSTRAINT} — $(date)"
-    python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py \
+    python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py \
         --model llama \
         --gpu 0 \
         --constraint ${CONSTRAINT} \

@@ -15,7 +15,7 @@
 # [SLURM-DISABLED] source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
 conda activate llm-addiction
 
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/experiments/02_investment_choice/open_weight
 
 echo "================================"
 echo "LLaMA Investment Choice - c30"

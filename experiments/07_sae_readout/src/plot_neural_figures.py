@@ -18,7 +18,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from paper_figure_style import COLORS, annotate_bars, panel_title, save_pdf_png, style_axes, use_paper_style
 
 
-ROOT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis")
+ROOT = Path(__file__).resolve().parents[1]
 AUDIT_PATH = ROOT / "results" / "paper_neural_audit.json"
 OUT_DIR = Path("/home/v-seungplee/LLM_Addiction_NMT_KOR/images")
 OUT_DIR.mkdir(exist_ok=True)

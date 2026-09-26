@@ -35,7 +35,7 @@ from scipy.stats import spearmanr, pearsonr, pointbiserialr
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-BASE = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis")
+BASE = Path(__file__).resolve().parents[1]
 JSON_DIR = BASE / "results" / "json"
 FIG_DIR = BASE / "results" / "figures"
 HS_DIR = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")

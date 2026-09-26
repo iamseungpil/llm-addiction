@@ -39,7 +39,7 @@ from sklearn.model_selection import KFold
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction")
 SAE_ROOT = DATA_ROOT / "sae_features_v3"
 BEHAV_ROOT = DATA_ROOT / "behavioral"
-OUT_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sweep_3metrics_continuous_ilc")
+OUT_DIR = (Path(__file__).resolve().parents[1] / "results/sweep_3metrics_continuous_ilc")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 GEMMA_LAYERS = list(range(0, 42))

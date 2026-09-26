@@ -35,7 +35,7 @@ import seaborn as sns
 # ---------------------------------------------------------------------------
 IC_RESULTS_DIR = Path("/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/ic_cross_paradigm/results")
 SM_RESULTS_DIR = Path("/home/jovyan/beomi/llm-addiction-data/sae_condition_comparison/within_model/results")
-OUTPUT_DIR = Path("/home/jovyan/llm-addiction/exploratory_experiments/additional_experiments/"
+OUTPUT_DIR = Path("/home/jovyan/llm-addiction/archive/exploratory_experiments/additional_experiments/"
                   "sae_feature_analysis/results/ic_improved")
 
 MODEL_LABELS = {"ic": "Investment Choice (Gemma-2-9B)", "sm": "Slot Machine (Gemma-2-9B)"}

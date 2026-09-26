@@ -33,7 +33,7 @@ THIS_DIR = Path(__file__).resolve().parent
 ROOT = THIS_DIR.parent
 DEFAULT_CONFIG = ROOT / "configs" / "d_config.yaml"
 
-SAE_V3_SRC = Path(__file__).resolve().parents[3] / "sae_v3_analysis" / "src"
+SAE_V3_SRC = Path(__file__).resolve().parents[4] / "experiments" / "07_sae_readout" / "src"
 if str(SAE_V3_SRC) not in sys.path:
     sys.path.insert(0, str(SAE_V3_SRC))
 if str(THIS_DIR) not in sys.path:

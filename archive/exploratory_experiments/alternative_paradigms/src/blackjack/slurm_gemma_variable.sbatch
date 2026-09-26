@@ -15,7 +15,7 @@
 conda activate llm-addiction
 
 # Navigate to source directory
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/src
 
 # Run Gemma Blackjack experiment with variable betting
 # Quick mode: 8 components × 20 reps = 160 games (same as LLaMA)

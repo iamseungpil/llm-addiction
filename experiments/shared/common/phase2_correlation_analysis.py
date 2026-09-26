@@ -3,7 +3,7 @@
 Phase 2: Correlation Analysis for Alternative Paradigms
 
 Identifies risky/safe SAE features from Phase 1 extracted features.
-Follows same structure as paper_experiments/llama_sae_analysis/phase2_correlation_analysis.py
+Follows same structure as archive/paper_experiments/llama_sae_analysis/phase2_correlation_analysis.py
 
 Usage:
     python src/common/phase2_correlation_analysis.py --paradigm blackjack --model llama

@@ -31,11 +31,11 @@ run_exp() {
     echo "--- Starting: $name on GPU $gpu | $(date) ---"
 
     if [ "$constraint" == "unconstrained" ]; then
-        CUDA_VISIBLE_DEVICES=$gpu python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
+        CUDA_VISIBLE_DEVICES=$gpu python archive/exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
             --model gemma --gpu 0 --bet-type $bet_type --quick \
             2>&1
     else
-        CUDA_VISIBLE_DEVICES=$gpu python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
+        CUDA_VISIBLE_DEVICES=$gpu python archive/exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
             --model gemma --gpu 0 --bet-type $bet_type --constraint $constraint --quick \
             2>&1
     fi

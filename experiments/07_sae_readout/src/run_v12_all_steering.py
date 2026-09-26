@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 logger = logging.getLogger("v12_all")
 
 ANALYSIS_ROOT = Path(
-    os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/home/v-seungplee/llm-addiction/sae_v3_analysis")
+    os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/home/v-seungplee/llm-addiction/experiments/07_sae_readout")
 )
 OUT = ANALYSIS_ROOT / "results" / "json"
 HS_DIR = Path(

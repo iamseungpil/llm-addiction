@@ -23,7 +23,7 @@ from .states import HF_REPO, SEED_BASE, behavioral_root
 
 logger = logging.getLogger(__name__)
 
-# PROVENANCE: exploratory_experiments/alternative_paradigms/src/mystery_wheel/
+# PROVENANCE: experiments/06_mystery_wheel/mystery_wheel/
 # run_experiment.py — prompt order is REVERSED from game order: prompt Option 1
 # = Spin (risky) → game choice 2; prompt Option 2 = Stop (safe) → game choice 1.
 # Value-identity with the source is asserted in tests/test_mw.py.
@@ -123,10 +123,10 @@ def replay_game_ids(model: str = "gemma", n: int = MW_REPLAY_EXCLUDE_N) -> set:
 class _FrozenMWParser:
     """Byte-identical frozen copy of the v2_role MW response parser.
 
-    PROVENANCE: exploratory_experiments/alternative_paradigms/src/mystery_wheel/
+    PROVENANCE: experiments/06_mystery_wheel/mystery_wheel/
     run_experiment.py, MysteryWheelExperiment.parse_choice_fixed /
     parse_choice_variable / _clamp_bet. That class wrote the {model}_v2_role
-    catalog (run_mw_vllm.py replays MW through the same class). The three methods
+    catalog (experiments/06_mystery_wheel/run_mw_vllm.py replays MW through the same class). The three methods
     below are copied VERBATIM (single quotes and self-style kept); parity is
     enforced by tests/test_mw.py via inspect.getsource. The stub model_loader
     reproduces ModelLoader.MODEL_CONFIGS['gemma'] chat_template=True (instruction-

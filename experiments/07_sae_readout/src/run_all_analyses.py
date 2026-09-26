@@ -8,7 +8,7 @@ Goal C: Cross-domain transfer (6 pairs)
 Goal D: Feature vs Hidden State comparison
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python run_all_analyses.py
 """
 

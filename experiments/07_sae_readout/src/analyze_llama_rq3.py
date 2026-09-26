@@ -14,7 +14,7 @@ Analyses:
 Uses hidden_states_dp.npz files directly (no GPU required).
 
 Usage:
-    conda run -n llm-addiction python sae_v3_analysis/src/analyze_llama_rq3.py
+    conda run -n llm-addiction python experiments/07_sae_readout/src/analyze_llama_rq3.py
 """
 
 import json
@@ -42,7 +42,7 @@ RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)
 
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
-OUT_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
+OUT_DIR = (Path(__file__).resolve().parents[1] / "results/json")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 PARADIGM_PATHS = {

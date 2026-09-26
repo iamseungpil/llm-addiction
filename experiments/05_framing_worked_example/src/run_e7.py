@@ -34,8 +34,9 @@ import time
 from pathlib import Path
 from typing import Callable, Dict, List, Optional
 
-HARNESS = Path("/home/v-seungplee/llm-addiction/paper_experiments/track0_w3_replication/src")
-LEGACY = Path("/home/v-seungplee/llm-addiction/paper_experiments/sm_cap_ablation/src")
+_EXPERIMENTS = Path(__file__).resolve().parents[2]  # experiments/
+HARNESS = _EXPERIMENTS / "03_matched_cap" / "track0_w3_replication" / "src"
+LEGACY = _EXPERIMENTS / "03_matched_cap" / "sm_cap_ablation" / "src"
 sys.path.insert(0, str(LEGACY))
 sys.path.insert(0, str(HARNESS))
 
@@ -298,7 +299,7 @@ def main() -> None:
         "prompt_prefix": prefix,
         "n_games": args.n_games,
         "seed_base": SEED_BASE,
-        "preregistration": "paper_experiments/e7_factorial/PREREGISTRATION.md",
+        "preregistration": "experiments/05_framing_worked_example/PREREGISTRATION.md",
         "response_length_stats": {
             "n_decisions": len(lens),
             "max": max(lens) if lens else 0,
@@ -320,7 +321,7 @@ def main() -> None:
                 "factor_preamble": args.preamble,
                 "factor_rat": bool(args.rat),
                 "n_games": args.n_games,
-                "preregistration": "paper_experiments/e7_factorial/PREREGISTRATION.md",
+                "preregistration": "experiments/05_framing_worked_example/PREREGISTRATION.md",
                 # PREREGISTRATION.md §8.2: the prompt is stored per decision. The
                 # harness stores the game prompt it built; this runner prepends the
                 # factor preambles, so the text actually sent is prefix + prompt.

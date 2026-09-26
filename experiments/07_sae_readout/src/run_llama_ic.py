@@ -17,7 +17,7 @@ Analyses:
   10. Cross-model transfer (Gemma IC ↔ LLaMA IC)
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python run_llama_ic.py [--analyses 1,2,3,4,5,6,7,8,9,10] [--layers all|best]
 """
 

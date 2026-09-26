@@ -33,7 +33,7 @@ from pathlib import Path
 import numpy as np
 
 BEHAVIORAL_ROOT = Path('/home/v-seungplee/data/llm-addiction/behavioral')
-OUT_ROOT = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/'
+OUT_ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/'
                 'v19_multi_patching/M3pp_strong_patching')
 TEMPERATURE = 0.7
 MAX_NEW_TOKENS = 200

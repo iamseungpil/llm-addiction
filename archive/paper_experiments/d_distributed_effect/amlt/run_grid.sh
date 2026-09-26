@@ -11,7 +11,7 @@ mkdir -p "${OUTPUT_DIR}" /scratch/logs
 for model in gemma llama; do
     for K in 10 50 100; do
         echo "[d] (${model}, K=${K}) — top + 50 random baselines"
-        python paper_experiments/d_distributed_effect/src/run_d_topk_removal.py \
+        python archive/paper_experiments/d_distributed_effect/src/run_d_topk_removal.py \
             --model "${model}" --layer 22 --task sm --indicator i_ba \
             --K "${K}" --only both --n_random 50 \
             --output_dir "${OUTPUT_DIR}" \
@@ -20,7 +20,7 @@ for model in gemma llama; do
     done
 done
 
-python paper_experiments/d_distributed_effect/src/analyze_d.py \
+python archive/paper_experiments/d_distributed_effect/src/analyze_d.py \
     --per_run_dir "${OUTPUT_DIR}/per_run" \
     --output_dir "${OUTPUT_DIR}" --model all || \
     echo "[d] analyze FAILED"

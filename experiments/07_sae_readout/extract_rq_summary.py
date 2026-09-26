@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from pprint import pprint
 
-JSON_DIR = Path("/home/jovyan/llm-addiction/sae_v3_analysis/results/json")
+JSON_DIR = Path("/home/jovyan/llm-addiction/experiments/07_sae_readout/results/json")
 
 def load(name):
     with open(JSON_DIR / name) as f:

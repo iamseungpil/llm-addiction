@@ -24,7 +24,7 @@ cd /home/jovyan/llm-addiction
 # Run experiment - Gemma Variable (max $30) PURE ZERO-SHOT (no examples)
 echo "Starting Gemma Variable (max \$30) PURE ZERO-SHOT (no examples)..."
 
-python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
+python archive/exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
     --model gemma \
     --gpu 0 \
     --bet-type variable \

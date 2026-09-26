@@ -14,7 +14,7 @@ Tests:
   6. Multi-layer R1 transfer sweep
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python run_v7_r1_transfer.py
 """
 

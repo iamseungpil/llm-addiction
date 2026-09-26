@@ -31,7 +31,7 @@ from datetime import datetime
 from pathlib import Path
 import numpy as np
 
-OUT_ROOT = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/v19_multi_patching/M3_swap')
+OUT_ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/v19_multi_patching/M3_swap')
 TARGET_LAYER = 22
 TEMPERATURE = 0.7
 MAX_NEW_TOKENS = 150
@@ -64,7 +64,7 @@ def build_prompt(condition_label: str, balance: float, history: list, round_num:
     """Slot-machine prompt builder.
 
     condition_label: 'minusG' (no goal) or 'plusG' (self-directed goal)
-    Mirrors paper_experiments/slot_machine_6models prompt module composition,
+    Mirrors experiments/01_slot_machine prompt module composition,
     BASE bet style = variable.
     """
     base = (

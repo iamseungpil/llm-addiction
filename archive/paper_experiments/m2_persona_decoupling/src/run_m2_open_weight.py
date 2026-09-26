@@ -31,7 +31,7 @@ sys.path.insert(0, str(HERE))
 
 # Reuse canonical track0 game logic.
 # Append (not insert) so M2's own modules win name collisions with track0 (sanity_checks).
-TRACK0_SRC = HERE.parents[1] / "track0_w3_replication" / "src"
+TRACK0_SRC = HERE.parents[3] / "experiments" / "03_matched_cap" / "track0_w3_replication" / "src"
 if str(TRACK0_SRC) not in sys.path:
     sys.path.append(str(TRACK0_SRC))
 

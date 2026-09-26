@@ -128,7 +128,7 @@ def _last_token_hidden_states(
             )
         # hidden_states is a tuple of length n_layers+1: index 0=embeddings,
         # index L+1 = residual stream after transformer block L. Canonical
-        # parity with sae_v3_analysis/src/extract_all_rounds.py:488, which
+        # parity with experiments/07_sae_readout/src/extract_all_rounds.py:488, which
         # uses outputs.hidden_states[layer + 1] to read "after block L".
         h_layer = out.hidden_states[layer + 1]  # (B, T, d_model)
         last = h_layer[:, -1, :].to(torch.float32).cpu().numpy()

@@ -5,7 +5,7 @@ cd /home/jovyan/llm-addiction
 export CUDA_VISIBLE_DEVICES=0
 OUT=/home/jovyan/beomi/llm-addiction-data
 LOG=/home/jovyan/beomi/llm-addiction-data/logs
-SRC=exploratory_experiments/alternative_paradigms/src
+SRC=archive/exploratory_experiments/alternative_paradigms/src
 
 for C in 10 30 50 70; do
   echo "=== IC constraint=$C === $(date)"

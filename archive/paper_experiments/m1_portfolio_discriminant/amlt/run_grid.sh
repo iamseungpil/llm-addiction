@@ -14,7 +14,7 @@ if [ "${MODE_CHOICE}" = "open_weight" ]; then
                 for blurb in salient neutral conservative; do
                     cond_safe=$(echo "${cond}" | sed 's/+/p/g')
                     echo "[m1] running ${model} cond=${cond} obj=${obj} blurb=${blurb}"
-                    python paper_experiments/m1_portfolio_discriminant/src/run_m1_open_weight.py \
+                    python archive/paper_experiments/m1_portfolio_discriminant/src/run_m1_open_weight.py \
                         --model "${model}" --gpu 0 --condition "${cond}" \
                         --objective "${obj}" --blurb_variant "${blurb}" \
                         --n_games 200 --output_dir "${OUTPUT_DIR}" \
@@ -43,7 +43,7 @@ else
                 for blurb in salient neutral conservative; do
                     cond_safe=$(echo "${cond}" | sed 's/+/p/g')
                     echo "[m1_api] running ${key} cond=${cond} obj=${obj} blurb=${blurb}"
-                    python paper_experiments/m1_portfolio_discriminant/src/run_m1_api.py \
+                    python archive/paper_experiments/m1_portfolio_discriminant/src/run_m1_api.py \
                         --provider "${PROVIDERS[$key]}" --model_id "${IDS[$key]}" \
                         --condition "${cond}" --objective "${obj}" --blurb_variant "${blurb}" \
                         --n_games 200 --output_dir "${OUTPUT_DIR}" \

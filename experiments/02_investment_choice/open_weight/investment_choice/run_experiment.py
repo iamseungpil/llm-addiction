@@ -6,9 +6,9 @@ Run Investment Choice experiment with local models (LLaMA, Gemma).
 Tests risk preference through structured decision choices.
 
 Usage:
-    python src/investment_choice/run_experiment.py --model llama --gpu 0 --quick
-    python src/investment_choice/run_experiment.py --model gemma --gpu 0 --bet-type variable
-    python src/investment_choice/run_experiment.py --model llama --gpu 0 --constraint 50
+    python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py --model llama --gpu 0 --quick
+    python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py --model gemma --gpu 0 --bet-type variable
+    python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py --model llama --gpu 0 --constraint 50
 """
 
 import os
@@ -23,6 +23,7 @@ from tqdm import tqdm
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "shared"))  # experiments/shared/common
 
 from common import ModelLoader, setup_logger, save_json, set_random_seed
 from investment_choice.game_logic import InvestmentChoiceGame

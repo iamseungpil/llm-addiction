@@ -19,7 +19,7 @@ OPTIMIZATION:
   - Total expected time: ~10-15 minutes
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python run_v7_phase2_hidden.py
 """
 

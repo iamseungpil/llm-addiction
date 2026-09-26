@@ -1,6 +1,6 @@
 """Quick test for Gemma model loading fix"""
 import sys
-sys.path.insert(0, 'exploratory_experiments/alternative_paradigms/src')
+sys.path.insert(0, 'experiments/shared')  # common/ moved to experiments/shared/
 
 from common.model_loader import ModelLoader
 from common.utils import setup_logger

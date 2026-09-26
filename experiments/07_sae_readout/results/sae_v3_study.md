@@ -412,7 +412,7 @@ LLaMA shows prompt sensitivity that Gemma lacks: G (Goal framing) increases BK a
 
 | Finding | Data Source | Status | Figure |
 |---|---|---|---|
-| 6-model SM gambling behavior | paper_experiments/slot_machine_6models/ | Complete | Existing |
+| 6-model SM gambling behavior | experiments/01_slot_machine/ | Complete | Existing |
 | IC V2role behavioral comparison (Gemma vs LLaMA) | This study §5 | **[NEW]** | Needed |
 | Bet constraint drives BK (c10→0%, c70→21%) | This study §4.1 | **[NEW]** | Needed |
 | Prompt component effects (G +4.9%p in SM) | This study §4.2 | **[NEW]** | v5_auc_by_condition.png |
@@ -435,7 +435,7 @@ LLaMA shows prompt sensitivity that Gemma lacks: G (Goal framing) increases BK a
 
 | Finding | Data Source | Status |
 |---|---|---|
-| 112 causal features (LLaMA SM) | paper_experiments/llama_sae_analysis/ | Complete (prior work) |
+| 112 causal features (LLaMA SM) | archive/paper_experiments/llama_sae_analysis/ | Complete (prior work) |
 | +29.6% stopping rate with patching | Prior work | Complete |
 
 ### Gaps Requiring Additional Work

@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-BASE_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis")
+BASE_DIR = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout")
 RESULTS_DIR = BASE_DIR / "results"
 JSON_DIR = RESULTS_DIR / "json"
 FIG_DIR = RESULTS_DIR / "figures"

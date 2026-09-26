@@ -36,9 +36,9 @@ from pathlib import Path
 import numpy as np
 
 # Paths
-DIRECTION_DIR = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/'
+DIRECTION_DIR = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/'
                      'v19_multi_patching/M3prime_indicator_steering/direction_metadata')
-OUT_ROOT = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/'
+OUT_ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/'
                 'v19_multi_patching/M3prime_indicator_steering')
 BEHAVIORAL_ROOT = Path('/home/v-seungplee/data/llm-addiction/behavioral')
 

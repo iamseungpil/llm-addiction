@@ -59,7 +59,7 @@ V5는 V4의 방법론적 개선(부트스트랩 CI, 순열 검정, 동일 레이
 | Gemma-2-9B | GemmaScope | 42 (L0–L41) | 131,072 | JumpReLU | sae_lens |
 | LLaMA-3.1-8B | LlamaScope | 32 (L0–L31) | 32,768 | ReLU + norm_factor | fnlp 직접 |
 
-(source: `paper_experiments/llama_sae_analysis/src/phase1_optimized.py`)
+(source: `archive/paper_experiments/llama_sae_analysis/src/phase1_optimized.py`)
 
 ### 1.3 분석 파이프라인
 

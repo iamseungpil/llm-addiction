@@ -19,7 +19,7 @@ import json
 import re
 from pathlib import Path
 
-ROOT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis")
+ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 OUT = RESULTS / "paper_neural_audit.json"
 V17_PATH = RESULTS / "v17_nonlinear_deconfound.txt"

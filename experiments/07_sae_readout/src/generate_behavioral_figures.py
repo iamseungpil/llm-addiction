@@ -15,7 +15,7 @@ Data sources:
 No GPU or model loading required. Pure data analysis and visualization.
 
 Usage:
-    python sae_v3_analysis/src/generate_behavioral_figures.py
+    python experiments/07_sae_readout/src/generate_behavioral_figures.py
 """
 
 import json
@@ -46,7 +46,7 @@ GEMMA_COLOR = COLORS[0]   # blue
 LLAMA_COLOR = COLORS[1]   # orange
 
 DATA_ROOT = Path("/home/jovyan/beomi/llm-addiction-data")
-OUTPUT_DIR = Path("/home/jovyan/llm-addiction/sae_v3_analysis/results/figures")
+OUTPUT_DIR = Path("/home/jovyan/llm-addiction/experiments/07_sae_readout/results/figures")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 

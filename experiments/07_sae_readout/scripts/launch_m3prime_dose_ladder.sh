@@ -14,7 +14,7 @@ set -euo pipefail
 
 cd /home/v-seungplee/llm-addiction
 PY=/home/v-seungplee/miniconda3/envs/llm-addiction/bin/python
-RUN=sae_v3_analysis/src/run_m3prime_indicator_steering.py
+RUN=experiments/07_sae_readout/src/run_m3prime_indicator_steering.py
 N=${N:-50}
 GPU=${GPU:-0}
 MODEL=${MODEL:-gemma}
@@ -58,5 +58,5 @@ echo "=== [DONE $(date '+%H:%M:%S')] M3' dose ladder complete ==="
 
 # Aggregate
 echo "=== [aggregate $(date '+%H:%M:%S')] ==="
-$PY sae_v3_analysis/src/aggregate_m3prime_dose_response.py \
+$PY experiments/07_sae_readout/src/aggregate_m3prime_dose_response.py \
     --model $MODEL --task $TASK

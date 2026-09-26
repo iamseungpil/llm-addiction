@@ -14,7 +14,7 @@ OUT_DIR = Path("/home/v-seungplee/LLM_Addiction_NMT_KOR/images")
 
 # Parse data from log
 data = {}
-log_path = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/temperature_control/full_run_restart.log")
+log_path = (Path(__file__).resolve().parents[1] / "results/temperature_control/full_run_restart.log")
 for line in log_path.read_text().split("\n"):
     m = re.search(r"temp=(\d+\.\d+)\s+(\w+)\s+(fixed|variable)\s*:\s*BK=(\d+\.\d+)%", line)
     if m:

@@ -14,7 +14,7 @@ Prerequisites:
 
   2. Run this script (llm-addiction env):
      conda activate llm-addiction
-     python run_mw_vllm.py
+     python experiments/06_mystery_wheel/run_mw_vllm.py
 """
 import os, sys, json, asyncio, random, logging, time, copy
 from pathlib import Path
@@ -22,8 +22,9 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 # Add experiment source to path
-SRC_DIR = Path(__file__).parent / "exploratory_experiments" / "alternative_paradigms" / "src"
-sys.path.insert(0, str(SRC_DIR))
+HERE = Path(__file__).resolve().parent             # experiments/06_mystery_wheel (mystery_wheel/)
+sys.path.insert(0, str(HERE.parent / "shared"))    # experiments/shared (common/)
+sys.path.insert(0, str(HERE))
 
 from mystery_wheel.game_logic import MysteryWheelGame
 from mystery_wheel.run_experiment import (

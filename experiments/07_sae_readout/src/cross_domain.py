@@ -14,7 +14,7 @@ For each transfer pair:
   - Layer-wise transfer AUC curves
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python cross_domain.py                          # all pairs
     python cross_domain.py --source ic --target sm   # specific pair
     python cross_domain.py --mode game_mean          # aggregation mode

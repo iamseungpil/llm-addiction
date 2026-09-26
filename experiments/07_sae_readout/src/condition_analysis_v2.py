@@ -9,7 +9,7 @@ Adds:
   4. Summary table for paper
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python condition_analysis_v2.py
 """
 

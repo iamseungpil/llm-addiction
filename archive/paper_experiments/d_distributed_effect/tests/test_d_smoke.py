@@ -209,7 +209,7 @@ def test_synthetic_atomistic_effect():
 
 
 CANONICAL_TABLE3 = Path(
-    "/home/v-seungplee/llm-addiction/sae_v3_analysis/results/condition_modulation_groupkfold_L22.json"
+    "/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/condition_modulation_groupkfold_L22.json"
 )
 
 

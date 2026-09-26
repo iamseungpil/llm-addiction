@@ -29,5 +29,5 @@ jobs:
         TRACK: m2_api
     command:
       - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
-      - cd /scratch/code/llm-addiction && bash paper_experiments/m2_persona_decoupling/amlt/run_grid.sh api
+      - cd /scratch/code/llm-addiction && bash archive/paper_experiments/m2_persona_decoupling/amlt/run_grid.sh api
       - sleep 86400

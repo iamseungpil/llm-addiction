@@ -246,8 +246,8 @@ def classify_verdict(result: dict) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--table", default="/home/v-seungplee/llm-addiction/paper_experiments/track_L_length_confound/round_table.csv")
-    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/track_L_length_confound/track_L_results.json")
+    ap.add_argument("--table", default="/home/v-seungplee/llm-addiction/archive/paper_experiments/track_L_length_confound/round_table.csv")
+    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/archive/paper_experiments/track_L_length_confound/track_L_results.json")
     ap.add_argument("--no-overlap", action="store_true", help="skip overlap restriction (debugging)")
     args = ap.parse_args()
 

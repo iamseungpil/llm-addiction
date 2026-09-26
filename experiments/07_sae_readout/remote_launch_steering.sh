@@ -18,8 +18,8 @@ SCRATCH=/scratch
 WORK=$SCRATCH/llm-addiction
 DATA=$SCRATCH/llm-addiction-data
 LOG=$SCRATCH/logs
-CKPT=$SCRATCH/llm-addiction/sae_v3_analysis/results/checkpoints
-RESULTS=$SCRATCH/llm-addiction/sae_v3_analysis/results/json
+CKPT=$SCRATCH/llm-addiction/experiments/07_sae_readout/results/checkpoints
+RESULTS=$SCRATCH/llm-addiction/experiments/07_sae_readout/results/json
 mkdir -p $LOG $CKPT $RESULTS
 
 HF_REPO=iamseungpil/metacot
@@ -87,7 +87,7 @@ import os
 from huggingface_hub import HfApi, hf_hub_download
 api = HfApi(token=os.environ["HF_TOKEN"])
 role = os.environ["NODE_ROLE"]
-ckpt_dst = "/scratch/llm-addiction/sae_v3_analysis/results/checkpoints"
+ckpt_dst = "/scratch/llm-addiction/experiments/07_sae_readout/results/checkpoints"
 os.makedirs(ckpt_dst, exist_ok=True)
 try:
     files = api.list_repo_files(repo_id="iamseungpil/metacot", repo_type="dataset")
@@ -118,8 +118,8 @@ STOP = "/scratch/hf_sync.stop"
 INTERVAL = 300  # 5 min
 api = HfApi(token=os.environ["HF_TOKEN"])
 role = os.environ["NODE_ROLE"]
-ckpt_dir = "/scratch/llm-addiction/sae_v3_analysis/results/checkpoints"
-results_dir = "/scratch/llm-addiction/sae_v3_analysis/results/json"
+ckpt_dir = "/scratch/llm-addiction/experiments/07_sae_readout/results/checkpoints"
+results_dir = "/scratch/llm-addiction/experiments/07_sae_readout/results/json"
 log_dir = "/scratch/logs"
 print(f"[hf_sync] daemon started (interval={INTERVAL}s, role={role})", flush=True)
 while not os.path.exists(STOP):
@@ -162,11 +162,11 @@ echo $! > $LOG/hf_sync.pid
 echo "[$(date)] hf_sync pid=$(cat $LOG/hf_sync.pid)"
 
 # --- Run the steering experiment ---
-cd /scratch/llm-addiction/sae_v3_analysis
+cd /scratch/llm-addiction/experiments/07_sae_readout
 export LLM_ADDICTION_BEHAVIORAL_ROOT=/scratch/llm-addiction-data/behavioral
 export LLM_ADDICTION_DATA_ROOT=/scratch/llm-addiction-data/sae_features_v3
-export LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm-addiction/sae_v3_analysis
-export PYTHONPATH=/scratch/llm-addiction/sae_v3_analysis/src:/scratch/llm-addiction/paper_experiments/slot_machine_6models/src:/scratch/llm-addiction/exploratory_experiments/alternative_paradigms/src:${PYTHONPATH:-}
+export LLM_ADDICTION_ANALYSIS_ROOT=/scratch/llm-addiction/experiments/07_sae_readout
+export PYTHONPATH=/scratch/llm-addiction/experiments/07_sae_readout/src:/scratch/llm-addiction/experiments/01_slot_machine/src:/scratch/llm-addiction/experiments/shared:/scratch/llm-addiction/experiments/02_investment_choice/open_weight:/scratch/llm-addiction/experiments/06_mystery_wheel:${PYTHONPATH:-}
 
 case "$NODE_ROLE" in
   steering_expa_ic)
@@ -192,7 +192,7 @@ from huggingface_hub import HfApi
 api = HfApi(token=os.environ["HF_TOKEN"])
 role = os.environ["NODE_ROLE"]
 for base in ("results/json", "results/checkpoints"):
-    d = f"/scratch/llm-addiction/sae_v3_analysis/{base}"
+    d = f"/scratch/llm-addiction/experiments/07_sae_readout/{base}"
     for f in sorted(glob.glob(f"{d}/**/*.json", recursive=True)):
         rel = os.path.relpath(f, d)
         sub = "results" if "json" in base else "checkpoints"

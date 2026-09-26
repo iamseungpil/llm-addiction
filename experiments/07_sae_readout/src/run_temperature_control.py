@@ -46,7 +46,7 @@ INITIAL_BALANCE = 100
 WIN_RATE = 0.3
 PAYOUT_MULT = 3
 
-OUT_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/temperature_control")
+OUT_DIR = (Path(__file__).resolve().parents[1] / "results/temperature_control")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-8s %(message)s")

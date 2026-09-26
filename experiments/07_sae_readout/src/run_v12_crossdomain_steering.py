@@ -36,7 +36,7 @@ logger = logging.getLogger("v12_crossdomain")
 # ============================================================
 
 ANALYSIS_ROOT = Path(
-    os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/home/v-seungplee/llm-addiction/sae_v3_analysis")
+    os.environ.get("LLM_ADDICTION_ANALYSIS_ROOT", "/home/v-seungplee/llm-addiction/experiments/07_sae_readout")
 )
 OUT_JSON = ANALYSIS_ROOT / "results" / "json"
 OUT_FIG = ANALYSIS_ROOT / "results" / "figures"

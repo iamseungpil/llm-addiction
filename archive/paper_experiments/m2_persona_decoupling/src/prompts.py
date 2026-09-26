@@ -17,7 +17,7 @@ ROLE_INSTRUCTION under first-person.
 
 The prompt-component bitmask (G/M/H/W/P) flows through `prompt_combo` to the
 canonical create_prompt unchanged, preserving §3.1 paper parity
-(`paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py:175-185`).
+(`experiments/01_slot_machine/src/llama_gemma_experiment.py:175-185`).
 """
 
 from __future__ import annotations
@@ -28,7 +28,8 @@ from typing import Literal
 
 # Reuse the canonical track0 game_logic — do NOT reimplement.
 # Append (not insert) so M2's own modules win name collisions (e.g. sanity_checks).
-TRACK0_SRC = Path(__file__).resolve().parents[2] / "track0_w3_replication" / "src"
+TRACK0_SRC = (Path(__file__).resolve().parents[4] / "experiments" / "03_matched_cap"
+              / "track0_w3_replication" / "src")
 if str(TRACK0_SRC) not in sys.path:
     sys.path.append(str(TRACK0_SRC))
 

@@ -28,7 +28,7 @@ jobs:
     command:
       - nvidia-smi
       - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
-      - cd /scratch/code/llm-addiction && bash paper_experiments/m1_portfolio_discriminant/amlt/run_grid.sh open_weight
-      - cd /scratch/code/llm-addiction && python paper_experiments/m1_portfolio_discriminant/src/analyze_m1.py --portfolio_input_dir /scratch/x3415a02/data/llm-addiction/m1_portfolio/ --gambling_input_dirs /scratch/x3415a02/data/llm-addiction/track0_w3/ --output_path /scratch/x3415a02/data/llm-addiction/m1_portfolio/_analysis.json
-      - cd /scratch/code/llm-addiction && python paper_experiments/m1_portfolio_discriminant/src/sanity_checks.py --input_dir /scratch/x3415a02/data/llm-addiction/m1_portfolio/ --output_path /scratch/x3415a02/data/llm-addiction/m1_portfolio/_sanity.md
+      - cd /scratch/code/llm-addiction && bash archive/paper_experiments/m1_portfolio_discriminant/amlt/run_grid.sh open_weight
+      - cd /scratch/code/llm-addiction && python archive/paper_experiments/m1_portfolio_discriminant/src/analyze_m1.py --portfolio_input_dir /scratch/x3415a02/data/llm-addiction/m1_portfolio/ --gambling_input_dirs /scratch/x3415a02/data/llm-addiction/track0_w3/ --output_path /scratch/x3415a02/data/llm-addiction/m1_portfolio/_analysis.json
+      - cd /scratch/code/llm-addiction && python archive/paper_experiments/m1_portfolio_discriminant/src/sanity_checks.py --input_dir /scratch/x3415a02/data/llm-addiction/m1_portfolio/ --output_path /scratch/x3415a02/data/llm-addiction/m1_portfolio/_sanity.md
       - sleep 86400

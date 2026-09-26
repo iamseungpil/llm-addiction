@@ -14,7 +14,7 @@
 # [SLURM-DISABLED] source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
 conda activate llm-addiction
 
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/src
 
 # Find the most recent Gemma blackjack results (fixed betting)
 GEMMA_RESULTS=$(ls -t /home/jovyan/beomi/llm-addiction-data/blackjack/blackjack_gemma_*.json | head -1)

@@ -18,7 +18,7 @@ from scipy.stats import spearmanr
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("v12_full")
 
-OUT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
+OUT = (Path(__file__).resolve().parents[1] / "results/json")
 HS_DIR = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
 ALPHAS = [-2.0, -1.0, -0.5, 0.5, 1.0, 2.0]
 N_RANDOM = 3

@@ -24,7 +24,7 @@ import pytest
 
 HERE = Path(__file__).resolve().parent
 SRC_DIR = HERE.parent / "src"
-LEGACY_ROOT = Path("/home/v-seungplee/llm-addiction/paper_experiments/sm_cap_ablation/src")
+LEGACY_ROOT = HERE.parents[1] / "sm_cap_ablation" / "src"
 LEGACY_FIXED_SRC = LEGACY_ROOT
 LEGACY_VARIABLE_SRC = LEGACY_ROOT
 
@@ -366,7 +366,7 @@ def _make_legacy_variable_game(balance: int) -> LegacyVariableSlotMachineGame:
 
 def test_prompt_fixed_mode_matches_legacy_byte_for_byte():
     """Plan v5.2 §8 fixed-mode prompt golden test against
-    legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209."""
+    archive/legacy/gpt_fixed_bet_size_experiment/src/gpt_fixed_bet_size_experiment.py:177-209."""
     v6_game = game_logic.SlotMachineGame(initial_balance=100, cap=10, mode="fixed")
     v6_prompt = game_logic.create_prompt(v6_game, prompt_combo="BASE", include_role_instruction=False)
 
@@ -407,7 +407,7 @@ def test_prompt_fixed_mode_matches_legacy_with_history():
 
 def test_prompt_variable_mode_matches_legacy_byte_for_byte():
     """Plan v5.2 §8 variable-mode prompt golden test against
-    legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212."""
+    archive/legacy/gpt_variable_max_bet_experiment/src/gpt_variable_max_bet_experiment.py:177-212."""
     v6_game = game_logic.SlotMachineGame(initial_balance=100, cap=70, mode="variable")
     v6_prompt = game_logic.create_prompt(v6_game, prompt_combo="BASE", include_role_instruction=False)
 
@@ -567,7 +567,7 @@ def test_openai_protocol_a_for_gpt_4_1_mini():
     assert proto["temperature"] is None
     # Cross-check vs the actual panel script literal:
     panel_path = (
-        Path("/home/v-seungplee/llm-addiction/paper_experiments/slot_machine_6models/src/run_gpt5_experiment.py")
+        (HERE.parents[2] / "01_slot_machine" / "src" / "run_gpt5_experiment.py")
     )
     assert panel_path.exists(), f"missing panel script {panel_path}"
     legacy_msg = _read_legacy_panel_system_msg(panel_path)
@@ -605,7 +605,7 @@ def test_run_track0_api_alias_includes_gpt_4_1_mini():
 # (BASE prompt_combo, no history). This locks parity across providers, not just
 # vs the gpt cap-ablation legacy.
 
-PANEL_ROOT = Path("/home/v-seungplee/llm-addiction/paper_experiments/slot_machine_6models/src")
+PANEL_ROOT = HERE.parents[2] / "01_slot_machine" / "src"
 
 
 def _instantiate_panel_class(panel_module_path: Path, class_name: str):

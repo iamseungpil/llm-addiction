@@ -26,7 +26,7 @@ if [ "${MODE_CHOICE}" = "open_weight" ]; then
             for frame in first_person role_play_gambler; do
                 cond_safe=$(echo "${cond}" | sed 's/+/p/g')
                 run_cell "${model}_${cond_safe}_${frame}" "${model}/${cond}/${frame}" \
-                    bash -c "python paper_experiments/m2_persona_decoupling/src/run_m2_open_weight.py \
+                    bash -c "python archive/paper_experiments/m2_persona_decoupling/src/run_m2_open_weight.py \
                         --model ${model} --gpu 0 --condition ${cond} --framing ${frame} \
                         --task SM --n_games 200 --output_dir ${OUTPUT_DIR} \
                         2>&1 | tee -a /scratch/logs/m2_${model}_${cond_safe}_${frame}.log"
@@ -51,7 +51,7 @@ else
             for frame in first_person role_play_gambler; do
                 cond_safe=$(echo "${cond}" | sed 's/+/p/g')
                 run_cell "${key}_${cond_safe}_${frame}" "${key}/${cond}/${frame}" \
-                    bash -c "python paper_experiments/m2_persona_decoupling/src/run_m2_api.py \
+                    bash -c "python archive/paper_experiments/m2_persona_decoupling/src/run_m2_api.py \
                         --provider ${PROVIDERS[$key]} --model_id ${IDS[$key]} \
                         --condition ${cond} --framing ${frame} --task SM \
                         --n_games 200 --output_dir ${OUTPUT_DIR} \

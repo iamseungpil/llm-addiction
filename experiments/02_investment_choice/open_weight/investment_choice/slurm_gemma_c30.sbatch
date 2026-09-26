@@ -15,7 +15,7 @@
 conda activate llm-addiction
 
 # Navigate to repository
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms
 
 # Run experiment
 echo "Starting Gemma Investment Choice c30 experiment..."

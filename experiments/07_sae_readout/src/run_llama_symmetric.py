@@ -27,7 +27,7 @@ np.random.seed(42)
 
 # Paths
 DATA_ROOT = Path("/home/v-seungplee/data/llm-addiction/sae_features_v3")
-REPO_ROOT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis")
+REPO_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_PATH = REPO_ROOT / "results" / "json" / "llama_symmetric_20260318.json"
 OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 

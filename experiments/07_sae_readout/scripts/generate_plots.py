@@ -12,8 +12,8 @@ plt.rcParams.update({
     'figure.constrained_layout.use': True,
 })
 COLORS = ['#0072B2', '#D55E00', '#009E73', '#CC79A7', '#F0E442', '#56B4E9']
-JSON_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
-FIG_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/figures")
+JSON_DIR = (Path(__file__).resolve().parents[1] / "results/json")
+FIG_DIR = (Path(__file__).resolve().parents[1] / "results/figures")
 
 def load(name):
     with open(JSON_DIR / name) as f: return json.load(f)

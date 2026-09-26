@@ -30,7 +30,7 @@ import pandas as pd
 
 sys.path.insert(0, '/home/v-seungplee/LLM_Addiction_NMT_KOR')
 
-OUT_DIR = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/'
+OUT_DIR = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/'
                'v19_multi_patching/E7_mixed_effects_section3')
 LOCAL_SM = Path('/home/v-seungplee/data/llm-addiction/behavioral/slot_machine')
 

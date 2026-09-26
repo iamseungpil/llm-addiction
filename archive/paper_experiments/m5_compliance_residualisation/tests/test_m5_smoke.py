@@ -26,7 +26,7 @@ Coverage:
   5. test_layer_index_convention (C2)
      Verify that ``extract_compliance_directions._last_token_hidden_states``
      reads ``out.hidden_states[layer + 1]`` (after-block-L), matching the
-     canonical ``sae_v3_analysis/src/extract_all_rounds.py:488`` convention.
+     canonical ``experiments/07_sae_readout/src/extract_all_rounds.py:488`` convention.
 
   6. test_end_to_end_random_direction_preserves_delta_g_dp (C4)
      Full residualise → re-encode → Ridge → Δ_G' pipeline on a synthetic
@@ -136,7 +136,7 @@ def test_synthetic_perfect_compliance_direction_collapses_delta():
 
 
 CANONICAL_TABLE3 = Path(
-    "/home/v-seungplee/llm-addiction/sae_v3_analysis/results/condition_modulation_groupkfold_L22.json"
+    "/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/condition_modulation_groupkfold_L22.json"
 )
 
 
@@ -262,7 +262,7 @@ def test_classify_outcome_all_fail():
 def test_layer_index_convention():
     """C2: extract_compliance_directions must use ``hidden_states[layer + 1]``
     so layer L means "residual stream after transformer block L", matching
-    ``sae_v3_analysis/src/extract_all_rounds.py:488``.
+    ``experiments/07_sae_readout/src/extract_all_rounds.py:488``.
 
     We verify this without loading a real model by stubbing a tuple of
     ``hidden_states`` of length n_layers+1 and confirming the function
@@ -284,7 +284,7 @@ def test_layer_index_convention():
     src = src_path.read_text()
     assert "out.hidden_states[layer + 1]" in src, (
         "expected 'out.hidden_states[layer + 1]' (after-block-L convention) "
-        f"in {src_path}; canonical parity with sae_v3_analysis/src/extract_all_rounds.py:488"
+        f"in {src_path}; canonical parity with experiments/07_sae_readout/src/extract_all_rounds.py:488"
     )
     assert "out.hidden_states[layer]" not in src.replace(
         "out.hidden_states[layer + 1]", ""

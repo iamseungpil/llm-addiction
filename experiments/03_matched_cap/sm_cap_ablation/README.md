@@ -2,7 +2,7 @@
 
 This directory holds the **paper-canonical** scripts for the slot-machine cap-ablation
 experiment that produced Figure 3d in the paper. These scripts were previously in
-`legacy/gpt_fixed_bet_size_experiment/` + `legacy/gpt_variable_max_bet_experiment/` —
+`archive/legacy/gpt_fixed_bet_size_experiment/` + `archive/legacy/gpt_variable_max_bet_experiment/` —
 the "legacy" name was misleading. Moved here on 2026-05-08 for findability.
 
 ## Files
@@ -50,7 +50,7 @@ bankruptcy_variable = [1.0, 14.0, 16.5, 17.0] # %
 
 ## Track 0 W3 rebuttal usage
 
-`paper_experiments/track0_w3_replication/` reuses these scripts as the parity
+`experiments/03_matched_cap/track0_w3_replication/` reuses these scripts as the parity
 ground truth. Track 0 v6's `run_legacy_baseline.py` invokes both experiment classes
 verbatim (only `results_dir` and `bet_sizes`/`max_bets` are monkeypatched) so the
 paper-canonical protocol is preserved in any rebuttal-side replication run.

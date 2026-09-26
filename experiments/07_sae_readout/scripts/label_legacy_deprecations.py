@@ -13,12 +13,12 @@ two leaky-pipeline directories are clean. This script closes that gap and adds a
 Unlike `relocate_legacy_to_hf.py` this script performs NO copies and NO deletes. It
 uploads three markdown files and touches nothing else, so it is safe to re-run.
 
-The files are kept as real files under `sae_v3_analysis/release_labels/`, mirroring
+The files are kept as real files under `experiments/07_sae_readout/release_labels/`, mirroring
 their destination paths, so they are readable and greppable in this repository
 without running anything.
 
-    python3 sae_v3_analysis/scripts/label_legacy_deprecations.py          # dry run
-    HF_TOKEN=... python3 sae_v3_analysis/scripts/label_legacy_deprecations.py --push
+    python3 experiments/07_sae_readout/scripts/label_legacy_deprecations.py          # dry run
+    HF_TOKEN=... python3 experiments/07_sae_readout/scripts/label_legacy_deprecations.py --push
 """
 from __future__ import annotations
 

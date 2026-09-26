@@ -47,7 +47,7 @@ IC_HS_PATH = DATA_ROOT / "investment_choice" / "llama" / "hidden_states_dp.npz"
 SM_HS_PATH = DATA_ROOT / "slot_machine" / "llama" / "hidden_states_dp.npz"
 GEMMA_IC_HS_PATH = DATA_ROOT / "investment_choice" / "gemma" / "hidden_states_dp.npz"
 
-REPO_ROOT = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis")
+REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_DIR = REPO_ROOT / "results" / "json"
 JSON_DIR.mkdir(parents=True, exist_ok=True)
 

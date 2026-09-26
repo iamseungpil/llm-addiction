@@ -11,7 +11,7 @@ a fixed or variable bet, with prompts crossing goal-setting (`G`) and reward max
 This version runs up to 100 rounds and asks for step-by-step reasoning with goal tracking.
 
 The open-weight models (LLaMA, Gemma) were run with a different runner,
-`exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py`.
+`experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py`.
 
 ## Entry scripts
 
@@ -19,7 +19,7 @@ The open-weight models (LLaMA, Gemma) were run with a different runner,
 loops over them (`--model all`, `--constraint all`, `--bet_type both`).
 
 ```bash
-python paper_experiments/investment_choice_extended_cot/src/run_experiment.py \
+python experiments/02_investment_choice/appendix_extended_cot/src/run_experiment.py \
     --model gpt4o --constraint 30 --bet_type variable --trials 50
 ```
 

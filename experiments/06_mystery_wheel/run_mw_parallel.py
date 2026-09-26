@@ -5,15 +5,18 @@ Each process loads its own LLaMA instance (~16GB) and handles a shard of conditi
 Total VRAM: ~48GB / 80GB available.
 
 Usage:
-    python run_mw_parallel.py          # 3 parallel shards
-    python run_mw_parallel.py --merge  # merge completed shard JSONs into final
+    python experiments/06_mystery_wheel/run_mw_parallel.py          # 3 parallel shards
+    python experiments/06_mystery_wheel/run_mw_parallel.py --merge  # merge completed shard JSONs into final
 """
 import os, sys, json, subprocess, argparse, time
 from pathlib import Path
 from datetime import datetime
 
-OUT_DIR = Path("/home/v-seungplee/data/llm-addiction/behavioral/mystery_wheel/llama_v2_role")
-OUT_DIR.mkdir(parents=True, exist_ok=True)
+# Output folder; set MW_OUT_DIR to override the path used on the original machine.
+OUT_DIR = Path(os.environ.get("MW_OUT_DIR",
+                              "/home/v-seungplee/data/llm-addiction/behavioral/mystery_wheel/llama_v2_role"))
+HERE = Path(__file__).resolve().parent             # experiments/06_mystery_wheel (mystery_wheel/)
+SHARED = HERE.parent / "shared"                    # experiments/shared (common/)
 
 # All 64 condition combos: 32 prompt_conditions × 2 bet_types
 # We shard by (bet_type, condition_index) pairs
@@ -26,7 +29,8 @@ def make_shard_script(shard_id: int, combo_start: int, combo_end: int, gpu_id: i
 """MW shard {shard_id}: combos [{combo_start}, {combo_end})"""
 import sys, os
 os.environ["CUDA_VISIBLE_DEVICES"] = "{gpu_id}"
-sys.path.insert(0, "exploratory_experiments/alternative_paradigms/src")
+sys.path.insert(0, "{SHARED}")
+sys.path.insert(0, "{HERE}")
 
 from mystery_wheel.run_experiment import MysteryWheelExperiment
 from common.utils import setup_logger, save_json, set_random_seed
@@ -112,7 +116,7 @@ def launch_shards():
     print(f"\n3 shards launched. PIDs: {[p.pid for _, p, _ in procs]}")
     print(f"Monitor: tail -f {OUT_DIR}/shard_*.log")
     print(f"Check GPU: nvidia-smi")
-    print(f"After completion: python run_mw_parallel.py --merge")
+    print(f"After completion: python experiments/06_mystery_wheel/run_mw_parallel.py --merge")
 
     return procs
 
@@ -175,6 +179,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--merge", action="store_true", help="Merge completed shards")
     args = parser.parse_args()
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     if args.merge:
         merge_shards()

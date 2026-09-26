@@ -279,7 +279,7 @@ def main():
                     help='sae_features_v3 snapshot (rebinds e3.DATA).')
     ap.add_argument('--out-dir', default=os.environ.get(
         'CROSSTASK42_OUT_DIR',
-        str(Path(__file__).resolve().parents[2] / 'multilayer_causal/results/spine')))
+        str(Path(__file__).resolve().parents[2] / '08_steering/multilayer_causal/results/spine')))
     args = ap.parse_args()
 
     if args.data_root:

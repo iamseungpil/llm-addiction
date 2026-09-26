@@ -26,7 +26,7 @@ echo ""
 # GPU 0: LLaMA c70 (400 games, ~8h)
 (
     echo "=== GPU 0: LLaMA c70 ==="
-    CUDA_VISIBLE_DEVICES=0 python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py \
+    CUDA_VISIBLE_DEVICES=0 python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py \
         --model llama --gpu 0 --constraint 70 \
         2>&1
     if [ $? -eq 0 ]; then echo "✓ Completed: llama_c70"
@@ -36,7 +36,7 @@ echo ""
 # GPU 1: Gemma c70 (400 games, ~8h)
 (
     echo "=== GPU 1: Gemma c70 ==="
-    CUDA_VISIBLE_DEVICES=1 python exploratory_experiments/alternative_paradigms/src/investment_choice/run_experiment.py \
+    CUDA_VISIBLE_DEVICES=1 python experiments/02_investment_choice/open_weight/investment_choice/run_experiment.py \
         --model gemma --gpu 0 --constraint 70 \
         2>&1
     if [ $? -eq 0 ]; then echo "✓ Completed: gemma_c70"

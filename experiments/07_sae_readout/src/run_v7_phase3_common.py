@@ -12,7 +12,7 @@ Analyses:
 Data: Gemma-2-9B-IT, 3 paradigms, 131K SAE features, 3584-dim hidden states, 42 layers.
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python run_v7_phase3_common.py
 """
 

@@ -22,7 +22,7 @@ conda activate llm-addiction
 cd /home/jovyan/llm-addiction
 
 # Run experiment - Gemma Fixed $25 with SimpleFormat prompts
-python exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
+python archive/exploratory_experiments/alternative_paradigms/src/blackjack/run_experiment.py \
     --model gemma \
     --gpu 0 \
     --bet-type fixed \

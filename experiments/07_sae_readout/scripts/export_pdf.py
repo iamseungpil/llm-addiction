@@ -4,9 +4,9 @@ import re, base64, sys
 from pathlib import Path
 from weasyprint import HTML
 
-STUDY = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sae_v9_cross_model_study.md")
-FIG_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/figures")
-OUT_PDF = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sae_v9_cross_model_study.pdf")
+STUDY = (Path(__file__).resolve().parents[1] / "results/sae_v9_cross_model_study.md")
+FIG_DIR = (Path(__file__).resolve().parents[1] / "results/figures")
+OUT_PDF = (Path(__file__).resolve().parents[1] / "results/sae_v9_cross_model_study.pdf")
 
 def md_to_html(md_text):
     """Minimal markdown→HTML converter for tables, headers, bold, images, code blocks."""

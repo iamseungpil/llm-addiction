@@ -24,7 +24,7 @@ from pathlib import Path
 import pytest
 
 REPO = Path(__file__).resolve().parents[2]
-ORIG_PATH = (REPO / "paper_experiments" / "slot_machine_6models" / "src"
+ORIG_PATH = (REPO.parents[1] / "experiments" / "01_slot_machine" / "src"
              / "llama_gemma_experiment.py")
 
 

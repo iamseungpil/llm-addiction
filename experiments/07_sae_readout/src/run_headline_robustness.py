@@ -13,13 +13,13 @@ from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import KFold
 from sklearn.metrics import r2_score
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/sae_v3_analysis/src')
+sys.path.insert(0, '/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
 from run_perm_null_ilc import (
     load_sae_and_meta, nl_deconfound_split, TOP_K, RIDGE_ALPHA,
 )
 from run_comprehensive_robustness import compute_iba
 
-OUT = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/headline_robustness.json')
+OUT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/headline_robustness.json')
 
 # Headline cells: SM I_BA at L22 for both models, ±G and all_variable
 # (focus on Gemma +126% and LLaMA +36% modulation effects)

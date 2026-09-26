@@ -4,7 +4,7 @@
 
 set -e  # Exit on error
 
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/archive/exploratory_experiments/alternative_paradigms/src
 
 echo "============================================"
 echo "SUBMITTING PRIORITY 1 EXPERIMENTS"

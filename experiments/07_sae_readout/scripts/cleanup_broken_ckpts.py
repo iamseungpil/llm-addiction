@@ -39,7 +39,7 @@ def clean_ckpt(path: Path, gate: int = 50) -> tuple[int, int]:
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('--ckpt-dir', default='/home/v-seungplee/llm-addiction/sae_v3_analysis/results/checkpoints')
+    p.add_argument('--ckpt-dir', default='/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/checkpoints')
     p.add_argument('--gate', type=int, default=50,
                    help='Minimum bk+stop count to consider α entry clean')
     p.add_argument('--dry-run', action='store_true')

@@ -18,7 +18,7 @@ import pytest
 
 HERE = Path(__file__).resolve().parent
 SRC_DIR = HERE.parent / "src"
-LEGACY_ROOT = Path("/home/v-seungplee/llm-addiction/paper_experiments/sm_cap_ablation/src")
+LEGACY_ROOT = HERE.parents[1] / "sm_cap_ablation" / "src"
 
 sys.path.insert(0, str(LEGACY_ROOT))
 sys.path.insert(0, str(SRC_DIR))

@@ -24,8 +24,10 @@ from functools import partial
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("causal_patching")
 
-SRC_DIR = Path(__file__).parent.parent.parent / "exploratory_experiments" / "alternative_paradigms" / "src"
-sys.path.insert(0, str(SRC_DIR))
+_EXPERIMENTS = Path(__file__).resolve().parents[2]  # experiments/
+for _root in (_EXPERIMENTS / "shared", _EXPERIMENTS / "02_investment_choice" / "open_weight",
+              _EXPERIMENTS / "06_mystery_wheel"):
+    sys.path.insert(0, str(_root))
 sys.path.insert(0, str(Path(__file__).parent))
 
 from config import PARADIGMS, LLAMA_PARADIGMS

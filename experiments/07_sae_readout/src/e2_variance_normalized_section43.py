@@ -23,13 +23,13 @@ import argparse, json, sys, time
 from pathlib import Path
 import numpy as np
 
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/sae_v3_analysis/src')
+sys.path.insert(0, '/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
 from run_perm_null_ilc import load_sae_and_meta, TOP_K, RIDGE_ALPHA  # noqa: E402
 from run_condition_modulation_continuous_ilc import (  # noqa: E402
     get_label, condition_mask, fit_strict_cv,
 )
 
-OUT_DIR = Path('/home/v-seungplee/llm-addiction/sae_v3_analysis/results/'
+OUT_DIR = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/'
                'v19_multi_patching/E2_variance_normalized')
 
 CELLS = [

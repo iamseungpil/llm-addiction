@@ -3,7 +3,7 @@
 # Can run immediately without waiting for SM/MW extraction
 
 set -e
-cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
 
 echo "============================================"
 echo "IC-Only V3 SAE Analysis"

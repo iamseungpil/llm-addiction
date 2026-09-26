@@ -13,7 +13,7 @@
 source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
 conda activate llm-addiction
 
-cd /scratch/x3415a02/projects/llm-addiction/exploratory_experiments/alternative_paradigms
+cd /scratch/x3415a02/projects/llm-addiction/archive/exploratory_experiments/alternative_paradigms
 
 echo "=========================================="
 echo "Dice Rolling Pilot Test V2 (Improved)"

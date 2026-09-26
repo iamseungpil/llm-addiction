@@ -29,5 +29,5 @@ jobs:
         TRACK: m1_api
     command:
       - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
-      - cd /scratch/code/llm-addiction && bash paper_experiments/m1_portfolio_discriminant/amlt/run_grid.sh api
+      - cd /scratch/code/llm-addiction && bash archive/paper_experiments/m1_portfolio_discriminant/amlt/run_grid.sh api
       - sleep 86400

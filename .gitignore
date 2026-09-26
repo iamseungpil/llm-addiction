@@ -45,7 +45,6 @@ Thumbs.db
 1216_legacy_data/
 ARCHIVE_OLD_EXPERIMENTS/
 ARCHIVE_NON_ESSENTIAL/
-archive/
 
 # Asset files
 asset/
@@ -59,16 +58,16 @@ asset/
 *.xdv
 
 # Experiment monitor / generated study outputs
-sae_v3_analysis/results/*.pdf
-sae_v3_analysis/results/*.tex
-sae_v3_analysis/results/*_log.txt
-sae_v3_analysis/results/*.lock
-sae_v3_analysis/results/*status*.md
-multilayer_causal/out/
-multilayer_causal/amlt/*.rendered.yaml
-multilayer_causal/assets/*.npz
+experiments/07_sae_readout/results/*.pdf
+experiments/07_sae_readout/results/*.tex
+experiments/07_sae_readout/results/*_log.txt
+experiments/07_sae_readout/results/*.lock
+experiments/07_sae_readout/results/*status*.md
+experiments/08_steering/multilayer_causal/out/
+experiments/08_steering/multilayer_causal/amlt/*.rendered.yaml
+experiments/08_steering/multilayer_causal/assets/*.npz
 
 # Causal per-trial traces: large, regenerable; the analysis/summary JSONs they roll up to are tracked.
-multilayer_causal/results/**/*.jsonl
-multilayer_causal/results/**/*.png
-multilayer_causal/results/**/*.pdf
+experiments/08_steering/multilayer_causal/results/**/*.jsonl
+experiments/08_steering/multilayer_causal/results/**/*.png
+experiments/08_steering/multilayer_causal/results/**/*.pdf

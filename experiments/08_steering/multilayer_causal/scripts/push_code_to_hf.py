@@ -5,7 +5,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[2]   # experiments/08_steering (holds multilayer_causal/)
+SAE_SRC = Path(__file__).resolve().parents[3] / "07_sae_readout" / "src"  # local copy of HF sae_v3_analysis/src/
 HF_REPO = "llm-addiction-research/llm-addiction"
 DEST = "experiments/multilayer_causal/code/multilayer_causal.tar.gz"
 PATHS = ["multilayer_causal"]          # self-contained for E1/E2/E3a
@@ -44,7 +45,7 @@ def main():
             commit_message="code: multilayer_causal latest")
         print(f"pushed {tar.stat().st_size / 1e6:.1f}MB -> {DEST}")
     for rel in SRC_FILES:
-        local = REPO_ROOT / rel
+        local = SAE_SRC / Path(rel).name
         if not local.exists():
             print(f"skip (missing local) {rel}")
             continue

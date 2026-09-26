@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-BASE_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis")
+BASE_DIR = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout")
 RESULTS_DIR = BASE_DIR / "results"
 STATUS_JSON = RESULTS_DIR / "v14_monitor_status.json"
 STATUS_MD = RESULTS_DIR / "v14_monitor_status.md"

@@ -9,7 +9,7 @@ Figures:
   4. RQ3 - Condition Encoding (horizontal bar chart)
   5. RQ3 - G Component Behavioral Effect (BK rate with/without G)
 
-Output: /home/jovyan/llm-addiction/sae_v3_analysis/results/figures_v6/
+Output: /home/jovyan/llm-addiction/experiments/07_sae_readout/results/figures_v6/
 """
 
 import json
@@ -23,7 +23,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-RESULTS_DIR = Path("/home/jovyan/llm-addiction/sae_v3_analysis/results")
+RESULTS_DIR = Path("/home/jovyan/llm-addiction/experiments/07_sae_readout/results")
 JSON_DIR = RESULTS_DIR / "json"
 OUT_DIR = RESULTS_DIR / "figures_v6"
 OUT_DIR.mkdir(parents=True, exist_ok=True)

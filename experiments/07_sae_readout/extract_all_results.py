@@ -11,7 +11,7 @@ import os
 import sys
 from pathlib import Path
 
-JSON_DIR = Path("/home/jovyan/llm-addiction/sae_v3_analysis/results/json")
+JSON_DIR = Path("/home/jovyan/llm-addiction/experiments/07_sae_readout/results/json")
 
 def load(name):
     with open(JSON_DIR / name) as f:
@@ -818,7 +818,7 @@ def main():
     pprint.pprint(f9, width=120)
 
     # Save combined output
-    out_path = "/home/jovyan/llm-addiction/sae_v3_analysis/results/extracted_all_results.json"
+    out_path = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/extracted_all_results.json"
     with open(out_path, "w") as f:
         json.dump(all_results, f, indent=2, default=str)
     print(f"\n\nSaved combined results to: {out_path}")

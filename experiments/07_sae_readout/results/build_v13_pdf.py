@@ -3,10 +3,10 @@
 import re, os, subprocess
 from pathlib import Path
 
-MD_PATH = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sae_v13_comprehensive_study.md")
-TEX_PATH = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sae_v13_comprehensive_study.tex")
-PDF_PATH = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/sae_v13_comprehensive_study.pdf")
-FIG_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/figures")
+MD_PATH = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/sae_v13_comprehensive_study.md")
+TEX_PATH = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/sae_v13_comprehensive_study.tex")
+PDF_PATH = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/sae_v13_comprehensive_study.pdf")
+FIG_DIR = Path("/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/figures")
 
 def md_to_latex(md_text):
     """Convert markdown to LaTeX body content."""

@@ -28,7 +28,7 @@ SEED = 42
 np.random.seed(SEED)
 
 DATA_PATH = Path("/home/v-seungplee/data/llm-addiction/behavioral/slot_machine/llama_v4_role/final_llama_20260315_062428.json")
-OUT_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/escalation")
+OUT_DIR = (Path(__file__).resolve().parents[1] / "results/escalation")
 FIG_PATH = Path("/home/v-seungplee/LLM_Addiction_NMT_KOR/images/escalation_trajectory.pdf")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 

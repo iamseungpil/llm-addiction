@@ -31,14 +31,14 @@ if [ "${MODE_CHOICE}" = "parity" ]; then
         for mode in fixed variable; do
             # 1. Track 0 v6 path.
             run_cell "v6_gpt-4o-mini_cap${cap}_${mode}" "v6/gpt-4o-mini/cap${cap}/${mode}" \
-                bash -c "python paper_experiments/track0_w3_replication/src/run_track0_api.py \
+                bash -c "python experiments/03_matched_cap/track0_w3_replication/src/run_track0_api.py \
                     --provider openai --model_id gpt-4o-mini \
                     --cap ${cap} --mode ${mode} \
                     --n_games 200 --output_dir ${OUTPUT_DIR} \
                     2>&1 | tee -a /scratch/logs/track0_v6_gpt-4o-mini_cap${cap}_${mode}.log"
             # 2. Legacy baseline path (untouched legacy classes via __new__ shim).
             run_cell "legacy_gpt-4o-mini_cap${cap}_${mode}" "legacy/gpt-4o-mini/cap${cap}/${mode}" \
-                bash -c "python paper_experiments/track0_w3_replication/src/run_legacy_baseline.py \
+                bash -c "python experiments/03_matched_cap/track0_w3_replication/src/run_legacy_baseline.py \
                     --cap ${cap} --mode ${mode} \
                     --n_games 200 --output_dir ${PARITY_DIR} \
                     2>&1 | tee -a /scratch/logs/track0_legacy_gpt-4o-mini_cap${cap}_${mode}.log"
@@ -46,7 +46,7 @@ if [ "${MODE_CHOICE}" = "parity" ]; then
     done
     # 3. Run parity_check.py to gate cross-model.
     echo "[track0] running parity_check"
-    python paper_experiments/track0_w3_replication/src/parity_check.py \
+    python experiments/03_matched_cap/track0_w3_replication/src/parity_check.py \
         --v6_dir "${OUTPUT_DIR}" \
         --legacy_dir "${PARITY_DIR}" \
         --output_path "${OUTPUT_DIR}/parity_report.json" \
@@ -57,7 +57,7 @@ elif [ "${MODE_CHOICE}" = "open_weight" ]; then
         for cap in 10 30 50 70; do
             for mode in fixed variable; do
                 run_cell "${model}_cap${cap}_${mode}" "${model}/cap${cap}/${mode}" \
-                    bash -c "python paper_experiments/track0_w3_replication/src/run_track0_open_weight.py \
+                    bash -c "python experiments/03_matched_cap/track0_w3_replication/src/run_track0_open_weight.py \
                         --model ${model} --gpu 0 --cap ${cap} --mode ${mode} \
                         --n_games 200 --output_dir ${OUTPUT_DIR} \
                         2>&1 | tee -a /scratch/logs/track0_${model}_cap${cap}_${mode}.log"
@@ -85,7 +85,7 @@ elif [ "${MODE_CHOICE}" = "api" ]; then
         for cap in 10 30 50 70; do
             for mode in fixed variable; do
                 run_cell "${key}_cap${cap}_${mode}" "${key}/cap${cap}/${mode}" \
-                    bash -c "python paper_experiments/track0_w3_replication/src/run_track0_api.py \
+                    bash -c "python experiments/03_matched_cap/track0_w3_replication/src/run_track0_api.py \
                         --provider ${PROVIDERS[$key]} --model_id ${IDS[$key]} \
                         --cap ${cap} --mode ${mode} \
                         --n_games 200 --output_dir ${OUTPUT_DIR} \

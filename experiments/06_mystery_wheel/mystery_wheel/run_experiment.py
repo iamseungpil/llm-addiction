@@ -29,6 +29,7 @@ from tqdm import tqdm
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "shared"))  # experiments/shared/common
 
 from common import ModelLoader, setup_logger, save_json, set_random_seed
 from mystery_wheel.game_logic import MysteryWheelGame

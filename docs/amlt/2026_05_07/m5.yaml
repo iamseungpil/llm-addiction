@@ -28,5 +28,5 @@ jobs:
     command:
       - nvidia-smi
       - bash /tmp/amlt-code-download/shared/bootstrap_addiction_node.sh
-      - cd /scratch/code/llm-addiction && bash paper_experiments/m5_compliance_residualisation/amlt/run_grid.sh
+      - cd /scratch/code/llm-addiction && bash archive/paper_experiments/m5_compliance_residualisation/amlt/run_grid.sh
       - sleep 86400

@@ -13,6 +13,6 @@
 # [SLURM-DISABLED] source /apps/applications/Miniconda/23.3.1/etc/profile.d/conda.sh
 conda activate llm-addiction
 
-cd /home/jovyan/llm-addiction/exploratory_experiments/alternative_paradigms/src
+cd /home/jovyan/llm-addiction/experiments/02_investment_choice/open_weight
 
 python investment_choice/test_new_prompt.py --gpu 0 --n-reps 10 --constraint 30

@@ -16,7 +16,7 @@ from scipy.stats import fisher_exact
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("causal_v2")
 
-OUT_DIR = Path("/home/v-seungplee/llm-addiction/sae_v3_analysis/results/json")
+OUT_DIR = (Path(__file__).resolve().parents[1] / "results/json")
 N_TRIALS = 50
 TEMPERATURE = 0.7
 MAX_NEW_TOKENS = 150

@@ -1,6 +1,6 @@
 """W3 +M twin parity: build_twin_prompt must compose components exactly like
 the frozen build_prompt (and therefore like the original 64-condition script
-paper_experiments/slot_machine_6models/src/llama_gemma_experiment.py).
+experiments/01_slot_machine/src/llama_gemma_experiment.py).
 
 Fixture mirrors tests/test_states.py so the parity claims hold on the same
 synthetic-catalog states the pool loader actually serves.
@@ -31,7 +31,7 @@ def _write_catalog(tmp_path, monkeypatch):
 
 
 def test_m_component_text_matches_original_64cond_script():
-    src = (REPO / "paper_experiments" / "slot_machine_6models" / "src" /
+    src = (REPO.parents[1] / "experiments" / "01_slot_machine" / "src" /
            "llama_gemma_experiment.py").read_text()
     assert f'prompt += "{M_TEXT}\\n"' in src
 

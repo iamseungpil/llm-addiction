@@ -4,7 +4,7 @@ Reads from rq_comprehensive_results.json.
 """
 import json
 
-d = json.load(open("/home/jovyan/llm-addiction/sae_v3_analysis/results/rq_comprehensive_results.json"))
+d = json.load(open("/home/jovyan/llm-addiction/experiments/07_sae_readout/results/rq_comprehensive_results.json"))
 
 rq1 = d["RQ1_bankruptcy_prediction"]
 rq2 = d["RQ2_domain_invariant"]
@@ -341,5 +341,5 @@ for ck, v in rq3["percondition_ic_fixed_correlation"].items():
 
 print("\n\n" + "=" * 100)
 print("EXTRACTION COMPLETE: ~13,219 numeric values across 30 sections")
-print("Full JSON saved to: /home/jovyan/llm-addiction/sae_v3_analysis/results/rq_comprehensive_results.json")
+print("Full JSON saved to: /home/jovyan/llm-addiction/experiments/07_sae_readout/results/rq_comprehensive_results.json")
 print("=" * 100)

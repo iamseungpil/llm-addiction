@@ -38,7 +38,7 @@ SNAP = Path(os.path.expanduser(
     "/b4ec4c173164d5dcadb02818847b2dad5e2f98cc"))
 BEHAV = SNAP / "behavioral/slot_machine/gemma_v4_role/final_gemma_20260227_002507.json"
 HIDDEN = SNAP / "sae_features_v3/slot_machine/gemma/checkpoint/phase_a_hidden_states.npz"
-ASSETS = Path("/home/v-seungplee/llm-addiction/multilayer_causal/assets")
+ASSETS = Path("/home/v-seungplee/llm-addiction/experiments/08_steering/multilayer_causal/assets")
 
 BAND = [16, 17, 18, 19, 20, 21]
 REFERENCE_LAYER = 22
@@ -98,7 +98,7 @@ def score(direction, states, y, bal, rnd, game, n_folds=5, seed=42):
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/e2_coding/axis_decoding.json")
+    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/experiments/09_audits/axis_decoding.json")
     args = ap.parse_args()
 
     y, bal, rnd, game, states = load()

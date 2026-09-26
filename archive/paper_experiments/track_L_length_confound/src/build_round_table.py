@@ -323,7 +323,7 @@ if __name__ == "__main__":
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--data-root", default="/home/v-seungplee/data/llm-addiction")
-    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/paper_experiments/track_L_length_confound/round_table.csv")
+    ap.add_argument("--out", default="/home/v-seungplee/llm-addiction/archive/paper_experiments/track_L_length_confound/round_table.csv")
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
 

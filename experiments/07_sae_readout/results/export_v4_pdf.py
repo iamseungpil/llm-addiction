@@ -5,9 +5,9 @@ import subprocess
 import os
 import re
 
-REPORT_MD = "/home/jovyan/llm-addiction/sae_v3_analysis/results/sae_v4_interim_report.md"
-FIGURES_DIR = "/home/jovyan/llm-addiction/sae_v3_analysis/results/figures"
-OUTPUT_DIR = "/home/jovyan/llm-addiction/sae_v3_analysis/results"
+REPORT_MD = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/sae_v4_interim_report.md"
+FIGURES_DIR = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results/figures"
+OUTPUT_DIR = "/home/jovyan/llm-addiction/experiments/07_sae_readout/results"
 TEX_FILE = os.path.join(OUTPUT_DIR, "sae_v4_interim_report.tex")
 PDF_FILE = os.path.join(OUTPUT_DIR, "sae_v4_interim_report.pdf")
 

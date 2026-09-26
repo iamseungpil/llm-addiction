@@ -62,13 +62,13 @@ mkdir -p /scratch/x3415a02/data/llm-addiction/d_robustness
 
 # --- Background helpers ------------------------------------------------------
 if [ ! -f /scratch/logs/gpu_keeper.pid ] || ! kill -0 "$(cat /scratch/logs/gpu_keeper.pid 2>/dev/null)" 2>/dev/null; then
-    nohup python /scratch/code/llm-addiction/amlt/2026_05_07/shared/gpu_keeper.py \
+    nohup python /scratch/code/llm-addiction/docs/amlt/2026_05_07/shared/gpu_keeper.py \
         > /scratch/logs/gpu_keeper.log 2>&1 &
     echo $! > /scratch/logs/gpu_keeper.pid
 fi
 
 if [ ! -f /scratch/logs/push_ckpts.pid ] || ! kill -0 "$(cat /scratch/logs/push_ckpts.pid 2>/dev/null)" 2>/dev/null; then
-    nohup python /scratch/code/llm-addiction/amlt/2026_05_07/shared/push_ckpts_to_hf.py \
+    nohup python /scratch/code/llm-addiction/docs/amlt/2026_05_07/shared/push_ckpts_to_hf.py \
         --interval 600 \
         --base_dir /scratch/x3415a02/data/llm-addiction \
         --hf_repo iamseungpil/llm-addiction-rebuttal-2026-05 \
@@ -79,4 +79,4 @@ fi
 cd /scratch/code/llm-addiction
 echo "bootstrap done at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 echo "cwd: $(pwd)"
-ls -la paper_experiments/track0_w3_replication/src/ 2>&1 | head -5
+ls -la experiments/03_matched_cap/track0_w3_replication/src/ 2>&1 | head -5

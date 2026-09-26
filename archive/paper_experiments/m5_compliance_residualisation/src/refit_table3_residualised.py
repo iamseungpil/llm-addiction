@@ -1,6 +1,6 @@
 """Re-fit the §4.3 condition-modulation Ridge readout on residualised features.
 
-Pipeline parity (must match `sae_v3_analysis/src/run_groupkfold_recompute.py`):
+Pipeline parity (must match `experiments/07_sae_readout/src/run_groupkfold_recompute.py`):
   - 5-fold GroupKFold by game_id (no shuffle; deterministic group→fold map)
   - within-fold RandomForest deconfound on [bal, rn, bal², log1p(bal), bal·rn]
   - top-K=200 features by |Spearman ρ| with deconfounded target on TRAIN fold
@@ -11,7 +11,7 @@ For each residualised feature cache produced by `residualise_sae_features.py`,
 this script:
   1. Loads the cache (sparse COO + meta).
   2. Computes I_BA target per round (bet/balance), via the same `compute_iba`
-     we reuse from `sae_v3_analysis/src/run_comprehensive_robustness.py`.
+     we reuse from `experiments/07_sae_readout/src/run_comprehensive_robustness.py`.
   3. Filters to plus_G subset → fit GroupKFold → R²_+G' (residualised).
      Filters to minus_G subset → fit → R²_-G'.
   4. Computes Δ_G' = R²_+G' − R²_-G'.
@@ -37,7 +37,7 @@ ROOT = THIS_DIR.parent
 DEFAULT_CONFIG = ROOT / "configs" / "m5_config.yaml"
 
 # Reuse existing GroupKFold protocol — single source of truth.
-SAE_V3_SRC = Path(__file__).resolve().parents[3] / "sae_v3_analysis" / "src"
+SAE_V3_SRC = Path(__file__).resolve().parents[4] / "experiments" / "07_sae_readout" / "src"
 if str(SAE_V3_SRC) not in sys.path:
     sys.path.insert(0, str(SAE_V3_SRC))
 

@@ -13,7 +13,7 @@ New analyses (not in run_all_analyses.py or run_extended_analyses.py):
   6. Behavioral metrics (I_BA, I_LC, I_EC) — from game JSON
 
 Usage:
-    cd /home/jovyan/llm-addiction/sae_v3_analysis/src
+    cd /home/jovyan/llm-addiction/experiments/07_sae_readout/src
     python run_comprehensive_gemma.py [--analyses 1,2,3,4,5,6] [--layers all|best6]
 """
 

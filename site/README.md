@@ -70,7 +70,16 @@ measured on the current sprites: re-check them if you regenerate `slot` or `robo
 
 ```bash
 python3 -m http.server 8788 --directory site      # preview at http://localhost:8788
+```
 
+Deployment is automatic: every push to `main` that touches `site/` runs
+`.github/workflows/deploy-site.yml`, which checks the page scripts and publishes
+to `llm-addiction.pages.dev` (repository secrets `CLOUDFLARE_API_TOKEN` and
+`CLOUDFLARE_ACCOUNT_ID`). It can also be run by hand from the Actions tab.
+
+To deploy manually instead:
+
+```bash
 source ~/.config/secrets/tokens.env
 npx wrangler pages deploy site --project-name llm-addiction --branch main
 ```

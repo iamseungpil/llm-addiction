@@ -1,0 +1,29 @@
+# Publishes site/ to https://llm-addiction.pages.dev whenever site/ changes on main.
+# Needs two repository secrets: CLOUDFLARE_API_TOKEN (Pages: Edit only) and CLOUDFLARE_ACCOUNT_ID.
+name: Deploy project page
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**"]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check page scripts
+        run: for f in site/assets/*.js; do node --check "$f"; done
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=llm-addiction --branch=main --commit-hash=${{ github.sha }}

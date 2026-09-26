@@ -35,8 +35,8 @@ Nothing here has been pushed. The uploader adds files only — no copies, no del
 and is a dry run unless `--push` is passed:
 
 ```
-python3 sae_v3_analysis/scripts/label_legacy_deprecations.py           # show what would go
-HF_TOKEN=... python3 sae_v3_analysis/scripts/label_legacy_deprecations.py --push
+python3 experiments/07_sae_readout/scripts/label_legacy_deprecations.py           # show what would go
+HF_TOKEN=... python3 experiments/07_sae_readout/scripts/label_legacy_deprecations.py --push
 ```
 
 Pushing publishes to a public dataset, so it is left as a deliberate, separate step

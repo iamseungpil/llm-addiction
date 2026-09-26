@@ -1,28 +1,28 @@
-# e7_factorial — role framing × rationality instruction, and worked examples
+# 05 — Role framing × rationality instruction, and worked examples
 
-Additional control for **Finding 5** of the paper (appendix tables `tab:e7-per-model` and
-`tab:worked-example-intervals`). For the whole-repository map, see the [top-level README](../../README.md).
+**Question.** At a matched $70 cap, is the fixed-versus-variable bankruptcy gap produced by the role
+sentence in the prompt, or by the model not knowing that stopping is the best move? Can one worked
+example of a game move behaviour?
 
-## Question
+**Paper result.** Finding 5; appendix tables `tab:e7-per-model` (App. G.2) and
+`tab:worked-example-intervals`. The gap is carried by LLaMA (+76 pp), Gemini (+20) and Gemma
+(+14); the rationality instruction narrows LLaMA to +40 and closes Gemini and Gemma. With a worked
+example, Gemini's variable-arm bankruptcy goes from 21% (cautious example) to 52% (escalating
+example).
 
-At a matched $70 cap, is the fixed-versus-variable bankruptcy gap produced by the role sentence in
-the prompt, or by the model not knowing that stopping is the best move? The runner crosses betting
-mode (fixed / variable) with two prompt preambles:
+## Design (from the code)
 
-- **role framing**: the role sentence used by the open-weight runners of the main study;
-- **rationality instruction**: a statement that the game has negative expected value and that
-  stopping at once maximises it.
-
-A second arm prepends one worked example of a completed game, either cautious or escalating, to test
-whether a single example moves behaviour.
-
-The design and analysis plan were fixed before data collection in
-[`PREREGISTRATION.md`](PREREGISTRATION.md).
-
-## Entry script
-
-`src/run_e7.py` plays `--n_games` slot-machine games for one cell, reusing the game logic and parser
-of `../track0_w3_replication/src/` unchanged.
+- The slot machine of [01](../01_slot_machine/README.md) at a $70 cap (`--cap`, default 70),
+  fixed vs variable, `--n_games` games per cell (default 100).
+- Two prompt preambles crossed: **role framing** (the role sentence of the open-weight runners)
+  and a **rationality instruction** (`--rat`: the game has negative expected value and stopping at
+  once maximises it).
+- Worked-example arm: one completed game prepended as an example, cautious or escalating.
+- Game logic and parser come unchanged from
+  `experiments/03_matched_cap/track0_w3_replication/src/`, and API calls go through its
+  `run_track0_api.py`.
+- The design and analysis plan were fixed before data collection in
+  [`PREREGISTRATION.md`](PREREGISTRATION.md).
 
 | Argument | Values |
 |---|---|
@@ -34,28 +34,34 @@ of `../track0_w3_replication/src/` unchanged.
 | `--n_games` | default 100 |
 | `--output_dir` | required |
 
-The script adds two absolute paths from the original machine to `sys.path` (lines 36–37). On
-another machine, put the harness on `PYTHONPATH` yourself:
+## Quick Start
 
 ```bash
-PYTHONPATH=experiments/03_matched_cap/track0_w3_replication/src:experiments/03_matched_cap/sm_cap_ablation/src \
 python experiments/05_framing_worked_example/src/run_e7.py \
     --model gemini-2.5-flash --mode variable --preamble role --rat \
     --n_games 100 --output_dir out/e7
+
+python experiments/05_framing_worked_example/src/run_e7.py \
+    --model llama --mode fixed --preamble role --n_games 100 --gpu 0 --output_dir out/e7
 ```
 
-API models read their keys through `run_track0_api.py`: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` or
+API keys (read through `run_track0_api.py`): `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` or
 `CLAUDE_API_KEY`, `GOOGLE_API_KEY` or `GEMINI_API_KEY`. Open-weight models run on the GPU given by
-`--gpu`.
+`--gpu`. The harness paths are resolved from the script's location, so no `PYTHONPATH` is needed.
 
-## Outputs
-
-One file per cell, `<output_dir>/e7_<model>_cap<cap>_<mode>_<preamble>_rat<0|1>_<timestamp>.json`,
-plus a progress log `cell_status.txt`. The runner refuses to start if the output directory already
-holds a file for the same cell (override with `--allow_existing_cell`).
+Output: one file per cell,
+`<output_dir>/e7_<model>_cap<cap>_<mode>_<preamble>_rat<0|1>_<timestamp>.json`, plus a progress
+log `cell_status.txt`. The runner refuses to start if the output directory already holds a file for
+the same cell (override with `--allow_existing_cell`).
 
 ## Data on Hugging Face
 
 - `rebuttal_neurips_2026/framing_rationality_factorial_e7/` — the factorial cells
 - `rebuttal_neurips_2026/in_context_demo_api/`, `in_context_demo_open_weight/`,
   `in_context_demo_open_weight_persona/` — the worked-example cells
+
+## Figures and tables (paper repository, private)
+
+- `paper_data/tables/appendix/code/gbsa_q3_e7_per_model.py` — `tab:e7-per-model`.
+- `paper_data/tables/appendix/code/worked_example_intervals.py` — `tab:worked-example-intervals`
+  (and the worked-example row of `tab:added-controls`).

@@ -11,4 +11,4 @@ time of writing, not the final pipeline or the published numbers. Most are in Ko
 | `PLAN_NODE_SAE_EXTENSION_2026_05_07.md` | Compute plan for an SAE multi-feature extension |
 
 More plans sit at the repository root (`PLAN_*.md`). For the code and data behind the paper, see the
-[top-level README](../README.md).
+[top-level README](../../README.md).

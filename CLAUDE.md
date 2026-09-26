@@ -1,6 +1,34 @@
 # CLAUDE.md
 
-> **Stale environment, and one withdrawn finding.** The paths, cluster and conda setup below describe the HPC machine the experiments ran on, not this checkout; the entry point for the repository is [`README.md`](README.md), the figure-to-code map is `PAPER_CANONICAL_CODE.md`, and Key Research Finding 5 (SAE feature patching, "+29.6% stopping rate") was **withdrawn** — the SAE-feature steering and patching claims were removed from §4, and the paper reports patching on the readout direction as null. What §4 does claim causally is narrower: a *behaviour-built* direction that raises and lowers betting on Gemma, with removal alone confirmed on LLaMA. Finding 4's layer ranges are also superseded; the paper fixes a single representative layer, L22. The architecture and conventions sections remain accurate.
+Start from [`README.md`](README.md): it lists every experiment with its paper result, code folder,
+entry scripts and Hugging Face data. Layout:
+
+- `experiments/NN_name/` — one folder per paper experiment, each with a README and Quick Start
+  (01 slot machine, 02 investment choice, 03 matched cap, 04 choice ladder, 05 framing and worked
+  example, 06 mystery wheel, 07 SAE readout, 08 steering, 09 audits; `shared/` holds the `common`
+  harness of 02 and 06).
+- `archive/` — code the camera-ready does not use, with its old structure.
+- `docs/` — plans, review notes (`docs/rebuttal_review/CAMERA_READY_MAP.md`), cluster job files.
+- `site/` — the project page, deployed by `.github/workflows/deploy-site.yml`.
+- [`PATH_MAP.md`](PATH_MAP.md) — old path → new path; the tag `pre-reorg` holds the old layout.
+
+Conventions that still hold: models load in bf16; `set_random_seed(42)`; call `clear_gpu_memory()`
+between phases; result files (`*.json`, `*.npz`, `*.csv`) are gitignored and live on the dataset
+`llm-addiction-research/llm-addiction`; API keys come from environment variables. The
+`multilayer_causal` package in `experiments/08_steering/` is imported by name, so run it from that
+folder.
+
+---
+
+## Historical: HPC environment notes (pre-reorg)
+
+> Everything below was written for the HPC cluster the experiments ran on and uses the **old
+> layout** (`paper_experiments/`, `exploratory_experiments/`, `legacy/`, `sae_v3_analysis/`,
+> `multilayer_causal/`); translate paths with `PATH_MAP.md`. Key Research Finding 5 below (SAE
+> feature patching, "+29.6% stopping rate") was **withdrawn**: the paper reports patching on the
+> readout direction as null, and what §4 claims causally is narrower — a behaviour-built direction
+> that raises and lowers betting on Gemma, with removal confirmed on LLaMA. Finding 4's layer
+> ranges are superseded; the paper fixes layer 22.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 

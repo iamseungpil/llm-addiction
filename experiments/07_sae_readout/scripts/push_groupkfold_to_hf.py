@@ -17,8 +17,8 @@ if not TOKEN:
     sys.exit(1)
 
 REPO = 'llm-addiction-research/llm-addiction'
-LOCAL_RESULTS = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results')
-LOCAL_SRC = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
+LOCAL_RESULTS = (Path(__file__).resolve().parents[1] / "results")
+LOCAL_SRC = (Path(__file__).resolve().parents[1] / "src")
 
 # Paper-canonical files first
 CANONICAL = [

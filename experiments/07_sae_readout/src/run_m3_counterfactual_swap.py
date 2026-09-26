@@ -31,7 +31,7 @@ from datetime import datetime
 from pathlib import Path
 import numpy as np
 
-OUT_ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/v19_multi_patching/M3_swap')
+OUT_ROOT = (Path(__file__).resolve().parents[1] / "results/v19_multi_patching/M3_swap")
 TARGET_LAYER = 22
 TEMPERATURE = 0.7
 MAX_NEW_TOKENS = 150

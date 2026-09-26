@@ -1,6 +1,6 @@
 > **Section names below are from an earlier draft, and the 10-round game described here is the first
 > version.** In the camera-ready paper the investment-choice results are Findings 3–4 (Figure 3a–c),
-> with games of up to 100 rounds. Runners and data paths are in the [top-level README](../../README.md#experiments).
+> with games of up to 100 rounds. Runners and data paths are in the [top-level README](../../../README.md#experiments).
 
 # Investment Choice Experiment
 

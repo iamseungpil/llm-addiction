@@ -16,7 +16,7 @@ from datetime import datetime
 from pathlib import Path
 
 REPO = 'llm-addiction-research/llm-addiction'
-LOCAL_ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/v19_multi_patching')
+LOCAL_ROOT = (Path(__file__).resolve().parents[1] / "results/v19_multi_patching")
 HF_PREFIX = 'sae_v3_analysis/results/v19_multi_patching'
 PUSH_LOG = LOCAL_ROOT / '.push_log.json'
 INTERVAL_DEFAULT = 600  # 10 minutes

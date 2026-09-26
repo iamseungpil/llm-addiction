@@ -1,7 +1,9 @@
-# investment_choice_extended_cot — investment choice for the API models
+# Appendix: extended-CoT investment choice (API models)
 
-Part of the investment-choice experiment behind **Findings 3–4** (Figure 3a–c). For the
-whole-repository map, see the [top-level README](../../README.md).
+**Appendix only.** This 100-round run with step-by-step reasoning feeds the appendix
+CoT-distribution figure (`investment_choice_distributions_cot.pdf`). Figure 3a–c uses the 10-round
+API runner in [`../api_bet_constraint/`](../api_bet_constraint/) and the open-weight runner; see the
+[experiment page](../README.md) and the [top-level README](../../../README.md).
 
 ## Question
 
@@ -40,7 +42,6 @@ pass over these results.
 
 ## Data on Hugging Face
 
-`investment_choice/extended_cot/`. The investment-choice files that the top-level README lists for
-Figure 3 are `investment_choice/bet_constraint/`, `investment_choice/bet_constraint_cot/` and
-`behavioral/investment_choice/v2_role_{llama,gemma}/`; the dataset's `MANIFEST.md` gives the file
-behind each panel.
+`investment_choice/extended_cot/`. Figure 3a–c reads `investment_choice/bet_constraint/` and
+`behavioral/investment_choice/v2_role_{llama,gemma}/` instead; `investment_choice/bet_constraint_cot/`
+is not used by the paper.

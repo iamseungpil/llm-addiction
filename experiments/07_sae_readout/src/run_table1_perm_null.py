@@ -15,13 +15,13 @@ from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import KFold
 from sklearn.metrics import r2_score
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from run_perm_null_ilc import (
     load_sae_and_meta, nl_deconfound_split, BEHAVIORAL_ROOT, TOP_K, RIDGE_ALPHA,
 )
 from run_comprehensive_robustness import compute_iba
 
-OUT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/table1_perm_null.json')
+OUT = (Path(__file__).resolve().parents[1] / "results/table1_perm_null.json")
 LAYER = 22
 N_PERM = 20
 

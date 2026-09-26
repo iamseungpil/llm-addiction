@@ -13,10 +13,10 @@ import json, sys
 from pathlib import Path
 import numpy as np
 from sklearn.metrics import roc_auc_score
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 DATA = Path('/home/v-seungplee/data/llm-addiction/sae_features_v3')
-OUT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/rq2_audit_consistent_layer.json')
+OUT = (Path(__file__).resolve().parents[1] / "results/rq2_audit_consistent_layer.json")
 TASK_DIRS = {'sm': 'slot_machine', 'ic': 'investment_choice', 'mw': 'mystery_wheel'}
 
 

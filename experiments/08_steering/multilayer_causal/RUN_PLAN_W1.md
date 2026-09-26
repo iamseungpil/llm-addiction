@@ -1,7 +1,7 @@
 # W1 실행 계획 — 의도 · 가설 · 검증 방법
 
 **상태**: 구현·검증 완료, **제출 대기** (quota 보존을 위해 사용자 지시 시 제출)
-**스펙**: `docs/superpowers/specs/2026-06-10-w1-section-interleaved-causal-design.md`
+**스펙**: `experiments/08_steering/docs/superpowers/specs/2026-06-10-w1-section-interleaved-causal-design.md`
 **총괄 질문**: 논문 §4가 *읽은* 상관(지표 readout · 공유축 · 조건변조)이 같은 축의 *인과*로 연결되는가.
 
 이미 확정된 인과 결과 (W1 이전, n=200 confirmatory 통과):

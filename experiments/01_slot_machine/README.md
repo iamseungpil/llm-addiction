@@ -1,82 +1,73 @@
-> **Section numbers below are from an earlier draft.** In the camera-ready paper this code backs
-> Findings 1–2 (Figure 2) and the slot-machine appendix tables. Runners and data paths are in the
-> [top-level README](../../README.md#experiments).
+# 01 — Slot machine, six models
 
-# Slot Machine 6-Models Experiment
+**Question.** Does letting a model choose its own bet size raise bankruptcy, and do its bets
+escalate after runs of wins or losses?
 
-## 📊 Paper Section 3: "Can LLM Develop Gambling Addiction?"
+**Paper result.** Findings 1–2, Figure 2 (a: bankruptcy, b: irrationality indicators, c–d: bet
+increase after win and loss streaks); appendix table `tab:appendix-slot-comprehensive`.
 
-### Experimental Design
-- **Models**: GPT-4o-mini, GPT-4.1-mini, Gemini-2.5-Flash, Claude-3.5-Haiku, LLaMA-3.1-8B, Gemma-2-9B
-- **Design**: 2×32 factorial design
-  - **Betting Style**: Fixed ($10) vs Variable ($5-$100)  
-  - **Prompt Composition**: 32 variations (BASE + 5 components)
-- **Total**: 64 conditions × 50 reps = 3,200 games per model
-- **Game Settings**: 30% win rate, 3× payout, -10% expected value
+## Design (from the code)
 
-### Key Paper Results
-| Model | Fixed Bankruptcy | Variable Bankruptcy | Notes |
-|-------|------------------|---------------------|-------|
-| GPT-4o-mini | 0.00% | **21.31%** | Paper-facing game-level summary preserved |
-| GPT-4.1-mini | 0.00% | **6.31%** | Current HF `slot_machine/gpt/gpt5_experiment_20250921_174509.json` |
-| Gemini-2.5-Flash | 3.12% | **48.06%** | Current HF canonical |
-| Claude-3.5-Haiku | 0.00% | **20.50%** | Current HF canonical |
-| LLaMA-3.1-8B | 0.44% | **72.31%** | Current local canonical `llama_v4_role` |
-| Gemma-2-9B | 0.00% | **5.44%** | Current local canonical `gemma_v4_role` |
+- A $100 bankroll; each round the model bets or stops. Win probability 0.30, payout 3.0× the bet
+  (expected value −10%), at most 100 rounds (`src/llama_gemma_experiment.py`, `SlotMachineGame`).
+- Two betting modes: **fixed** ($10 every round) and **variable** (the model names any bet from $5
+  up to its balance).
+- Five prompt modules crossed in all 32 combinations: goal-setting `G`, reward maximisation `M`,
+  hidden patterns (`H` in the LLaMA files, `R` in the other five), win-reward information `W`,
+  probability information `P`.
+- 64 conditions × 50 games = 3,200 games per model, 19,200 in total across GPT-4o-mini,
+  GPT-4.1-mini, Gemini-2.5-Flash, Claude-3.5-Haiku, LLaMA-3.1-8B and Gemma-2-9B.
+- The open-weight runner prepends a role sentence ("participant in a behavioral economics
+  simulation"); the API runners use a system prompt and no role sentence.
 
-## 🚀 Quick Start
+## Quick Start
 
-### Run Experiments
+Run from the repository root. API keys come from the environment (see the table in the
+[top-level README](../../README.md#setup)).
+
 ```bash
-# API-based models
-python src/run_gpt5_experiment.py        # Legacy-named OpenAI runner; default is GPT-4.1-mini
-python src/run_claude_experiment.py      # Claude-3.5-Haiku
-python src/run_gemini_experiment.py      # Gemini-2.5-Flash
+# Open-weight models (one GPU each)
+python experiments/01_slot_machine/src/llama_gemma_experiment.py --model llama --gpu 0
+python experiments/01_slot_machine/src/llama_gemma_experiment.py --model gemma --gpu 0
 
-# Open-weight models  
-python src/llama_gemma_experiment.py     # LLaMA-3.1-8B + Gemma-2-9B
+# API models (the default model of each runner is shown; override with GPT5_MODEL, CLAUDE_MODEL, GEMINI_MODEL)
+python experiments/01_slot_machine/src/run_gpt5_experiment.py --quick-test      # gpt-4.1-mini
+python experiments/01_slot_machine/src/run_claude_experiment.py --quick-test    # claude-3-5-haiku-latest
+python experiments/01_slot_machine/src/run_gemini_experiment.py --quick-test    # gemini-2.5-flash
 ```
 
-### View Results
-```bash
-ls data/results/          # All 6 model results
-ls data/results/gpt/      # GPT results specifically
-ls data/results/claude/   # Claude results
-```
+Drop `--quick-test` for the full 3,200 games. Outputs go to the absolute folders set in each
+runner's `__init__` (`/data/llm_addiction/...` or `/home/jovyan/...`); change `results_dir` before
+running elsewhere.
 
-## 📁 Files Overview
+## Folder contents
 
-### Core Experiment Scripts
-- **`run_gpt5_experiment.py`**: Legacy-named OpenAI slot-machine runner. The current full 3,200-game raw snapshot is GPT-4.1-mini; archived partial runs under the same filename prefix include GPT-5-mini.
-- **`run_claude_experiment.py`**: Claude-3.5-Haiku experiments  
-- **`run_gemini_experiment.py`**: Gemini-2.5-Flash experiments
-- **`llama_gemma_experiment.py`**: LLaMA-3.1-8B & Gemma-2-9B experiments
+| Path | What it is |
+|---|---|
+| `src/llama_gemma_experiment.py` | LLaMA / Gemma runner with the role sentence; produced the `*_v4_role` corpora (Figure 2a–b) |
+| `src/run_gpt5_experiment.py`, `src/run_claude_experiment.py`, `src/run_gemini_experiment.py` | Later copies of the three API runners in `original_api_runners/`. They play the same game with the same parser; they label the hidden-pattern module `H` where the originals (and the released files) write `R`, and the GPT copy has clearer names and messages |
+| `original_api_runners/` | The runners that actually produced the released API exports: `gpt_experiments/src/gpt_fixed_parsing_experiment.py` (GPT-4o-mini), `gpt5_experiment/run_gpt5_experiment.py` (GPT-4.1-mini), `claude_experiment/run_claude_experiment.py`, `gemini_experiment/run_gemini_experiment.py`, each with the analysis scripts of the time |
+| `experiment_0_llama_gemma_restart/` | The October 2025 LLaMA / Gemma runs without the role sentence (`launch.sh` → `experiment_0_restart.py`); Figure 2(c,d) streak panels read these |
+| `data/results` | Symlink to the data folder on the original machine (dangling elsewhere) |
 
-### Results Data (via symlinks)
-- **`data/results/`** → Links to `/data/llm-addiction/slot_machine/`
-- Contains all 6 models' complete experimental results
+`gpt_fixed_parsing_experiment.py` imports `improved_gpt_parsing` from `/home/ubuntu/llm_addiction`,
+which is not in the repository; a copy of that parser is at
+`experiments/03_matched_cap/sm_cap_ablation/src/improved_gpt_parsing.py`.
 
-## 🔬 Methodology
+## Data on Hugging Face
 
-**Prompt Components:**
-- **G**: Goal-Setting  
-- **M**: Maximizing Rewards
-- **H**: Hinting at Hidden Patterns
-- **W**: Win-reward Information  
-- **P**: Probability Information
+| Model | Folder |
+|---|---|
+| LLaMA-3.1-8B, Gemma-2-9B (role sentence; Figure 2a–b) | `behavioral/slot_machine/{llama,gemma}_v4_role/` |
+| LLaMA-3.1-8B, Gemma-2-9B (October 2025; Figure 2c–d) | `slot_machine/{llama,gemma}/` |
+| GPT-4.1-mini | `slot_machine/gpt/` (the folder name says gpt; the files are GPT-4.1-mini) |
+| Claude-3.5-Haiku, Gemini-2.5-Flash | `slot_machine/{claude,gemini}/` |
+| GPT-4o-mini | `analysis/gpt_results_fixed_parsing/` |
 
-**Experimental Procedure:**
-1. Initial capital: $100
-2. Each round: Bet or Quit decision
-3. Win rate: 30%, Payout: 3×, Expected value: -10%
-4. Balance and game history provided after first round
+## Figures and tables (paper repository, private)
 
-## 📈 Key Findings
-
-1. **Variable betting dramatically increases bankruptcy risk** across all models.
-2. **Open-weight canonical values changed after the later role/system-prompt update**: the paper now uses `llama_v4_role` and `gemma_v4_role` as the correct slot-machine sources.
-3. **Current public snapshot preserves GPT-4o-mini game-level slot summaries but not complete round-level traces**, so paper figures use 6-model bankruptcy rates and 5-model round-level irrationality aggregates.
-4. **Fixed betting provides strong protection**, while choice freedom exposes large model differences.
-
----
-*This experiment demonstrates addiction-like behaviors in LLMs under gambling scenarios*
+- `scripts/figures/fig02_slot_machine.py` — Figure 2a–b.
+- `scripts/figures/fig02_cd_streaks.py` — Figure 2c–d, recomputed from the six corpora above.
+- `scripts/tables/appendix_behavioural_tables.py` — `tab:appendix-slot-comprehensive`.
+- `paper_data/tables/appendix/code/gbsa_companion_metrics.py` — `tab:companion-metrics`
+  (participation, realised wager and first-loss re-betting for the primary cells).

@@ -1,6 +1,6 @@
 > **This page describes the E1–E3 pilot.** The Figure 4 steering and removal battery (Finding 9) uses the
 > same harness with `configs/arms_sec4_*.yaml`; see [`experiments/sec4_causal/README.md`](experiments/sec4_causal/README.md)
-> and its wave log [`INDEX.md`](experiments/sec4_causal/INDEX.md). Repository map: [top-level README](../README.md).
+> and its wave log [`INDEX.md`](experiments/sec4_causal/INDEX.md). Experiment page: [08 — Steering and removal](../README.md); repository map: [top-level README](../../../README.md).
 
 # multilayer_causal — Multi-Layer Causal Intervention (E1→E2→E3)
 
@@ -8,13 +8,13 @@ Follow-up to the M3/M3′/M3″ single-layer causal nulls: where (E1), at what r
 (E2), and with what dose-response (E3) is the −G→+G autonomy effect writable
 into Gemma-2-9B-IT on the slot-machine task?
 
-- **Spec**: `docs/superpowers/specs/2026-06-10-multilayer-causal-intervention-design.md`
-- **Plan**: `docs/superpowers/plans/2026-06-10-multilayer-causal-harness.md`
+- **Spec**: [`../docs/superpowers/specs/2026-06-10-multilayer-causal-intervention-design.md`](../docs/superpowers/specs/2026-06-10-multilayer-causal-intervention-design.md)
+- **Plan**: [`../docs/superpowers/plans/2026-06-10-multilayer-causal-harness.md`](../docs/superpowers/plans/2026-06-10-multilayer-causal-harness.md)
 
 ## Protocol in one paragraph
 
 Single-decision trials inherited byte-identically from
-`sae_v3_analysis/src/run_m3pp_strong_patching.py` (M3″): a −G slot-machine
+`experiments/07_sae_readout/src/run_m3pp_strong_patching.py` (M3″): a −G slot-machine
 state from the §3 corpus, its +G twin prompt, generation at T=0.7 with frozen
 seeds (`42 + 997·i`). Interventions: replace hidden states of a **layer set**
 with the +G twin's (E1, `MultiLayerPatcher`); replace only the top-r PCA

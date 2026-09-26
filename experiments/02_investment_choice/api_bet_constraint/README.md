@@ -1,3 +1,7 @@
+> **This is the paper's API investment-choice runner** (Figure 3a–c, HF `investment_choice/bet_constraint/`).
+> The design below is as planned at the time; the facts measured from the code are in the
+> [experiment page](../README.md). Output paths are on the original machine (`src/base_experiment.py`).
+
 # Investment Choice Bet Constraint Experiment
 
 ## Overview

@@ -241,7 +241,7 @@ def main():
     print(f"Device: {DEVICE}")
 
     # Add source directory to path
-    sys.path.insert(0, "/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
     alpha_values = [-2.0, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0]
     all_results = {}

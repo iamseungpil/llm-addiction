@@ -1,11 +1,65 @@
-> **For the paper.** Table 1 (readout) and Table 3 (condition modulation) come from
-> `src/run_groupkfold_recompute.py` (permutation null: `src/run_table1_perm_null.py`); Table 2
-> (cross-task sharing) from `src/cross_domain.py`. Results are on Hugging Face under
-> `sae_v3_analysis/results/`. The steering scripts named below (v12/v14/v16) are superseded by the
-> Figure 4 battery in `multilayer_causal/`; the dataset keeps them under `legacy/` as do-not-cite.
-> Absolute paths below refer to the original cluster. See the [top-level README](../README.md).
+# 07 — SAE readout (Tables 1–3)
 
-# SAE V3 Analysis
+**Question.** Can the risk indicators (betting aggressiveness `I_BA`, loss chasing `I_LC`, extreme
+choice `I_EC`) be read from the decision-time hidden state, do the three tasks share a risk
+subspace, and does a goal prompt make the readout sharper?
+
+**Paper result.** Finding 6, Table 1 (`tab:neurips-sae-results`, readout R² at layer 22 with fold
+SEs and a 200-draw permutation null); Finding 7, Table 2 (`tab:rq2-sharing`, cross-task sharing);
+Finding 8, Table 3 (`tab:condition-modulation`, condition modulation). Appendix: layer sweep, band
+readout, selectivity controls and hidden-subspace audits.
+
+## Design (from the code)
+
+- Inputs: the open-weight games of [01](../01_slot_machine/README.md) (`*_v4_role`),
+  [02](../02_investment_choice/README.md) (`v2_role`) and [06](../06_mystery_wheel/README.md)
+  (`v2_role`), replayed to extract round-level hidden states and SAE features for Gemma-2-9B
+  (Gemma Scope) and LLaMA-3.1-8B (Llama Scope).
+- Readout (`src/run_groupkfold_recompute.py`, helpers in `src/run_perm_null_ilc.py`): layer 22;
+  within each fold, a random forest removes balance and round terms from the target, the top 200
+  SAE features by |Spearman ρ| are kept, then StandardScaler + Ridge(α = 100); 5-fold GroupKFold
+  by game.
+- Permutation null (`src/run_table1_perm_null.py`): 200 game-block permutations of the target.
+- Cross-task sharing (`src/cross_domain.py`, `src/run_rq2_aligned_hidden_transfer_sweep.py`) and
+  condition modulation (the `plus_G` / `minus_G` / `plus_M` / `minus_M` cells written by
+  `src/run_groupkfold_recompute.py`; `src/condition_analysis_v2.py`).
+- `src/exact_behavioral_replay.py` rebuilds prompts with the original runners of 01, 02 and 06.
+
+## Quick Start
+
+```bash
+# Table 1 and Table 3 cells (reads sae_features_v3/ and behavioral/ at the paths in src/run_perm_null_ilc.py)
+python experiments/07_sae_readout/src/run_groupkfold_recompute.py
+python experiments/07_sae_readout/src/run_table1_perm_null.py
+# Table 2
+python experiments/07_sae_readout/src/run_rq2_aligned_hidden_transfer_sweep.py --help
+# Runs anywhere, no data or GPU
+python3 experiments/07_sae_readout/tests/test_distortion_outcome_schema.py
+```
+
+Data roots are absolute paths on the original machine (`/home/v-seungplee/data/llm-addiction/...`
+in `src/config.py` and `src/run_perm_null_ilc.py`); point them at your copy of the dataset.
+Results are written under `results/` in this folder.
+
+## Data on Hugging Face
+
+`sae_v3_analysis/results/` (the dataset keeps the old folder name) and `sae_features_v3/` (hidden
+states and SAE features, tens of GB).
+
+## Figures and tables (paper repository, private)
+
+- `scripts/tables/body_tables.py` — Tables 1–3.
+- `scripts/tables/table1_perm_null.py` — the Table 1 permutation column.
+- `scripts/tables/appendix_neural_tables.py` — the neural appendix tables.
+
+---
+
+The rest of this page is the workspace guide written while the analysis ran. Absolute paths in it
+refer to the original cluster. The steering scripts it names (v12/v14/v16) are superseded by the
+Figure 4 battery in [08](../08_steering/README.md); the dataset keeps them under `legacy/` as
+do-not-cite.
+
+## SAE V3 analysis workspace (detailed guide)
 
 This directory is the main analysis workspace for the SAE-based gambling experiments used by the paper and follow-up robustness work.
 

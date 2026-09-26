@@ -14,7 +14,7 @@ from __future__ import annotations
 import argparse, json, sys, time
 from pathlib import Path
 
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from run_groupkfold_recompute import (
     CELLS, RESULTS_DIR, fit_one_subset,
 )

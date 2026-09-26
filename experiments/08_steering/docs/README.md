@@ -10,6 +10,6 @@ Design documents and plans for the `multilayer_causal/` harness, kept for the re
 | `superpowers/specs/2026-06-14-all-layer-read-write-spine-design.md` | Design of an all-layer read/write sweep |
 
 The battery that produced Figure 4 is logged wave by wave in
-[`multilayer_causal/experiments/sec4_causal/INDEX.md`](../multilayer_causal/experiments/sec4_causal/INDEX.md).
-The neural pipeline's own documentation is in [`sae_v3_analysis/docs/`](../sae_v3_analysis/docs/).
-For the full repository map, see the [top-level README](../README.md).
+[`multilayer_causal/experiments/sec4_causal/INDEX.md`](../multilayer_causal/experiments/sec4_causal/INDEX.md). The experiment page is [`../README.md`](../README.md).
+The neural pipeline's own documentation is in [`experiments/07_sae_readout/docs/`](../../07_sae_readout/docs/).
+For the full repository map, see the [top-level README](../../../README.md).

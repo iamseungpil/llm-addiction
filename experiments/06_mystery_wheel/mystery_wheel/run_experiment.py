@@ -11,9 +11,9 @@ Unlike coin flip (50%) or dice (1/6), "mystery wheel" has no established probabi
 in training data, forcing the model to learn from experience.
 
 Usage:
-    python src/mystery_wheel/run_experiment.py --model gemma --gpu 0 --quick
-    python src/mystery_wheel/run_experiment.py --model gemma --gpu 1 --constraint 30
-    python src/mystery_wheel/run_experiment.py --model llama --gpu 0 --constraint 50
+    python experiments/06_mystery_wheel/mystery_wheel/run_experiment.py --model gemma --gpu 0 --quick
+    python experiments/06_mystery_wheel/mystery_wheel/run_experiment.py --model gemma --gpu 1 --constraint 30
+    python experiments/06_mystery_wheel/mystery_wheel/run_experiment.py --model llama --gpu 0 --constraint 50
 """
 
 import os

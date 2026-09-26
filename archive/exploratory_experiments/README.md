@@ -1,6 +1,9 @@
+> **Archived.** The two runners here that produced paper data moved to `experiments/02_investment_choice/open_weight/` and `experiments/06_mystery_wheel/`; the rest is not used by the camera-ready paper; see [`archive/README.md`](../README.md)
+> and [`PATH_MAP.md`](../../PATH_MAP.md). The paper code now lives in [`experiments/`](../../experiments/).
+
 > **Two runners here produced paper data despite the folder name:** `alternative_paradigms/src/investment_choice/run_experiment.py`
 > (open-weight investment choice, Findings 3–4) and `alternative_paradigms/src/mystery_wheel/run_experiment.py`
-> (mystery wheel, used in the neural analyses). The rest is not cited; see the [top-level README](../README.md#experiments).
+> (mystery wheel, used in the neural analyses). The rest is not cited; see the [top-level README](../../README.md#experiments).
 
 # Exploratory Experiments
 

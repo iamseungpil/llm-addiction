@@ -21,7 +21,7 @@ import argparse, json, os, sys
 from pathlib import Path
 import numpy as np
 
-ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout')
+ROOT = Path(__file__).resolve().parents[1]
 DIRECTION_DIR = ROOT / 'results/v19_multi_patching/M3prime_indicator_steering/direction_metadata'
 
 # Gemma-Scope L22 SAE: BASE pretrained (canonical IT release lacks L22)

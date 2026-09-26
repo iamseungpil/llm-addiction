@@ -26,7 +26,7 @@ from pathlib import Path
 import numpy as np
 from sklearn.metrics import roc_auc_score
 
-sys.path.insert(0, '/home/v-seungplee/llm-addiction/experiments/07_sae_readout/src')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 DATA = Path('/home/v-seungplee/data/llm-addiction/sae_features_v3')
 OUT_DIR = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results/'

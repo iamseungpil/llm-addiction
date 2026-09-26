@@ -11,5 +11,5 @@ at the top of several files are commented out (`[SLURM-DISABLED]`).
 | `run_gemma_50trials.sh`, `run_c10_then_c50.sh`, `run_c50_after_c10.sh`, `watch_and_launch_50trials.sh` | Sequenced investment-choice runs by bet constraint |
 | `run_all_blackjack_experiments.sh`, `run_gemma_blackjack_batch.sh`, `run_missing_llama_blackjack.sh` | Blackjack runs (exploratory, not in the paper) |
 
-Paths inside the scripts point at the original machines. See the [top-level README](../README.md)
+Paths inside the scripts point at the original machines. See the [top-level README](../../README.md)
 for the runner behind each experiment and where its data is released.

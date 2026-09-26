@@ -1,7 +1,7 @@
 # analysis — early analysis and test scripts (not cited)
 
 These scripts were written while the open-weight runs were in progress. The paper does not use them;
-its numbers come from the folders listed in the [top-level README](../README.md).
+its numbers come from the folders listed in the [top-level README](../../README.md).
 
 | Script | What it does |
 |---|---|

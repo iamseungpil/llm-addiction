@@ -7,7 +7,7 @@
 
 ## Intent
 
-Plan v4 (`PLAN_4NODE_EXECUTION_2026_05_07.md` §1bis) promotes W3 (matched-cap N=1 generalization gap) above the prior Track A construct-validity work. The §3.2 paper claim "freedom-to-choose at root" is supported by GPT-4o only; Track 0 replicates the matched-cap protocol on the other 5 models in the §3.1 panel (Gemma-2-9b, LLaMA-3.1-8b, GPT-4o-mini, Claude-3.5-Haiku, Gemini-2.5-Flash) plus a GPT-4o re-baseline run.
+Plan v4 (`docs/PLAN_4NODE_EXECUTION_2026_05_07.md` §1bis) promotes W3 (matched-cap N=1 generalization gap) above the prior Track A construct-validity work. The §3.2 paper claim "freedom-to-choose at root" is supported by GPT-4o only; Track 0 replicates the matched-cap protocol on the other 5 models in the §3.1 panel (Gemma-2-9b, LLaMA-3.1-8b, GPT-4o-mini, Claude-3.5-Haiku, Gemini-2.5-Flash) plus a GPT-4o re-baseline run.
 
 ## Hypothesis
 
@@ -80,7 +80,7 @@ pytest tests/ -v
 
 ## How to run live (Stage 1, n=200 per cell)
 
-The grid is 6 models × 4 caps × 2 modes = 48 cells. Each cell is one CLI invocation; AMLT yamls in `amlt/2026_05_07/` (added in a separate skeleton iteration) parallelize across nodes.
+The grid is 6 models × 4 caps × 2 modes = 48 cells. Each cell is one CLI invocation; AMLT yamls in `docs/amlt/2026_05_07/` (added in a separate skeleton iteration) parallelize across nodes.
 
 Example single live cell (LLaMA, cap=$70, variable, 200 games):
 

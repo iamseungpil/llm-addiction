@@ -1,3 +1,20 @@
+> **Superseded (reorganisation, 2026-09-26).** This is an earlier map with pre-camera-ready numbering
+> and the old folder names. The current figure → code → data map is the Experiments table of the
+> [top-level README](../README.md); old paths translate through [`PATH_MAP.md`](../PATH_MAP.md).
+> Corrections to the rows below:
+> - **Investment choice (Figure 3a–c).** The API data is HF `investment_choice/bet_constraint/`,
+>   produced by `experiments/02_investment_choice/api_bet_constraint/` (formerly
+>   `legacy/investment_choice_bet_constraint/`); the open-weight data is
+>   `behavioral/investment_choice/v2_role_{llama,gemma}/`. HF `investment_choice/initial/` (from
+>   `paper_experiments/investment_choice_experiment/`, now archived) is not used by the paper, and
+>   neither is `investment_choice/bet_constraint_cot/`.
+> - **Figure 3d.** The raw JSON is on HF at `analysis/fixed_variable_comparison/` and the figure is
+>   recomputed from it; the restart runners that finished the variable arm are in
+>   `experiments/03_matched_cap/gpt_variable_max_bet_experiment/`.
+> - **Steering.** Figure 4 comes from `experiments/08_steering/` (formerly `multilayer_causal/`), not
+>   from the v12/v16 scripts named below.
+> - The dataset id is `llm-addiction-research/llm-addiction`, not `iamseungpil/llm-addiction-research`.
+
 # Paper-Canonical Code Manifest (NeurIPS 2026)
 
 > **Why this file exists**: directories named `legacy/` are NOT actually deprecated — several of them house the canonical code that produced specific paper figures. Other paths under `paper_experiments/` are also canonical. This manifest gives the figure ↔ code ↔ data mapping so reviewers (and future-you) can find each piece without spelunking.

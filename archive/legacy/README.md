@@ -1,3 +1,6 @@
+> **Archived.** The parts of `legacy/` that produced paper data moved to `experiments/` (listed in `PATH_MAP.md`); what is left here is not used by the camera-ready paper; see [`archive/README.md`](../README.md)
+> and [`PATH_MAP.md`](../../PATH_MAP.md). The paper code now lives in [`experiments/`](../../experiments/).
+
 # `legacy/` in this repository does NOT mean deprecated
 
 Read this before deciding anything about a file under here.
@@ -5,7 +8,7 @@ Read this before deciding anything about a file under here.
 The name is historical. These directories were called `legacy/` because they sit
 outside the unified `paper_experiments/` tree, not because their contents are wrong.
 **Several of them still hold paper-canonical code.** The authority is
-[`../PAPER_CANONICAL_CODE.md`](../PAPER_CANONICAL_CODE.md), which exists specifically
+[`../PAPER_CANONICAL_CODE.md`](../../docs/PAPER_CANONICAL_CODE.md), which exists specifically
 to give the figure → code → data map; that file decides, not this directory name.
 
 Nothing is ever deleted here. Files that turn out to be wrong are kept and labelled.
@@ -17,7 +20,7 @@ and **there the word does mean retired and do-not-cite**: `v12_steering_invalida
 `v14_steering/`, `v16_steering/`, `v17_leaky_pipeline/`, `pre_groupkfold_sweep/`. The
 dataset card lists them in its historical table. The
 label files for that tree are staged in this repository at
-[`../sae_v3_analysis/release_labels/legacy/`](../sae_v3_analysis/release_labels/legacy/).
+[`../sae_v3_analysis/release_labels/legacy/`](../../experiments/07_sae_readout/release_labels/legacy/).
 
 Two directories, one word, opposite meanings. The code repository's `legacy/` is the
 permissive one.

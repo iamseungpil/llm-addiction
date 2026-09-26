@@ -29,7 +29,7 @@ from collections import defaultdict
 from pathlib import Path
 import numpy as np
 
-ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout')
+ROOT = Path(__file__).resolve().parents[1]
 M3P_ROOT = ROOT / 'results/v19_multi_patching/M3prime_indicator_steering'
 OUT_DIR = M3P_ROOT / 'aggregated'
 

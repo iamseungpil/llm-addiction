@@ -3,7 +3,7 @@
 This folder records the causal experiments behind **Finding 9** (Figure 4; appendix
 `tab:causal-battery-suffnec`, `fig:causal-removal`, `tab:causal-transfer-matrix`,
 `tab:causal-condition-writability`). For the whole-repository map, see the
-[top-level README](../../../README.md).
+[top-level README](../../../../../README.md).
 
 ## Question
 
@@ -21,6 +21,8 @@ on Gemma-2-9B and LLaMA-3.1-8B.
   built in `../../src/indicator_axes.py`.
 
 ## Running one arm
+
+Run from `experiments/08_steering/` (the folder that holds the `multilayer_causal` package):
 
 ```bash
 python multilayer_causal/run_experiment.py \

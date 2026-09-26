@@ -8,7 +8,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-RESULTS = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout/results')
+RESULTS = (Path(__file__).resolve().parents[1] / "results")
 LAYERS = [8, 12, 22, 25, 30]
 CELLS = [
     ('gemma', 'sm'), ('gemma', 'ic'), ('gemma', 'mw'),

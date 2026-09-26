@@ -19,7 +19,7 @@ import json, os, subprocess, sys, time
 from datetime import datetime
 from pathlib import Path
 
-ROOT = Path('/home/v-seungplee/llm-addiction/experiments/07_sae_readout')
+ROOT = Path(__file__).resolve().parents[1]
 LOG_DIR = ROOT / 'logs'
 LOG_FILE = LOG_DIR / 'amlt_monitor.log'
 

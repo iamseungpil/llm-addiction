@@ -18,7 +18,7 @@ the "legacy" name was misleading. Moved here on 2026-05-08 for findability.
 `gpt-4o-mini` is hardcoded in both experiment scripts (line ~116-120). Despite the
 paper §3.2 caption "Targeted GPT-4o slot-machine cap ablation" (4 instances across
 3.behavior.tex, 5.discussion.tex, appendix.tex), the actual model used was
-`gpt-4o-mini`. See `PAPER_CANONICAL_CODE.md` (top-level) for the full audit.
+`gpt-4o-mini`. See `docs/PAPER_CANONICAL_CODE.md` for the full audit.
 
 ## Configuration (verbatim, do not modify for parity runs)
 

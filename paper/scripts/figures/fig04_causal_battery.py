@@ -91,7 +91,8 @@ Panels and the claims they carry
 
 Outputs
 -------
-``images/fig04_causal_battery.pdf`` / ``.png``   (396.0 x 144.0 pt)
+``images/fig04_causal_battery_detail.pdf`` / ``.png``   (396.0 x 144.0 pt; the body
+  Figure 4 is drawn from the same sidecar by fig04_causal_battery_paperstyle.py)
 ``images/fig04b_causal_removal.pdf`` / ``.png``  (396.0 x 120.0 pt)
 both included at ``width=\\textwidth``
 ``paper_data/fig04_causal_battery.json``
@@ -1146,7 +1147,7 @@ def render_body(gemma, llama, g_band, l_band, lnb) -> None:
     _finish(fig, Wp, Hp, subs,
             [("(a) title", ax_a.title), ("(b) title", ax_b.title),
              ("(a) xlabel", ax_ap.xaxis.label)],
-            "fig04_causal_battery")
+            "fig04_causal_battery_detail")
 
 
 def render_appendix(rem, tm) -> None:
@@ -1281,7 +1282,7 @@ def replot() -> None:
     d.update(side_panels(args[-1]))
     SIDECAR.write_text(json.dumps(d, indent=1))
     print(f"refreshed {SIDECAR} panels (d), (e)")
-    for stem in ("fig04_causal_battery", "fig04b_causal_removal"):
+    for stem in ("fig04_causal_battery_detail", "fig04b_causal_removal"):
         print(f"wrote {IMAGES / (stem + '.pdf')}")
         print(f"wrote {IMAGES / (stem + '.png')}")
 
@@ -1445,7 +1446,7 @@ def main() -> None:
             print(f"    [null] {k}: arm={v['arm_mean_bet_ratio']:.5f} "
                   f"paired={v['delta_paired']:+.5f}")
 
-    for stem in ("fig04_causal_battery", "fig04b_causal_removal"):
+    for stem in ("fig04_causal_battery_detail", "fig04b_causal_removal"):
         print(f"wrote {IMAGES / (stem + '.pdf')}")
         print(f"wrote {IMAGES / (stem + '.png')}")
     print(f"wrote {SIDECAR}")

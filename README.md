@@ -1,6 +1,6 @@
 # Can Large Language Models Develop Gambling Addiction?
 
-Seungpil Lee, Donghyun Shin, Yoonjung Lee, Sundong Kim · Gwangju Institute of Science and Technology (GIST) · NeurIPS 2026
+Seungpil Lee, Donghyeon Shin, Yunjeong Lee, Sundong Kim · Gwangju Institute of Science and Technology (GIST) · NeurIPS 2026
 
 **[Paper](https://arxiv.org/abs/2509.22818)** · **[Project page](https://llm-addiction.pages.dev)** · **[Data](https://huggingface.co/datasets/llm-addiction-research/llm-addiction)** (gated, automatic approval)
 
@@ -253,7 +253,7 @@ table (`paper_index/`) and `PAPER_ASSET_MAP.md`. For the neural pipeline, see al
 ```bibtex
 @inproceedings{lee2026gambling,
   title     = {Can Large Language Models Develop Gambling Addiction?},
-  author    = {Lee, Seungpil and Shin, Donghyun and Lee, Yoonjung and Kim, Sundong},
+  author    = {Lee, Seungpil and Shin, Donghyeon and Lee, Yunjeong and Kim, Sundong},
   booktitle = {Advances in Neural Information Processing Systems},
   year      = {2026}
 }

@@ -217,7 +217,8 @@ def fig_signmap():
 
 
 # ---------------- panel (b): condition dose ladders ----------------
-COLORS = {"minusG": GRAY, "plusG": TEAL, "plusM": AMBER}
+# Figure 3 prompt colours: no goal = BASE green, +G = G red, +M = M light green.
+COLORS = {"minusG": "#59A14F", "plusG": "#E15759", "plusM": "#9DC388"}
 CONDS = ["minusG", "plusG", "plusM"]
 # alpha suffixes present on HF for each model x condition
 LADDER_FILES = {
@@ -364,8 +365,8 @@ def fig_alignment_bars():
     w = 0.38
     beh = [beh_cos[f"{a}-{b}"] for a, b in pairs]
     bk = [bk_cos[f"{a}-{b}"] for a, b in pairs]
-    axA.bar(x - w / 2, beh, w, color=TEAL, label="behaviour-built directions", zorder=3)
-    axA.bar(x + w / 2, bk, w, color=PURPLE, label="endpoint (BK) directions",
+    axA.bar(x - w / 2, beh, w, color="#E15759", label="behaviour-built directions", zorder=3)
+    axA.bar(x + w / 2, bk, w, color="#7F7F7F", label="endpoint (BK) directions",
             zorder=3)
     # Every bar carries its own value, horizontally, clear of the bar: the
     # house convention, and the only way to read the two near-zero endpoint

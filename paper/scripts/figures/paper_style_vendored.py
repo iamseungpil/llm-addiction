@@ -60,13 +60,18 @@ COLORS = {
     # Figure 4 with nothing on the page to tell a reader which.  Model identity
     # now has its own pair, from Dark2, used by every causal figure
     # (fig04, fig04b, fig_xctx_ladders, fig_axis_alignment):
-    "gemma": "#1B9E77",     # teal
-    "llama": "#7570B3",     # purple
+    # Since the camera-ready restyle the causal figures use the palette of
+    # Figures 2 and 3 instead: the risk-raising behaviour-built direction in the
+    # red of the risk-raising arm (Gemma #E15759, LLaMA the darker GM red
+    # #B33533), the balance control in the green of the restrained arm and the
+    # readout in Figure 3's neutral grey.
+    "gemma": "#E15759",
+    "llama": "#B33533",
     # The two control directions in Figure 4, also Dark2: the readout is the
     # neutral grey it has always been, the balance control an amber that
     # separates from both model hues in greyscale as well as in colour.
-    "readout": "#666666",
-    "balance": "#E6AB02",
+    "readout": "#7F7F7F",
+    "balance": "#59A14F",
     "option2": "#BAB0AC",
     "option3": "#7F7F7F",
     # The random-direction band.  It was #EDC948, a yellow that is now the

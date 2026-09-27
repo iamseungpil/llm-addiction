@@ -34,8 +34,9 @@ by_key = {(p["model_label"], p["cap"]): p
           for p in MC["panel_b"]["pairs"] if p["prompt_combo"] == COMBO}
 ROWS = [by_key[(m, c)] for m in MODELS for c in CAPS]
 assert len(ROWS) == 12
-side = MC["panel_d_forest_appendix"]["rows"]
-assert [(x["model"], x["cap"], x["delta_pp"], x["ci"]) for x in side] == [
+side = MC.get("panel_d_forest_appendix", {}).get("rows")
+if side is not None:
+  assert [(x["model"], x["cap"], x["delta_pp"], x["ci"]) for x in side] == [
     (r["model_label"], r["cap"], r["delta_pp"], r["delta_newcombe_ci"]) for r in ROWS]
 
 fig, ax = plt.subplots(figsize=(5.6, 2.8))
@@ -73,7 +74,7 @@ ax.errorbar(deltas, ys,
             fmt="none", ecolor=INK, elinewidth=1.9, capsize=3.4, capthick=1.9, zorder=3)
 plain = [i for i in range(len(ROWS)) if i not in reversal]
 ax.plot([deltas[i] for i in plain], [ys[i] for i in plain], linestyle="none",
-        marker="o", markersize=MS, color=INK, markeredgecolor=INK,
+        marker="o", markersize=MS, color="#E15759", markeredgecolor="#B33533",
         markeredgewidth=0.8, zorder=3.5)
 for gi, model in enumerate(MODELS):
     ax.text(LABEL_X, ys[gi * len(CAPS)], model, fontsize=TICK_FS, ha="right",

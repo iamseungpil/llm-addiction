@@ -87,3 +87,24 @@ The internal structure is kept, so `X` became `archive/X`.
 - **Records keep their old wording.** Plans, review notes and reports under `docs/` and `archive/`
   describe the repository as it was when they were written; read old paths in them through this
   table. Relative links in them were updated so they still resolve.
+
+## Paper repo (`LLM_Addiction_NMT_KOR`) → `paper/` (2026-09-27)
+
+The paper repo was cut down to what LaTeX reads, so the Overleaf project shows only the paper and the
+poster. Its other files were copied here; the paper repo's tag **`pre-cleanup`** is its last commit
+with them, and this repo's tag **`pre-paper-import`** is the commit before they arrived. Notes that
+name `LLM_Addiction_NMT_KOR/<path>` for any row below now mean `paper/<new path>`.
+`paper/link_paper_repo.sh` makes the scripts run from here unchanged (see `paper/README.md`).
+
+| Old path (paper repo) | New path (this repo) |
+|---|---|
+| `scripts/` | `paper/scripts/` |
+| `paper_data/` | `paper/paper_data/` |
+| `paper_index/` | `paper/paper_index/` |
+| `PAPER_ASSET_MAP.md`, `NEURIPS_CANONICAL_INDEX.md` | `paper/PAPER_ASSET_MAP.md`, `paper/NEURIPS_CANONICAL_INDEX.md` |
+| `generate_paper_figures.py`, `build_overview_figure.py`, `regenerate_fig2_fig4.py` | `paper/` (same names) |
+| `docs/` | `paper/notes/` |
+| `images/` files the paper no longer includes (101) | `paper/images_unused/` |
+| `archive/submitted_1b8517e/` | removed; it was a copy of commit `1b8517e`, not the submission. The submitted version is paper-repo commit `dd2d229` |
+| `poster/sections/old/`, `.vscode/`, both `6.limitations.tex` (never `\input`) | removed; recoverable from the tag |
+| Built PDFs at the paper repo root (`neurips_en.pdf`, `neurips.pdf`, `*_marked.pdf`, `*_changes.pdf`) | `pdf/` in the paper repo |

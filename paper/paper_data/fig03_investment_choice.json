@@ -1,0 +1,309 @@
+{
+ "generated_by": "scripts/figures/fig03_investment_choice.py",
+ "figure": "images/fig03_investment_choice.pdf",
+ "hf_repo": "llm-addiction-research/llm-addiction",
+ "hf_results_dir": "investment_choice/bet_constraint/results",
+ "openweight_dirs": {
+  "Gemma-2-9B": "behavioral/investment_choice/v2_role_gemma",
+  "LLaMA-3.1-8B": "behavioral/investment_choice/v2_role_llama"
+ },
+ "n_games": 9600,
+ "games_per_model": {
+  "Claude-3.5-Haiku": 1600,
+  "GPT-4.1-mini": 1600,
+  "GPT-4o-mini": 1600,
+  "Gemini-2.5-Flash": 1600,
+  "Gemma-2-9B": 1600,
+  "LLaMA-3.1-8B": 1600
+ },
+ "prompt_order": [
+  "BASE",
+  "G",
+  "M",
+  "GM"
+ ],
+ "bootstrap_resamples": 4000,
+ "bootstrap_seed": 24231,
+ "duplicate_cell": {
+  "policy": "later",
+  "cell": [
+   "Gemini-2.5-Flash",
+   70,
+   "variable"
+  ],
+  "discarded": [
+   "investment_choice/bet_constraint/results/gemini_flash_70_variable_20251122_161926.json"
+  ],
+  "swing_if_other_export_kept_pp": {
+   "BASE": {
+    "bankruptcy": 0.0,
+    "moving_target": 0.0,
+    "high_variance_share": 0.0
+   },
+   "G": {
+    "bankruptcy": 0.25,
+    "moving_target": -0.25,
+    "high_variance_share": -0.18641328576271832
+   },
+   "M": {
+    "bankruptcy": 0.125,
+    "moving_target": -0.08333333333333393,
+    "high_variance_share": -0.05240641385689315
+   },
+   "GM": {
+    "bankruptcy": 0.041666666666671404,
+    "moving_target": -0.1666666666666643,
+    "high_variance_share": -0.030481226267106365
+   }
+  },
+  "alternative_summary": {
+   "BASE": {
+    "bankruptcy_pct": 18.833333333333332,
+    "moving_target_pct": 16.958333333333332,
+    "high_variance_share_pct": 25.70213448884609
+   },
+   "G": {
+    "bankruptcy_pct": 36.041666666666664,
+    "moving_target_pct": 49.5,
+    "high_variance_share_pct": 37.798369162342475
+   },
+   "M": {
+    "bankruptcy_pct": 18.75,
+    "moving_target_pct": 10.916666666666666,
+    "high_variance_share_pct": 32.06381883685023
+   },
+   "GM": {
+    "bankruptcy_pct": 35.708333333333336,
+    "moving_target_pct": 47.625,
+    "high_variance_share_pct": 42.14762180974478
+   }
+  }
+ },
+ "panels": {
+  "a": {
+   "quantity": "bankruptcy rate",
+   "unit": "games",
+   "ci": "Wilson score, 95%"
+  },
+  "b": {
+   "quantity": "option mix",
+   "unit": "decisions",
+   "ci": "percentile cluster bootstrap resampling games, 95%, shown on the highest-variance share"
+  },
+  "c": {
+   "quantity": "moving-target rate",
+   "unit": "games",
+   "ci": "Wilson score, 95%"
+  }
+ },
+ "by_prompt": {
+  "BASE": {
+   "n_games": 2400,
+   "n_decisions": 12462,
+   "n_games_with_decisions": 2400,
+   "bankruptcy": {
+    "k": 452,
+    "n": 2400,
+    "pct": 18.833333333333332,
+    "ci": [
+     17.319359799789535,
+     20.44692230465528
+    ],
+    "ci_method": "wilson"
+   },
+   "moving_target": {
+    "k": 407,
+    "n": 2400,
+    "pct": 16.958333333333332,
+    "ci": [
+     15.510030587400916,
+     18.512244424396865
+    ],
+    "ci_method": "wilson"
+   },
+   "option_shares_pct": {
+    "Safe exit": 12.140908361418713,
+    "Low var.": 52.23078157599101,
+    "Mid var.": 9.926175573744182,
+    "High var.": 25.70213448884609
+   },
+   "option_counts": {
+    "Safe exit": 1513,
+    "Low var.": 6509,
+    "Mid var.": 1237,
+    "High var.": 3203
+   },
+   "high_variance_share": {
+    "k": 3203,
+    "n_decisions": 12462,
+    "pct": 25.70213448884609,
+    "ci": [
+     24.110889189851203,
+     27.301886554688476
+    ],
+    "ci_method": "cluster bootstrap over games",
+    "ci_wilson_ignoring_clustering": [
+     24.94245747014179,
+     26.47678726019396
+    ],
+    "n_games_resampled": 2400
+   }
+  },
+  "G": {
+   "n_games": 2400,
+   "n_decisions": 13537,
+   "n_games_with_decisions": 2400,
+   "bankruptcy": {
+    "k": 859,
+    "n": 2400,
+    "pct": 35.791666666666664,
+    "ci": [
+     33.89782252780517,
+     37.730923725691746
+    ],
+    "ci_method": "wilson"
+   },
+   "moving_target": {
+    "k": 1194,
+    "n": 2400,
+    "pct": 49.75,
+    "ci": [
+     47.75160692999347,
+     51.74919212432027
+    ],
+    "ci_method": "wilson"
+   },
+   "option_shares_pct": {
+    "Safe exit": 6.862672674891039,
+    "Low var.": 35.98286178621556,
+    "Mid var.": 19.16968309078821,
+    "High var.": 37.98478244810519
+   },
+   "option_counts": {
+    "Safe exit": 929,
+    "Low var.": 4871,
+    "Mid var.": 2595,
+    "High var.": 5142
+   },
+   "high_variance_share": {
+    "k": 5142,
+    "n_decisions": 13537,
+    "pct": 37.98478244810519,
+    "ci": [
+     36.27183691782688,
+     39.68719270366359
+    ],
+    "ci_method": "cluster bootstrap over games",
+    "ci_wilson_ignoring_clustering": [
+     37.17068517131165,
+     38.805697271563986
+    ],
+    "n_games_resampled": 2400
+   }
+  },
+  "M": {
+   "n_games": 2400,
+   "n_decisions": 11667,
+   "n_games_with_decisions": 2400,
+   "bankruptcy": {
+    "k": 447,
+    "n": 2400,
+    "pct": 18.625,
+    "ci": [
+     17.11802071943879,
+     20.232260596934136
+    ],
+    "ci_method": "wilson"
+   },
+   "moving_target": {
+    "k": 264,
+    "n": 2400,
+    "pct": 11.0,
+    "ci": [
+     9.809955322550747,
+     12.314697150390899
+    ],
+    "ci_method": "wilson"
+   },
+   "option_shares_pct": {
+    "Safe exit": 12.882489071740807,
+    "Low var.": 46.67866632381932,
+    "Mid var.": 8.322619353732751,
+    "High var.": 32.116225250707124
+   },
+   "option_counts": {
+    "Safe exit": 1503,
+    "Low var.": 5446,
+    "Mid var.": 971,
+    "High var.": 3747
+   },
+   "high_variance_share": {
+    "k": 3747,
+    "n_decisions": 11667,
+    "pct": 32.116225250707124,
+    "ci": [
+     30.182081845021838,
+     34.08926796636122
+    ],
+    "ci_method": "cluster bootstrap over games",
+    "ci_wilson_ignoring_clustering": [
+     31.274961145717594,
+     32.969262681294154
+    ],
+    "n_games_resampled": 2400
+   }
+  },
+  "GM": {
+   "n_games": 2400,
+   "n_decisions": 13801,
+   "n_games_with_decisions": 2400,
+   "bankruptcy": {
+    "k": 856,
+    "n": 2400,
+    "pct": 35.666666666666664,
+    "ci": [
+     33.77450795028045,
+     37.60463783037332
+    ],
+    "ci_method": "wilson"
+   },
+   "moving_target": {
+    "k": 1147,
+    "n": 2400,
+    "pct": 47.791666666666664,
+    "ci": [
+     45.79832565479654,
+     49.7920659916414
+    ],
+    "ci_method": "wilson"
+   },
+   "option_shares_pct": {
+    "Safe exit": 6.970509383378016,
+    "Low var.": 33.33091804941671,
+    "Mid var.": 17.520469531193392,
+    "High var.": 42.17810303601188
+   },
+   "option_counts": {
+    "Safe exit": 962,
+    "Low var.": 4600,
+    "Mid var.": 2418,
+    "High var.": 5821
+   },
+   "high_variance_share": {
+    "k": 5821,
+    "n_decisions": 13801,
+    "pct": 42.17810303601188,
+    "ci": [
+     40.26908424587778,
+     44.09956711331163
+    ],
+    "ci_method": "cluster bootstrap over games",
+    "ci_wilson_ignoring_clustering": [
+     41.356461164592815,
+     43.00409824957677
+    ],
+    "n_games_resampled": 2400
+   }
+  }
+ }
+}

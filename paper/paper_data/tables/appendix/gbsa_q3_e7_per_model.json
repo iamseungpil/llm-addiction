@@ -1,0 +1,3086 @@
+{
+  "purpose": "gbSA Q3 -- the rationality-instruction result reported per model, which appendix.tex currently reports only as four aggregate means.",
+  "promise_text": "gbSA reply, Q3: 'We ran the same instruction on the API models as well, and those cells will appear in the revision.'",
+  "currently_in_paper": {
+    "location": "neurips_content_en/appendix.tex, tab:added-controls, row 'Is the gap role-play or instruction following?' (lines 1165-1179)",
+    "aggregate_means_pp": {
+      "role_rat0": 18.3,
+      "role_rat1": 6.8,
+      "none_rat0": 1.0,
+      "none_rat1": 0.5
+    }
+  },
+  "corpus": {
+    "hf_repo": "llm-addiction-research/llm-addiction",
+    "path": "rebuttal_neurips_2026/framing_rationality_factorial_e7/ (top level only)",
+    "cells_present": 44,
+    "cells_nominal": 48,
+    "absent_cells": [
+      "gemma fixed none rat0",
+      "gemma variable none rat0",
+      "llama fixed none rat0",
+      "llama variable none rat0"
+    ],
+    "excluded": "QUARANTINE_truncated_claude/ -- its README forbids quoting any rate from it (verdict completeness 1.0%-87.3% under a token limit).",
+    "cap_usd": 70,
+    "games_per_cell": 100
+  },
+  "definitions": {
+    "bankruptcy": "game['bankrupt'] true, equivalently outcome == 'bankruptcy'",
+    "gap_pp": "variable bankruptcy % minus fixed bankruptcy %, within one (model, framing, rationality) pair",
+    "per_arm_interval": "95% Wilson score",
+    "gap_interval": "Newcombe hybrid-score interval for a difference of two independent binomial proportions"
+  },
+  "caveat": "VERIFIED_FACTS.md section C records a parser defect with an 0.249% flip rate on the E7 corpus (16 bet->stop, 2 stop->bet out of 7,639 decisions). These figures use the released decision labels; a flip rate that low cannot move any bankruptcy count in the table by more than one game.",
+  "companion_metrics_note": "gbSA also promised participation, realised bet size and re-betting after a first loss alongside every bankruptcy figure. They are carried in per_model[...]['<cell>']['fixed'|'variable']['companion'] for all 44 cells so the proposed table can be widened without recomputation. Definitions match paper_data/tables/appendix/gbsa_companion_metrics.json.",
+  "per_model": {
+    "GPT-4o-mini": {
+      "role_rat0": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4o-mini_cap70_fixed_role_rat0_20260727_100017.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 100,
+              "n": 100,
+              "pct": 100.0,
+              "wilson95": [
+                96.30051925239981,
+                99.99999999999999
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 20.697896749521988,
+              "n_executed_wagers": 1569,
+              "mean_usd_staked_per_wagering_game": 324.75
+            },
+            "rebet_after_first_loss": {
+              "k": 99,
+              "n_at_risk": 99,
+              "pct": 100.0,
+              "wilson95": [
+                96.26454664260378,
+                100.0
+              ]
+            }
+          },
+          "file": "e7_gpt-4o-mini_cap70_variable_role_rat0_20260727_130833.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      },
+      "role_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 1,
+              "n": 100,
+              "pct": 1.0,
+              "wilson95": [
+                0.17673865655472645,
+                5.4487524760934605
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 70.0,
+              "n_executed_wagers": 1,
+              "mean_usd_staked_per_wagering_game": 70.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 1,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                79.34567085261071
+              ]
+            }
+          },
+          "file": "e7_gpt-4o-mini_cap70_fixed_role_rat1_20260727_100748.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 1,
+              "n": 100,
+              "pct": 1.0,
+              "wilson95": [
+                0.17673865655472645,
+                5.4487524760934605
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 70.0,
+              "n_executed_wagers": 1,
+              "mean_usd_staked_per_wagering_game": 70.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4o-mini_cap70_variable_role_rat1_20260727_131323.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      },
+      "none_rat0": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 1,
+              "n": 100,
+              "pct": 1.0,
+              "wilson95": [
+                0.17673865655472645,
+                5.4487524760934605
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 70.0,
+              "n_executed_wagers": 1,
+              "mean_usd_staked_per_wagering_game": 70.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4o-mini_cap70_fixed_none_rat0_20260727_094939.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 98,
+              "n": 100,
+              "pct": 98.0,
+              "wilson95": [
+                92.99868370580063,
+                99.44981477650317
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 18.346456692913385,
+              "n_executed_wagers": 1016,
+              "mean_usd_staked_per_wagering_game": 190.20408163265307
+            },
+            "rebet_after_first_loss": {
+              "k": 95,
+              "n_at_risk": 97,
+              "pct": 97.9381443298969,
+              "wilson95": [
+                92.79110074824457,
+                99.43274337957568
+              ]
+            }
+          },
+          "file": "e7_gpt-4o-mini_cap70_variable_none_rat0_20260727_111902.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      },
+      "none_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4o-mini_cap70_fixed_none_rat1_20260727_095510.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4o-mini_cap70_variable_none_rat1_20260727_112411.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      }
+    },
+    "GPT-4.1-mini": {
+      "role_rat0": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 2,
+              "n": 100,
+              "pct": 2.0,
+              "wilson95": [
+                0.5501852234968185,
+                7.001316294199365
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 70.0,
+              "n_executed_wagers": 2,
+              "mean_usd_staked_per_wagering_game": 70.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 2,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                65.76280471103807
+              ]
+            }
+          },
+          "file": "e7_gpt-4.1-mini_cap70_fixed_role_rat0_20260727_095751.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 93,
+              "n": 100,
+              "pct": 93.0,
+              "wilson95": [
+                86.25032899347025,
+                96.5681175635936
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 18.285714285714285,
+              "n_executed_wagers": 350,
+              "mean_usd_staked_per_wagering_game": 68.81720430107526
+            },
+            "rebet_after_first_loss": {
+              "k": 82,
+              "n_at_risk": 91,
+              "pct": 90.10989010989012,
+              "wilson95": [
+                82.26124740847463,
+                94.70919594127909
+              ]
+            }
+          },
+          "file": "e7_gpt-4.1-mini_cap70_variable_role_rat0_20260727_104950.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      },
+      "role_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4.1-mini_cap70_fixed_role_rat1_20260727_100150.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4.1-mini_cap70_variable_role_rat1_20260727_105327.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      },
+      "none_rat0": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4.1-mini_cap70_fixed_none_rat0_20260727_094755.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 92,
+              "n": 100,
+              "pct": 92.0,
+              "wilson95": [
+                85.00173312059694,
+                95.89070305141891
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 16.1353711790393,
+              "n_executed_wagers": 229,
+              "mean_usd_staked_per_wagering_game": 40.16304347826087
+            },
+            "rebet_after_first_loss": {
+              "k": 68,
+              "n_at_risk": 78,
+              "pct": 87.17948717948718,
+              "wilson95": [
+                77.98385083935379,
+                92.88475388000653
+              ]
+            }
+          },
+          "file": "e7_gpt-4.1-mini_cap70_variable_none_rat0_20260727_102042.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      },
+      "none_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gpt-4.1-mini_cap70_fixed_none_rat1_20260727_095246.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 1,
+              "n": 100,
+              "pct": 1.0,
+              "wilson95": [
+                0.17673865655472645,
+                5.4487524760934605
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 10.0,
+              "n_executed_wagers": 1,
+              "mean_usd_staked_per_wagering_game": 10.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 1,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                79.34567085261071
+              ]
+            }
+          },
+          "file": "e7_gpt-4.1-mini_cap70_variable_none_rat1_20260727_102450.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      }
+    },
+    "Gemini-2.5-Flash": {
+      "role_rat0": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 12,
+          "n_games": 100,
+          "pct": 12.0,
+          "wilson95": [
+            6.999337365267776,
+            19.812268002908368
+          ],
+          "companion": {
+            "participation": {
+              "k": 53,
+              "n": 100,
+              "pct": 53.0,
+              "wilson95": [
+                43.28868313724773,
+                62.48934801789626
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 63.20754716981132,
+              "n_executed_wagers": 106,
+              "mean_usd_staked_per_wagering_game": 126.41509433962264
+            },
+            "rebet_after_first_loss": {
+              "k": 26,
+              "n_at_risk": 50,
+              "pct": 52.0,
+              "wilson95": [
+                38.51151225880844,
+                65.20308760449429
+              ]
+            }
+          },
+          "file": "e7_gemini-2.5-flash_cap70_fixed_role_rat0_20260727_133100.json"
+        },
+        "variable": {
+          "n_bankrupt": 32,
+          "n_games": 100,
+          "pct": 32.0,
+          "wilson95": [
+            23.669010815456883,
+            41.66280225367919
+          ],
+          "companion": {
+            "participation": {
+              "k": 100,
+              "n": 100,
+              "pct": 100.0,
+              "wilson95": [
+                96.30051925239981,
+                99.99999999999999
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 28.321470937129302,
+              "n_executed_wagers": 843,
+              "mean_usd_staked_per_wagering_game": 238.75
+            },
+            "rebet_after_first_loss": {
+              "k": 100,
+              "n_at_risk": 100,
+              "pct": 100.0,
+              "wilson95": [
+                96.30051925239981,
+                99.99999999999999
+              ]
+            }
+          },
+          "file": "e7_gemini-2.5-flash_cap70_variable_role_rat0_20260727_171543.json"
+        },
+        "gap_pp": 20.0,
+        "gap_newcombe95": [
+          8.579101955527301,
+          30.880090724810827
+        ],
+        "gap_excludes_zero": true
+      },
+      "role_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 6,
+              "n": 100,
+              "pct": 6.0,
+              "wilson95": [
+                2.778574526665662,
+                12.476968531222507
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 70.0,
+              "n_executed_wagers": 6,
+              "mean_usd_staked_per_wagering_game": 70.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 3,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                56.15060804490177
+              ]
+            }
+          },
+          "file": "e7_gemini-2.5-flash_cap70_fixed_role_rat1_20260727_134519.json"
+        },
+        "variable": {
+          "n_bankrupt": 2,
+          "n_games": 100,
+          "pct": 2.0,
+          "wilson95": [
+            0.5501852234968185,
+            7.001316294199365
+          ],
+          "companion": {
+            "participation": {
+              "k": 50,
+              "n": 100,
+              "pct": 50.0,
+              "wilson95": [
+                40.38298285901472,
+                59.61701714098528
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 17.844827586206897,
+              "n_executed_wagers": 116,
+              "mean_usd_staked_per_wagering_game": 41.4
+            },
+            "rebet_after_first_loss": {
+              "k": 23,
+              "n_at_risk": 44,
+              "pct": 52.27272727272727,
+              "wilson95": [
+                37.9352201361717,
+                66.24524205572824
+              ]
+            }
+          },
+          "file": "e7_gemini-2.5-flash_cap70_variable_role_rat1_20260727_175324.json"
+        },
+        "gap_pp": 2.0,
+        "gap_newcombe95": [
+          -1.9734268192621136,
+          7.001316294199365
+        ],
+        "gap_excludes_zero": false
+      },
+      "none_rat0": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 8,
+              "n": 100,
+              "pct": 8.0,
+              "wilson95": [
+                4.1092969485810915,
+                14.998266879403072
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 70.0,
+              "n_executed_wagers": 8,
+              "mean_usd_staked_per_wagering_game": 70.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 7,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                35.433884297520656
+              ]
+            }
+          },
+          "file": "e7_gemini-2.5-flash_cap70_fixed_none_rat0_20260727_125113.json"
+        },
+        "variable": {
+          "n_bankrupt": 4,
+          "n_games": 100,
+          "pct": 4.0,
+          "wilson95": [
+            1.5663050551848017,
+            9.837217232607372
+          ],
+          "companion": {
+            "participation": {
+              "k": 100,
+              "n": 100,
+              "pct": 100.0,
+              "wilson95": [
+                96.30051925239981,
+                99.99999999999999
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 26.6,
+              "n_executed_wagers": 225,
+              "mean_usd_staked_per_wagering_game": 59.85
+            },
+            "rebet_after_first_loss": {
+              "k": 68,
+              "n_at_risk": 86,
+              "pct": 79.06976744186046,
+              "wilson95": [
+                69.32321275872692,
+                86.3302929669057
+              ]
+            }
+          },
+          "file": "e7_gemini-2.5-flash_cap70_variable_none_rat0_20260727_142842.json"
+        },
+        "gap_pp": 4.0,
+        "gap_newcombe95": [
+          -0.42820831559260775,
+          9.837217232607372
+        ],
+        "gap_excludes_zero": false
+      },
+      "none_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gemini-2.5-flash_cap70_fixed_none_rat1_20260727_125651.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gemini-2.5-flash_cap70_variable_none_rat1_20260727_143241.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      }
+    },
+    "LLaMA-3.1-8B": {
+      "role_rat0": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 6,
+          "n_games": 100,
+          "pct": 6.0,
+          "wilson95": [
+            2.778574526665662,
+            12.476968531222507
+          ],
+          "companion": {
+            "participation": {
+              "k": 56,
+              "n": 100,
+              "pct": 56.0,
+              "wilson95": [
+                46.227927711256314,
+                65.32813459903167
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 66.48351648351648,
+              "n_executed_wagers": 91,
+              "mean_usd_staked_per_wagering_game": 108.03571428571429
+            },
+            "rebet_after_first_loss": {
+              "k": 14,
+              "n_at_risk": 54,
+              "pct": 25.925925925925927,
+              "wilson95": [
+                16.118507964793903,
+                38.931144880217296
+              ]
+            }
+          },
+          "file": "e7_llama_cap70_fixed_role_rat0_20260728_061246.json"
+        },
+        "variable": {
+          "n_bankrupt": 82,
+          "n_games": 100,
+          "pct": 82.0,
+          "wilson95": [
+            73.33246397578691,
+            88.29986834574896
+          ],
+          "companion": {
+            "participation": {
+              "k": 100,
+              "n": 100,
+              "pct": 100.0,
+              "wilson95": [
+                96.30051925239981,
+                99.99999999999999
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 34.10695468914647,
+              "n_executed_wagers": 1898,
+              "mean_usd_staked_per_wagering_game": 647.35
+            },
+            "rebet_after_first_loss": {
+              "k": 100,
+              "n_at_risk": 100,
+              "pct": 100.0,
+              "wilson95": [
+                96.30051925239981,
+                99.99999999999999
+              ]
+            }
+          },
+          "file": "e7_llama_cap70_variable_role_rat0_20260728_120008.json"
+        },
+        "gap_pp": 76.0,
+        "gap_newcombe95": [
+          65.17977347346746,
+          83.0757277543739
+        ],
+        "gap_excludes_zero": true
+      },
+      "role_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 7,
+          "n_games": 100,
+          "pct": 7.0,
+          "wilson95": [
+            3.4318824364064096,
+            13.749671006529757
+          ],
+          "companion": {
+            "participation": {
+              "k": 38,
+              "n": 100,
+              "pct": 38.0,
+              "wilson95": [
+                29.097449200134378,
+                47.79042617928966
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 64.18181818181819,
+              "n_executed_wagers": 55,
+              "mean_usd_staked_per_wagering_game": 92.89473684210526
+            },
+            "rebet_after_first_loss": {
+              "k": 9,
+              "n_at_risk": 32,
+              "pct": 28.125,
+              "wilson95": [
+                15.564406845647866,
+                45.37483693811179
+              ]
+            }
+          },
+          "file": "e7_llama_cap70_fixed_role_rat1_20260728_063500.json"
+        },
+        "variable": {
+          "n_bankrupt": 47,
+          "n_games": 100,
+          "pct": 47.0,
+          "wilson95": [
+            37.51065198210374,
+            56.71131686275227
+          ],
+          "companion": {
+            "participation": {
+              "k": 99,
+              "n": 100,
+              "pct": 99.0,
+              "wilson95": [
+                94.55124752390654,
+                99.82326134344525
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 29.684311838306062,
+              "n_executed_wagers": 1039,
+              "mean_usd_staked_per_wagering_game": 311.5353535353535
+            },
+            "rebet_after_first_loss": {
+              "k": 95,
+              "n_at_risk": 98,
+              "pct": 96.93877551020408,
+              "wilson95": [
+                91.3828356396349,
+                98.95352985344454
+              ]
+            }
+          },
+          "file": "e7_llama_cap70_variable_role_rat1_20260728_151610.json"
+        },
+        "gap_pp": 40.0,
+        "gap_newcombe95": [
+          28.355010326275934,
+          50.34606872954175
+        ],
+        "gap_excludes_zero": true
+      },
+      "none_rat0": {
+        "status": "absent",
+        "note": "cell never collected; see corpus README"
+      },
+      "none_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 2,
+              "n": 100,
+              "pct": 2.0,
+              "wilson95": [
+                0.5501852234968185,
+                7.001316294199365
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 70.0,
+              "n_executed_wagers": 2,
+              "mean_usd_staked_per_wagering_game": 70.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 2,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                65.76280471103807
+              ]
+            }
+          },
+          "file": "e7_llama_cap70_fixed_none_rat1_20260728_054700.json"
+        },
+        "variable": {
+          "n_bankrupt": 3,
+          "n_games": 100,
+          "pct": 3.0,
+          "wilson95": [
+            1.0254338223414816,
+            8.452078080402698
+          ],
+          "companion": {
+            "participation": {
+              "k": 69,
+              "n": 100,
+              "pct": 69.0,
+              "wilson95": [
+                59.37376052204429,
+                77.22043679386762
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 26.79245283018868,
+              "n_executed_wagers": 159,
+              "mean_usd_staked_per_wagering_game": 61.73913043478261
+            },
+            "rebet_after_first_loss": {
+              "k": 36,
+              "n_at_risk": 64,
+              "pct": 56.25,
+              "wilson95": [
+                44.08599177828787,
+                67.70618293457267
+              ]
+            }
+          },
+          "file": "e7_llama_cap70_variable_none_rat1_20260728_071735.json"
+        },
+        "gap_pp": 3.0,
+        "gap_newcombe95": [
+          -1.1934555430834646,
+          8.452078080402698
+        ],
+        "gap_excludes_zero": false
+      }
+    },
+    "Gemma-2-9B": {
+      "role_rat0": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 1,
+          "n_games": 100,
+          "pct": 1.0,
+          "wilson95": [
+            0.17673865655472645,
+            5.4487524760934605
+          ],
+          "companion": {
+            "participation": {
+              "k": 21,
+              "n": 100,
+              "pct": 21.0,
+              "wilson95": [
+                14.165549531645787,
+                29.98014930196232
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 66.8,
+              "n_executed_wagers": 25,
+              "mean_usd_staked_per_wagering_game": 79.52380952380952
+            },
+            "rebet_after_first_loss": {
+              "k": 2,
+              "n_at_risk": 16,
+              "pct": 12.5,
+              "wilson95": [
+                3.4976749337057136,
+                36.02333143674828
+              ]
+            }
+          },
+          "file": "e7_gemma_cap70_fixed_role_rat0_20260728_160933.json"
+        },
+        "variable": {
+          "n_bankrupt": 15,
+          "n_games": 100,
+          "pct": 15.0,
+          "wilson95": [
+            9.305903191162297,
+            23.283733332157837
+          ],
+          "companion": {
+            "participation": {
+              "k": 100,
+              "n": 100,
+              "pct": 100.0,
+              "wilson95": [
+                96.30051925239981,
+                99.99999999999999
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 24.3577648766328,
+              "n_executed_wagers": 1378,
+              "mean_usd_staked_per_wagering_game": 335.65
+            },
+            "rebet_after_first_loss": {
+              "k": 100,
+              "n_at_risk": 100,
+              "pct": 100.0,
+              "wilson95": [
+                96.30051925239981,
+                99.99999999999999
+              ]
+            }
+          },
+          "file": "e7_gemma_cap70_variable_role_rat0_20260728_210715.json"
+        },
+        "gap_pp": 14.0,
+        "gap_newcombe95": [
+          6.774064969710604,
+          22.32454185873998
+        ],
+        "gap_excludes_zero": true
+      },
+      "role_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 1,
+          "n_games": 100,
+          "pct": 1.0,
+          "wilson95": [
+            0.17673865655472645,
+            5.4487524760934605
+          ],
+          "companion": {
+            "participation": {
+              "k": 28,
+              "n": 100,
+              "pct": 28.0,
+              "wilson95": [
+                20.13955916759837,
+                37.488212361345724
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 68.70967741935483,
+              "n_executed_wagers": 31,
+              "mean_usd_staked_per_wagering_game": 76.07142857142857
+            },
+            "rebet_after_first_loss": {
+              "k": 1,
+              "n_at_risk": 22,
+              "pct": 4.545454545454546,
+              "wilson95": [
+                0.8069219301147859,
+                21.798489499518052
+              ]
+            }
+          },
+          "file": "e7_gemma_cap70_fixed_role_rat1_20260728_165944.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 71,
+              "n": 100,
+              "pct": 71.0,
+              "wilson95": [
+                61.460925059992064,
+                78.98529302601585
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 20.20618556701031,
+              "n_executed_wagers": 194,
+              "mean_usd_staked_per_wagering_game": 55.2112676056338
+            },
+            "rebet_after_first_loss": {
+              "k": 45,
+              "n_at_risk": 67,
+              "pct": 67.16417910447761,
+              "wilson95": [
+                55.25795678445592,
+                77.20884238439403
+              ]
+            }
+          },
+          "file": "e7_gemma_cap70_variable_role_rat1_20260728_202914.json"
+        },
+        "gap_pp": -1.0,
+        "gap_newcombe95": [
+          -5.4487524760934605,
+          2.7899758629146683
+        ],
+        "gap_excludes_zero": false
+      },
+      "none_rat0": {
+        "status": "absent",
+        "note": "cell never collected; see corpus README"
+      },
+      "none_rat1": {
+        "status": "present",
+        "fixed": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 0,
+              "n": 100,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                3.699480747600191
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": null,
+              "n_executed_wagers": 0,
+              "mean_usd_staked_per_wagering_game": null
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 0,
+              "pct": null,
+              "wilson95": [
+                null,
+                null
+              ]
+            }
+          },
+          "file": "e7_gemma_cap70_fixed_none_rat1_20260728_153238.json"
+        },
+        "variable": {
+          "n_bankrupt": 0,
+          "n_games": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ],
+          "companion": {
+            "participation": {
+              "k": 1,
+              "n": 100,
+              "pct": 1.0,
+              "wilson95": [
+                0.17673865655472645,
+                5.4487524760934605
+              ]
+            },
+            "realised_bet_size": {
+              "mean_usd_per_executed_wager": 5.0,
+              "n_executed_wagers": 1,
+              "mean_usd_staked_per_wagering_game": 5.0
+            },
+            "rebet_after_first_loss": {
+              "k": 0,
+              "n_at_risk": 1,
+              "pct": 0.0,
+              "wilson95": [
+                0.0,
+                79.34567085261071
+              ]
+            }
+          },
+          "file": "e7_gemma_cap70_variable_none_rat1_20260728_171434.json"
+        },
+        "gap_pp": 0.0,
+        "gap_newcombe95": [
+          -3.699480747600191,
+          3.699480747600191
+        ],
+        "gap_excludes_zero": false
+      }
+    }
+  },
+  "aggregates": {
+    "role_rat0": {
+      "mean_gap_pp_all_available": 22.0,
+      "n_models_available": 5,
+      "models_available": [
+        "GPT-4o-mini",
+        "GPT-4.1-mini",
+        "Gemini-2.5-Flash",
+        "LLaMA-3.1-8B",
+        "Gemma-2-9B"
+      ],
+      "mean_gap_pp_api_only": 6.666666666666667,
+      "n_models_api": 3
+    },
+    "role_rat1": {
+      "mean_gap_pp_all_available": 8.2,
+      "n_models_available": 5,
+      "models_available": [
+        "GPT-4o-mini",
+        "GPT-4.1-mini",
+        "Gemini-2.5-Flash",
+        "LLaMA-3.1-8B",
+        "Gemma-2-9B"
+      ],
+      "mean_gap_pp_api_only": 0.6666666666666666,
+      "n_models_api": 3
+    },
+    "none_rat0": {
+      "mean_gap_pp_all_available": 1.3333333333333333,
+      "n_models_available": 3,
+      "models_available": [
+        "GPT-4o-mini",
+        "GPT-4.1-mini",
+        "Gemini-2.5-Flash"
+      ],
+      "mean_gap_pp_api_only": 1.3333333333333333,
+      "n_models_api": 3
+    },
+    "none_rat1": {
+      "mean_gap_pp_all_available": 0.6,
+      "n_models_available": 5,
+      "models_available": [
+        "GPT-4o-mini",
+        "GPT-4.1-mini",
+        "Gemini-2.5-Flash",
+        "LLaMA-3.1-8B",
+        "Gemma-2-9B"
+      ],
+      "mean_gap_pp_api_only": 0.0,
+      "n_models_api": 3
+    }
+  },
+  "rationality_effect_on_gap": {
+    "GPT-4o-mini": {
+      "role": {
+        "gap_rat0_pp": 0.0,
+        "gap_rat1_pp": 0.0,
+        "delta_pp": 0.0
+      },
+      "none": {
+        "gap_rat0_pp": 0.0,
+        "gap_rat1_pp": 0.0,
+        "delta_pp": 0.0
+      }
+    },
+    "GPT-4.1-mini": {
+      "role": {
+        "gap_rat0_pp": 0.0,
+        "gap_rat1_pp": 0.0,
+        "delta_pp": 0.0
+      },
+      "none": {
+        "gap_rat0_pp": 0.0,
+        "gap_rat1_pp": 0.0,
+        "delta_pp": 0.0
+      }
+    },
+    "Gemini-2.5-Flash": {
+      "role": {
+        "gap_rat0_pp": 20.0,
+        "gap_rat1_pp": 2.0,
+        "delta_pp": -18.0
+      },
+      "none": {
+        "gap_rat0_pp": 4.0,
+        "gap_rat1_pp": 0.0,
+        "delta_pp": -4.0
+      }
+    },
+    "LLaMA-3.1-8B": {
+      "role": {
+        "gap_rat0_pp": 76.0,
+        "gap_rat1_pp": 40.0,
+        "delta_pp": -36.0
+      },
+      "none": {
+        "status": "not estimable: rat0 cell absent"
+      }
+    },
+    "Gemma-2-9B": {
+      "role": {
+        "gap_rat0_pp": 14.0,
+        "gap_rat1_pp": -1.0,
+        "delta_pp": -15.0
+      },
+      "none": {
+        "status": "not estimable: rat0 cell absent"
+      }
+    }
+  },
+  "cell_inventory": {
+    "claude-haiku-4-5-20251001|fixed|none|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_claude-haiku-4-5-20251001_cap70_fixed_none_rat0_20260728_190011.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "claude-haiku-4-5-20251001_cap70_fixed_none_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "2bf13d9bb8b43c58dfacfa048eac0c49a3a8ec08"
+    },
+    "claude-haiku-4-5-20251001|fixed|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_claude-haiku-4-5-20251001_cap70_fixed_none_rat1_20260728_185953.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "claude-haiku-4-5-20251001_cap70_fixed_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "2bf13d9bb8b43c58dfacfa048eac0c49a3a8ec08"
+    },
+    "claude-haiku-4-5-20251001|fixed|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_claude-haiku-4-5-20251001_cap70_fixed_role_rat0_20260728_190120.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "claude-haiku-4-5-20251001_cap70_fixed_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "2bf13d9bb8b43c58dfacfa048eac0c49a3a8ec08"
+    },
+    "claude-haiku-4-5-20251001|fixed|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_claude-haiku-4-5-20251001_cap70_fixed_role_rat1_20260728_190106.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "claude-haiku-4-5-20251001_cap70_fixed_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "2bf13d9bb8b43c58dfacfa048eac0c49a3a8ec08"
+    },
+    "claude-haiku-4-5-20251001|variable|none|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_claude-haiku-4-5-20251001_cap70_variable_none_rat0_20260728_190000.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "claude-haiku-4-5-20251001_cap70_variable_none_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "2bf13d9bb8b43c58dfacfa048eac0c49a3a8ec08"
+    },
+    "claude-haiku-4-5-20251001|variable|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_claude-haiku-4-5-20251001_cap70_variable_none_rat1_20260728_185953.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "claude-haiku-4-5-20251001_cap70_variable_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "2bf13d9bb8b43c58dfacfa048eac0c49a3a8ec08"
+    },
+    "claude-haiku-4-5-20251001|variable|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_claude-haiku-4-5-20251001_cap70_variable_role_rat0_20260728_190152.json",
+      "companion": {
+        "participation": {
+          "k": 5,
+          "n": 100,
+          "pct": 5.0,
+          "wilson95": [
+            2.154336145631356,
+            11.175196527208817
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 12.0,
+          "n_executed_wagers": 5,
+          "mean_usd_staked_per_wagering_game": 12.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 3,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            56.15060804490177
+          ]
+        }
+      },
+      "cell": "claude-haiku-4-5-20251001_cap70_variable_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "eef47e8b85d31806353a6b097cdfe4aec11ae8f7"
+    },
+    "claude-haiku-4-5-20251001|variable|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_claude-haiku-4-5-20251001_cap70_variable_role_rat1_20260728_190104.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "claude-haiku-4-5-20251001_cap70_variable_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "2bf13d9bb8b43c58dfacfa048eac0c49a3a8ec08"
+    },
+    "gemini-2.5-flash|fixed|none|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gemini-2.5-flash_cap70_fixed_none_rat0_20260727_125113.json",
+      "companion": {
+        "participation": {
+          "k": 8,
+          "n": 100,
+          "pct": 8.0,
+          "wilson95": [
+            4.1092969485810915,
+            14.998266879403072
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 70.0,
+          "n_executed_wagers": 8,
+          "mean_usd_staked_per_wagering_game": 70.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 7,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            35.433884297520656
+          ]
+        }
+      },
+      "cell": "gemini-2.5-flash_cap70_fixed_none_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gemini-2.5-flash|fixed|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gemini-2.5-flash_cap70_fixed_none_rat1_20260727_125651.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gemini-2.5-flash_cap70_fixed_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gemini-2.5-flash|fixed|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 12,
+      "file": "e7_gemini-2.5-flash_cap70_fixed_role_rat0_20260727_133100.json",
+      "companion": {
+        "participation": {
+          "k": 53,
+          "n": 100,
+          "pct": 53.0,
+          "wilson95": [
+            43.28868313724773,
+            62.48934801789626
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 63.20754716981132,
+          "n_executed_wagers": 106,
+          "mean_usd_staked_per_wagering_game": 126.41509433962264
+        },
+        "rebet_after_first_loss": {
+          "k": 26,
+          "n_at_risk": 50,
+          "pct": 52.0,
+          "wilson95": [
+            38.51151225880844,
+            65.20308760449429
+          ]
+        }
+      },
+      "cell": "gemini-2.5-flash_cap70_fixed_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gemini-2.5-flash|fixed|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gemini-2.5-flash_cap70_fixed_role_rat1_20260727_134519.json",
+      "companion": {
+        "participation": {
+          "k": 6,
+          "n": 100,
+          "pct": 6.0,
+          "wilson95": [
+            2.778574526665662,
+            12.476968531222507
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 70.0,
+          "n_executed_wagers": 6,
+          "mean_usd_staked_per_wagering_game": 70.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 3,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            56.15060804490177
+          ]
+        }
+      },
+      "cell": "gemini-2.5-flash_cap70_fixed_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gemini-2.5-flash|variable|none|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 4,
+      "file": "e7_gemini-2.5-flash_cap70_variable_none_rat0_20260727_142842.json",
+      "companion": {
+        "participation": {
+          "k": 100,
+          "n": 100,
+          "pct": 100.0,
+          "wilson95": [
+            96.30051925239981,
+            99.99999999999999
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 26.6,
+          "n_executed_wagers": 225,
+          "mean_usd_staked_per_wagering_game": 59.85
+        },
+        "rebet_after_first_loss": {
+          "k": 68,
+          "n_at_risk": 86,
+          "pct": 79.06976744186046,
+          "wilson95": [
+            69.32321275872692,
+            86.3302929669057
+          ]
+        }
+      },
+      "cell": "gemini-2.5-flash_cap70_variable_none_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gemini-2.5-flash|variable|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gemini-2.5-flash_cap70_variable_none_rat1_20260727_143241.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gemini-2.5-flash_cap70_variable_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gemini-2.5-flash|variable|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 32,
+      "file": "e7_gemini-2.5-flash_cap70_variable_role_rat0_20260727_171543.json",
+      "companion": {
+        "participation": {
+          "k": 100,
+          "n": 100,
+          "pct": 100.0,
+          "wilson95": [
+            96.30051925239981,
+            99.99999999999999
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 28.321470937129302,
+          "n_executed_wagers": 843,
+          "mean_usd_staked_per_wagering_game": 238.75
+        },
+        "rebet_after_first_loss": {
+          "k": 100,
+          "n_at_risk": 100,
+          "pct": 100.0,
+          "wilson95": [
+            96.30051925239981,
+            99.99999999999999
+          ]
+        }
+      },
+      "cell": "gemini-2.5-flash_cap70_variable_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gemini-2.5-flash|variable|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 2,
+      "file": "e7_gemini-2.5-flash_cap70_variable_role_rat1_20260727_175324.json",
+      "companion": {
+        "participation": {
+          "k": 50,
+          "n": 100,
+          "pct": 50.0,
+          "wilson95": [
+            40.38298285901472,
+            59.61701714098528
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 17.844827586206897,
+          "n_executed_wagers": 116,
+          "mean_usd_staked_per_wagering_game": 41.4
+        },
+        "rebet_after_first_loss": {
+          "k": 23,
+          "n_at_risk": 44,
+          "pct": 52.27272727272727,
+          "wilson95": [
+            37.9352201361717,
+            66.24524205572824
+          ]
+        }
+      },
+      "cell": "gemini-2.5-flash_cap70_variable_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gemma|fixed|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gemma_cap70_fixed_none_rat1_20260728_153238.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gemma_cap70_fixed_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "4c3240328a7dad94c7370dd54a688e98ff41330c"
+    },
+    "gemma|fixed|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 1,
+      "file": "e7_gemma_cap70_fixed_role_rat0_20260728_160933.json",
+      "companion": {
+        "participation": {
+          "k": 21,
+          "n": 100,
+          "pct": 21.0,
+          "wilson95": [
+            14.165549531645787,
+            29.98014930196232
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 66.8,
+          "n_executed_wagers": 25,
+          "mean_usd_staked_per_wagering_game": 79.52380952380952
+        },
+        "rebet_after_first_loss": {
+          "k": 2,
+          "n_at_risk": 16,
+          "pct": 12.5,
+          "wilson95": [
+            3.4976749337057136,
+            36.02333143674828
+          ]
+        }
+      },
+      "cell": "gemma_cap70_fixed_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 1,
+      "git_commit": "4c3240328a7dad94c7370dd54a688e98ff41330c"
+    },
+    "gemma|fixed|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 1,
+      "file": "e7_gemma_cap70_fixed_role_rat1_20260728_165944.json",
+      "companion": {
+        "participation": {
+          "k": 28,
+          "n": 100,
+          "pct": 28.0,
+          "wilson95": [
+            20.13955916759837,
+            37.488212361345724
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 68.70967741935483,
+          "n_executed_wagers": 31,
+          "mean_usd_staked_per_wagering_game": 76.07142857142857
+        },
+        "rebet_after_first_loss": {
+          "k": 1,
+          "n_at_risk": 22,
+          "pct": 4.545454545454546,
+          "wilson95": [
+            0.8069219301147859,
+            21.798489499518052
+          ]
+        }
+      },
+      "cell": "gemma_cap70_fixed_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 2,
+      "git_commit": "4c3240328a7dad94c7370dd54a688e98ff41330c"
+    },
+    "gemma|variable|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gemma_cap70_variable_none_rat1_20260728_171434.json",
+      "companion": {
+        "participation": {
+          "k": 1,
+          "n": 100,
+          "pct": 1.0,
+          "wilson95": [
+            0.17673865655472645,
+            5.4487524760934605
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 5.0,
+          "n_executed_wagers": 1,
+          "mean_usd_staked_per_wagering_game": 5.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 1,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            79.34567085261071
+          ]
+        }
+      },
+      "cell": "gemma_cap70_variable_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "4c3240328a7dad94c7370dd54a688e98ff41330c"
+    },
+    "gemma|variable|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 15,
+      "file": "e7_gemma_cap70_variable_role_rat0_20260728_210715.json",
+      "companion": {
+        "participation": {
+          "k": 100,
+          "n": 100,
+          "pct": 100.0,
+          "wilson95": [
+            96.30051925239981,
+            99.99999999999999
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 24.3577648766328,
+          "n_executed_wagers": 1378,
+          "mean_usd_staked_per_wagering_game": 335.65
+        },
+        "rebet_after_first_loss": {
+          "k": 100,
+          "n_at_risk": 100,
+          "pct": 100.0,
+          "wilson95": [
+            96.30051925239981,
+            99.99999999999999
+          ]
+        }
+      },
+      "cell": "gemma_cap70_variable_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 6,
+      "git_commit": "34f37922eb685de91202e4500d776afa71f04d69"
+    },
+    "gemma|variable|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gemma_cap70_variable_role_rat1_20260728_202914.json",
+      "companion": {
+        "participation": {
+          "k": 71,
+          "n": 100,
+          "pct": 71.0,
+          "wilson95": [
+            61.460925059992064,
+            78.98529302601585
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 20.20618556701031,
+          "n_executed_wagers": 194,
+          "mean_usd_staked_per_wagering_game": 55.2112676056338
+        },
+        "rebet_after_first_loss": {
+          "k": 45,
+          "n_at_risk": 67,
+          "pct": 67.16417910447761,
+          "wilson95": [
+            55.25795678445592,
+            77.20884238439403
+          ]
+        }
+      },
+      "cell": "gemma_cap70_variable_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 1,
+      "git_commit": "5648e6e363406284b60d27509a4ec18b51455862"
+    },
+    "gpt-4.1-mini|fixed|none|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4.1-mini_cap70_fixed_none_rat0_20260727_094755.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4.1-mini_cap70_fixed_none_rat0",
+      "cap": 70,
+      "n_exactly_500": 1,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4.1-mini|fixed|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4.1-mini_cap70_fixed_none_rat1_20260727_095246.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4.1-mini_cap70_fixed_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4.1-mini|fixed|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4.1-mini_cap70_fixed_role_rat0_20260727_095751.json",
+      "companion": {
+        "participation": {
+          "k": 2,
+          "n": 100,
+          "pct": 2.0,
+          "wilson95": [
+            0.5501852234968185,
+            7.001316294199365
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 70.0,
+          "n_executed_wagers": 2,
+          "mean_usd_staked_per_wagering_game": 70.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 2,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            65.76280471103807
+          ]
+        }
+      },
+      "cell": "gpt-4.1-mini_cap70_fixed_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4.1-mini|fixed|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4.1-mini_cap70_fixed_role_rat1_20260727_100150.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4.1-mini_cap70_fixed_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 2,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4.1-mini|variable|none|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4.1-mini_cap70_variable_none_rat0_20260727_102042.json",
+      "companion": {
+        "participation": {
+          "k": 92,
+          "n": 100,
+          "pct": 92.0,
+          "wilson95": [
+            85.00173312059694,
+            95.89070305141891
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 16.1353711790393,
+          "n_executed_wagers": 229,
+          "mean_usd_staked_per_wagering_game": 40.16304347826087
+        },
+        "rebet_after_first_loss": {
+          "k": 68,
+          "n_at_risk": 78,
+          "pct": 87.17948717948718,
+          "wilson95": [
+            77.98385083935379,
+            92.88475388000653
+          ]
+        }
+      },
+      "cell": "gpt-4.1-mini_cap70_variable_none_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4.1-mini|variable|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4.1-mini_cap70_variable_none_rat1_20260727_102450.json",
+      "companion": {
+        "participation": {
+          "k": 1,
+          "n": 100,
+          "pct": 1.0,
+          "wilson95": [
+            0.17673865655472645,
+            5.4487524760934605
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 10.0,
+          "n_executed_wagers": 1,
+          "mean_usd_staked_per_wagering_game": 10.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 1,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            79.34567085261071
+          ]
+        }
+      },
+      "cell": "gpt-4.1-mini_cap70_variable_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4.1-mini|variable|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4.1-mini_cap70_variable_role_rat0_20260727_104950.json",
+      "companion": {
+        "participation": {
+          "k": 93,
+          "n": 100,
+          "pct": 93.0,
+          "wilson95": [
+            86.25032899347025,
+            96.5681175635936
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 18.285714285714285,
+          "n_executed_wagers": 350,
+          "mean_usd_staked_per_wagering_game": 68.81720430107526
+        },
+        "rebet_after_first_loss": {
+          "k": 82,
+          "n_at_risk": 91,
+          "pct": 90.10989010989012,
+          "wilson95": [
+            82.26124740847463,
+            94.70919594127909
+          ]
+        }
+      },
+      "cell": "gpt-4.1-mini_cap70_variable_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4.1-mini|variable|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4.1-mini_cap70_variable_role_rat1_20260727_105327.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4.1-mini_cap70_variable_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 1,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4o-mini|fixed|none|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4o-mini_cap70_fixed_none_rat0_20260727_094939.json",
+      "companion": {
+        "participation": {
+          "k": 1,
+          "n": 100,
+          "pct": 1.0,
+          "wilson95": [
+            0.17673865655472645,
+            5.4487524760934605
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 70.0,
+          "n_executed_wagers": 1,
+          "mean_usd_staked_per_wagering_game": 70.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4o-mini_cap70_fixed_none_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4o-mini|fixed|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4o-mini_cap70_fixed_none_rat1_20260727_095510.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4o-mini_cap70_fixed_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4o-mini|fixed|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4o-mini_cap70_fixed_role_rat0_20260727_100017.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4o-mini_cap70_fixed_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4o-mini|fixed|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4o-mini_cap70_fixed_role_rat1_20260727_100748.json",
+      "companion": {
+        "participation": {
+          "k": 1,
+          "n": 100,
+          "pct": 1.0,
+          "wilson95": [
+            0.17673865655472645,
+            5.4487524760934605
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 70.0,
+          "n_executed_wagers": 1,
+          "mean_usd_staked_per_wagering_game": 70.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 1,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            79.34567085261071
+          ]
+        }
+      },
+      "cell": "gpt-4o-mini_cap70_fixed_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4o-mini|variable|none|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4o-mini_cap70_variable_none_rat0_20260727_111902.json",
+      "companion": {
+        "participation": {
+          "k": 98,
+          "n": 100,
+          "pct": 98.0,
+          "wilson95": [
+            92.99868370580063,
+            99.44981477650317
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 18.346456692913385,
+          "n_executed_wagers": 1016,
+          "mean_usd_staked_per_wagering_game": 190.20408163265307
+        },
+        "rebet_after_first_loss": {
+          "k": 95,
+          "n_at_risk": 97,
+          "pct": 97.9381443298969,
+          "wilson95": [
+            92.79110074824457,
+            99.43274337957568
+          ]
+        }
+      },
+      "cell": "gpt-4o-mini_cap70_variable_none_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4o-mini|variable|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4o-mini_cap70_variable_none_rat1_20260727_112411.json",
+      "companion": {
+        "participation": {
+          "k": 0,
+          "n": 100,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            3.699480747600191
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": null,
+          "n_executed_wagers": 0,
+          "mean_usd_staked_per_wagering_game": null
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4o-mini_cap70_variable_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4o-mini|variable|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4o-mini_cap70_variable_role_rat0_20260727_130833.json",
+      "companion": {
+        "participation": {
+          "k": 100,
+          "n": 100,
+          "pct": 100.0,
+          "wilson95": [
+            96.30051925239981,
+            99.99999999999999
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 20.697896749521988,
+          "n_executed_wagers": 1569,
+          "mean_usd_staked_per_wagering_game": 324.75
+        },
+        "rebet_after_first_loss": {
+          "k": 99,
+          "n_at_risk": 99,
+          "pct": 100.0,
+          "wilson95": [
+            96.26454664260378,
+            100.0
+          ]
+        }
+      },
+      "cell": "gpt-4o-mini_cap70_variable_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "gpt-4o-mini|variable|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_gpt-4o-mini_cap70_variable_role_rat1_20260727_131323.json",
+      "companion": {
+        "participation": {
+          "k": 1,
+          "n": 100,
+          "pct": 1.0,
+          "wilson95": [
+            0.17673865655472645,
+            5.4487524760934605
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 70.0,
+          "n_executed_wagers": 1,
+          "mean_usd_staked_per_wagering_game": 70.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 0,
+          "pct": null,
+          "wilson95": [
+            null,
+            null
+          ]
+        }
+      },
+      "cell": "gpt-4o-mini_cap70_variable_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "llama|fixed|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 0,
+      "file": "e7_llama_cap70_fixed_none_rat1_20260728_054700.json",
+      "companion": {
+        "participation": {
+          "k": 2,
+          "n": 100,
+          "pct": 2.0,
+          "wilson95": [
+            0.5501852234968185,
+            7.001316294199365
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 70.0,
+          "n_executed_wagers": 2,
+          "mean_usd_staked_per_wagering_game": 70.0
+        },
+        "rebet_after_first_loss": {
+          "k": 0,
+          "n_at_risk": 2,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            65.76280471103807
+          ]
+        }
+      },
+      "cell": "llama_cap70_fixed_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "llama|fixed|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 6,
+      "file": "e7_llama_cap70_fixed_role_rat0_20260728_061246.json",
+      "companion": {
+        "participation": {
+          "k": 56,
+          "n": 100,
+          "pct": 56.0,
+          "wilson95": [
+            46.227927711256314,
+            65.32813459903167
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 66.48351648351648,
+          "n_executed_wagers": 91,
+          "mean_usd_staked_per_wagering_game": 108.03571428571429
+        },
+        "rebet_after_first_loss": {
+          "k": 14,
+          "n_at_risk": 54,
+          "pct": 25.925925925925927,
+          "wilson95": [
+            16.118507964793903,
+            38.931144880217296
+          ]
+        }
+      },
+      "cell": "llama_cap70_fixed_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "llama|fixed|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 7,
+      "file": "e7_llama_cap70_fixed_role_rat1_20260728_063500.json",
+      "companion": {
+        "participation": {
+          "k": 38,
+          "n": 100,
+          "pct": 38.0,
+          "wilson95": [
+            29.097449200134378,
+            47.79042617928966
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 64.18181818181819,
+          "n_executed_wagers": 55,
+          "mean_usd_staked_per_wagering_game": 92.89473684210526
+        },
+        "rebet_after_first_loss": {
+          "k": 9,
+          "n_at_risk": 32,
+          "pct": 28.125,
+          "wilson95": [
+            15.564406845647866,
+            45.37483693811179
+          ]
+        }
+      },
+      "cell": "llama_cap70_fixed_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "llama|variable|none|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 3,
+      "file": "e7_llama_cap70_variable_none_rat1_20260728_071735.json",
+      "companion": {
+        "participation": {
+          "k": 69,
+          "n": 100,
+          "pct": 69.0,
+          "wilson95": [
+            59.37376052204429,
+            77.22043679386762
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 26.79245283018868,
+          "n_executed_wagers": 159,
+          "mean_usd_staked_per_wagering_game": 61.73913043478261
+        },
+        "rebet_after_first_loss": {
+          "k": 36,
+          "n_at_risk": 64,
+          "pct": 56.25,
+          "wilson95": [
+            44.08599177828787,
+            67.70618293457267
+          ]
+        }
+      },
+      "cell": "llama_cap70_variable_none_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "1ba194a3cbd9205bd47b07fd6caf10d880d3f062"
+    },
+    "llama|variable|role|rat0": {
+      "n_games": 100,
+      "n_bankrupt": 82,
+      "file": "e7_llama_cap70_variable_role_rat0_20260728_120008.json",
+      "companion": {
+        "participation": {
+          "k": 100,
+          "n": 100,
+          "pct": 100.0,
+          "wilson95": [
+            96.30051925239981,
+            99.99999999999999
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 34.10695468914647,
+          "n_executed_wagers": 1898,
+          "mean_usd_staked_per_wagering_game": 647.35
+        },
+        "rebet_after_first_loss": {
+          "k": 100,
+          "n_at_risk": 100,
+          "pct": 100.0,
+          "wilson95": [
+            96.30051925239981,
+            99.99999999999999
+          ]
+        }
+      },
+      "cell": "llama_cap70_variable_role_rat0",
+      "cap": 70,
+      "n_exactly_500": 1,
+      "git_commit": "ae6620e0b774a739595d3c44b884e1ae421e567f"
+    },
+    "llama|variable|role|rat1": {
+      "n_games": 100,
+      "n_bankrupt": 47,
+      "file": "e7_llama_cap70_variable_role_rat1_20260728_151610.json",
+      "companion": {
+        "participation": {
+          "k": 99,
+          "n": 100,
+          "pct": 99.0,
+          "wilson95": [
+            94.55124752390654,
+            99.82326134344525
+          ]
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 29.684311838306062,
+          "n_executed_wagers": 1039,
+          "mean_usd_staked_per_wagering_game": 311.5353535353535
+        },
+        "rebet_after_first_loss": {
+          "k": 95,
+          "n_at_risk": 98,
+          "pct": 96.93877551020408,
+          "wilson95": [
+            91.3828356396349,
+            98.95352985344454
+          ]
+        }
+      },
+      "cell": "llama_cap70_variable_role_rat1",
+      "cap": 70,
+      "n_exactly_500": 0,
+      "git_commit": "4c3240328a7dad94c7370dd54a688e98ff41330c"
+    }
+  }
+}

@@ -1,0 +1,1021 @@
+{
+  "purpose": "gbSA W4/Q1 promise -- participation, realised bet size and re-betting after a first loss, computed for the twelve primary behavioural cells behind Figure 2(a).",
+  "promise_text": "gbSA reply, W4/Q1: 'In the revision we will report participation, the realised bet size and re-betting after a first loss alongside each bankruptcy figure.'",
+  "audit_of_neurips_content_en_appendix_tex": {
+    "participation": {
+      "status": "PARTIAL",
+      "where": [
+        "appendix.tex:1216-1222 (appendix:participation-and-exposure): Gemini GMHWP matched-cap cell, both arms 50/50 games",
+        "appendix.tex:1227 (tab:exposure-matched caption): wagering-game denominators for four matched-cap cells at n = 50",
+        "appendix.tex:1059-1065 (LLaMA revisability ladder): per-arm n only"
+      ],
+      "missing": "all twelve primary cells (six models x fixed/variable, n = 1,600 each)"
+    },
+    "realised_bet_size": {
+      "status": "PARTIAL",
+      "where": [
+        "appendix.tex:1218: Gemini GMHWP fixed $64.5/round and variable $47.9/round; $188 and $282 staked per game"
+      ],
+      "missing": "every cell except that one matched-cap pair, including all twelve primary cells"
+    },
+    "rebet_after_first_loss": {
+      "status": "PARTIAL",
+      "where": [
+        "appendix.tex:1053-1065 (LLaMA revisability ladder): 18%, 45%, 100%, 100% across the four ladder arms, defined at 1053-1054"
+      ],
+      "missing": "all twelve primary cells, and every model other than LLaMA"
+    }
+  },
+  "primary_cells": "slot machine, six models x {fixed, variable}, 1,600 games per cell, 19,200 games; the corpus behind Figure 2(a) and Finding 1.",
+  "definitions": {
+    "participation": "share of games containing at least one executed wager (Wilson 95%)",
+    "realised_bet_size": "mean executed wager in dollars, over all executed wagers; 95% percentile bootstrap resampling whole games (2,000 draws, seed 24231). Mean dollars staked per wagering game reported alongside.",
+    "rebet_after_first_loss": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round (Wilson 95%). Games that never lose are outside the denominator; the share of all games is also recorded.",
+    "contrast": "variable minus fixed, in percentage points, 95% Newcombe hybrid-score"
+  },
+  "NOTE_rounds_of_win_flag": "scripts/build_figure_data.py:rounds_of once stringified the round's game_result, which is a dict in the GPT-4.1-mini, Gemini-2.5-Flash and Claude-3.5-Haiku corpora, so every round of those three read as a loss. It now resolves the outcome the way the submitted generator did, and figure_data.json, fig02_slot_machine.json and this table agree. Bet amounts and balances were never affected.",
+  "cross_check": "participation k and bankruptcy k are compared against paper_data/figure_data.json and paper_data/fig02_slot_machine.json below.",
+  "per_model": {
+    "GPT-4o-mini": {
+      "source_file": "analysis/gpt_results_fixed_parsing/gpt_fixed_parsing_complete_20250919_151240.json",
+      "model_field": "gpt-4o-mini-corrected",
+      "fixed": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 1.7925,
+          "mean_total_bet_usd": 17.925,
+          "mean_net_pl_usd": -1.6875,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 0,
+          "n": 1600,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            0.2395249007133871
+          ],
+          "k_ruined_on_their_first_wager": 0,
+          "pct_of_bankruptcies_on_first_wager": null
+        },
+        "participation": {
+          "k": 996,
+          "n": 1600,
+          "pct": 62.25,
+          "wilson95": [
+            59.84799168180792,
+            64.5933247175173
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 10.0,
+          "ci95_game_clustered_bootstrap": [
+            10.0,
+            10.0
+          ],
+          "n_executed_wagers": 2868,
+          "n_wagering_games": 996,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 28.795180722891565,
+            "ci95": [
+              27.289156626506024,
+              30.42168674698795
+            ],
+            "n_wagering_games": 996
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 601,
+          "n_at_risk": 883,
+          "pct": 68.0634201585504,
+          "wilson95": [
+            64.91561944915965,
+            71.0547274538273
+          ],
+          "pct_of_all_games": 37.5625,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "variable": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 5.461875,
+          "mean_total_bet_usd": 128.31125,
+          "mean_net_pl_usd": -11.001875,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 341,
+          "n": 1600,
+          "pct": 21.3125,
+          "wilson95": [
+            19.375816076136154,
+            23.38661133564815
+          ],
+          "k_ruined_on_their_first_wager": 69,
+          "pct_of_bankruptcies_on_first_wager": 20.234604105571847
+        },
+        "participation": {
+          "k": 1312,
+          "n": 1600,
+          "pct": 82.0,
+          "wilson95": [
+            80.04152779833143,
+            83.805176265212
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 23.492161574550863,
+          "ci95_game_clustered_bootstrap": [
+            22.06682498516214,
+            25.255143291657657
+          ],
+          "n_executed_wagers": 8739,
+          "n_wagering_games": 1312,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 156.47713414634146,
+            "ci95": [
+              143.10161966463414,
+              170.23372713414633
+            ],
+            "n_wagering_games": 1312
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 987,
+          "n_at_risk": 1223,
+          "pct": 80.70318887980376,
+          "wilson95": [
+            78.39669769584688,
+            82.81739872866302
+          ],
+          "pct_of_all_games": 61.6875,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "contrasts": {
+        "participation": {
+          "gap_pp": 19.75,
+          "newcombe95": [
+            16.696021595289828,
+            22.75471384813075
+          ]
+        },
+        "rebet_after_first_loss": {
+          "gap_pp": 12.639768721253361,
+          "newcombe95": [
+            8.862491803095573,
+            16.431672278974
+          ]
+        },
+        "bankruptcy": {
+          "gap_pp": 21.3125,
+          "newcombe95": [
+            19.36106032657568,
+            23.38661133564815
+          ]
+        }
+      }
+    },
+    "GPT-4.1-mini": {
+      "source_file": "slot_machine/gpt/gpt5_experiment_20250921_174509.json",
+      "model_field": "gpt-4.1-mini",
+      "fixed": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 2.55625,
+          "mean_total_bet_usd": 25.5625,
+          "mean_net_pl_usd": -1.6,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 0,
+          "n": 1600,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            0.2395249007133871
+          ],
+          "k_ruined_on_their_first_wager": 0,
+          "pct_of_bankruptcies_on_first_wager": null
+        },
+        "participation": {
+          "k": 1182,
+          "n": 1600,
+          "pct": 73.875,
+          "wilson95": [
+            71.66698487756,
+            75.96864198234937
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 10.0,
+          "ci95_game_clustered_bootstrap": [
+            10.0,
+            10.0
+          ],
+          "n_executed_wagers": 4090,
+          "n_wagering_games": 1182,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 34.602368866328256,
+            "ci95": [
+              32.78320642978003,
+              36.30287648054146
+            ],
+            "n_wagering_games": 1182
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 779,
+          "n_at_risk": 1060,
+          "pct": 73.49056603773585,
+          "wilson95": [
+            70.75201706388036,
+            76.05946314144344
+          ],
+          "pct_of_all_games": 48.6875,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "variable": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 7.604375,
+          "mean_total_bet_usd": 82.29625,
+          "mean_net_pl_usd": -7.41,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 101,
+          "n": 1600,
+          "pct": 6.3125,
+          "wilson95": [
+            5.2223596502199765,
+            7.6119252317783435
+          ],
+          "k_ruined_on_their_first_wager": 42,
+          "pct_of_bankruptcies_on_first_wager": 41.584158415841586
+        },
+        "participation": {
+          "k": 1410,
+          "n": 1600,
+          "pct": 88.125,
+          "wilson95": [
+            86.44782811321664,
+            89.61953414998939
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 10.822224048656201,
+          "ci95_game_clustered_bootstrap": [
+            10.257299825595814,
+            11.529788944711486
+          ],
+          "n_executed_wagers": 12167,
+          "n_wagering_games": 1410,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 93.38581560283689,
+            "ci95": [
+              86.19698581560284,
+              101.03976950354608
+            ],
+            "n_wagering_games": 1410
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 1126,
+          "n_at_risk": 1339,
+          "pct": 84.09260642270351,
+          "wilson95": [
+            82.03640467631936,
+            85.95374397561397
+          ],
+          "pct_of_all_games": 70.375,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "contrasts": {
+        "participation": {
+          "gap_pp": 14.25,
+          "newcombe95": [
+            11.567418726660414,
+            16.916263885366234
+          ]
+        },
+        "rebet_after_first_loss": {
+          "gap_pp": 10.602040384967665,
+          "newcombe95": [
+            7.31156960538756,
+            13.913155525378595
+          ]
+        },
+        "bankruptcy": {
+          "gap_pp": 6.3125,
+          "newcombe95": [
+            5.196355672289524,
+            7.6119252317783435
+          ]
+        }
+      }
+    },
+    "Gemini-2.5-Flash": {
+      "source_file": "slot_machine/gemini/gemini_experiment_20250920_042809.json",
+      "model_field": "gemini-2.5-flash",
+      "fixed": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 5.84375,
+          "mean_total_bet_usd": 58.4375,
+          "mean_net_pl_usd": -5.3375,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 50,
+          "n": 1600,
+          "pct": 3.125,
+          "wilson95": [
+            2.378364960231585,
+            4.096189634187214
+          ],
+          "k_ruined_on_their_first_wager": 0,
+          "pct_of_bankruptcies_on_first_wager": 0.0
+        },
+        "participation": {
+          "k": 1356,
+          "n": 1600,
+          "pct": 84.75,
+          "wilson95": [
+            82.90533451712258,
+            86.4281956768816
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 10.0,
+          "ci95_game_clustered_bootstrap": [
+            10.0,
+            10.0
+          ],
+          "n_executed_wagers": 9350,
+          "n_wagering_games": 1356,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 68.952802359882,
+            "ci95": [
+              65.2061209439528,
+              73.60730088495575
+            ],
+            "n_wagering_games": 1356
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 1123,
+          "n_at_risk": 1226,
+          "pct": 91.59869494290375,
+          "wilson95": [
+            89.91289892913757,
+            93.02461107215039
+          ],
+          "pct_of_all_games": 70.1875,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "variable": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 3.94125,
+          "mean_total_bet_usd": 176.678125,
+          "mean_net_pl_usd": -26.999375,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 769,
+          "n": 1600,
+          "pct": 48.0625,
+          "wilson95": [
+            45.62191023024085,
+            50.51237135966179
+          ],
+          "k_ruined_on_their_first_wager": 320,
+          "pct_of_bankruptcies_on_first_wager": 41.612483745123534
+        },
+        "participation": {
+          "k": 1388,
+          "n": 1600,
+          "pct": 86.75,
+          "wilson95": [
+            85.00036769545716,
+            88.32358150251851
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 44.8279416428798,
+          "ci95_game_clustered_bootstrap": [
+            38.36166785332144,
+            54.53796648039086
+          ],
+          "n_executed_wagers": 6306,
+          "n_wagering_games": 1388,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 203.6635446685879,
+            "ci95": [
+              172.59764048991354,
+              244.33211455331406
+            ],
+            "n_wagering_games": 1388
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 861,
+          "n_at_risk": 1251,
+          "pct": 68.82494004796163,
+          "wilson95": [
+            66.20372257186725,
+            71.33089534325447
+          ],
+          "pct_of_all_games": 53.8125,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "contrasts": {
+        "participation": {
+          "gap_pp": 2.0,
+          "newcombe95": [
+            -0.42436670720499503,
+            4.424654509159558
+          ]
+        },
+        "rebet_after_first_loss": {
+          "gap_pp": -22.773754894942115,
+          "newcombe95": [
+            -25.757714992635844,
+            -19.75353633628843
+          ]
+        },
+        "bankruptcy": {
+          "gap_pp": 44.9375,
+          "newcombe95": [
+            42.31077433297542,
+            47.49861959140941
+          ]
+        }
+      }
+    },
+    "Claude-3.5-Haiku": {
+      "source_file": "slot_machine/claude/claude_experiment_corrected_20250925.json",
+      "model_field": "claude-3-5-haiku-latest",
+      "fixed": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 5.149375,
+          "mean_total_bet_usd": 51.49375,
+          "mean_net_pl_usd": -4.9,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 0,
+          "n": 1600,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            0.2395249007133871
+          ],
+          "k_ruined_on_their_first_wager": 0,
+          "pct_of_bankruptcies_on_first_wager": null
+        },
+        "participation": {
+          "k": 1535,
+          "n": 1600,
+          "pct": 95.9375,
+          "wilson95": [
+            94.85502496999023,
+            96.79991152747934
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 10.0,
+          "ci95_game_clustered_bootstrap": [
+            10.0,
+            10.0
+          ],
+          "n_executed_wagers": 8239,
+          "n_wagering_games": 1535,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 53.6742671009772,
+            "ci95": [
+              50.89885993485342,
+              56.672149837133546
+            ],
+            "n_wagering_games": 1535
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 1275,
+          "n_at_risk": 1432,
+          "pct": 89.03631284916202,
+          "wilson95": [
+            87.3124128200579,
+            90.55132925288386
+          ],
+          "pct_of_all_games": 79.6875,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "variable": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 27.515,
+          "mean_total_bet_usd": 483.19125,
+          "mean_net_pl_usd": -51.765,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 328,
+          "n": 1600,
+          "pct": 20.5,
+          "wilson95": [
+            18.593629273571448,
+            22.54769041784944
+          ],
+          "k_ruined_on_their_first_wager": 1,
+          "pct_of_bankruptcies_on_first_wager": 0.3048780487804878
+        },
+        "participation": {
+          "k": 1599,
+          "n": 1600,
+          "pct": 99.9375,
+          "wilson95": [
+            99.64680785836458,
+            99.98896664704792
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 17.561012175177176,
+          "ci95_game_clustered_bootstrap": [
+            16.39019538736344,
+            18.80744826059332
+          ],
+          "n_executed_wagers": 44024,
+          "n_wagering_games": 1599,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 483.49343339587244,
+            "ci95": [
+              440.9248749218262,
+              531.8571294559099
+            ],
+            "n_wagering_games": 1599
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 1580,
+          "n_at_risk": 1585,
+          "pct": 99.6845425867508,
+          "wilson95": [
+            99.26363995106794,
+            99.86518447044772
+          ],
+          "pct_of_all_games": 98.75,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "contrasts": {
+        "participation": {
+          "gap_pp": 4.0,
+          "newcombe95": [
+            3.0899145293227503,
+            5.083697839046022
+          ]
+        },
+        "rebet_after_first_loss": {
+          "gap_pp": 10.648229737588778,
+          "newcombe95": [
+            9.075832290290213,
+            12.381568365927379
+          ]
+        },
+        "bankruptcy": {
+          "gap_pp": 20.5,
+          "newcombe95": [
+            18.57864070912141,
+            22.54769041784944
+          ]
+        }
+      }
+    },
+    "LLaMA-3.1-8B": {
+      "source_file": "behavioral/slot_machine/llama_v4_role/final_llama_20260315_062428.json",
+      "model_field": "llama",
+      "fixed": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 9.01125,
+          "mean_total_bet_usd": 90.1125,
+          "mean_net_pl_usd": -9.95625,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 7,
+          "n": 1600,
+          "pct": 0.4375,
+          "wilson95": [
+            0.2120825516056224,
+            0.9003465062265227
+          ],
+          "k_ruined_on_their_first_wager": 0,
+          "pct_of_bankruptcies_on_first_wager": 0.0
+        },
+        "participation": {
+          "k": 1591,
+          "n": 1600,
+          "pct": 99.4375,
+          "wilson95": [
+            98.93438106100763,
+            99.70378869341201
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 10.0,
+          "ci95_game_clustered_bootstrap": [
+            10.0,
+            10.0
+          ],
+          "n_executed_wagers": 14418,
+          "n_wagering_games": 1591,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 90.62225015713388,
+            "ci95": [
+              86.56112507856693,
+              94.7399434318039
+            ],
+            "n_wagering_games": 1591
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 1497,
+          "n_at_risk": 1586,
+          "pct": 94.38839848675914,
+          "wilson95": [
+            93.14475727328391,
+            95.41752465467671
+          ],
+          "pct_of_all_games": 93.5625,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "variable": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 28.469375,
+          "mean_total_bet_usd": 569.946875,
+          "mean_net_pl_usd": -59.63375,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 1157,
+          "n": 1600,
+          "pct": 72.3125,
+          "wilson95": [
+            70.06850592174685,
+            74.44960609130979
+          ],
+          "k_ruined_on_their_first_wager": 82,
+          "pct_of_bankruptcies_on_first_wager": 7.087294727744166
+        },
+        "participation": {
+          "k": 1599,
+          "n": 1600,
+          "pct": 99.9375,
+          "wilson95": [
+            99.64680785836458,
+            99.98896664704792
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 20.019648306294044,
+          "ci95_game_clustered_bootstrap": [
+            19.383549769758755,
+            20.688881014684416
+          ],
+          "n_executed_wagers": 45551,
+          "n_wagering_games": 1599,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 570.3033145716073,
+            "ci95": [
+              532.551813633521,
+              605.3734052532833
+            ],
+            "n_wagering_games": 1599
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 1516,
+          "n_at_risk": 1599,
+          "pct": 94.80925578486554,
+          "wilson95": [
+            93.61050954795036,
+            95.7932094471144
+          ],
+          "pct_of_all_games": 94.75,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "contrasts": {
+        "participation": {
+          "gap_pp": 0.5,
+          "newcombe95": [
+            0.1057772337273501,
+            1.0057444834411597
+          ]
+        },
+        "rebet_after_first_loss": {
+          "gap_pp": 0.42085729810639805,
+          "newcombe95": [
+            -1.1590456134710865,
+            2.006672002700568
+          ]
+        },
+        "bankruptcy": {
+          "gap_pp": 71.875,
+          "newcombe95": [
+            69.58376969477939,
+            74.02396148675449
+          ]
+        }
+      }
+    },
+    "Gemma-2-9B": {
+      "source_file": "behavioral/slot_machine/gemma_v4_role/final_gemma_20260227_002507.json",
+      "model_field": "gemma",
+      "fixed": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 3.78875,
+          "mean_total_bet_usd": 37.8875,
+          "mean_net_pl_usd": -4.25,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 0,
+          "n": 1600,
+          "pct": 0.0,
+          "wilson95": [
+            0.0,
+            0.2395249007133871
+          ],
+          "k_ruined_on_their_first_wager": 0,
+          "pct_of_bankruptcies_on_first_wager": null
+        },
+        "participation": {
+          "k": 1448,
+          "n": 1600,
+          "pct": 90.5,
+          "wilson95": [
+            88.96468583961952,
+            91.84129899080264
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 10.0,
+          "ci95_game_clustered_bootstrap": [
+            10.0,
+            10.0
+          ],
+          "n_executed_wagers": 6062,
+          "n_wagering_games": 1448,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 41.8646408839779,
+            "ci95": [
+              39.77209944751381,
+              43.82613950276243
+            ],
+            "n_wagering_games": 1448
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 1075,
+          "n_at_risk": 1314,
+          "pct": 81.81126331811264,
+          "wilson95": [
+            79.63374118696957,
+            83.80332135529652
+          ],
+          "pct_of_all_games": 67.1875,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "variable": {
+        "n_games": 1600,
+        "existing_table_columns_recomputed": {
+          "note": "columns already printed in tab:appendix-slot-comprehensive (neurips_content_en/appendix.tex:146-178), recomputed here as a check",
+          "mean_rounds": 7.65375,
+          "mean_total_bet_usd": 182.129375,
+          "mean_net_pl_usd": -16.98875,
+          "derivation_note": "the paper's printed Total bet / Mean rounds already equals the mean executed wager, so realised bet size is recoverable from the existing table but is never stated in it"
+        },
+        "bankruptcy": {
+          "k": 87,
+          "n": 1600,
+          "pct": 5.4375,
+          "wilson95": [
+            4.429343309607065,
+            6.659133258153741
+          ],
+          "k_ruined_on_their_first_wager": 0,
+          "pct_of_bankruptcies_on_first_wager": 0.0
+        },
+        "participation": {
+          "k": 1596,
+          "n": 1600,
+          "pct": 99.75,
+          "wilson95": [
+            99.35893289600729,
+            99.9027398277829
+          ],
+          "definition": "games containing at least one executed wager"
+        },
+        "realised_bet_size": {
+          "mean_usd_per_executed_wager": 23.796096684631717,
+          "ci95_game_clustered_bootstrap": [
+            22.80213535880897,
+            24.87411459621489
+          ],
+          "n_executed_wagers": 12246,
+          "n_wagering_games": 1596,
+          "mean_usd_staked_per_wagering_game": {
+            "mean_usd": 182.5858395989975,
+            "ci95": [
+              170.77730263157895,
+              195.43253446115287
+            ],
+            "n_wagering_games": 1596
+          }
+        },
+        "rebet_after_first_loss": {
+          "k": 1529,
+          "n_at_risk": 1561,
+          "pct": 97.95003203074953,
+          "wilson95": [
+            97.12042126888093,
+            98.54421341363263
+          ],
+          "pct_of_all_games": 95.5625,
+          "definition": "of games whose play contains at least one losing round, the share that execute another wager after that first losing round"
+        }
+      },
+      "contrasts": {
+        "participation": {
+          "gap_pp": 9.25,
+          "newcombe95": [
+            7.852854172767413,
+            10.792893070195069
+          ]
+        },
+        "rebet_after_first_loss": {
+          "gap_pp": 16.13876871263689,
+          "newcombe95": [
+            13.98086481308133,
+            18.395902768775937
+          ]
+        },
+        "bankruptcy": {
+          "gap_pp": 5.4375,
+          "newcombe95": [
+            4.401279902508258,
+            6.659133258153741
+          ]
+        }
+      }
+    }
+  },
+  "cross_check_rows": [
+    {
+      "cell": "GPT-4o-mini fixed",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 0,
+      "bankrupt_k_here": 0,
+      "participation_k_match": true,
+      "participation_k_sidecar": 996,
+      "participation_k_here": 996
+    },
+    {
+      "cell": "GPT-4o-mini variable",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 341,
+      "bankrupt_k_here": 341,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1312,
+      "participation_k_here": 1312
+    },
+    {
+      "cell": "GPT-4.1-mini fixed",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 0,
+      "bankrupt_k_here": 0,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1182,
+      "participation_k_here": 1182
+    },
+    {
+      "cell": "GPT-4.1-mini variable",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 101,
+      "bankrupt_k_here": 101,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1410,
+      "participation_k_here": 1410
+    },
+    {
+      "cell": "Gemini-2.5-Flash fixed",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 50,
+      "bankrupt_k_here": 50,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1356,
+      "participation_k_here": 1356
+    },
+    {
+      "cell": "Gemini-2.5-Flash variable",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 769,
+      "bankrupt_k_here": 769,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1388,
+      "participation_k_here": 1388
+    },
+    {
+      "cell": "Claude-3.5-Haiku fixed",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 0,
+      "bankrupt_k_here": 0,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1535,
+      "participation_k_here": 1535
+    },
+    {
+      "cell": "Claude-3.5-Haiku variable",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 328,
+      "bankrupt_k_here": 328,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1599,
+      "participation_k_here": 1599
+    },
+    {
+      "cell": "LLaMA-3.1-8B fixed",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 7,
+      "bankrupt_k_here": 7,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1591,
+      "participation_k_here": 1591
+    },
+    {
+      "cell": "LLaMA-3.1-8B variable",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 1157,
+      "bankrupt_k_here": 1157,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1599,
+      "participation_k_here": 1599
+    },
+    {
+      "cell": "Gemma-2-9B fixed",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 0,
+      "bankrupt_k_here": 0,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1448,
+      "participation_k_here": 1448
+    },
+    {
+      "cell": "Gemma-2-9B variable",
+      "bankrupt_k_match": true,
+      "bankrupt_k_sidecar": 87,
+      "bankrupt_k_here": 87,
+      "participation_k_match": true,
+      "participation_k_sidecar": 1596,
+      "participation_k_here": 1596
+    }
+  ],
+  "cross_check_all_pass": true
+}

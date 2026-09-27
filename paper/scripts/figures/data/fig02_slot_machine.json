@@ -1,0 +1,783 @@
+{
+ "generated_by": "scripts/figures/fig02_slot_machine.py",
+ "figure": "images/fig02_slot_machine.pdf",
+ "layout": "1x4 horizontal band on the submitted canvas and axes rects",
+ "legend": "boxed Fixed/Variable key inside every panel",
+ "value_labels": "horizontal, above the bar or its interval cap",
+ "canvas_inches": [
+  17.7005,
+  4.5522
+ ],
+ "canvas_points": [
+  1274.435,
+  327.758
+ ],
+ "aspect": 3.888,
+ "canvas_source": "the submitted images/fig2_combined.pdf, verbatim",
+ "font_sizes_pt": {
+  "title": 17.0,
+  "axis_label": 15.0,
+  "tick": 15.0,
+  "model_name": 14.0,
+  "value_label": 13.0,
+  "legend": 14.0,
+  "bound_label": 12.0,
+  "mathtext_subscript": 10.5
+ },
+ "printed_font_sizes_pt": [
+  5.28,
+  4.66,
+  4.35,
+  4.04,
+  3.26
+ ],
+ "min_font_size_pt": 10.5,
+ "mathtext_subscript_base_pt": 15.0,
+ "layout_check": {
+  "canvas_pt": [
+   1274.44,
+   327.76
+  ],
+  "aspect": 3.888,
+  "n_texts": 78,
+  "min_font_pt": 10.5,
+  "margin_slack_pt": {
+   "left": 0.0,
+   "right": 13.54,
+   "bottom": 0.0,
+   "top": 11.03
+  },
+  "panel_a_perpendicular_clearance_pt": 20.01,
+  "panel_a_labels": [
+   "GPT-4o-mini",
+   "GPT-4.1-mini",
+   "Gemini-2.5-Flash",
+   "Claude-3.5-Haiku",
+   "LLaMA-3.1-8B",
+   "Gemma-2-9B"
+  ],
+  "axes": {
+   "a": {
+    "ylabel": "Bankruptcy rate (%)",
+    "yticks": [
+     "0",
+     "20",
+     "40",
+     "60",
+     "80"
+    ],
+    "xticklabels": [
+     "GPT-4o-mini",
+     "GPT-4.1-mini",
+     "Gemini-2.5-Flash",
+     "Claude-3.5-Haiku",
+     "LLaMA-3.1-8B",
+     "Gemma-2-9B"
+    ]
+   },
+   "b": {
+    "ylabel": "Metric value",
+    "yticks": [
+     "0.0",
+     "0.2",
+     "0.4",
+     "0.6",
+     "0.8"
+    ],
+    "xticklabels": [
+     "$I_\\mathrm{BA}$",
+     "$I_\\mathrm{LC}$",
+     "$I_\\mathrm{EC}$"
+    ]
+   },
+   "c": {
+    "ylabel": "Betting ratio increase",
+    "yticks": [
+     "0.0",
+     "0.2",
+     "0.4",
+     "0.6",
+     "0.8"
+    ],
+    "xticklabels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5"
+    ]
+   },
+   "d": {
+    "ylabel": "Betting ratio increase",
+    "yticks": [
+     "0.0",
+     "0.2",
+     "0.4",
+     "0.6",
+     "0.8"
+    ],
+    "xticklabels": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5"
+    ]
+   }
+  }
+ },
+ "colors": {
+  "fixed": "#59A14F",
+  "variable": "#E15759",
+  "source": "fill operators of images/fig2_combined.pdf: 0.3490196078 0.631372549 0.3098039216 rg -> #59A14F; 0.8823529412 0.3411764706 0.3490196078 rg -> #E15759"
+ },
+ "promise": "reply to gbSA [W3]: 'Only the intervals are new.'",
+ "model_order": [
+  "GPT-4o-mini",
+  "GPT-4.1-mini",
+  "Gemini-2.5-Flash",
+  "Claude-3.5-Haiku",
+  "LLaMA-3.1-8B",
+  "Gemma-2-9B"
+ ],
+ "model_labels_drawn": [
+  "GPT-4o-mini",
+  "GPT-4.1-mini",
+  "Gemini-2.5-Flash",
+  "Claude-3.5-Haiku",
+  "LLaMA-3.1-8B",
+  "Gemma-2-9B"
+ ],
+ "panel_a": {
+  "quantity": "bankruptcy rate (%) per model, fixed vs variable",
+  "ylabel": "Bankruptcy rate (%)",
+  "values": {
+   "GPT-4o-mini": {
+    "fixed": 0.0,
+    "variable": 21.31
+   },
+   "GPT-4.1-mini": {
+    "fixed": 0.0,
+    "variable": 6.31
+   },
+   "Gemini-2.5-Flash": {
+    "fixed": 3.12,
+    "variable": 48.06
+   },
+   "Claude-3.5-Haiku": {
+    "fixed": 0.0,
+    "variable": 20.5
+   },
+   "LLaMA-3.1-8B": {
+    "fixed": 0.44,
+    "variable": 72.31
+   },
+   "Gemma-2-9B": {
+    "fixed": 0.0,
+    "variable": 5.44
+   }
+  },
+  "ci_source": "95% Wilson, verbatim from the gbSA [W3] table",
+  "ci": {
+   "GPT-4o-mini": {
+    "fixed": [
+     0.0,
+     0.24
+    ],
+    "variable": [
+     19.38,
+     23.39
+    ]
+   },
+   "GPT-4.1-mini": {
+    "fixed": [
+     0.0,
+     0.24
+    ],
+    "variable": [
+     5.22,
+     7.61
+    ]
+   },
+   "Gemini-2.5-Flash": {
+    "fixed": [
+     2.38,
+     4.1
+    ],
+    "variable": [
+     45.62,
+     50.51
+    ]
+   },
+   "Claude-3.5-Haiku": {
+    "fixed": [
+     0.0,
+     0.24
+    ],
+    "variable": [
+     18.59,
+     22.55
+    ]
+   },
+   "LLaMA-3.1-8B": {
+    "fixed": [
+     0.21,
+     0.9
+    ],
+    "variable": [
+     70.07,
+     74.45
+    ]
+   },
+   "Gemma-2-9B": {
+    "fixed": [
+     0.0,
+     0.24
+    ],
+    "variable": [
+     4.43,
+     6.66
+    ]
+   }
+  },
+  "n_games_per_model_and_arm": 1600,
+  "ylim": [
+   0,
+   85.0
+  ]
+ },
+ "panel_b": {
+  "quantity": "round-level irrationality indicators, pooled over six models",
+  "ylabel": "Metric value",
+  "xticklabels_drawn": [
+   "$I_\\mathrm{BA}$",
+   "$I_\\mathrm{LC}$",
+   "$I_\\mathrm{EC}$"
+  ],
+  "indicators": [
+   "I_BA",
+   "I_LC",
+   "I_EC"
+  ],
+  "values": {
+   "fixed": [
+    0.104,
+    0.111,
+    0.001
+   ],
+   "variable": [
+    0.294,
+    0.672,
+    0.196
+   ]
+  },
+  "ci_source": "percentile bootstrap over games within model, from paper_data/fig02_slot_machine.json",
+  "ci": {
+   "fixed": {
+    "I_BA": [
+     0.10364,
+     0.10449
+    ],
+    "I_LC": [
+     0.1106,
+     0.11175
+    ],
+    "I_EC": [
+     0.00102,
+     0.0016
+    ]
+   },
+   "variable": {
+    "I_BA": [
+     0.28976,
+     0.29895
+    ],
+    "I_LC": [
+     0.57476,
+     0.84518
+    ],
+    "I_EC": [
+     0.19059,
+     0.20164
+    ]
+   }
+  },
+  "n_games": {
+   "fixed": {
+    "I_BA": 8108,
+    "I_LC": 6350,
+    "I_EC": 8108
+   },
+   "variable": {
+    "I_BA": 8904,
+    "I_LC": 7599,
+    "I_EC": 8904
+   }
+  },
+  "ylim": [
+   0,
+   0.95
+  ]
+ },
+ "panels_cd": {
+  "quantity": "bet-to-balance ratio increase by consecutive streak length",
+  "ylabel": "Betting ratio increase",
+  "streaks": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "drawn_source": "recomputed",
+  "submitted": {
+   "win": {
+    "fixed": [
+     0.07,
+     0.09,
+     0.01,
+     0.02,
+     0.0
+    ],
+    "variable": [
+     0.23,
+     0.25,
+     0.25,
+     0.24,
+     0.58
+    ]
+   },
+   "loss": {
+    "fixed": [
+     0.24,
+     0.25,
+     0.21,
+     0.19,
+     0.29
+    ],
+    "variable": [
+     0.67,
+     0.45,
+     0.28,
+     0.37,
+     0.37
+    ]
+   }
+  },
+  "submitted_interval_status": "NO INTERVAL DRAWN. The submitted (c)/(d) literals have no derivation in either repository and could not be reproduced from the released corpora under any of 80 definition variants (5 model subsets x 4 transforms x 2 windows x 2 aggregators). The post-win fixed series is impossible rather than merely elusive: the fixed arm's wager is locked at exactly $10 in every round of all six corpora, so a win strictly raises the balance, the bet-to-balance ratio strictly falls, and max(0, .) makes the series exactly zero -- against the submitted [0.07, 0.09, 0.01, 0.02, 0.00]. Post-loss the same algebra forces monotonicity in k, and the submitted [0.24, 0.25, 0.21, 0.19, 0.29] dips at k=3,4. Only 3 of the 20 cells fall inside the interval of the closest recomputation, so drawing one would misstate the uncertainty.",
+  "recomputed": {
+   "win": {
+    "fixed": {
+     "mean": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "ci_lo": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "ci_hi": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_rounds": [
+      8479,
+      2236,
+      590,
+      167,
+      47
+     ]
+    },
+    "variable": {
+     "mean": [
+      0.2751548156449677,
+      0.26492460675707025,
+      0.29023999739577294,
+      0.2777814796732266,
+      0.5525994069895287
+     ],
+     "ci_lo": [
+      0.26398625598100134,
+      0.2454843806522334,
+      0.25624499121859784,
+      0.22158083820560173,
+      0.2404466426988676
+     ],
+     "ci_hi": [
+      0.2866175499863207,
+      0.2852673677194349,
+      0.327580942134186,
+      0.3393481577602556,
+      1.03935404482825
+     ],
+     "n_rounds": [
+      26441,
+      7768,
+      2210,
+      642,
+      174
+     ]
+    }
+   },
+   "loss": {
+    "fixed": {
+     "mean": [
+      0.10024221978777798,
+      0.11073936634701498,
+      0.12618160573711215,
+      0.14703632119991228,
+      0.17461317400811235
+     ],
+     "ci_lo": [
+      0.09979379651284845,
+      0.1099103365971315,
+      0.1244236372093848,
+      0.14316826153854034,
+      0.1668974794278135
+     ],
+     "ci_hi": [
+      0.10066500522201538,
+      0.1116841668926529,
+      0.12803771002762923,
+      0.15125022596913246,
+      0.18298875133267825
+     ],
+     "n_rounds": [
+      12082,
+      6915,
+      3296,
+      1593,
+      753
+     ]
+    },
+    "variable": {
+     "mean": [
+      0.576911303138365,
+      0.4578332980721564,
+      0.34121724989895486,
+      0.4756390374023714,
+      0.49157999024843824
+     ],
+     "ci_lo": [
+      0.43692523856370963,
+      0.444342248090215,
+      0.32680347393360376,
+      0.45474933369241777,
+      0.4601154442436192
+     ],
+     "ci_hi": [
+      0.8141880589433912,
+      0.4720802415868652,
+      0.3561121769733524,
+      0.49790642172069277,
+      0.5235370292394323
+     ],
+     "n_rounds": [
+      30740,
+      20326,
+      12666,
+      7891,
+      4680
+     ]
+    }
+   }
+  },
+  "recomputed_definition": "section 2's max(0, (r_{t+1}-r_t)/r_t) averaged over rounds whose run of identical outcomes has length exactly k; percentile bootstrap over rounds",
+  "ylim": [
+   0,
+   0.85
+  ]
+ },
+ "caption_multipliers": {
+  "post_win": 3.2857,
+  "post_loss": 2.7917,
+  "definition": "streak-length-1 ratio of the two plotted series (0.23/0.07 and 0.67/0.24); prints as 3.3x and 2.8x"
+ },
+ "verification_vs_corpora": [
+  {
+   "panel": "a",
+   "cell": "GPT-4o-mini/fixed",
+   "submitted": 0.0,
+   "recomputed": 0.0,
+   "delta": 0.0,
+   "posted_ci": [
+    0.0,
+    0.24
+   ],
+   "recomputed_ci": [
+    0.0,
+    0.24
+   ],
+   "n_bankrupt": 0,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "GPT-4o-mini/variable",
+   "submitted": 21.31,
+   "recomputed": 21.3125,
+   "delta": 0.002500000000001279,
+   "posted_ci": [
+    19.38,
+    23.39
+   ],
+   "recomputed_ci": [
+    19.38,
+    23.39
+   ],
+   "n_bankrupt": 341,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "GPT-4.1-mini/fixed",
+   "submitted": 0.0,
+   "recomputed": 0.0,
+   "delta": 0.0,
+   "posted_ci": [
+    0.0,
+    0.24
+   ],
+   "recomputed_ci": [
+    0.0,
+    0.24
+   ],
+   "n_bankrupt": 0,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "GPT-4.1-mini/variable",
+   "submitted": 6.31,
+   "recomputed": 6.3125,
+   "delta": 0.002500000000000391,
+   "posted_ci": [
+    5.22,
+    7.61
+   ],
+   "recomputed_ci": [
+    5.22,
+    7.61
+   ],
+   "n_bankrupt": 101,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "Gemini-2.5-Flash/fixed",
+   "submitted": 3.12,
+   "recomputed": 3.125,
+   "delta": 0.004999999999999893,
+   "posted_ci": [
+    2.38,
+    4.1
+   ],
+   "recomputed_ci": [
+    2.38,
+    4.1
+   ],
+   "n_bankrupt": 50,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "Gemini-2.5-Flash/variable",
+   "submitted": 48.06,
+   "recomputed": 48.0625,
+   "delta": 0.0024999999999977263,
+   "posted_ci": [
+    45.62,
+    50.51
+   ],
+   "recomputed_ci": [
+    45.62,
+    50.51
+   ],
+   "n_bankrupt": 769,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "Claude-3.5-Haiku/fixed",
+   "submitted": 0.0,
+   "recomputed": 0.0,
+   "delta": 0.0,
+   "posted_ci": [
+    0.0,
+    0.24
+   ],
+   "recomputed_ci": [
+    0.0,
+    0.24
+   ],
+   "n_bankrupt": 0,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "Claude-3.5-Haiku/variable",
+   "submitted": 20.5,
+   "recomputed": 20.5,
+   "delta": 0.0,
+   "posted_ci": [
+    18.59,
+    22.55
+   ],
+   "recomputed_ci": [
+    18.59,
+    22.55
+   ],
+   "n_bankrupt": 328,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "LLaMA-3.1-8B/fixed",
+   "submitted": 0.44,
+   "recomputed": 0.4375,
+   "delta": -0.0025000000000000022,
+   "posted_ci": [
+    0.21,
+    0.9
+   ],
+   "recomputed_ci": [
+    0.21,
+    0.9
+   ],
+   "n_bankrupt": 7,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "LLaMA-3.1-8B/variable",
+   "submitted": 72.31,
+   "recomputed": 72.3125,
+   "delta": 0.0024999999999977263,
+   "posted_ci": [
+    70.07,
+    74.45
+   ],
+   "recomputed_ci": [
+    70.07,
+    74.45
+   ],
+   "n_bankrupt": 1157,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "Gemma-2-9B/fixed",
+   "submitted": 0.0,
+   "recomputed": 0.0,
+   "delta": 0.0,
+   "posted_ci": [
+    0.0,
+    0.24
+   ],
+   "recomputed_ci": [
+    0.0,
+    0.24
+   ],
+   "n_bankrupt": 0,
+   "n_games": 1600
+  },
+  {
+   "panel": "a",
+   "cell": "Gemma-2-9B/variable",
+   "submitted": 5.44,
+   "recomputed": 5.4375,
+   "delta": -0.002500000000000391,
+   "posted_ci": [
+    4.43,
+    6.66
+   ],
+   "recomputed_ci": [
+    4.43,
+    6.66
+   ],
+   "n_bankrupt": 87,
+   "n_games": 1600
+  },
+  {
+   "panel": "b",
+   "cell": "I_BA/fixed",
+   "submitted": 0.104,
+   "recomputed": 0.10407175681793945,
+   "delta": 7.175681793945843e-05,
+   "ci": [
+    0.1036,
+    0.1045
+   ],
+   "n_games": 8108
+  },
+  {
+   "panel": "b",
+   "cell": "I_BA/variable",
+   "submitted": 0.294,
+   "recomputed": 0.29447227380735236,
+   "delta": 0.0004722738073523747,
+   "ci": [
+    0.2898,
+    0.299
+   ],
+   "n_games": 8904
+  },
+  {
+   "panel": "b",
+   "cell": "I_LC/fixed",
+   "submitted": 0.111,
+   "recomputed": 0.11118415098507171,
+   "delta": 0.00018415098507171268,
+   "ci": [
+    0.1106,
+    0.1118
+   ],
+   "n_games": 6350
+  },
+  {
+   "panel": "b",
+   "cell": "I_LC/variable",
+   "submitted": 0.672,
+   "recomputed": 0.6723492180660209,
+   "delta": 0.00034921806602083993,
+   "ci": [
+    0.5748,
+    0.8452
+   ],
+   "n_games": 7599
+  },
+  {
+   "panel": "b",
+   "cell": "I_EC/fixed",
+   "submitted": 0.001,
+   "recomputed": 0.0012910680102587392,
+   "delta": 0.0002910680102587392,
+   "ci": [
+    0.001,
+    0.0016
+   ],
+   "n_games": 8108
+  },
+  {
+   "panel": "b",
+   "cell": "I_EC/variable",
+   "submitted": 0.196,
+   "recomputed": 0.19615218007268861,
+   "delta": 0.0001521800726886069,
+   "ci": [
+    0.1906,
+    0.2016
+   ],
+   "n_games": 8904
+  }
+ ]
+}

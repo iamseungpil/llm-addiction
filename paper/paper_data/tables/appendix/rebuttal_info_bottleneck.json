@@ -1,0 +1,2991 @@
+{
+  "table": "tab:information-not-bottleneck (neurips_content_en/appendix.tex)",
+  "generated_by": "scripts/tables/rebuttal_info_bottleneck.py",
+  "hf_repo": "llm-addiction-research/llm-addiction",
+  "corpora": {
+    "GPT-4o-mini": {
+      "path": "analysis/gpt_results_fixed_parsing/gpt_fixed_parsing_complete_20250919_151240.json",
+      "declared_model_field": "gpt-4o-mini-corrected",
+      "expected_model_field": "gpt-4o-mini-corrected",
+      "model_field_ok": true,
+      "canonical": true,
+      "note": "canonical GPT-4o-mini (corrected parsing)",
+      "games_total": 3200,
+      "games_variable": 1600,
+      "prompt_conditions": 32
+    },
+    "Claude-3.5-Haiku": {
+      "path": "slot_machine/claude/claude_experiment_corrected_20250925.json",
+      "declared_model_field": "claude-3-5-haiku-latest",
+      "expected_model_field": "claude-3-5-haiku-latest",
+      "model_field_ok": true,
+      "canonical": true,
+      "note": "canonical Claude-3.5-Haiku",
+      "games_total": 3200,
+      "games_variable": 1600,
+      "prompt_conditions": 32
+    },
+    "Gemma-2-9B": {
+      "path": "behavioral/slot_machine/gemma_v4_role/final_gemma_20260227_002507.json",
+      "declared_model_field": "gemma",
+      "expected_model_field": "gemma",
+      "model_field_ok": true,
+      "canonical": true,
+      "note": "canonical Gemma-2-9B (V4role re-run)",
+      "games_total": 3200,
+      "games_variable": 1600,
+      "prompt_conditions": 32
+    },
+    "LLaMA-3.1-8B": {
+      "path": "behavioral/slot_machine/llama_v4_role/final_llama_20260315_062428.json",
+      "declared_model_field": "llama",
+      "expected_model_field": "llama",
+      "model_field_ok": true,
+      "canonical": true,
+      "note": "canonical LLaMA-3.1-8B (V4role re-run)",
+      "games_total": 3200,
+      "games_variable": 1600,
+      "prompt_conditions": 32
+    },
+    "GPT-4.1-mini [not this table's model]": {
+      "path": "slot_machine/gpt/gpt5_experiment_20250921_174509.json",
+      "declared_model_field": "gpt-4.1-mini",
+      "expected_model_field": "gpt-4.1-mini",
+      "model_field_ok": true,
+      "canonical": false,
+      "note": "slot_machine/gpt/ is gpt-4.1-mini; legacy 'gpt5_' filename",
+      "games_total": 3200,
+      "games_variable": 1600,
+      "prompt_conditions": 32
+    },
+    "Gemma-2-9B [V1 DEPRECATED]": {
+      "path": "slot_machine/gemma/final_gemma_20251004_172426.json",
+      "declared_model_field": "gemma",
+      "expected_model_field": "gemma",
+      "model_field_ok": true,
+      "canonical": false,
+      "note": "DEPRECATION_WARNING.md: CORRUPTED, must not be used",
+      "games_total": 3200,
+      "games_variable": 1600,
+      "prompt_conditions": 32
+    },
+    "LLaMA-3.1-8B [V1 DEPRECATED]": {
+      "path": "slot_machine/llama/final_llama_20251004_021106.json",
+      "declared_model_field": "llama",
+      "expected_model_field": "llama",
+      "model_field_ok": true,
+      "canonical": false,
+      "note": "DEPRECATION_WARNING.md: MILD CORRUPTION",
+      "games_total": 3200,
+      "games_variable": 1600,
+      "prompt_conditions": 32
+    },
+    "Gemini-2.5-Flash [not a table row]": {
+      "path": "slot_machine/gemini/gemini_experiment_20250920_042809.json",
+      "declared_model_field": "gemini-2.5-flash",
+      "expected_model_field": null,
+      "model_field_ok": true,
+      "canonical": false,
+      "note": "context only",
+      "games_total": 3200,
+      "games_variable": 1600,
+      "prompt_conditions": 32
+    }
+  },
+  "canonical_rows": [
+    "GPT-4o-mini",
+    "Claude-3.5-Haiku",
+    "Gemma-2-9B",
+    "LLaMA-3.1-8B"
+  ],
+  "definition": {
+    "arm": "bet_type == 'variable'",
+    "ruin": "is_bankrupt (API) / outcome == 'bankruptcy' (open-weight)",
+    "both": "'W' in prompt_combo and 'P' in prompt_combo (8 of 32 conditions)",
+    "neither_or_one": "the other 24 conditions",
+    "module_count": "0 for BASE, else len(prompt_combo); fifth module is R (GPT/Claude/Gemma) or H (LLaMA V4role)",
+    "interval": "95% Wilson score interval, z = 1.96"
+  },
+  "canonical": {
+    "per_model": {
+      "GPT-4o-mini": {
+        "both_W_and_P": {
+          "k": 101,
+          "n": 400,
+          "pct": 25.25,
+          "ci": [
+            21.2416,
+            29.7293
+          ]
+        },
+        "neither_or_one": {
+          "k": 240,
+          "n": 1200,
+          "pct": 20.0,
+          "ci": [
+            17.8341,
+            22.3574
+          ]
+        },
+        "difference": 5.25,
+        "intervals_disjoint": false,
+        "corpus": "analysis/gpt_results_fixed_parsing/gpt_fixed_parsing_complete_20250919_151240.json",
+        "model_field": "gpt-4o-mini-corrected",
+        "by_module_count": {
+          "0": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "neither_or_one": {
+              "k": 1,
+              "n": 50,
+              "pct": 2.0,
+              "ci": [
+                0.3539,
+                10.4957
+              ]
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 1,
+              "n": 50,
+              "pct": 2.0,
+              "ci": [
+                0.3539,
+                10.4957
+              ]
+            }
+          },
+          "1": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "neither_or_one": {
+              "k": 31,
+              "n": 250,
+              "pct": 12.4,
+              "ci": [
+                8.8748,
+                17.0633
+              ]
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 31,
+              "n": 250,
+              "pct": 12.4,
+              "ci": [
+                8.8748,
+                17.0633
+              ]
+            }
+          },
+          "2": {
+            "both_W_and_P": {
+              "k": 3,
+              "n": 50,
+              "pct": 6.0,
+              "ci": [
+                2.0615,
+                16.2173
+              ]
+            },
+            "neither_or_one": {
+              "k": 88,
+              "n": 450,
+              "pct": 19.5556,
+              "ci": [
+                16.1551,
+                23.4715
+              ]
+            },
+            "difference": -13.5556,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 91,
+              "n": 500,
+              "pct": 18.2,
+              "ci": [
+                15.0646,
+                21.8203
+              ]
+            }
+          },
+          "3": {
+            "both_W_and_P": {
+              "k": 32,
+              "n": 150,
+              "pct": 21.3333,
+              "ci": [
+                15.5361,
+                28.5622
+              ]
+            },
+            "neither_or_one": {
+              "k": 96,
+              "n": 350,
+              "pct": 27.4286,
+              "ci": [
+                23.0184,
+                32.3288
+              ]
+            },
+            "difference": -6.0953,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 128,
+              "n": 500,
+              "pct": 25.6,
+              "ci": [
+                21.9707,
+                29.6014
+              ]
+            }
+          },
+          "4": {
+            "both_W_and_P": {
+              "k": 44,
+              "n": 150,
+              "pct": 29.3333,
+              "ci": [
+                22.6363,
+                37.0625
+              ]
+            },
+            "neither_or_one": {
+              "k": 24,
+              "n": 100,
+              "pct": 24.0,
+              "ci": [
+                16.6912,
+                33.2325
+              ]
+            },
+            "difference": 5.3333,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 68,
+              "n": 250,
+              "pct": 27.2,
+              "ci": [
+                22.0599,
+                33.0302
+              ]
+            }
+          },
+          "5": {
+            "both_W_and_P": {
+              "k": 22,
+              "n": 50,
+              "pct": 44.0,
+              "ci": [
+                31.162,
+                57.6942
+              ]
+            },
+            "neither_or_one": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 22,
+              "n": 50,
+              "pct": 44.0,
+              "ci": [
+                31.162,
+                57.6942
+              ]
+            }
+          }
+        }
+      },
+      "Claude-3.5-Haiku": {
+        "both_W_and_P": {
+          "k": 129,
+          "n": 400,
+          "pct": 32.25,
+          "ci": [
+            27.8567,
+            36.981
+          ]
+        },
+        "neither_or_one": {
+          "k": 199,
+          "n": 1200,
+          "pct": 16.5833,
+          "ci": [
+            14.5862,
+            18.7937
+          ]
+        },
+        "difference": 15.6667,
+        "intervals_disjoint": true,
+        "corpus": "slot_machine/claude/claude_experiment_corrected_20250925.json",
+        "model_field": "claude-3-5-haiku-latest",
+        "by_module_count": {
+          "0": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "neither_or_one": {
+              "k": 0,
+              "n": 50,
+              "pct": 0.0,
+              "ci": [
+                0.0,
+                7.135
+              ]
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 0,
+              "n": 50,
+              "pct": 0.0,
+              "ci": [
+                0.0,
+                7.135
+              ]
+            }
+          },
+          "1": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "neither_or_one": {
+              "k": 4,
+              "n": 250,
+              "pct": 1.6,
+              "ci": [
+                0.6239,
+                4.041
+              ]
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 4,
+              "n": 250,
+              "pct": 1.6,
+              "ci": [
+                0.6239,
+                4.041
+              ]
+            }
+          },
+          "2": {
+            "both_W_and_P": {
+              "k": 1,
+              "n": 50,
+              "pct": 2.0,
+              "ci": [
+                0.3539,
+                10.4957
+              ]
+            },
+            "neither_or_one": {
+              "k": 44,
+              "n": 450,
+              "pct": 9.7778,
+              "ci": [
+                7.3645,
+                12.872
+              ]
+            },
+            "difference": -7.7778,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 45,
+              "n": 500,
+              "pct": 9.0,
+              "ci": [
+                6.7942,
+                11.831
+              ]
+            }
+          },
+          "3": {
+            "both_W_and_P": {
+              "k": 21,
+              "n": 150,
+              "pct": 14.0,
+              "ci": [
+                9.3426,
+                20.4553
+              ]
+            },
+            "neither_or_one": {
+              "k": 95,
+              "n": 350,
+              "pct": 27.1429,
+              "ci": [
+                22.7508,
+                32.0312
+              ]
+            },
+            "difference": -13.1429,
+            "intervals_disjoint": true,
+            "all_cells": {
+              "k": 116,
+              "n": 500,
+              "pct": 23.2,
+              "ci": [
+                19.7129,
+                27.0958
+              ]
+            }
+          },
+          "4": {
+            "both_W_and_P": {
+              "k": 68,
+              "n": 150,
+              "pct": 45.3333,
+              "ci": [
+                37.5824,
+                53.3174
+              ]
+            },
+            "neither_or_one": {
+              "k": 56,
+              "n": 100,
+              "pct": 56.0,
+              "ci": [
+                46.2279,
+                65.3281
+              ]
+            },
+            "difference": -10.6667,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 124,
+              "n": 250,
+              "pct": 49.6,
+              "ci": [
+                43.4553,
+                55.7568
+              ]
+            }
+          },
+          "5": {
+            "both_W_and_P": {
+              "k": 39,
+              "n": 50,
+              "pct": 78.0,
+              "ci": [
+                64.7582,
+                87.2462
+              ]
+            },
+            "neither_or_one": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 39,
+              "n": 50,
+              "pct": 78.0,
+              "ci": [
+                64.7582,
+                87.2462
+              ]
+            }
+          }
+        }
+      },
+      "Gemma-2-9B": {
+        "both_W_and_P": {
+          "k": 30,
+          "n": 400,
+          "pct": 7.5,
+          "ci": [
+            5.3037,
+            10.5048
+          ]
+        },
+        "neither_or_one": {
+          "k": 57,
+          "n": 1200,
+          "pct": 4.75,
+          "ci": [
+            3.6842,
+            6.1046
+          ]
+        },
+        "difference": 2.75,
+        "intervals_disjoint": false,
+        "corpus": "behavioral/slot_machine/gemma_v4_role/final_gemma_20260227_002507.json",
+        "model_field": "gemma",
+        "by_module_count": {
+          "0": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "neither_or_one": {
+              "k": 0,
+              "n": 50,
+              "pct": 0.0,
+              "ci": [
+                0.0,
+                7.135
+              ]
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 0,
+              "n": 50,
+              "pct": 0.0,
+              "ci": [
+                0.0,
+                7.135
+              ]
+            }
+          },
+          "1": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "neither_or_one": {
+              "k": 1,
+              "n": 250,
+              "pct": 0.4,
+              "ci": [
+                0.0706,
+                2.2306
+              ]
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 1,
+              "n": 250,
+              "pct": 0.4,
+              "ci": [
+                0.0706,
+                2.2306
+              ]
+            }
+          },
+          "2": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 50,
+              "pct": 0.0,
+              "ci": [
+                0.0,
+                7.135
+              ]
+            },
+            "neither_or_one": {
+              "k": 9,
+              "n": 450,
+              "pct": 2.0,
+              "ci": [
+                1.0557,
+                3.7569
+              ]
+            },
+            "difference": -2.0,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 9,
+              "n": 500,
+              "pct": 1.8,
+              "ci": [
+                0.9498,
+                3.3852
+              ]
+            }
+          },
+          "3": {
+            "both_W_and_P": {
+              "k": 2,
+              "n": 150,
+              "pct": 1.3333,
+              "ci": [
+                0.3664,
+                4.7308
+              ]
+            },
+            "neither_or_one": {
+              "k": 29,
+              "n": 350,
+              "pct": 8.2857,
+              "ci": [
+                5.8308,
+                11.6464
+              ]
+            },
+            "difference": -6.9524,
+            "intervals_disjoint": true,
+            "all_cells": {
+              "k": 31,
+              "n": 500,
+              "pct": 6.2,
+              "ci": [
+                4.4019,
+                8.666
+              ]
+            }
+          },
+          "4": {
+            "both_W_and_P": {
+              "k": 17,
+              "n": 150,
+              "pct": 11.3333,
+              "ci": [
+                7.1974,
+                17.4004
+              ]
+            },
+            "neither_or_one": {
+              "k": 18,
+              "n": 100,
+              "pct": 18.0,
+              "ci": [
+                11.7001,
+                26.6675
+              ]
+            },
+            "difference": -6.6667,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 35,
+              "n": 250,
+              "pct": 14.0,
+              "ci": [
+                10.2416,
+                18.8481
+              ]
+            }
+          },
+          "5": {
+            "both_W_and_P": {
+              "k": 11,
+              "n": 50,
+              "pct": 22.0,
+              "ci": [
+                12.7538,
+                35.2418
+              ]
+            },
+            "neither_or_one": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 11,
+              "n": 50,
+              "pct": 22.0,
+              "ci": [
+                12.7538,
+                35.2418
+              ]
+            }
+          }
+        }
+      },
+      "LLaMA-3.1-8B": {
+        "both_W_and_P": {
+          "k": 316,
+          "n": 400,
+          "pct": 79.0,
+          "ci": [
+            74.742,
+            82.7063
+          ]
+        },
+        "neither_or_one": {
+          "k": 841,
+          "n": 1200,
+          "pct": 70.0833,
+          "ci": [
+            67.4318,
+            72.6067
+          ]
+        },
+        "difference": 8.9167,
+        "intervals_disjoint": true,
+        "corpus": "behavioral/slot_machine/llama_v4_role/final_llama_20260315_062428.json",
+        "model_field": "llama",
+        "by_module_count": {
+          "0": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "neither_or_one": {
+              "k": 22,
+              "n": 50,
+              "pct": 44.0,
+              "ci": [
+                31.162,
+                57.6942
+              ]
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 22,
+              "n": 50,
+              "pct": 44.0,
+              "ci": [
+                31.162,
+                57.6942
+              ]
+            }
+          },
+          "1": {
+            "both_W_and_P": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "neither_or_one": {
+              "k": 127,
+              "n": 250,
+              "pct": 50.8,
+              "ci": [
+                44.6377,
+                56.9381
+              ]
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 127,
+              "n": 250,
+              "pct": 50.8,
+              "ci": [
+                44.6377,
+                56.9381
+              ]
+            }
+          },
+          "2": {
+            "both_W_and_P": {
+              "k": 36,
+              "n": 50,
+              "pct": 72.0,
+              "ci": [
+                58.3346,
+                82.526
+              ]
+            },
+            "neither_or_one": {
+              "k": 320,
+              "n": 450,
+              "pct": 71.1111,
+              "ci": [
+                66.7586,
+                75.1063
+              ]
+            },
+            "difference": 0.8889,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 356,
+              "n": 500,
+              "pct": 71.2,
+              "ci": [
+                67.081,
+                74.9957
+              ]
+            }
+          },
+          "3": {
+            "both_W_and_P": {
+              "k": 111,
+              "n": 150,
+              "pct": 74.0,
+              "ci": [
+                66.4434,
+                80.358
+              ]
+            },
+            "neither_or_one": {
+              "k": 283,
+              "n": 350,
+              "pct": 80.8571,
+              "ci": [
+                76.4091,
+                84.6351
+              ]
+            },
+            "difference": -6.8571,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 394,
+              "n": 500,
+              "pct": 78.8,
+              "ci": [
+                75.0047,
+                82.1561
+              ]
+            }
+          },
+          "4": {
+            "both_W_and_P": {
+              "k": 123,
+              "n": 150,
+              "pct": 82.0,
+              "ci": [
+                75.0775,
+                87.3243
+              ]
+            },
+            "neither_or_one": {
+              "k": 89,
+              "n": 100,
+              "pct": 89.0,
+              "ci": [
+                81.3685,
+                93.7459
+              ]
+            },
+            "difference": -7.0,
+            "intervals_disjoint": false,
+            "all_cells": {
+              "k": 212,
+              "n": 250,
+              "pct": 84.8,
+              "ci": [
+                79.8254,
+                88.7213
+              ]
+            }
+          },
+          "5": {
+            "both_W_and_P": {
+              "k": 46,
+              "n": 50,
+              "pct": 92.0,
+              "ci": [
+                81.1615,
+                96.8451
+              ]
+            },
+            "neither_or_one": {
+              "k": 0,
+              "n": 0,
+              "pct": null,
+              "ci": null
+            },
+            "difference": null,
+            "all_cells": {
+              "k": 46,
+              "n": 50,
+              "pct": 92.0,
+              "ci": [
+                81.1615,
+                96.8451
+              ]
+            }
+          }
+        }
+      }
+    },
+    "pooled_by_module_count": {
+      "0": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 23,
+          "n": 200,
+          "pct": 11.5,
+          "ci": [
+            7.7863,
+            16.6648
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 23,
+          "n": 200,
+          "pct": 11.5,
+          "ci": [
+            7.7863,
+            16.6648
+          ]
+        }
+      },
+      "1": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 163,
+          "n": 1000,
+          "pct": 16.3,
+          "ci": [
+            14.1404,
+            18.7176
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 163,
+          "n": 1000,
+          "pct": 16.3,
+          "ci": [
+            14.1404,
+            18.7176
+          ]
+        }
+      },
+      "2": {
+        "both_W_and_P": {
+          "k": 40,
+          "n": 200,
+          "pct": 20.0,
+          "ci": [
+            15.0451,
+            26.0856
+          ]
+        },
+        "neither_or_one": {
+          "k": 461,
+          "n": 1800,
+          "pct": 25.6111,
+          "ci": [
+            23.6481,
+            27.678
+          ]
+        },
+        "difference": -5.6111,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 501,
+          "n": 2000,
+          "pct": 25.05,
+          "ci": [
+            23.2,
+            26.9956
+          ]
+        }
+      },
+      "3": {
+        "both_W_and_P": {
+          "k": 166,
+          "n": 600,
+          "pct": 27.6667,
+          "ci": [
+            24.2378,
+            31.3797
+          ]
+        },
+        "neither_or_one": {
+          "k": 503,
+          "n": 1400,
+          "pct": 35.9286,
+          "ci": [
+            33.4569,
+            38.4772
+          ]
+        },
+        "difference": -8.2619,
+        "intervals_disjoint": true,
+        "all_cells": {
+          "k": 669,
+          "n": 2000,
+          "pct": 33.45,
+          "ci": [
+            31.4156,
+            35.5478
+          ]
+        }
+      },
+      "4": {
+        "both_W_and_P": {
+          "k": 252,
+          "n": 600,
+          "pct": 42.0,
+          "ci": [
+            38.1139,
+            45.9879
+          ]
+        },
+        "neither_or_one": {
+          "k": 187,
+          "n": 400,
+          "pct": 46.75,
+          "ci": [
+            41.9145,
+            51.6473
+          ]
+        },
+        "difference": -4.75,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 439,
+          "n": 1000,
+          "pct": 43.9,
+          "ci": [
+            40.8533,
+            46.9934
+          ]
+        }
+      },
+      "5": {
+        "both_W_and_P": {
+          "k": 118,
+          "n": 200,
+          "pct": 59.0,
+          "ci": [
+            52.0763,
+            65.5844
+          ]
+        },
+        "neither_or_one": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 118,
+          "n": 200,
+          "pct": 59.0,
+          "ci": [
+            52.0763,
+            65.5844
+          ]
+        }
+      }
+    },
+    "pooled_overall": {
+      "both_W_and_P": {
+        "k": 576,
+        "n": 1600,
+        "pct": 36.0,
+        "ci": [
+          33.6841,
+          38.383
+        ]
+      },
+      "neither_or_one": {
+        "k": 1337,
+        "n": 4800,
+        "pct": 27.8542,
+        "ci": [
+          26.6041,
+          29.1397
+        ]
+      },
+      "difference": 8.1458,
+      "intervals_disjoint": true
+    },
+    "pooled_ruin_by_module_count_all_cells": {
+      "0": {
+        "k": 23,
+        "n": 200,
+        "pct": 11.5,
+        "ci": [
+          7.7863,
+          16.6648
+        ]
+      },
+      "1": {
+        "k": 163,
+        "n": 1000,
+        "pct": 16.3,
+        "ci": [
+          14.1404,
+          18.7176
+        ]
+      },
+      "2": {
+        "k": 501,
+        "n": 2000,
+        "pct": 25.05,
+        "ci": [
+          23.2,
+          26.9956
+        ]
+      },
+      "3": {
+        "k": 669,
+        "n": 2000,
+        "pct": 33.45,
+        "ci": [
+          31.4156,
+          35.5478
+        ]
+      },
+      "4": {
+        "k": 439,
+        "n": 1000,
+        "pct": 43.9,
+        "ci": [
+          40.8533,
+          46.9934
+        ]
+      },
+      "5": {
+        "k": 118,
+        "n": 200,
+        "pct": 59.0,
+        "ci": [
+          52.0763,
+          65.5844
+        ]
+      }
+    }
+  },
+  "printed": {
+    "per_model": {
+      "GPT-4o-mini": {
+        "both": [
+          18.8,
+          15.2,
+          22.9,
+          400
+        ],
+        "other": [
+          2.2,
+          1.5,
+          3.2,
+          1200
+        ],
+        "diff": 16.6
+      },
+      "Claude-3.5-Haiku": {
+        "both": [
+          32.2,
+          27.9,
+          37.0,
+          400
+        ],
+        "other": [
+          16.6,
+          14.6,
+          18.8,
+          1200
+        ],
+        "diff": 15.7
+      },
+      "Gemma-2-9B": {
+        "both": [
+          49.2,
+          44.4,
+          54.1,
+          400
+        ],
+        "other": [
+          22.3,
+          20.1,
+          24.8,
+          1200
+        ],
+        "diff": 26.9
+      },
+      "LLaMA-3.1-8B": {
+        "both": [
+          7.8,
+          5.5,
+          10.8,
+          400
+        ],
+        "other": [
+          6.4,
+          5.2,
+          7.9,
+          1200
+        ],
+        "diff": 1.3
+      }
+    },
+    "pooled_by_module_count": {
+      "2": {
+        "both": [
+          19.5,
+          14.6,
+          25.5,
+          200
+        ],
+        "other": [
+          9.6,
+          8.3,
+          11.0,
+          1800
+        ],
+        "diff": 9.9
+      },
+      "3": {
+        "both": [
+          23.5,
+          20.3,
+          27.1,
+          600
+        ],
+        "other": [
+          16.3,
+          14.4,
+          18.3,
+          1400
+        ],
+        "diff": 7.2
+      },
+      "4": {
+        "both": [
+          28.3,
+          24.9,
+          32.1,
+          600
+        ],
+        "other": [
+          31.0,
+          26.7,
+          35.7,
+          400
+        ],
+        "diff": -2.7
+      }
+    },
+    "ruin_by_module_count_all": {
+      "0": 1.5,
+      "1": 4.3,
+      "5": 41.0
+    }
+  },
+  "printed_value_audit": {
+    "per_model": {
+      "GPT-4o-mini": {
+        "printed_value_reproduces_on": "GPT-4.1-mini [not this table's model]",
+        "printed_source_is_canonical": false,
+        "verdict": "WRONG (printed value is from a non-canonical corpus)",
+        "candidates": {
+          "GPT-4o-mini": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 18.8,
+                "recomputed": 25.25,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 15.2,
+                "recomputed": 21.24,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 22.9,
+                "recomputed": 29.73,
+                "match": false
+              },
+              "both_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 2.2,
+                "recomputed": 20.0,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 1.5,
+                "recomputed": 17.83,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 3.2,
+                "recomputed": 22.36,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1200,
+                "recomputed": 1200,
+                "match": true
+              },
+              "difference": {
+                "printed": 16.6,
+                "recomputed": 5.25,
+                "match": false
+              }
+            }
+          },
+          "GPT-4.1-mini [not this table's model]": {
+            "verdict": "REPRODUCES",
+            "checks": {
+              "both_pct": {
+                "printed": 18.8,
+                "recomputed": 18.75,
+                "match": true
+              },
+              "both_lo": {
+                "printed": 15.2,
+                "recomputed": 15.23,
+                "match": true
+              },
+              "both_hi": {
+                "printed": 22.9,
+                "recomputed": 22.87,
+                "match": true
+              },
+              "both_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 2.2,
+                "recomputed": 2.17,
+                "match": true
+              },
+              "other_lo": {
+                "printed": 1.5,
+                "recomputed": 1.48,
+                "match": true
+              },
+              "other_hi": {
+                "printed": 3.2,
+                "recomputed": 3.16,
+                "match": true
+              },
+              "other_n": {
+                "printed": 1200,
+                "recomputed": 1200,
+                "match": true
+              },
+              "difference": {
+                "printed": 16.6,
+                "recomputed": 16.58,
+                "match": true
+              }
+            }
+          }
+        }
+      },
+      "Claude-3.5-Haiku": {
+        "printed_value_reproduces_on": "Claude-3.5-Haiku",
+        "printed_source_is_canonical": true,
+        "verdict": "VERIFIED",
+        "candidates": {
+          "Claude-3.5-Haiku": {
+            "verdict": "REPRODUCES",
+            "checks": {
+              "both_pct": {
+                "printed": 32.2,
+                "recomputed": 32.25,
+                "match": true
+              },
+              "both_lo": {
+                "printed": 27.9,
+                "recomputed": 27.86,
+                "match": true
+              },
+              "both_hi": {
+                "printed": 37.0,
+                "recomputed": 36.98,
+                "match": true
+              },
+              "both_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 16.6,
+                "recomputed": 16.58,
+                "match": true
+              },
+              "other_lo": {
+                "printed": 14.6,
+                "recomputed": 14.59,
+                "match": true
+              },
+              "other_hi": {
+                "printed": 18.8,
+                "recomputed": 18.79,
+                "match": true
+              },
+              "other_n": {
+                "printed": 1200,
+                "recomputed": 1200,
+                "match": true
+              },
+              "difference": {
+                "printed": 15.7,
+                "recomputed": 15.67,
+                "match": true
+              }
+            }
+          }
+        }
+      },
+      "Gemma-2-9B": {
+        "printed_value_reproduces_on": "Gemma-2-9B [V1 DEPRECATED]",
+        "printed_source_is_canonical": false,
+        "verdict": "WRONG (printed value is from a non-canonical corpus)",
+        "candidates": {
+          "Gemma-2-9B": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 49.2,
+                "recomputed": 7.5,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 44.4,
+                "recomputed": 5.3,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 54.1,
+                "recomputed": 10.5,
+                "match": false
+              },
+              "both_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 22.3,
+                "recomputed": 4.75,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 20.1,
+                "recomputed": 3.68,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 24.8,
+                "recomputed": 6.1,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1200,
+                "recomputed": 1200,
+                "match": true
+              },
+              "difference": {
+                "printed": 26.9,
+                "recomputed": 2.75,
+                "match": false
+              }
+            }
+          },
+          "Gemma-2-9B [V1 DEPRECATED]": {
+            "verdict": "REPRODUCES",
+            "checks": {
+              "both_pct": {
+                "printed": 49.2,
+                "recomputed": 49.25,
+                "match": true
+              },
+              "both_lo": {
+                "printed": 44.4,
+                "recomputed": 44.38,
+                "match": true
+              },
+              "both_hi": {
+                "printed": 54.1,
+                "recomputed": 54.13,
+                "match": true
+              },
+              "both_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 22.3,
+                "recomputed": 22.33,
+                "match": true
+              },
+              "other_lo": {
+                "printed": 20.1,
+                "recomputed": 20.07,
+                "match": true
+              },
+              "other_hi": {
+                "printed": 24.8,
+                "recomputed": 24.78,
+                "match": true
+              },
+              "other_n": {
+                "printed": 1200,
+                "recomputed": 1200,
+                "match": true
+              },
+              "difference": {
+                "printed": 26.9,
+                "recomputed": 26.92,
+                "match": true
+              }
+            }
+          }
+        }
+      },
+      "LLaMA-3.1-8B": {
+        "printed_value_reproduces_on": "LLaMA-3.1-8B [V1 DEPRECATED]",
+        "printed_source_is_canonical": false,
+        "verdict": "WRONG (printed value is from a non-canonical corpus)",
+        "candidates": {
+          "LLaMA-3.1-8B": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 7.8,
+                "recomputed": 79.0,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 5.5,
+                "recomputed": 74.74,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 10.8,
+                "recomputed": 82.71,
+                "match": false
+              },
+              "both_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 6.4,
+                "recomputed": 70.08,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 5.2,
+                "recomputed": 67.43,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 7.9,
+                "recomputed": 72.61,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1200,
+                "recomputed": 1200,
+                "match": true
+              },
+              "difference": {
+                "printed": 1.3,
+                "recomputed": 8.92,
+                "match": false
+              }
+            }
+          },
+          "LLaMA-3.1-8B [V1 DEPRECATED]": {
+            "verdict": "REPRODUCES",
+            "checks": {
+              "both_pct": {
+                "printed": 7.8,
+                "recomputed": 7.75,
+                "match": true
+              },
+              "both_lo": {
+                "printed": 5.5,
+                "recomputed": 5.51,
+                "match": true
+              },
+              "both_hi": {
+                "printed": 10.8,
+                "recomputed": 10.79,
+                "match": true
+              },
+              "both_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 6.4,
+                "recomputed": 6.42,
+                "match": true
+              },
+              "other_lo": {
+                "printed": 5.2,
+                "recomputed": 5.16,
+                "match": true
+              },
+              "other_hi": {
+                "printed": 7.9,
+                "recomputed": 7.95,
+                "match": true
+              },
+              "other_n": {
+                "printed": 1200,
+                "recomputed": 1200,
+                "match": true
+              },
+              "difference": {
+                "printed": 1.3,
+                "recomputed": 1.33,
+                "match": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "pooled_by_module_count": {
+      "2": {
+        "printed_value_reproduces_on": "as_printed? [GPT-4.1-mini + Claude + V1 open-weight]",
+        "verdict": "WRONG (printed value is from a non-canonical corpus)",
+        "candidates": {
+          "canonical [GPT-4o-mini + Claude + V4role open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 19.5,
+                "recomputed": 20.0,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 14.6,
+                "recomputed": 15.05,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 25.5,
+                "recomputed": 26.09,
+                "match": false
+              },
+              "both_n": {
+                "printed": 200,
+                "recomputed": 200,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 9.6,
+                "recomputed": 25.61,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 8.3,
+                "recomputed": 23.65,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 11.0,
+                "recomputed": 27.68,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1800,
+                "recomputed": 1800,
+                "match": true
+              },
+              "difference": {
+                "printed": 9.9,
+                "recomputed": -5.61,
+                "match": false
+              }
+            }
+          },
+          "as_printed? [GPT-4.1-mini + Claude + V1 open-weight]": {
+            "verdict": "REPRODUCES",
+            "checks": {
+              "both_pct": {
+                "printed": 19.5,
+                "recomputed": 19.5,
+                "match": true
+              },
+              "both_lo": {
+                "printed": 14.6,
+                "recomputed": 14.61,
+                "match": true
+              },
+              "both_hi": {
+                "printed": 25.5,
+                "recomputed": 25.54,
+                "match": true
+              },
+              "both_n": {
+                "printed": 200,
+                "recomputed": 200,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 9.6,
+                "recomputed": 9.56,
+                "match": true
+              },
+              "other_lo": {
+                "printed": 8.3,
+                "recomputed": 8.28,
+                "match": true
+              },
+              "other_hi": {
+                "printed": 11.0,
+                "recomputed": 11.0,
+                "match": true
+              },
+              "other_n": {
+                "printed": 1800,
+                "recomputed": 1800,
+                "match": true
+              },
+              "difference": {
+                "printed": 9.9,
+                "recomputed": 9.94,
+                "match": true
+              }
+            }
+          },
+          "mixed [GPT-4o-mini + Claude + V1 open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 19.5,
+                "recomputed": 16.5,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 14.6,
+                "recomputed": 12.0,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 25.5,
+                "recomputed": 22.27,
+                "match": false
+              },
+              "both_n": {
+                "printed": 200,
+                "recomputed": 200,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 9.6,
+                "recomputed": 14.22,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 8.3,
+                "recomputed": 12.68,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 11.0,
+                "recomputed": 15.91,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1800,
+                "recomputed": 1800,
+                "match": true
+              },
+              "difference": {
+                "printed": 9.9,
+                "recomputed": 2.28,
+                "match": false
+              }
+            }
+          },
+          "mixed [GPT-4.1-mini + Claude + V4role open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 19.5,
+                "recomputed": 23.0,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 14.6,
+                "recomputed": 17.71,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 25.5,
+                "recomputed": 29.31,
+                "match": false
+              },
+              "both_n": {
+                "printed": 200,
+                "recomputed": 200,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 9.6,
+                "recomputed": 20.94,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 8.3,
+                "recomputed": 19.13,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 11.0,
+                "recomputed": 22.89,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1800,
+                "recomputed": 1800,
+                "match": true
+              },
+              "difference": {
+                "printed": 9.9,
+                "recomputed": 2.06,
+                "match": false
+              }
+            }
+          }
+        }
+      },
+      "3": {
+        "printed_value_reproduces_on": "as_printed? [GPT-4.1-mini + Claude + V1 open-weight]",
+        "verdict": "WRONG (printed value is from a non-canonical corpus)",
+        "candidates": {
+          "canonical [GPT-4o-mini + Claude + V4role open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 23.5,
+                "recomputed": 27.67,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 20.3,
+                "recomputed": 24.24,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 27.1,
+                "recomputed": 31.38,
+                "match": false
+              },
+              "both_n": {
+                "printed": 600,
+                "recomputed": 600,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 16.3,
+                "recomputed": 35.93,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 14.4,
+                "recomputed": 33.46,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 18.3,
+                "recomputed": 38.48,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1400,
+                "recomputed": 1400,
+                "match": true
+              },
+              "difference": {
+                "printed": 7.2,
+                "recomputed": -8.26,
+                "match": false
+              }
+            }
+          },
+          "as_printed? [GPT-4.1-mini + Claude + V1 open-weight]": {
+            "verdict": "REPRODUCES",
+            "checks": {
+              "both_pct": {
+                "printed": 23.5,
+                "recomputed": 23.5,
+                "match": true
+              },
+              "both_lo": {
+                "printed": 20.3,
+                "recomputed": 20.28,
+                "match": true
+              },
+              "both_hi": {
+                "printed": 27.1,
+                "recomputed": 27.05,
+                "match": true
+              },
+              "both_n": {
+                "printed": 600,
+                "recomputed": 600,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 16.3,
+                "recomputed": 16.29,
+                "match": true
+              },
+              "other_lo": {
+                "printed": 14.4,
+                "recomputed": 14.44,
+                "match": true
+              },
+              "other_hi": {
+                "printed": 18.3,
+                "recomputed": 18.31,
+                "match": true
+              },
+              "other_n": {
+                "printed": 1400,
+                "recomputed": 1400,
+                "match": true
+              },
+              "difference": {
+                "printed": 7.2,
+                "recomputed": 7.21,
+                "match": true
+              }
+            }
+          },
+          "mixed [GPT-4o-mini + Claude + V1 open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 23.5,
+                "recomputed": 23.17,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 20.3,
+                "recomputed": 19.97,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 27.1,
+                "recomputed": 26.71,
+                "match": false
+              },
+              "both_n": {
+                "printed": 600,
+                "recomputed": 600,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 16.3,
+                "recomputed": 22.07,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 14.4,
+                "recomputed": 19.98,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 18.3,
+                "recomputed": 24.32,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1400,
+                "recomputed": 1400,
+                "match": true
+              },
+              "difference": {
+                "printed": 7.2,
+                "recomputed": 1.1,
+                "match": false
+              }
+            }
+          },
+          "mixed [GPT-4.1-mini + Claude + V4role open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 23.5,
+                "recomputed": 28.0,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 20.3,
+                "recomputed": 24.56,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 27.1,
+                "recomputed": 31.72,
+                "match": false
+              },
+              "both_n": {
+                "printed": 600,
+                "recomputed": 600,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 16.3,
+                "recomputed": 30.14,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 14.4,
+                "recomputed": 27.8,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 18.3,
+                "recomputed": 32.6,
+                "match": false
+              },
+              "other_n": {
+                "printed": 1400,
+                "recomputed": 1400,
+                "match": true
+              },
+              "difference": {
+                "printed": 7.2,
+                "recomputed": -2.14,
+                "match": false
+              }
+            }
+          }
+        }
+      },
+      "4": {
+        "printed_value_reproduces_on": "as_printed? [GPT-4.1-mini + Claude + V1 open-weight]",
+        "verdict": "WRONG (printed value is from a non-canonical corpus)",
+        "candidates": {
+          "canonical [GPT-4o-mini + Claude + V4role open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 28.3,
+                "recomputed": 42.0,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 24.9,
+                "recomputed": 38.11,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 32.1,
+                "recomputed": 45.99,
+                "match": false
+              },
+              "both_n": {
+                "printed": 600,
+                "recomputed": 600,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 31.0,
+                "recomputed": 46.75,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 26.7,
+                "recomputed": 41.91,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 35.7,
+                "recomputed": 51.65,
+                "match": false
+              },
+              "other_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "difference": {
+                "printed": -2.7,
+                "recomputed": -4.75,
+                "match": false
+              }
+            }
+          },
+          "as_printed? [GPT-4.1-mini + Claude + V1 open-weight]": {
+            "verdict": "REPRODUCES",
+            "checks": {
+              "both_pct": {
+                "printed": 28.3,
+                "recomputed": 28.33,
+                "match": true
+              },
+              "both_lo": {
+                "printed": 24.9,
+                "recomputed": 24.87,
+                "match": true
+              },
+              "both_hi": {
+                "printed": 32.1,
+                "recomputed": 32.07,
+                "match": true
+              },
+              "both_n": {
+                "printed": 600,
+                "recomputed": 600,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 31.0,
+                "recomputed": 31.0,
+                "match": true
+              },
+              "other_lo": {
+                "printed": 26.7,
+                "recomputed": 26.67,
+                "match": true
+              },
+              "other_hi": {
+                "printed": 35.7,
+                "recomputed": 35.7,
+                "match": true
+              },
+              "other_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "difference": {
+                "printed": -2.7,
+                "recomputed": -2.67,
+                "match": true
+              }
+            }
+          },
+          "mixed [GPT-4o-mini + Claude + V1 open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 28.3,
+                "recomputed": 32.5,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 24.9,
+                "recomputed": 28.87,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 32.1,
+                "recomputed": 36.35,
+                "match": false
+              },
+              "both_n": {
+                "printed": 600,
+                "recomputed": 600,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 31.0,
+                "recomputed": 35.25,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 26.7,
+                "recomputed": 30.73,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 35.7,
+                "recomputed": 40.05,
+                "match": false
+              },
+              "other_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "difference": {
+                "printed": -2.7,
+                "recomputed": -2.75,
+                "match": true
+              }
+            }
+          },
+          "mixed [GPT-4.1-mini + Claude + V4role open-weight]": {
+            "verdict": "DOES NOT REPRODUCE",
+            "checks": {
+              "both_pct": {
+                "printed": 28.3,
+                "recomputed": 37.83,
+                "match": false
+              },
+              "both_lo": {
+                "printed": 24.9,
+                "recomputed": 34.04,
+                "match": false
+              },
+              "both_hi": {
+                "printed": 32.1,
+                "recomputed": 41.78,
+                "match": false
+              },
+              "both_n": {
+                "printed": 600,
+                "recomputed": 600,
+                "match": true
+              },
+              "other_pct": {
+                "printed": 31.0,
+                "recomputed": 42.5,
+                "match": false
+              },
+              "other_lo": {
+                "printed": 26.7,
+                "recomputed": 37.75,
+                "match": false
+              },
+              "other_hi": {
+                "printed": 35.7,
+                "recomputed": 47.39,
+                "match": false
+              },
+              "other_n": {
+                "printed": 400,
+                "recomputed": 400,
+                "match": true
+              },
+              "difference": {
+                "printed": -2.7,
+                "recomputed": -4.67,
+                "match": false
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "audit_pools": {
+    "canonical [GPT-4o-mini + Claude + V4role open-weight]": {
+      "0": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 23,
+          "n": 200,
+          "pct": 11.5,
+          "ci": [
+            7.7863,
+            16.6648
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 23,
+          "n": 200,
+          "pct": 11.5,
+          "ci": [
+            7.7863,
+            16.6648
+          ]
+        }
+      },
+      "1": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 163,
+          "n": 1000,
+          "pct": 16.3,
+          "ci": [
+            14.1404,
+            18.7176
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 163,
+          "n": 1000,
+          "pct": 16.3,
+          "ci": [
+            14.1404,
+            18.7176
+          ]
+        }
+      },
+      "2": {
+        "both_W_and_P": {
+          "k": 40,
+          "n": 200,
+          "pct": 20.0,
+          "ci": [
+            15.0451,
+            26.0856
+          ]
+        },
+        "neither_or_one": {
+          "k": 461,
+          "n": 1800,
+          "pct": 25.6111,
+          "ci": [
+            23.6481,
+            27.678
+          ]
+        },
+        "difference": -5.6111,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 501,
+          "n": 2000,
+          "pct": 25.05,
+          "ci": [
+            23.2,
+            26.9956
+          ]
+        }
+      },
+      "3": {
+        "both_W_and_P": {
+          "k": 166,
+          "n": 600,
+          "pct": 27.6667,
+          "ci": [
+            24.2378,
+            31.3797
+          ]
+        },
+        "neither_or_one": {
+          "k": 503,
+          "n": 1400,
+          "pct": 35.9286,
+          "ci": [
+            33.4569,
+            38.4772
+          ]
+        },
+        "difference": -8.2619,
+        "intervals_disjoint": true,
+        "all_cells": {
+          "k": 669,
+          "n": 2000,
+          "pct": 33.45,
+          "ci": [
+            31.4156,
+            35.5478
+          ]
+        }
+      },
+      "4": {
+        "both_W_and_P": {
+          "k": 252,
+          "n": 600,
+          "pct": 42.0,
+          "ci": [
+            38.1139,
+            45.9879
+          ]
+        },
+        "neither_or_one": {
+          "k": 187,
+          "n": 400,
+          "pct": 46.75,
+          "ci": [
+            41.9145,
+            51.6473
+          ]
+        },
+        "difference": -4.75,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 439,
+          "n": 1000,
+          "pct": 43.9,
+          "ci": [
+            40.8533,
+            46.9934
+          ]
+        }
+      },
+      "5": {
+        "both_W_and_P": {
+          "k": 118,
+          "n": 200,
+          "pct": 59.0,
+          "ci": [
+            52.0763,
+            65.5844
+          ]
+        },
+        "neither_or_one": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 118,
+          "n": 200,
+          "pct": 59.0,
+          "ci": [
+            52.0763,
+            65.5844
+          ]
+        }
+      }
+    },
+    "as_printed? [GPT-4.1-mini + Claude + V1 open-weight]": {
+      "0": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 3,
+          "n": 200,
+          "pct": 1.5,
+          "ci": [
+            0.5114,
+            4.3166
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 3,
+          "n": 200,
+          "pct": 1.5,
+          "ci": [
+            0.5114,
+            4.3166
+          ]
+        }
+      },
+      "1": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 43,
+          "n": 1000,
+          "pct": 4.3,
+          "ci": [
+            3.2078,
+            5.7419
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 43,
+          "n": 1000,
+          "pct": 4.3,
+          "ci": [
+            3.2078,
+            5.7419
+          ]
+        }
+      },
+      "2": {
+        "both_W_and_P": {
+          "k": 39,
+          "n": 200,
+          "pct": 19.5,
+          "ci": [
+            14.6054,
+            25.5442
+          ]
+        },
+        "neither_or_one": {
+          "k": 172,
+          "n": 1800,
+          "pct": 9.5556,
+          "ci": [
+            8.2823,
+            11.0011
+          ]
+        },
+        "difference": 9.9444,
+        "intervals_disjoint": true,
+        "all_cells": {
+          "k": 211,
+          "n": 2000,
+          "pct": 10.55,
+          "ci": [
+            9.2784,
+            11.9728
+          ]
+        }
+      },
+      "3": {
+        "both_W_and_P": {
+          "k": 141,
+          "n": 600,
+          "pct": 23.5,
+          "ci": [
+            20.2825,
+            27.0547
+          ]
+        },
+        "neither_or_one": {
+          "k": 228,
+          "n": 1400,
+          "pct": 16.2857,
+          "ci": [
+            14.4442,
+            18.3117
+          ]
+        },
+        "difference": 7.2143,
+        "intervals_disjoint": true,
+        "all_cells": {
+          "k": 369,
+          "n": 2000,
+          "pct": 18.45,
+          "ci": [
+            16.811,
+            20.2099
+          ]
+        }
+      },
+      "4": {
+        "both_W_and_P": {
+          "k": 170,
+          "n": 600,
+          "pct": 28.3333,
+          "ci": [
+            24.8743,
+            32.068
+          ]
+        },
+        "neither_or_one": {
+          "k": 124,
+          "n": 400,
+          "pct": 31.0,
+          "ci": [
+            26.6663,
+            35.6952
+          ]
+        },
+        "difference": -2.6667,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 294,
+          "n": 1000,
+          "pct": 29.4,
+          "ci": [
+            26.6594,
+            32.2983
+          ]
+        }
+      },
+      "5": {
+        "both_W_and_P": {
+          "k": 82,
+          "n": 200,
+          "pct": 41.0,
+          "ci": [
+            34.4156,
+            47.9237
+          ]
+        },
+        "neither_or_one": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 82,
+          "n": 200,
+          "pct": 41.0,
+          "ci": [
+            34.4156,
+            47.9237
+          ]
+        }
+      }
+    },
+    "mixed [GPT-4o-mini + Claude + V1 open-weight]": {
+      "0": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 4,
+          "n": 200,
+          "pct": 2.0,
+          "ci": [
+            0.7804,
+            5.0288
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 4,
+          "n": 200,
+          "pct": 2.0,
+          "ci": [
+            0.7804,
+            5.0288
+          ]
+        }
+      },
+      "1": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 74,
+          "n": 1000,
+          "pct": 7.4,
+          "ci": [
+            5.9355,
+            9.1906
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 74,
+          "n": 1000,
+          "pct": 7.4,
+          "ci": [
+            5.9355,
+            9.1906
+          ]
+        }
+      },
+      "2": {
+        "both_W_and_P": {
+          "k": 33,
+          "n": 200,
+          "pct": 16.5,
+          "ci": [
+            11.9968,
+            22.2659
+          ]
+        },
+        "neither_or_one": {
+          "k": 256,
+          "n": 1800,
+          "pct": 14.2222,
+          "ci": [
+            12.6848,
+            15.9121
+          ]
+        },
+        "difference": 2.2778,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 289,
+          "n": 2000,
+          "pct": 14.45,
+          "ci": [
+            12.9772,
+            16.0591
+          ]
+        }
+      },
+      "3": {
+        "both_W_and_P": {
+          "k": 139,
+          "n": 600,
+          "pct": 23.1667,
+          "ci": [
+            19.9679,
+            26.7068
+          ]
+        },
+        "neither_or_one": {
+          "k": 309,
+          "n": 1400,
+          "pct": 22.0714,
+          "ci": [
+            19.977,
+            24.3187
+          ]
+        },
+        "difference": 1.0953,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 448,
+          "n": 2000,
+          "pct": 22.4,
+          "ci": [
+            20.6267,
+            24.2792
+          ]
+        }
+      },
+      "4": {
+        "both_W_and_P": {
+          "k": 195,
+          "n": 600,
+          "pct": 32.5,
+          "ci": [
+            28.8738,
+            36.3488
+          ]
+        },
+        "neither_or_one": {
+          "k": 141,
+          "n": 400,
+          "pct": 35.25,
+          "ci": [
+            30.7286,
+            40.052
+          ]
+        },
+        "difference": -2.75,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 336,
+          "n": 1000,
+          "pct": 33.6,
+          "ci": [
+            30.7401,
+            36.5854
+          ]
+        }
+      },
+      "5": {
+        "both_W_and_P": {
+          "k": 91,
+          "n": 200,
+          "pct": 45.5,
+          "ci": [
+            38.7481,
+            52.4215
+          ]
+        },
+        "neither_or_one": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 91,
+          "n": 200,
+          "pct": 45.5,
+          "ci": [
+            38.7481,
+            52.4215
+          ]
+        }
+      }
+    },
+    "mixed [GPT-4.1-mini + Claude + V4role open-weight]": {
+      "0": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 22,
+          "n": 200,
+          "pct": 11.0,
+          "ci": [
+            7.3772,
+            16.0928
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 22,
+          "n": 200,
+          "pct": 11.0,
+          "ci": [
+            7.3772,
+            16.0928
+          ]
+        }
+      },
+      "1": {
+        "both_W_and_P": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "neither_or_one": {
+          "k": 132,
+          "n": 1000,
+          "pct": 13.2,
+          "ci": [
+            11.2421,
+            15.4395
+          ]
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 132,
+          "n": 1000,
+          "pct": 13.2,
+          "ci": [
+            11.2421,
+            15.4395
+          ]
+        }
+      },
+      "2": {
+        "both_W_and_P": {
+          "k": 46,
+          "n": 200,
+          "pct": 23.0,
+          "ci": [
+            17.7093,
+            29.3084
+          ]
+        },
+        "neither_or_one": {
+          "k": 377,
+          "n": 1800,
+          "pct": 20.9444,
+          "ci": [
+            19.1275,
+            22.8852
+          ]
+        },
+        "difference": 2.0556,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 423,
+          "n": 2000,
+          "pct": 21.15,
+          "ci": [
+            19.4164,
+            22.9942
+          ]
+        }
+      },
+      "3": {
+        "both_W_and_P": {
+          "k": 168,
+          "n": 600,
+          "pct": 28.0,
+          "ci": [
+            24.5559,
+            31.724
+          ]
+        },
+        "neither_or_one": {
+          "k": 422,
+          "n": 1400,
+          "pct": 30.1429,
+          "ci": [
+            27.7961,
+            32.5983
+          ]
+        },
+        "difference": -2.1429,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 590,
+          "n": 2000,
+          "pct": 29.5,
+          "ci": [
+            27.5421,
+            31.5365
+          ]
+        }
+      },
+      "4": {
+        "both_W_and_P": {
+          "k": 227,
+          "n": 600,
+          "pct": 37.8333,
+          "ci": [
+            34.0417,
+            41.7797
+          ]
+        },
+        "neither_or_one": {
+          "k": 170,
+          "n": 400,
+          "pct": 42.5,
+          "ci": [
+            37.7494,
+            47.3933
+          ]
+        },
+        "difference": -4.6667,
+        "intervals_disjoint": false,
+        "all_cells": {
+          "k": 397,
+          "n": 1000,
+          "pct": 39.7,
+          "ci": [
+            36.7124,
+            42.7664
+          ]
+        }
+      },
+      "5": {
+        "both_W_and_P": {
+          "k": 109,
+          "n": 200,
+          "pct": 54.5,
+          "ci": [
+            47.5785,
+            61.2519
+          ]
+        },
+        "neither_or_one": {
+          "k": 0,
+          "n": 0,
+          "pct": null,
+          "ci": null
+        },
+        "difference": null,
+        "all_cells": {
+          "k": 109,
+          "n": 200,
+          "pct": 54.5,
+          "ci": [
+            47.5785,
+            61.2519
+          ]
+        }
+      }
+    }
+  }
+}

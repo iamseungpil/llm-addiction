@@ -1,0 +1,71 @@
+{
+ "_source_hf": "sae_v3_analysis/results/temperature_control/temperature_control_full_20260406_065510.json",
+ "model": "meta-llama/Llama-3.1-8B-Instruct",
+ "temperatures": [
+  0.0,
+  0.5,
+  0.7,
+  1.0
+ ],
+ "prompts": [
+  "BASE",
+  "G",
+  "H",
+  "GMHW"
+ ],
+ "n_reps": 50,
+ "bankruptcy_pct": {
+  "fixed": {
+   "BASE": [
+    20.0,
+    20.0,
+    20.0,
+    20.0
+   ],
+   "G": [
+    20.0,
+    20.0,
+    20.0,
+    18.0
+   ],
+   "H": [
+    20.0,
+    20.0,
+    20.0,
+    20.0
+   ],
+   "GMHW": [
+    20.0,
+    20.0,
+    20.0,
+    20.0
+   ]
+  },
+  "variable": {
+   "BASE": [
+    86.0,
+    86.0,
+    80.0,
+    80.0
+   ],
+   "G": [
+    88.0,
+    86.0,
+    90.0,
+    88.0
+   ],
+   "H": [
+    74.0,
+    82.0,
+    82.0,
+    88.0
+   ],
+   "GMHW": [
+    90.0,
+    82.0,
+    88.0,
+    88.0
+   ]
+  }
+ }
+}

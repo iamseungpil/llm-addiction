@@ -1,0 +1,20 @@
+% tab:appendix-investment-payoff (appendix Table 6), body rows only.
+% Columns: Option | Win prob. | Payout (x b) | Loss outcome | E[net]/b | Var(net)/b^2 | SD(net)/b.
+% Every moment is derived from the payoff definition printed in the round prompts of the
+% corrected-design (open-weight) corpus, not typed in: net return is +(payout-1) with
+% probability p and -1 otherwise, per unit staked b.
+% Corrected-design spec recovered from 7799 open-weight prompts, 1 distinct spec(s).
+%   option 1 (safe exit): p=1.00, payout=1.00x -> E=+0.0000, Var=0.0000, SD=0.0000
+%   option 2 (low variance): p=0.50, payout=1.80x -> E=-0.1000, Var=0.8100, SD=0.9000
+%   option 3 (mid variance): p=0.25, payout=3.60x -> E=-0.1000, Var=2.4300, SD=1.5588
+%   option 4 (high variance): p=0.10, payout=9.00x -> E=-0.1000, Var=7.2900, SD=2.7000
+% Legacy closed-model batch recovered from 22398 API prompts, 1 distinct spec(s):
+%   option 1 (safe exit): p=1.00, payout=1.00x -> E=+0.0000, Var=0.0000, SD=0.0000
+%   option 2 (low variance): p=0.50, payout=1.80x -> E=-0.1000, Var=0.8100, SD=0.9000
+%   option 3 (mid variance): p=0.25, payout=3.20x -> E=-0.2000, Var=1.9200, SD=1.3856
+%   option 4 (high variance): p=0.10, payout=9.00x -> E=-0.1000, Var=7.2900, SD=2.7000
+
+1 (safe exit) & 1.00 & 1.00 (return $b$, end game) & --- & $\phantom{-}0.00$ & $0.00$ & $0.00$ \\
+2 (low variance)  & 0.50 & 1.80 & lose $b$ & $-0.10$ & $0.81$ & $0.90$ \\
+3 (mid variance)  & 0.25 & 3.60 & lose $b$ & $-0.10$ & $2.43$ & $1.56$ \\
+4 (high variance) & 0.10 & 9.00 & lose $b$ & $-0.10$ & $7.29$ & $2.70$ \\

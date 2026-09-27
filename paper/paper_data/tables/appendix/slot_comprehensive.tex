@@ -1,0 +1,48 @@
+% tab:appendix-slot-comprehensive (appendix Table 7), body rows only.
+% Columns: Model | Bet mode | Bankruptcy (%) | Mean rounds | Total bet ($) | Net P&L ($).
+% Bankruptcy is games ending bankrupt / games in the cell.  Mean rounds, total bet and
+% net P&L are per-game means of total_rounds, total_bet and (total_won - total_bet);
+% net P&L equals final_balance - 100 in every cell, which is the ledger identity holding.
+% Intervals (not printable inside the paper's column set):
+%   GPT-4o-mini fixed bankruptcy: 0/1600 = 0.00%, one-sided 95% upper bound 0.24%
+%   GPT-4o-mini fixed rounds 1.79 boot [1.68, 1.91]; total bet 17.93 [16.81, 19.13]; net P&L -1.69 [-2.55, -0.78]  (n=1600 games)
+%   GPT-4o-mini variable bankruptcy: 341/1600 = 21.31%, Wilson 95% [19.38, 23.39]
+%   GPT-4o-mini variable rounds 5.46 boot [5.09, 5.83]; total bet 128.30 [117.22, 140.64]; net P&L -11.00 [-17.03, -4.65]  (n=1600 games)
+%   GPT-4.1-mini fixed bankruptcy: 0/1600 = 0.00%, one-sided 95% upper bound 0.24%
+%   GPT-4.1-mini fixed rounds 2.56 boot [2.41, 2.70]; total bet 25.56 [24.04, 27.10]; net P&L -1.60 [-2.73, -0.51]  (n=1600 games)
+%   GPT-4.1-mini variable bankruptcy: 101/1600 = 6.31%, Wilson 95% [5.22, 7.61]
+%   GPT-4.1-mini variable rounds 7.60 boot [7.06, 8.12]; total bet 82.30 [75.69, 89.94]; net P&L -7.41 [-10.29, -4.54]  (n=1600 games)
+%   Gemini-2.5-Flash fixed bankruptcy: 50/1600 = 3.12%, Wilson 95% [2.38, 4.10]
+%   Gemini-2.5-Flash fixed rounds 5.84 boot [5.45, 6.23]; total bet 58.44 [54.84, 62.42]; net P&L -5.34 [-6.92, -3.67]  (n=1600 games)
+%   Gemini-2.5-Flash variable bankruptcy: 769/1600 = 48.06%, Wilson 95% [45.62, 50.51]
+%   Gemini-2.5-Flash variable rounds 3.94 boot [3.69, 4.19]; total bet 176.68 [149.27, 217.99]; net P&L -27.00 [-32.40, -21.25]  (n=1600 games)
+%   Claude-3.5-Haiku fixed bankruptcy: 0/1600 = 0.00%, one-sided 95% upper bound 0.24%
+%   Claude-3.5-Haiku fixed rounds 5.15 boot [4.88, 5.44]; total bet 51.49 [48.91, 54.25]; net P&L -4.90 [-6.30, -3.49]  (n=1600 games)
+%   Claude-3.5-Haiku variable bankruptcy: 328/1600 = 20.50%, Wilson 95% [18.59, 22.55]
+%   Claude-3.5-Haiku variable rounds 27.52 boot [26.32, 28.77]; total bet 483.12 [438.97, 533.65]; net P&L -51.77 [-55.62, -47.87]  (n=1600 games)
+%   LLaMA-3.1-8B fixed bankruptcy: 7/1600 = 0.44%, Wilson 95% [0.21, 0.90]
+%   LLaMA-3.1-8B fixed rounds 9.01 boot [8.62, 9.41]; total bet 90.11 [85.97, 94.10]; net P&L -9.96 [-11.84, -8.02]  (n=1600 games)
+%   LLaMA-3.1-8B variable bankruptcy: 1157/1600 = 72.31%, Wilson 95% [70.07, 74.45]
+%   LLaMA-3.1-8B variable rounds 28.47 boot [27.15, 29.77]; total bet 569.95 [534.05, 606.17]; net P&L -59.63 [-66.21, -52.90]  (n=1600 games)
+%   Gemma-2-9B fixed bankruptcy: 0/1600 = 0.00%, one-sided 95% upper bound 0.24%
+%   Gemma-2-9B fixed rounds 3.79 boot [3.60, 3.98]; total bet 37.89 [35.99, 39.86]; net P&L -4.25 [-5.51, -3.05]  (n=1600 games)
+%   Gemma-2-9B variable bankruptcy: 87/1600 = 5.44%, Wilson 95% [4.43, 6.66]
+%   Gemma-2-9B variable rounds 7.65 boot [7.35, 7.97]; total bet 182.13 [170.80, 194.43]; net P&L -16.99 [-22.34, -10.94]  (n=1600 games)
+
+\multirow{2}{*}{GPT-4o-mini} & Fixed & 0.00 & 1.79 & 17.93 & $-$1.69 \\
+ & Variable & 21.31 & 5.46 & 128.30 & $-$11.00 \\
+\midrule
+\multirow{2}{*}{GPT-4.1-mini} & Fixed & 0.00 & 2.56 & 25.56 & $-$1.60 \\
+ & Variable & 6.31 & 7.60 & 82.30 & $-$7.41 \\
+\midrule
+\multirow{2}{*}{Gemini-2.5-Flash} & Fixed & 3.12 & 5.84 & 58.44 & $-$5.34 \\
+ & Variable & 48.06 & 3.94 & 176.68 & $-$27.00 \\
+\midrule
+\multirow{2}{*}{Claude-3.5-Haiku} & Fixed & 0.00 & 5.15 & 51.49 & $-$4.90 \\
+ & Variable & 20.50 & 27.52 & 483.12 & $-$51.77 \\
+\midrule
+\multirow{2}{*}{LLaMA-3.1-8B} & Fixed & 0.44 & 9.01 & 90.11 & $-$9.96 \\
+ & Variable & 72.31 & 28.47 & 569.95 & $-$59.63 \\
+\midrule
+\multirow{2}{*}{Gemma-2-9B} & Fixed & 0.00 & 3.79 & 37.89 & $-$4.25 \\
+ & Variable & 5.44 & 7.65 & 182.13 & $-$16.99 \\

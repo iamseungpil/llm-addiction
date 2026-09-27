@@ -1,0 +1,1509 @@
+{
+ "generated_by": "scripts/figures/fig05_matched_cap.py",
+ "figure": "images/fig05_matched_cap.pdf",
+ "bootstrap_resamples": 2000,
+ "bootstrap_seed": 24231,
+ "panel_a": {
+  "model": "gpt-4o-mini",
+  "rows": [
+   {
+    "cap": 10,
+    "fixed": null,
+    "variable": {
+     "k": 9,
+     "n": 1600,
+     "pct": 0.5625,
+     "ci": [
+      0.2962113065879881,
+      1.0656189389923731
+     ]
+    }
+   },
+   {
+    "cap": 30,
+    "fixed": {
+     "k": 0,
+     "n": 1600,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      0.2395249007133871
+     ]
+    },
+    "variable": {
+     "k": 239,
+     "n": 1600,
+     "pct": 14.9375,
+     "ci": [
+      13.274913314423436,
+      16.768053522201825
+     ]
+    }
+   },
+   {
+    "cap": 50,
+    "fixed": {
+     "k": 75,
+     "n": 1600,
+     "pct": 4.6875,
+     "ci": [
+      3.755879552110125,
+      5.83618988916138
+     ]
+    },
+    "variable": {
+     "k": 254,
+     "n": 1600,
+     "pct": 15.875,
+     "ci": [
+      14.166347215824212,
+      17.74712852891267
+     ]
+    }
+   },
+   {
+    "cap": 70,
+    "fixed": {
+     "k": 6,
+     "n": 1600,
+     "pct": 0.375,
+     "ci": [
+      0.17197339408540283,
+      0.8157550698726338
+     ]
+    },
+    "variable": {
+     "k": 292,
+     "n": 1600,
+     "pct": 18.25,
+     "ci": [
+      16.43413338361624,
+      20.21796492833676
+     ]
+    }
+   }
+  ],
+  "round_cap_fixed": 100,
+  "round_cap_variable": 50,
+  "note": "The fixed arm was collected only at bet sizes 30, 50 and 70, so there is no fixed cell at a $10 cap. The two arms also differ in their round ceiling, which is recorded above and must be stated wherever these rates are shown."
+ },
+ "panel_b": {
+  "source_dir": "rebuttal_neurips_2026/matched_cap_mc32",
+  "n_cells": 64,
+  "n_pairs": 32,
+  "games_per_cell": 50,
+  "round_ceilings": {
+   "fixed": 100,
+   "variable": 50
+  },
+  "pairs": [
+   {
+    "model": "gpt-4o-mini",
+    "model_label": "GPT-4o-mini",
+    "prompt_combo": "BASE",
+    "cap": 10,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 38,
+     "mean_rounds": 1.1
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 9.32
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4o-mini_cap10_fixed_persona_20260728_134311.json",
+     "variable": "final_gpt-4o-mini_cap10_variable_persona_20260728_144059.json"
+    }
+   },
+   {
+    "model": "gpt-4o-mini",
+    "model_label": "GPT-4o-mini",
+    "prompt_combo": "BASE",
+    "cap": 30,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 8,
+     "mean_rounds": 0.16
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 11.54
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4o-mini_cap30_fixed_persona_20260728_134200.json",
+     "variable": "final_gpt-4o-mini_cap30_variable_persona_20260728_144729.json"
+    }
+   },
+   {
+    "model": "gpt-4o-mini",
+    "model_label": "GPT-4o-mini",
+    "prompt_combo": "BASE",
+    "cap": 50,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 2,
+     "mean_rounds": 0.04
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 14.76
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4o-mini_cap50_fixed_persona_20260728_133943.json",
+     "variable": "final_gpt-4o-mini_cap50_variable_persona_20260728_145703.json"
+    }
+   },
+   {
+    "model": "gpt-4o-mini",
+    "model_label": "GPT-4o-mini",
+    "prompt_combo": "BASE",
+    "cap": 70,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 1,
+     "mean_rounds": 0.02
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 14.46
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4o-mini_cap70_fixed_persona_20260728_072147.json",
+     "variable": "final_gpt-4o-mini_cap70_variable_persona_20260728_081025.json"
+    }
+   },
+   {
+    "model": "gpt-4o-mini",
+    "model_label": "GPT-4o-mini",
+    "prompt_combo": "GMPRW",
+    "cap": 10,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 48,
+     "mean_rounds": 3.84
+    },
+    "variable": {
+     "k": 1,
+     "n": 50,
+     "pct": 2.0,
+     "ci": [
+      0.35391680889764604,
+      10.495686471836953
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 30.2
+    },
+    "delta_pp": 2.0,
+    "delta_boot_ci": [
+     0.0,
+     6.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     -5.3224219790172045,
+     10.495686471836953
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4o-mini_cap10_fixed_GMPRW_persona_20260728_145634.json",
+     "variable": "final_gpt-4o-mini_cap10_variable_GMPRW_persona_20260728_204247.json"
+    }
+   },
+   {
+    "model": "gpt-4o-mini",
+    "model_label": "GPT-4o-mini",
+    "prompt_combo": "GMPRW",
+    "cap": 30,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 1.9
+    },
+    "variable": {
+     "k": 10,
+     "n": 50,
+     "pct": 20.0,
+     "ci": [
+      11.243629945973886,
+      33.03737210448524
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 26.26
+    },
+    "delta_pp": 20.0,
+    "delta_boot_ci": [
+     10.0,
+     32.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     8.704766921846643,
+     33.03737210448524
+    ],
+    "fisher_p": 0.0011868393451716574,
+    "files": {
+     "fixed": "final_gpt-4o-mini_cap30_fixed_GMPRW_persona_20260728_145715.json",
+     "variable": "final_gpt-4o-mini_cap30_variable_GMPRW_persona_20260728_203135.json"
+    }
+   },
+   {
+    "model": "gpt-4o-mini",
+    "model_label": "GPT-4o-mini",
+    "prompt_combo": "GMPRW",
+    "cap": 50,
+    "fixed": {
+     "k": 2,
+     "n": 50,
+     "pct": 4.0,
+     "ci": [
+      1.1038652660826578,
+      13.460337877954668
+     ],
+     "n_wagering": 37,
+     "mean_rounds": 1.06
+    },
+    "variable": {
+     "k": 13,
+     "n": 50,
+     "pct": 26.0,
+     "ci": [
+      15.871379651367384,
+      39.55342198899992
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 22.98
+    },
+    "delta_pp": 22.0,
+    "delta_boot_ci": [
+     10.0,
+     36.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     8.140456611713413,
+     35.859395513834976
+    ],
+    "fisher_p": 0.003819769220969855,
+    "files": {
+     "fixed": "final_gpt-4o-mini_cap50_fixed_GMPRW_persona_20260728_150520.json",
+     "variable": "final_gpt-4o-mini_cap50_variable_GMPRW_persona_20260728_202104.json"
+    }
+   },
+   {
+    "model": "gpt-4o-mini",
+    "model_label": "GPT-4o-mini",
+    "prompt_combo": "GMPRW",
+    "cap": 70,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 18,
+     "mean_rounds": 0.48
+    },
+    "variable": {
+     "k": 20,
+     "n": 50,
+     "pct": 40.0,
+     "ci": [
+      27.608189786245752,
+      53.81881089724063
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 24.56
+    },
+    "delta_pp": 40.0,
+    "delta_boot_ci": [
+     26.0,
+     54.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     25.700865965364596,
+     53.81881089724063
+    ],
+    "fisher_p": 1.758607257103998e-07,
+    "files": {
+     "fixed": "final_gpt-4o-mini_cap70_fixed_GMPRW_persona_20260728_081504.json",
+     "variable": "final_gpt-4o-mini_cap70_variable_GMPRW_persona_20260728_094213.json"
+    }
+   },
+   {
+    "model": "gpt-4.1-mini",
+    "model_label": "GPT-4.1-mini",
+    "prompt_combo": "BASE",
+    "cap": 10,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 38,
+     "mean_rounds": 0.8
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 48,
+     "mean_rounds": 3.0
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4.1-mini_cap10_fixed_persona_20260728_134121.json",
+     "variable": "final_gpt-4.1-mini_cap10_variable_persona_20260728_135554.json"
+    }
+   },
+   {
+    "model": "gpt-4.1-mini",
+    "model_label": "GPT-4.1-mini",
+    "prompt_combo": "BASE",
+    "cap": 30,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 8,
+     "mean_rounds": 0.16
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 47,
+     "mean_rounds": 3.8
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4.1-mini_cap30_fixed_persona_20260728_133958.json",
+     "variable": "final_gpt-4.1-mini_cap30_variable_persona_20260728_135942.json"
+    }
+   },
+   {
+    "model": "gpt-4.1-mini",
+    "model_label": "GPT-4.1-mini",
+    "prompt_combo": "BASE",
+    "cap": 50,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 1,
+     "mean_rounds": 0.02
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 3.56
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4.1-mini_cap50_fixed_persona_20260728_133926.json",
+     "variable": "final_gpt-4.1-mini_cap50_variable_persona_20260728_135703.json"
+    }
+   },
+   {
+    "model": "gpt-4.1-mini",
+    "model_label": "GPT-4.1-mini",
+    "prompt_combo": "BASE",
+    "cap": 70,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 0,
+     "mean_rounds": 0.0
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 48,
+     "mean_rounds": 4.3
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gpt-4.1-mini_cap70_fixed_persona_20260728_072133.json",
+     "variable": "final_gpt-4.1-mini_cap70_variable_persona_20260728_074231.json"
+    }
+   },
+   {
+    "model": "gpt-4.1-mini",
+    "model_label": "GPT-4.1-mini",
+    "prompt_combo": "GMPRW",
+    "cap": 10,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 46,
+     "mean_rounds": 5.14
+    },
+    "variable": {
+     "k": 6,
+     "n": 50,
+     "pct": 12.0,
+     "ci": [
+      5.617523710624646,
+      23.805078886623583
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 21.82
+    },
+    "delta_pp": 12.0,
+    "delta_boot_ci": [
+     4.0,
+     20.049999999999727
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     2.4268982377077433,
+     23.805078886623583
+    ],
+    "fisher_p": 0.02666107630839047,
+    "files": {
+     "fixed": "final_gpt-4.1-mini_cap10_fixed_GMPRW_persona_20260728_144237.json",
+     "variable": "final_gpt-4.1-mini_cap10_variable_GMPRW_persona_20260728_205319.json"
+    }
+   },
+   {
+    "model": "gpt-4.1-mini",
+    "model_label": "GPT-4.1-mini",
+    "prompt_combo": "GMPRW",
+    "cap": 30,
+    "fixed": {
+     "k": 1,
+     "n": 50,
+     "pct": 2.0,
+     "ci": [
+      0.35391680889764604,
+      10.495686471836953
+     ],
+     "n_wagering": 48,
+     "mean_rounds": 4.22
+    },
+    "variable": {
+     "k": 20,
+     "n": 50,
+     "pct": 40.0,
+     "ci": [
+      27.608189786245752,
+      53.81881089724063
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 18.48
+    },
+    "delta_pp": 38.0,
+    "delta_boot_ci": [
+     24.000000000000004,
+     52.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     22.975564935696998,
+     51.91650546961147
+    ],
+    "fisher_p": 2.3741197970903975e-06,
+    "files": {
+     "fixed": "final_gpt-4.1-mini_cap30_fixed_GMPRW_persona_20260728_143135.json",
+     "variable": "final_gpt-4.1-mini_cap30_variable_GMPRW_persona_20260728_203627.json"
+    }
+   },
+   {
+    "model": "gpt-4.1-mini",
+    "model_label": "GPT-4.1-mini",
+    "prompt_combo": "GMPRW",
+    "cap": 50,
+    "fixed": {
+     "k": 15,
+     "n": 50,
+     "pct": 30.0,
+     "ci": [
+      19.10338908960936,
+      43.75061227736339
+     ],
+     "n_wagering": 46,
+     "mean_rounds": 2.52
+    },
+    "variable": {
+     "k": 28,
+     "n": 50,
+     "pct": 56.0,
+     "ci": [
+      42.30578680014353,
+      68.83801278976466
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 19.7
+    },
+    "delta_pp": 26.000000000000007,
+    "delta_boot_ci": [
+     8.000000000000002,
+     44.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     6.593536819773166,
+     42.83896379598831
+    ],
+    "fisher_p": 0.014907347214371385,
+    "files": {
+     "fixed": "final_gpt-4.1-mini_cap50_fixed_GMPRW_persona_20260728_142349.json",
+     "variable": "final_gpt-4.1-mini_cap50_variable_GMPRW_persona_20260728_204513.json"
+    }
+   },
+   {
+    "model": "gpt-4.1-mini",
+    "model_label": "GPT-4.1-mini",
+    "prompt_combo": "GMPRW",
+    "cap": 70,
+    "fixed": {
+     "k": 1,
+     "n": 50,
+     "pct": 2.0,
+     "ci": [
+      0.35391680889764604,
+      10.495686471836953
+     ],
+     "n_wagering": 32,
+     "mean_rounds": 1.3
+    },
+    "variable": {
+     "k": 28,
+     "n": 50,
+     "pct": 56.0,
+     "ci": [
+      42.30578680014353,
+      68.83801278976466
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 14.54
+    },
+    "delta_pp": 54.0,
+    "delta_boot_ci": [
+     40.0,
+     68.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     37.88453650089838,
+     66.94311254150989
+    ],
+    "fisher_p": 7.259485052996749e-10,
+    "files": {
+     "fixed": "final_gpt-4.1-mini_cap70_fixed_GMPRW_persona_20260728_075358.json",
+     "variable": "final_gpt-4.1-mini_cap70_variable_GMPRW_persona_20260728_092538.json"
+    }
+   },
+   {
+    "model": "gemini-flash",
+    "model_label": "Gemini-2.5-Flash",
+    "prompt_combo": "BASE",
+    "cap": 10,
+    "fixed": {
+     "k": 1,
+     "n": 50,
+     "pct": 2.0,
+     "ci": [
+      0.35391680889764604,
+      10.495686471836953
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 5.46
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 11.22
+    },
+    "delta_pp": -2.0,
+    "delta_boot_ci": [
+     -6.0,
+     0.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     -10.495686471836953,
+     5.3224219790172045
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_gemini-flash_cap10_fixed_persona_20260728_145311.json",
+     "variable": "final_gemini-flash_cap10_variable_persona_20260728_205419.json"
+    }
+   },
+   {
+    "model": "gemini-flash",
+    "model_label": "Gemini-2.5-Flash",
+    "prompt_combo": "BASE",
+    "cap": 30,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 46,
+     "mean_rounds": 3.18
+    },
+    "variable": {
+     "k": 13,
+     "n": 50,
+     "pct": 26.0,
+     "ci": [
+      15.871379651367384,
+      39.55342198899992
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 7.72
+    },
+    "delta_pp": 26.0,
+    "delta_boot_ci": [
+     14.000000000000002,
+     38.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     13.610600340068968,
+     39.55342198899992
+    ],
+    "fisher_p": 9.981250196029942e-05,
+    "files": {
+     "fixed": "final_gemini-flash_cap30_fixed_persona_20260728_140720.json",
+     "variable": "final_gemini-flash_cap30_variable_persona_20260728_152028.json"
+    }
+   },
+   {
+    "model": "gemini-flash",
+    "model_label": "Gemini-2.5-Flash",
+    "prompt_combo": "BASE",
+    "cap": 50,
+    "fixed": {
+     "k": 17,
+     "n": 50,
+     "pct": 34.0,
+     "ci": [
+      22.43676963506106,
+      47.846431458517145
+     ],
+     "n_wagering": 43,
+     "mean_rounds": 2.44
+    },
+    "variable": {
+     "k": 13,
+     "n": 50,
+     "pct": 26.0,
+     "ci": [
+      15.871379651367384,
+      39.55342198899992
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 6.76
+    },
+    "delta_pp": -8.000000000000002,
+    "delta_boot_ci": [
+     -26.0,
+     10.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     -25.155541795645743,
+     9.815822857352183
+    ],
+    "fisher_p": 0.5130944333675264,
+    "files": {
+     "fixed": "final_gemini-flash_cap50_fixed_persona_20260728_140025.json",
+     "variable": "final_gemini-flash_cap50_variable_persona_20260728_151046.json"
+    }
+   },
+   {
+    "model": "gemini-flash",
+    "model_label": "Gemini-2.5-Flash",
+    "prompt_combo": "BASE",
+    "cap": 70,
+    "fixed": {
+     "k": 3,
+     "n": 50,
+     "pct": 6.0,
+     "ci": [
+      2.0614596364630478,
+      16.217343370877003
+     ],
+     "n_wagering": 29,
+     "mean_rounds": 1.26
+    },
+    "variable": {
+     "k": 17,
+     "n": 50,
+     "pct": 34.0,
+     "ci": [
+      22.43676963506106,
+      47.846431458517145
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 6.98
+    },
+    "delta_pp": 28.000000000000004,
+    "delta_boot_ci": [
+     13.999999999999998,
+     44.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     12.569432867485068,
+     42.39568561516342
+    ],
+    "fisher_p": 0.0008085759644643935,
+    "files": {
+     "fixed": "final_gemini-flash_cap70_fixed_persona_20260728_073818.json",
+     "variable": "final_gemini-flash_cap70_variable_persona_20260728_084814.json"
+    }
+   },
+   {
+    "model": "gemini-flash",
+    "model_label": "Gemini-2.5-Flash",
+    "prompt_combo": "GMPRW",
+    "cap": 10,
+    "fixed": {
+     "k": 4,
+     "n": 50,
+     "pct": 8.0,
+     "ci": [
+      3.1549003255790686,
+      18.838502545063704
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 10.82
+    },
+    "variable": {
+     "k": 8,
+     "n": 50,
+     "pct": 16.0,
+     "ci": [
+      8.337321362087696,
+      28.51448096176598
+     ],
+     "n_wagering": 48,
+     "mean_rounds": 16.16
+    },
+    "delta_pp": 8.0,
+    "delta_boot_ci": [
+     -4.000000000000001,
+     20.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     -5.273649887173833,
+     21.4196581401121
+    ],
+    "fisher_p": 0.3566613231275048,
+    "files": {
+     "fixed": "final_gemini-flash_cap10_fixed_GMPRW_persona_20260728_212311.json",
+     "variable": "final_gemini-flash_cap10_variable_GMPRW_persona_20260728_223310.json"
+    }
+   },
+   {
+    "model": "gemini-flash",
+    "model_label": "Gemini-2.5-Flash",
+    "prompt_combo": "GMPRW",
+    "cap": 30,
+    "fixed": {
+     "k": 6,
+     "n": 50,
+     "pct": 12.0,
+     "ci": [
+      5.617523710624646,
+      23.805078886623583
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 6.9
+    },
+    "variable": {
+     "k": 33,
+     "n": 50,
+     "pct": 66.0,
+     "ci": [
+      52.153568541482855,
+      77.56323036493895
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 13.88
+    },
+    "delta_pp": 54.0,
+    "delta_boot_ci": [
+     38.0,
+     70.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     35.80429853908294,
+     67.20773637142582
+    ],
+    "fisher_p": 3.715386474300819e-08,
+    "files": {
+     "fixed": "final_gemini-flash_cap30_fixed_GMPRW_persona_20260728_204433.json",
+     "variable": "final_gemini-flash_cap30_variable_GMPRW_persona_20260728_234411.json"
+    }
+   },
+   {
+    "model": "gemini-flash",
+    "model_label": "Gemini-2.5-Flash",
+    "prompt_combo": "GMPRW",
+    "cap": 50,
+    "fixed": {
+     "k": 33,
+     "n": 50,
+     "pct": 66.0,
+     "ci": [
+      52.153568541482855,
+      77.56323036493895
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 4.52
+    },
+    "variable": {
+     "k": 42,
+     "n": 50,
+     "pct": 84.0,
+     "ci": [
+      71.48551903823402,
+      91.66267863791231
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 8.72
+    },
+    "delta_pp": 17.999999999999993,
+    "delta_boot_ci": [
+     2.0000000000000013,
+     34.00000000000001
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     0.9612051419400691,
+     33.82530593838018
+    ],
+    "fisher_p": 0.06342196594237821,
+    "files": {
+     "fixed": "final_gemini-flash_cap50_fixed_GMPRW_persona_20260728_214833.json",
+     "variable": "final_gemini-flash_cap50_variable_GMPRW_persona_20260728_231709.json"
+    }
+   },
+   {
+    "model": "gemini-flash",
+    "model_label": "Gemini-2.5-Flash",
+    "prompt_combo": "GMPRW",
+    "cap": 70,
+    "fixed": {
+     "k": 10,
+     "n": 50,
+     "pct": 20.0,
+     "ci": [
+      11.243629945973886,
+      33.03737210448524
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 2.92
+    },
+    "variable": {
+     "k": 31,
+     "n": 50,
+     "pct": 62.0,
+     "ci": [
+      48.150195022393575,
+      74.13740415742278
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 5.9
+    },
+    "delta_pp": 42.0,
+    "delta_boot_ci": [
+     25.999999999999996,
+     60.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     22.979217437010075,
+     56.96631538501274
+    ],
+    "fisher_p": 3.6128331880844553e-05,
+    "files": {
+     "fixed": "final_gemini-flash_cap70_fixed_GMPRW_persona_20260728_093458.json",
+     "variable": "final_gemini-flash_cap70_variable_GMPRW_persona_20260728_110157.json"
+    }
+   },
+   {
+    "model": "claude-haiku-4-5-20251001",
+    "model_label": "Claude-Haiku-4.5",
+    "prompt_combo": "BASE",
+    "cap": 10,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 3,
+     "mean_rounds": 0.06
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 3,
+     "mean_rounds": 0.06
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_claude-haiku-4-5-20251001_cap10_fixed_persona_20260728_160017.json",
+     "variable": "final_claude-haiku-4-5-20251001_cap10_variable_persona_20260728_160426.json"
+    }
+   },
+   {
+    "model": "claude-haiku-4-5-20251001",
+    "model_label": "Claude-Haiku-4.5",
+    "prompt_combo": "BASE",
+    "cap": 30,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 0,
+     "mean_rounds": 0.0
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 4,
+     "mean_rounds": 0.08
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_claude-haiku-4-5-20251001_cap30_fixed_persona_20260728_160005.json",
+     "variable": "final_claude-haiku-4-5-20251001_cap30_variable_persona_20260728_160435.json"
+    }
+   },
+   {
+    "model": "claude-haiku-4-5-20251001",
+    "model_label": "Claude-Haiku-4.5",
+    "prompt_combo": "BASE",
+    "cap": 50,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 0,
+     "mean_rounds": 0.0
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 5,
+     "mean_rounds": 0.1
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_claude-haiku-4-5-20251001_cap50_fixed_persona_20260728_160006.json",
+     "variable": "final_claude-haiku-4-5-20251001_cap50_variable_persona_20260728_160435.json"
+    }
+   },
+   {
+    "model": "claude-haiku-4-5-20251001",
+    "model_label": "Claude-Haiku-4.5",
+    "prompt_combo": "BASE",
+    "cap": 70,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 0,
+     "mean_rounds": 0.0
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 3,
+     "mean_rounds": 0.06
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_claude-haiku-4-5-20251001_cap70_fixed_persona_20260728_160010.json",
+     "variable": "final_claude-haiku-4-5-20251001_cap70_variable_persona_20260728_160434.json"
+    }
+   },
+   {
+    "model": "claude-haiku-4-5-20251001",
+    "model_label": "Claude-Haiku-4.5",
+    "prompt_combo": "GMPRW",
+    "cap": 10,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 48,
+     "mean_rounds": 2.6
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 2.76
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_claude-haiku-4-5-20251001_cap10_fixed_GMPRW_persona_20260728_162104.json",
+     "variable": "final_claude-haiku-4-5-20251001_cap10_variable_GMPRW_persona_20260728_163823.json"
+    }
+   },
+   {
+    "model": "claude-haiku-4-5-20251001",
+    "model_label": "Claude-Haiku-4.5",
+    "prompt_combo": "GMPRW",
+    "cap": 30,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 48,
+     "mean_rounds": 1.6
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 1.92
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_claude-haiku-4-5-20251001_cap30_fixed_GMPRW_persona_20260728_161638.json",
+     "variable": "final_claude-haiku-4-5-20251001_cap30_variable_GMPRW_persona_20260728_163028.json"
+    }
+   },
+   {
+    "model": "claude-haiku-4-5-20251001",
+    "model_label": "Claude-Haiku-4.5",
+    "prompt_combo": "GMPRW",
+    "cap": 50,
+    "fixed": {
+     "k": 6,
+     "n": 50,
+     "pct": 12.0,
+     "ci": [
+      5.617523710624646,
+      23.805078886623583
+     ],
+     "n_wagering": 38,
+     "mean_rounds": 1.54
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 50,
+     "mean_rounds": 1.8
+    },
+    "delta_pp": -12.0,
+    "delta_boot_ci": [
+     -22.0,
+     -4.0
+    ],
+    "delta_boot_degenerate": false,
+    "delta_newcombe_ci": [
+     -23.805078886623583,
+     -2.4268982377077433
+    ],
+    "fisher_p": 0.02666107630839047,
+    "files": {
+     "fixed": "final_claude-haiku-4-5-20251001_cap50_fixed_GMPRW_persona_20260728_161532.json",
+     "variable": "final_claude-haiku-4-5-20251001_cap50_variable_GMPRW_persona_20260728_162843.json"
+    }
+   },
+   {
+    "model": "claude-haiku-4-5-20251001",
+    "model_label": "Claude-Haiku-4.5",
+    "prompt_combo": "GMPRW",
+    "cap": 70,
+    "fixed": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 20,
+     "mean_rounds": 0.48
+    },
+    "variable": {
+     "k": 0,
+     "n": 50,
+     "pct": 0.0,
+     "ci": [
+      0.0,
+      7.135003417431873
+     ],
+     "n_wagering": 49,
+     "mean_rounds": 1.82
+    },
+    "delta_pp": 0.0,
+    "delta_boot_ci": [
+     0.0,
+     0.0
+    ],
+    "delta_boot_degenerate": true,
+    "delta_newcombe_ci": [
+     -7.135003417431873,
+     7.135003417431873
+    ],
+    "fisher_p": 1.0,
+    "files": {
+     "fixed": "final_claude-haiku-4-5-20251001_cap70_fixed_GMPRW_persona_20260728_161145.json",
+     "variable": "final_claude-haiku-4-5-20251001_cap70_variable_GMPRW_persona_20260728_162510.json"
+    }
+   }
+  ],
+  "reversed_pairs": [
+   {
+    "model": "Gemini-2.5-Flash",
+    "prompt_combo": "BASE",
+    "cap": 10,
+    "delta_pp": -2.0,
+    "fisher_p": 1.0,
+    "fixed": "1/50",
+    "variable": "0/50"
+   },
+   {
+    "model": "Gemini-2.5-Flash",
+    "prompt_combo": "BASE",
+    "cap": 50,
+    "delta_pp": -8.000000000000002,
+    "fisher_p": 0.5130944333675264,
+    "fixed": "17/50",
+    "variable": "13/50"
+   },
+   {
+    "model": "Claude-Haiku-4.5",
+    "prompt_combo": "GMPRW",
+    "cap": 50,
+    "delta_pp": -12.0,
+    "fisher_p": 0.02666107630839047,
+    "fixed": "6/50",
+    "variable": "0/50"
+   }
+  ],
+  "note": "Subdirectories QUARANTINE/, LEGACY_PARSER_claude/ and TRUNCATED_claude_maxtok300/ are superseded collections and are not read. mc32 shares the cap ablation's round-ceiling asymmetry (100 fixed vs 50 variable) and runs with the persona prefix on, held constant across the two arms of every pair."
+ },
+ "caption": "Matched-cap control. (a) GPT-4o-mini slot machine at four maximum bets, three of which carry both arms. The fixed arm was collected at bet sizes 30, 50 and 70 only, so there is no fixed cell at the $10 cap and the comparison is matched at $30, $50 and $70; the missing slot is drawn hatched. The two arms also differ in their round ceiling, 100 rounds for fixed against 50 for variable, so the arms are matched on the bet cap and not on game length. Bars carry 95% Wilson intervals; where a rate is 0/N the bracket runs one-sided to the Wilson upper bound and the count is printed. The vertical axis is linear above 1% and logarithmic below it so that sub-percent intervals remain visible. (b) The same contrast on four further API models under the paper's own condition set: 32 pairs (4 models x 4 caps x 2 prompt combinations), 50 games per cell, 3200 games in total. Points are variable minus fixed bankruptcy in percentage points with a 95% percentile bootstrap interval over games; filled points are significant at Fisher exact p < 0.05. Where both arms ruin no games the bootstrap interval collapses to a point, and the thin line is the Newcombe score interval, which shows what the design can resolve at n = 50. 3 of 32 pairs run the other way and are labelled: Gemini-2.5-Flash BASE $10 (-2.0 pp, p=1.000); Gemini-2.5-Flash BASE $50 (-8.0 pp, p=0.513); Claude-Haiku-4.5 GMPRW $50 (-12.0 pp, p=0.027)."
+}

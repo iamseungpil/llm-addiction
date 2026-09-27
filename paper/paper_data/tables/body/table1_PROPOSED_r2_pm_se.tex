@@ -1,0 +1,27 @@
+% PROPOSED replacement body for neurips_content_en/4.neural.tex Table 1
+% (tab:neurips-sae-results).  NOT applied to any .tex -- proposal only.
+%
+% Columns: Model | Task | n | I_LC (continuous) | I_BA | I_EC        (6 columns)
+% The p column is dropped: with 200 draws the floor is 1/201 = .00498, and 14 of the
+% 18 cells sit exactly at that floor, so the column carries no per-cell information.
+% The permutation result is stated once in the caption instead.
+%
+% R^2 values are the paper's CURRENTLY PRINTED values (from
+%   sae_v3_analysis/results/table1_groupkfold_L22.json).
+% SE = fold_sd / sqrt(5), fold_sd from paper_data/table1_perm_null_N200.json.
+% Per-cell SEs and the pass/fail check are in paper_data/table1_se_N200.json.
+% Green/bold markup and the ddagger footnote anchor are carried over unchanged.
+%
+% --- VARIANT A: every cell printed (matches the markup now in 4.neural.tex) ---
+Gemma & SM & 12{,}246 & $+0.059\pm0.005$ & \cellcolor{green!12}$\mathbf{+0.167 \pm 0.006}$ & $+0.051\pm0.006$ \\
+Gemma & IC & 5{,}735 & $+0.007\pm0.010$ & \cellcolor{green!12}$\mathbf{+0.203 \pm 0.012}$ & $+0.013\pm0.009$ \\
+Gemma & MW & 8{,}948 & \cellcolor{green!12}$\mathbf{+0.107 \pm 0.005}$ & $+0.072\pm0.007$ & $-0.022\pm0.011$ \\
+LLaMA & SM & 45{,}551 & $+0.106\pm0.003$ & \cellcolor{green!12}$\mathbf{+0.109 \pm 0.003}$ & $+0.036\pm0.002$ \\
+LLaMA & IC & 2{,}064$^\ddagger$ & $+0.021\pm0.045$ & \cellcolor{green!12}$\mathbf{+0.268 \pm 0.012}$ & $\mathbf{+0.307 \pm 0.012}$ \\
+LLaMA & MW & 57{,}220 & \cellcolor{green!12}$\mathbf{+0.145 \pm 0.003}$ & $+0.070\pm0.003$ & $+0.027\pm0.003$ \\
+%
+% --- VARIANT B: the paper's own reporting rule applied (mean R^2 > 2*SE), four cells
+% blanked to ---.  No green/bold cell is affected.
+% Gemma & IC & 5{,}735 & \texttt{---} & \cellcolor{green!12}$\mathbf{+0.203 \pm 0.012}$ & \texttt{---} \\
+% Gemma & MW & 8{,}948 & \cellcolor{green!12}$\mathbf{+0.107 \pm 0.005}$ & $+0.072\pm0.007$ & \texttt{---} \\
+% LLaMA & IC & 2{,}064$^\ddagger$ & \texttt{---} & \cellcolor{green!12}$\mathbf{+0.268 \pm 0.012}$ & $\mathbf{+0.307 \pm 0.012}$ \\

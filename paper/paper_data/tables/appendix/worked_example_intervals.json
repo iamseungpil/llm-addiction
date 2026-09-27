@@ -1,0 +1,943 @@
+{
+  "generated_utc": "2026-09-08T02:55:19+00:00",
+  "purpose": "Exact 95% intervals for ESCALATING minus CAUTIOUS bankruptcy rate in the worked-example (in-context demonstration) experiment. Discharges the promise in the a3Zu response letter and supplies the numbers for the worked-example row of tab:added-controls.",
+  "method": {
+    "single_proportion": "Wilson score interval, z = 1.959963984540054",
+    "difference_primary": "Newcombe (1998) method 10, independent samples (square-and-add of Wilson tail distances)",
+    "difference_secondary": "Newcombe (1998) method 10, paired form with the concordance correlation phi; the two arms of every API/open-weight cell run an identical seed list",
+    "quoted_in_paper": "independent-samples form (the wider, assumption-lighter interval)",
+    "no_multiplicity_adjustment": true,
+    "multiplicity_note": "Six API model-condition pairs are printed and tested; these are nominal, unadjusted 95% intervals. Under a Bonferroni-style adjustment across the six API pairs the Gemini variable interval still excludes zero (see bonferroni_check)."
+  },
+  "provenance": {
+    "dataset": "llm-addiction-research/llm-addiction (HuggingFace, gated)",
+    "directories": [
+      "rebuttal_neurips_2026/in_context_demo_api/",
+      "rebuttal_neurips_2026/in_context_demo_open_weight/",
+      "rebuttal_neurips_2026/in_context_demo_open_weight_persona/",
+      "rebuttal_neurips_2026/framing_rationality_factorial_e7/ (no-example baseline, role_rat0)"
+    ],
+    "deprecation_warnings_in_scope": "none; the release carries DEPRECATION_WARNING.md only under sae_patching/, slot_machine/gemma/ and slot_machine/llama/, none of which is read here",
+    "model_identity": "taken from the 'model' field inside each JSON, not from the directory name",
+    "quarantine": "framing_rationality_factorial_e7/QUARANTINE_truncated_claude/ was excluded; the Claude cells are the withdrawn checkpoint's substitute and are collected but not printed"
+  },
+  "headline": {
+    "n_api_pairs": 6,
+    "n_pairs_total": 13,
+    "pairs_excluding_zero": [
+      "gemini-2.5-flash variable"
+    ]
+  },
+  "rows": [
+    {
+      "corpus": "in_context_demo_api",
+      "model": "claude-haiku-4-5-20251001",
+      "mode": "fixed",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 100,
+      "cautious": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": null,
+        "file": "in_context_demo_api/e7_claude-haiku-4-5-20251001_cap70_fixed_demo_cautious_persona_rat0_mains_20260730_223154.json",
+        "sha256": "f757ea127b4f870c12a6c67acd1939ecdd11d9fe5857f4aa7aedd0f09082b8bb",
+        "model_field": "claude-haiku-4-5-20251001",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": null,
+        "file": "in_context_demo_api/e7_claude-haiku-4-5-20251001_cap70_fixed_demo_escalate_persona_rat0_mains_20260730_224025.json",
+        "sha256": "4afe5dfc07ea781030f92e8f8eebbe14a646f127c88fe3f34f5fb3cde9c24d4e",
+        "model_field": "claude-haiku-4-5-20251001",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "file": "framing_rationality_factorial_e7/e7_claude-haiku-4-5-20251001_cap70_fixed_role_rat0_20260728_190120.json",
+        "sha256": "a28cec7bd0da839310fef30f89059cf02a7c098dde703bd0cbbb68d8d7151a48",
+        "model_field": "claude-haiku-4-5-20251001"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": 0.0,
+        "newcombe_independent_ci_pp": [
+          -3.699349820698568,
+          3.699349820698568
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 0,
+          "table_escalate_only": 0,
+          "table_cautious_only": 0,
+          "table_neither": 100,
+          "phi": 0.0,
+          "diff_pp": 0.0,
+          "ci_pp": [
+            -3.699349820698568,
+            3.699349820698568
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_api",
+      "model": "claude-haiku-4-5-20251001",
+      "mode": "variable",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 100,
+      "cautious": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": 19.545454545454547,
+        "file": "in_context_demo_api/e7_claude-haiku-4-5-20251001_cap70_variable_demo_cautious_persona_rat0_mains_20260730_225112.json",
+        "sha256": "683d408b12b253bd756a59bf3c43b20c5d4ac158398f23947b1a3fa2745f0f1b",
+        "model_field": "claude-haiku-4-5-20251001",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": 17.403846153846153,
+        "file": "in_context_demo_api/e7_claude-haiku-4-5-20251001_cap70_variable_demo_escalate_persona_rat0_mains_20260730_230411.json",
+        "sha256": "ce9f38c90d85a6567b10c4dc84c14849f9e9d8c9a382fdd83c53007fc2973913",
+        "model_field": "claude-haiku-4-5-20251001",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "file": "framing_rationality_factorial_e7/e7_claude-haiku-4-5-20251001_cap70_variable_role_rat0_20260728_190152.json",
+        "sha256": "08631451ee976af353f4c11db22c775a243071a553b2d4f9abfe59513b4905b0",
+        "model_field": "claude-haiku-4-5-20251001"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": 0.0,
+        "newcombe_independent_ci_pp": [
+          -3.699349820698568,
+          3.699349820698568
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 0,
+          "table_escalate_only": 0,
+          "table_cautious_only": 0,
+          "table_neither": 100,
+          "phi": 0.0,
+          "diff_pp": 0.0,
+          "ci_pp": [
+            -3.699349820698568,
+            3.699349820698568
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_api",
+      "model": "gemini-2.5-flash",
+      "mode": "fixed",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 100,
+      "cautious": {
+        "bankrupt": 13,
+        "n": 100,
+        "rate_pct": 13.0,
+        "wilson_ci_pct": [
+          7.757167427240512,
+          20.98035144007643
+        ],
+        "mean_bet_per_played_round": 60.666666666666664,
+        "file": "in_context_demo_api/e7_gemini-2.5-flash_cap70_fixed_demo_cautious_persona_rat0_mains_20260730_230241.json",
+        "sha256": "1e38e8dc501dbb7d088e5a85d12317947826f5536c443569ace93ae0b9880fe5",
+        "model_field": "gemini-2.5-flash",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 11,
+        "n": 100,
+        "rate_pct": 11.0,
+        "wilson_ci_pct": [
+          6.254196357064568,
+          18.631296503080314
+        ],
+        "mean_bet_per_played_round": 65.13157894736842,
+        "file": "in_context_demo_api/e7_gemini-2.5-flash_cap70_fixed_demo_escalate_persona_rat0_mains_20260730_234501.json",
+        "sha256": "abd3ab23ee88d621ddb32869568334431b8070c77725ba3cd4c33fce6db981ed",
+        "model_field": "gemini-2.5-flash",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 12,
+        "n": 100,
+        "rate_pct": 12.0,
+        "file": "framing_rationality_factorial_e7/e7_gemini-2.5-flash_cap70_fixed_role_rat0_20260727_133100.json",
+        "sha256": "d145e40c97a0a9ccce8916d9604866d5c974cfb8f3d4627d46df2da7c3b14ca3",
+        "model_field": "gemini-2.5-flash"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": -2.0000000000000004,
+        "newcombe_independent_ci_pp": [
+          -11.284861944284856,
+          7.258724518199777
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 3,
+          "table_escalate_only": 8,
+          "table_cautious_only": 10,
+          "table_neither": 79,
+          "phi": 0.14920281054230175,
+          "diff_pp": -2.0000000000000004,
+          "ci_pp": [
+            -10.654888286090522,
+            6.589812990903648
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_api",
+      "model": "gemini-2.5-flash",
+      "mode": "variable",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 100,
+      "cautious": {
+        "bankrupt": 21,
+        "n": 100,
+        "rate_pct": 21.0,
+        "wilson_ci_pct": [
+          14.165654061915301,
+          29.979968834089867
+        ],
+        "mean_bet_per_played_round": 24.04466501240695,
+        "file": "in_context_demo_api/e7_gemini-2.5-flash_cap70_variable_demo_cautious_persona_rat0_mains_20260731_010119.json",
+        "sha256": "d43280fcec1f101ffd39b27b3069019acb30310a5041c280beba243fcc3264cd",
+        "model_field": "gemini-2.5-flash",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 52,
+        "n": 100,
+        "rate_pct": 52.0,
+        "wilson_ci_pct": [
+          42.316577765223975,
+          61.535448241948096
+        ],
+        "mean_bet_per_played_round": 30.154109589041095,
+        "file": "in_context_demo_api/e7_gemini-2.5-flash_cap70_variable_demo_escalate_persona_rat0_mains_20260731_030342.json",
+        "sha256": "b7589ed116e372d3bcce10e01aa3288a060428a1b64d575c930ddcb20ab4a2d7",
+        "model_field": "gemini-2.5-flash",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 32,
+        "n": 100,
+        "rate_pct": 32.0,
+        "file": "framing_rationality_factorial_e7/e7_gemini-2.5-flash_cap70_variable_role_rat0_20260727_171543.json",
+        "sha256": "1f20ae1ee05f9e37a40d4eb1679281a94fb570237a2572dd2cb8b14352ba32e5",
+        "model_field": "gemini-2.5-flash"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": 31.000000000000007,
+        "newcombe_independent_ci_pp": [
+          17.793618722822668,
+          42.73171162176628
+        ],
+        "excludes_zero": true,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 20,
+          "table_escalate_only": 32,
+          "table_cautious_only": 1,
+          "table_neither": 47,
+          "phi": 0.4462110952334162,
+          "diff_pp": 31.000000000000007,
+          "ci_pp": [
+            21.16098064619618,
+            39.91488618471571
+          ],
+          "excludes_zero": true
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_api",
+      "model": "gpt-4.1-mini",
+      "mode": "fixed",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 100,
+      "cautious": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": 70.0,
+        "file": "in_context_demo_api/e7_gpt-4.1-mini_cap70_fixed_demo_cautious_persona_rat0_mains_20260730_222720.json",
+        "sha256": "65f323d6e1a347e18e0b767234f12e29dd33cba37d620228786ed8f91e070e3b",
+        "model_field": "gpt-4.1-mini",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": 70.0,
+        "file": "in_context_demo_api/e7_gpt-4.1-mini_cap70_fixed_demo_escalate_persona_rat0_mains_20260730_223158.json",
+        "sha256": "3f42f416d61235c5d8be620e6dcf8576270541f47e5095e7c0c42bd4e287e956",
+        "model_field": "gpt-4.1-mini",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "file": "framing_rationality_factorial_e7/e7_gpt-4.1-mini_cap70_fixed_role_rat0_20260727_095751.json",
+        "sha256": "3e1f9bc9ddf07b7d95830f4d29ce7124a4aeaab23fbfccadf1ecf5cb9e1dec90",
+        "model_field": "gpt-4.1-mini"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": 0.0,
+        "newcombe_independent_ci_pp": [
+          -3.699349820698568,
+          3.699349820698568
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 0,
+          "table_escalate_only": 0,
+          "table_cautious_only": 0,
+          "table_neither": 100,
+          "phi": 0.0,
+          "diff_pp": 0.0,
+          "ci_pp": [
+            -3.699349820698568,
+            3.699349820698568
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_api",
+      "model": "gpt-4.1-mini",
+      "mode": "variable",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 100,
+      "cautious": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": 19.12797074954296,
+        "file": "in_context_demo_api/e7_gpt-4.1-mini_cap70_variable_demo_cautious_persona_rat0_mains_20260730_225633.json",
+        "sha256": "62883ab49ea5c75ef77e566224dcdbfd4f62df4483f61526a8ec04a4e5d946e1",
+        "model_field": "gpt-4.1-mini",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 2,
+        "n": 100,
+        "rate_pct": 2.0,
+        "wilson_ci_pct": [
+          0.550196755016235,
+          7.001179072854388
+        ],
+        "mean_bet_per_played_round": 24.378980891719745,
+        "file": "in_context_demo_api/e7_gpt-4.1-mini_cap70_variable_demo_escalate_persona_rat0_mains_20260730_232237.json",
+        "sha256": "3d9c114ee55736b88c1d1c1dff12c25ce7dde12d46cb543337321af6091cf990",
+        "model_field": "gpt-4.1-mini",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "file": "framing_rationality_factorial_e7/e7_gpt-4.1-mini_cap70_variable_role_rat0_20260727_104950.json",
+        "sha256": "9e3caa5bb744b36ddb81b21a42855af4a90de13f03bca8e88a4f5d75d0f777ea",
+        "model_field": "gpt-4.1-mini"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": 2.0,
+        "newcombe_independent_ci_pp": [
+          -1.9733007116335886,
+          7.001179072854388
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 0,
+          "table_escalate_only": 2,
+          "table_cautious_only": 0,
+          "table_neither": 98,
+          "phi": 0.0,
+          "diff_pp": 2.0,
+          "ci_pp": [
+            -1.9733007116335886,
+            7.001179072854388
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_api",
+      "model": "gpt-4o-mini",
+      "mode": "fixed",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 100,
+      "cautious": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": null,
+        "file": "in_context_demo_api/e7_gpt-4o-mini_cap70_fixed_demo_cautious_persona_rat0_mains_20260730_222723.json",
+        "sha256": "481b88287da7f222d4156a61be8b2e2f82e2beda0f138b0edeba9c56d246a9c0",
+        "model_field": "gpt-4o-mini",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          3.469446951953614e-16,
+          3.699349820698568
+        ],
+        "mean_bet_per_played_round": null,
+        "file": "in_context_demo_api/e7_gpt-4o-mini_cap70_fixed_demo_escalate_persona_rat0_mains_20260730_223210.json",
+        "sha256": "e46b06aafca424ea01685025ec10b5a7b7711e6959b0dc579265ffb8c55f41a1",
+        "model_field": "gpt-4o-mini",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "file": "framing_rationality_factorial_e7/e7_gpt-4o-mini_cap70_fixed_role_rat0_20260727_100017.json",
+        "sha256": "98cecc6d23776d9215a08fed4179ab5bdc10bb149817f26c62a294a723cc165a",
+        "model_field": "gpt-4o-mini"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": 0.0,
+        "newcombe_independent_ci_pp": [
+          -3.699349820698568,
+          3.699349820698568
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 0,
+          "table_escalate_only": 0,
+          "table_cautious_only": 0,
+          "table_neither": 100,
+          "phi": 0.0,
+          "diff_pp": 0.0,
+          "ci_pp": [
+            -3.699349820698568,
+            3.699349820698568
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_api",
+      "model": "gpt-4o-mini",
+      "mode": "variable",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 100,
+      "cautious": {
+        "bankrupt": 4,
+        "n": 100,
+        "rate_pct": 4.0,
+        "wilson_ci_pct": [
+          1.566330399154762,
+          9.83707143588792
+        ],
+        "mean_bet_per_played_round": 19.693650793650793,
+        "file": "in_context_demo_api/e7_gpt-4o-mini_cap70_variable_demo_cautious_persona_rat0_mains_20260731_001139.json",
+        "sha256": "f0f17c7afb42a4037ce585b668f033093d21a5321ecb488e0636038781b50058",
+        "model_field": "gpt-4o-mini",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 8,
+        "n": 100,
+        "rate_pct": 8.0,
+        "wilson_ci_pct": [
+          4.109346148438062,
+          14.998107700948735
+        ],
+        "mean_bet_per_played_round": 23.728823194997158,
+        "file": "in_context_demo_api/e7_gpt-4o-mini_cap70_variable_demo_escalate_persona_rat0_mains_20260731_020627.json",
+        "sha256": "a64913b7c848c92da4d5e8f488508270b9afa5530f3b1628f2def2236d497ba4",
+        "model_field": "gpt-4o-mini",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 0,
+        "n": 100,
+        "rate_pct": 0.0,
+        "file": "framing_rationality_factorial_e7/e7_gpt-4o-mini_cap70_variable_role_rat0_20260727_130833.json",
+        "sha256": "b74990c5789a3a724405c24b9e5c9d6bb13ae859465ef63edf0238d15695e874",
+        "model_field": "gpt-4o-mini"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": 4.0,
+        "newcombe_independent_ci_pp": [
+          -3.014883487295595,
+          11.409200977174002
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 3,
+          "table_escalate_only": 5,
+          "table_cautious_only": 1,
+          "table_neither": 91,
+          "phi": 0.5041157597966586,
+          "diff_pp": 4.0,
+          "ci_pp": [
+            -1.1294861209592686,
+            10.142066871985499
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_open_weight",
+      "model": "gemma",
+      "mode": "fixed",
+      "cap": 70,
+      "persona": false,
+      "status": "OK",
+      "n_games_per_arm": 200,
+      "cautious": {
+        "bankrupt": 0,
+        "n": 200,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          1.734723475976807e-16,
+          1.8845326377266574
+        ],
+        "mean_bet_per_played_round": 70.0,
+        "file": "in_context_demo_open_weight/e7_gemma_cap70_fixed_demo_cautious_rat0_mains_20260729_093304.json",
+        "sha256": "7a2545e5066d2c4072cfc97719ac6993942573bba2e96dc730f1fb875c15755e",
+        "model_field": "gemma",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 0,
+        "n": 200,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          1.734723475976807e-16,
+          1.8845326377266574
+        ],
+        "mean_bet_per_played_round": 70.0,
+        "file": "in_context_demo_open_weight/e7_gemma_cap70_fixed_demo_escalate_rat0_mains_20260729_123813.json",
+        "sha256": "9481f609e2dd17530fd35f6f54981ee49141937f3576200b69f442e2fd2bf42c",
+        "model_field": "gemma",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": null,
+      "escalating_minus_cautious": {
+        "diff_pp": 0.0,
+        "newcombe_independent_ci_pp": [
+          -1.8845326377266574,
+          1.8845326377266574
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 0,
+          "table_escalate_only": 0,
+          "table_cautious_only": 0,
+          "table_neither": 200,
+          "phi": 0.0,
+          "diff_pp": 0.0,
+          "ci_pp": [
+            -1.8845326377266574,
+            1.8845326377266574
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_open_weight",
+      "model": "gemma",
+      "mode": "variable",
+      "cap": 70,
+      "persona": false,
+      "status": "OK",
+      "n_games_per_arm": 200,
+      "cautious": {
+        "bankrupt": 0,
+        "n": 200,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          1.734723475976807e-16,
+          1.8845326377266574
+        ],
+        "mean_bet_per_played_round": 18.384087791495197,
+        "file": "in_context_demo_open_weight/e7_gemma_cap70_variable_demo_cautious_rat0_mains_20260729_115956.json",
+        "sha256": "bdd1dbba974da8db2d7a8c82f88770fe42627d86891d0bf463360029e6cf374e",
+        "model_field": "gemma",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 1,
+        "n": 200,
+        "rate_pct": 0.5,
+        "wilson_ci_pct": [
+          0.08831687156009814,
+          2.777370439789293
+        ],
+        "mean_bet_per_played_round": 19.907048008171603,
+        "file": "in_context_demo_open_weight/e7_gemma_cap70_variable_demo_escalate_rat0_mains_20260729_160007.json",
+        "sha256": "4fbbf8da343fe0371232400594d30e3eee7a1da55bbc3156e712157c39127fdb",
+        "model_field": "gemma",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": null,
+      "escalating_minus_cautious": {
+        "diff_pp": 0.5,
+        "newcombe_independent_ci_pp": [
+          -1.4289754433115673,
+          2.777370439789293
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 0,
+          "table_escalate_only": 1,
+          "table_cautious_only": 0,
+          "table_neither": 199,
+          "phi": 0.0,
+          "diff_pp": 0.5,
+          "ci_pp": [
+            -1.4289754433115673,
+            2.777370439789293
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_open_weight",
+      "model": "llama",
+      "mode": "fixed",
+      "cap": 70,
+      "persona": false,
+      "status": "OK",
+      "n_games_per_arm": 200,
+      "cautious": {
+        "bankrupt": 41,
+        "n": 200,
+        "rate_pct": 20.5,
+        "wilson_ci_pct": [
+          15.486176203836207,
+          26.625698052422514
+        ],
+        "mean_bet_per_played_round": 62.97994269340974,
+        "file": "in_context_demo_open_weight/e7_llama_cap70_fixed_demo_cautious_rat0_mains_20260729_104754.json",
+        "sha256": "85319443796e26c5bb0ce2b0ed94b68f3b7fb0b6f85c19c2bb3758dde04d1fd0",
+        "model_field": "llama",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 36,
+        "n": 200,
+        "rate_pct": 18.0,
+        "wilson_ci_pct": [
+          13.294625859420172,
+          23.911475028724883
+        ],
+        "mean_bet_per_played_round": 63.0722891566265,
+        "file": "in_context_demo_open_weight/e7_llama_cap70_fixed_demo_escalate_rat0_mains_20260729_232913.json",
+        "sha256": "1b8cb7871920a842301b02044b655dccab56066767471898ddc5c39f5d36741b",
+        "model_field": "llama",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": null,
+      "escalating_minus_cautious": {
+        "diff_pp": -2.4999999999999996,
+        "newcombe_independent_ci_pp": [
+          -10.224294299953254,
+          5.2513847842960395
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 10,
+          "table_escalate_only": 26,
+          "table_cautious_only": 31,
+          "table_neither": 133,
+          "phi": 0.08446321766591616,
+          "diff_pp": -2.4999999999999996,
+          "ci_pp": [
+            -9.90240753633615,
+            4.921397412193115
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_open_weight",
+      "model": "llama",
+      "mode": "variable",
+      "cap": 70,
+      "persona": false,
+      "status": "OK",
+      "n_games_per_arm": 200,
+      "cautious": {
+        "bankrupt": 163,
+        "n": 200,
+        "rate_pct": 81.5,
+        "wilson_ci_pct": [
+          75.54293723884824,
+          86.26980719938395
+        ],
+        "mean_bet_per_played_round": 35.22587064676617,
+        "file": "in_context_demo_open_weight/e7_llama_cap70_variable_demo_cautious_rat0_mains_20260729_220216.json",
+        "sha256": "50c03df910f08bc088e761c895d662db1b27cc9074fa2669fc1d9563e30b3665",
+        "model_field": "llama",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 164,
+        "n": 200,
+        "rate_pct": 82.0,
+        "wilson_ci_pct": [
+          76.0885249712751,
+          86.70537414057982
+        ],
+        "mean_bet_per_played_round": 35.644458090267115,
+        "file": "in_context_demo_open_weight/e7_llama_cap70_variable_demo_escalate_rat0_mains_20260730_080457.json",
+        "sha256": "8c530b9d373a3571fd36617aad00b964816d60a714579f9b06cf6052d3f7439c",
+        "model_field": "llama",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": null,
+      "escalating_minus_cautious": {
+        "diff_pp": 0.5000000000000004,
+        "newcombe_independent_ci_pp": [
+          -7.095827653029849,
+          8.091254345833656
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 150,
+          "table_escalate_only": 14,
+          "table_cautious_only": 13,
+          "table_neither": 23,
+          "phi": 0.5476640191030095,
+          "diff_pp": 0.5000000000000004,
+          "ci_pp": [
+            -4.678037793255393,
+            5.688917867132155
+          ],
+          "excludes_zero": false
+        }
+      }
+    },
+    {
+      "corpus": "in_context_demo_open_weight_persona",
+      "model": "gemma",
+      "mode": "fixed",
+      "cap": 70,
+      "persona": true,
+      "status": "OK",
+      "n_games_per_arm": 200,
+      "cautious": {
+        "bankrupt": 0,
+        "n": 200,
+        "rate_pct": 0.0,
+        "wilson_ci_pct": [
+          1.734723475976807e-16,
+          1.8845326377266574
+        ],
+        "mean_bet_per_played_round": 69.0909090909091,
+        "file": "in_context_demo_open_weight_persona/e7_gemma_cap70_fixed_demo_cautious_persona_rat0_mains_20260731_012855.json",
+        "sha256": "0a90eaa3921b322fc3f6ad76162009b1b24938e16e52e5d1440854e692e36e5d",
+        "model_field": "gemma",
+        "api_fallback_responses": 0
+      },
+      "escalating": {
+        "bankrupt": 1,
+        "n": 200,
+        "rate_pct": 0.5,
+        "wilson_ci_pct": [
+          0.08831687156009814,
+          2.777370439789293
+        ],
+        "mean_bet_per_played_round": 68.75,
+        "file": "in_context_demo_open_weight_persona/e7_gemma_cap70_fixed_demo_escalate_persona_rat0_mains_20260731_020305.json",
+        "sha256": "eeb9c207e1af1831ebbd33d94f460769bb25cfc9d26dc77b11390cc2f6e2b23f",
+        "model_field": "gemma",
+        "api_fallback_responses": 0
+      },
+      "no_example_baseline": {
+        "bankrupt": 1,
+        "n": 100,
+        "rate_pct": 1.0,
+        "file": "framing_rationality_factorial_e7/e7_gemma_cap70_fixed_role_rat0_20260728_160933.json",
+        "sha256": "58a1adae90fbf7a43fdef828043c3ef7dee62056213e0018dc9414c48283c72e",
+        "model_field": "gemma"
+      },
+      "escalating_minus_cautious": {
+        "diff_pp": 0.5,
+        "newcombe_independent_ci_pp": [
+          -1.4289754433115673,
+          2.777370439789293
+        ],
+        "excludes_zero": false,
+        "seed_matched": true,
+        "newcombe_paired": {
+          "table_both": 0,
+          "table_escalate_only": 1,
+          "table_cautious_only": 0,
+          "table_neither": 199,
+          "phi": 0.0,
+          "diff_pp": 0.5,
+          "ci_pp": [
+            -1.4289754433115673,
+            2.777370439789293
+          ],
+          "excludes_zero": false
+        }
+      }
+    }
+  ],
+  "bonferroni_check": {
+    "alpha_family": 0.05,
+    "n_tests": 6,
+    "z": 2.63829,
+    "rows": [
+      {
+        "model": "gemini-2.5-flash",
+        "mode": "fixed",
+        "diff_pp": -2.0000000000000004,
+        "ci_pp_bonferroni": [
+          -14.735159735179371,
+          10.70401998095575
+        ],
+        "excludes_zero": false
+      },
+      {
+        "model": "gemini-2.5-flash",
+        "mode": "variable",
+        "diff_pp": 31.000000000000007,
+        "ci_pp_bonferroni": [
+          13.091198158017733,
+          46.30917792643155
+        ],
+        "excludes_zero": true
+      },
+      {
+        "model": "gpt-4.1-mini",
+        "mode": "fixed",
+        "diff_pp": 0.0,
+        "ci_pp_bonferroni": [
+          -6.507607294650512,
+          6.507607294650512
+        ],
+        "excludes_zero": false
+      },
+      {
+        "model": "gpt-4.1-mini",
+        "mode": "variable",
+        "diff_pp": 2.0,
+        "ci_pp_bonferroni": [
+          -4.706469065848887,
+          9.868344220662324
+        ],
+        "excludes_zero": false
+      },
+      {
+        "model": "gpt-4o-mini",
+        "mode": "fixed",
+        "diff_pp": 0.0,
+        "ci_pp_bonferroni": [
+          -6.507607294650512,
+          6.507607294650512
+        ],
+        "excludes_zero": false
+      },
+      {
+        "model": "gpt-4o-mini",
+        "mode": "variable",
+        "diff_pp": 4.0,
+        "ci_pp_bonferroni": [
+          -5.997885591832839,
+          14.56116762888213
+        ],
+        "excludes_zero": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+% tab:appendix-behavior-convergence (appendix Table 15), body rows only.
+% Columns emitted: Model | Task | I_BA | I_EC.
+% The paper's I_LC column is NOT emitted.  It could not be reproduced from the released
+% corpora under any of the definitions listed in ILC_DEFINITIONS_TRIED; rather than print
+% a number whose rule is unknown, the column is left for the float to supply.  The header
+% of the float must be narrowed to match, or this fragment will not align.
+% I_BA / I_EC: game-level means over the open-weight corpora, one rule for all three
+% tasks (see game_ratio_indicators).  Bold marks the largest value within each
+% (model, indicator) block, computed from the data.
+% Caption caveat the data forces: 'all games' is exact only for slot machine.  In the IC
+% and MW corpora the fixed-bet half records bet_amount = None at decision level (the
+% imposed stake survives only inside decisions[].outcome), so those two rows are the
+% variable-bet half: 800 of 1,600 IC games and 1,600 of 3,200 MW games per model.
+% Reproducing the printed digits requires exactly this subset, so it is the subset the
+% paper used.
+% Intervals (percentile bootstrap over games):
+%   Gemma Slot Machine: I_BA 0.173 [0.170, 0.176], I_EC 0.029 [0.025, 0.032] (3044 of 3200 games scored)
+%   Gemma Investment Choice: I_BA 0.211 [0.200, 0.221], I_EC 0.095 [0.082, 0.109] (800 of 1600 games scored)
+%   Gemma Mystery Wheel: I_BA 0.095 [0.093, 0.097], I_EC 0.002 [0.001, 0.003] (1600 of 3200 games scored)
+%   LLaMA Slot Machine: I_BA 0.225 [0.219, 0.231], I_EC 0.135 [0.127, 0.143] (3190 of 3200 games scored)
+%   LLaMA Investment Choice: I_BA 0.343 [0.326, 0.361], I_EC 0.364 [0.335, 0.395] (800 of 1600 games scored)
+%   LLaMA Mystery Wheel: I_BA 0.285 [0.279, 0.290], I_EC 0.175 [0.168, 0.183] (1600 of 3200 games scored)
+
+Gemma & Slot Machine & 0.173 & 0.029 \\
+Gemma & Investment Choice & \textbf{0.211} & \textbf{0.095} \\
+Gemma & Mystery Wheel & 0.095 & 0.002 \\
+LLaMA & Slot Machine & 0.225 & 0.135 \\
+LLaMA & Investment Choice & \textbf{0.343} & \textbf{0.364} \\
+LLaMA & Mystery Wheel & 0.285 & 0.175 \\

@@ -1,0 +1,59 @@
+{
+  "_note": "Values recovered from the submitted images/distortion_multimodel_summary.pdf. The GPT-4o-mini column of panel (a) was re-derived from the HF export analysis/gpt_results_fixed_parsing/gpt_fixed_parsing_complete_20250919_151240.json. That export carries each round's outcome in game_history rather than in round_details.game_result, so a loader that reads only the latter labels none of its decisions post-loss; reading game_history gives 7,739 post-loss decisions (2,002 fixed, 5,737 variable) and a loss-chasing delta of +5.5 pp. The two outcome-independent cells reproduce the published values exactly (+5.5 and -11.9), which validates the loader.",
+  "distortions": [
+    "Pattern belief",
+    "Loss chasing",
+    "Probability misestimation"
+  ],
+  "models": [
+    "Claude-3.5-Haiku",
+    "GPT-4.1-mini",
+    "GPT-4o-mini",
+    "Gemini-2.5-Flash",
+    "Gemma-2-9B",
+    "LLaMA-3.1-8B"
+  ],
+  "delta_pp": [
+    [
+      1.2,
+      17.7,
+      2.4
+    ],
+    [
+      5.2,
+      8.6,
+      -0.0
+    ],
+    [
+      5.5,
+      5.5,
+      -11.9
+    ],
+    [
+      10.0,
+      -3.2,
+      -1.2
+    ],
+    [
+      -0.5,
+      11.2,
+      -0.2
+    ],
+    [
+      -6.0,
+      4.8,
+      -1.9
+    ]
+  ],
+  "pooled_fixed_pct": [
+    40.7,
+    32.4,
+    6.7
+  ],
+  "pooled_variable_pct": [
+    44.0,
+    38.1,
+    5.9
+  ],
+  "vlim": 20
+}

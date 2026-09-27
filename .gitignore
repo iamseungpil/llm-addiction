@@ -71,3 +71,14 @@ experiments/08_steering/multilayer_causal/assets/*.npz
 experiments/08_steering/multilayer_causal/results/**/*.jsonl
 experiments/08_steering/multilayer_causal/results/**/*.png
 experiments/08_steering/multilayer_causal/results/**/*.pdf
+
+# paper/ holds the paper's figure and table code and its small data files;
+# keep them even where the rules above ignore the type
+!paper/**/*.json
+!paper/**/*.csv
+!paper/**/*.tsv
+# links to the paper repo made by paper/link_paper_repo.sh
+/paper/images
+/paper/neurips_content_en
+/paper/neurips_content
+/paper/poster

@@ -1,0 +1,21 @@
+% Provenance check for tab:appendix-verbatim-quotes (appendix Table 9), body rows only.
+% There is no sampling script for that table and none is invented here.  This is the
+% audit the caption's promise implies: for each printed row, take the six fields
+% (model / task / bet type / prompt / round / repetition), search the released corpus for
+% the quoted sentence, and report whether it is there, whether it is there exactly once,
+% and whether it sits at the stated coordinates.
+% Corpus searched: 190300 slot-machine responses, 51467 investment-choice responses.
+% Columns: # | Provenance as printed | Located | Verdict.
+
+1 & GPT-4.1-mini, SM, var, GP, r4, rep 7 & 1 & verbatim, unique in corpus, at stated coordinates (1 match) \\
+2 & GPT-4.1-mini, SM, var, GW, r31, rep 3 & 1 & verbatim, unique in corpus, at stated coordinates (1 match) \\
+3 & Claude-3.5-Haiku, SM, var, W, r6, rep 19 & 1 & verbatim, unique in corpus, at stated coordinates (1 match) \\
+4 & GPT-4o-mini, IC, var, G, r4, rep 38, bal \$70 & 1 & verbatim elsewhere; printed coordinates do not hold (1 match(es) at GPT-4o-mini/IC/fixed/G/r4/rep 38) \\
+5 & Claude-3.5-Haiku, IC, var, G, r10, trial 16, cap \$10, bal \$66 & 1 & verbatim, unique in corpus, at stated coordinates (1 match) \\
+6 & GPT-4o-mini, IC, var, G, r7, trial 44, cap \$70, bal \$200 & 1 & verbatim, unique in corpus, at stated coordinates (1 match) \\
+7 & GPT-4.1-mini, IC, var, G, r2, rep 3, bal \$80 & 1 & verbatim, unique in corpus, at stated coordinates (1 match) \\
+8 & GPT-4o-mini, IC, fixed, GM, r1, rep 45, bal \$100 & 1 & verbatim, unique in corpus, at stated coordinates (1 match) \\
+9 & Claude-3.5-Haiku, SM, var, GMP, r21, rep 14 & 69 & at stated coordinates, but the sentence recurs in 68 other responses (69 matches, verbatim) \\
+10 & Claude-3.5-Haiku, SM, var, GP, r34, rep 41 & 16 & at stated coordinates, but the sentence recurs in 15 other responses (16 matches, verbatim) \\
+11 & Claude-3.5-Haiku, SM, var, M, r12, rep 42 & 0 & stated response exists but the sentence is not verbatim (93% of its content words present) (paraphrase or stitched excerpt) \\
+12 & GPT-4.1-mini, SM, var, GM, r10, rep 44 & 1 & verbatim, unique in corpus, at stated coordinates (1 match) \\

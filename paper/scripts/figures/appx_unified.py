@@ -489,8 +489,8 @@ def fig_streak_models():
         for c in range(4):
             ax = axes[r, c]
             d = ABP.A08[(r, c)]
-            ax.bar(x - w / 2, d["W"], w, color=FIXED, zorder=3)
-            ax.bar(x + w / 2, d["L"], w, color=VARIABLE, zorder=3)
+            ax.bar(x - w / 2, d["W"], w, color=BLUE, zorder=3)
+            ax.bar(x + w / 2, d["L"], w, color=ORANGE, zorder=3)
             ax.set_xticks(x)
             ax.set_xlim(0.4, 5.6)
             if r == 0:
@@ -505,7 +505,7 @@ def fig_streak_models():
             else:
                 ax.set_ylabel(ABP.A08_ROWS[r], linespacing=1.0)
     fig.supxlabel("Streak length", fontsize=FS_LABEL)
-    top_legend(fig, [patch(FIXED, "Win streak"), patch(VARIABLE, "Loss streak")])
+    top_legend(fig, [patch(BLUE, "Win streak"), patch(ORANGE, "Loss streak")])
     save(fig, "appx_streak_models")
 
 
@@ -535,13 +535,15 @@ def fig_choice_distribution():
             if c == 0:
                 ax.set_ylabel(row_labels[bet], linespacing=1.0)
     fig.supxlabel("Prompt condition", fontsize=FS_LABEL)
-    top_legend(fig, [Patch(facecolor=CHOICE_COLORS[i], edgecolor="none", label=f"Option {i + 1}")
+    top_legend(fig, [Patch(facecolor=CHOICE_COLORS[i], edgecolor="none", label=["Option 1: safe exit", "Option 2: low var.", "Option 3: mid var.", "Option 4: high var."][i])
                      for i in range(4)])
     save(fig, "appx_choice_distribution")
 
 
 # ================================================ condition ladders ========
-LADDER_COLORS = {"minusG": FIXED, "plusG": VARIABLE, "plusM": BLUE}
+LADDER_COLORS = {"minusG": "#7F7F7F", "plusG": VARIABLE, "plusM": BLUE}
+# Green and red mean fixed and variable betting everywhere else in the appendix, so the
+# no-goal pool is grey here and the streak figure uses blue and orange.
 LADDER_NAMES = {"minusG": r"$-G$", "plusG": r"$+G^{\mathrm{twin}}$", "plusM": r"$+M^{\mathrm{twin}}$"}
 CONDS = ["minusG", "plusG", "plusM"]
 

@@ -35,7 +35,7 @@ b, strong { font-weight: 700; }
 .fine { font-size: 0.9rem; color: var(--muted); margin: 0.5em 0 0; }
 
 /* pixel frame: square corners notched by one "pixel" */
-.px-frame, .btn, .bubble, .card, .cite, .claim, .seg, .meter-track, .bal-bar, .bet-sign, .steer, .ladder, .goal {
+.px-frame, .btn, .bubble, .card, .cite, .seg, .meter-track, .bal-bar, .bet-sign, .steer, .ladder, .goal {
   --f: var(--line);
   box-shadow: 0 -4px 0 0 var(--f), 0 4px 0 0 var(--f), -4px 0 0 0 var(--f), 4px 0 0 0 var(--f);
 }
@@ -201,13 +201,15 @@ section { scroll-margin-top: 64px; }
 .meter-track i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--teal); transition: width 0.5s steps(6); }
 .meter-track i.hot { background: var(--red); }
 .ladder-meter small { display: block; margin-top: 10px; color: var(--muted); font-size: 0.9rem; }
-.ladder-steps { list-style: none; padding: 0; margin: 26px 0 8px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.ladder-steps li { padding: 10px 10px 10px 12px; border-left: 4px solid var(--navy-3); color: var(--muted); font-size: 0.95rem; line-height: 1.4; transition: color 0.2s steps(2), border-color 0.2s steps(2); }
+.ladder-steps { list-style: none; padding: 18px 0 0; margin: 26px 0 8px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; border-top: 2px solid var(--navy-3); }
+.ladder-steps li { position: relative; padding: 0 8px 0 0; color: var(--muted); font-size: 0.95rem; line-height: 1.4; transition: color 0.2s steps(2); }
+.ladder-steps li::before { content: ""; position: absolute; top: -25px; left: 0; width: 12px; height: 12px; background: var(--navy-3); transition: background 0.2s steps(2); }
 .ladder-steps li b { display: block; font: 0.62rem var(--px); margin-bottom: 6px; }
-.ladder-steps li.lit { color: var(--paper); border-color: var(--gold); }
+.ladder-steps li.lit { color: var(--paper); }
+.ladder-steps li.lit::before { background: var(--gold); }
 .ladder-steps li.now b { color: var(--gold); }
-.ladder-steps li.peak { background: rgba(243, 193, 75, 0.12); border-color: var(--red); }
 .ladder-steps li.peak b { color: var(--red); }
+.ladder-steps li.peak::before { background: var(--red); }
 .ladder figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 0.9rem; }
 .takeaway { font: clamp(0.72rem, 1.8vw, 0.95rem)/1.8 var(--px); color: var(--gold); text-align: center; margin: 34px auto 60px; max-width: 44em; }
 
@@ -253,8 +255,8 @@ svg text { font-family: var(--sans); fill: var(--muted); }
 
 /* claims + details */
 .claims { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.claim { --f: var(--teal); padding: 22px; margin: 4px; background: var(--navy); }
-.claim.no { --f: var(--line); }
+.claim { padding: 16px 0 0; margin: 4px; border-top: 2px solid var(--teal); }
+.claim.no { border-top-color: var(--line); }
 .claim h3 { color: var(--teal); }
 .claim.no h3 { color: var(--muted); }
 .claim ul { margin: 0; padding-left: 1.1em; }
@@ -282,6 +284,9 @@ svg text { font-family: var(--sans); fill: var(--muted); }
   .hero-robot { width: 112px; }
   .hero-cab { width: 186px; }
   .ladder-steps { grid-template-columns: 1fr 1fr; }
+  .ladder-steps { border-top: 0; padding-top: 0; row-gap: 22px; }
+  .ladder-steps li { border-top: 2px solid var(--navy-3); padding-top: 18px; }
+  .ladder-steps li::before { top: -7px; }
   .claims, .cards { grid-template-columns: minmax(0, 1fr); }
   .nav nav a:not(.nav-cta) { display: none; }
 }

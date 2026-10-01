@@ -39,7 +39,7 @@ LABELS = ["env. sets\n$70", "names it\nonce", "revises each\nround, $70", "revis
 GREEN, RED = "#59A14F", "#E15759"
 NEUTRAL = "#C7C7C7"   # Figure 3's low-variance grey
 TEXT_GREY, GRID_GREY = "#444444", "#DDDDDD"
-W_PT, H_PT = 933.0785522460938, 236.0
+W_PT, H_PT = 933.0785522460938, 222.0
 TICK_FS, LABEL_FS, TITLE_FS, VALUE_FS, LEGEND_FS = 10.5, 11.0, 13.0, 10.0, 10.5
 VALUE_PAD_PT = 2.7
 EKW = dict(capsize=3.4, error_kw={"elinewidth": 1.9, "capthick": 1.9, "ecolor": "#333333"})
@@ -101,9 +101,7 @@ def bars(ax, x, rows, colours):
     pct = [100 * r["bankrupt"] / r["n"] for r in rows]
     ci = [wilson(r["bankrupt"], r["n"]) for r in rows]
     err = [[max(0.0, p - lo) for p, (lo, hi) in zip(pct, ci)], [max(0.0, hi - p) for p, (lo, hi) in zip(pct, ci)]]
-    play = [100 * r["played"] / r["n"] for r in rows]
-    ax.bar(x, play, width=0.72, color=NEUTRAL, zorder=2)
-    ax.bar(x, pct, width=0.40, color=colours, yerr=err, zorder=3, **EKW)
+    ax.bar(x, pct, width=0.56, color=colours, yerr=err, zorder=3, **EKW)
     for xi, p, (lo, hi) in zip(x, pct, ci):
         ax.annotate(f"{p:.1f}%", (xi, hi), xytext=(0, VALUE_PAD_PT), textcoords="offset points",
                     ha="center", va="bottom", fontsize=VALUE_FS, zorder=5)
@@ -120,7 +118,7 @@ def dress(ax, title):
 def main() -> None:
     data = rebuild() if "--rebuild" in sys.argv else json.loads(SIDE.read_text())
     fig = plt.figure(figsize=(W_PT / 72, H_PT / 72))
-    boxes = [(62, 28, 300, 146), (420, 28, 300, 146)]   # (left, top, width, height) in pt from top-left
+    boxes = [(62, 28, 480, 146), (610, 28, 175, 146)]   # (left, top, width, height) in pt from top-left
     axes = [fig.add_axes([l / W_PT, 1 - (t + h) / H_PT, w / W_PT, h / H_PT]) for l, t, w, h in boxes]
 
     # (a) the full ladder on LLaMA
@@ -130,24 +128,20 @@ def main() -> None:
     ax.set_xticks([0, 1, 2, 3])
     ax.set_xticklabels(LABELS, linespacing=1.05)
     dress(ax, "(a) Choice Ladder (LLaMA-3.1-8B)")
+    ax.set_ylabel("Bankruptcy rate (%)")
 
-    # (b) forced versus revisable at the $70 cap, both open-weight models
+    # (b) the same fixed-versus-revisable contrast on Gemma at the $70 cap (framing factorial cells)
     ax = axes[1]
-    rc = data["role_cap70"]
-    xs = [0, 1, 2.5, 3.5]
-    bars(ax, xs, rc["llama"] + rc["gemma"], [GREEN, RED, GREEN, RED])
-    ax.set_xlim(-0.6, 4.1)
-    ax.set_xticks(xs)
-    ax.set_xticklabels(["env. sets\n$70", "revises each\nround, $70"] * 2, linespacing=1.05)
-    for xc, name in [(0.5, "LLaMA-3.1-8B"), (3.0, "Gemma-2-9B")]:
-        ax.annotate(name, (xc, 0), xycoords=("data", "axes fraction"), xytext=(0, -33),
-                    textcoords="offset points", ha="center", va="top", fontsize=LABEL_FS, fontweight="bold")
-    dress(ax, "(b) Fixed vs. Revisable at $70")
+    bars(ax, [0, 1], data["role_cap70"]["gemma"], [GREEN, RED])
+    ax.set_xlim(-0.6, 1.6)
+    ax.set_xticks([0, 1])
+    ax.set_xticklabels(["env. sets\n$70", "revises each\nround, $70"], linespacing=1.05)
+    dress(ax, "(b) Gemma-2-9B")
+    axes[1].set_ylabel("")
 
-    handles = [Patch(color=GREEN, label="Bankrupt, stake set\nfor the game"),
-               Patch(color=RED, label="Bankrupt, stake\nrevisable"),
-               Patch(color=NEUTRAL, label="Played at least\none round")]
-    fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(742 / W_PT, 1 - 40 / H_PT),
+    handles = [Patch(color=GREEN, label="Stake set\nfor the game"),
+               Patch(color=RED, label="Stake revisable\nevery round")]
+    fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(800 / W_PT, 1 - 40 / H_PT),
                fontsize=LEGEND_FS, handlelength=1.6, labelspacing=0.9, borderpad=0.6)
     fig.savefig(OUT)
     print("wrote", OUT)

@@ -527,8 +527,8 @@
         phrases(note, `${name()}: ${m.behaviour[0].toFixed(3)} at −3, ${m.behaviour[6].toFixed(3)} at +3,`,
           "above the random range at +3.", "Removing the direction", `lowers betting by ${Math.abs(m.removal).toFixed(3)}.`);
       else
-        phrases(note, `${name()}: the direction that reads risk best`, "stays inside the random range.",
-          "It reports risk", "but does not move the bet.");
+        phrases(note, `${name()}: this direction predicts the bet (R² ${m.readR2.toFixed(2)}),`,
+          "yet adding it keeps the bet inside the random range.", "It reports risk", "but does not move the bet.");
     };
     const renderChips = (v) => {
       const n = Math.round((v / maxY) * 14) + 1;

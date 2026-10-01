@@ -1,0 +1,62 @@
+{
+ "llama": [
+  {
+   "arm": "forced_fixed_cap70",
+   "n": 100,
+   "bankrupt": 2,
+   "played": 61,
+   "rounds": 1.01
+  },
+  {
+   "arm": "choose_fixed",
+   "n": 200,
+   "bankrupt": 10,
+   "played": 174,
+   "rounds": 1.91
+  },
+  {
+   "arm": "variable_cap70",
+   "n": 100,
+   "bankrupt": 85,
+   "played": 97,
+   "rounds": 15.87
+  },
+  {
+   "arm": "variable_open",
+   "n": 100,
+   "bankrupt": 80,
+   "played": 96,
+   "rounds": 15.08
+  }
+ ],
+ "gemma": [
+  {
+   "arm": "forced_fixed_cap70",
+   "n": 100,
+   "bankrupt": 0,
+   "played": 2,
+   "rounds": 0.02
+  },
+  {
+   "arm": "choose_fixed",
+   "n": 198,
+   "bankrupt": 0,
+   "played": 1,
+   "rounds": 0.005050505050505051
+  },
+  {
+   "arm": "variable_cap70",
+   "n": 100,
+   "bankrupt": 0,
+   "played": 14,
+   "rounds": 0.45
+  },
+  {
+   "arm": "variable_open",
+   "n": 100,
+   "bankrupt": 0,
+   "played": 12,
+   "rounds": 0.52
+  }
+ ]
+}

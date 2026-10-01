@@ -509,7 +509,8 @@
       S.doses.forEach((d) => txt(svg, x(d), Y0 + 20, (d > 0 ? "+" : d < 0 ? "−" : "") + Math.abs(d), { "text-anchor": "middle", "font-size": 12 }));
       txt(svg, (X0 + X1) / 2, Y0 + 38, "dose (steps of 3% of the hidden state's size)", { "text-anchor": "middle", "font-size": 12 });
       Object.entries(m.band).forEach(([d, [lo, hi]]) => {
-        el("rect", { x: x(+d) - 12, y: y(hi), width: 24, height: y(lo) - y(hi), fill: "#b3bdd1", opacity: 0.18, "shape-rendering": "crispEdges" }, svg);
+        el("rect", { x: x(+d) - 13, y: y(hi), width: 26, height: y(lo) - y(hi), fill: "#c9d1e2", opacity: 0.32, stroke: "#c9d1e2", "stroke-opacity": 0.8, "stroke-width": 1.5, "shape-rendering": "crispEdges" }, svg);
+        txt(svg, x(+d) + (+d < 0 ? 18 : -18), y(hi) - 6, "random", { "text-anchor": +d < 0 ? "start" : "end", "font-size": 12, fill: "#c9d1e2" });
       });
       const other = state.dir === "behaviour" ? "readout" : "behaviour";
       el("polyline", { points: m[other].map((v, k) => `${x(S.doses[k])},${y(v)}`).join(" "), fill: "none", stroke: "#b3bdd1", "stroke-opacity": 0.35, "stroke-width": 2, "stroke-dasharray": "4 4" }, svg);
@@ -523,11 +524,11 @@
       knob.style.transform = `rotate(${state.dose * 40}deg)`;
       renderChips(v);
       if (state.dir === "behaviour")
-        phrases(note, `${name()}: ${m.behaviour[0].toFixed(3)} at −3, ${m.behaviour[6].toFixed(3)} at +3.`,
-          "Removing the direction", `lowers betting by ${Math.abs(m.removal).toFixed(3)}.`);
+        phrases(note, `${name()}: ${m.behaviour[0].toFixed(3)} at −3, ${m.behaviour[6].toFixed(3)} at +3,`,
+          "above the random range at +3.", "Removing the direction", `lowers betting by ${Math.abs(m.removal).toFixed(3)}.`);
       else
-        phrases(note, `${name()}: the best risk-reader`, "stays inside the random band.",
-          "It reads risk", "but does not move the bet.");
+        phrases(note, `${name()}: the direction that reads risk best`, "stays inside the random range.",
+          "It reports risk", "but does not move the bet.");
     };
     const renderChips = (v) => {
       const n = Math.round((v / maxY) * 14) + 1;

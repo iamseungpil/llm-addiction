@@ -251,6 +251,7 @@ section { scroll-margin-top: 64px; }
 #steerPlot { width: 100%; height: auto; overflow: visible; }
 .legend { font-size: 0.9rem; color: var(--muted); margin: 10px 0 4px; }
 .lg-gold { color: var(--gold); }
+.lg-rand { color: #c9d1e2; }
 svg text { font-family: var(--sans); fill: var(--muted); }
 
 /* claims + details */

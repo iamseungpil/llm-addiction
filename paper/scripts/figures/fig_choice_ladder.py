@@ -39,7 +39,7 @@ LABELS = ["env. sets\n$70", "names it\nonce", "revises each\nround, $70", "revis
 GREEN, RED = "#59A14F", "#E15759"
 NEUTRAL = "#C7C7C7"   # Figure 3's low-variance grey
 TEXT_GREY, GRID_GREY = "#444444", "#DDDDDD"
-W_PT, H_PT = 933.0785522460938, 222.0
+W_PT, H_PT = 933.0785522460938, 236.0
 TICK_FS, LABEL_FS, TITLE_FS, VALUE_FS, LEGEND_FS = 10.5, 11.0, 13.0, 10.0, 10.5
 VALUE_PAD_PT = 2.7
 EKW = dict(capsize=3.4, error_kw={"elinewidth": 1.9, "capthick": 1.9, "ecolor": "#333333"})
@@ -97,38 +97,53 @@ def rebuild() -> dict:
     return out
 
 
-def panel(ax, rows, title):
-    x = list(range(4))
+def bars(ax, x, rows, colours):
     pct = [100 * r["bankrupt"] / r["n"] for r in rows]
     ci = [wilson(r["bankrupt"], r["n"]) for r in rows]
     err = [[max(0.0, p - lo) for p, (lo, hi) in zip(pct, ci)], [max(0.0, hi - p) for p, (lo, hi) in zip(pct, ci)]]
     play = [100 * r["played"] / r["n"] for r in rows]
     ax.bar(x, play, width=0.72, color=NEUTRAL, zorder=2)
-    ax.bar(x, pct, width=0.40, color=[GREEN, GREEN, RED, RED], yerr=err, zorder=3, **EKW)
-    for i, (p, (lo, hi)) in enumerate(zip(pct, ci)):
-        ax.annotate(f"{p:.1f}%", (i, hi), xytext=(0, VALUE_PAD_PT), textcoords="offset points",
+    ax.bar(x, pct, width=0.40, color=colours, yerr=err, zorder=3, **EKW)
+    for xi, p, (lo, hi) in zip(x, pct, ci):
+        ax.annotate(f"{p:.1f}%", (xi, hi), xytext=(0, VALUE_PAD_PT), textcoords="offset points",
                     ha="center", va="bottom", fontsize=VALUE_FS, zorder=5)
-    ax.set_xlim(-0.6, 3.6)
+
+
+def dress(ax, title):
     ax.set_ylim(0, 112)
     ax.set_yticks([0, 20, 40, 60, 80, 100])
-    ax.set_xticks(x)
-    ax.set_xticklabels(LABELS, linespacing=1.05)
     ax.yaxis.grid(True, zorder=0)
+    ax.set_ylabel("% of games")
     ax.set_title(title, loc="left", fontsize=TITLE_FS, fontweight="bold", color="#000000", pad=6)
 
 
 def main() -> None:
     data = rebuild() if "--rebuild" in sys.argv else json.loads(SIDE.read_text())
     fig = plt.figure(figsize=(W_PT / 72, H_PT / 72))
-    # Two equal panels; left margin as Figure 3's first panel, key in the right margin space.
     boxes = [(62, 28, 300, 146), (420, 28, 300, 146)]   # (left, top, width, height) in pt from top-left
-    axes = []
-    for l, t, w, h in boxes:
-        axes.append(fig.add_axes([l / W_PT, 1 - (t + h) / H_PT, w / W_PT, h / H_PT]))
-    panel(axes[0], data["llama"], "(a) LLaMA-3.1-8B")
-    panel(axes[1], data["gemma"], "(b) Gemma-2-9B")
-    axes[0].set_ylabel("% of games")
-    axes[1].set_ylabel("% of games")
+    axes = [fig.add_axes([l / W_PT, 1 - (t + h) / H_PT, w / W_PT, h / H_PT]) for l, t, w, h in boxes]
+
+    # (a) the full ladder on LLaMA
+    ax = axes[0]
+    bars(ax, [0, 1, 2, 3], data["llama"], [GREEN, GREEN, RED, RED])
+    ax.set_xlim(-0.6, 3.6)
+    ax.set_xticks([0, 1, 2, 3])
+    ax.set_xticklabels(LABELS, linespacing=1.05)
+    dress(ax, "(a) Choice Ladder (LLaMA-3.1-8B)")
+
+    # (b) forced versus revisable at the $70 cap, both open-weight models
+    ax = axes[1]
+    rc = data["role_cap70"]
+    xs = [0, 1, 2.5, 3.5]
+    bars(ax, xs, rc["llama"] + rc["gemma"], [GREEN, RED, GREEN, RED])
+    ax.set_xlim(-0.6, 4.1)
+    ax.set_xticks(xs)
+    ax.set_xticklabels(["env. sets\n$70", "revises each\nround, $70"] * 2, linespacing=1.05)
+    for xc, name in [(0.5, "LLaMA-3.1-8B"), (3.0, "Gemma-2-9B")]:
+        ax.annotate(name, (xc, 0), xycoords=("data", "axes fraction"), xytext=(0, -33),
+                    textcoords="offset points", ha="center", va="top", fontsize=LABEL_FS, fontweight="bold")
+    dress(ax, "(b) Fixed vs. Revisable at $70")
+
     handles = [Patch(color=GREEN, label="Bankrupt, stake set\nfor the game"),
                Patch(color=RED, label="Bankrupt, stake\nrevisable"),
                Patch(color=NEUTRAL, label="Played at least\none round")]

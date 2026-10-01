@@ -58,5 +58,36 @@
    "played": 12,
    "rounds": 0.52
   }
- ]
+ ],
+ "role_cap70": {
+  "source": "rebuttal_neurips_2026/framing_rationality_factorial_e7/e7_{model}_cap70_{fixed,variable}_role_rat0_*.json",
+  "llama": [
+   {
+    "arm": "forced",
+    "n": 100,
+    "bankrupt": 6,
+    "played": 56
+   },
+   {
+    "arm": "revisable",
+    "n": 100,
+    "bankrupt": 82,
+    "played": 100
+   }
+  ],
+  "gemma": [
+   {
+    "arm": "forced",
+    "n": 100,
+    "bankrupt": 1,
+    "played": 21
+   },
+   {
+    "arm": "revisable",
+    "n": 100,
+    "bankrupt": 15,
+    "played": 100
+   }
+  ]
+ }
 }

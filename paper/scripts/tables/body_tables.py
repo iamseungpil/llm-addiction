@@ -548,7 +548,7 @@ def table3():
          "sae_v3_analysis/results/iba_cross_task_transfer.json",
          f"{HF_TABLES}/body/table2_rq2_audits/data/"
          "rq2_aligned_hidden_transfer_gemma_centroid_pca_L22_r{1,2}_e8g1_L22_r{1,2}.json"],
-        ["row (i) = max |cosine| of the task's BK direction against the other two",
+        ["row (i) = max |cosine| of the task's BK readout direction against the other two",
          "row (ii) = best off-diagonal transfer into the task; '$<0$' when it is negative",
          "row (iii)/(iv) bold+green = AUC >= 0.7 (caption's threshold); colours row (iii) "
          "only, never row (iv)",

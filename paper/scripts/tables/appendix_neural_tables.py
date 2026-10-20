@@ -853,7 +853,8 @@ def table_rq2_sharing() -> None:
             f"ic_mw == sm_mw == {cos_pair['ic-mw']:+.4f} (identical to 4 dp)",
             "shared_subspace_hidden_audit_20260410.json",
             "two distinct task pairs carry a bit-identical cosine in the released "
-            "audit file, which a genuine measurement would not produce",
+            "audit file; a 2026-10-20 re-run of the same method gives ic-mw=-0.0258 "
+            "and sm-mw=-0.0276, so the values agree to two decimals",
         )
 
     # Two independent recomputes of the same object at L22, for the record.
@@ -905,14 +906,16 @@ def table_rq2_sharing() -> None:
     comments = [f"pairwise cos (released audit weight_cosines): {k}={v:+.4f}"
                 for k, v in cos_pair.items()]
     comments += [
-        "recompute A -- cosine of the raw BK centroid-difference directions at "
-        "L22 (bankruptcy vs voluntary stop, balance-valid rounds): "
+        "reference A (a different object) -- cosine of the raw BK centroid-difference "
+        "directions at L22 (bankruptcy vs voluntary stop, balance-valid rounds): "
         + ", ".join(f"{k}={v:+.4f}" for k, v in recompute_centroid.items()),
-        "recompute B -- cosine of the per-task PCA(64)+logistic readout "
-        "directions at L22 (the object the LOTO rows (iii)/(iv) are built from): "
+        "reference B (a different object) -- cosine of the per-task PCA(64)+logistic "
+        "readout directions at L22 (the object the LOTO rows (iii)/(iv) are built from): "
         + ", ".join(f"{k}={v:+.4f}" for k, v in recompute_readout.items()),
-        "the printed row matches the released audit file, not either recompute; "
-        "the three definitions of 'the BK direction' do not agree",
+        "the printed row is the cosine of full-dimension standardized logistic "
+        "weights (run_hidden_state_analyses.py, shared_subspace(); a re-run at L22 "
+        "gives ic-sm=+0.0407, ic-mw=-0.0258, sm-mw=-0.0276); references A and B are "
+        "different objects and are listed for comparison",
     ]
     for t in RQ2_TASKS:
         comments.append(
@@ -944,11 +947,11 @@ def table_rq2_sharing() -> None:
     write_tex(
         "A06_rq2_sharing.tex",
         "tab:rq2-sharing -- cross-task representation-sharing audit, Gemma L22.\n"
-        "(i)   cosine of the per-task BK directions, from HF\n"
+        "(i)   cosine of the per-task BK readout directions (weights of a\n"
+        "      full-dimension standardized logistic readout), from HF\n"
         "      sae_v3_analysis/results/shared_subspace_hidden_audit_20260410.json\n"
         "      (weight_cosines), reported as max |cos| against the other two tasks.\n"
-        "      Two independent recomputes from hidden_states_dp.npz at L22 are\n"
-        "      listed below and do NOT reproduce it -- see the note.\n"
+        "      Reference values for two other objects at L22 are listed below.\n"
         "(ii)  sparse-feature transfer R^2 (top-200 |Spearman| on the source,\n"
         "      Ridge alpha=100, applied to the target) on the jointly-active\n"
         "      dictionary; best off-diagonal source per target.\n"

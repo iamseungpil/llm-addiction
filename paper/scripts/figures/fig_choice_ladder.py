@@ -39,9 +39,9 @@ LABELS = ["env. sets\n$70", "names it\nonce", "revises each\nround, $70", "revis
 GREEN, RED = "#59A14F", "#E15759"
 NEUTRAL = "#C7C7C7"   # Figure 3's low-variance grey
 TEXT_GREY, GRID_GREY = "#444444", "#DDDDDD"
-W_PT, H_PT = 933.0785522460938, 222.0
-TICK_FS, LABEL_FS, TITLE_FS, VALUE_FS, LEGEND_FS = 10.5, 11.0, 13.0, 10.0, 10.5
-VALUE_PAD_PT = 2.7
+W_PT, H_PT = 933.0785522460938, 312.0
+TICK_FS, LABEL_FS, TITLE_FS, VALUE_FS, LEGEND_FS = 14.0, 14.0, 16.0, 13.5, 14.0
+VALUE_PAD_PT = 3.0
 EKW = dict(capsize=3.4, error_kw={"elinewidth": 1.9, "capthick": 1.9, "ecolor": "#333333"})
 
 plt.rcParams.update({
@@ -118,31 +118,46 @@ def dress(ax, title):
 def main() -> None:
     data = rebuild() if "--rebuild" in sys.argv else json.loads(SIDE.read_text())
     fig = plt.figure(figsize=(W_PT / 72, H_PT / 72))
-    boxes = [(62, 28, 480, 146), (610, 28, 175, 146)]   # (left, top, width, height) in pt from top-left
+    # (left, top, width, height) in pt from the top-left corner
+    boxes = [(64, 34, 410, 150), (556, 34, 366, 150)]
     axes = [fig.add_axes([l / W_PT, 1 - (t + h) / H_PT, w / W_PT, h / H_PT]) for l, t, w, h in boxes]
 
-    # (a) the full ladder on LLaMA
+    def grey(ax, x, rows):
+        """Share of games in which the model placed at least one bet (drawn behind the bankruptcy bars)."""
+        ax.bar(x, [100 * r["played"] / r["n"] for r in rows], width=0.84, color=NEUTRAL, zorder=2)
+
+    # (a) the four-step ladder on LLaMA-3.1-8B (no research framing)
     ax = axes[0]
-    bars(ax, [0, 1, 2, 3], data["llama"], [GREEN, GREEN, RED, RED])
+    rows = data["llama"]
+    grey(ax, [0, 1, 2, 3], rows)
+    bars(ax, [0, 1, 2, 3], rows, [GREEN, GREEN, RED, RED])
     ax.set_xlim(-0.6, 3.6)
     ax.set_xticks([0, 1, 2, 3])
-    ax.set_xticklabels(LABELS, linespacing=1.05)
-    dress(ax, "(a) Choice Ladder (LLaMA-3.1-8B)")
-    ax.set_ylabel("Bankruptcy rate (%)")
+    ax.set_xticklabels(["Environment\nsets $70", "Model picks\nonce,\n$70 cap",
+                        "Model picks\nevery round,\n$70 cap", "Model picks\nevery round,\nup to $100"], linespacing=1.1)
+    dress(ax, "(a) Who sets the bet? LLaMA-3.1-8B")
+    ax.set_ylabel("% of games")
 
-    # (b) the same fixed-versus-revisable contrast on Gemma at the $70 cap (framing factorial cells)
+    # (b) fixed versus re-chosen bet at the $70 cap, both open-weight models, research framing (E7 cells)
     ax = axes[1]
-    bars(ax, [0, 1], data["role_cap70"]["gemma"], [GREEN, RED])
-    ax.set_xlim(-0.6, 1.6)
-    ax.set_xticks([0, 1])
-    ax.set_xticklabels(["env. sets\n$70", "revises each\nround, $70"], linespacing=1.05)
-    dress(ax, "(b) Gemma-2-9B")
+    xs = [0, 1.15, 2.95, 4.1]
+    rows_b = data["role_cap70"]["llama"] + data["role_cap70"]["gemma"]
+    grey(ax, xs, rows_b)
+    bars(ax, xs, rows_b, [GREEN, RED, GREEN, RED])
+    ax.set_xlim(-0.7, 4.8)
+    ax.set_xticks(xs)
+    ax.set_xticklabels(["Env. sets\n$70", "Model picks\nevery\nround"] * 2, linespacing=1.1, fontsize=TICK_FS - 1)
+    dress(ax, "(b) With research framing, $70 cap")
     axes[1].set_ylabel("")
+    for cx, name in [(0.575, "LLaMA-3.1-8B"), (3.525, "Gemma-2-9B")]:
+        ax.annotate(name, (cx, 0), xycoords=("data", "axes fraction"), xytext=(0, -62), textcoords="offset points",
+                    ha="center", va="top", fontsize=TICK_FS, fontweight="bold", color="#000000")
 
-    handles = [Patch(color=GREEN, label="Stake set\nfor the game"),
-               Patch(color=RED, label="Stake revisable\nevery round")]
-    fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(800 / W_PT, 1 - 40 / H_PT),
-               fontsize=LEGEND_FS, handlelength=1.6, labelspacing=0.9, borderpad=0.6)
+    handles = [Patch(color=GREEN, label="Bankrupt, bet fixed for the whole game"),
+               Patch(color=RED, label="Bankrupt, bet re-chosen every round"),
+               Patch(color=NEUTRAL, label="Placed at least one bet")]
+    fig.legend(handles=handles, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.0),
+               fontsize=LEGEND_FS, handlelength=1.6, columnspacing=2.2, borderpad=0.5)
     fig.savefig(OUT)
     print("wrote", OUT)
 

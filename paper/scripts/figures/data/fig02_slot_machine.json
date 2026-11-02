@@ -39,12 +39,12 @@
    327.76
   ],
   "aspect": 3.888,
-  "n_texts": 78,
+  "n_texts": 80,
   "min_font_pt": 10.5,
   "margin_slack_pt": {
-   "left": 0.0,
+   "left": 9.49,
    "right": 13.54,
-   "bottom": 0.0,
+   "bottom": 0.34,
    "top": 11.03
   },
   "panel_a_perpendicular_clearance_pt": 20.01,
@@ -97,7 +97,8 @@
      "0.2",
      "0.4",
      "0.6",
-     "0.8"
+     "0.8",
+     "1.0"
     ],
     "xticklabels": [
      "1",
@@ -114,7 +115,8 @@
      "0.2",
      "0.4",
      "0.6",
-     "0.8"
+     "0.8",
+     "1.0"
     ],
     "xticklabels": [
      "1",
@@ -494,7 +496,7 @@
   "recomputed_definition": "section 2's max(0, (r_{t+1}-r_t)/r_t) averaged over rounds whose run of identical outcomes has length exactly k; percentile bootstrap over rounds",
   "ylim": [
    0,
-   0.85
+   1.12
   ]
  },
  "caption_multipliers": {

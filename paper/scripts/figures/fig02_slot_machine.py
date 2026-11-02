@@ -293,7 +293,7 @@ CAPTION_MULTIPLIERS = {
 # against each other, and the submitted pair could not be.
 YLIM_A, YTICKS_A = 85.0, [0, 20, 40, 60, 80]
 YLIM_B, YTICKS_B = 0.95, [0.0, 0.2, 0.4, 0.6, 0.8]
-YLIM_CD, YTICKS_CD = 0.85, [0.0, 0.2, 0.4, 0.6, 0.8]
+YLIM_CD, YTICKS_CD = 1.12, [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
 YLABEL_A = "Bankruptcy rate (%)"
 YLABEL_B = "Metric value"
